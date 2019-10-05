@@ -1,5 +1,11 @@
 import Foundation
 
-protocol Store {
-    func save()
+class Store {
+    func save(_ session: Session) {
+        
+    }
+    
+    func save(_ project: Project) {
+        
+    }
 }

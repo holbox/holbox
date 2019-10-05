@@ -14,6 +14,7 @@
 		DABC363923487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
 		DABC363A23487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
 		DABC363C23488059002011C8 /* TestSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363B23488059002011C8 /* TestSession.swift */; };
+		DABC363E23488A38002011C8 /* StubStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363D23488A38002011C8 /* StubStore.swift */; };
 		DAC73A30234773A000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A2F234773A000EF8832 /* CloudKit.framework */; };
 		DAC73A32234773E300EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A31234773E300EF8832 /* CloudKit.framework */; };
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
@@ -164,6 +165,7 @@
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
+		DABC363D23488A38002011C8 /* StubStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubStore.swift; sourceTree = "<group>"; };
 		DAC73A2F234773A000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DAC73A31234773E300EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -349,6 +351,7 @@
 		DAF68E6C2347643A0060895A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				DABC363D23488A38002011C8 /* StubStore.swift */,
 				DAF68E6D2347643A0060895A /* TestLists.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 			);
@@ -801,6 +804,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
+				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestLists.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

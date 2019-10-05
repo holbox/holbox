@@ -3,9 +3,12 @@ import XCTest
 
 final class TestSession: XCTestCase {
     private var session: Session!
+    private var store: StubStore!
     
     override func setUp() {
         session = .init()
+        store = .init()
+        session.store = store
     }
     
     func testRating() {
@@ -16,5 +19,14 @@ final class TestSession: XCTestCase {
         session.rated()
         XCTAssertFalse(session.rate)
         XCTAssertGreaterThanOrEqual(Calendar.current.date(byAdding: .month, value: 3, to: .init())!, session.rating)
+    }
+    
+    func testSaveOnRate() {
+        let expect = expectation(description: "")
+        store.save = {
+            expect.fulfill()
+        }
+        session.rated()
+        waitForExpectations(timeout: 1)
     }
 }
