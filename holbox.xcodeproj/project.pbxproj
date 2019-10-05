@@ -17,6 +17,10 @@
 		DABC363E23488A38002011C8 /* StubStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363D23488A38002011C8 /* StubStore.swift */; };
 		DABC364023489A0C002011C8 /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363F23489A0C002011C8 /* TestStore.swift */; };
 		DABC36422348A411002011C8 /* StubUbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36412348A411002011C8 /* StubUbi.swift */; };
+		DABC36442348C06A002011C8 /* StubShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36432348C06A002011C8 /* StubShared.swift */; };
+		DABC36462348C3F0002011C8 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36452348C3F0002011C8 /* Shared.swift */; };
+		DABC36472348C3F0002011C8 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36452348C3F0002011C8 /* Shared.swift */; };
+		DABC36482348C3F0002011C8 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36452348C3F0002011C8 /* Shared.swift */; };
 		DAC73A30234773A000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A2F234773A000EF8832 /* CloudKit.framework */; };
 		DAC73A32234773E300EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A31234773E300EF8832 /* CloudKit.framework */; };
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
@@ -170,6 +174,8 @@
 		DABC363D23488A38002011C8 /* StubStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubStore.swift; sourceTree = "<group>"; };
 		DABC363F23489A0C002011C8 /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		DABC36412348A411002011C8 /* StubUbi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUbi.swift; sourceTree = "<group>"; };
+		DABC36432348C06A002011C8 /* StubShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubShared.swift; sourceTree = "<group>"; };
+		DABC36452348C3F0002011C8 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		DAC73A2F234773A000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DAC73A31234773E300EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -355,6 +361,7 @@
 		DAF68E6C2347643A0060895A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				DABC36432348C06A002011C8 /* StubShared.swift */,
 				DABC363D23488A38002011C8 /* StubStore.swift */,
 				DABC36412348A411002011C8 /* StubUbi.swift */,
 				DAF68E6D2347643A0060895A /* TestLists.swift */,
@@ -369,6 +376,7 @@
 			children = (
 				DAF68E702347646E0060895A /* Project.swift */,
 				DABC363723487F55002011C8 /* Session.swift */,
+				DABC36452348C3F0002011C8 /* Shared.swift */,
 				DABC363323487DBF002011C8 /* Store.swift */,
 			);
 			path = Source;
@@ -781,6 +789,7 @@
 			files = (
 				DAF68E712347646E0060895A /* Project.swift in Sources */,
 				DABC363423487DBF002011C8 /* Store.swift in Sources */,
+				DABC36462348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363823487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,6 +800,7 @@
 			files = (
 				DAF68E732347646E0060895A /* Project.swift in Sources */,
 				DABC363523487DBF002011C8 /* Store.swift in Sources */,
+				DABC36472348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363923487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -801,6 +811,7 @@
 			files = (
 				DAF68E742347646E0060895A /* Project.swift in Sources */,
 				DABC363623487DBF002011C8 /* Store.swift in Sources */,
+				DABC36482348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363A23487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -811,6 +822,7 @@
 			files = (
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
+				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestLists.swift in Sources */,
 				DABC364023489A0C002011C8 /* TestStore.swift in Sources */,

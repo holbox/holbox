@@ -1,6 +1,6 @@
 import Foundation
 
-class StubUbi: NSUbiquitousKeyValueStore {
+final class StubUbi: NSUbiquitousKeyValueStore {
     var string: String?
     
     override func synchronize() -> Bool { true }

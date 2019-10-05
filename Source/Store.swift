@@ -2,14 +2,19 @@ import Foundation
 
 class Store {
     static private(set) var id = ""
+    static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
+    private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     var ubi = NSUbiquitousKeyValueStore.default
-    let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
-    private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
+    var shared = Shared()
     
     func load(_ result: @escaping(Session) -> Void) {
-        queue.async { [weak self] in
+        Store.queue.async { [weak self] in
             guard let self = self else { return }
+            self.prepare()
             self.loadId()
+            self.loadSession { _ in
+                
+            }
         }
     }
     
@@ -21,22 +26,31 @@ class Store {
         
     }
     
+    func loadId() {
+        if let id = try? String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self) {
+            Store.id = id
+        } else {
+            loadUbi()
+            try! Data(Store.id.utf8).write(to: Store.url.appendingPathComponent("id"), options: .atomic)
+        }
+    }
+    
+    func loadSession(_ result: @escaping(Session) -> Void) {
+        if let session = try? JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session"))) {
+            
+        } else {
+            loadShared { _ in
+                
+            }
+        }
+    }
+    
     func prepare() {
         var root = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         var resources = URLResourceValues()
         resources.isExcludedFromBackup = true
         try! root.setResourceValues(resources)
-        try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-    }
-    
-    func loadId() {
-        prepare()
-        if let id = try? String(decoding: Data(contentsOf: url.appendingPathComponent("id")), as: UTF8.self) {
-            Store.id = id
-        } else {
-            loadUbi()
-            try! Data(Store.id.utf8).write(to: url.appendingPathComponent("id"), options: .atomic)
-        }
+        try! FileManager.default.createDirectory(at: Store.url, withIntermediateDirectories: true)
     }
     
     private func loadUbi() {
@@ -48,5 +62,9 @@ class Store {
             ubi.set(Store.id, forKey: "id")
             ubi.synchronize()
         }
+    }
+    
+    private func loadShared(_ result: @escaping(Session) -> Void) {
+        
     }
 }
