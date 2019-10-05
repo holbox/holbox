@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
+		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
+		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
+		DABC363823487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
+		DABC363923487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
+		DABC363A23487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
+		DABC363C23488059002011C8 /* TestSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363B23488059002011C8 /* TestSession.swift */; };
 		DAC73A30234773A000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A2F234773A000EF8832 /* CloudKit.framework */; };
 		DAC73A32234773E300EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A31234773E300EF8832 /* CloudKit.framework */; };
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
@@ -154,6 +161,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
 		DAC73A2F234773A000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DAC73A31234773E300EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -340,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				DAF68E6D2347643A0060895A /* TestLists.swift */,
+				DABC363B23488059002011C8 /* TestSession.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -348,6 +359,8 @@
 			isa = PBXGroup;
 			children = (
 				DAF68E702347646E0060895A /* Project.swift */,
+				DABC363723487F55002011C8 /* Session.swift */,
+				DABC363323487DBF002011C8 /* Store.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -758,6 +771,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E712347646E0060895A /* Project.swift in Sources */,
+				DABC363423487DBF002011C8 /* Store.swift in Sources */,
+				DABC363823487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,6 +781,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E732347646E0060895A /* Project.swift in Sources */,
+				DABC363523487DBF002011C8 /* Store.swift in Sources */,
+				DABC363923487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,6 +791,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E742347646E0060895A /* Project.swift in Sources */,
+				DABC363623487DBF002011C8 /* Store.swift in Sources */,
+				DABC363A23487F55002011C8 /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,6 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestLists.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
