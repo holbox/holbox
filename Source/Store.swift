@@ -39,8 +39,11 @@ class Store {
         if let session = try? JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session"))) {
             
         } else {
-            loadShared { _ in
-                
+            loadShared {
+                let session = Session()
+                session.global = $0
+                try! JSONEncoder().encode(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+                result(session)
             }
         }
     }
@@ -64,7 +67,7 @@ class Store {
         }
     }
     
-    private func loadShared(_ result: @escaping(Session) -> Void) {
-        
+    private func loadShared(_ result: @escaping(Session.Global) -> Void) {
+        shared.load(result) { result(.init()) }
     }
 }
