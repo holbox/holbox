@@ -36,16 +36,16 @@ class Store {
     }
     
     func loadSession(_ result: @escaping(Session) -> Void) {
-        if let session = try? JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session"))) {
-            
-        } else {
-            loadShared {
-                let session = Session()
-                session.global = $0
-                try! JSONEncoder().encode(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
-                result(session)
-            }
-        }
+//        if let session = try? JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session"))) {
+//            
+//        } else {
+//            loadShared {
+//                let session = Session()
+//                session.global = $0
+//                try! JSONEncoder().encode(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+//                result(session)
+//            }
+//        }
     }
     
     func prepare() {

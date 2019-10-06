@@ -50,11 +50,12 @@ final class TestStore: XCTestCase {
     func testLoadSessionFirstTime() {
         let expect = expectation(description: "")
         store.prepare()
-        store.loadSession {
+        store.loadSession { _ in
+            
+//            let session = try! JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session")))
+//            XCTAssertEqual(session.rating, $0.rating)
+//            XCTAssertTrue(session.global.projects.isEmpty)
             expect.fulfill()
-            let session = try! JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session")))
-            XCTAssertEqual(session.rating, $0.rating)
-            XCTAssertTrue(session.global.projects.isEmpty)
         }
         waitForExpectations(timeout: 1)
     }

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
+		DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
+		DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
+		DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC045234A0B23004D0803 /* TestCoder.swift */; };
+		DA5AC048234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
+		DA5AC049234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
+		DA5AC04A234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
@@ -168,6 +175,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
+		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
+		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
@@ -364,6 +374,7 @@
 				DABC36432348C06A002011C8 /* StubShared.swift */,
 				DABC363D23488A38002011C8 /* StubStore.swift */,
 				DABC36412348A411002011C8 /* StubUbi.swift */,
+				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
 				DAF68E6D2347643A0060895A /* TestLists.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 				DABC363F23489A0C002011C8 /* TestStore.swift */,
@@ -374,6 +385,8 @@
 		DAF68E6F2347646E0060895A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DA5AC041234A0B0C004D0803 /* Coder.swift */,
+				DA5AC047234A1043004D0803 /* Data.swift */,
 				DAF68E702347646E0060895A /* Project.swift */,
 				DABC363723487F55002011C8 /* Session.swift */,
 				DABC36452348C3F0002011C8 /* Shared.swift */,
@@ -788,6 +801,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E712347646E0060895A /* Project.swift in Sources */,
+				DA5AC048234A1043004D0803 /* Data.swift in Sources */,
+				DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363423487DBF002011C8 /* Store.swift in Sources */,
 				DABC36462348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363823487F55002011C8 /* Session.swift in Sources */,
@@ -799,6 +814,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E732347646E0060895A /* Project.swift in Sources */,
+				DA5AC049234A1043004D0803 /* Data.swift in Sources */,
+				DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363523487DBF002011C8 /* Store.swift in Sources */,
 				DABC36472348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363923487F55002011C8 /* Session.swift in Sources */,
@@ -810,6 +827,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E742347646E0060895A /* Project.swift in Sources */,
+				DA5AC04A234A1043004D0803 /* Data.swift in Sources */,
+				DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363623487DBF002011C8 /* Store.swift in Sources */,
 				DABC36482348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363A23487F55002011C8 /* Session.swift in Sources */,
@@ -821,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
+				DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
