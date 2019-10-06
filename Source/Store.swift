@@ -1,9 +1,10 @@
 import Foundation
 
 class Store {
-    static private(set) var id = ""
+    static var id = ""
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
+    private static let coder = Coder()
     var ubi = NSUbiquitousKeyValueStore.default
     var shared = Shared()
     
@@ -36,16 +37,20 @@ class Store {
     }
     
     func loadSession(_ result: @escaping(Session) -> Void) {
-//        if let session = try? JSONDecoder().decode(Session.self, from: Data(contentsOf: Store.url.appendingPathComponent("session"))) {
-//            
-//        } else {
-//            loadShared {
+        if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
+            
+        } else {
+            shared.load(Store.id, error: {
+                let session = Session()
+                self.save(session, share: true)
+                result(session)
+            }) { _ in
 //                let session = Session()
-//                session.global = $0
-//                try! JSONEncoder().encode(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+//                session.global = try! Store.coder.global(.init(contentsOf: $0))
+//                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
 //                result(session)
-//            }
-//        }
+            }
+        }
     }
     
     func prepare() {
@@ -67,7 +72,12 @@ class Store {
         }
     }
     
-    private func loadShared(_ result: @escaping(Session.Global) -> Void) {
-        shared.load(result) { result(.init()) }
+    private func save(_ session: Session, share: Bool) {
+        try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+        if share {
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
+            try! Store.coder.code(session.global).write(to: url, options: .atomic)
+            shared.save(Store.id, url: url)
+        }
     }
 }
