@@ -48,14 +48,14 @@ final class TestStore: XCTestCase {
     }
     
     func testLoadSessionFirstTime() {
-        let expectId = expectation(description: "")
-        let expectReady = expectation(description: "")
+        let expectLoad = expectation(description: "")
         let expectSave = expectation(description: "")
+        let expectReady = expectation(description: "")
         Store.id = "hello world"
         store.prepare()
         shared.load = {
             XCTAssertEqual("hello world", $0)
-            expectId.fulfill()
+            expectLoad.fulfill()
         }
         shared.save = {
             XCTAssertEqual("hello world", $0)
@@ -67,6 +67,37 @@ final class TestStore: XCTestCase {
             let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertTrue(session.global.projects.isEmpty)
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testLoadSessionLocalYesSharedNo() {
+        let expectLoad = expectation(description: "")
+        let expectSave = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let saved = Session()
+        saved.rating = Date(timeIntervalSince1970: 10)
+        saved.global.counter = 55
+        try! Coder().code(saved).write(to: Store.url.appendingPathComponent("session"))
+        shared.load = {
+            XCTAssertEqual("hello world", $0)
+            expectLoad.fulfill()
+        }
+        shared.save = {
+            XCTAssertEqual("hello world", $0)
+            let global = try! Coder().global(Data(contentsOf: $1))
+            XCTAssertEqual(saved.global.counter , global.counter)
+            expectSave.fulfill()
+        }
+        store.loadSession {
+            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
+            XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
+            XCTAssertEqual(session.global.counter , $0.global.counter)
+            XCTAssertEqual(saved.global.counter , $0.global.counter)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
