@@ -12,8 +12,8 @@ public final class Session {
         store.save(self)
     }
     
-    public func count(_ mode: Mode) -> Int {
-        projects.filter { $0.mode == mode }.count
+    public func projects(_ mode: Mode) -> [Int] {
+        projects.filter { $0.mode == mode }.map { $0.id }
     }
     
     public func name(_ id: Int) -> String {
@@ -22,6 +22,14 @@ public final class Session {
     
     public func lists(_ id: Int) -> Int {
         projects.first { $0.id == id }!.lists.count
+    }
+    
+    public func add(_ project: Int) {
+        projects.first { $0.id == project }!.lists.append(.init())
+    }
+    
+    public func name(_ project: Int, list: Int, name: String) {
+        projects.first { $0.id == project }!.lists[list].name = name
     }
     
     public func add(_ mode: Mode) {

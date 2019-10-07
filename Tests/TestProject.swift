@@ -2,41 +2,48 @@
 import XCTest
 
 final class TestProject: XCTestCase {
-    private var project: Project!
+    private var session: Session!
     private var store: StubStore!
     
     override func setUp() {
         store = .init()
-        project = .init()
-        project.store = store
+        session = .init()
+        session.store = store
+        session.add(.kanban)
     }
     
-    func testAdd() {
-        XCTAssertEqual(0, project.count)
-        project.add()
-        XCTAssertEqual(1, project.count)
-        project.edit(0, name: "hello world")
-        XCTAssertEqual("hello world", project.name(0))
-    }
-    
-    func testSaveOnAdd() {
-        let expect = expectation(description: "")
-        store.project = {
-            XCTAssertEqual(1, $0.count)
-            expect.fulfill()
+    func testAddList() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
         }
-        project.add()
+        store.project = {
+            XCTAssertEqual(1, $0.lists.count)
+            expectProject.fulfill()
+        }
+        session.add(0)
         waitForExpectations(timeout: 1)
     }
     
-    func testSaveOnEdit() {
-        let expect = expectation(description: "")
-        project.add()
-        store.project = {
-            XCTAssertEqual("hello world", $0.name(0))
-            expect.fulfill()
+    func testNameList() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
         }
-        project.edit(0, name: "hello world")
+        store.project = {
+            XCTAssertEqual("hello world", $0.lists[0].name)
+            expectProject.fulfill()
+        }
+        se
         waitForExpectations(timeout: 1)
     }
     
