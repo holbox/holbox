@@ -38,11 +38,17 @@ class Store {
     
     func loadSession(_ result: @escaping(Session) -> Void) {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
-            
+            shared.load(Store.id, error: { [weak self] in
+                self?.share(session)
+                result(session)
+            }) { _ in
+                
+            }
         } else {
-            shared.load(Store.id, error: {
+            shared.load(Store.id, error: { [weak self] in
                 let session = Session()
-                self.save(session, share: true)
+                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+                self?.share(session)
                 result(session)
             }) { _ in
 //                let session = Session()
@@ -72,12 +78,9 @@ class Store {
         }
     }
     
-    private func save(_ session: Session, share: Bool) {
-        try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
-        if share {
-            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
-            try! Store.coder.code(session.global).write(to: url, options: .atomic)
-            shared.save(Store.id, url: url)
-        }
+    private func share(_ session: Session) {
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
+        try! Store.coder.code(session.global).write(to: url, options: .atomic)
+        shared.save(Store.id, url: url)
     }
 }
