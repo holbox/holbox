@@ -38,7 +38,7 @@
 		DACB75D8234770E600037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAB234766CB0060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DB234770FA00037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAE234766E60060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DE2347710800037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
-		DAF68E6E2347643A0060895A /* TestLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestLists.swift */; };
+		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E742347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -205,7 +205,7 @@
 		DAF68E69234764210060895A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DAF68E6A234764210060895A /* iOSToday.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = iOSToday.plist; sourceTree = "<group>"; };
 		DAF68E6B234764210060895A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		DAF68E6D2347643A0060895A /* TestLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLists.swift; sourceTree = "<group>"; };
+		DAF68E6D2347643A0060895A /* TestProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestProject.swift; sourceTree = "<group>"; };
 		DAF68E702347646E0060895A /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DAF68E722347646E0060895A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68E75234764A60060895A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -375,7 +375,7 @@
 				DABC363D23488A38002011C8 /* StubStore.swift */,
 				DABC36412348A411002011C8 /* StubUbi.swift */,
 				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
-				DAF68E6D2347643A0060895A /* TestLists.swift */,
+				DAF68E6D2347643A0060895A /* TestProject.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 				DABC363F23489A0C002011C8 /* TestStore.swift */,
 			);
@@ -844,7 +844,7 @@
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
-				DAF68E6E2347643A0060895A /* TestLists.swift in Sources */,
+				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
 				DABC364023489A0C002011C8 /* TestStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

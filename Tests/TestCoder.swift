@@ -34,6 +34,9 @@ final class TestCoder: XCTestCase {
         XCTAssertEqual(.calendar, decoded.global.items.last?.mode)
         XCTAssertEqual(32, decoded.global.items.last?.id)
         XCTAssertEqual(time2, decoded.global.items.last?.time)
-        
+    }
+    
+    func testProject() {
+        let project = Project()
     }
 }
