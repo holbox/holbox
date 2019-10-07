@@ -50,11 +50,11 @@ class Store {
                 try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
                 self?.share(session)
                 result(session)
-            }) { _ in
-//                let session = Session()
-//                session.global = try! Store.coder.global(.init(contentsOf: $0))
-//                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
-//                result(session)
+            }) {
+                let session = Session()
+                session.global = try! Store.coder.global(Data(contentsOf: $0))
+                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+                result(session)
             }
         }
     }

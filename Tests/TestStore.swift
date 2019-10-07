@@ -8,6 +8,7 @@ final class TestStore: XCTestCase {
     
     override func setUp() {
         try? FileManager.default.removeItem(at: Store.url)
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp"))
         ubi = .init()
         shared = .init()
         store = .init()
@@ -17,6 +18,7 @@ final class TestStore: XCTestCase {
     
     override func tearDown() {
         try? FileManager.default.removeItem(at: Store.url)
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp"))
     }
     
     func testPrepare() {
@@ -98,6 +100,28 @@ final class TestStore: XCTestCase {
             XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertEqual(session.global.counter , $0.global.counter)
             XCTAssertEqual(saved.global.counter , $0.global.counter)
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testLoadSessionLocalNoSharedYes() {
+        let expectLoad = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        var global = Session.Global()
+        global.counter = 55
+        shared.url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
+        try! Coder().code(global).write(to: shared.url!)
+        shared.load = {
+            XCTAssertEqual("hello world", $0)
+            expectLoad.fulfill()
+        }
+        store.loadSession {
+            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            XCTAssertEqual(session.global.counter , $0.global.counter)
+            XCTAssertEqual(global.counter , $0.global.counter)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
