@@ -21,7 +21,8 @@ final class TestLists: XCTestCase {
     
     func testSaveOnAdd() {
         let expect = expectation(description: "")
-        store.save = {
+        store.project = {
+            XCTAssertEqual(1, $0.count)
             expect.fulfill()
         }
         project.add()
@@ -31,7 +32,8 @@ final class TestLists: XCTestCase {
     func testSaveOnEdit() {
         let expect = expectation(description: "")
         project.add()
-        store.save = {
+        store.project = {
+            XCTAssertEqual("hello world", $0.name(0))
             expect.fulfill()
         }
         project.edit(0, name: "hello world")

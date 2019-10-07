@@ -12,7 +12,7 @@ final class Coder {
     func code(_ global: Session.Global) -> Data {
         var result = Data()
         result.add(global.counter)
-        result.append(contentsOf: global.projects.flatMap(code))
+        result.append(contentsOf: global.items.flatMap(code))
         return result
     }
     
@@ -29,21 +29,21 @@ final class Coder {
         var result = Session.Global()
         result.counter = data.byte()
         while !data.isEmpty {
-            result.projects.append(project(&data))
+            result.items.append(item(&data))
         }
         return result
     }
     
-    private func code(_ project: Session.Project) -> Data {
+    private func code(_ item: Session.Item) -> Data {
         var result = Data()
-        result.add(project.id)
-        result.add(project.mode)
-        result.add(project.time)
+        result.add(item.id)
+        result.add(item.mode)
+        result.add(item.time)
         return result
     }
     
-    private func project(_ data: inout Data) -> Session.Project {
-        var result = Session.Project()
+    private func item(_ data: inout Data) -> Session.Item {
+        var result = Session.Item()
         result.id = data.byte()
         result.mode = data.mode()
         result.time = data.date()

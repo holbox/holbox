@@ -12,28 +12,28 @@ final class TestCoder: XCTestCase {
         let date = Date(timeIntervalSince1970: 150)
         let time1 = Date(timeIntervalSince1970: 250)
         let time2 = Date(timeIntervalSince1970: 350)
-        var project1 = Session.Project()
-        var project2 = Session.Project()
-        project1.mode = .kanban
-        project1.id = 88
-        project1.time = time1
-        project2.mode = .calendar
-        project2.id = 32
-        project2.time = time2
+        var item1 = Session.Item()
+        var item2 = Session.Item()
+        item1.mode = .kanban
+        item1.id = 88
+        item1.time = time1
+        item2.mode = .calendar
+        item2.id = 32
+        item2.time = time2
         let session = Session()
         session.rating = date
         session.global.counter = 9
-        session.global.projects = [project1, project2]
+        session.global.items = [item1, item2]
         let decoded = coder.session(coder.code(session))
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(9, decoded.global.counter)
-        XCTAssertEqual(2, decoded.global.projects.count)
-        XCTAssertEqual(.kanban, decoded.global.projects.first?.mode)
-        XCTAssertEqual(88, decoded.global.projects.first?.id)
-        XCTAssertEqual(time1, decoded.global.projects.first?.time)
-        XCTAssertEqual(.calendar, decoded.global.projects.last?.mode)
-        XCTAssertEqual(32, decoded.global.projects.last?.id)
-        XCTAssertEqual(time2, decoded.global.projects.last?.time)
+        XCTAssertEqual(2, decoded.global.items.count)
+        XCTAssertEqual(.kanban, decoded.global.items.first?.mode)
+        XCTAssertEqual(88, decoded.global.items.first?.id)
+        XCTAssertEqual(time1, decoded.global.items.first?.time)
+        XCTAssertEqual(.calendar, decoded.global.items.last?.mode)
+        XCTAssertEqual(32, decoded.global.items.last?.id)
+        XCTAssertEqual(time2, decoded.global.items.last?.time)
         
     }
 }

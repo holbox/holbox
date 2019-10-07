@@ -17,6 +17,7 @@ public final class Project {
     public var name = ""
     public var count: Int { lists.count }
     var store = Store()
+    var id = 0
     private var lists = [List]()
     
     public init() { }

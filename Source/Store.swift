@@ -41,19 +41,34 @@ class Store {
             shared.load(Store.id, error: { [weak self] in
                 self?.share(session)
                 result(session)
-            }) { _ in
-                
+            }) { [weak self] in
+                var write = false
+                var share = false
+                let global = try! Store.coder.global(.init(contentsOf: $0))
+                if global.counter > session.global.counter {
+                    session.global.counter = global.counter
+                    write = true
+                } else if global.counter < session.global.counter {
+                    share = true
+                }
+                if write {
+                    self?.write(session)
+                }
+                if share {
+                    self?.share(session)
+                }
+                result(session)
             }
         } else {
             shared.load(Store.id, error: { [weak self] in
                 let session = Session()
-                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+                self?.write(session)
                 self?.share(session)
                 result(session)
-            }) {
+            }) { [weak self] in
                 let session = Session()
-                session.global = try! Store.coder.global(Data(contentsOf: $0))
-                try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+                session.global = try! Store.coder.global(.init(contentsOf: $0))
+                self?.write(session)
                 result(session)
             }
         }
@@ -76,6 +91,10 @@ class Store {
             ubi.set(Store.id, forKey: "id")
             ubi.synchronize()
         }
+    }
+    
+    private func write(_ session: Session) {
+        try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
     }
     
     private func share(_ session: Session) {
