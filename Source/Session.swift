@@ -26,20 +26,31 @@ public final class Session {
     
     public func add(_ project: Int) {
         projects.first { $0.id == project }!.lists.append(.init())
+        save(project)
     }
     
     public func name(_ project: Int, list: Int, name: String) {
         projects.first { $0.id == project }!.lists[list].name = name
+        save(project)
+    }
+    
+    public func add(_ project: Int, list: Int) {
+        projects.first { $0.id == project }!.lists[list].cards.append("")
+        save(project)
+    }
+    
+    public func content(_ project: Int, list: Int, card: Int, content: String) {
+        projects.first { $0.id == project }!.lists[list].cards[card] = content
+        save(project)
     }
     
     public func add(_ mode: Mode) {
         let project = Project()
         project.id = counter
         project.mode = mode
-        counter += 1
         projects.append(project)
-        store.save(self)
-        store.save(project)
+        counter += 1
+        save(project.id)
     }
     
     public func overwrite(_ shared: (Int, [(Int, Date)])) {
@@ -50,5 +61,11 @@ public final class Session {
             project.time = $0.1
             return project
         }
+    }
+    
+    private func save(_ project: Int) {
+        projects.first { $0.id == project }!.time = .init()
+        store.save(projects.first { $0.id == project }!)
+        store.save(self)
     }
 }

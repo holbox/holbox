@@ -22,6 +22,7 @@ final class TestProject: XCTestCase {
             expectSession.fulfill()
         }
         store.project = {
+            XCTAssertLessThanOrEqual(time, $0.time)
             XCTAssertEqual(1, $0.lists.count)
             expectProject.fulfill()
         }
@@ -43,36 +44,45 @@ final class TestProject: XCTestCase {
             XCTAssertEqual("hello world", $0.lists[0].name)
             expectProject.fulfill()
         }
-        se
+        session.name(0, list: 0, name: "hello world")
         waitForExpectations(timeout: 1)
     }
     
-    func testSaveOnAddCard() {
-        let expect = expectation(description: "")
-        project.add()
-        store.project = {
-            XCTAssertEqual(1, $0.count(0))
-            expect.fulfill()
+    func testAddCard() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
         }
-        project.add(0)
+        store.project = {
+            XCTAssertEqual(1, $0.lists[0].cards.count)
+            XCTAssertEqual("", $0.lists[0].cards.first)
+            expectProject.fulfill()
+        }
+        session.add(0, list: 0)
         waitForExpectations(timeout: 1)
     }
     
-    func testSaveOnEditCard() {
-        let expect = expectation(description: "")
-        project.add()
-        project.add()
-        project.add()
-        project.add(1)
-        project.add(1)
-        project.add(1)
-        project.edit(1, 2, content: "hello world")
-        store.project = {
-            XCTAssertEqual("hello world", $0.content(1, 2))
-            XCTAssertEqual("lorem ipsum", $0.content(1, 1))
-            expect.fulfill()
+    func testContentCard() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.add(0, list: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
         }
-        project.edit(1, 1, content: "lorem ipsum")
+        store.project = {
+            XCTAssertEqual("hello world", $0.lists[0].cards.first)
+            expectProject.fulfill()
+        }
+        session.content(0, list: 0, card: 0, content: "hello world")
         waitForExpectations(timeout: 1)
     }
 }
