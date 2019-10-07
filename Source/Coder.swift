@@ -2,17 +2,20 @@ import Foundation
 import Compression
 
 final class Coder {
-    func code(_ session: Session) -> Data {
+    func session(_ session: Session) -> Data {
         var result = Data()
         result.add(session.rating)
-        result += code(session.global)
+        result += shared(session)
         return result
     }
     
-    func code(_ global: Session.Global) -> Data {
+    func shared(_ session: Session) -> Data {
         var result = Data()
-        result.add(global.counter)
-        result.append(contentsOf: global.items.flatMap(code))
+        result.add(session.counter)
+        session.projects.forEach {
+            result.add($0.id)
+            result.add($0.time)
+        }
         return result
     }
     
@@ -20,34 +23,18 @@ final class Coder {
         var data = data
         let result = Session()
         result.rating = data.date()
-        result.global = global(data)
+        result.overwrite(shared(data))
         return result
     }
     
-    func global(_ data: Data) -> Session.Global {
+    func shared(_ data: Data) -> (Int, [(Int, Date)]) {
         var data = data
-        var result = Session.Global()
-        result.counter = data.byte()
+        var result = [(Int, Date)]()
+        let counter = data.byte()
         while !data.isEmpty {
-            result.items.append(item(&data))
+            result.append((data.byte(), data.date()))
         }
-        return result
-    }
-    
-    private func code(_ item: Session.Item) -> Data {
-        var result = Data()
-        result.add(item.id)
-        result.add(item.mode)
-        result.add(item.time)
-        return result
-    }
-    
-    private func item(_ data: inout Data) -> Session.Item {
-        var result = Session.Item()
-        result.id = data.byte()
-        result.mode = data.mode()
-        result.time = data.date()
-        return result
+        return (counter, result)
     }
     
     private func code(_ data: Data) -> Data {

@@ -44,11 +44,11 @@ class Store {
             }) { [weak self] in
                 var write = false
                 var share = false
-                let global = try! Store.coder.global(.init(contentsOf: $0))
-                if global.counter > session.global.counter {
-                    session.global.counter = global.counter
+                let shared = try! Store.coder.shared(.init(contentsOf: $0))
+                if shared.0 > session.counter {
+                    session.counter = shared.0
                     write = true
-                } else if global.counter < session.global.counter {
+                } else if shared.0 < session.counter {
                     share = true
                 }
                 if write {
@@ -67,7 +67,7 @@ class Store {
                 result(session)
             }) { [weak self] in
                 let session = Session()
-                session.global = try! Store.coder.global(.init(contentsOf: $0))
+                session.overwrite(try! Store.coder.shared(.init(contentsOf: $0)))
                 self?.write(session)
                 result(session)
             }
@@ -94,12 +94,12 @@ class Store {
     }
     
     private func write(_ session: Session) {
-        try! Store.coder.code(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
+        try! Store.coder.session(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
     }
     
     private func share(_ session: Session) {
         let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
-        try! Store.coder.code(session.global).write(to: url, options: .atomic)
+        try! Store.coder.shared(session).write(to: url, options: .atomic)
         shared.save(Store.id, url: url)
     }
 }

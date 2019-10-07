@@ -9,7 +9,7 @@ extension Data {
         append(UInt8(byte))
     }
     
-    mutating func add(_ mode: Session.Mode) {
+    mutating func add(_ mode: Mode) {
         append(mode.rawValue)
     }
     
@@ -25,10 +25,10 @@ extension Data {
         return .init(byte)
     }
     
-    mutating func mode() -> Session.Mode {
+    mutating func mode() -> Mode {
         let mode = first!
         move(1)
-        return Session.Mode(rawValue: mode)!
+        return Mode(rawValue: mode)!
     }
     
     private mutating func move(_ amount: Int) {
