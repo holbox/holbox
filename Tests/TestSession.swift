@@ -34,12 +34,13 @@ final class TestSession: XCTestCase {
     func testAdd() {
         let expectSession = expectation(description: "")
         let expectProject = expectation(description: "")
+        session.projects = [.init()]
         session.counter = 77
         store.session = {
             XCTAssertEqual(1, $0.projects(.kanban).count)
             XCTAssertEqual("",  $0.name($0.projects(.kanban).last!))
             XCTAssertEqual(78, $0.counter)
-            XCTAssertEqual(77, $0.projects(.kanban).last)
+            XCTAssertEqual(1, $0.projects(.kanban).last)
             XCTAssertEqual(.kanban, $0.projects.last?.mode)
             expectSession.fulfill()
         }

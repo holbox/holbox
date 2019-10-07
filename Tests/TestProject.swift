@@ -23,7 +23,7 @@ final class TestProject: XCTestCase {
         }
         store.project = {
             XCTAssertLessThanOrEqual(time, $0.time)
-            XCTAssertEqual(1, $0.lists.count)
+            XCTAssertEqual(1, $0.cards.count)
             expectProject.fulfill()
         }
         session.add(0)
@@ -41,7 +41,7 @@ final class TestProject: XCTestCase {
             expectSession.fulfill()
         }
         store.project = {
-            XCTAssertEqual("hello world", $0.lists[0].name)
+            XCTAssertEqual("hello world", $0.cards[0].0)
             expectProject.fulfill()
         }
         session.name(0, list: 0, name: "hello world")
@@ -59,8 +59,8 @@ final class TestProject: XCTestCase {
             expectSession.fulfill()
         }
         store.project = {
-            XCTAssertEqual(1, $0.lists[0].cards.count)
-            XCTAssertEqual("", $0.lists[0].cards.first)
+            XCTAssertEqual(1, $0.cards[0].1.count)
+            XCTAssertEqual("", $0.cards[0].1.first)
             expectProject.fulfill()
         }
         session.add(0, list: 0)
@@ -79,7 +79,7 @@ final class TestProject: XCTestCase {
             expectSession.fulfill()
         }
         store.project = {
-            XCTAssertEqual("hello world", $0.lists[0].cards.first)
+            XCTAssertEqual("hello world", $0.cards[0].1.first)
             expectProject.fulfill()
         }
         session.content(0, list: 0, card: 0, content: "hello world")

@@ -24,10 +24,10 @@ final class Coder {
         result.add(project.mode)
         result.add(project.name)
         result.add(project.time)
-        project.lists.forEach {
-            result.add($0.name)
-            result.add($0.cards.count)
-            $0.cards.forEach {
+        project.cards.forEach {
+            result.add($0.0)
+            result.add($0.1.count)
+            $0.1.forEach {
                 result.add($0)
             }
         }
@@ -54,17 +54,12 @@ final class Coder {
     
     func project(_ data: Data) -> Project {
         var data = decompress(data)
-        let result = Project()
+        var result = Project()
         result.mode = data.mode()
         result.name = data.string()
         result.time = data.date()
         while !data.isEmpty {
-            var list = Project.List()
-            list.name = data.string()
-            (0 ..< .init(data.byte())).forEach { _ in
-                list.cards.append(data.string())
-            }
-            result.lists.append(list)
+            result.cards.append((data.string(), (0 ..< .init(data.byte())).map { _ in data.string() }))
         }
         return result
     }
