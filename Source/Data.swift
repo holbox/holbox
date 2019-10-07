@@ -13,22 +13,35 @@ extension Data {
         append(mode.rawValue)
     }
     
+    mutating func add(_ string: String) {
+        let data = Data(string.utf8)
+        Swift.withUnsafeBytes(of: UInt16(data.count)) { append($0.bindMemory(to: UInt8.self).baseAddress!, count: 2) }
+        self += data
+    }
+    
     mutating func date() -> Date {
-        let date = withUnsafeBytes { $0.baseAddress!.bindMemory(to: UInt32.self, capacity: 1)[0] }
+        let result = withUnsafeBytes { $0.baseAddress!.bindMemory(to: UInt32.self, capacity: 1)[0] }
         move(4)
-        return .init(timeIntervalSince1970: .init(date))
+        return .init(timeIntervalSince1970: .init(result))
     }
     
     mutating func byte() -> Int {
-        let byte = first!
+        let result = first!
         move(1)
-        return .init(byte)
+        return .init(result)
     }
     
     mutating func mode() -> Mode {
-        let mode = first!
+        let result = first!
         move(1)
-        return Mode(rawValue: mode)!
+        return Mode(rawValue: result)!
+    }
+    
+    mutating func string() -> String {
+        let size = Int(withUnsafeBytes { $0.baseAddress!.bindMemory(to: UInt16.self, capacity: 1)[0] })
+        let result = String(decoding: subdata(in: 2 ..< 2 + size), as: UTF8.self)
+        move(size + 2)
+        return result
     }
     
     private mutating func move(_ amount: Int) {

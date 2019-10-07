@@ -1,7 +1,7 @@
 import Foundation
 
 final class Project {
-    final class List {
+    struct List {
         var name = ""
         var cards = [String]()
     }
