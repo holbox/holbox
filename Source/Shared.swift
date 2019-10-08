@@ -12,11 +12,12 @@ class Shared {
         }
     }
     
-    func save(_ id: String, url: URL) {
+    func save(_ id: String, url: URL, done: @escaping() -> Void) {
         let record = CKRecord(recordType: "Record", recordID: .init(recordName: id))
         record[""] = CKAsset(fileURL: url)
         let operation = CKModifyRecordsOperation(recordsToSave: [record])
         operation.savePolicy = .allKeys
+        operation.perRecordCompletionBlock = { _, _ in done() }
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
     }
 }

@@ -39,20 +39,33 @@ class Store {
     func loadSession(_ result: @escaping(Session) -> Void) {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load(Store.id, error: { [weak self] in
-                self?.share(session)
-                result(session)
+                self?.share(session) {
+                    result(session)
+                }
             }) { [weak self] in
                 let global = try! Store.coder.global(.init(contentsOf: $0))
                 var update = Update(result: result)
                 update.session = session
-                if global.0 > update.session.counter {
+                if global.0 > session.counter {
                     update.session.counter = global.0
                     update.write = true
-                } else if global.0 < update.session.counter {
+                } else if global.0 < session.counter {
                     update.share = true
                 }
+                update.session.projects = session.projects.map { stub in
+                    var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.id)")))
+                    project.id = stub.id
+                    if let shared = global.1.first(where: { $0.0 == stub.id }) {
+                        if shared.1 < stub.time {
+                            update.upload.append(stub.id)
+                        }
+                    } else {
+                        
+                    }
+                    return project
+                }
                 global.1.forEach { project in
-                    if let local = update.session.projects.first(where: { $0.id == project.0 }) {
+                    if let local = session.projects.first(where: { $0.id == project.0 }) {
                         if local.time < project.1 {
                             update.download.append(project.0)
                         } else {
@@ -67,9 +80,10 @@ class Store {
         } else {
             shared.load(Store.id, error: { [weak self] in
                 let session = Session()
-                self?.write(session)
-                self?.share(session)
-                result(session)
+                self?.share(session) { [weak self] in
+                    self?.write(session)
+                    result(session)
+                }
             }) { [weak self] in
                 let session = Session()
                 session.overwrite(try! Store.coder.global(.init(contentsOf: $0)))
@@ -113,12 +127,20 @@ class Store {
                 self?.write(project)
                 self?.merge(update)
             }
+        } else if !update.upload.isEmpty {
+            update.share = true
+            let upload = update.upload.removeFirst()
+            shared.save("\(upload)", url: Store.url.appendingPathComponent("\(upload)")) { [weak self] in
+                self?.merge(update)
+            }
+        } else if update.share {
+            update.share = false
+            share(update.session) { [weak self] in
+                self?.merge(update)
+            }
         } else {
             if update.write {
                 write(update.session)
-            }
-            if update.share {
-                share(update.session)
             }
             update.result(update.session)
         }
@@ -132,9 +154,9 @@ class Store {
         try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(project.id)"), options: .atomic)
     }
     
-    private func share(_ session: Session) {
+    private func share(_ session: Session, done: @escaping() -> Void) {
         let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
         try! Store.coder.global(session).write(to: url, options: .atomic)
-        shared.save(Store.id, url: url)
+        shared.save(Store.id, url: url, done: done)
     }
 }

@@ -15,7 +15,8 @@ final class StubShared: Shared {
         load(id)
     }
     
-    override func save(_ id: String, url: URL) {
+    override func save(_ id: String, url: URL, done: @escaping () -> Void) {
         save(id, url)
+        done()
     }
 }

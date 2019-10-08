@@ -5,10 +5,12 @@ final class TestStoreSession: XCTestCase {
     private var store: Store!
     private var ubi: StubUbi!
     private var shared: StubShared!
+    private var coder: Coder!
     
     override func setUp() {
         try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp"))
+        coder = .init()
         ubi = .init()
         shared = .init()
         store = .init()
@@ -33,12 +35,12 @@ final class TestStoreSession: XCTestCase {
         }
         shared.save = {
             XCTAssertEqual("hello world", $0)
-            let global = try! Coder().global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $1))
             XCTAssertTrue(global.1.isEmpty)
             expectSave.fulfill()
         }
         store.loadSession {
-            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertTrue(session.projects.isEmpty)
             expectReady.fulfill()
@@ -55,19 +57,19 @@ final class TestStoreSession: XCTestCase {
         let saved = Session()
         saved.rating = Date(timeIntervalSince1970: 10)
         saved.counter = 55
-        try! Coder().session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         shared.load = {
             XCTAssertEqual("hello world", $0)
             expectLoad.fulfill()
         }
         shared.save = {
             XCTAssertEqual("hello world", $0)
-            let global = try! Coder().global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $1))
             XCTAssertEqual(55, global.0)
             expectSave.fulfill()
         }
         store.loadSession {
-            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertEqual(session.counter, $0.counter)
@@ -85,13 +87,13 @@ final class TestStoreSession: XCTestCase {
         let session = Session()
         session.counter = 55
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
-        try! Coder().global(session).write(to: shared.url["hello world"]!)
+        try! coder.global(session).write(to: shared.url["hello world"]!)
         shared.load = {
             XCTAssertEqual("hello world", $0)
             expectLoad.fulfill()
         }
         store.loadSession {
-            let loaded = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let loaded = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(loaded.counter, $0.counter)
             XCTAssertEqual(session.counter, $0.counter)
             expectReady.fulfill()
@@ -107,9 +109,9 @@ final class TestStoreSession: XCTestCase {
         let saved = Session()
         saved.rating = Date(timeIntervalSince1970: 10)
         saved.counter = 55
-        try! Coder().session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
-        try! Coder().global(saved).write(to: shared.url["hello world"]!)
+        try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.load = {
             XCTAssertEqual("hello world", $0)
             expectLoad.fulfill()
@@ -129,12 +131,12 @@ final class TestStoreSession: XCTestCase {
         let saved = Session()
         saved.rating = Date(timeIntervalSince1970: 10)
         saved.counter = 55
-        try! Coder().session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         saved.counter = 88
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
-        try! Coder().global(saved).write(to: shared.url["hello world"]!)
+        try! coder.global(saved).write(to: shared.url["hello world"]!)
         store.loadSession {
-            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(88, session.counter)
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
             XCTAssertEqual(88, $0.counter)
@@ -151,18 +153,18 @@ final class TestStoreSession: XCTestCase {
         let saved = Session()
         saved.rating = Date(timeIntervalSince1970: 10)
         saved.counter = 33
-        try! Coder().session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         saved.counter = 11
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
-        try! Coder().global(saved).write(to: shared.url["hello world"]!)
+        try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
             XCTAssertEqual("hello world", $0)
-            let global = try! Coder().global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $1))
             XCTAssertEqual(33, global.0)
             expectSave.fulfill()
         }
         store.loadSession {
-            let session = try! Coder().session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(33, session.counter)
             XCTAssertEqual(33, $0.counter)
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
