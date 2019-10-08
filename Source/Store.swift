@@ -54,9 +54,9 @@ class Store {
                 global.1.forEach { project in
                     if let local = update.session.projects.first(where: { $0.id == project.0 }) {
                         if local.time < project.1 {
-//                            update.download[local.id]
+                            update.download.append(project.0)
                         } else {
-//                            update.download[local.id]
+                            
                         }
                     } else {
                         update.download.append(project.0)
@@ -105,6 +105,7 @@ class Store {
             shared.load(Store.id + ".\(download)", error: { [weak self] in
                 self?.merge(update)
             }) { [weak self] in
+                update.session.projects.removeAll { $0.id == download }
                 var project = try! Store.coder.project(.init(contentsOf: $0))
                 project.id = download
                 update.session.projects.append(project)
