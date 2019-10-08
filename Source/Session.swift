@@ -53,9 +53,9 @@ public final class Session {
         save(projects.count - 1)
     }
     
-    public func overwrite(_ shared: (Int, [(Int, Date)])) {
-        counter = shared.0
-        projects = shared.1.map {
+    public func overwrite(_ global: (Int, [(Int, Date)])) {
+        counter = global.0
+        projects = global.1.map {
             var project = Project()
             project.id = $0.0
             project.time = $0.1

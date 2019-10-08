@@ -10,6 +10,11 @@
 		DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
+		DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437010234CB10800CCB34D /* TestStoreUbi.swift */; };
+		DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437012234CB58000CCB34D /* TestStoreProject.swift */; };
+		DA437015234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
+		DA437016234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
+		DA437017234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
 		DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
 		DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
 		DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
@@ -25,7 +30,7 @@
 		DABC363A23487F55002011C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363723487F55002011C8 /* Session.swift */; };
 		DABC363C23488059002011C8 /* TestSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363B23488059002011C8 /* TestSession.swift */; };
 		DABC363E23488A38002011C8 /* StubStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363D23488A38002011C8 /* StubStore.swift */; };
-		DABC364023489A0C002011C8 /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363F23489A0C002011C8 /* TestStore.swift */; };
+		DABC364023489A0C002011C8 /* TestStoreSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363F23489A0C002011C8 /* TestStoreSession.swift */; };
 		DABC36422348A411002011C8 /* StubUbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36412348A411002011C8 /* StubUbi.swift */; };
 		DABC36442348C06A002011C8 /* StubShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36432348C06A002011C8 /* StubShared.swift */; };
 		DABC36462348C3F0002011C8 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC36452348C3F0002011C8 /* Shared.swift */; };
@@ -179,6 +184,9 @@
 
 /* Begin PBXFileReference section */
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
+		DA437010234CB10800CCB34D /* TestStoreUbi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreUbi.swift; sourceTree = "<group>"; };
+		DA437012234CB58000CCB34D /* TestStoreProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreProject.swift; sourceTree = "<group>"; };
+		DA437014234CCC5B00CCB34D /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
 		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
 		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -186,7 +194,7 @@
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
 		DABC363D23488A38002011C8 /* StubStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubStore.swift; sourceTree = "<group>"; };
-		DABC363F23489A0C002011C8 /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
+		DABC363F23489A0C002011C8 /* TestStoreSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreSession.swift; sourceTree = "<group>"; };
 		DABC36412348A411002011C8 /* StubUbi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubUbi.swift; sourceTree = "<group>"; };
 		DABC36432348C06A002011C8 /* StubShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubShared.swift; sourceTree = "<group>"; };
 		DABC36452348C3F0002011C8 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
@@ -381,7 +389,9 @@
 				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
-				DABC363F23489A0C002011C8 /* TestStore.swift */,
+				DA437012234CB58000CCB34D /* TestStoreProject.swift */,
+				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
+				DA437010234CB10800CCB34D /* TestStoreUbi.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -396,6 +406,7 @@
 				DABC363723487F55002011C8 /* Session.swift */,
 				DABC36452348C3F0002011C8 /* Shared.swift */,
 				DABC363323487DBF002011C8 /* Store.swift */,
+				DA437014234CCC5B00CCB34D /* Update.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -807,6 +818,7 @@
 			files = (
 				DAF68E712347646E0060895A /* Project.swift in Sources */,
 				DA5AC048234A1043004D0803 /* Data.swift in Sources */,
+				DA437015234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363423487DBF002011C8 /* Store.swift in Sources */,
 				DABC36462348C3F0002011C8 /* Shared.swift in Sources */,
@@ -821,6 +833,7 @@
 			files = (
 				DAF68E732347646E0060895A /* Project.swift in Sources */,
 				DA5AC049234A1043004D0803 /* Data.swift in Sources */,
+				DA437016234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363523487DBF002011C8 /* Store.swift in Sources */,
 				DABC36472348C3F0002011C8 /* Shared.swift in Sources */,
@@ -835,6 +848,7 @@
 			files = (
 				DAF68E742347646E0060895A /* Project.swift in Sources */,
 				DA5AC04A234A1043004D0803 /* Data.swift in Sources */,
+				DA437017234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */,
 				DABC363623487DBF002011C8 /* Store.swift in Sources */,
 				DABC36482348C3F0002011C8 /* Shared.swift in Sources */,
@@ -851,9 +865,11 @@
 				DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
+				DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
+				DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
-				DABC364023489A0C002011C8 /* TestStore.swift in Sources */,
+				DABC364023489A0C002011C8 /* TestStoreSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

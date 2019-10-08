@@ -5,11 +5,11 @@ final class Coder {
     func session(_ session: Session) -> Data {
         var result = Data()
         result.add(session.rating)
-        result += shared(session)
+        result += global(session)
         return result
     }
     
-    func shared(_ session: Session) -> Data {
+    func global(_ session: Session) -> Data {
         var result = Data()
         result.add(session.counter)
         session.projects.forEach {
@@ -38,11 +38,11 @@ final class Coder {
         var data = data
         let result = Session()
         result.rating = data.date()
-        result.overwrite(shared(data))
+        result.overwrite(global(data))
         return result
     }
     
-    func shared(_ data: Data) -> (Int, [(Int, Date)]) {
+    func global(_ data: Data) -> (Int, [(Int, Date)]) {
         var data = data
         var result = [(Int, Date)]()
         let counter = data.byte()
