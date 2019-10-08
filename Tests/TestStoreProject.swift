@@ -142,6 +142,54 @@ final class TestStoreProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testLocalNotShared() {
+        let expectGlobal = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let saved = Session()
+        var project = Project()
+        project.id = 99
+        project.mode = .kanban
+        project.name = "lorem"
+        project.time = .init(timeIntervalSince1970: 200)
+        saved.projects = [project]
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
+        saved.projects = []
+        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        shared.save = {
+            if $0 == "99" {
+                let uploaded = try! self.coder.project(.init(contentsOf: $1))
+                XCTAssertEqual("lorem", uploaded.name)
+                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
+                expectProject.fulfill()
+            } else if $0 == "hello world" {
+                let global = try! self.coder.global(.init(contentsOf: $1))
+                XCTAssertEqual(1, global.1.count)
+                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
+                expectGlobal.fulfill()
+            }
+        }
+        store.loadSession {
+            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
+            XCTAssertEqual(99, session.projects.first?.id)
+            XCTAssertEqual(99, $0.projects.first?.id)
+            XCTAssertEqual("lorem", $0.projects.first?.name)
+            XCTAssertEqual("lorem", stored.name)
+            XCTAssertEqual(.kanban, $0.projects.first?.mode)
+            XCTAssertEqual(.kanban, stored.mode)
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.projects.first?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.projects.first?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
     func testLocalUpdate() {
         let expectGlobal = expectation(description: "")
         let expectProject = expectation(description: "")
@@ -170,6 +218,7 @@ final class TestStoreProject: XCTestCase {
                 expectProject.fulfill()
             } else if $0 == "hello world" {
                 let global = try! self.coder.global(.init(contentsOf: $1))
+                XCTAssertEqual(1, global.1.count)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
             }

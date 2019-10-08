@@ -60,7 +60,7 @@ class Store {
                             update.upload.append(stub.id)
                         }
                     } else {
-                        
+                        update.upload.append(stub.id)
                     }
                     return project
                 }
@@ -68,8 +68,6 @@ class Store {
                     if let local = session.projects.first(where: { $0.id == project.0 }) {
                         if local.time < project.1 {
                             update.download.append(project.0)
-                        } else {
-                            
                         }
                     } else {
                         update.download.append(project.0)
