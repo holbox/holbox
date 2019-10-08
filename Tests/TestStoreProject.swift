@@ -161,7 +161,7 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "99" {
+            if $0 == "hello world.99" {
                 let uploaded = try! self.coder.project(.init(contentsOf: $1))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
@@ -211,7 +211,7 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "99" {
+            if $0 == "hello world.99" {
                 let uploaded = try! self.coder.project(.init(contentsOf: $1))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))

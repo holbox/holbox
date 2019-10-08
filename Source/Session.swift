@@ -65,7 +65,9 @@ public final class Session {
     
     private func save(_ project: Int) {
         projects[project].time = .init()
-        store.save(projects[project])
-        store.save(self)
+        store.save(projects[project]) { [weak self] in
+            guard let self = self else { return }
+            self.store.save(self)
+        }
     }
 }

@@ -13,18 +13,28 @@ class Store {
             guard let self = self else { return }
             self.prepare()
             self.loadId()
-            self.loadSession { _ in
-                
+            self.loadSession { session in
+                DispatchQueue.main.async {
+                    result(session)
+                }
             }
         }
     }
     
-    func save(_ session: Session) {
-        
+    func save(_ session: Session, done: (() -> Void)? = nil) {
+        Store.queue.async { [weak self] in
+            self?.share(session) { [weak self] in
+                self?.write(session)
+                done?()
+            }
+        }
     }
     
-    func save(_ project: Project) {
-        
+    func save(_ project: Project, done: (() -> Void)? = nil) {
+        Store.queue.async { [weak self] in
+            self?.write(project)
+            self?.share(project.id, done: done ?? { })
+        }
     }
     
     func loadId() {
@@ -128,7 +138,7 @@ class Store {
         } else if !update.upload.isEmpty {
             update.share = true
             let upload = update.upload.removeFirst()
-            shared.save("\(upload)", url: Store.url.appendingPathComponent("\(upload)")) { [weak self] in
+            share(upload) { [weak self] in
                 self?.merge(update)
             }
         } else if update.share {
@@ -156,5 +166,9 @@ class Store {
         let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
         try! Store.coder.global(session).write(to: url, options: .atomic)
         shared.save(Store.id, url: url, done: done)
+    }
+    
+    private func share(_ project: Int, done: @escaping() -> Void) {
+        shared.save(Store.id + ".\(project)", url: Store.url.appendingPathComponent("\(project)"), done: done)
     }
 }
