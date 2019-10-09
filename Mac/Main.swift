@@ -7,6 +7,7 @@ final class Main: Window {
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
         minSize = .init(width: 400, height: 300)
+        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
         
         let bar = Bar()
         contentView!.addSubview(bar, positioned: .below, relativeTo: _close)

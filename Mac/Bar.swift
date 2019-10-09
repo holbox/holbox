@@ -127,6 +127,6 @@ final class Bar: NSView {
     }
     
     @objc private func add() {
-        
+        app.runModal(for: Add())
     }
 }

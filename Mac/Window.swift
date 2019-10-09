@@ -51,7 +51,7 @@ class Window: NSWindow {
     private(set) weak var _zoom: Button!
 
     init(_ width: CGFloat, _ height: CGFloat, mask: NSWindow.StyleMask) {
-        super.init(contentRect: .init(x: NSScreen.main!.frame.midX - width / 2, y: NSScreen.main!.frame.midY - height / 2, width: width, height: height), styleMask: [.borderless, mask], backing: .buffered, defer: false)
+        super.init(contentRect: .init(x: 0, y: 0, width: width, height: height), styleMask: [.borderless, mask], backing: .buffered, defer: false)
         backgroundColor = .clear
         isOpaque = false
         collectionBehavior = .fullScreenNone
