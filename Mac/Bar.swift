@@ -1,23 +1,24 @@
 import AppKit
 
 final class Bar: NSView {
-    final class Tab: NSView {
+    private final class Tab: NSView {
         var selected = false { didSet { update() } }
-        var image: NSImage! { didSet { update() } }
         private weak var icon: NSImageView!
         private weak var target: AnyObject!
-        private var action: Selector!
+        private let action: Selector
+        private let image: NSImage
         
         required init?(coder: NSCoder) { nil }
-        init(_ target: AnyObject, action: Selector) {
+        init(_ image: String, target: AnyObject, action: Selector) {
+            self.image = NSImage(named: image)!
+            self.target = target
+            self.action = action
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
             setAccessibilityElement(true)
             setAccessibilityRole(.button)
             wantsLayer = true
             layer!.cornerRadius = 4
-            self.target = target
-            self.action = action
             
             let icon = NSImageView()
             icon.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +33,8 @@ final class Bar: NSView {
             icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
             icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+            
+            update()
         }
         
         override func resetCursorRects() {
@@ -42,7 +45,7 @@ final class Bar: NSView {
             if bounds.contains(convert(with.locationInWindow, from: nil)) {
                 if !selected {
                     selected = true
-                    _ = target.perform(action, with: self)
+                    _ = target.perform(action, with: nil)
                 }
             }
         }
@@ -69,23 +72,25 @@ final class Bar: NSView {
         border.layer!.backgroundColor = .black
         addSubview(border)
         
-        let _kanban = Tab(self, action: #selector(kanban))
-        _kanban.image = NSImage(named: "kanban")
+        let _kanban = Tab("kanban", target: self, action: #selector(kanban))
         _kanban.selected = true
+        _kanban.setAccessibilityLabel(.key("Bar.kanban"))
         addSubview(_kanban)
         self._kanban = _kanban
         
-        let _todo = Tab(self, action: #selector(todo))
-        _todo.image = NSImage(named: "todo")
+        let _todo = Tab("todo", target: self, action: #selector(todo))
+        _todo.setAccessibilityLabel(.key("Bar.todo"))
         addSubview(_todo)
         self._todo = _todo
         
-        let _shopping = Tab(self, action: #selector(shopping))
-        _shopping.image = NSImage(named: "shopping")
+        let _shopping = Tab("shopping", target: self, action: #selector(shopping))
+        _shopping.setAccessibilityLabel(.key("Bar.shopping"))
         addSubview(_shopping)
         self._shopping = _shopping
         
-        [_kanban, _todo, _shopping].forEach {
+        let _add = Button("plus", target: self, action: #selector(add))
+        
+        [_kanban, _todo, _shopping, _add].forEach {
             addSubview($0)
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         }
@@ -95,6 +100,10 @@ final class Bar: NSView {
         _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
+
+        _add.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
         
         border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -115,5 +124,9 @@ final class Bar: NSView {
     @objc private func shopping() {
         _kanban.selected = false
         _todo.selected = false
+    }
+    
+    @objc private func add() {
+        
     }
 }

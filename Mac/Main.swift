@@ -9,7 +9,7 @@ final class Main: Window {
         minSize = .init(width: 400, height: 300)
         
         let bar = Bar()
-        contentView!.addSubview(bar)
+        contentView!.addSubview(bar, positioned: .below, relativeTo: _close)
         self.bar = bar
         
         bar.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true

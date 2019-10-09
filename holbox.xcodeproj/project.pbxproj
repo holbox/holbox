@@ -49,7 +49,6 @@
 		DACB75D8234770E600037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAB234766CB0060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DB234770FA00037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAE234766E60060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DE2347710800037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
-		DAD8F191234DBA9000835E3E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F190234DBA9000835E3E /* Button.swift */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
 		DAD8F195234DBAC600835E3E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F194234DBAC600835E3E /* Alert.swift */; };
 		DAD8F196234DBB5500835E3E /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* Shared.swift */; };
@@ -58,6 +57,7 @@
 		DAD8F19A234DBB9700835E3E /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F199234DBB9700835E3E /* Label.swift */; };
 		DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19B234DBEBE00835E3E /* Extensions.swift */; };
 		DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19D234DD3F400835E3E /* Bar.swift */; };
+		DAD8F1A0234E160F00835E3E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19F234E160F00835E3E /* Button.swift */; };
 		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -218,12 +218,12 @@
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A362347745700EF8832 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		DACB75CC23476CCF00037180 /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DAD8F190234DBA9000835E3E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DAD8F192234DBAB900835E3E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DAD8F194234DBAC600835E3E /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		DAD8F199234DBB9700835E3E /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		DAD8F19B234DBEBE00835E3E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DAD8F19D234DD3F400835E3E /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
+		DAD8F19F234E160F00835E3E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DAF68E5E234764200060895A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DAF68E5F234764200060895A /* Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mac.entitlements; sourceTree = "<group>"; };
 		DAF68E60234764210060895A /* MacToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacToday.entitlements; sourceTree = "<group>"; };
@@ -439,7 +439,7 @@
 				DAD8F194234DBAC600835E3E /* Alert.swift */,
 				DAF68E77234764A60060895A /* App.swift */,
 				DAD8F19D234DD3F400835E3E /* Bar.swift */,
-				DAD8F190234DBA9000835E3E /* Button.swift */,
+				DAD8F19F234E160F00835E3E /* Button.swift */,
 				DAD8F19B234DBEBE00835E3E /* Extensions.swift */,
 				DAD8F199234DBB9700835E3E /* Label.swift */,
 				DA43701C234D2B5300CCB34D /* Main.swift */,
@@ -913,8 +913,8 @@
 				DAD8F195234DBAC600835E3E /* Alert.swift in Sources */,
 				DA43701D234D2B5300CCB34D /* Main.swift in Sources */,
 				DAF68E7F234764A70060895A /* App.swift in Sources */,
+				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
-				DAD8F191234DBA9000835E3E /* Button.swift in Sources */,
 				DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */,
 				DAD8F19A234DBB9700835E3E /* Label.swift in Sources */,
 				DAD8F193234DBAB900835E3E /* Menu.swift in Sources */,

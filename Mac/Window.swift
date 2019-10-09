@@ -1,11 +1,54 @@
 import AppKit
 
 class Window: NSWindow {
+    final class Button: NSView {
+        private let action: Selector
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ image: String, action: Selector) {
+            self.action = action
+            super.init(frame: .zero)
+            translatesAutoresizingMaskIntoConstraints = false
+            setAccessibilityElement(true)
+            setAccessibilityRole(.button)
+            alphaValue = 0.5
+            
+            let icon = NSImageView()
+            icon.translatesAutoresizingMaskIntoConstraints = false
+            icon.imageScaling = .scaleNone
+            icon.image = NSImage(named: image)
+            addSubview(icon)
+            
+            widthAnchor.constraint(equalToConstant: 12).isActive = true
+            heightAnchor.constraint(equalToConstant: 12).isActive = true
+            
+            icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+            icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        }
+        
+        override func resetCursorRects() {
+            addCursorRect(bounds, cursor: .pointingHand)
+        }
+        
+        override func mouseDown(with: NSEvent) {
+            alphaValue = 1
+        }
+        
+        override func mouseUp(with: NSEvent) {
+            if bounds.contains(convert(with.locationInWindow, from: nil)) {
+                _ = window!.perform(action, with: nil)
+            }
+            alphaValue = 0.5
+        }
+    }
+    
     override var canBecomeKey: Bool { true }
     override var acceptsFirstResponder: Bool { true }
-    private(set) weak var _close: Button.Window!
-    private(set) weak var _minimise: Button.Window!
-    private(set) weak var _zoom: Button.Window!
+    private(set) weak var _close: Button!
+    private(set) weak var _minimise: Button!
+    private(set) weak var _zoom: Button!
 
     init(_ width: CGFloat, _ height: CGFloat, mask: NSWindow.StyleMask) {
         super.init(contentRect: .init(x: NSScreen.main!.frame.midX - width / 2, y: NSScreen.main!.frame.midY - height / 2, width: width, height: height), styleMask: [.borderless, mask], backing: .buffered, defer: false)
@@ -17,19 +60,16 @@ class Window: NSWindow {
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 20
         
-        let _close = Button.Window(self, action: #selector(close))
-        _close.setAccessibilityLabel(.key("Menu.quit"))
-        _close.image.image = NSImage(named: "close")
+        let _close = Button("close", action: #selector(close))
+        _close.setAccessibilityLabel(.key("Window.close"))
         self._close = _close
         
-        let _minimise = Button.Window(self, action: #selector(miniaturize(_:)))
-        _minimise.setAccessibilityLabel(.key("Menu.minimize"))
-        _minimise.image.image = NSImage(named: "minimise")
+        let _minimise = Button("minimise", action: #selector(miniaturize(_:)))
+        _minimise.setAccessibilityLabel(.key("Window.minimise"))
         self._minimise = _minimise
         
-        let _zoom = Button.Window(self, action: #selector(zoom(_:)))
-        _zoom.setAccessibilityLabel(.key("Menu.zoom"))
-        _zoom.image.image = NSImage(named: "zoom")
+        let _zoom = Button("zoom", action: #selector(zoom(_:)))
+        _zoom.setAccessibilityLabel(.key("Window.zoom"))
         self._zoom = _zoom
         
         [_close, _minimise, _zoom].forEach {
