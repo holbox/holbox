@@ -2,10 +2,19 @@ import AppKit
 
 final class Main: Window {
     private(set) weak var base: NSView!
+    private weak var bar: Bar!
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
-        minSize = .init(width: 500, height: 400)
+        minSize = .init(width: 400, height: 300)
+        
+        let bar = Bar()
+        contentView!.addSubview(bar)
+        self.bar = bar
+        
+        bar.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true
+        bar.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
+        bar.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
     }
     
     override func close() { app.terminate(nil) }
@@ -27,6 +36,16 @@ final class Main: Window {
         }) {
             self.makeFirstResponder(view)
         }
+    }
+    
+    override func becomeKey() {
+        super.becomeKey()
+        bar.alphaValue = 1
+    }
+    
+    override func resignKey() {
+        super.resignKey()
+        bar.alphaValue = 0.3
     }
 }
 

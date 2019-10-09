@@ -10,18 +10,16 @@ class Window: NSWindow {
     init(_ width: CGFloat, _ height: CGFloat, mask: NSWindow.StyleMask) {
         super.init(contentRect: .init(x: NSScreen.main!.frame.midX - width / 2, y: NSScreen.main!.frame.midY - height / 2, width: width, height: height), styleMask: [.borderless, mask], backing: .buffered, defer: false)
         backgroundColor = .clear
-        hasShadow = true
         isOpaque = false
         collectionBehavior = .fullScreenNone
         isReleasedWhenClosed = false
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
-        contentView!.layer!.cornerRadius = 6
-        contentView!.layer!.backgroundColor = .black
+        contentView!.layer!.cornerRadius = 20
         
         let _close = Button.Window(self, action: #selector(close))
         _close.setAccessibilityLabel(.key("Menu.quit"))
-        _close.image.image = NSImage(named: "wclose")
+        _close.image.image = NSImage(named: "close")
         self._close = _close
         
         let _minimise = Button.Window(self, action: #selector(miniaturize(_:)))
@@ -36,11 +34,25 @@ class Window: NSWindow {
         
         [_close, _minimise, _zoom].forEach {
             contentView!.addSubview($0)
-            $0.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 13).isActive = true
+            $0.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
         }
         
-        _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 13).isActive = true
+        _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
         _minimise.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 8).isActive = true
         _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
+    }
+    
+    override func becomeKey() {
+        super.becomeKey()
+        contentView!.layer!.backgroundColor = .background
+        [_close, _minimise, _zoom].forEach { $0!.alphaValue = 0.5 }
+        hasShadow = true
+    }
+    
+    override func resignKey() {
+        super.resignKey()
+        contentView!.layer!.backgroundColor = .black
+        [_close, _minimise, _zoom].forEach { $0!.alphaValue = 0.3 }
+        hasShadow = false
     }
 }
