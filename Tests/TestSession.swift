@@ -51,4 +51,27 @@ final class TestSession: XCTestCase {
         session.add(.kanban)
         waitForExpectations(timeout: 1)
     }
+    
+    func testNoPerks() {
+        XCTAssertEqual(0, session.count)
+        XCTAssertEqual(1, session.capacity)
+        session.projects.append(.init())
+        XCTAssertEqual(1, session.count)
+        XCTAssertEqual(1, session.capacity)
+    }
+    
+    func testPerks() {
+        session.perks = [.two]
+        XCTAssertEqual(3, session.capacity)
+        session.perks = [.two, .ten]
+        XCTAssertEqual(13, session.capacity)
+        session.perks = [.two, .ten, .hundred]
+        XCTAssertEqual(113, session.capacity)
+        session.perks = [.hundred]
+        XCTAssertEqual(101, session.capacity)
+        session.perks = [.ten]
+        XCTAssertEqual(11, session.capacity)
+        session.perks = [.hundred, .two]
+        XCTAssertEqual(103, session.capacity)
+    }
 }

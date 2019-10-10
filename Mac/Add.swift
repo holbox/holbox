@@ -18,7 +18,7 @@ final class Add: Window {
         subtitle.alignment = .center
         subtitle.textColor = .init(white: 0.7, alpha: 1)
         
-        let confirm = Control(.key("Add.confirm"), target: self, action: #selector(close))
+        let confirm = Control(.key("Add.confirm"), target: self, action: #selector(self.confirm))
         confirm.layer!.backgroundColor = .haze
         confirm.label.textColor = .black
         
@@ -48,8 +48,20 @@ final class Add: Window {
         cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
     }
     
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 36: confirm()
+        case 53: close()
+        default: super.keyDown(with: with)
+        }
+    }
+    
     override func close() {
         super.close()
         app.stopModal()
+    }
+    
+    @objc private func confirm() {
+        
     }
 }

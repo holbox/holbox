@@ -13,6 +13,10 @@ extension Data {
         append(mode.rawValue)
     }
     
+    mutating func add(_ perk: Perk) {
+        append(perk.rawValue)
+    }
+    
     mutating func add(_ string: String) {
         let data = Data(string.utf8)
         Swift.withUnsafeBytes(of: UInt16(data.count)) { append($0.bindMemory(to: UInt8.self).baseAddress!, count: 2) }
@@ -35,6 +39,12 @@ extension Data {
         let result = first!
         move(1)
         return Mode(rawValue: result)!
+    }
+    
+    mutating func perk() -> Perk {
+        let result = first!
+        move(1)
+        return Perk(rawValue: result)!
     }
     
     mutating func string() -> String {

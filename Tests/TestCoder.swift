@@ -17,13 +17,14 @@ final class TestCoder: XCTestCase {
         project1.mode = .kanban
         project1.id = 88
         project1.time = time1
-        project2.mode = .calendar
+        project2.mode = .todo
         project2.id = 32
         project2.time = time2
         let session = Session()
         session.rating = date
         session.counter = 9
         session.projects = [project1, project2]
+        session.perks = [.hundred, .shopping, .two]
         let decoded = coder.session(coder.session(session))
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(9, decoded.counter)
@@ -34,6 +35,10 @@ final class TestCoder: XCTestCase {
         XCTAssertEqual(.off, decoded.projects.last?.mode)
         XCTAssertEqual(32, decoded.projects.last?.id)
         XCTAssertEqual(time2, decoded.projects.last?.time)
+        XCTAssertEqual(3, decoded.perks.count)
+        XCTAssertEqual(.hundred, decoded.perks[0])
+        XCTAssertEqual(.shopping, decoded.perks[1])
+        XCTAssertEqual(.two, decoded.perks[2])
     }
     
     func testProject() {

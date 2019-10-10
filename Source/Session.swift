@@ -1,11 +1,28 @@
 import Foundation
 
 public final class Session {
-    public var rate: Bool { Date() >= rating }
     var store = Store()
     var rating = Calendar.current.date(byAdding: .day, value: 2, to: .init())!
     var counter = 0
     var projects = [Project]()
+    var perks = [Perk]()
+    
+    public var rate: Bool { Date() >= rating }
+    
+    public var count: Int { projects.count }
+    
+    public var capacity: Int {
+        var result = 1
+        perks.forEach {
+            switch $0 {
+            case .two: result += 2
+            case .ten: result += 10
+            case .hundred: result += 100
+            default: break
+            }
+        }
+        return result
+    }
     
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!

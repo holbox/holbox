@@ -5,6 +5,8 @@ final class Coder {
     func session(_ session: Session) -> Data {
         var result = Data()
         result.add(session.rating)
+        result.add(session.perks.count)
+        session.perks.forEach { result.add($0) }
         result += global(session)
         return result
     }
@@ -38,6 +40,7 @@ final class Coder {
         var data = data
         let result = Session()
         result.rating = data.date()
+        result.perks = (0 ..< data.byte()).map { _ in data.perk() }
         result.overwrite(global(data))
         return result
     }
@@ -59,7 +62,7 @@ final class Coder {
         result.name = data.string()
         result.time = data.date()
         while !data.isEmpty {
-            result.cards.append((data.string(), (0 ..< .init(data.byte())).map { _ in data.string() }))
+            result.cards.append((data.string(), (0 ..< data.byte()).map { _ in data.string() }))
         }
         return result
     }
