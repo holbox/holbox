@@ -60,6 +60,7 @@ final class Main: Window {
     
     func shopping() {
         mode = .shopping
+        show(Detail())
     }
     
     private func show(_ view: NSView) {
