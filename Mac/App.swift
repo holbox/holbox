@@ -4,9 +4,10 @@ import StoreKit
 import UserNotifications
 
 private(set) weak var app: App!
+private(set) weak var main: Main!
+private(set) var session: Session!
+
 @NSApplicationMain final class App: NSApplication, NSApplicationDelegate, UNUserNotificationCenterDelegate, NSTouchBarDelegate {
-    private(set) weak var main: Main!
-    
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
@@ -45,9 +46,9 @@ private(set) weak var app: App!
     func applicationWillFinishLaunching(_: Notification) {
         mainMenu = Menu(title: "")
         
-        let main = Main()
-        main.makeKeyAndOrderFront(nil)
-        self.main = main
+        let _main = Main()
+        _main.makeKeyAndOrderFront(nil)
+        main = _main
         
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().getNotificationSettings {
@@ -58,19 +59,13 @@ private(set) weak var app: App!
             }
         }
         
-//        Session.load {
-//            self.session = $0
-//            self.session.settings.follow = false
-//            self.main.bar.refresh()
-//
-//            if Date() >= $0.rating {
-//                var components = DateComponents()
-//                components.month = 3
-//                $0.rating = Calendar.current.date(byAdding: components, to: .init())!
-//                $0.save()
-//                if #available(OSX 10.14, *) { SKStoreReviewController.requestReview() }
-//            }
-//        }
+        Session.load {
+            session = $0
+            if session.rate {
+                SKStoreReviewController.requestReview()
+                session.rated()
+            }
+        }
     }
     
     func alert(_ title: String, message: String) {

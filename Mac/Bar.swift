@@ -57,6 +57,7 @@ final class Bar: NSView {
         }
     }
     
+    private weak var _add: Button!
     private weak var _kanban: Tab!
     private weak var _todo: Tab!
     private weak var _shopping: Tab!
@@ -89,6 +90,7 @@ final class Bar: NSView {
         self._shopping = _shopping
         
         let _add = Button("plus", target: self, action: #selector(add))
+        self._add = _add
         
         [_kanban, _todo, _shopping, _add].forEach {
             addSubview($0)
@@ -114,16 +116,19 @@ final class Bar: NSView {
     @objc private func kanban() {
         _todo.selected = false
         _shopping.selected = false
+        main.kanban()
     }
     
     @objc private func todo() {
         _kanban.selected = false
         _shopping.selected = false
+        main.todo()
     }
     
     @objc private func shopping() {
         _kanban.selected = false
         _todo.selected = false
+        main.shopping()
     }
     
     @objc private func add() {

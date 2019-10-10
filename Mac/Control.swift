@@ -14,6 +14,7 @@ final class Control: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
+        setAccessibilityLabel(title)
         wantsLayer = true
         layer!.cornerRadius = 8
         

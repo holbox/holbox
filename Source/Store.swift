@@ -3,14 +3,13 @@ import Foundation
 class Store {
     static var id = ""
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
-    private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
-    private static let coder = Coder()
     var ubi = NSUbiquitousKeyValueStore.default
     var shared = Shared()
+    private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
+    private static let coder = Coder()
     
     func load(_ result: @escaping(Session) -> Void) {
-        Store.queue.async { [weak self] in
-            guard let self = self else { return }
+        Store.queue.async {
             self.prepare()
             self.loadId()
             self.loadSession { session in
@@ -22,18 +21,18 @@ class Store {
     }
     
     func save(_ session: Session, done: (() -> Void)? = nil) {
-        Store.queue.async { [weak self] in
-            self?.share(session) { [weak self] in
-                self?.write(session)
+        Store.queue.async {
+            self.share(session) {
+                self.write(session)
                 done?()
             }
         }
     }
     
     func save(_ project: Project, done: (() -> Void)? = nil) {
-        Store.queue.async { [weak self] in
-            self?.write(project)
-            self?.share(project.id, done: done ?? { })
+        Store.queue.async {
+            self.write(project)
+            self.share(project.id, done: done ?? { })
         }
     }
     
@@ -48,11 +47,11 @@ class Store {
     
     func loadSession(_ result: @escaping(Session) -> Void) {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
-            shared.load(Store.id, error: { [weak self] in
-                self?.share(session) {
+            shared.load(Store.id, error: {
+                self.share(session) {
                     result(session)
                 }
-            }) { [weak self] in
+            }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0))
                 var update = Update(result: result)
                 update.session = session
@@ -83,19 +82,19 @@ class Store {
                         update.download.append(project.0)
                     }
                 }
-                self?.merge(update)
+                self.merge(update)
             }
         } else {
-            shared.load(Store.id, error: { [weak self] in
+            shared.load(Store.id, error: {
                 let session = Session()
-                self?.share(session) { [weak self] in
-                    self?.write(session)
+                self.share(session) {
+                    self.write(session)
                     result(session)
                 }
-            }) { [weak self] in
+            }) {
                 let session = Session()
                 session.overwrite(try! Store.coder.global(.init(contentsOf: $0)))
-                self?.write(session)
+                self.write(session)
                 result(session)
             }
         }
@@ -124,27 +123,27 @@ class Store {
         var update = update
         if !update.download.isEmpty {
             let download = update.download.removeFirst()
-            shared.load(Store.id + ".\(download)", error: { [weak self] in
-                self?.merge(update)
-            }) { [weak self] in
+            shared.load(Store.id + ".\(download)", error: {
+                self.merge(update)
+            }) {
                 update.session.projects.removeAll { $0.id == download }
                 var project = try! Store.coder.project(.init(contentsOf: $0))
                 project.id = download
                 update.session.projects.append(project)
                 update.write = true
-                self?.write(project)
-                self?.merge(update)
+                self.write(project)
+                self.merge(update)
             }
         } else if !update.upload.isEmpty {
             update.share = true
             let upload = update.upload.removeFirst()
-            share(upload) { [weak self] in
-                self?.merge(update)
+            share(upload) {
+                self.merge(update)
             }
         } else if update.share {
             update.share = false
-            share(update.session) { [weak self] in
-                self?.merge(update)
+            share(update.session) {
+                self.merge(update)
             }
         } else {
             if update.write {

@@ -24,6 +24,10 @@ public final class Session {
         return result
     }
     
+    public class func load(result: @escaping(Session) -> Void) {
+        Store().load(result)
+    }
+    
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!
         store.save(self)

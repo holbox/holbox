@@ -1,8 +1,10 @@
+import holbox
 import AppKit
 
 final class Main: Window {
-    private(set) weak var base: NSView!
+    private(set) var mode = Mode.kanban
     private weak var bar: Bar!
+    private weak var base: NSView!
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
@@ -20,7 +22,29 @@ final class Main: Window {
     
     override func close() { app.terminate(nil) }
     
-    func show(_ view: NSView) {
+    override func becomeKey() {
+        super.becomeKey()
+        bar.alphaValue = 1
+    }
+    
+    override func resignKey() {
+        super.resignKey()
+        bar.alphaValue = 0.3
+    }
+    
+    func kanban() {
+        mode = .kanban
+    }
+    
+    func todo() {
+        mode = .todo
+    }
+    
+    func shopping() {
+        mode = .shopping
+    }
+    
+    private func show(_ view: NSView) {
         base.subviews.forEach { $0.removeFromSuperview() }
         view.alphaValue = 0
         base.addSubview(view)
@@ -38,15 +62,4 @@ final class Main: Window {
             self.makeFirstResponder(view)
         }
     }
-    
-    override func becomeKey() {
-        super.becomeKey()
-        bar.alphaValue = 1
-    }
-    
-    override func resignKey() {
-        super.resignKey()
-        bar.alphaValue = 0.3
-    }
 }
-
