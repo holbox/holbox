@@ -5,11 +5,19 @@ final class Main: Window {
     private(set) var mode = Mode.off
     private weak var bar: Bar?
     private weak var base: NSView?
+    private weak var logo: Logo!
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
         minSize = .init(width: 400, height: 300)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
+        
+        let logo = Logo()
+        contentView!.addSubview(logo)
+        self.logo = logo
+        
+        logo.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        logo.centerYAnchor.constraint(equalTo: contentView!.centerYAnchor).isActive = true
     }
     
     override func close() { app.terminate(nil) }
