@@ -30,8 +30,8 @@ final class Main: Window {
     
     override func resignKey() {
         super.resignKey()
-        bar?.alphaValue = 0.3
-        base?.alphaValue = 0.3
+        bar?.alphaValue = 0.2
+        base?.alphaValue = 0.2
     }
     
     func loaded() {

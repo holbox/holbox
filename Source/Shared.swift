@@ -2,11 +2,13 @@ import CloudKit
 
 class Shared {
     func load(_ id: String, error: @escaping() -> Void, success: @escaping(URL) -> Void) {
+        print("fetch \(id)")
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.fetch(withRecordID: .init(recordName: id)) {
             if $1 == nil,
                 let asset = ($0?["asset"] as? CKAsset)?.fileURL {
                 success(asset)
             } else {
+                print($1)
                 error()
             }
         }

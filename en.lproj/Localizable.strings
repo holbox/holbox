@@ -15,3 +15,6 @@ Add.cancel="Cancel";
 Detail.title.1="Kanban";
 Detail.title.2="To-Do";
 Detail.title.3="Shopping";
+Detail.empty.1="No Kanban Boards";
+Detail.empty.2="No To-Do Lists";
+Detail.empty.3="No Shopping Lists";

@@ -1,6 +1,9 @@
 import AppKit
 
 final class Add: Window {
+    private weak var available: Label!
+    private weak var _confirm: Control!
+    
     init() {
         super.init(400, 500, mask: [])
         _close.isHidden = true
@@ -10,26 +13,34 @@ final class Add: Window {
         let icon = Image("new")
         
         let title = Label(.key("Add.title.\(main.mode.rawValue)"))
-        title.font = .systemFont(ofSize: 30, weight: .bold)
+        title.font = .systemFont(ofSize: 20, weight: .bold)
         title.textColor = .white
         
         let subtitle = Label(.key("Add.subtitle.\(main.mode.rawValue)") + .key("Add.subtitle.bottom"))
         subtitle.font = .systemFont(ofSize: 14, weight: .regular)
         subtitle.alignment = .center
-        subtitle.textColor = .init(white: 0.6, alpha: 1)
+        subtitle.textColor = .init(white: 1, alpha: 0.4)
+        
+        let circle = NSView()
+        circle.translatesAutoresizingMaskIntoConstraints = false
+        circle.wantsLayer = true
+        circle.layer!.backgroundColor = .haze
+        circle.layer!.cornerRadius = 30
         
         let available = Label("\(max(session.capacity - session.count, 0))")
-        available.font = .systemFont(ofSize: 50, weight: .bold)
-        available.textColor = .haze
+        available.font = .systemFont(ofSize: 26, weight: .bold)
+        available.textColor = .black
+        self.available = available
         
-        let confirm = Control(.key("Add.title.\(main.mode.rawValue)"), target: self, action: #selector(self.confirm))
-        confirm.layer!.backgroundColor = .haze
-        confirm.label.textColor = .black
+        let _confirm = Control(.key("Add.title.\(main.mode.rawValue)"), target: self, action: #selector(confirm))
+        _confirm.layer!.backgroundColor = .haze
+        _confirm.label.textColor = .black
+        self._confirm = _confirm
         
         let cancel = Control(.key("Add.cancel"), target: self, action: #selector(close))
-        cancel.label.textColor = .init(white: 0.7, alpha: 1)
+        cancel.label.textColor = .init(white: 1, alpha: 0.4)
         
-        [icon, title, subtitle, available, confirm, cancel].forEach {
+        [icon, title, subtitle, circle, available, _confirm, cancel].forEach {
             contentView!.addSubview($0)
             
             $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
@@ -43,13 +54,17 @@ final class Add: Window {
         
         subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
         
-        available.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
+        circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
+        circle.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        circle.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        confirm.widthAnchor.constraint(equalToConstant: 260).isActive = true
-        confirm.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -20).isActive = true
+        available.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
         
-        cancel.widthAnchor.constraint(equalToConstant: 260).isActive = true
+        _confirm.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        _confirm.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -20).isActive = true
+        
+        cancel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         cancel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
     }
@@ -68,6 +83,8 @@ final class Add: Window {
     }
     
     @objc private func confirm() {
-        
+        _confirm.target = nil
+        available.stringValue = "\(max(session.capacity - session.count - 1, 0))"
+        session.add(main.mode)
     }
 }
