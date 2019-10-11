@@ -1,6 +1,6 @@
 import AppKit
 
-class Window: NSWindow {
+class Window: NSWindow, NSWindowDelegate {
     final class Button: NSView {
         private let action: Selector
         
@@ -59,6 +59,7 @@ class Window: NSWindow {
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 20
+        delegate = self
         
         let _close = Button("close", action: #selector(close))
         _close.setAccessibilityLabel(.key("Window.close"))
@@ -80,6 +81,14 @@ class Window: NSWindow {
         _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
         _minimise.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 8).isActive = true
         _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
+    }
+    
+    func windowWillStartLiveResize(_ notification: Notification) {
+        isMovableByWindowBackground = false
+    }
+    
+    func windowDidEndLiveResize(_ notification: Notification) {
+        isMovableByWindowBackground = true
     }
     
     override func becomeKey() {
