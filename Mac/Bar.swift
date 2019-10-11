@@ -44,7 +44,6 @@ final class Bar: NSView {
         override func mouseUp(with: NSEvent) {
             if bounds.contains(convert(with.locationInWindow, from: nil)) {
                 if !selected {
-                    selected = true
                     _ = target.perform(action, with: nil)
                 }
             }

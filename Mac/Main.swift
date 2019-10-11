@@ -5,7 +5,7 @@ final class Main: Window {
     private(set) var mode = Mode.off
     private weak var bar: Bar?
     private weak var base: NSView?
-    private weak var logo: Logo!
+    private weak var logo: Logo?
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
@@ -35,6 +35,8 @@ final class Main: Window {
     }
     
     func loaded() {
+        logo!.removeFromSuperview()
+        
         let bar = Bar()
         contentView!.addSubview(bar, positioned: .below, relativeTo: _close)
         self.bar = bar
@@ -58,6 +60,7 @@ final class Main: Window {
     
     @objc func kanban() {
         mode = .kanban
+        bar?._kanban.selected = true
         bar?._todo.selected = false
         bar?._shopping.selected = false
         show(Detail())
@@ -66,6 +69,7 @@ final class Main: Window {
     @objc func todo() {
         mode = .todo
         bar?._kanban.selected = false
+        bar?._todo.selected = true
         bar?._shopping.selected = false
         show(Detail())
     }
@@ -74,6 +78,7 @@ final class Main: Window {
         mode = .shopping
         bar?._kanban.selected = false
         bar?._todo.selected = false
+        bar?._shopping.selected = true
         show(Detail())
     }
     
@@ -88,12 +93,11 @@ final class Main: Window {
         view.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
         view.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
         
-        NSAnimationContext.runAnimationGroup({
-            $0.duration = 0.4
+        makeFirstResponder(view)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 1
             $0.allowsImplicitAnimation = true
             view.alphaValue = 1
-        }) {
-            self.makeFirstResponder(view)
         }
     }
 }
