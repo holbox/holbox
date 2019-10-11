@@ -65,6 +65,7 @@ private(set) var session: Session!
                 SKStoreReviewController.requestReview()
                 session.rated()
             }
+            main.loaded()
         }
     }
     

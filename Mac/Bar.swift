@@ -1,7 +1,7 @@
 import AppKit
 
 final class Bar: NSView {
-    private final class Tab: NSView {
+    final class Tab: NSView {
         var selected = false { didSet { update() } }
         private weak var icon: NSImageView!
         private weak var target: AnyObject!
@@ -57,10 +57,10 @@ final class Bar: NSView {
         }
     }
     
-    private weak var _add: Button!
-    private weak var _kanban: Tab!
-    private weak var _todo: Tab!
-    private weak var _shopping: Tab!
+    private(set) weak var _add: Button!
+    private(set) weak var _kanban: Tab!
+    private(set) weak var _todo: Tab!
+    private(set) weak var _shopping: Tab!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -73,18 +73,17 @@ final class Bar: NSView {
         border.layer!.backgroundColor = .black
         addSubview(border)
         
-        let _kanban = Tab("kanban", target: self, action: #selector(kanban))
-        _kanban.selected = true
+        let _kanban = Tab("kanban", target: main, action: #selector(main.kanban))
         _kanban.setAccessibilityLabel(.key("Bar.kanban"))
         addSubview(_kanban)
         self._kanban = _kanban
         
-        let _todo = Tab("todo", target: self, action: #selector(todo))
+        let _todo = Tab("todo", target: main, action: #selector(main.todo))
         _todo.setAccessibilityLabel(.key("Bar.todo"))
         addSubview(_todo)
         self._todo = _todo
         
-        let _shopping = Tab("shopping", target: self, action: #selector(shopping))
+        let _shopping = Tab("shopping", target: main, action: #selector(main.shopping))
         _shopping.setAccessibilityLabel(.key("Bar.shopping"))
         addSubview(_shopping)
         self._shopping = _shopping
@@ -111,24 +110,6 @@ final class Bar: NSView {
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-    }
-    
-    @objc private func kanban() {
-        _todo.selected = false
-        _shopping.selected = false
-        main.kanban()
-    }
-    
-    @objc private func todo() {
-        _kanban.selected = false
-        _shopping.selected = false
-        main.todo()
-    }
-    
-    @objc private func shopping() {
-        _kanban.selected = false
-        _todo.selected = false
-        main.shopping()
     }
     
     @objc private func add() {

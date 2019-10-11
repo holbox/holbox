@@ -12,3 +12,6 @@ Add.title.3="New Shopping";
 Add.subtitle.3="Start a new Shopping List,";
 Add.subtitle.bottom="\nyour available space is";
 Add.cancel="Cancel";
+Detail.title.1="Kanban";
+Detail.title.2="To-Do";
+Detail.title.3="Shopping";
