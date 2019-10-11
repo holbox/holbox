@@ -125,7 +125,7 @@ class Store {
         var update = update
         if !update.download.isEmpty {
             let download = update.download.removeFirst()
-            shared.load(Store.id + ".\(download)", error: {
+            shared.load(Store.id + "\(download)", error: {
                 self.merge(update)
             }) {
                 update.session.projects.removeAll { $0.id == download }
@@ -170,6 +170,6 @@ class Store {
     }
     
     private func share(_ project: Int, done: @escaping() -> Void) {
-        shared.save(Store.id + ".\(project)", url: Store.url.appendingPathComponent("\(project)"), done: done)
+        shared.save(Store.id + "\(project)", url: Store.url.appendingPathComponent("\(project)"), done: done)
     }
 }

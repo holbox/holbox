@@ -36,9 +36,9 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         saved.projects = [project]
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world.99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
-        try! coder.project(project).write(to: shared.url["hello world.99"]!)
+        try! coder.project(project).write(to: shared.url["hello world99"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
@@ -90,9 +90,9 @@ final class TestStoreProject: XCTestCase {
         project.name = "ipsum"
         saved.projects = [project]
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world.99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
-        try! coder.project(project).write(to: shared.url["hello world.99"]!)
+        try! coder.project(project).write(to: shared.url["hello world99"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
@@ -161,7 +161,7 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "hello world.99" {
+            if $0 == "hello world99" {
                 let uploaded = try! self.coder.project(.init(contentsOf: $1))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
@@ -211,7 +211,7 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "hello world.99" {
+            if $0 == "hello world99" {
                 let uploaded = try! self.coder.project(.init(contentsOf: $1))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
@@ -249,13 +249,13 @@ final class TestStoreProject: XCTestCase {
         let session = Session()
         session.projects = [.init()]
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world.0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["hello world0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(session).write(to: shared.url["hello world"]!)
-        try! coder.project(session.projects.first!).write(to: shared.url["hello world.0"]!)
+        try! coder.project(session.projects.first!).write(to: shared.url["hello world0"]!)
         shared.load = {
             if $0 == "hello world" {
                 expectLoad.fulfill()
-            } else if $0 == "hello world.0" {
+            } else if $0 == "hello world0" {
                 expectProject.fulfill()
             }
         }
@@ -279,7 +279,7 @@ final class TestStoreProject: XCTestCase {
         shared.load = {
             if $0 == "hello world" {
                 expectLoad.fulfill()
-            } else if $0 == "hello world.0" {
+            } else if $0 == "hello world0" {
                 expectProject.fulfill()
             }
         }

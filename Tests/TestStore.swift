@@ -59,7 +59,7 @@ final class TestStore: XCTestCase {
         Store.id = "hello"
         shared.save = {
             XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $1)))
-            XCTAssertEqual("hello.56", $0)
+            XCTAssertEqual("hello56", $0)
             expectShare.fulfill()
         }
         var project = Project()
