@@ -74,16 +74,6 @@ public final class Session {
         save(projects.count - 1)
     }
     
-    public func overwrite(_ global: (Int, [(Int, Date)])) {
-        counter = global.0
-        projects = global.1.map {
-            var project = Project()
-            project.id = $0.0
-            project.time = $0.1
-            return project
-        }
-    }
-    
     private func save(_ project: Int) {
         projects[project].time = .init()
         store.save(projects[project]) { [weak self] in

@@ -92,10 +92,12 @@ class Store {
                     result(session)
                 }
             }) {
-                let session = Session()
-                session.overwrite(try! Store.coder.global(.init(contentsOf: $0)))
-                self.write(session)
-                result(session)
+                let global = try! Store.coder.global(.init(contentsOf: $0))
+                var update = Update(result: result)
+                update.session.counter = global.0
+                update.write = true
+                update.download = global.1.map { $0.0 }
+                self.merge(update)
             }
         }
     }

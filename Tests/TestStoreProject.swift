@@ -239,4 +239,54 @@ final class TestStoreProject: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testLocalNoSharedYesProject() {
+        let expectLoad = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let session = Session()
+        session.projects = [.init()]
+        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["hello world.0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(session).write(to: shared.url["hello world"]!)
+        try! coder.project(session.projects.first!).write(to: shared.url["hello world.0"]!)
+        shared.load = {
+            if $0 == "hello world" {
+                expectLoad.fulfill()
+            } else if $0 == "hello world.0" {
+                expectProject.fulfill()
+            }
+        }
+        store.loadSession {
+            XCTAssertFalse($0.projects.isEmpty)
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testLocalNoSharedYesProjectFails() {
+        let expectLoad = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let session = Session()
+        session.projects = [.init()]
+        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(session).write(to: shared.url["hello world"]!)
+        shared.load = {
+            if $0 == "hello world" {
+                expectLoad.fulfill()
+            } else if $0 == "hello world.0" {
+                expectProject.fulfill()
+            }
+        }
+        store.loadSession {
+            XCTAssertTrue($0.projects.isEmpty)
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
 }

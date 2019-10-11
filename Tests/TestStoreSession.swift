@@ -96,6 +96,7 @@ final class TestStoreSession: XCTestCase {
             let loaded = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(loaded.counter, $0.counter)
             XCTAssertEqual(session.counter, $0.counter)
+            XCTAssertTrue(session.projects.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)

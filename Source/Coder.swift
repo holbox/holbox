@@ -41,7 +41,14 @@ final class Coder {
         let result = Session()
         result.rating = data.date()
         result.perks = (0 ..< data.byte()).map { _ in data.perk() }
-        result.overwrite(global(data))
+        let shared = global(data)
+        result.counter = shared.0
+        result.projects = shared.1.map {
+            var project = Project()
+            project.id = $0.0
+            project.time = $0.1
+            return project
+        }
         return result
     }
     
