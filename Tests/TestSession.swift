@@ -83,4 +83,20 @@ final class TestSession: XCTestCase {
         XCTAssertFalse(session.projects[0].cards[1].0.isEmpty)
         XCTAssertFalse(session.projects[0].cards[2].0.isEmpty)
     }
+    
+    func testAddTodo() {
+        session.add(.todo)
+        XCTAssertEqual(2, session.projects[0].cards.count)
+        XCTAssertFalse(session.projects[0].name.isEmpty)
+        XCTAssertTrue(session.projects[0].cards[0].0.isEmpty)
+        XCTAssertTrue(session.projects[0].cards[1].0.isEmpty)
+    }
+    
+    func testAddShopping() {
+        session.add(.shopping)
+        XCTAssertEqual(2, session.projects[0].cards.count)
+        XCTAssertFalse(session.projects[0].name.isEmpty)
+        XCTAssertTrue(session.projects[0].cards[0].0.isEmpty)
+        XCTAssertTrue(session.projects[0].cards[1].0.isEmpty)
+    }
 }

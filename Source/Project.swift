@@ -12,6 +12,8 @@ struct Project {
         let factory: Factory
         switch mode {
         case .kanban: factory = Kanban()
+        case .todo: factory = Todo()
+        case .shopping: factory = Shopping()
         default: fatalError()
         }
         project.mode = mode
@@ -32,6 +34,12 @@ private struct Kanban: Factory {
     let lists = ["Waiting", "Doing", "Done"]
 }
 
-private struct Todo {
+private struct Todo: Factory {
+    let name = "New Tasks"
+    let lists = ["", ""]
+}
+
+private struct Shopping: Factory {
     let name = "New List"
+    let lists = ["", ""]
 }

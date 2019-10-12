@@ -3,6 +3,7 @@ import AppKit
 final class Button: NSView {
     private weak var target: AnyObject!
     private let action: Selector
+    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ image: String, target: AnyObject, action: Selector) {
