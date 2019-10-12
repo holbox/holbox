@@ -60,6 +60,7 @@ final class Bar: NSView {
     private(set) weak var _kanban: Tab!
     private(set) weak var _todo: Tab!
     private(set) weak var _shopping: Tab!
+    private(set) weak var project: Text!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -87,6 +88,15 @@ final class Bar: NSView {
         addSubview(_shopping)
         self._shopping = _shopping
         
+        let project = Text()
+        project.textColor = .init(white: 1, alpha: 0.5)
+        project.font = .systemFont(ofSize: 14, weight: .bold)
+        project.textContainer!.lineBreakMode = .byTruncatingTail
+        project.textContainer!.widthTracksTextView = true
+        project.textContainer!.size.height = 40
+        addSubview(project)
+        self.project = project
+        
         let _add = Button("plus", target: self, action: #selector(add))
         self._add = _add
         
@@ -101,6 +111,11 @@ final class Bar: NSView {
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
 
+        project.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 20).isActive = true
+        project.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.26).isActive = true
+        project.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        project.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
+        
         _add.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 40).isActive = true
         _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true

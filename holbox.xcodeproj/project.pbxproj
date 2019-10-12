@@ -26,6 +26,9 @@
 		DA5AC048234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA5AC049234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA5AC04A234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
+		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
+		DA7420CF2351F262005A8726 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CE2351F262005A8726 /* Project.swift */; };
+		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
 		DA75C7C0234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
@@ -215,6 +218,9 @@
 		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
 		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
 		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
+		DA7420CE2351F262005A8726 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -462,11 +468,14 @@
 				DA75C7C3234F465600FD61DC /* Detail.swift */,
 				DAD8F19B234DBEBE00835E3E /* Extensions.swift */,
 				DAD8F1A5234E415D00835E3E /* Image.swift */,
+				DA7420CC2351F1C8005A8726 /* Kanban.swift */,
 				DAD8F199234DBB9700835E3E /* Label.swift */,
 				DA1A4D3923508FD1008D110A /* Logo.swift */,
 				DA43701C234D2B5300CCB34D /* Main.swift */,
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
+				DA7420CE2351F262005A8726 /* Project.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
+				DA7420D02351FB6C005A8726 /* Text.swift */,
 				DA43701A234D2B2000CCB34D /* Window.swift */,
 			);
 			path = Mac;
@@ -940,6 +949,7 @@
 				DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */,
 				DAD8F195234DBAC600835E3E /* Alert.swift in Sources */,
 				DA43701D234D2B5300CCB34D /* Main.swift in Sources */,
+				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
 				DAC52F422350DB2B003A72CA /* Scroll.swift in Sources */,
 				DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */,
 				DA75C7C4234F465600FD61DC /* Detail.swift in Sources */,
@@ -947,9 +957,11 @@
 				DAF68E7F234764A70060895A /* App.swift in Sources */,
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
+				DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */,
 				DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */,
 				DAD8F19A234DBB9700835E3E /* Label.swift in Sources */,
 				DAD8F193234DBAB900835E3E /* Menu.swift in Sources */,
+				DA7420CF2351F262005A8726 /* Project.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

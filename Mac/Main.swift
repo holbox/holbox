@@ -58,6 +58,14 @@ final class Main: Window {
         kanban()
     }
     
+    func project(_ project: Int) {
+        bar?.project.string = session.name(project)
+        switch mode {
+        case .kanban: show(Kanban(project))
+        default: break
+        }
+    }
+    
     @objc func kanban() {
         mode = .kanban
         bar?._kanban.selected = true

@@ -2,13 +2,11 @@ import AppKit
 
 final class Detail: NSView {
     private final class Item: NSView {
-        private weak var detail: Detail!
-        private let index: Int
         override var mouseDownCanMoveWindow: Bool { false }
+        private let index: Int
         
         required init?(coder: NSCoder) { nil }
-        init(_ index: Int, detail: Detail) {
-            self.detail = detail
+        init(_ index: Int) {
             self.index = index
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +34,7 @@ final class Detail: NSView {
         override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
         override func mouseDown(with: NSEvent) { layer!.backgroundColor = NSColor.haze.withAlphaComponent(0.9).cgColor }
         override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) { detail.choose(index) }
+            if bounds.contains(convert(with.locationInWindow, from: nil)) { main.project(index) }
             layer!.backgroundColor = .clear
         }
     }
@@ -75,7 +73,7 @@ final class Detail: NSView {
             
             var top: NSLayoutYAxisAnchor?
             session.projects(main.mode).forEach {
-                let item = Item($0, detail: self)
+                let item = Item($0)
                 scroll.documentView!.addSubview(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 20).isActive = true
@@ -120,9 +118,5 @@ final class Detail: NSView {
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
         border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
-    }
-    
-    private func choose(_ index: Int) {
-        
     }
 }
