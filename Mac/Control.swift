@@ -21,6 +21,7 @@ final class Control: NSView {
         let label = Label(title)
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setAccessibilityElement(false)
         addSubview(label)
         self.label = label
         
