@@ -9,7 +9,9 @@ final class TestProject: XCTestCase {
         store = .init()
         session = .init()
         session.store = store
-        session.add(.kanban)
+        var project = Project()
+        project.mode = .kanban
+        session.projects = [project]
     }
     
     func testAddList() {
@@ -27,6 +29,24 @@ final class TestProject: XCTestCase {
             expectProject.fulfill()
         }
         session.add(0)
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testName() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
+        }
+        store.project = {
+            XCTAssertEqual("hello world", $0.name)
+            expectProject.fulfill()
+        }
+        session.name(0, name: "hello world")
         waitForExpectations(timeout: 1)
     }
     

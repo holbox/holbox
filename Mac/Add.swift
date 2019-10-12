@@ -85,6 +85,8 @@ final class Add: Window {
     @objc private func confirm() {
         _confirm.target = nil
         available.stringValue = "\(max(session.capacity - session.count - 1, 0))"
-        session.add(main.mode)
+//        session.add(main.mode)
+
+        close()
     }
 }

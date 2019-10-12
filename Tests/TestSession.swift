@@ -31,27 +31,6 @@ final class TestSession: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func testAdd() {
-        let expectSession = expectation(description: "")
-        let expectProject = expectation(description: "")
-        session.projects = [.init()]
-        session.counter = 77
-        store.session = {
-            XCTAssertEqual(1, $0.projects(.kanban).count)
-            XCTAssertEqual("",  $0.name($0.projects(.kanban).last!))
-            XCTAssertEqual(78, $0.counter)
-            XCTAssertEqual(1, $0.projects(.kanban).last)
-            XCTAssertEqual(.kanban, $0.projects.last?.mode)
-            expectSession.fulfill()
-        }
-        store.project = {
-            XCTAssertEqual(77, $0.id)
-            expectProject.fulfill()
-        }
-        session.add(.kanban)
-        waitForExpectations(timeout: 1)
-    }
-    
     func testNoPerks() {
         XCTAssertEqual(0, session.count)
         XCTAssertEqual(1, session.capacity)
@@ -73,5 +52,35 @@ final class TestSession: XCTestCase {
         XCTAssertEqual(11, session.capacity)
         session.perks = [.hundred, .two]
         XCTAssertEqual(103, session.capacity)
+    }
+    
+    func testAdd() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        session.projects = [.init()]
+        session.counter = 77
+        store.session = {
+            XCTAssertEqual(1, $0.projects(.kanban).count)
+            XCTAssertEqual(78, $0.counter)
+            XCTAssertEqual(1, $0.projects(.kanban).last)
+            XCTAssertEqual(2, $0.projects.count)
+            XCTAssertEqual(.kanban, $0.projects.last?.mode)
+            expectSession.fulfill()
+        }
+        store.project = {
+            XCTAssertEqual(77, $0.id)
+            expectProject.fulfill()
+        }
+        session.add(.kanban)
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testAddKanban() {
+        session.add(.kanban)
+        XCTAssertEqual(3, session.projects[0].cards.count)
+        XCTAssertFalse(session.projects[0].name.isEmpty)
+        XCTAssertFalse(session.projects[0].cards[0].0.isEmpty)
+        XCTAssertFalse(session.projects[0].cards[1].0.isEmpty)
+        XCTAssertFalse(session.projects[0].cards[2].0.isEmpty)
     }
 }

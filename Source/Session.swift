@@ -41,6 +41,11 @@ public final class Session {
         projects[project].name
     }
     
+    public func name(_ project: Int, name: String) {
+        projects[project].name = name
+        save(project)
+    }
+    
     public func lists(_ project: Int) -> Int {
         projects[project].cards.count
     }
@@ -66,10 +71,7 @@ public final class Session {
     }
     
     public func add(_ mode: Mode) {
-        var project = Project()
-        project.id = counter
-        project.mode = mode
-        projects.append(project)
+        projects.append(Project.make(mode, counter: counter))
         counter += 1
         save(projects.count - 1)
     }
