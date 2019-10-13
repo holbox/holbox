@@ -2,10 +2,11 @@ import holbox
 import AppKit
 
 final class Main: Window {
+    private(set) var project = 0
     private(set) var mode = Mode.off
     private weak var bar: Bar?
-    private weak var base: NSView?
     private weak var logo: Logo?
+    private weak var base: NSView?
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
@@ -59,11 +60,12 @@ final class Main: Window {
     }
     
     func project(_ project: Int) {
-        bar?.project.string = session.name(project)
+        self.project = project
         switch mode {
-        case .kanban: show(Kanban(project))
+        case .kanban: show(Kanban())
         default: break
         }
+        bar?.show()
     }
     
     @objc func kanban() {
@@ -71,6 +73,7 @@ final class Main: Window {
         bar?._kanban.selected = true
         bar?._todo.selected = false
         bar?._shopping.selected = false
+        bar?.hide()
         show(Detail())
     }
     
@@ -79,6 +82,7 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = true
         bar?._shopping.selected = false
+        bar?.hide()
         show(Detail())
     }
     
@@ -87,6 +91,7 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = false
         bar?._shopping.selected = true
+        bar?.hide()
         show(Detail())
     }
     

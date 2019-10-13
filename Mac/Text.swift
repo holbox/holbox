@@ -22,7 +22,7 @@ final class Text: NSTextView {
         }
     }
     
-    var accepts = true
+    var accepts = false
     override var acceptsFirstResponder: Bool { accepts }
     override var mouseDownCanMoveWindow: Bool { !accepts }
     override var canBecomeKeyView: Bool { accepts }
@@ -57,10 +57,10 @@ final class Text: NSTextView {
         super.drawInsertionPoint(in: rect, color: color, turnedOn: turnedOn)
     }
     
-    override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout flag: Bool) {
+    override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout: Bool) {
         var rect = rect
         rect.size.width += 3
-        super.setNeedsDisplay(rect, avoidAdditionalLayout: flag)
+        super.setNeedsDisplay(rect, avoidAdditionalLayout: avoidAdditionalLayout)
     }
     
     override func keyDown(with: NSEvent) {
@@ -68,5 +68,10 @@ final class Text: NSTextView {
         case 36, 48, 53: window!.makeFirstResponder(superview!)
         default: super.keyDown(with: with)
         }
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        alphaValue = 1
+        return super.becomeFirstResponder()
     }
 }

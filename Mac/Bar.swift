@@ -1,66 +1,11 @@
 import AppKit
 
-final class Bar: NSView {
-    final class Tab: NSView {
-        var selected = false { didSet { update() } }
-        private weak var icon: NSImageView!
-        private weak var target: AnyObject!
-        private let action: Selector
-        private let image: NSImage
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ image: String, target: AnyObject, action: Selector) {
-            self.image = NSImage(named: image)!
-            self.target = target
-            self.action = action
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            setAccessibilityElement(true)
-            setAccessibilityRole(.button)
-            wantsLayer = true
-            layer!.cornerRadius = 4
-            
-            let icon = NSImageView()
-            icon.translatesAutoresizingMaskIntoConstraints = false
-            icon.imageScaling = .scaleNone
-            addSubview(icon)
-            self.icon = icon
-            
-            widthAnchor.constraint(equalToConstant: 30).isActive = true
-            heightAnchor.constraint(equalToConstant: 30).isActive = true
-            
-            icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            
-            update()
-        }
-        
-        override func resetCursorRects() {
-            addCursorRect(bounds, cursor: .pointingHand)
-        }
-        
-        override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) {
-                if !selected {
-                    _ = target.perform(action, with: nil)
-                }
-            }
-        }
-        
-        private func update() {
-            layer!.backgroundColor = selected ? .haze : .clear
-            icon.image = selected ? image.tint(.black) : image
-            icon.alphaValue = selected ? 1 : 0.4
-        }
-    }
-    
+final class Bar: NSView, NSTextViewDelegate {
     private(set) weak var _add: Button!
     private(set) weak var _kanban: Tab!
     private(set) weak var _todo: Tab!
     private(set) weak var _shopping: Tab!
-    private(set) weak var project: Text!
+    private weak var name: Text!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -88,14 +33,16 @@ final class Bar: NSView {
         addSubview(_shopping)
         self._shopping = _shopping
         
-        let project = Text()
-        project.textColor = .init(white: 1, alpha: 0.5)
-        project.font = .systemFont(ofSize: 14, weight: .bold)
-        project.textContainer!.lineBreakMode = .byTruncatingTail
-        project.textContainer!.widthTracksTextView = true
-        project.textContainer!.size.height = 40
-        addSubview(project)
-        self.project = project
+        let name = Text()
+        name.alphaValue = 0.5
+        name.textColor = .white
+        name.font = .systemFont(ofSize: 14, weight: .bold)
+        name.textContainer!.lineBreakMode = .byTruncatingTail
+        name.textContainer!.widthTracksTextView = true
+        name.textContainer!.size.height = 40
+        name.delegate = self
+        addSubview(name)
+        self.name = name
         
         let _add = Button("plus", target: self, action: #selector(add))
         self._add = _add
@@ -111,10 +58,10 @@ final class Bar: NSView {
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
 
-        project.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 20).isActive = true
-        project.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.26).isActive = true
-        project.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        project.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
+        name.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 20).isActive = true
+        name.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.26).isActive = true
+        name.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -124,6 +71,23 @@ final class Bar: NSView {
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+    }
+    
+    func textDidEndEditing(_: Notification) {
+        name.alphaValue = 0.5
+        session.name(main.project, name: name.string)
+    }
+    
+    func show() {
+        name.isHidden = false
+        name.accepts = true
+        name.string = session.name(main.project)
+    }
+    
+    func hide() {
+        name.accepts = false
+        name.string = ""
+        name.isHidden = true
     }
     
     @objc private func add() {

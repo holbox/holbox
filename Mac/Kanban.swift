@@ -1,11 +1,11 @@
 import holbox
 import AppKit
 
-final class Kanban: Project {
+final class Kanban: NSView {
     required init?(coder: NSCoder) { nil }
-    override init(_ project: Int) {
-        super.init(project)
-        
-        
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
     }
 }
