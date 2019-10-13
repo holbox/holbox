@@ -3,6 +3,7 @@ import AppKit
 final class Detail: NSView {
     private final class Item: NSView {
         override var mouseDownCanMoveWindow: Bool { false }
+        private weak var label: Label!
         private let index: Int
         
         required init?(coder: NSCoder) { nil }
@@ -14,17 +15,18 @@ final class Detail: NSView {
             setAccessibilityRole(.button)
             setAccessibilityLabel(session.name(index))
             wantsLayer = true
-            layer!.cornerRadius = 12
+            layer!.cornerRadius = 20
             
             let label = Label(session.name(index))
-            label.font = .systemFont(ofSize: 14, weight: .regular)
+            label.font = .systemFont(ofSize: 14, weight: .medium)
             label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             label.setAccessibilityElement(true)
             label.textColor = .white
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             addSubview(label)
+            self.label = label
             
-            heightAnchor.constraint(equalToConstant: 50).isActive = true
+            heightAnchor.constraint(equalToConstant: 60).isActive = true
             
             label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
             label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -32,10 +34,19 @@ final class Detail: NSView {
         }
         
         override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
-        override func mouseDown(with: NSEvent) { layer!.backgroundColor = NSColor.haze.withAlphaComponent(0.9).cgColor }
+        
+        override func mouseDown(with: NSEvent) {
+            layer!.backgroundColor = .haze
+            label.textColor = .black
+        }
+        
         override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) { main.project(index) }
-            layer!.backgroundColor = .clear
+            if bounds.contains(convert(with.locationInWindow, from: nil)) {
+                main.project(index)
+            } else {
+                layer!.backgroundColor = .clear
+                label.textColor = .white
+            }
         }
     }
     
@@ -45,12 +56,15 @@ final class Detail: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         
+        let _add = Button("plus", target: self, action: #selector(add))
+        addSubview(_add)
+        
         let image = Image("detail.\(main.mode.rawValue)")
         addSubview(image)
         
         let title = Label(.key("Detail.title.\(main.mode.rawValue)"))
-        title.font = .systemFont(ofSize: 20, weight: .bold)
-        title.textColor = .white
+        title.font = .systemFont(ofSize: 30, weight: .bold)
+        title.textColor = .init(white: 1, alpha: 0.2)
         addSubview(title)
         
         let border = NSView()
@@ -66,7 +80,7 @@ final class Detail: NSView {
             addSubview(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
-            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
+            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
         } else {
             let scroll = Scroll()
             addSubview(scroll)
@@ -76,8 +90,8 @@ final class Detail: NSView {
                 let item = Item($0)
                 scroll.documentView!.addSubview(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 20).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -40).isActive = true
+                item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 40).isActive = true
+                item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -80).isActive = true
                 
                 if top == nil {
                     item.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor).isActive = true
@@ -88,8 +102,8 @@ final class Detail: NSView {
                     border.layer!.backgroundColor = .black
                     scroll.documentView!.addSubview(border)
                     
-                    border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 40).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -40).isActive = true
+                    border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 60).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -60).isActive = true
                     border.heightAnchor.constraint(equalToConstant: 1).isActive = true
                     border.topAnchor.constraint(equalTo: top!).isActive = true
                     
@@ -107,17 +121,26 @@ final class Detail: NSView {
             scroll.documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         }
         
+        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        _add.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        
         image.widthAnchor.constraint(equalToConstant: 300).isActive = true
         image.heightAnchor.constraint(equalToConstant: 200).isActive = true
         image.topAnchor.constraint(equalTo: topAnchor, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
-        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 40).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
+        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
         
-        border.leftAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
-        border.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
+        border.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor, constant: -60).isActive = true
         border.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
+        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+    }
+    
+    @objc private func add() {
+        app.runModal(for: Add())
     }
 }

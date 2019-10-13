@@ -65,7 +65,6 @@ final class Main: Window {
         case .kanban: show(Kanban())
         default: break
         }
-        bar?.show()
     }
     
     @objc func kanban() {
@@ -73,7 +72,6 @@ final class Main: Window {
         bar?._kanban.selected = true
         bar?._todo.selected = false
         bar?._shopping.selected = false
-        bar?.hide()
         show(Detail())
     }
     
@@ -82,7 +80,6 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = true
         bar?._shopping.selected = false
-        bar?.hide()
         show(Detail())
     }
     
@@ -91,7 +88,6 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = false
         bar?._shopping.selected = true
-        bar?.hide()
         show(Detail())
     }
     
@@ -108,7 +104,7 @@ final class Main: Window {
         
         makeFirstResponder(view)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 1
+            $0.duration = 0.6
             $0.allowsImplicitAnimation = true
             view.alphaValue = 1
         }

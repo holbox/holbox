@@ -28,6 +28,7 @@ final class Text: NSTextView {
     override var canBecomeKeyView: Bool { accepts }
     override var isEditable: Bool { get { accepts } set { } }
     override var isSelectable: Bool { get { accepts } set { } }
+    private weak var width: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -49,6 +50,9 @@ final class Text: NSTextView {
         isContinuousSpellCheckingEnabled = true
         insertionPointColor = .haze
         isAutomaticTextCompletionEnabled = true
+        
+        width = widthAnchor.constraint(equalToConstant: 0)
+        width.isActive = true
     }
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
@@ -63,15 +67,25 @@ final class Text: NSTextView {
         super.setNeedsDisplay(rect, avoidAdditionalLayout: avoidAdditionalLayout)
     }
     
-    override func keyDown(with: NSEvent) {
-        switch with.keyCode {
-        case 36, 48, 53: window!.makeFirstResponder(superview!)
-        default: super.keyDown(with: with)
-        }
+    override func didChangeText() {
+        super.didChangeText()
+        width.constant = layoutManager!.usedRect(for: textContainer!).size.width + 20
     }
     
     override func becomeFirstResponder() -> Bool {
         alphaValue = 1
         return super.becomeFirstResponder()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        setSelectedRange(.init())
+        return super.resignFirstResponder()
+    }
+    
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 36, 48, 53: window!.makeFirstResponder(superview!)
+        default: super.keyDown(with: with)
+        }
     }
 }
