@@ -7,14 +7,15 @@ final class Scroll: NSScrollView {
         translatesAutoresizingMaskIntoConstraints = false
         drawsBackground = false
         hasVerticalScroller = true
+        hasHorizontalScroller = true
         verticalScroller!.controlSize = .mini
-        horizontalScrollElasticity = .none
-        verticalScrollElasticity = .allowed
+        horizontalScroller!.controlSize = .mini
+        horizontalScrollElasticity = .automatic
+        verticalScrollElasticity = .automatic
         documentView = Flipped()
         documentView!.translatesAutoresizingMaskIntoConstraints = false
         documentView!.topAnchor.constraint(equalTo: topAnchor).isActive = true
         documentView!.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
     func clear() { documentView!.subviews.forEach { $0.removeFromSuperview() } }

@@ -26,6 +26,8 @@ final class Text: NSTextView {
     override var acceptsFirstResponder: Bool { accepts }
     override var mouseDownCanMoveWindow: Bool { !accepts }
     override var canBecomeKeyView: Bool { accepts }
+    override var isEditable: Bool { get { accepts } set { } }
+    override var isSelectable: Bool { get { accepts } set { } }
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -36,7 +38,6 @@ final class Text: NSTextView {
             $1.addTextContainer($0)
             return $0
         } (NSTextContainer(), Layout()))
-        wantsLayer = true
         textContainerInset.height = 10
         textContainerInset.width = 10
         setAccessibilityElement(true)
@@ -48,7 +49,6 @@ final class Text: NSTextView {
         isContinuousSpellCheckingEnabled = true
         insertionPointColor = .haze
         isAutomaticTextCompletionEnabled = true
-        layoutManager!.ensureLayout(for: textContainer!)
     }
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {

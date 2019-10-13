@@ -37,17 +37,29 @@ public final class Session {
         projects.enumerated().filter { $0.1.mode == mode }.map { $0.0 }
     }
     
+    public func lists(_ project: Int) -> Int {
+        projects[project].cards.count
+    }
+    
+    public func cards(_ project: Int, list: Int) -> Int {
+        projects[project].cards[list].1.count
+    }
+    
     public func name(_ project: Int) -> String {
         projects[project].name
+    }
+    
+    public func name(_ project: Int, list: Int) -> String {
+        projects[project].cards[list].0
+    }
+    
+    public func content(_ project: Int, list: Int, card: Int) -> String {
+        projects[project].cards[list].1[card]
     }
     
     public func name(_ project: Int, name: String) {
         projects[project].name = name
         save(project)
-    }
-    
-    public func lists(_ project: Int) -> Int {
-        projects[project].cards.count
     }
     
     public func add(_ project: Int) {

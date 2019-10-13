@@ -104,6 +104,7 @@ final class Detail: NSView {
             scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: top!).isActive = true
+            scroll.documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         }
         
         image.widthAnchor.constraint(equalToConstant: 300).isActive = true
