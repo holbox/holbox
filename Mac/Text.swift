@@ -36,6 +36,7 @@ final class Text: NSTextView {
             $1.addTextContainer($0)
             return $0
         } (NSTextContainer(), Layout()))
+        wantsLayer = true
         textContainerInset.height = 10
         textContainerInset.width = 10
         setAccessibilityElement(true)
@@ -52,8 +53,14 @@ final class Text: NSTextView {
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
         var rect = rect
-        rect.size.width += 3
+        rect.size.width = 3
         super.drawInsertionPoint(in: rect, color: color, turnedOn: turnedOn)
+    }
+    
+    override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout flag: Bool) {
+        var rect = rect
+        rect.size.width += 3
+        super.setNeedsDisplay(rect, avoidAdditionalLayout: flag)
     }
     
     override func keyDown(with: NSEvent) {
