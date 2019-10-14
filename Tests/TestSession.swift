@@ -71,9 +71,10 @@ final class TestSession: XCTestCase {
         store.session = {
             XCTAssertEqual(1, $0.projects(.kanban).count)
             XCTAssertEqual(78, $0.counter)
-            XCTAssertEqual(1, $0.projects(.kanban).last)
+            XCTAssertEqual(0, $0.projects(.kanban).first)
+            XCTAssertEqual(77, $0.projects.first?.id)
             XCTAssertEqual(2, $0.projects.count)
-            XCTAssertEqual(.kanban, $0.projects.last?.mode)
+            XCTAssertEqual(.kanban, $0.projects.first?.mode)
             expectSession.fulfill()
         }
         store.project = {

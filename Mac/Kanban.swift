@@ -28,21 +28,21 @@ final class Kanban: NSView, NSTextViewDelegate {
                 addSubview(card)
                 
                 if top == nil {
-                    card.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
+                    card.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
                 } else {
                     card.topAnchor.constraint(equalTo: top!, constant: 20).isActive = true
                 }
                 
-                rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 70).isActive = true
-                card.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
+                card.leftAnchor.constraint(equalTo: leftAnchor, constant: 80).isActive = true
+                rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 80).isActive = true
                 bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 top = card.bottomAnchor
             }
             
-            rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 60).isActive = true
-            bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 40).isActive = true
-            name.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
-            name.topAnchor.constraint(equalTo: topAnchor, constant: 90).isActive = true
+            rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
+            bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 50).isActive = true
+            name.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
+            name.topAnchor.constraint(equalTo: topAnchor, constant: 120).isActive = true
             name.didChangeText()
             name.delegate = self
         }
@@ -118,6 +118,12 @@ final class Kanban: NSView, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
+        let border = NSView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        border.wantsLayer = true
+        border.layer!.backgroundColor = .black
+        scroll.documentView!.addSubview(border)
+        
         var left: NSLayoutXAxisAnchor?
         (0 ..< session.lists(main.project)).forEach {
             let column = Column($0)
@@ -130,8 +136,8 @@ final class Kanban: NSView, NSTextViewDelegate {
             }
             
             column.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor).isActive = true
-            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 40).isActive = true
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true
+            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 50).isActive = true
+            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 50).isActive = true
             left = column.rightAnchor
         }
         
@@ -163,8 +169,14 @@ final class Kanban: NSView, NSTextViewDelegate {
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor).isActive = true
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
-        name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 20).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 60).isActive = true
+        
+        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor).isActive = true
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 180).isActive = true
+        
+        name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 30).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
         name.didChangeText()
         name.delegate = self
     }

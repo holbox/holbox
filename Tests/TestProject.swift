@@ -79,10 +79,11 @@ final class TestProject: XCTestCase {
             expectSession.fulfill()
         }
         store.project = {
-            XCTAssertEqual(1, $0.cards[0].1.count)
+            XCTAssertEqual(2, $0.cards[0].1.count)
             XCTAssertEqual("", $0.cards[0].1.first)
             expectProject.fulfill()
         }
+        session.projects[0].cards = [("", ["hello"])]
         session.add(0, list: 0)
         waitForExpectations(timeout: 1)
     }

@@ -73,7 +73,7 @@ public final class Session {
     }
     
     public func add(_ project: Int, list: Int) {
-        projects[project].cards[list].1.append(.init())
+        projects[project].cards[list].1.insert(.init(), at: 0)
         save(project)
     }
     
@@ -83,9 +83,9 @@ public final class Session {
     }
     
     public func add(_ mode: Mode) {
-        projects.append(Project.make(mode, counter: counter))
+        projects.insert(.make(mode, counter: counter), at: 0)
         counter += 1
-        save(projects.count - 1)
+        save(0)
     }
     
     public func delete(_ project: Int) {
