@@ -1,5 +1,4 @@
 import Foundation
-import Compression
 
 final class Coder {
     func session(_ session: Session) -> Data {
@@ -33,7 +32,7 @@ final class Coder {
                 result.add($0)
             }
         }
-        return compress(result)
+        return try! (result as NSData).compressed(using: .lzfse) as Data
     }
     
     func session(_ data: Data) -> Session {
@@ -63,7 +62,7 @@ final class Coder {
     }
     
     func project(_ data: Data) -> Project {
-        var data = decompress(data)
+        var data = try! (data as NSData).decompressed(using: .lzfse) as Data
         var result = Project()
         result.mode = data.mode()
         result.name = data.string()
@@ -72,24 +71,5 @@ final class Coder {
             result.cards.append((data.string(), (0 ..< data.byte()).map { _ in data.string() }))
         }
         return result
-    }
-    
-    private func compress(_ data: Data) -> Data {
-        data.withUnsafeBytes {
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count * 10)
-            let result = Data(bytes: buffer, count: compression_encode_buffer(buffer, data.count * 10, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE))
-            buffer.deallocate()
-            return result
-        }
-    }
-
-    private func decompress(_ data: Data) -> Data {
-        data.withUnsafeBytes {
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count * 10)
-            let read = compression_decode_buffer(buffer, data.count * 10, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE)
-            let result = Data(bytes: buffer, count: read)
-            buffer.deallocate()
-            return result
-        }
     }
 }
