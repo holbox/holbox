@@ -29,10 +29,7 @@ final class Alert: Modal {
         label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -25).isActive = true
         label.centerYAnchor.constraint(equalTo: contentView!.centerYAnchor).isActive = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            print("close")
-            self.close()
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in self?.close() }
     }
     
     override func mouseDown(with: NSEvent) { close() }

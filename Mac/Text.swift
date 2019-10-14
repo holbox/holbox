@@ -23,12 +23,16 @@ final class Text: NSTextView {
     }
     
     var edit = false
+    var tab = false
+    var intro = false
+    var standby = CGFloat(0.2) { didSet { alphaValue = standby } }
     override var acceptsFirstResponder: Bool { edit }
     override var mouseDownCanMoveWindow: Bool { !edit }
     override var canBecomeKeyView: Bool { edit }
     override var isEditable: Bool { get { edit } set { } }
     override var isSelectable: Bool { get { edit } set { } }
     private weak var width: NSLayoutConstraint!
+    private weak var height: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -52,10 +56,13 @@ final class Text: NSTextView {
         isContinuousSpellCheckingEnabled = true
         insertionPointColor = .haze
         isAutomaticTextCompletionEnabled = true
-        alphaValue = 0.3
+        alphaValue = standby
         
         width = widthAnchor.constraint(equalToConstant: 0)
         width.isActive = true
+        
+        height = heightAnchor.constraint(equalToConstant: 0)
+        height.isActive = true
     }
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
@@ -72,25 +79,39 @@ final class Text: NSTextView {
     
     override func didChangeText() {
         super.didChangeText()
-        width.constant = layoutManager!.usedRect(for: textContainer!).size.width + 20
+        width.constant = max(layoutManager!.usedRect(for: textContainer!).size.width + 20, 80)
+        height.constant = layoutManager!.usedRect(for: textContainer!).size.height + 20
     }
     
     override func becomeFirstResponder() -> Bool {
         alphaValue = 1
         textContainer!.lineBreakMode = .byTruncatingMiddle
+        delegate?.textDidBeginEditing?(Notification(name: .init("")))
         return super.becomeFirstResponder()
     }
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
-        alphaValue = 0.3
+        alphaValue = standby
         textContainer!.lineBreakMode = .byTruncatingTail
         return super.resignFirstResponder()
     }
     
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
-        case 36, 48, 53: window!.makeFirstResponder(superview!)
+        case 53: window!.makeFirstResponder(superview!)
+        case 48:
+            if tab {
+                super.keyDown(with: with)
+            } else {
+                window!.makeFirstResponder(superview!)
+            }
+        case 36:
+            if intro {
+                super.keyDown(with: with)
+            } else {
+                window!.makeFirstResponder(superview!)
+            }
         default: super.keyDown(with: with)
         }
     }

@@ -8,8 +8,8 @@ final class More: Modal {
         _delete.label.textColor = .init(white: 1, alpha: 0.4)
         
         let _done = Control(.key("More.done"), target: self, action: #selector(close))
-        _done.label.textColor = .black
-        _done.layer!.backgroundColor = .haze
+        _done.label.textColor = .haze
+        _done.layer!.backgroundColor = .black
         
         [_delete, _done].forEach {
             contentView!.addSubview($0)

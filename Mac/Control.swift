@@ -19,7 +19,7 @@ final class Control: NSView {
         layer!.cornerRadius = 8
         
         let label = Label(title)
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.setAccessibilityElement(false)
         addSubview(label)
