@@ -1,15 +1,11 @@
 import AppKit
 
-final class Add: Window {
+final class Add: Modal {
     private weak var available: Label!
     private weak var _confirm: Control!
     
     init() {
-        super.init(400, 500, mask: [])
-        _close.isHidden = true
-        _minimise.isHidden = true
-        _zoom.isHidden = true
-        
+        super.init(400, 500)
         let icon = Image("new")
         
         let title = Label(.key("Add.title.\(main.mode.rawValue)"))
@@ -69,23 +65,11 @@ final class Add: Window {
         cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
     }
     
-    override func keyDown(with: NSEvent) {
-        switch with.keyCode {
-        case 36: confirm()
-        case 53: close()
-        default: super.keyDown(with: with)
-        }
-    }
-    
-    override func close() {
-        super.close()
-        app.stopModal()
-    }
-    
     @objc private func confirm() {
         _confirm.target = nil
         available.stringValue = "\(max(session.capacity - session.count - 1, 0))"
         session.add(main.mode)
+        main.project(session.projects(main.mode).last!)
         close()
     }
 }

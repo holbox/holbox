@@ -15,7 +15,7 @@ final class Detail: NSView {
             setAccessibilityRole(.button)
             setAccessibilityLabel(session.name(index))
             wantsLayer = true
-            layer!.cornerRadius = 20
+            layer!.cornerRadius = 8
             
             let label = Label(session.name(index))
             label.font = .systemFont(ofSize: 14, weight: .medium)

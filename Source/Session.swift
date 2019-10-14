@@ -88,6 +88,11 @@ public final class Session {
         save(projects.count - 1)
     }
     
+    public func delete(_ project: Int) {
+        projects[project].mode = .off
+        save(project)
+    }
+    
     private func save(_ project: Int) {
         projects[project].time = .init()
         store.save(projects[project]) { [weak self] in

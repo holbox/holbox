@@ -100,15 +100,6 @@ final class Kanban: NSView, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let name = Text()
-        name.textColor = .white
-        name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.string = session.name(main.project)
-        name.textContainer!.size.width = 500
-        name.textContainer!.size.height = 55
-        name.delegate = self
-        self.name = name
-        
         var left: NSLayoutXAxisAnchor?
         (0 ..< session.lists(main.project)).forEach {
             let column = Column($0)
@@ -126,7 +117,26 @@ final class Kanban: NSView, NSTextViewDelegate {
             left = column.rightAnchor
         }
         
+        let name = Text()
+        name.textColor = .white
+        name.font = .systemFont(ofSize: 30, weight: .bold)
+        name.string = session.name(main.project)
+        name.textContainer!.size.width = 500
+        name.textContainer!.size.height = 55
+        name.delegate = self
         scroll.documentView!.addSubview(name)
+        self.name = name
+        
+        let _card = Button("card", target: self, action: #selector(card))
+        
+        let _more = Button("more", target: self, action: #selector(more))
+        
+        [_card, _more].forEach {
+            scroll.documentView!.addSubview($0)
+            $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            $0.centerYAnchor.constraint(equalTo: name.centerYAnchor, constant: 4).isActive = true
+        }
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -138,10 +148,23 @@ final class Kanban: NSView, NSTextViewDelegate {
         name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 20).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 60).isActive = true
         name.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
+        _card.leftAnchor.constraint(equalTo: name.rightAnchor).isActive = true
+        
+        _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
+        
         name.didChangeText()
     }
     
     func textDidEndEditing(_: Notification) {
         session.name(main.project, name: name.string)
+    }
+    
+    @objc private func card() {
+        
+    }
+    
+    @objc private func more() {
+        app.runModal(for: More())
     }
 }

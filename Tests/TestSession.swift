@@ -99,4 +99,25 @@ final class TestSession: XCTestCase {
         XCTAssertTrue(session.projects[0].cards[0].0.isEmpty)
         XCTAssertTrue(session.projects[0].cards[1].0.isEmpty)
     }
+    
+    func testDelete() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.projects = [.init()]
+        session.projects[0].mode = .kanban
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(.off, $0.projects[0].mode)
+            expectSession.fulfill()
+        }
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.time)
+            XCTAssertEqual(.off, $0.mode)
+            expectProject.fulfill()
+        }
+        session.delete(0)
+        waitForExpectations(timeout: 1)
+    }
 }
