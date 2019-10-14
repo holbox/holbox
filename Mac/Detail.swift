@@ -13,11 +13,11 @@ final class Detail: NSView {
             translatesAutoresizingMaskIntoConstraints = false
             setAccessibilityElement(true)
             setAccessibilityRole(.button)
-            setAccessibilityLabel(session.name(index))
+            setAccessibilityLabel(app.session.name(index))
             wantsLayer = true
             layer!.cornerRadius = 8
             
-            let label = Label(session.name(index))
+            let label = Label(app.session.name(index))
             label.font = .systemFont(ofSize: 14, weight: .medium)
             label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             label.setAccessibilityElement(true)
@@ -42,7 +42,7 @@ final class Detail: NSView {
         
         override func mouseUp(with: NSEvent) {
             if bounds.contains(convert(with.locationInWindow, from: nil)) {
-                main.project(index)
+                app.main.project(index)
             } else {
                 layer!.backgroundColor = .clear
                 label.textColor = .white
@@ -62,10 +62,10 @@ final class Detail: NSView {
         let _add = Button("plus", target: self, action: #selector(add))
         addSubview(_add)
         
-        let image = Image("detail.\(main.mode.rawValue)")
+        let image = Image("detail.\(app.mode.rawValue)")
         scroll.documentView!.addSubview(image)
         
-        let title = Label(.key("Detail.title.\(main.mode.rawValue)"))
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"))
         title.font = .systemFont(ofSize: 30, weight: .bold)
         title.textColor = .init(white: 1, alpha: 0.3)
         scroll.documentView!.addSubview(title)
@@ -76,8 +76,8 @@ final class Detail: NSView {
         border.layer!.backgroundColor = .black
         scroll.documentView!.addSubview(border)
         
-        if session.projects(main.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(main.mode.rawValue)"))
+        if app.session.projects(app.mode).isEmpty {
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"))
             empty.font = .systemFont(ofSize: 14, weight: .light)
             empty.textColor = .init(white: 1, alpha: 0.4)
             scroll.documentView!.addSubview(empty)
@@ -88,7 +88,7 @@ final class Detail: NSView {
             scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
             var top: NSLayoutYAxisAnchor?
-            session.projects(main.mode).forEach {
+            app.session.projects(app.mode).forEach {
                 let item = Item($0)
                 scroll.documentView!.addSubview(item)
                 

@@ -1,10 +1,7 @@
-import holbox
 import AppKit
 
 final class Main: Window {
     private(set) weak var base: NSView?
-    private(set) var project = 0
-    private(set) var mode = Mode.off
     private weak var bar: Bar?
     private weak var logo: Logo?
 
@@ -60,15 +57,15 @@ final class Main: Window {
     }
     
     func project(_ project: Int) {
-        self.project = project
-        switch mode {
+        app.project = project
+        switch app.mode {
         case .kanban: show(Kanban())
         default: break
         }
     }
     
     @objc func kanban() {
-        mode = .kanban
+        app.mode = .kanban
         bar?._kanban.selected = true
         bar?._todo.selected = false
         bar?._shopping.selected = false
@@ -76,7 +73,7 @@ final class Main: Window {
     }
     
     @objc func todo() {
-        mode = .todo
+        app.mode = .todo
         bar?._kanban.selected = false
         bar?._todo.selected = true
         bar?._shopping.selected = false
@@ -84,7 +81,7 @@ final class Main: Window {
     }
     
     @objc func shopping() {
-        mode = .shopping
+        app.mode = .shopping
         bar?._kanban.selected = false
         bar?._todo.selected = false
         bar?._shopping.selected = true

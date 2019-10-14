@@ -8,11 +8,11 @@ final class Add: Modal {
         super.init(400, 500)
         let icon = Image("new")
         
-        let title = Label(.key("Add.title.\(main.mode.rawValue)"))
+        let title = Label(.key("Add.title.\(app.mode.rawValue)"))
         title.font = .systemFont(ofSize: 20, weight: .bold)
         title.textColor = .white
         
-        let subtitle = Label(.key("Add.subtitle.\(main.mode.rawValue)") + .key("Add.subtitle.bottom"))
+        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"))
         subtitle.font = .systemFont(ofSize: 14, weight: .regular)
         subtitle.alignment = .center
         subtitle.textColor = .init(white: 1, alpha: 0.4)
@@ -23,12 +23,12 @@ final class Add: Modal {
         circle.layer!.backgroundColor = .haze
         circle.layer!.cornerRadius = 30
         
-        let available = Label("\(session.available)")
+        let available = Label("\(app.session.available)")
         available.font = .systemFont(ofSize: 26, weight: .bold)
         available.textColor = .black
         self.available = available
         
-        let _confirm = Control(.key("Add.title.\(main.mode.rawValue)"), target: self, action: #selector(confirm))
+        let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), target: self, action: #selector(confirm))
         _confirm.layer!.backgroundColor = .haze
         _confirm.label.textColor = .black
         self._confirm = _confirm
@@ -67,9 +67,9 @@ final class Add: Modal {
     
     @objc private func confirm() {
         _confirm.target = nil
-        available.stringValue = "\(session.available - 1)"
-        session.add(main.mode)
-        main.project(session.projects(main.mode).last!)
+        available.stringValue = "\(app.session.available - 1)"
+        app.session.add(app.mode)
+        app.main.project(app.session.projects(app.mode).last!)
         close()
     }
 }

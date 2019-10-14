@@ -16,17 +16,17 @@ final class Bar: NSView, NSTextViewDelegate {
         border.layer!.backgroundColor = .black
         addSubview(border)
         
-        let _kanban = Tab("kanban", target: main, action: #selector(main.kanban))
+        let _kanban = Tab("kanban", target: app.main, action: #selector(app.main.kanban))
         _kanban.setAccessibilityLabel(.key("Bar.kanban"))
         addSubview(_kanban)
         self._kanban = _kanban
         
-        let _todo = Tab("todo", target: main, action: #selector(main.todo))
+        let _todo = Tab("todo", target: app.main, action: #selector(app.main.todo))
         _todo.setAccessibilityLabel(.key("Bar.todo"))
         addSubview(_todo)
         self._todo = _todo
         
-        let _shopping = Tab("shopping", target: main, action: #selector(main.shopping))
+        let _shopping = Tab("shopping", target: app.main, action: #selector(app.main.shopping))
         _shopping.setAccessibilityLabel(.key("Bar.shopping"))
         addSubview(_shopping)
         self._shopping = _shopping

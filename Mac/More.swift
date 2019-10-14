@@ -4,7 +4,7 @@ final class More: Modal {
     init() {
         super.init(400, 300)
         
-        let _delete = Control(.key("More.delete.\(main.mode.rawValue)"), target: self, action: #selector(delete))
+        let _delete = Control(.key("More.delete.\(app.mode.rawValue)"), target: self, action: #selector(delete))
         _delete.label.textColor = .init(white: 1, alpha: 0.4)
         
         let _done = Control(.key("More.done"), target: self, action: #selector(close))

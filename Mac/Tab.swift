@@ -42,7 +42,7 @@ final class Tab: NSView {
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) {
-            main.makeFirstResponder(self)
+            app.main.makeFirstResponder(self)
             _ = target.perform(action, with: nil)
         }
     }

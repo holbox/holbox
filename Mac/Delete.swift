@@ -4,7 +4,7 @@ final class Delete: Modal {
     init() {
         super.init(320, 180)
         
-        let title = Label(.key("Delete.title.\(main.mode.rawValue)"))
+        let title = Label(.key("Delete.title.\(app.mode.rawValue)"))
         title.font = .systemFont(ofSize: 20, weight: .bold)
         title.textColor = .init(white: 1, alpha: 0.5)
         contentView!.addSubview(title)
@@ -32,14 +32,14 @@ final class Delete: Modal {
     }
     
     @objc private func confirm() {
-        session.delete(main.project)
-        switch main.mode {
-        case .kanban: main.kanban()
-        case .todo: main.todo()
-        case .shopping: main.shopping()
+        app.session.delete(app.project)
+        switch app.mode {
+        case .kanban: app.main.kanban()
+        case .todo: app.main.todo()
+        case .shopping: app.main.shopping()
         default: break
         }
         close()
-        app.alert(.key("Delete.deleted.\(main.mode.rawValue)"), message: session.name(main.project))
+        app.alert(.key("Delete.deleted.\(app.mode.rawValue)"), message: app.session.name(app.project))
     }
 }

@@ -4,10 +4,12 @@ import StoreKit
 import UserNotifications
 
 private(set) weak var app: App!
-private(set) weak var main: Main!
-private(set) var session: Session!
-
 @NSApplicationMain final class App: NSApplication, NSApplicationDelegate, UNUserNotificationCenterDelegate, NSTouchBarDelegate {
+    var project = 0
+    var mode = Mode.off
+    private(set) var session: Session!
+    private(set) weak var main: Main!
+    
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
@@ -60,12 +62,12 @@ private(set) var session: Session!
         }
         
         Session.load {
-            session = $0
-            if session.rate {
+            self.session = $0
+            if self.session.rate {
                 SKStoreReviewController.requestReview()
-                session.rated()
+                self.session.rated()
             }
-            main.loaded()
+            self.main.loaded()
         }
     }
     

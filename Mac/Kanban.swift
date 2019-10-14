@@ -1,115 +1,6 @@
-import holbox
 import AppKit
 
 final class Kanban: NSView, NSTextViewDelegate {
-    private final class Column: NSView, NSTextViewDelegate {
-        let index: Int
-        private weak var name: Text!
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ index: Int) {
-            self.index = index
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            
-            let name = Text()
-            name.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
-            name.string = session.name(main.project, list: index)
-            name.textContainer!.size.width = 400
-            name.textContainer!.size.height = 45
-            addSubview(name)
-            self.name = name
-            
-            addSubview(name)
-            
-            var top: NSLayoutYAxisAnchor?
-            (0 ..< session.cards(main.project, list: index)).forEach {
-                let card = Card($0, column: index)
-                addSubview(card)
-                
-                if top == nil {
-                    card.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
-                } else {
-                    card.topAnchor.constraint(equalTo: top!, constant: 20).isActive = true
-                }
-                
-                card.leftAnchor.constraint(equalTo: leftAnchor, constant: 80).isActive = true
-                rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 80).isActive = true
-                bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
-                top = card.bottomAnchor
-            }
-            
-            rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
-            bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 50).isActive = true
-            name.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
-            name.topAnchor.constraint(equalTo: topAnchor, constant: 120).isActive = true
-            name.didChangeText()
-            name.delegate = self
-        }
-        
-        func textDidEndEditing(_: Notification) {
-            session.name(main.project, list: index, name: name.string)
-        }
-    }
-    
-    private final class Card: NSView, NSTextViewDelegate {
-        let index: Int
-        private weak var content: Text!
-        private let column: Int
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ index: Int, column: Int) {
-            self.index = index
-            self.column = column
-            super.init(frame: .zero)
-            self.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-            translatesAutoresizingMaskIntoConstraints = false
-            wantsLayer = true
-            layer!.cornerRadius = 8
-            layer!.borderWidth = 1
-            layer!.borderColor = .black
-            
-            let content = Text()
-            content.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
-            content.string = session.content(main.project, list: column, card: index)
-            content.tab = true
-            content.intro = true
-            content.standby = 0.8
-            content.textContainer!.size.width = 360
-            content.textContainer!.size.height = 5000
-            addSubview(content)
-            self.content = content
-            
-            addSubview(content)
-            
-            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
-            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
-            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-            content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-            content.didChangeText()
-            content.delegate = self
-        }
-        
-        func textDidChange(_: Notification) {
-            session.content(main.project, list: column, card: index, content: content.string)
-        }
-        
-        func textDidBeginEditing(_: Notification) {
-            layer!.borderColor = .haze
-            layer!.borderWidth = 2
-        }
-        
-        func textDidEndEditing(_: Notification) {
-            layer!.borderColor = .black
-            layer!.borderWidth = 1
-        }
-        
-        func edit() {
-            content.edit = true
-            window!.makeFirstResponder(content)
-        }
-    }
-    
     private weak var scroll: Scroll!
     private weak var name: Text!
     
@@ -130,7 +21,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         scroll.documentView!.addSubview(border)
         
         var left: NSLayoutXAxisAnchor?
-        (0 ..< session.lists(main.project)).forEach {
+        (0 ..< app.session.lists(app.project)).forEach {
             let column = Column($0)
             scroll.documentView!.addSubview(column)
             
@@ -148,7 +39,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         
         let name = Text()
         name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.string = session.name(main.project)
+        name.string = app.session.name(app.project)
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 55
         scroll.documentView!.addSubview(name)
@@ -187,13 +78,17 @@ final class Kanban: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        session.name(main.project, name: name.string)
+        app.session.name(app.project, name: name.string)
+    }
+    
+    override func mouseDown(with: NSEvent) {
+        window!.makeFirstResponder(nil)
     }
     
     @objc private func card() {
-        session.add(main.project, list: 0)
-        main.project(main.project)
-        (main.base!.subviews.first as! Kanban).scroll.documentView!.subviews
+        app.session.add(app.project, list: 0)
+        app.main.project(app.project)
+        (app.main.base!.subviews.first as! Kanban).scroll.documentView!.subviews
         .compactMap { $0 as? Column }.first { $0.index == 0 }!.subviews
         .compactMap { $0 as? Card }.first { $0.index == 0 }!.edit()
     }
