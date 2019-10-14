@@ -13,28 +13,29 @@ final class Kanban: NSView, NSTextViewDelegate {
             translatesAutoresizingMaskIntoConstraints = false
             
             let name = Text()
-            name.alphaValue = 0.2
             name.textColor = .white
             name.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
-            name.textContainer!.lineBreakMode = .byTruncatingTail
             name.string = session.name(main.project, list: index)
-            name.textContainer!.size.width = 240
+            name.textContainer!.size.width = 400
             name.textContainer!.size.height = 45
             name.delegate = self
-            name.accepts = true
             addSubview(name)
             self.name = name
             
             addSubview(name)
             
-            name.leftAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
+            name.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
             name.topAnchor.constraint(equalTo: topAnchor, constant: 90).isActive = true
             name.heightAnchor.constraint(equalToConstant: 45).isActive = true
             
-            rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 50).isActive = true
-            bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 50).isActive = true
+            rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 60).isActive = true
+            bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 40).isActive = true
             
             name.didChangeText()
+        }
+        
+        func textDidEndEditing(_: Notification) {
+            session.name(main.project, list: index, name: name.string)
         }
     }
     
@@ -61,7 +62,7 @@ final class Kanban: NSView, NSTextViewDelegate {
     //            name.textContainer!.widthTracksTextView = true
     //            name.textContainer!.heightTracksTextView = true
                 name.delegate = self
-                name.accepts = true
+                name.edit = true
                 addSubview(name)
                 self.name = name
                 
@@ -103,12 +104,9 @@ final class Kanban: NSView, NSTextViewDelegate {
         name.textColor = .white
         name.font = .systemFont(ofSize: 30, weight: .bold)
         name.string = session.name(main.project)
-        name.alphaValue = 0.2
-        name.textContainer!.lineBreakMode = .byTruncatingTail
-        name.textContainer!.size.width = 450
+        name.textContainer!.size.width = 500
         name.textContainer!.size.height = 55
         name.delegate = self
-        name.accepts = true
         self.name = name
         
         var left: NSLayoutXAxisAnchor?
@@ -123,8 +121,8 @@ final class Kanban: NSView, NSTextViewDelegate {
             }
             
             column.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor).isActive = true
-            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor).isActive = true
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor).isActive = true
+            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 40).isActive = true
+            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true
             left = column.rightAnchor
         }
         
@@ -134,17 +132,16 @@ final class Kanban: NSView, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 50).isActive = true
-        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 20).isActive = true
+        scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 90).isActive = true
+        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
         
         name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 20).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 50).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 60).isActive = true
         name.heightAnchor.constraint(equalToConstant: 55).isActive = true
         name.didChangeText()
     }
     
     func textDidEndEditing(_: Notification) {
-        name.alphaValue = 0.2
         session.name(main.project, name: name.string)
     }
 }

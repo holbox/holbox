@@ -22,12 +22,12 @@ final class Text: NSTextView {
         }
     }
     
-    var accepts = false
-    override var acceptsFirstResponder: Bool { accepts }
-    override var mouseDownCanMoveWindow: Bool { !accepts }
-    override var canBecomeKeyView: Bool { accepts }
-    override var isEditable: Bool { get { accepts } set { } }
-    override var isSelectable: Bool { get { accepts } set { } }
+    var edit = false
+    override var acceptsFirstResponder: Bool { edit }
+    override var mouseDownCanMoveWindow: Bool { !edit }
+    override var canBecomeKeyView: Bool { edit }
+    override var isEditable: Bool { get { edit } set { } }
+    override var isSelectable: Bool { get { edit } set { } }
     private weak var width: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
@@ -37,6 +37,7 @@ final class Text: NSTextView {
             $1.delegate = $1
             storage.addLayoutManager($1)
             $1.addTextContainer($0)
+            $0.lineBreakMode = .byTruncatingTail
             return $0
         } (NSTextContainer(), Layout()))
         textContainerInset.height = 10
@@ -44,12 +45,14 @@ final class Text: NSTextView {
         setAccessibilityElement(true)
         setAccessibilityRole(.textField)
         translatesAutoresizingMaskIntoConstraints = false
+        textColor = .white
         allowsUndo = true
         isRichText = false
         drawsBackground = false
         isContinuousSpellCheckingEnabled = true
         insertionPointColor = .haze
         isAutomaticTextCompletionEnabled = true
+        alphaValue = 0.3
         
         width = widthAnchor.constraint(equalToConstant: 0)
         width.isActive = true
@@ -74,11 +77,14 @@ final class Text: NSTextView {
     
     override func becomeFirstResponder() -> Bool {
         alphaValue = 1
+        textContainer!.lineBreakMode = .byTruncatingMiddle
         return super.becomeFirstResponder()
     }
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
+        alphaValue = 0.3
+        textContainer!.lineBreakMode = .byTruncatingTail
         return super.resignFirstResponder()
     }
     
@@ -87,5 +93,13 @@ final class Text: NSTextView {
         case 36, 48, 53: window!.makeFirstResponder(superview!)
         default: super.keyDown(with: with)
         }
+    }
+    
+    override func mouseDown(with: NSEvent) {
+        if with.clickCount == 2 && !edit {
+            edit = true
+            window!.makeFirstResponder(self)
+        }
+        super.mouseDown(with: with)
     }
 }
