@@ -27,3 +27,6 @@ Delete.confirm="Delete";
 Delete.title.1="Delete Board";
 Delete.title.2="Delete List";
 Delete.title.3="Delete List";
+Delete.deleted.1="Deleted Board";
+Delete.deleted.2="Deleted List";
+Delete.deleted.3="Deleted List";

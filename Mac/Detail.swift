@@ -83,7 +83,7 @@ final class Detail: NSView {
             scroll.documentView!.addSubview(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
-            empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 60).isActive = true
+            empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
             
             scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
@@ -92,8 +92,8 @@ final class Detail: NSView {
                 let item = Item($0)
                 scroll.documentView!.addSubview(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 40).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -80).isActive = true
+                item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
+                item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
                 
                 if top == nil {
                     item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
@@ -104,8 +104,8 @@ final class Detail: NSView {
                     border.layer!.backgroundColor = .black
                     scroll.documentView!.addSubview(border)
                     
-                    border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 60).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -60).isActive = true
+                    border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
                     border.heightAnchor.constraint(equalToConstant: 1).isActive = true
                     border.topAnchor.constraint(equalTo: top!).isActive = true
                     
@@ -133,11 +133,11 @@ final class Detail: NSView {
         image.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 60).isActive = true
+        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
         title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 60).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -60).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
         border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
     }

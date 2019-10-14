@@ -32,6 +32,14 @@ final class Delete: Modal {
     }
     
     @objc private func confirm() {
-        
+        session.delete(main.project)
+        switch main.mode {
+        case .kanban: main.kanban()
+        case .todo: main.todo()
+        case .shopping: main.shopping()
+        default: break
+        }
+        close()
+        app.alert(.key("Delete.deleted.\(main.mode.rawValue)"), message: session.name(main.project))
     }
 }

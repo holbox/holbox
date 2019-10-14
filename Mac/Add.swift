@@ -23,7 +23,7 @@ final class Add: Modal {
         circle.layer!.backgroundColor = .haze
         circle.layer!.cornerRadius = 30
         
-        let available = Label("\(max(session.capacity - session.count, 0))")
+        let available = Label("\(session.available)")
         available.font = .systemFont(ofSize: 26, weight: .bold)
         available.textColor = .black
         self.available = available
@@ -67,7 +67,7 @@ final class Add: Modal {
     
     @objc private func confirm() {
         _confirm.target = nil
-        available.stringValue = "\(max(session.capacity - session.count - 1, 0))"
+        available.stringValue = "\(session.available - 1)"
         session.add(main.mode)
         main.project(session.projects(main.mode).last!)
         close()

@@ -9,7 +9,7 @@ public final class Session {
     
     public var rate: Bool { Date() >= rating }
     
-    public var count: Int { projects.count }
+    public var available: Int { max(capacity - projects.filter { $0.mode != .off }.count, 0) }
     
     public var capacity: Int {
         var result = 1

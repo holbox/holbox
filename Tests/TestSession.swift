@@ -32,10 +32,19 @@ final class TestSession: XCTestCase {
     }
     
     func testNoPerks() {
-        XCTAssertEqual(0, session.count)
+        XCTAssertEqual(1, session.available)
         XCTAssertEqual(1, session.capacity)
-        session.projects.append(.init())
-        XCTAssertEqual(1, session.count)
+        session.projects = [.init()]
+        session.projects[0].mode = .kanban
+        XCTAssertEqual(0, session.available)
+        XCTAssertEqual(1, session.capacity)
+        session.projects[0].mode = .off
+        XCTAssertEqual(1, session.available)
+        XCTAssertEqual(1, session.capacity)
+        session.projects = [.init(), .init()]
+        session.projects[0].mode = .kanban
+        session.projects[1].mode = .kanban
+        XCTAssertEqual(0, session.available)
         XCTAssertEqual(1, session.capacity)
     }
     
