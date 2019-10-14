@@ -94,6 +94,7 @@ final class Text: NSTextView {
         setSelectedRange(.init())
         alphaValue = standby
         textContainer!.lineBreakMode = .byTruncatingTail
+        edit = false
         return super.resignFirstResponder()
     }
     

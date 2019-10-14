@@ -88,7 +88,7 @@ final class TestProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func testContentCard() {
+    func testContent() {
         let expectSession = expectation(description: "")
         let expectProject = expectation(description: "")
         let time = Date()
@@ -105,5 +105,35 @@ final class TestProject: XCTestCase {
         }
         session.content(0, list: 0, card: 0, content: "hello world")
         waitForExpectations(timeout: 1)
+    }
+    
+    func testNameSame() {
+        session.projects = [.init()]
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0].name = "hello world"
+        store.session = { _ in XCTFail() }
+        store.project = { _ in XCTFail() }
+        session.name(0, name: "hello world")
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+    }
+    
+    func testListNameSame() {
+        session.projects = [.init()]
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0].cards = [("hello world", [])]
+        store.session = { _ in XCTFail() }
+        store.project = { _ in XCTFail() }
+        session.name(0, list: 0, name: "hello world")
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+    }
+    
+    func testContentSame() {
+        session.projects = [.init()]
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0].cards = [("", ["hello world"])]
+        store.session = { _ in XCTFail() }
+        store.project = { _ in XCTFail() }
+        session.content(0, list: 0, card: 0, content: "hello world")
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
 }

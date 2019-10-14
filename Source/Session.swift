@@ -58,6 +58,7 @@ public final class Session {
     }
     
     public func name(_ project: Int, name: String) {
+        guard projects[project].name != name else { return }
         projects[project].name = name
         save(project)
     }
@@ -68,6 +69,7 @@ public final class Session {
     }
     
     public func name(_ project: Int, list: Int, name: String) {
+        guard projects[project].cards[list].0 != name else { return }
         projects[project].cards[list].0 = name
         save(project)
     }
@@ -78,6 +80,7 @@ public final class Session {
     }
     
     public func content(_ project: Int, list: Int, card: Int, content: String) {
+        guard projects[project].cards[list].1[card] != content else { return }
         projects[project].cards[list].1[card] = content
         save(project)
     }

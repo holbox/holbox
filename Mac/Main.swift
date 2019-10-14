@@ -2,11 +2,11 @@ import holbox
 import AppKit
 
 final class Main: Window {
+    private(set) weak var base: NSView?
     private(set) var project = 0
     private(set) var mode = Mode.off
     private weak var bar: Bar?
     private weak var logo: Logo?
-    private weak var base: NSView?
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
