@@ -69,7 +69,7 @@ final class Add: Modal {
         _confirm.target = nil
         available.stringValue = "\(app.session.available - 1)"
         app.session.add(app.mode)
-        app.main.project(app.session.projects(app.mode).last!)
+        app.main.project(0)
         close()
     }
 }

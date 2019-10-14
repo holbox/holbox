@@ -2,8 +2,8 @@ import AppKit
 
 final class Card: NSView, NSTextViewDelegate {
     let index: Int
+    let column: Int
     private weak var content: Text!
-    private let column: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }

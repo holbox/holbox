@@ -20,27 +20,10 @@ final class Column: NSView, NSTextViewDelegate {
         
         addSubview(name)
         
-        var top: NSLayoutYAxisAnchor?
-        (0 ..< app.session.cards(app.project, list: index)).forEach {
-            let card = Card($0, column: index)
-            addSubview(card)
-            
-            if top == nil {
-                card.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
-            } else {
-                card.topAnchor.constraint(equalTo: top!, constant: 20).isActive = true
-            }
-            
-            card.leftAnchor.constraint(equalTo: leftAnchor, constant: 80).isActive = true
-            rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 80).isActive = true
-            bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
-            top = card.bottomAnchor
-        }
-        
         rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
-        bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 50).isActive = true
+        bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
-        name.topAnchor.constraint(equalTo: topAnchor, constant: 120).isActive = true
+        name.topAnchor.constraint(equalTo: topAnchor).isActive = true
         name.didChangeText()
         name.delegate = self
     }
