@@ -116,19 +116,26 @@ final class Card: NSView, NSTextViewDelegate {
         }
     }
     
-    func stop() {
+    func stop(_ x: CGFloat, _ y: CGFloat) {
         if dragging {
+            if let column = superview!.subviews.compactMap({ $0 as? Column }).first(where: { $0.frame.minX < x && $0.frame.maxX > x })?.index {
+                let index = superview!.subviews.compactMap { $0 as? Card }
+                .filter { $0.column == column && $0 !== self }
+                .sorted { $0.index < $1.index }
+                .last { $0.frame.minY < y }?.index
+                
+            }
             NSAnimationContext.runAnimationGroup ({
-                $0.duration = 1
+                $0.duration = 0.6
                 $0.allowsImplicitAnimation = true
                 base.layer!.backgroundColor = .clear
                 content.textColor = .white
             }) {
               app.main.project(app.project)
             }
-        } else {
-            delta = 0
         }
+        dragging = false
+        delta = 0
     }
     
     override func mouseEntered(with: NSEvent) {

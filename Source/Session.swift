@@ -85,6 +85,12 @@ public final class Session {
         save(project)
     }
     
+    public func move(_ project: Int, list: Int, card: Int, destination: Int, index: Int) {
+        guard list != destination || card != index else { return }
+        projects[project].cards[destination].1.insert(projects[project].cards[list].1.remove(at: card), at: index)
+        save(project)
+    }
+    
     public func add(_ mode: Mode) {
         projects.insert(.make(mode, counter: counter), at: 0)
         counter += 1

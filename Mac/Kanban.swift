@@ -118,7 +118,7 @@ final class Kanban: NSView, NSTextViewDelegate {
     
     override func mouseUp(with: NSEvent) {
         super.mouseUp(with: with)
-        drag?.stop()
+        drag?.stop(with.locationInWindow.x + scroll.documentVisibleRect.origin.x, scroll.documentVisibleRect.height - with.locationInWindow.y + scroll.documentVisibleRect.origin.y)
         drag = nil
     }
     

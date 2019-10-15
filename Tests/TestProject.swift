@@ -127,6 +127,26 @@ final class TestProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testMove() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0].cards = [("", ["hello", "world"])]
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
+        }
+        store.project = {
+            XCTAssertEqual("world", $0.cards[0].1.first)
+            XCTAssertEqual("hello", $0.cards[0].1.last)
+            XCTAssertEqual(2, $0.cards[0].1.count)
+            expectProject.fulfill()
+        }
+        session.move(0, list: 0, card: 0, destination: 0, index: 1)
+        waitForExpectations(timeout: 1)
+    }
+    
     func testNameSame() {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
@@ -154,6 +174,16 @@ final class TestProject: XCTestCase {
         store.session = { _ in XCTFail() }
         store.project = { _ in XCTFail() }
         session.content(0, list: 0, card: 0, content: "hello world")
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+    }
+    
+    func testMoveSame() {
+        session.projects = [.init()]
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0].cards = [("", ["hello", "world"])]
+        store.session = { _ in XCTFail() }
+        store.project = { _ in XCTFail() }
+        session.move(0, list: 0, card: 1, destination: 0, index: 1)
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
 }
