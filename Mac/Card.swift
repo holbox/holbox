@@ -4,6 +4,8 @@ final class Card: NSView, NSTextViewDelegate {
     let index: Int
     let column: Int
     private weak var content: Text!
+    private weak var base: NSView!
+    private weak var _delete: Button!
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
@@ -11,14 +13,16 @@ final class Card: NSView, NSTextViewDelegate {
         self.index = index
         self.column = column
         super.init(frame: .zero)
-        self.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let base = NSView
-        wantsLayer = true
-        layer!.cornerRadius = 8
-        layer!.borderWidth = 1
-        layer!.borderColor = .black
+        let base = NSView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.wantsLayer = true
+        base.layer!.cornerRadius = 8
+        base.layer!.borderWidth = 1
+        base.layer!.borderColor = .black
+        addSubview(base)
+        self.base = base
         
         let content = Text()
         content.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
@@ -32,21 +36,29 @@ final class Card: NSView, NSTextViewDelegate {
         self.content = content
         
         let _delete = Button("delete", target: self, action: #selector(delete))
+        _delete.alphaValue = 0
         addSubview(_delete)
+        self._delete = _delete
         
-        _delete.leftAnchor.constraint(equalTo: rightAnchor, constant: 10).isActive = true
+        rightAnchor.constraint(equalTo: base.rightAnchor, constant: 40).isActive = true
+        bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        
+        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
+        base.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
+        
+        _delete.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 10).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
-        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
         content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         content.didChangeText()
         content.delegate = self
         
-        addTrackingArea(NSTrackingArea(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: nil))
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: nil))
     }
     
     override func resetCursorRects() {
@@ -58,13 +70,13 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     func textDidBeginEditing(_: Notification) {
-        layer!.borderColor = .haze
-        layer!.borderWidth = 2
+        base.layer!.borderColor = .haze
+        base.layer!.borderWidth = 2
     }
     
     func textDidEndEditing(_: Notification) {
-        layer!.borderColor = .black
-        layer!.borderWidth = 1
+        base.layer!.borderColor = .black
+        base.layer!.borderWidth = 1
     }
     
     func edit() {
@@ -73,14 +85,24 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     override func mouseEntered(with: NSEvent) {
-        print("enter")
+        super.mouseEntered(with: with)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            _delete.alphaValue = 1
+        }
     }
     
     override func mouseExited(with: NSEvent) {
-        print("exit")
+        super.mouseExited(with: with)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            _delete.alphaValue = 0
+        }
     }
     
     @objc private func delete() {
-        print("delete")
+        app.runModal(for: Delete.Card(index, list: column))
     }
 }

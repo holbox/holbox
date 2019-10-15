@@ -88,6 +88,26 @@ final class TestProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testDeleteCard() {
+        let expectSession = expectation(description: "")
+        let expectProject = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectSession.fulfill()
+        }
+        store.project = {
+            XCTAssertEqual(3, $0.cards[0].1.count)
+            XCTAssertEqual("lorem", $0.cards[0].1[1])
+            expectProject.fulfill()
+        }
+        session.projects[0].cards = [("", ["hello", "world", "lorem", "ipsum"])]
+        session.delete(0, list: 0, card: 1)
+        waitForExpectations(timeout: 1)
+    }
+    
     func testContent() {
         let expectSession = expectation(description: "")
         let expectProject = expectation(description: "")

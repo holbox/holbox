@@ -28,6 +28,6 @@ final class More: Modal {
     
     @objc private func delete() {
         close()
-        app.runModal(for: Delete())
+        app.runModal(for: Delete.Board())
     }
 }

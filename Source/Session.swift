@@ -96,6 +96,11 @@ public final class Session {
         save(project)
     }
     
+    public func delete(_ project: Int, list: Int, card: Int) {
+        projects[project].cards[list].1.remove(at: card)
+        save(project)
+    }
+    
     private func save(_ project: Int) {
         projects[project].time = .init()
         store.save(projects[project]) { [weak self] in
