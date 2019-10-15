@@ -103,6 +103,7 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     @objc private func delete() {
+        _delete.alphaValue = 0
         app.runModal(for: Delete.Card(index, list: column))
     }
 }

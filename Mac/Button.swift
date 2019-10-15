@@ -35,6 +35,7 @@ final class Button: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
+        window!.makeFirstResponder(nil)
         if bounds.contains(convert(with.locationInWindow, from: nil)) {
             _ = target.perform(action, with: nil)
         }
