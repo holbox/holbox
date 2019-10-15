@@ -25,6 +25,7 @@ final class TestSession: XCTestCase {
         let expect = expectation(description: "")
         store.session = {
             XCTAssertEqual(self.session.rating, $0.rating)
+            XCTAssertFalse($1)
             expect.fulfill()
         }
         session.rated()
@@ -69,6 +70,7 @@ final class TestSession: XCTestCase {
         session.projects = [.init()]
         session.counter = 77
         store.session = {
+            XCTAssertTrue($1)
             XCTAssertEqual(1, $0.projects(.kanban).count)
             XCTAssertEqual(78, $0.counter)
             XCTAssertEqual(0, $0.projects(.kanban).first)
@@ -118,6 +120,7 @@ final class TestSession: XCTestCase {
         session.projects[0].mode = .kanban
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
+            XCTAssertTrue($1)
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
             XCTAssertEqual(.off, $0.projects[0].mode)
             expectSession.fulfill()

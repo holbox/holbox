@@ -54,7 +54,7 @@ extension Data {
         return result
     }
     
-    private mutating func move(_ amount: Int) {
+    mutating func move(_ amount: Int) {
         if count > amount {
             self = advanced(by: amount)
         } else {

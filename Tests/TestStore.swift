@@ -46,9 +46,20 @@ final class TestStore: XCTestCase {
             XCTAssertEqual("hello", $0)
             expectShare.fulfill()
         }
-        store.save(Session()) {
+        store.save(Session(), share: true) {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
             expectSave.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testSaveSessionNotSharing() {
+        let expect = expectation(description: "")
+        Store.id = "hello"
+        shared.save = { _, _ in XCTFail() }
+        store.save(Session(), share: false) {
+            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
+            expect.fulfill()
         }
         waitForExpectations(timeout: 1)
     }

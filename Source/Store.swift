@@ -20,9 +20,14 @@ class Store {
         }
     }
     
-    func save(_ session: Session, done: (() -> Void)? = nil) {
+    func save(_ session: Session, share: Bool, done: (() -> Void)? = nil) {
         Store.queue.async {
-            self.share(session) {
+            if share {
+                self.share(session) {
+                    self.write(session)
+                    done?()
+                }
+            } else {
                 self.write(session)
                 done?()
             }

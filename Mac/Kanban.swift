@@ -130,6 +130,6 @@ final class Kanban: NSView, NSTextViewDelegate {
     }
     
     @objc private func more() {
-        app.runModal(for: More())
+        app.runModal(for: More.Project())
     }
 }

@@ -59,6 +59,7 @@ class Window: NSWindow, NSWindowDelegate {
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 20
+        contentView!.layer!.backgroundColor = .black
         delegate = self
         
         let _close = Button("close", action: #selector(close))

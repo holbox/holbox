@@ -25,6 +25,7 @@ final class TestCoder: XCTestCase {
         session.counter = 9
         session.projects = [project1, project2]
         session.perks = [.hundred, .shopping, .two]
+        session.settings.spell = false
         let decoded = coder.session(coder.session(session))
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(9, decoded.counter)
@@ -39,6 +40,7 @@ final class TestCoder: XCTestCase {
         XCTAssertEqual(.hundred, decoded.perks[0])
         XCTAssertEqual(.shopping, decoded.perks[1])
         XCTAssertEqual(.two, decoded.perks[2])
+        XCTAssertEqual(false, decoded.settings.spell)
     }
     
     func testProject() {

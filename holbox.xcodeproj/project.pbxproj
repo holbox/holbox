@@ -11,6 +11,11 @@
 		DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
+		DA40C948235610AC00F9E1C2 /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C947235610AC00F9E1C2 /* Check.swift */; };
+		DA40C94A2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
+		DA40C94B2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
+		DA40C94C2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
+		DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C94D2356255B00F9E1C2 /* TestSettings.swift */; };
 		DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437010234CB10800CCB34D /* TestStoreUbi.swift */; };
 		DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437012234CB58000CCB34D /* TestStoreProject.swift */; };
 		DA437015234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
@@ -214,6 +219,9 @@
 /* Begin PBXFileReference section */
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
+		DA40C947235610AC00F9E1C2 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
+		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		DA40C94D2356255B00F9E1C2 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
 		DA437010234CB10800CCB34D /* TestStoreUbi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreUbi.swift; sourceTree = "<group>"; };
 		DA437012234CB58000CCB34D /* TestStoreProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreProject.swift; sourceTree = "<group>"; };
 		DA437014234CCC5B00CCB34D /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
@@ -442,6 +450,7 @@
 				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
+				DA40C94D2356255B00F9E1C2 /* TestSettings.swift */,
 				DA437018234D147F00CCB34D /* TestStore.swift */,
 				DA437012234CB58000CCB34D /* TestStoreProject.swift */,
 				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
@@ -459,6 +468,7 @@
 				DA75C7BF234F11A500FD61DC /* Perk.swift */,
 				DAF68E702347646E0060895A /* Project.swift */,
 				DABC363723487F55002011C8 /* Session.swift */,
+				DA40C9492356174000F9E1C2 /* Settings.swift */,
 				DABC36452348C3F0002011C8 /* Shared.swift */,
 				DABC363323487DBF002011C8 /* Store.swift */,
 				DA437014234CCC5B00CCB34D /* Update.swift */,
@@ -474,6 +484,7 @@
 				DAF68E77234764A60060895A /* App.swift */,
 				DAD8F19D234DD3F400835E3E /* Bar.swift */,
 				DAD8F19F234E160F00835E3E /* Button.swift */,
+				DA40C947235610AC00F9E1C2 /* Check.swift */,
 				DAC22D242354D1BC0004FBFD /* Card.swift */,
 				DAC22D262354D1F90004FBFD /* Column.swift */,
 				DAD8F1A3234E3F1B00835E3E /* Control.swift */,
@@ -897,6 +908,7 @@
 				DA5AC048234A1043004D0803 /* Data.swift in Sources */,
 				DA437015234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */,
+				DA40C94A2356174000F9E1C2 /* Settings.swift in Sources */,
 				DABC363423487DBF002011C8 /* Store.swift in Sources */,
 				DABC36462348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363823487F55002011C8 /* Session.swift in Sources */,
@@ -913,6 +925,7 @@
 				DA5AC049234A1043004D0803 /* Data.swift in Sources */,
 				DA437016234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */,
+				DA40C94B2356174000F9E1C2 /* Settings.swift in Sources */,
 				DABC363523487DBF002011C8 /* Store.swift in Sources */,
 				DABC36472348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363923487F55002011C8 /* Session.swift in Sources */,
@@ -929,6 +942,7 @@
 				DA5AC04A234A1043004D0803 /* Data.swift in Sources */,
 				DA437017234CCC5B00CCB34D /* Update.swift in Sources */,
 				DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */,
+				DA40C94C2356174000F9E1C2 /* Settings.swift in Sources */,
 				DABC363623487DBF002011C8 /* Store.swift in Sources */,
 				DABC36482348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363A23487F55002011C8 /* Session.swift in Sources */,
@@ -946,6 +960,7 @@
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
 				DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */,
+				DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
 				DA437019234D147F00CCB34D /* TestStore.swift in Sources */,
 				DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */,
@@ -970,6 +985,7 @@
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
 				DAE81688235323F90005BE0B /* Tab.swift in Sources */,
+				DA40C948235610AC00F9E1C2 /* Check.swift in Sources */,
 				DAC52F422350DB2B003A72CA /* Scroll.swift in Sources */,
 				DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */,
 				DA75C7C4234F465600FD61DC /* Detail.swift in Sources */,

@@ -21,6 +21,7 @@ final class TestProject: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -40,6 +41,7 @@ final class TestProject: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -58,6 +60,7 @@ final class TestProject: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -76,6 +79,7 @@ final class TestProject: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -96,6 +100,7 @@ final class TestProject: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -117,6 +122,7 @@ final class TestProject: XCTestCase {
         session.add(0, list: 0)
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -135,6 +141,7 @@ final class TestProject: XCTestCase {
         session.projects[0].cards = [("", ["hello", "world"])]
         store.session = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertTrue($1)
             expectSession.fulfill()
         }
         store.project = {
@@ -151,7 +158,7 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].name = "hello world"
-        store.session = { _ in XCTFail() }
+        store.session = { _, _ in XCTFail() }
         store.project = { _ in XCTFail() }
         session.name(0, name: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
@@ -161,7 +168,7 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("hello world", [])]
-        store.session = { _ in XCTFail() }
+        store.session = { _, _ in XCTFail() }
         store.project = { _ in XCTFail() }
         session.name(0, list: 0, name: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
@@ -171,7 +178,7 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("", ["hello world"])]
-        store.session = { _ in XCTFail() }
+        store.session = { _, _ in XCTFail() }
         store.project = { _ in XCTFail() }
         session.content(0, list: 0, card: 0, content: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
@@ -181,7 +188,7 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("", ["hello", "world"])]
-        store.session = { _ in XCTFail() }
+        store.session = { _, _ in XCTFail() }
         store.project = { _ in XCTFail() }
         session.move(0, list: 0, card: 1, destination: 0, index: 1)
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)

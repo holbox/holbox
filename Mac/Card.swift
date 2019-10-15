@@ -42,7 +42,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.textContainer!.size.height = 5000
         addSubview(content)
         self.content = content
-        
+
         let _delete = Button("delete", target: self, action: #selector(delete))
         _delete.alphaValue = 0
         addSubview(_delete)

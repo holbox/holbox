@@ -3,6 +3,7 @@ import Foundation
 final class Coder {
     func session(_ session: Session) -> Data {
         var result = Data()
+        result += settings(session.settings)
         result.add(session.rating)
         result.add(session.perks.count)
         session.perks.forEach { result.add($0) }
@@ -38,6 +39,7 @@ final class Coder {
     func session(_ data: Data) -> Session {
         var data = data
         let result = Session()
+        result.settings = settings(&data)
         result.rating = data.date()
         result.perks = (0 ..< data.byte()).map { _ in data.perk() }
         let shared = global(data)
@@ -71,5 +73,18 @@ final class Coder {
             result.cards.append((data.string(), (0 ..< data.byte()).map { _ in data.string() }))
         }
         return result
+    }
+    
+    private func settings(_ settings: Settings) -> Data {
+        var result = Array(repeating: UInt8(), count: Settings.size)
+        result[0] = settings.spell ? 1 : 0
+        return .init(result)
+    }
+    
+    private func settings(_ data: inout Data) -> Settings {
+        var settings = Settings()
+        settings.spell = data[0] == 1
+        data.move(Settings.size)
+        return settings
     }
 }

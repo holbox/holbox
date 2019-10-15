@@ -6,10 +6,11 @@ public final class Session {
     var counter = 0
     var projects = [Project]()
     var perks = [Perk]()
+    var settings = Settings()
     
     public var rate: Bool { Date() >= rating }
-    
     public var available: Int { max(capacity - projects.filter { $0.mode != .off }.count, 0) }
+    public var spell: Bool { settings.spell }
     
     public var capacity: Int {
         var result = 1
@@ -30,7 +31,7 @@ public final class Session {
     
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!
-        store.save(self)
+        store.save(self, share: false)
     }
     
     public func projects(_ mode: Mode) -> [Int] {
@@ -107,11 +108,16 @@ public final class Session {
         save(project)
     }
     
+    public func spell(_ spell: Bool) {
+        settings.spell = spell
+        store.save(self, share: false)
+    }
+    
     private func save(_ project: Int) {
         projects[project].time = .init()
         store.save(projects[project]) { [weak self] in
             guard let self = self else { return }
-            self.store.save(self)
+            self.store.save(self, share: true)
         }
     }
 }

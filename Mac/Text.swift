@@ -53,16 +53,15 @@ final class Text: NSTextView {
         allowsUndo = true
         isRichText = false
         drawsBackground = false
-        isContinuousSpellCheckingEnabled = true
+        isContinuousSpellCheckingEnabled = app.session.spell
+        isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = .haze
-        isAutomaticTextCompletionEnabled = true
         alphaValue = standby
         
         width = widthAnchor.constraint(equalToConstant: 0)
-        width.isActive = true
-        
         height = heightAnchor.constraint(equalToConstant: 0)
         height.isActive = true
+        width.isActive = true
     }
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {

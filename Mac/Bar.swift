@@ -31,7 +31,9 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(_shopping)
         self._shopping = _shopping
         
-        [_kanban, _todo, _shopping].forEach {
+        let _more = Button("more", target: app.main, action: #selector(app.main.more))
+        
+        [_kanban, _todo, _shopping, _more].forEach {
             addSubview($0)
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         }
@@ -41,6 +43,10 @@ final class Bar: NSView, NSTextViewDelegate {
         _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
+        
+        _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true

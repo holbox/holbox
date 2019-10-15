@@ -58,9 +58,7 @@ class Delete: Modal {
         
         [_confirm, _cancel].forEach {
             contentView!.addSubview($0)
-            
             $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
             $0.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
         }
         

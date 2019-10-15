@@ -25,6 +25,8 @@ final class Control: NSView {
         addSubview(label)
         self.label = label
         
+        heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }

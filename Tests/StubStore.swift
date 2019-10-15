@@ -2,11 +2,11 @@
 import Foundation
 
 final class StubStore: Store {
-    var session: (Session) -> Void = { _ in }
+    var session: (Session, Bool) -> Void = { _, _ in }
     var project: (Project) -> Void = { _ in }
     
-    override func save(_ session: Session, done: (() -> Void)? = nil) {
-        self.session(session)
+    override func save(_ session: Session, share: Bool, done: (() -> Void)? = nil) {
+        self.session(session, share)
         done?()
     }
     

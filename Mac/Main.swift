@@ -7,7 +7,7 @@ final class Main: Window {
 
     init() {
         super.init(800, 700, mask: [.miniaturizable, .resizable])
-        minSize = .init(width: 400, height: 300)
+        minSize = .init(width: 300, height: 200)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
         
         let logo = Logo()
@@ -86,6 +86,10 @@ final class Main: Window {
         bar?._todo.selected = false
         bar?._shopping.selected = true
         show(Detail())
+    }
+    
+    @objc func more() {
+        app.runModal(for: More.Main())
     }
     
     private func show(_ view: NSView) {
