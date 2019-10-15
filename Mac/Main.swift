@@ -101,7 +101,7 @@ final class Main: Window {
         
         makeFirstResponder(view)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.6
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             view.alphaValue = 1
         }

@@ -118,10 +118,11 @@ final class Text: NSTextView {
     }
     
     override func mouseDown(with: NSEvent) {
-        if with.clickCount == 2 && !edit {
+        if edit {
+            super.mouseDown(with: with)
+        } else if with.clickCount == 2 {
             edit = true
             window!.makeFirstResponder(self)
         }
-        super.mouseDown(with: with)
     }
 }

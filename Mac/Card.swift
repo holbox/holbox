@@ -1,13 +1,19 @@
 import AppKit
 
 final class Card: NSView, NSTextViewDelegate {
+    weak var child: Card?
+    weak var top: NSLayoutConstraint! { willSet { top?.isActive = false } didSet { top.isActive = true } }
+    weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
+    weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
+    private var dragging = false
+    private var delta = CGFloat(0)
     private weak var content: Text!
     private weak var base: NSView!
     private weak var _delete: Button!
     override var mouseDownCanMoveWindow: Bool { false }
-    
+
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, column: Int) {
         self.index = index
@@ -82,6 +88,47 @@ final class Card: NSView, NSTextViewDelegate {
     func edit() {
         content.edit = true
         window!.makeFirstResponder(content)
+    }
+    
+    func drag(_ x: CGFloat, _ y: CGFloat) {
+        if dragging {
+            top.constant += y
+            left.constant += x
+        } else {
+            delta += abs(x) + abs(y)
+            if delta > 40 {
+                dragging = true
+                right.isActive = false
+                _delete.isHidden = true
+                base.layer!.backgroundColor = NSColor.haze.withAlphaComponent(0.95).cgColor
+                content.textColor = .black
+                
+                if let child = self.child {
+                    child.top = child.topAnchor.constraint(equalTo: top.secondAnchor as! NSLayoutAnchor<NSLayoutYAxisAnchor>, constant: 20)
+                    self.child = nil
+                    NSAnimationContext.runAnimationGroup {
+                        $0.duration = 1
+                        $0.allowsImplicitAnimation = true
+                        superview!.layoutSubtreeIfNeeded()
+                    }
+                }
+            }
+        }
+    }
+    
+    func stop() {
+        if dragging {
+            NSAnimationContext.runAnimationGroup ({
+                $0.duration = 1
+                $0.allowsImplicitAnimation = true
+                base.layer!.backgroundColor = .clear
+                content.textColor = .white
+            }) {
+              app.main.project(app.project)
+            }
+        } else {
+            delta = 0
+        }
     }
     
     override func mouseEntered(with: NSEvent) {

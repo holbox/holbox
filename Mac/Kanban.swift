@@ -1,8 +1,10 @@
 import AppKit
 
 final class Kanban: NSView, NSTextViewDelegate {
+    private weak var drag: Card?
     private weak var scroll: Scroll!
     private weak var name: Text!
+    override var mouseDownCanMoveWindow: Bool { drag == nil }
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -25,21 +27,23 @@ final class Kanban: NSView, NSTextViewDelegate {
             let column = Column(list)
             scroll.documentView!.addSubview(column)
             
-            var top: NSLayoutYAxisAnchor?
+            var top: Card?
             (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let card = Card($0, column: list)
                 scroll.documentView!.addSubview(card)
                 
                 if top == nil {
-                    card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40).isActive = true
+                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
                 } else {
-                    card.topAnchor.constraint(equalTo: top!, constant: 20).isActive = true
+                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
+                    top!.child = card
                 }
                 
-                scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
-                column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 40).isActive = true
-                card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 80).isActive = true
-                top = card.bottomAnchor
+                scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
+                scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 110).isActive = true
+                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 40)
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 80)
+                top = card
             }
             
             if left == nil {
@@ -49,8 +53,8 @@ final class Kanban: NSView, NSTextViewDelegate {
             }
             
             column.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 120).isActive = true
-            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 50).isActive = true
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 50).isActive = true
+            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 70).isActive = true
+            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }
         
@@ -99,7 +103,23 @@ final class Kanban: NSView, NSTextViewDelegate {
     }
     
     override func mouseDown(with: NSEvent) {
+        super.mouseDown(with: with)
         window!.makeFirstResponder(nil)
+    }
+    
+    override func mouseDragged(with: NSEvent) {
+        super.mouseDragged(with: with)
+        if let drag = self.drag {
+            drag.drag(with.deltaX, with.deltaY)
+        } else if let view = hitTest(with.locationInWindow) {
+            drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card
+        }
+    }
+    
+    override func mouseUp(with: NSEvent) {
+        super.mouseUp(with: with)
+        drag?.stop()
+        drag = nil
     }
     
     @objc private func card() {
