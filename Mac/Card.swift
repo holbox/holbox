@@ -8,7 +8,8 @@ final class Card: NSView, NSTextViewDelegate {
     let index: Int
     let column: Int
     private var dragging = false
-    private var delta = CGFloat(0)
+    private var deltaX = CGFloat(0)
+    private var deltaY = CGFloat(0)
     private weak var content: Text!
     private weak var base: NSView!
     private weak var _delete: Button!
@@ -20,6 +21,7 @@ final class Card: NSView, NSTextViewDelegate {
         self.column = column
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
         
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +66,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.didChangeText()
         content.delegate = self
         
-        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: nil))
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     override func resetCursorRects() {
@@ -95,13 +97,22 @@ final class Card: NSView, NSTextViewDelegate {
             top.constant += y
             left.constant += x
         } else {
-            delta += abs(x) + abs(y)
-            if delta > 40 {
+            deltaX += x
+            deltaY += y
+            if abs(deltaX) + abs(deltaY) > 15 {
                 dragging = true
                 right.isActive = false
                 _delete.isHidden = true
+                top.constant += deltaY
+                left.constant += deltaX
                 base.layer!.backgroundColor = NSColor.haze.withAlphaComponent(0.95).cgColor
                 content.textColor = .black
+                
+                layer!.removeFromSuperlayer()
+                superview!.layer!.addSublayer(layer!)
+                superview!.subviews.compactMap { $0 as? Card }.forEach { card in
+                    card.trackingAreas.forEach(card.removeTrackingArea(_:))
+                }
                 
                 if let child = self.child {
                     child.top = child.topAnchor.constraint(equalTo: top.secondAnchor as! NSLayoutAnchor<NSLayoutYAxisAnchor>, constant: 20)
@@ -118,15 +129,11 @@ final class Card: NSView, NSTextViewDelegate {
     
     func stop(_ x: CGFloat, _ y: CGFloat) {
         if dragging {
-            if let column = superview!.subviews.compactMap({ $0 as? Column }).first(where: { $0.frame.minX < x && $0.frame.maxX > x })?.index {
-                let index = superview!.subviews.compactMap { $0 as? Card }
-                .filter { $0.column == column && $0 !== self }
-                .sorted { $0.index < $1.index }
-                .last { $0.frame.minY < y }?.index
-                
-            }
+            let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
+            app.session.move(app.project, list: column, card: index, destination: destination, index:
+                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.minY < y }.count)
             NSAnimationContext.runAnimationGroup ({
-                $0.duration = 0.6
+                $0.duration = 0.3
                 $0.allowsImplicitAnimation = true
                 base.layer!.backgroundColor = .clear
                 content.textColor = .white
@@ -135,7 +142,8 @@ final class Card: NSView, NSTextViewDelegate {
             }
         }
         dragging = false
-        delta = 0
+        deltaX = 0
+        deltaY = 0
     }
     
     override func mouseEntered(with: NSEvent) {
