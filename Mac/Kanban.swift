@@ -67,7 +67,6 @@ final class Kanban: NSView, NSTextViewDelegate {
         self.name = name
         
         let _card = Button("card", target: self, action: #selector(card))
-        
         let _more = Button("more", target: self, action: #selector(more))
         
         [_card, _more].forEach {
@@ -81,7 +80,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 90).isActive = true
+        scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
         scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true

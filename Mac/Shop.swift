@@ -4,13 +4,15 @@ import StoreKit
 
 final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private final class Item: NSView {
+        private weak var shop: Shop!
         private let product: SKProduct
         
         required init?(coder: NSCoder) { nil }
-        init(_ product: SKProduct, price: String, bordered: Bool, shop: Shop) {
+        init(_ product: SKProduct, bordered: Bool, shop: Shop) {
             self.product = product
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
+            self.shop = shop
             
             let border = NSView()
             border.translatesAutoresizingMaskIntoConstraints = false
@@ -30,15 +32,15 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             } (NSMutableAttributedString())
             addSubview(label)
             
-            let price = Label(price)
+            shop.formatter.locale = product.priceLocale
+            let price = Label(shop.formatter.string(from: product.price) ?? "")
             price.textColor = .white
             price.font = .systemFont(ofSize: 18, weight: .bold)
             addSubview(price)
             
             let purchased = Label(.key("Shop.purchased"))
             purchased.textColor = .haze
-            purchased.font = .systemFont(ofSize: 16, weight: .medium)
-            purchased.isHidden = true
+            purchased.font = .systemFont(ofSize: 20, weight: .bold)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), target: self, action: #selector(purchase))
@@ -65,16 +67,22 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 40).isActive = true
             price.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             
-            purchased.rightAnchor.constraint(equalTo: price.rightAnchor).isActive = true
-            purchased.topAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
+            purchased.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            purchased.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 5).isActive = true
             
             control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
             control.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             control.widthAnchor.constraint(equalToConstant: 110).isActive = true
+            
+            if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
+                control.isHidden = true
+            } else {
+                purchased.isHidden = true
+            }
         }
         
         @objc private func purchase() {
-            
+            shop.purchase(product)
         }
     }
     
@@ -185,13 +193,14 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
     
     private func update(_ transactions: [SKPaymentTransaction]) {
         guard transactions.first(where: { $0.transactionState == .purchasing }) == nil else { return }
-        transactions.forEach {
-            switch $0.transactionState {
-            case .failed: SKPaymentQueue.default().finishTransaction($0)
-            case .restored: /*make($0.payment.productIdentifier)*/ break
+        transactions.forEach { transaction in
+            switch transaction.transactionState {
+            case .failed: SKPaymentQueue.default().finishTransaction(transaction)
+            case .restored:
+                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
             case .purchased:
-                //make($0.payment.productIdentifier)
-                SKPaymentQueue.default().finishTransaction($0)
+                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
+                SKPaymentQueue.default().finishTransaction(transaction)
             default: break
             }
         }
@@ -211,8 +220,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
         }.forEach {
-            formatter.locale = $0.priceLocale
-            let item = Item($0, price: formatter.string(from: $0.price) ?? "", bordered: top != nil, shop: self)
+            let item = Item($0, bordered: top != nil, shop: self)
             scroll.documentView!.addSubview(item)
             
             if top == nil {

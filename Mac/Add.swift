@@ -1,11 +1,11 @@
 import AppKit
 
 final class Add: Modal {
-    private weak var available: Label!
     private weak var _confirm: Control!
+    private weak var _purchases: Control!
     
     init() {
-        super.init(400, 500)
+        super.init(400, 600)
         let icon = Image("new")
         
         let title = Label(.key("Add.title.\(app.mode.rawValue)"))
@@ -26,23 +26,30 @@ final class Add: Modal {
         let available = Label("\(app.session.available)")
         available.font = .systemFont(ofSize: 26, weight: .bold)
         available.textColor = .black
-        self.available = available
+        
+        let info = Label(.key("Add.info"))
+        info.font = .systemFont(ofSize: 16, weight: .regular)
+        info.textColor = .init(white: 1, alpha: 0.7)
+        info.alignment = .center
         
         let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), target: self, action: #selector(confirm))
         _confirm.layer!.backgroundColor = .haze
         _confirm.label.textColor = .black
         self._confirm = _confirm
         
+        let _purchases = Control(.key("Add.purchases"), target: self, action: #selector(purchases))
+        _purchases.layer!.backgroundColor = .haze
+        _purchases.label.textColor = .black
+        self._purchases = _purchases
+        
         let cancel = Control(.key("Add.cancel"), target: self, action: #selector(close))
         cancel.label.textColor = .init(white: 1, alpha: 0.4)
         
-        [icon, title, subtitle, circle, available, _confirm, cancel].forEach {
+        [icon, title, subtitle, circle, available, info, _confirm, _purchases, cancel].forEach {
             contentView!.addSubview($0)
-            
             $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         }
         
-        icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 80).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 60).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -56,18 +63,40 @@ final class Add: Modal {
         
         available.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
         
+        info.widthAnchor.constraint(equalToConstant: 280).isActive = true
+        info.bottomAnchor.constraint(equalTo: _purchases.topAnchor, constant: -40).isActive = true
+        
         _confirm.widthAnchor.constraint(equalToConstant: 200).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -20).isActive = true
         
+        _purchases.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        _purchases.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -20).isActive = true
+        
         cancel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
+        
+        if app.session.available > 0 {
+            info.isHidden = true
+            _purchases.isHidden = true
+            _purchases.target = nil
+            icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 100).isActive = true
+        } else {
+            _confirm.isHidden = true
+            _confirm.target = nil
+            icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
+        }
     }
     
     @objc private func confirm() {
         _confirm.target = nil
-        available.stringValue = "\(app.session.available - 1)"
         app.session.add(app.mode)
         app.main.project(0)
+        close()
+    }
+    
+    @objc private func purchases() {
+        _purchases.target = nil
+        app.main.shop()
         close()
     }
 }
