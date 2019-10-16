@@ -114,7 +114,7 @@ final class Detail: NSView {
                 
                 top = item.bottomAnchor
             }
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
+            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
         }
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true

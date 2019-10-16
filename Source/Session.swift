@@ -2,7 +2,7 @@ import Foundation
 
 public final class Session {
     var store = Store()
-    var rating = Calendar.current.date(byAdding: .day, value: 2, to: .init())!
+    var rating = Calendar.current.date(byAdding: .day, value: 1, to: .init())!
     var counter = 0
     var projects = [Project]()
     var perks = [Perk]()

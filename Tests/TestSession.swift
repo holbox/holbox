@@ -12,7 +12,7 @@ final class TestSession: XCTestCase {
     }
     
     func testRating() {
-        XCTAssertGreaterThanOrEqual(Calendar.current.date(byAdding: .day, value: 2, to: .init())!, session.rating)
+        XCTAssertGreaterThanOrEqual(Calendar.current.date(byAdding: .day, value: 1, to: .init())!, session.rating)
         XCTAssertFalse(session.rate)
         session.rating = Calendar.current.date(byAdding: .second, value: -1, to: .init())!
         XCTAssertTrue(session.rate)
