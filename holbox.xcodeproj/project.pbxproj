@@ -64,7 +64,6 @@
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
 		DACB75CE2347708100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
-		DACB75D2234770BF00037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EA9234766BB0060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
 		DACB75D8234770E600037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAB234766CB0060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DB234770FA00037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAE234766E60060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -116,13 +115,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DAF68D9C2347536C0060895A;
 			remoteInfo = Mac;
-		};
-		DACB75D3234770BF00037180 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAF68D93234752760060895A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAF68E2D234759190060895A;
-			remoteInfo = MacToday;
 		};
 		DACB75D6234770E100037180 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -192,17 +184,6 @@
 			files = (
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DAF68E43234759190060895A /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				DACB75D2234770BF00037180 /* holbox.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DAF68E57234759310060895A /* Embed App Extensions */ = {
@@ -643,13 +624,11 @@
 				DAF68DCC2347583B0060895A /* Sources */,
 				DAF68DCD2347583B0060895A /* Frameworks */,
 				DAF68DCE2347583B0060895A /* Resources */,
-				DAF68E43234759190060895A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				DACB75D12347708F00037180 /* PBXTargetDependency */,
-				DACB75D4234770BF00037180 /* PBXTargetDependency */,
 			);
 			name = MacApp;
 			productName = MacApp;
@@ -1052,11 +1031,6 @@
 			isa = PBXTargetDependency;
 			target = DAF68D9C2347536C0060895A /* Mac */;
 			targetProxy = DACB75D02347708F00037180 /* PBXContainerItemProxy */;
-		};
-		DACB75D4234770BF00037180 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAF68E2D234759190060895A /* MacToday */;
-			targetProxy = DACB75D3234770BF00037180 /* PBXContainerItemProxy */;
 		};
 		DACB75D7234770E100037180 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1633,6 +1607,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = 7AMWG3RLHN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1655,6 +1630,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 77;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1701,6 +1677,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 77;
 				DEVELOPMENT_TEAM = 7AMWG3RLHN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1718,6 +1695,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 77;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = holbox.mac;
