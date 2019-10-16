@@ -13,11 +13,11 @@ final class TestSettings: XCTestCase {
     
     func testSaveOnSpell() {
         let expect = expectation(description: "")
-        store.session = {
+        store.save = {
             XCTAssertFalse($0.settings.spell)
-            XCTAssertFalse($1)
             expect.fulfill()
         }
+        store.share = { _ in XCTFail() }
         session.spell(false)
         waitForExpectations(timeout: 1)
     }

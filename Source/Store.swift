@@ -8,7 +8,7 @@ class Store {
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private static let coder = Coder()
     
-    func load(_ result: @escaping(Session) -> Void) {
+    func load(_ result: @escaping (Session) -> Void) {
         Store.queue.async {
             self.prepare()
             self.loadId()
@@ -20,24 +20,25 @@ class Store {
         }
     }
     
-    func save(_ session: Session, share: Bool, done: (() -> Void)? = nil) {
+    func save(_ session: Session, done: @escaping () -> Void) {
         Store.queue.async {
-            if share {
-                self.share(session) {
-                    self.write(session)
-                    done?()
-                }
-            } else {
-                self.write(session)
-                done?()
-            }
+            self.write(session)
+            done()
         }
     }
     
-    func save(_ project: Project, done: (() -> Void)? = nil) {
+    func share(_ session: Session, done: @escaping () -> Void) {
+        Store.queue.async {
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
+            try! Store.coder.global(session).write(to: url, options: .atomic)
+            self.shared.save(Store.id, url: url, done: done)
+        }
+    }
+    
+    func save(_ project: Project, done: @escaping () -> Void) {
         Store.queue.async {
             self.write(project)
-            self.share(project.id, done: done ?? { })
+            self.share(project.id, done: done)
         }
     }
     
@@ -50,7 +51,7 @@ class Store {
         }
     }
     
-    func loadSession(_ result: @escaping(Session) -> Void) {
+    func loadSession(_ result: @escaping (Session) -> Void) {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load(Store.id, error: {
                 self.share(session) {
@@ -168,13 +169,7 @@ class Store {
         try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(project.id)"), options: .atomic)
     }
     
-    private func share(_ session: Session, done: @escaping() -> Void) {
-        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
-        try! Store.coder.global(session).write(to: url, options: .atomic)
-        shared.save(Store.id, url: url, done: done)
-    }
-    
-    private func share(_ project: Int, done: @escaping() -> Void) {
+    private func share(_ project: Int, done: @escaping () -> Void) {
         shared.save(Store.id + "\(project)", url: Store.url.appendingPathComponent("\(project)"), done: done)
     }
 }

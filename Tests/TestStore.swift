@@ -40,15 +40,19 @@ final class TestStore: XCTestCase {
     func testSaveSession() {
         let expectShare = expectation(description: "")
         let expectSave = expectation(description: "")
+        let expectFinish = expectation(description: "")
         Store.id = "hello"
         shared.save = {
             XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $1)))
             XCTAssertEqual("hello", $0)
             expectShare.fulfill()
         }
-        store.save(Session(), share: true) {
+        store.save(Session()) {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
             expectSave.fulfill()
+        }
+        store.share(Session()) {
+            expectFinish.fulfill()
         }
         waitForExpectations(timeout: 1)
     }
@@ -57,7 +61,7 @@ final class TestStore: XCTestCase {
         let expect = expectation(description: "")
         Store.id = "hello"
         shared.save = { _, _ in XCTFail() }
-        store.save(Session(), share: false) {
+        store.save(Session()) {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
             expect.fulfill()
         }

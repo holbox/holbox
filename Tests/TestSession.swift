@@ -23,11 +23,11 @@ final class TestSession: XCTestCase {
     
     func testSaveOnRate() {
         let expect = expectation(description: "")
-        store.session = {
+        store.save = {
             XCTAssertEqual(self.session.rating, $0.rating)
-            XCTAssertFalse($1)
             expect.fulfill()
         }
+        store.share = { _ in XCTFail() }
         session.rated()
         waitForExpectations(timeout: 1)
     }
@@ -65,19 +65,23 @@ final class TestSession: XCTestCase {
     }
     
     func testAdd() {
-        let expectSession = expectation(description: "")
         let expectProject = expectation(description: "")
+        let expectSave = expectation(description: "")
+        let expectShare = expectation(description: "")
         session.projects = [.init()]
         session.counter = 77
-        store.session = {
-            XCTAssertTrue($1)
+        store.save = {
             XCTAssertEqual(1, $0.projects(.kanban).count)
             XCTAssertEqual(78, $0.counter)
             XCTAssertEqual(0, $0.projects(.kanban).first)
             XCTAssertEqual(77, $0.projects.first?.id)
             XCTAssertEqual(2, $0.projects.count)
             XCTAssertEqual(.kanban, $0.projects.first?.mode)
-            expectSession.fulfill()
+            expectSave.fulfill()
+        }
+        store.share = {
+            XCTAssertEqual(1, $0.projects(.kanban).count)
+            expectShare.fulfill()
         }
         store.project = {
             XCTAssertEqual(77, $0.id)
@@ -113,17 +117,21 @@ final class TestSession: XCTestCase {
     }
     
     func testDelete() {
-        let expectSession = expectation(description: "")
         let expectProject = expectation(description: "")
+        let expectSave = expectation(description: "")
+        let expectShare = expectation(description: "")
         let time = Date()
         session.projects = [.init()]
         session.projects[0].mode = .kanban
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.session = {
-            XCTAssertTrue($1)
+        store.save = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
             XCTAssertEqual(.off, $0.projects[0].mode)
-            expectSession.fulfill()
+            expectSave.fulfill()
+        }
+        store.share = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            expectShare.fulfill()
         }
         store.project = {
             XCTAssertLessThanOrEqual(time, $0.time)

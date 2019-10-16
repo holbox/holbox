@@ -25,13 +25,13 @@ public final class Session {
         return result
     }
     
-    public class func load(result: @escaping(Session) -> Void) {
+    public class func load(result: @escaping (Session) -> Void) {
         Store().load(result)
     }
     
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!
-        store.save(self, share: false)
+        store.save(self) { }
     }
     
     public func projects(_ mode: Mode) -> [Int] {
@@ -110,14 +110,17 @@ public final class Session {
     
     public func spell(_ spell: Bool) {
         settings.spell = spell
-        store.save(self, share: false)
+        store.save(self) { }
     }
     
     private func save(_ project: Int) {
         projects[project].time = .init()
         store.save(projects[project]) { [weak self] in
             guard let self = self else { return }
-            self.store.save(self, share: true)
+            self.store.save(self) { [weak self] in
+                guard let self = self else { return }
+                self.store.share(self) { }
+            }
         }
     }
 }
