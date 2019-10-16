@@ -46,6 +46,10 @@ public final class Session {
         projects[project].cards[list].1.count
     }
     
+    public func purchased(_ perk: Perk) -> Bool {
+        perks.contains(perk)
+    }
+    
     public func name(_ project: Int) -> String {
         projects[project].name
     }
@@ -106,6 +110,12 @@ public final class Session {
     public func delete(_ project: Int, list: Int, card: Int) {
         projects[project].cards[list].1.remove(at: card)
         save(project)
+    }
+    
+    public func purchase(_ perk: Perk) {
+        guard !perks.contains(perk) else { return }
+        perks.append(perk)
+        store.save(self) { }
     }
     
     public func spell(_ spell: Bool) {
