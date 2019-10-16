@@ -84,11 +84,11 @@ class Window: NSWindow, NSWindowDelegate {
         _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
     }
     
-    func windowWillStartLiveResize(_ notification: Notification) {
+    func windowWillStartLiveResize(_: Notification) {
         isMovableByWindowBackground = false
     }
     
-    func windowDidEndLiveResize(_ notification: Notification) {
+    func windowDidEndLiveResize(_: Notification) {
         isMovableByWindowBackground = true
     }
     
@@ -97,6 +97,11 @@ class Window: NSWindow, NSWindowDelegate {
         contentView!.layer!.backgroundColor = .background
         [_close, _minimise, _zoom].forEach { $0!.alphaValue = 0.5 }
         hasShadow = true
+    }
+    
+    override func zoom(_ sender: Any?) {
+        contentView!.layer!.cornerRadius = isZoomed ? 20 : 0
+        super.zoom(sender)
     }
     
     override func resignKey() {

@@ -4,6 +4,7 @@ final class Bar: NSView, NSTextViewDelegate {
     private(set) weak var _kanban: Tab!
     private(set) weak var _todo: Tab!
     private(set) weak var _shopping: Tab!
+    private(set) weak var _shop: Tab!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -31,9 +32,14 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(_shopping)
         self._shopping = _shopping
         
+        let _shop = Tab("cart", target: app.main, action: #selector(app.main.shop))
+        _shop.setAccessibilityLabel(.key("Bar.shop"))
+        addSubview(_shop)
+        self._shop = _shop
+        
         let _more = Button("more", target: app.main, action: #selector(app.main.more))
         
-        [_kanban, _todo, _shopping, _more].forEach {
+        [_kanban, _todo, _shopping, _shop, _more].forEach {
             addSubview($0)
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         }
@@ -43,6 +49,7 @@ final class Bar: NSView, NSTextViewDelegate {
         _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
+        _shop.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 10).isActive = true
         
         _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         _more.widthAnchor.constraint(equalToConstant: 40).isActive = true

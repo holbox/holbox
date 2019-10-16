@@ -57,11 +57,9 @@ final class Add: Modal {
         available.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
         
         _confirm.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        _confirm.heightAnchor.constraint(equalToConstant: 40).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -20).isActive = true
         
         cancel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        cancel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
     }
     

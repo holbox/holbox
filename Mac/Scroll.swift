@@ -17,8 +17,6 @@ final class Scroll: NSScrollView {
         documentView!.topAnchor.constraint(equalTo: topAnchor).isActive = true
         documentView!.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
     }
-    
-    func clear() { documentView!.subviews.forEach { $0.removeFromSuperview() } }
 }
 
 private final class Flipped: NSView { override var isFlipped: Bool { true } }

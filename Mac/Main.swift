@@ -1,7 +1,17 @@
 import AppKit
 
 final class Main: Window {
-    private(set) weak var base: NSView?
+    final class Base: NSView {
+        override var mouseDownCanMoveWindow: Bool { false }
+        
+        required init?(coder: NSCoder) { nil }
+        init() {
+            super.init(frame: .zero)
+            translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
+    private(set) weak var base: Base?
     private weak var bar: Bar?
     private weak var logo: Logo?
 
@@ -11,6 +21,7 @@ final class Main: Window {
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
         
         let logo = Logo()
+        logo.start()
         contentView!.addSubview(logo)
         self.logo = logo
         
@@ -39,8 +50,7 @@ final class Main: Window {
         contentView!.addSubview(bar, positioned: .below, relativeTo: _close)
         self.bar = bar
         
-        let base = NSView()
-        base.translatesAutoresizingMaskIntoConstraints = false
+        let base = Base()
         contentView!.addSubview(base)
         self.base = base
         
@@ -69,6 +79,7 @@ final class Main: Window {
         bar?._kanban.selected = true
         bar?._todo.selected = false
         bar?._shopping.selected = false
+        bar?._shop.selected = false
         show(Detail())
     }
     
@@ -77,6 +88,7 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = true
         bar?._shopping.selected = false
+        bar?._shop.selected = false
         show(Detail())
     }
     
@@ -85,7 +97,17 @@ final class Main: Window {
         bar?._kanban.selected = false
         bar?._todo.selected = false
         bar?._shopping.selected = true
+        bar?._shop.selected = false
         show(Detail())
+    }
+    
+    @objc func shop() {
+        app.mode = .off
+        bar?._kanban.selected = false
+        bar?._todo.selected = false
+        bar?._shopping.selected = false
+        bar?._shop.selected = true
+        show(Shop())
     }
     
     @objc func more() {

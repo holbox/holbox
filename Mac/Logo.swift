@@ -14,9 +14,13 @@ final class Logo: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
+        isHidden = true
+        setAccessibilityElement(true)
+        setAccessibilityRole(.progressIndicator)
+        setAccessibilityLabel(.key("Logo"))
         
         timer.resume()
-        timer.schedule(deadline: .now() + 0.2, repeating: 0.2)
+        timer.schedule(deadline: .distantFuture)
         timer.setEventHandler { [weak self] in
             guard let self = self else { return }
             if self.counter == 0 {
@@ -87,5 +91,15 @@ final class Logo: NSView {
                 return $0
             } (CGMutablePath())
         }
+    }
+    
+    func start() {
+        timer.schedule(deadline: .now() + 0.2, repeating: 0.2)
+        isHidden = false
+    }
+    
+    func stop() {
+        timer.schedule(deadline: .distantFuture)
+        isHidden = true
     }
 }
