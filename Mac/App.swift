@@ -46,7 +46,7 @@ private(set) weak var app: App!
 //    }
     
     func applicationWillFinishLaunching(_: Notification) {
-        mainMenu = Menu(title: "")
+        mainMenu = Menu()
         
         let _main = Main()
         _main.makeKeyAndOrderFront(nil)

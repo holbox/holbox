@@ -57,7 +57,6 @@ final class Add: Modal {
         
         subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
         
-        circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
         circle.widthAnchor.constraint(equalToConstant: 60).isActive = true
         circle.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -79,11 +78,13 @@ final class Add: Modal {
             info.isHidden = true
             _purchases.isHidden = true
             _purchases.target = nil
-            icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 100).isActive = true
+            icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 80).isActive = true
+            circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 80).isActive = true
         } else {
             _confirm.isHidden = true
             _confirm.target = nil
             icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
+            circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
         }
     }
     

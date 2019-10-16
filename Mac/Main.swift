@@ -43,6 +43,11 @@ final class Main: Window {
         base?.alphaValue = 0.5
     }
     
+    override func zoom(_ sender: Any?) {
+        contentView!.layer!.cornerRadius = isZoomed ? 20 : 0
+        super.zoom(sender)
+    }
+    
     func loaded() {
         logo!.removeFromSuperview()
         
@@ -113,6 +118,12 @@ final class Main: Window {
     @objc func more() {
         app.runModal(for: More.Main())
     }
+    
+    @objc func about() {
+        app.runModal(for: More.Main())
+    }
+    
+    @objc func full() { zoom(self) }
     
     private func show(_ view: NSView) {
         guard let base = self.base else { return }

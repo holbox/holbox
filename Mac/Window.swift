@@ -99,11 +99,6 @@ class Window: NSWindow, NSWindowDelegate {
         hasShadow = true
     }
     
-    override func zoom(_ sender: Any?) {
-        contentView!.layer!.cornerRadius = isZoomed ? 20 : 0
-        super.zoom(sender)
-    }
-    
     override func resignKey() {
         super.resignKey()
         contentView!.layer!.backgroundColor = .black
