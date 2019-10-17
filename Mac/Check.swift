@@ -58,6 +58,7 @@ final class Check: NSView {
             on.toggle()
             _ = target.perform(action, with: self)
         }
+        super.mouseUp(with: with)
     }
     
     private func update() {

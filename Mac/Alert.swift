@@ -32,5 +32,8 @@ final class Alert: Modal {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in self?.close() }
     }
     
-    override func mouseDown(with: NSEvent) { close() }
+    override func mouseDown(with: NSEvent) {
+        close()
+        super.mouseDown(with: with)
+    }
 }

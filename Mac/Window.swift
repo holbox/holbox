@@ -34,6 +34,7 @@ class Window: NSWindow, NSWindowDelegate {
         
         override func mouseDown(with: NSEvent) {
             alphaValue = 1
+            super.mouseDown(with: with)
         }
         
         override func mouseUp(with: NSEvent) {
@@ -41,6 +42,7 @@ class Window: NSWindow, NSWindowDelegate {
                 _ = window!.perform(action, with: nil)
             }
             alphaValue = 0.5
+            super.mouseUp(with: with)
         }
     }
     

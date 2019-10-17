@@ -38,6 +38,7 @@ final class Detail: NSView {
         override func mouseDown(with: NSEvent) {
             layer!.backgroundColor = .haze
             label.textColor = .black
+            super.mouseDown(with: with)
         }
         
         override func mouseUp(with: NSEvent) {
@@ -47,6 +48,7 @@ final class Detail: NSView {
                 layer!.backgroundColor = .clear
                 label.textColor = .white
             }
+            super.mouseUp(with: with)
         }
     }
     

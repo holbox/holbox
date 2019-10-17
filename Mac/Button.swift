@@ -14,10 +14,9 @@ final class Button: NSView {
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         
-        let icon = NSImageView()
+        let icon = NSImageView(image: NSImage(named: image)!)
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.imageScaling = .scaleNone
-        icon.image = NSImage(named: image)!
         addSubview(icon)
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -32,6 +31,7 @@ final class Button: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
+        super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
@@ -40,5 +40,6 @@ final class Button: NSView {
             _ = target.perform(action, with: nil)
         }
         alphaValue = 1
+        super.mouseUp(with: with)
     }
 }

@@ -37,6 +37,7 @@ final class Control: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
+        super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
@@ -44,5 +45,6 @@ final class Control: NSView {
             _ = target?.perform(action, with: nil)
         }
         alphaValue = 1
+        super.mouseUp(with: with)
     }
 }
