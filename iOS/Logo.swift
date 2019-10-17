@@ -37,7 +37,7 @@ final class Logo: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        let side = min(rect.width, rect.height)
+        let side = min(rect.width, rect.height) * 0.95
         let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
         rays.sublayers?.forEach { $0.removeFromSuperlayer() }
         rays.path = {
@@ -46,8 +46,8 @@ final class Logo: UIView {
         } (CGMutablePath())
         rays.lineWidth = side / 25
         
-        let radius = side * 0.39
-        let width = side / 12
+        let radius = side * 0.41
+        let width = side / 15
         var prev = deg2_5 / -2
         (0 ..< 36).forEach {
             let ray = CAShapeLayer()

@@ -49,6 +49,7 @@ final class Main: Window {
     }
     
     func loaded() {
+        logo!.stop()
         logo!.removeFromSuperview()
         
         let bar = Bar()
