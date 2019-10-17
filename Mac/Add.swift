@@ -8,12 +8,10 @@ final class Add: Modal {
         super.init(400, 600)
         let icon = Image("new")
         
-        let title = Label(.key("Add.title.\(app.mode.rawValue)"), size: 20, weight: .bold)
-        title.textColor = .white
+        let title = Label(.key("Add.title.\(app.mode.rawValue)"), 20, .bold, .white)
         
-        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), size: 14, weight: .regular)
+        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.4))
         subtitle.alignment = .center
-        subtitle.textColor = .init(white: 1, alpha: 0.4)
         
         let circle = NSView()
         circle.translatesAutoresizingMaskIntoConstraints = false
@@ -21,11 +19,9 @@ final class Add: Modal {
         circle.layer!.backgroundColor = .haze
         circle.layer!.cornerRadius = 30
         
-        let available = Label("\(app.session.available)", size: 26, weight: .bold)
-        available.textColor = .black
+        let available = Label("\(app.session.available)", 26, .bold, .black)
         
-        let info = Label(.key("Add.info"), size: 16, weight: .regular)
-        info.textColor = .init(white: 1, alpha: 0.7)
+        let info = Label(.key("Add.info"), 16, .regular, .init(white: 1, alpha: 0.7))
         info.alignment = .center
         
         let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), target: self, action: #selector(confirm))

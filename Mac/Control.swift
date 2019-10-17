@@ -18,7 +18,7 @@ final class Control: NSView {
         wantsLayer = true
         layer!.cornerRadius = 8
         
-        let label = Label(title, size: 14, weight: .bold)
+        let label = Label(title, 14, .bold, .black)
         label.setAccessibilityElement(false)
         addSubview(label)
         self.label = label

@@ -5,12 +5,14 @@ final class Label: NSTextField {
     override var canBecomeKeyView: Bool { false }
     override var mouseDownCanMoveWindow: Bool { true }
     override func accessibilityLabel() -> String? { attributedStringValue.string }
-    
+    override func acceptsFirstMouse(for: NSEvent?) -> Bool { false }
     required init?(coder: NSCoder) { nil }
-    init(_ string: String = "", size: CGFloat, weight: NSFont.Weight) {
+    
+    init(_ string: String, _ size: CGFloat, _ weight: NSFont.Weight, _ color: NSColor) {
         super.init(frame: .zero)
         font = .systemFont(ofSize: size, weight: weight)
         stringValue = string
+        textColor = color
         configure()
     }
     
@@ -32,6 +34,4 @@ final class Label: NSTextField {
         setAccessibilityRole(.staticText)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
-    
-    override func acceptsFirstMouse(for: NSEvent?) -> Bool { false }
 }

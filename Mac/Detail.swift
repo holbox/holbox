@@ -17,8 +17,7 @@ final class Detail: NSView {
             wantsLayer = true
             layer!.cornerRadius = 8
             
-            let label = Label(app.session.name(index), size: 14, weight: .medium)
-            label.textColor = .white
+            let label = Label(app.session.name(index), 14, .medium, .white)
             addSubview(label)
             self.label = label
             
@@ -63,16 +62,14 @@ final class Detail: NSView {
         let image = Image("detail.\(app.mode.rawValue)")
         scroll.documentView!.addSubview(image)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), size: 30, weight: .bold)
-        title.textColor = .init(white: 1, alpha: 0.3)
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, .init(white: 1, alpha: 0.3))
         scroll.documentView!.addSubview(title)
         
         let border = Border()
         scroll.documentView!.addSubview(border)
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), size: 14, weight: .light)
-            empty.textColor = .init(white: 1, alpha: 0.4)
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.4))
             scroll.documentView!.addSubview(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true

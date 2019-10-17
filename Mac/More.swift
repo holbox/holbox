@@ -41,8 +41,7 @@ class More: Modal {
     private init() {
         super.init(400, 280)
         
-        let _title = Label(.key("More.title"), size: 20, weight: .bold)
-        _title.textColor = .init(white: 1, alpha: 0.2)
+        let _title = Label(.key("More.title"), 20, .bold, .init(white: 1, alpha: 0.2))
         self._title = _title
         
         let _done = Control(.key("More.done"), target: self, action: #selector(close))

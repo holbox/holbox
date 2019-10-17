@@ -24,12 +24,10 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale
-            let price = Label(shop.formatter.string(from: product.price) ?? "", size: 18, weight: .bold)
-            price.textColor = .white
+            let price = Label(shop.formatter.string(from: product.price) ?? "", 18, .bold, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), size: 20, weight: .bold)
-            purchased.textColor = .haze
+            let purchased = Label(.key("Shop.purchased"), 20, .bold, .haze)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), target: self, action: #selector(purchase))
@@ -97,8 +95,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), size: 30, weight: .bold)
-        title.textColor = .init(white: 1, alpha: 0.3)
+        let title = Label(.key("Shop.title"), 30, .bold, .init(white: 1, alpha: 0.3))
         scroll.documentView!.addSubview(title)
         
         let logo = Logo()
@@ -110,8 +107,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.documentView!.addSubview(image)
         self.image = image
         
-        let message = Label(size: 16, weight: .light)
-        message.textColor = .init(white: 1, alpha: 0.7)
+        let message = Label("", 16, .light, .init(white: 1, alpha: 0.7))
         message.isHidden = true
         scroll.documentView!.addSubview(message)
         self.message = message
