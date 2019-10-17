@@ -149,7 +149,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 30).isActive = true
+        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
         title.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 50).isActive = true
@@ -160,7 +160,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.documentView!.centerXAnchor).isActive = true
-        logo.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 30).isActive = true
+        logo.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 100).isActive = true
         
         image.topAnchor.constraint(equalTo: border.topAnchor, constant: 20).isActive = true
         image.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true

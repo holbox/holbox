@@ -61,14 +61,14 @@ private(set) weak var app: App!
             }
         }
         
-//        Session.load {
-//            self.session = $0
-//            if self.session.rate {
-//                SKStoreReviewController.requestReview()
-//                self.session.rated()
-//            }
-//            self.main.loaded()
-//        }
+        Session.load {
+            self.session = $0
+            if self.session.rate {
+                SKStoreReviewController.requestReview()
+                self.session.rated()
+            }
+            self.main.loaded()
+        }
     }
     
     func alert(_ title: String, message: String) {

@@ -23,7 +23,13 @@ final class Logo: UIView {
             } else {
                 self.counter += 1
             }
-            self.setNeedsDisplay()
+            self.rays.sublayers!.enumerated().forEach {
+                if $0.0 > self.counter {
+                    ($0.1 as! CAShapeLayer).strokeColor = UIColor.haze.withAlphaComponent(0.2).cgColor
+                } else {
+                    ($0.1 as! CAShapeLayer).strokeColor = .haze
+                }
+            }
         }
         
         let rays = CAShapeLayer()
@@ -49,7 +55,7 @@ final class Logo: UIView {
         let radius = side * 0.41
         let width = side / 15
         var prev = deg2_5 / -2
-        (0 ..< 36).forEach {
+        (0 ..< 36).forEach { _ in
             let ray = CAShapeLayer()
             ray.path = {
                 $0.addArc(center: center, radius: radius, startAngle: prev, endAngle: prev + deg2_5, clockwise: false)
@@ -57,11 +63,6 @@ final class Logo: UIView {
             } (CGMutablePath())
             prev += deg5 * 2
             ray.lineWidth = width
-            if $0 > counter {
-                ray.strokeColor = UIColor.haze.withAlphaComponent(0.2).cgColor
-            } else {
-                ray.strokeColor = .haze
-            }
             ray.fillColor = .clear
             rays.addSublayer(ray)
         }
