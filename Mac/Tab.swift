@@ -2,7 +2,7 @@ import AppKit
 
 final class Tab: NSView {
     var selected = false { didSet { update() } }
-    private weak var icon: NSImageView!
+    private weak var icon: Image!
     private weak var target: AnyObject!
     private let action: Selector
     private let image: NSImage
@@ -19,9 +19,7 @@ final class Tab: NSView {
         wantsLayer = true
         layer!.cornerRadius = 4
         
-        let icon = NSImageView()
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.imageScaling = .scaleNone
+        let icon = Image(image)
         addSubview(icon)
         self.icon = icon
         

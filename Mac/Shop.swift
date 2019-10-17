@@ -20,24 +20,16 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
             
-            let label = Label()
-            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-            label.attributedStringValue = {
-                $0.append(.init(string: .key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), attributes: [.font: NSFont.systemFont(ofSize: 20, weight: .medium), .foregroundColor: NSColor(white: 1, alpha: 0.8)]))
-                $0.append(.init(string: .key("Shop.descr.\(product.productIdentifier.components(separatedBy: ".").last!)"), attributes: [.font: NSFont.systemFont(ofSize: 16, weight: .regular), .foregroundColor: NSColor(white: 1, alpha: 0.6)]))
-                return $0
-            } (NSMutableAttributedString())
+            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale
-            let price = Label(shop.formatter.string(from: product.price) ?? "")
+            let price = Label(shop.formatter.string(from: product.price) ?? "", size: 18, weight: .bold)
             price.textColor = .white
-            price.font = .systemFont(ofSize: 18, weight: .bold)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"))
+            let purchased = Label(.key("Shop.purchased"), size: 20, weight: .bold)
             purchased.textColor = .haze
-            purchased.font = .systemFont(ofSize: 20, weight: .bold)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), target: self, action: #selector(purchase))
@@ -105,8 +97,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"))
-        title.font = .systemFont(ofSize: 30, weight: .bold)
+        let title = Label(.key("Shop.title"), size: 30, weight: .bold)
         title.textColor = .init(white: 1, alpha: 0.3)
         scroll.documentView!.addSubview(title)
         
@@ -119,10 +110,8 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.documentView!.addSubview(image)
         self.image = image
         
-        let message = Label()
+        let message = Label(size: 16, weight: .light)
         message.textColor = .init(white: 1, alpha: 0.7)
-        message.font = .systemFont(ofSize: 16, weight: .light)
-        message.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         message.isHidden = true
         scroll.documentView!.addSubview(message)
         self.message = message

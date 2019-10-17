@@ -14,9 +14,7 @@ final class Button: NSView {
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         
-        let icon = NSImageView(image: NSImage(named: image)!)
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.imageScaling = .scaleNone
+        let icon = Image(image)
         addSubview(icon)
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

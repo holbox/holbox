@@ -8,12 +8,10 @@ final class Add: Modal {
         super.init(400, 600)
         let icon = Image("new")
         
-        let title = Label(.key("Add.title.\(app.mode.rawValue)"))
-        title.font = .systemFont(ofSize: 20, weight: .bold)
+        let title = Label(.key("Add.title.\(app.mode.rawValue)"), size: 20, weight: .bold)
         title.textColor = .white
         
-        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"))
-        subtitle.font = .systemFont(ofSize: 14, weight: .regular)
+        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), size: 14, weight: .regular)
         subtitle.alignment = .center
         subtitle.textColor = .init(white: 1, alpha: 0.4)
         
@@ -23,12 +21,10 @@ final class Add: Modal {
         circle.layer!.backgroundColor = .haze
         circle.layer!.cornerRadius = 30
         
-        let available = Label("\(app.session.available)")
-        available.font = .systemFont(ofSize: 26, weight: .bold)
+        let available = Label("\(app.session.available)", size: 26, weight: .bold)
         available.textColor = .black
         
-        let info = Label(.key("Add.info"))
-        info.font = .systemFont(ofSize: 16, weight: .regular)
+        let info = Label(.key("Add.info"), size: 16, weight: .regular)
         info.textColor = .init(white: 1, alpha: 0.7)
         info.alignment = .center
         

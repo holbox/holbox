@@ -57,7 +57,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = false
-//        show(Detail())
+        show(Detail())
     }
     
     @objc func todo() {
@@ -66,7 +66,7 @@ final class Main: UIView {
         bar?._todo.selected = true
         bar?._shopping.selected = false
         bar?._shop.selected = false
-//        show(Detail())
+        show(Detail())
     }
     
     @objc func shopping() {
@@ -75,7 +75,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = true
         bar?._shop.selected = false
-//        show(Detail())
+        show(Detail())
     }
     
     @objc func shop() {
@@ -84,7 +84,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = true
-//        show(Shop())
+        show(Shop())
     }
     
     @objc func more() {

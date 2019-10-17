@@ -5,6 +5,7 @@ private(set) weak var app: App!
 @UIApplicationMain final class App: UIViewController, UIApplicationDelegate {
     var project = 0
     var mode = Mode.off
+    private(set) var session: Session!
     private(set) weak var main: Main!
     private(set) var win: UIWindow!
     

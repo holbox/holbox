@@ -43,8 +43,7 @@ class Delete: Modal {
     private init() {
         super.init(320, 180)
         
-        let heading = Label()
-        heading.font = .systemFont(ofSize: 20, weight: .bold)
+        let heading = Label(size: 20, weight: .bold)
         heading.textColor = .init(white: 1, alpha: 0.3)
         contentView!.addSubview(heading)
         self.heading = heading

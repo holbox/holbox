@@ -1,9 +1,8 @@
-import AppKit
+import UIKit
 
-final class Detail: NSView {
-    private final class Item: NSView {
-        override var mouseDownCanMoveWindow: Bool { false }
-        private weak var label: Label!
+final class Detail: UIView {
+    private final class Item: UIView {
+        private weak var label: UILabel!
         private let index: Int
         
         required init?(coder: NSCoder) { nil }
@@ -11,14 +10,17 @@ final class Detail: NSView {
             self.index = index
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
-            setAccessibilityElement(true)
-            setAccessibilityRole(.button)
-            setAccessibilityLabel(app.session.name(index))
-            wantsLayer = true
-            layer!.cornerRadius = 8
+            isAccessibilityElement = true
+            accessibilityTraits = .button
+            accessibilityLabel = app.session.name(index)
+            layer.cornerRadius = 8
             
-            let label = Label(app.session.name(index), size: 14, weight: .medium)
+            let label = Label(app.session.name(index))
+            label.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .medium)
+            label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            label.setAccessibilityElement(true)
             label.textColor = .white
+            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             addSubview(label)
             self.label = label
             
@@ -63,7 +65,8 @@ final class Detail: NSView {
         let image = Image("detail.\(app.mode.rawValue)")
         scroll.documentView!.addSubview(image)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), size: 30, weight: .bold)
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"))
+        title.font = .systemFont(ofSize: 30, weight: .bold)
         title.textColor = .init(white: 1, alpha: 0.3)
         scroll.documentView!.addSubview(title)
         
@@ -71,7 +74,8 @@ final class Detail: NSView {
         scroll.documentView!.addSubview(border)
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), size: 14, weight: .light)
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"))
+            empty.font = .systemFont(ofSize: 14, weight: .light)
             empty.textColor = .init(white: 1, alpha: 0.4)
             scroll.documentView!.addSubview(empty)
             

@@ -13,10 +13,7 @@ class Window: NSWindow, NSWindowDelegate {
             setAccessibilityRole(.button)
             alphaValue = 0.5
             
-            let icon = NSImageView()
-            icon.translatesAutoresizingMaskIntoConstraints = false
-            icon.imageScaling = .scaleNone
-            icon.image = NSImage(named: image)
+            let icon = Image(image)
             addSubview(icon)
             
             widthAnchor.constraint(equalToConstant: 12).isActive = true

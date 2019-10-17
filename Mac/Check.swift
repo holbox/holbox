@@ -3,7 +3,7 @@ import AppKit
 final class Check: NSView {
     var on = false { didSet { update() }}
     private weak var target: AnyObject!
-    private weak var icon: NSImageView!
+    private weak var icon: Image!
     private weak var label: Label!
     private let action: Selector
     override var mouseDownCanMoveWindow: Bool { false }
@@ -21,16 +21,12 @@ final class Check: NSView {
         wantsLayer = true
         layer!.cornerRadius = 4
         
-        let label = Label(text)
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        let label = Label(text, size: 14, weight: .regular)
         label.setAccessibilityElement(false)
         addSubview(label)
         self.label = label
         
-        let icon = NSImageView(image: NSImage(named: "check")!)
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.imageScaling = .scaleNone
+        let icon = Image("check")
         addSubview(icon)
         self.icon = icon
         

@@ -11,13 +11,7 @@ final class Alert: Modal {
         ribbon.layer!.backgroundColor = .haze
         contentView!.addSubview(ribbon)
         
-        let label = Label()
-        label.attributedStringValue = {
-            $0.append(.init(string: title + "\n", attributes: [.font: NSFont.systemFont(ofSize: 16, weight: .bold), .foregroundColor: NSColor.white]))
-            $0.append(.init(string: message, attributes: [.font: NSFont.systemFont(ofSize: 14, weight: .light), .foregroundColor: NSColor(white: 1, alpha: 0.8)]))
-            return $0
-        } (NSMutableAttributedString())
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .light, .init(white: 1, alpha: 0.8))])
         contentView!.addSubview(label)
         
         ribbon.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true
