@@ -4,6 +4,7 @@ final class Tab: UIView {
     var selected = false { didSet { update() } }
     private weak var icon: UIImageView!
     private weak var target: AnyObject!
+    private weak var base: UIView!
     private let action: Selector
     
     required init?(coder: NSCoder) { nil }
@@ -14,17 +15,28 @@ final class Tab: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
         accessibilityTraits = .button
-        layer.cornerRadius = 4
         
-        let icon = UIImageView(image: UIImage(named: image)?.withRenderingMode(.alwaysTemplate))
+        let base = UIView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.isUserInteractionEnabled = false
+        base.layer.cornerRadius = 4
+        addSubview(base)
+        self.base = base
+        
+        let icon = UIImageView(image: UIImage(named: image)!.withRenderingMode(.alwaysTemplate))
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.clipsToBounds = true
         icon.contentMode = .center
         addSubview(icon)
         self.icon = icon
         
-        widthAnchor.constraint(equalToConstant: 30).isActive = true
-        heightAnchor.constraint(equalToConstant: 30).isActive = true
+        widthAnchor.constraint(equalToConstant: 65).isActive = true
+        heightAnchor.constraint(equalToConstant: 65).isActive = true
+        
+        base.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        base.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -33,16 +45,15 @@ final class Tab: UIView {
         update()
     }
     
-    override func touchesEnded(_: Set<UITouch>, with: UIEvent?) {
-        print("touch")
-        with?.tar
-        if bounds.contains(convert(with?.allTouches?.first.location, from: nil)) {
+    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        if bounds.contains(touches.first!.location(in: self)) {
             _ = target.perform(action)
         }
+        super.touchesEnded(touches, with: with)
     }
     
     private func update() {
-        backgroundColor = selected ? .haze : .clear
+        base.backgroundColor = selected ? .haze : .clear
         icon.tintColor = selected ? .black : .haze
         icon.alpha = selected ? 1 : 0.4
     }

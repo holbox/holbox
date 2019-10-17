@@ -25,15 +25,16 @@ final class Button: UIView {
         icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         alpha = 0.3
+        super.touchesBegan(touches, with: with)
     }
     
-//    override func mouseUp(with: NSEvent) {
-//        window!.makeFirstResponder(nil)
-//        if bounds.contains(convert(with.locationInWindow, from: nil)) {
-//            _ = target.perform(action, with: nil)
-//        }
-//        alphaValue = 1
-//    }
+    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        if bounds.contains(touches.first!.location(in: self)) {
+            _ = target.perform(action)
+        }
+        alpha = 1
+        super.touchesEnded(touches, with: with)
+    }
 }

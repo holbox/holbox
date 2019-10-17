@@ -44,54 +44,68 @@ final class Main: UIView {
     }
     
     func project(_ project: Int) {
-//        app.project = project
-//        switch app.mode {
+        app.project = project
+        switch app.mode {
 //        case .kanban: show(Kanban())
-//        default: break
-//        }
+        default: break
+        }
     }
     
     @objc func kanban() {
-//        app.mode = .kanban
-//        bar?._kanban.selected = true
-//        bar?._todo.selected = false
-//        bar?._shopping.selected = false
-//        bar?._shop.selected = false
+        app.mode = .kanban
+        bar?._kanban.selected = true
+        bar?._todo.selected = false
+        bar?._shopping.selected = false
+        bar?._shop.selected = false
 //        show(Detail())
     }
     
     @objc func todo() {
-//        app.mode = .todo
-//        bar?._kanban.selected = false
-//        bar?._todo.selected = true
-//        bar?._shopping.selected = false
-//        bar?._shop.selected = false
+        app.mode = .todo
+        bar?._kanban.selected = false
+        bar?._todo.selected = true
+        bar?._shopping.selected = false
+        bar?._shop.selected = false
 //        show(Detail())
     }
     
     @objc func shopping() {
-//        app.mode = .shopping
-//        bar?._kanban.selected = false
-//        bar?._todo.selected = false
-//        bar?._shopping.selected = true
-//        bar?._shop.selected = false
+        app.mode = .shopping
+        bar?._kanban.selected = false
+        bar?._todo.selected = false
+        bar?._shopping.selected = true
+        bar?._shop.selected = false
 //        show(Detail())
     }
     
     @objc func shop() {
-//        app.mode = .off
-//        bar?._kanban.selected = false
-//        bar?._todo.selected = false
-//        bar?._shopping.selected = false
-//        bar?._shop.selected = true
+        app.mode = .off
+        bar?._kanban.selected = false
+        bar?._todo.selected = false
+        bar?._shopping.selected = false
+        bar?._shop.selected = true
 //        show(Shop())
     }
     
     @objc func more() {
-//        app.runModal(for: More.Main())
+        
     }
     
     @objc func about() {
-//        app.runModal(for: More.Main())
+        
+    }
+    
+    private func show(_ view: UIView) {
+        guard let base = self.base else { return }
+        base.subviews.forEach { $0.removeFromSuperview() }
+        view.alpha = 0
+        base.addSubview(view)
+        
+        view.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        view.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
+        view.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
+        
+        UIView.animate(withDuration: 0.4) { [weak view] in view?.alpha = 1 }
     }
 }

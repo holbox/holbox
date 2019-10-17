@@ -38,25 +38,22 @@ final class Bar: UIView {
         
         [_kanban, _todo, _shopping, _shop, _more].forEach {
             addSubview($0)
-            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+            $0.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         }
         
-        heightAnchor.constraint(equalToConstant: 51).isActive = true
+        topAnchor.constraint(equalTo: _kanban.topAnchor).isActive = true
         
-        _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
-        _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
-        _shop.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
+        _kanban.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
+        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor).isActive = true
+        _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor).isActive = true
+        _shop.leftAnchor.constraint(equalTo: _shopping.rightAnchor).isActive = true
         
-        _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        _more.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        _more.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        _more.heightAnchor.constraint(equalToConstant: 65).isActive = true
         
         border.topAnchor.constraint(equalTo: topAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        
-//        _todo.isHidden = true
-//        _shopping.isHidden = true
     }
 }
