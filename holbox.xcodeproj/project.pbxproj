@@ -42,6 +42,7 @@
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
+		DAA463F22358640C00A5E990 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F12358640C00A5E990 /* Extensions.swift */; };
 		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
@@ -65,7 +66,6 @@
 		DACB75CE2347708100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
-		DACB75D8234770E600037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAB234766CB0060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DB234770FA00037180 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAE234766E60060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DACB75DE2347710800037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
@@ -98,8 +98,7 @@
 		DAF68E90234765650060895A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E75234764A60060895A /* Assets.xcassets */; };
 		DAF68E96234765820060895A /* iOS.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E91234765820060895A /* iOS.storyboard */; };
 		DAF68E97234765820060895A /* iOS.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E92234765820060895A /* iOS.xcassets */; };
-		DAF68E98234765820060895A /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E94234765820060895A /* iOS.swift */; };
-		DAF68E99234765820060895A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E95234765820060895A /* SceneDelegate.swift */; };
+		DAF68E98234765820060895A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E94234765820060895A /* App.swift */; };
 		DAF68E9C234765B70060895A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E9B234765B60060895A /* TodayViewController.swift */; };
 		DAF68E9E234766040060895A /* Watch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E9D234766040060895A /* Watch.storyboard */; };
 		DAF68EA3234766300060895A /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA02347662F0060895A /* ComplicationController.swift */; };
@@ -122,13 +121,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DAF68DAA234756720060895A;
 			remoteInfo = iOS;
-		};
-		DACB75D9234770E600037180 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAF68D93234752760060895A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAF68E47234759310060895A;
-			remoteInfo = iOSToday;
 		};
 		DACB75DC234770FA00037180 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -186,17 +178,6 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAF68E57234759310060895A /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				DACB75D8234770E600037180 /* holbox.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -223,6 +204,7 @@
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
+		DAA463F12358640C00A5E990 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
@@ -274,8 +256,7 @@
 		DAF68E8E2347653E0060895A /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		DAF68E91234765820060895A /* iOS.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iOS.storyboard; sourceTree = "<group>"; };
 		DAF68E92234765820060895A /* iOS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iOS.xcassets; sourceTree = "<group>"; };
-		DAF68E94234765820060895A /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
-		DAF68E95234765820060895A /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DAF68E94234765820060895A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		DAF68E9B234765B60060895A /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		DAF68E9D234766040060895A /* Watch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Watch.storyboard; sourceTree = "<group>"; };
 		DAF68EA02347662F0060895A /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -513,8 +494,8 @@
 		DAF68E93234765820060895A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				DAF68E94234765820060895A /* iOS.swift */,
-				DAF68E95234765820060895A /* SceneDelegate.swift */,
+				DAF68E94234765820060895A /* App.swift */,
+				DAA463F12358640C00A5E990 /* Extensions.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -642,13 +623,11 @@
 				DAF68DE02347586B0060895A /* Sources */,
 				DAF68DE12347586B0060895A /* Frameworks */,
 				DAF68DE22347586B0060895A /* Resources */,
-				DAF68E57234759310060895A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				DACB75D7234770E100037180 /* PBXTargetDependency */,
-				DACB75DA234770E600037180 /* PBXTargetDependency */,
 			);
 			name = iOSApp;
 			productName = iOSApp;
@@ -993,8 +972,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAD8F197234DBB5700835E3E /* Shared.swift in Sources */,
-				DAF68E98234765820060895A /* iOS.swift in Sources */,
-				DAF68E99234765820060895A /* SceneDelegate.swift in Sources */,
+				DAA463F22358640C00A5E990 /* Extensions.swift in Sources */,
+				DAF68E98234765820060895A /* App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1036,11 +1015,6 @@
 			isa = PBXTargetDependency;
 			target = DAF68DAA234756720060895A /* iOS */;
 			targetProxy = DACB75D6234770E100037180 /* PBXContainerItemProxy */;
-		};
-		DACB75DA234770E600037180 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAF68E47234759310060895A /* iOSToday */;
-			targetProxy = DACB75D9234770E600037180 /* PBXContainerItemProxy */;
 		};
 		DACB75DD234770FA00037180 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
