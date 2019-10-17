@@ -70,10 +70,7 @@ final class Detail: NSView {
         title.textColor = .init(white: 1, alpha: 0.3)
         scroll.documentView!.addSubview(title)
         
-        let border = NSView()
-        border.translatesAutoresizingMaskIntoConstraints = false
-        border.wantsLayer = true
-        border.layer!.backgroundColor = .black
+        let border = Border()
         scroll.documentView!.addSubview(border)
         
         if app.session.projects(app.mode).isEmpty {
@@ -98,15 +95,11 @@ final class Detail: NSView {
                 if top == nil {
                     item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
-                    let border = NSView()
-                    border.translatesAutoresizingMaskIntoConstraints = false
-                    border.wantsLayer = true
-                    border.layer!.backgroundColor = .black
+                    let border = Border()
                     scroll.documentView!.addSubview(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
-                    border.heightAnchor.constraint(equalToConstant: 1).isActive = true
                     border.topAnchor.constraint(equalTo: top!).isActive = true
                     
                     item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
@@ -138,7 +131,6 @@ final class Detail: NSView {
         
         border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
-        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
     }
     

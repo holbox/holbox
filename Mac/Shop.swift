@@ -8,16 +8,13 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         private let product: SKProduct
         
         required init?(coder: NSCoder) { nil }
-        init(_ product: SKProduct, bordered: Bool, shop: Shop) {
+        init(_ product: SKProduct, shop: Shop) {
             self.product = product
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
             self.shop = shop
             
-            let border = NSView()
-            border.translatesAutoresizingMaskIntoConstraints = false
-            border.wantsLayer = true
-            border.layer!.backgroundColor = bordered ? .black : .clear
+            let border = Border()
             addSubview(border)
             
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
@@ -52,7 +49,6 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             
             border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            border.heightAnchor.constraint(equalToConstant: 1).isActive = true
             border.topAnchor.constraint(equalTo: topAnchor).isActive = true
             
             image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
@@ -114,12 +110,6 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         title.textColor = .init(white: 1, alpha: 0.3)
         scroll.documentView!.addSubview(title)
         
-        let border = NSView()
-        border.translatesAutoresizingMaskIntoConstraints = false
-        border.wantsLayer = true
-        border.layer!.backgroundColor = .black
-        scroll.documentView!.addSubview(border)
-        
         let logo = Logo()
         scroll.documentView!.addSubview(logo)
         self.logo = logo
@@ -154,25 +144,20 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
         title.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 50).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
-        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
-        
         logo.centerXAnchor.constraint(equalTo: scroll.documentView!.centerXAnchor).isActive = true
-        logo.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 100).isActive = true
+        logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
         
-        image.topAnchor.constraint(equalTo: border.topAnchor, constant: 20).isActive = true
-        image.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true
+        image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+        image.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
         image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         image.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         message.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
-        message.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true
-        message.rightAnchor.constraint(lessThanOrEqualTo: border.rightAnchor).isActive = true
+        message.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
+        message.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -70).isActive = true
         
-        _restore.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -15).isActive = true
-        _restore.rightAnchor.constraint(equalTo: border.rightAnchor).isActive = true
+        _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
+        _restore.rightAnchor.constraint(equalTo: rightAnchor, constant: -70).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 160).isActive = true
         
         loading()
@@ -220,7 +205,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
         }.forEach {
-            let item = Item($0, bordered: top != nil, shop: self)
+            let item = Item($0, shop: self)
             scroll.documentView!.addSubview(item)
             
             if top == nil {

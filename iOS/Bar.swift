@@ -1,6 +1,6 @@
-import AppKit
+import UIKit
 
-final class Bar: NSView {
+final class Bar: UIView {
     private(set) weak var _kanban: Tab!
     private(set) weak var _todo: Tab!
     private(set) weak var _shopping: Tab!
@@ -11,7 +11,10 @@ final class Bar: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let border = Border()
+        let border = NSView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        border.wantsLayer = true
+        border.layer!.backgroundColor = .black
         addSubview(border)
         
         let _kanban = Tab("kanban", target: app.main, action: #selector(app.main.kanban))
@@ -52,6 +55,7 @@ final class Bar: NSView {
         _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true

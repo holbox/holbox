@@ -16,10 +16,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let border = NSView()
-        border.translatesAutoresizingMaskIntoConstraints = false
-        border.wantsLayer = true
-        border.layer!.backgroundColor = .black
+        let border = Border()
         scroll.documentView!.addSubview(border)
         
         var left: NSLayoutXAxisAnchor?
@@ -88,7 +85,6 @@ final class Kanban: NSView, NSTextViewDelegate {
         
         border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor).isActive = true
-        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
         border.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 180).isActive = true
         
         name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 30).isActive = true
