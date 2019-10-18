@@ -1,6 +1,6 @@
 import UIKit
 
-final class Detail: UIView {
+final class Detail: UIView {/*
     private final class Item: UIView {
         private weak var label: UILabel!
         private let index: Int
@@ -49,11 +49,11 @@ final class Detail: UIView {
             super.mouseUp(with: with)
         }
     }
-    
+    */
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false/*
         wantsLayer = true
         
         let scroll = Scroll()
@@ -131,10 +131,10 @@ final class Detail: UIView {
         
         border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
-        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
-    }
+        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true*/
+    }/*
     
     @objc private func add() {
         app.runModal(for: Add())
-    }
+    }*/
 }
