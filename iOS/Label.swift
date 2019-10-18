@@ -21,6 +21,7 @@ final class Label: UILabel {
     }
     
     private func configure() {
+        numberOfLines = 0
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
         accessibilityTraits = .staticText

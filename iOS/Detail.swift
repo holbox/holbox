@@ -55,27 +55,27 @@ final class Detail: UIView {
         addSubview(_add)
         
         let image = Image("detail.\(app.mode.rawValue)")
-        scroll.content.addSubview(image)
+        scroll.add(image)
         
         let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, .init(white: 1, alpha: 0.3))
-        scroll.content.addSubview(title)
+        scroll.add(title)
         
         let border = Border()
-        scroll.content.addSubview(border)
+        scroll.add(border)
         
         if app.session.projects(app.mode).isEmpty {
             let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.4))
-            scroll.content.addSubview(empty)
+            scroll.add(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
             empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
             
-            scroll.content.bottomAnchor.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
                 let item = Item($0)
-                scroll.content.addSubview(item)
+                scroll.add(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
                 item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
@@ -84,7 +84,7 @@ final class Detail: UIView {
                     item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
                     let border = Border()
-                    scroll.content.addSubview(border)
+                    scroll.add(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
@@ -95,14 +95,14 @@ final class Detail: UIView {
                 
                 top = item.bottomAnchor
             }
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: top!, constant: 60).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 60).isActive = true
         }
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        scroll.right.constraint(equalTo: rightAnchor).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -111,18 +111,18 @@ final class Detail: UIView {
         
         image.widthAnchor.constraint(equalToConstant: 300).isActive = true
         image.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        image.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 50).isActive = true
+        image.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
         title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.right, constant: -70).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
     }
     
     @objc private func add() {
-        app.runModal(for: Add())
+        
     }
 }

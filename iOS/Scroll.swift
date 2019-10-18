@@ -1,14 +1,19 @@
 import UIKit
 
 final class Scroll: UIScrollView {
-    private(set) weak var content: UIView!
+    var views: [UIView] { content.subviews }
+    var top: NSLayoutYAxisAnchor { content.topAnchor }
+    var bottom: NSLayoutYAxisAnchor { content.bottomAnchor }
+    var left: NSLayoutXAxisAnchor { content.leftAnchor }
+    var right: NSLayoutXAxisAnchor { content.rightAnchor }
+    var centerX: NSLayoutXAxisAnchor { content.centerXAnchor }
+    private weak var content: UIView!
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         indicatorStyle = .white
-        alwaysBounceVertical = true
         keyboardDismissMode = .interactive
         
         let content = UIView()
@@ -18,8 +23,7 @@ final class Scroll: UIScrollView {
         
         content.topAnchor.constraint(equalTo: topAnchor).isActive = true
         content.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        content.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        content.heightAnchor.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
-        content.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
     }
+    
+    func add(_ view: UIView) { content.addSubview(view) }
 }
