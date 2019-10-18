@@ -73,7 +73,7 @@ final class Logo: NSView {
     }
     
     func start() {
-        timer.schedule(deadline: .now() + 0.2, repeating: 0.2)
+        timer.schedule(deadline: .now() + 0.2, repeating: 0.1)
         isHidden = false
     }
     

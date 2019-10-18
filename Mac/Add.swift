@@ -24,18 +24,13 @@ final class Add: Modal {
         let info = Label(.key("Add.info"), 16, .regular, .init(white: 1, alpha: 0.7))
         info.alignment = .center
         
-        let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), target: self, action: #selector(confirm))
-        _confirm.layer!.backgroundColor = .haze
-        _confirm.label.textColor = .black
+        let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), self, #selector(confirm), .haze, .black)
         self._confirm = _confirm
         
-        let _purchases = Control(.key("Add.purchases"), target: self, action: #selector(purchases))
-        _purchases.layer!.backgroundColor = .haze
-        _purchases.label.textColor = .black
+        let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze, .black)
         self._purchases = _purchases
         
-        let cancel = Control(.key("Add.cancel"), target: self, action: #selector(close))
-        cancel.label.textColor = .init(white: 1, alpha: 0.4)
+        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.4))
         
         [icon, title, subtitle, circle, available, info, _confirm, _purchases, cancel].forEach {
             contentView!.addSubview($0)

@@ -2,12 +2,11 @@ import AppKit
 
 final class Control: NSView {
     weak var target: AnyObject?
-    private(set) weak var label: Label!
     private let action: Selector
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, target: AnyObject, action: Selector) {
+    init(_ title: String, _ target: AnyObject, _ action: Selector, _ background: CGColor, _ text: NSColor) {
         self.target = target
         self.action = action
         super.init(frame: .zero)
@@ -17,11 +16,11 @@ final class Control: NSView {
         setAccessibilityLabel(title)
         wantsLayer = true
         layer!.cornerRadius = 8
+        layer!.backgroundColor = background
         
-        let label = Label(title, 14, .bold, .black)
+        let label = Label(title, 14, .bold, text)
         label.setAccessibilityElement(false)
         addSubview(label)
-        self.label = label
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true
         

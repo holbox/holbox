@@ -22,9 +22,7 @@ class More: Modal {
     final class Project: More {
         override init() {
             super.init()
-            let _delete = Control(.key("More.delete.\(app.mode.rawValue)"), target: self, action: #selector(delete))
-            _delete.label.textColor = .init(white: 1, alpha: 0.6)
-            _delete.layer!.backgroundColor = .black
+            let _delete = Control(.key("More.delete.\(app.mode.rawValue)"), self, #selector(delete), .black, .init(white: 1, alpha: 0.6))
             add(_delete)
             
             _delete.topAnchor.constraint(equalTo: _title.bottomAnchor, constant: 40).isActive = true
@@ -41,12 +39,9 @@ class More: Modal {
     private init() {
         super.init(400, 280)
         
+        let _done = Control(.key("More.done"), self, #selector(close), .haze, .black)
         let _title = Label(.key("More.title"), 20, .bold, .init(white: 1, alpha: 0.2))
         self._title = _title
-        
-        let _done = Control(.key("More.done"), target: self, action: #selector(close))
-        _done.label.textColor = .black
-        _done.layer!.backgroundColor = .haze
         
         [_title, _done].forEach(add(_:))
         

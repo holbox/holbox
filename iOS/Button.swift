@@ -27,6 +27,11 @@ final class Button: UIView {
         super.touchesBegan(touches, with: with)
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
+        alpha = 1
+        super.touchesCancelled(touches, with: with)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if bounds.contains(touches.first!.location(in: self)) {
             _ = target.perform(action)

@@ -30,9 +30,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let purchased = Label(.key("Shop.purchased"), 20, .bold, .haze)
             addSubview(purchased)
             
-            let control = Control(.key("Shop.purchase"), target: self, action: #selector(purchase))
-            control.layer!.backgroundColor = .haze
-            control.label.textColor = .black
+            let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze, .black)
             addSubview(control)
             
             bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 40).isActive = true
@@ -112,10 +110,8 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), target: self, action: #selector(restore))
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, .haze)
         _restore.isHidden = true
-        _restore.layer!.backgroundColor = .black
-        _restore.label.textColor = .haze
         scroll.add(_restore)
         self._restore = _restore
         

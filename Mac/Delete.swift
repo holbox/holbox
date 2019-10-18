@@ -47,12 +47,8 @@ class Delete: Modal {
         contentView!.addSubview(heading)
         self.heading = heading
         
-        let _confirm = Control(.key("Delete.confirm"), target: self, action: #selector(confirm))
-        _confirm.label.textColor = .haze
-        _confirm.layer!.backgroundColor = .black
-        
-        let _cancel = Control(.key("Delete.cancel"), target: self, action: #selector(close))
-        _cancel.label.textColor = .white
+        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, .haze)
+        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .white)
         
         [_confirm, _cancel].forEach {
             contentView!.addSubview($0)
