@@ -17,7 +17,7 @@ final class Detail: NSView {
             wantsLayer = true
             layer!.cornerRadius = 8
             
-            let label = Label(app.session.name(index), 14, .medium, .white)
+            let label = Label(app.session.name(index), 16, .bold, .white)
             addSubview(label)
             self.label = label
             

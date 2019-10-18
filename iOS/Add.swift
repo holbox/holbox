@@ -10,12 +10,12 @@ final class Add: Modal {
         
         let title = Label(.key("Add.title.\(app.mode.rawValue)"), 20, .bold, .white)
         
-        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.5))
+        let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.4))
         subtitle.textAlignment = .center
         
         let available = Label("\(app.session.available)", 60, .light, .haze)
         
-        let info = Label(.key("Add.info"), 16, .light, .init(white: 1, alpha: 0.9))
+        let info = Label(.key("Add.info"), 16, .light, .init(white: 1, alpha: 0.8))
         info.textAlignment = .center
         
         let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), self, #selector(confirm), .haze, .black)
