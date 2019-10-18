@@ -96,40 +96,40 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         self.scroll = scroll
         
         let title = Label(.key("Shop.title"), 30, .bold, .init(white: 1, alpha: 0.3))
-        scroll.documentView!.addSubview(title)
+        scroll.add(title)
         
         let logo = Logo()
-        scroll.documentView!.addSubview(logo)
+        scroll.add(logo)
         self.logo = logo
         
         let image = Image("error")
         image.isHidden = true
-        scroll.documentView!.addSubview(image)
+        scroll.add(image)
         self.image = image
         
         let message = Label("", 16, .light, .init(white: 1, alpha: 0.7))
         message.isHidden = true
-        scroll.documentView!.addSubview(message)
+        scroll.add(message)
         self.message = message
         
         let _restore = Control(.key("Shop.restore"), target: self, action: #selector(restore))
         _restore.isHidden = true
         _restore.layer!.backgroundColor = .black
         _restore.label.textColor = .haze
-        scroll.documentView!.addSubview(_restore)
+        scroll.add(_restore)
         self._restore = _restore
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.documentView!.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
+        scroll.right.constraint(equalTo: rightAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 50).isActive = true
+        title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         
-        logo.centerXAnchor.constraint(equalTo: scroll.documentView!.centerXAnchor).isActive = true
+        logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
         
         image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
@@ -185,32 +185,32 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         message.isHidden = true
         message.stringValue = ""
         logo.stop()
-        scroll.documentView!.subviews.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
         var top: NSLayoutYAxisAnchor?
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
         }.forEach {
             let item = Item($0, shop: self)
-            scroll.documentView!.addSubview(item)
+            scroll.add(item)
             
             if top == nil {
-                item.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 120).isActive = true
+                item.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
             } else {
                 item.topAnchor.constraint(equalTo: top!).isActive = true
             }
             
-            item.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
+            item.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
             item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -140).isActive = true
             top = item.bottomAnchor
         }
         if top != nil {
-            scroll.documentView!.bottomAnchor.constraint(equalTo: top!, constant: 60).isActive = true
+            scroll.bottom.constraint(equalTo: top!, constant: 60).isActive = true
         }
     }
     
     private func loading() {
         logo.start()
-        scroll.documentView!.subviews.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = true
         message.isHidden = true
@@ -220,7 +220,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
     private func error(_ error: String) {
         app.alert(.key("Error"), message: error)
         logo.stop()
-        scroll.documentView!.subviews.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = false
         message.isHidden = false

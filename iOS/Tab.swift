@@ -2,7 +2,7 @@ import UIKit
 
 final class Tab: UIView {
     var selected = false { didSet { update() } }
-    private weak var icon: UIImageView!
+    private weak var icon: Image!
     private weak var target: AnyObject!
     private weak var base: UIView!
     private let action: Selector
@@ -23,10 +23,7 @@ final class Tab: UIView {
         addSubview(base)
         self.base = base
         
-        let icon = UIImageView(image: UIImage(named: image)!.withRenderingMode(.alwaysTemplate))
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.clipsToBounds = true
-        icon.contentMode = .center
+        let icon = Image(image, template: true)
         addSubview(icon)
         self.icon = icon
         

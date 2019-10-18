@@ -13,10 +13,7 @@ final class Button: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         
-        let icon = UIImageView(image: UIImage(named: image)!)
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.contentMode = .center
-        icon.clipsToBounds = true
+        let icon = Image(image)
         addSubview(icon)
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

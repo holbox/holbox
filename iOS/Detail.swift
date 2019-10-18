@@ -1,8 +1,8 @@
 import UIKit
 
-final class Detail: UIView {/*
+final class Detail: UIView {
     private final class Item: UIView {
-        private weak var label: UILabel!
+        private weak var label: Label!
         private let index: Int
         
         required init?(coder: NSCoder) { nil }
@@ -15,12 +15,7 @@ final class Detail: UIView {/*
             accessibilityLabel = app.session.name(index)
             layer.cornerRadius = 8
             
-            let label = Label(app.session.name(index))
-            label.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .medium)
-            label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-            label.setAccessibilityElement(true)
-            label.textColor = .white
-            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            let label = Label(app.session.name(index), 14, .medium, .white)
             addSubview(label)
             self.label = label
             
@@ -31,30 +26,27 @@ final class Detail: UIView {/*
             label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
         }
         
-        override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
-        
-        override func mouseDown(with: NSEvent) {
-            layer!.backgroundColor = .haze
+        override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
+            backgroundColor = .haze
             label.textColor = .black
-            super.mouseDown(with: with)
+            super.touchesBegan(touches, with: with)
         }
         
-        override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) {
+        override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+            if bounds.contains(touches.first!.location(in: self)) {
                 app.main.project(index)
             } else {
-                layer!.backgroundColor = .clear
+                backgroundColor = .clear
                 label.textColor = .white
             }
-            super.mouseUp(with: with)
+            super.touchesEnded(touches, with: with)
         }
     }
-    */
+    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false/*
-        wantsLayer = true
+        translatesAutoresizingMaskIntoConstraints = false
         
         let scroll = Scroll()
         addSubview(scroll)
@@ -63,31 +55,27 @@ final class Detail: UIView {/*
         addSubview(_add)
         
         let image = Image("detail.\(app.mode.rawValue)")
-        scroll.documentView!.addSubview(image)
+        scroll.content.addSubview(image)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"))
-        title.font = .systemFont(ofSize: 30, weight: .bold)
-        title.textColor = .init(white: 1, alpha: 0.3)
-        scroll.documentView!.addSubview(title)
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, .init(white: 1, alpha: 0.3))
+        scroll.content.addSubview(title)
         
         let border = Border()
-        scroll.documentView!.addSubview(border)
+        scroll.content.addSubview(border)
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"))
-            empty.font = .systemFont(ofSize: 14, weight: .light)
-            empty.textColor = .init(white: 1, alpha: 0.4)
-            scroll.documentView!.addSubview(empty)
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.4))
+            scroll.content.addSubview(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
             empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
             
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+            scroll.content.bottomAnchor.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
                 let item = Item($0)
-                scroll.documentView!.addSubview(item)
+                scroll.content.addSubview(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
                 item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
@@ -96,7 +84,7 @@ final class Detail: UIView {/*
                     item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
                     let border = Border()
-                    scroll.documentView!.addSubview(border)
+                    scroll.content.addSubview(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
@@ -131,10 +119,10 @@ final class Detail: UIView {/*
         
         border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor, constant: -70).isActive = true
-        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true*/
-    }/*
+        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+    }
     
     @objc private func add() {
         app.runModal(for: Add())
-    }*/
+    }
 }

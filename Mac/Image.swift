@@ -6,8 +6,8 @@ final class Image: NSImageView {
     required init?(coder: NSCoder) { nil }
     init(_ name: String) {
         super.init(frame: .zero)
-        image = NSImage(named: name)
         translatesAutoresizingMaskIntoConstraints = false
+        image = NSImage(named: name)
         imageScaling = .scaleNone
     }
 }

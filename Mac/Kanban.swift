@@ -17,17 +17,17 @@ final class Kanban: NSView, NSTextViewDelegate {
         self.scroll = scroll
         
         let border = Border()
-        scroll.documentView!.addSubview(border)
+        scroll.add(border)
         
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in
             let column = Column(list)
-            scroll.documentView!.addSubview(column)
+            scroll.add(column)
             
             var top: Card?
             (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let card = Card($0, column: list)
-                scroll.documentView!.addSubview(card)
+                scroll.add(card)
                 
                 if top == nil {
                     card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
@@ -36,22 +36,22 @@ final class Kanban: NSView, NSTextViewDelegate {
                     top!.child = card
                 }
                 
-                scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
-                scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 110).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
+                scroll.right.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 110).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 40)
                 card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 80)
                 top = card
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.left).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 120).isActive = true
-            scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 70).isActive = true
-            scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
+            scroll.right.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 70).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }
         
@@ -60,14 +60,14 @@ final class Kanban: NSView, NSTextViewDelegate {
         name.string = app.session.name(app.project)
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 55
-        scroll.documentView!.addSubview(name)
+        scroll.add(name)
         self.name = name
         
         let _card = Button("card", target: self, action: #selector(card))
         let _more = Button("more", target: self, action: #selector(more))
         
         [_card, _more].forEach {
-            scroll.documentView!.addSubview($0)
+            scroll.add($0)
             $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
             $0.centerYAnchor.constraint(equalTo: name.centerYAnchor, constant: 2).isActive = true
@@ -77,18 +77,18 @@ final class Kanban: NSView, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.documentView!.rightAnchor.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
-        scroll.documentView!.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.documentView!.rightAnchor).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 180).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.top, constant: 180).isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.documentView!.topAnchor, constant: 30).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.documentView!.leftAnchor, constant: 70).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
         name.didChangeText()
         name.delegate = self
     }
@@ -120,8 +120,7 @@ final class Kanban: NSView, NSTextViewDelegate {
     @objc private func card() {
         app.session.add(app.project, list: 0)
         app.main.project(app.project)
-        (app.main.base!.subviews.first as! Kanban).scroll.documentView!.subviews
-            .compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+        (app.main.base!.subviews.first as! Kanban).scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
     
     @objc private func more() {

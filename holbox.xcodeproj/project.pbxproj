@@ -54,6 +54,7 @@
 		DAA464082358A29800A5E990 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA464072358A29800A5E990 /* Detail.swift */; };
 		DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA464092358A2CA00A5E990 /* Scroll.swift */; };
 		DAA4640C2358A43F00A5E990 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA4640B2358A43F00A5E990 /* Label.swift */; };
+		DAB979502359AB9F00631280 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9794F2359AB9F00631280 /* Image.swift */; };
 		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
@@ -227,6 +228,7 @@
 		DAA464072358A29800A5E990 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DAA464092358A2CA00A5E990 /* Scroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scroll.swift; sourceTree = "<group>"; };
 		DAA4640B2358A43F00A5E990 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		DAB9794F2359AB9F00631280 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
@@ -523,6 +525,7 @@
 				DAA4640323588DFD00A5E990 /* Button.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAA463F12358640C00A5E990 /* Extensions.swift */,
+				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
 				DAA4640B2358A43F00A5E990 /* Label.swift */,
 				DAA463F323586E0400A5E990 /* Logo.swift */,
@@ -1012,6 +1015,7 @@
 				DAA4640223588AE600A5E990 /* Tab.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* Shared.swift in Sources */,
+				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DAA463F22358640C00A5E990 /* Extensions.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
