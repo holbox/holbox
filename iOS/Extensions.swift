@@ -9,4 +9,5 @@ extension CGColor {
     static let haze = UIColor.haze.cgColor
     static let background = UIColor.background.cgColor
     static let clear = UIColor.clear.cgColor
+    static let black = UIColor.black.cgColor
 }

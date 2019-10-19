@@ -56,6 +56,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         }
         
         let name = Text()
+        name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
         name.string = app.session.name(app.project)
         name.textContainer!.size.width = 500

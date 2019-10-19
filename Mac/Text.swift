@@ -10,6 +10,7 @@ final class Text: NSTextView {
     override var canBecomeKeyView: Bool { edit }
     override var isEditable: Bool { get { edit } set { } }
     override var isSelectable: Bool { get { edit } set { } }
+    override func accessibilityValue() -> String? { string }
     private weak var width: NSLayoutConstraint!
     private weak var height: NSLayoutConstraint!
     

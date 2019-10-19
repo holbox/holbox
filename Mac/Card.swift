@@ -7,12 +7,12 @@ final class Card: NSView, NSTextViewDelegate {
     weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
-    private var dragging = false
-    private var deltaX = CGFloat(0)
-    private var deltaY = CGFloat(0)
     private weak var content: Text!
     private weak var base: NSView!
     private weak var _delete: Button!
+    private var dragging = false
+    private var deltaX = CGFloat(0)
+    private var deltaY = CGFloat(0)
     override var mouseDownCanMoveWindow: Bool { false }
 
     required init?(coder: NSCoder) { nil }
@@ -33,6 +33,7 @@ final class Card: NSView, NSTextViewDelegate {
         self.base = base
         
         let content = Text()
+        content.setAccessibilityLabel(.key("Card"))
         content.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true

@@ -11,14 +11,13 @@ final class Column: NSView, NSTextViewDelegate {
         translatesAutoresizingMaskIntoConstraints = false
         
         let name = Text()
+        name.setAccessibilityLabel(.key("Column"))
         name.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
         name.string = app.session.name(app.project, list: index)
         name.textContainer!.size.width = 400
         name.textContainer!.size.height = 45
         addSubview(name)
         self.name = name
-        
-        addSubview(name)
         
         rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
         bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
