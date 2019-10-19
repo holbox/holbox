@@ -11,7 +11,7 @@ final class Column: UIView {
         
         let name = UILabel()
         name.translatesAutoresizingMaskIntoConstraints = false
-        name.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
+        name.font = .systemFont(ofSize: 20, weight: .bold)
         name.text = app.session.name(app.project, list: index)
         name.isAccessibilityElement = true
         name.accessibilityTraits = .staticText
@@ -20,9 +20,9 @@ final class Column: UIView {
         name.alpha = 0.2
         addSubview(name)
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
+        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 10).isActive = true
         bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         name.topAnchor.constraint(equalTo: topAnchor).isActive = true
     }
 }

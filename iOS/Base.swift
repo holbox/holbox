@@ -25,16 +25,17 @@ final class Base: UIView {
             top.isActive = true
             let previousTop = self.top
             layoutIfNeeded()
+            previous.backgroundColor = .black
             previousTop?.constant = 50
+            top.constant = 100
             
-            UIView.animate(withDuration: 0.3, animations: {
-                previous.backgroundColor = .black
+            UIView.animate(withDuration: 0.6, animations: {
                 self.layoutIfNeeded()
             }) { _ in
-                previousTop?.constant = 70
                 top.constant = 0
+                previousTop?.constant = 60
                 
-                UIView.animate(withDuration: 0.8, animations: {
+                UIView.animate(withDuration: 0.4, animations: {
                     self.layoutIfNeeded()
                 }) { _ in
                     previous.removeFromSuperview()

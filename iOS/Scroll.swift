@@ -20,11 +20,13 @@ final class Scroll: UIScrollView {
         let content = UIView()
         content.translatesAutoresizingMaskIntoConstraints = false
         content.clipsToBounds = true
+        content.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         addSubview(content)
         self.content = content
         
         content.topAnchor.constraint(equalTo: topAnchor).isActive = true
         content.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        content.rightAnchor.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         content.widthAnchor.constraint(greaterThanOrEqualTo: widthAnchor).isActive = true
         content.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
     }

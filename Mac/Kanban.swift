@@ -37,7 +37,6 @@ final class Kanban: NSView, NSTextViewDelegate {
                 }
                 
                 scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
-                scroll.right.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 110).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 40)
                 card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 80)
                 top = card
@@ -50,9 +49,12 @@ final class Kanban: NSView, NSTextViewDelegate {
             }
             
             column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
-            scroll.right.constraint(greaterThanOrEqualTo: column.rightAnchor, constant: 70).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
+        }
+        
+        if left != nil {
+            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 70).isActive = true
         }
         
         let name = Text()

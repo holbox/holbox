@@ -100,7 +100,7 @@ final class Detail: UIView {
         }
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
@@ -112,7 +112,7 @@ final class Detail: UIView {
         
         image.widthAnchor.constraint(equalToConstant: 120).isActive = true
         image.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        image.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
+        image.topAnchor.constraint(equalTo: scroll.top, constant: 80).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
