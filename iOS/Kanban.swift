@@ -1,16 +1,13 @@
-/*import UIKit
+import UIKit
 
-final class Kanban: UIView, UITextViewDelegate {
+final class Kanban: UIView {
     private weak var drag: Card?
     private weak var scroll: Scroll!
-    private weak var name: Text!
-    override var mouseDownCanMoveWindow: Bool { drag == nil }
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        wantsLayer = true
         
         let scroll = Scroll()
         addSubview(scroll)
@@ -55,13 +52,16 @@ final class Kanban: UIView, UITextViewDelegate {
             left = column.rightAnchor
         }
         
-        let name = Text()
+        let name = UILabel()
+        name.translatesAutoresizingMaskIntoConstraints = false
         name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.string = app.session.name(app.project)
-        name.textContainer!.size.width = 500
-        name.textContainer!.size.height = 55
-        scroll.add(name)
-        self.name = name
+        name.text = app.session.name(app.project)
+        name.isAccessibilityElement = true
+        name.accessibilityTraits = .staticText
+        name.accessibilityLabel = .key("Kanban.project")
+        name.accessibilityValue = app.session.name(app.project)
+        name.alpha = 0.2
+        addSubview(name)
         
         let _card = Button("card", target: self, action: #selector(card))
         let _more = Button("more", target: self, action: #selector(more))
@@ -89,14 +89,8 @@ final class Kanban: UIView, UITextViewDelegate {
         
         name.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-        name.didChangeText()
-        name.delegate = self
     }
-    
-    func textDidEndEditing(_: Notification) {
-        app.session.name(app.project, name: name.string)
-    }
-    
+    /*
     override func mouseDown(with: NSEvent) {
         super.mouseDown(with: with)
         window!.makeFirstResponder(nil)
@@ -115,16 +109,15 @@ final class Kanban: UIView, UITextViewDelegate {
         super.mouseUp(with: with)
         drag?.stop(with.locationInWindow.x + scroll.documentVisibleRect.origin.x, scroll.documentVisibleRect.height - with.locationInWindow.y + scroll.documentVisibleRect.origin.y)
         drag = nil
-    }
+    }*/
     
     @objc private func card() {
         app.session.add(app.project, list: 0)
         app.main.project(app.project)
-        (app.main.base!.subviews.first as! Kanban).scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+        //(app.main.base!.subviews.first as! Kanban).scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
     
     @objc private func more() {
-        app.runModal(for: More.Project())
+//        app.runModal(for: More.Project())
     }
 }
-*/

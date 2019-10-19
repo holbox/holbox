@@ -1,16 +1,6 @@
 import AppKit
 
 final class Main: Window {
-    final class Base: NSView {
-        override var mouseDownCanMoveWindow: Bool { false }
-        
-        required init?(coder: NSCoder) { nil }
-        init() {
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-        }
-    }
-    
     private(set) weak var base: Base?
     private weak var bar: Bar?
     private weak var logo: Logo?
@@ -74,8 +64,12 @@ final class Main: Window {
     
     func project(_ project: Int) {
         app.project = project
+        bar?._kanban.selected = false
+        bar?._todo.selected = false
+        bar?._shopping.selected = false
+        bar?._shop.selected = false
         switch app.mode {
-        case .kanban: show(Kanban())
+        case .kanban: base?.show(Kanban())
         default: break
         }
     }
@@ -86,7 +80,7 @@ final class Main: Window {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func todo() {
@@ -95,7 +89,7 @@ final class Main: Window {
         bar?._todo.selected = true
         bar?._shopping.selected = false
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func shopping() {
@@ -104,7 +98,7 @@ final class Main: Window {
         bar?._todo.selected = false
         bar?._shopping.selected = true
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func shop() {
@@ -113,7 +107,7 @@ final class Main: Window {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = true
-        show(Shop())
+        base?.show(Shop())
     }
     
     @objc func more() {
@@ -125,23 +119,4 @@ final class Main: Window {
     }
     
     @objc func full() { zoom(self) }
-    
-    private func show(_ view: NSView) {
-        guard let base = self.base else { return }
-        base.subviews.forEach { $0.removeFromSuperview() }
-        view.alphaValue = 0
-        base.addSubview(view)
-        
-        view.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        view.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
-        view.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
-        
-        makeFirstResponder(view)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
-            $0.allowsImplicitAnimation = true
-            view.alphaValue = 1
-        }
-    }
 }

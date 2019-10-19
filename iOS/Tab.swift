@@ -43,7 +43,7 @@ final class Tab: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        if bounds.contains(touches.first!.location(in: self)) {
+        if !selected && bounds.contains(touches.first!.location(in: self)) {
             _ = target.perform(action)
         }
         super.touchesEnded(touches, with: with)

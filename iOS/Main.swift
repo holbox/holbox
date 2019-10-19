@@ -1,7 +1,7 @@
 import UIKit
 
 final class Main: UIView {
-    private(set) weak var base: UIView?
+    private(set) weak var base: Base?
     private weak var bar: Bar?
     private weak var logo: Logo?
     
@@ -26,8 +26,7 @@ final class Main: UIView {
         addSubview(bar)
         self.bar = bar
         
-        let base = UIView()
-        base.translatesAutoresizingMaskIntoConstraints = false
+        let base = Base()
         addSubview(base)
         self.base = base
         
@@ -45,8 +44,12 @@ final class Main: UIView {
     
     func project(_ project: Int) {
         app.project = project
+        bar?._kanban.selected = false
+        bar?._todo.selected = false
+        bar?._shopping.selected = false
+        bar?._shop.selected = false
         switch app.mode {
-//        case .kanban: show(Kanban())
+        case .kanban: base?.show(Kanban())
         default: break
         }
     }
@@ -57,7 +60,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func todo() {
@@ -66,7 +69,7 @@ final class Main: UIView {
         bar?._todo.selected = true
         bar?._shopping.selected = false
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func shopping() {
@@ -75,7 +78,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = true
         bar?._shop.selected = false
-        show(Detail())
+        base?.show(Detail())
     }
     
     @objc func shop() {
@@ -93,19 +96,5 @@ final class Main: UIView {
     
     @objc func about() {
         
-    }
-    
-    private func show(_ view: UIView) {
-        guard let base = self.base else { return }
-        base.subviews.forEach { $0.removeFromSuperview() }
-        view.alpha = 0
-        base.addSubview(view)
-        
-        view.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        view.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
-        view.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
-        
-        UIView.animate(withDuration: 0.4) { [weak view] in view?.alpha = 1 }
     }
 }

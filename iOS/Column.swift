@@ -17,6 +17,7 @@ final class Column: UIView {
         name.accessibilityTraits = .staticText
         name.accessibilityLabel = .key("Column")
         name.accessibilityValue = app.session.name(app.project, list: index)
+        name.alpha = 0.2
         addSubview(name)
         
         rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
