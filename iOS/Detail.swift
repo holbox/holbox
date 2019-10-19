@@ -55,6 +55,7 @@ final class Detail: UIView {
         addSubview(_add)
         
         let image = Image("detail.\(app.mode.rawValue)")
+        image.contentMode = .scaleAspectFit
         scroll.add(image)
         
         let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, .init(white: 1, alpha: 0.3))
@@ -109,13 +110,13 @@ final class Detail: UIView {
         _add.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         _add.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         
-        image.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        image.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        image.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        image.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
-        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
+        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 50).isActive = true
         
         border.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.rightAnchor, constant: -60).isActive = true
