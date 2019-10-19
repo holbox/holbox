@@ -8,7 +8,7 @@ class Modal: UIViewController {
         let background = UIView()
         background.isUserInteractionEnabled = false
         background.translatesAutoresizingMaskIntoConstraints = false
-        background.backgroundColor = UIColor.haze.withAlphaComponent(0.2)
+        background.backgroundColor = UIColor.haze.withAlphaComponent(0.3)
         view.addSubview(background)
         
         background.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

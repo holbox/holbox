@@ -13,15 +13,9 @@ final class Add: Modal {
         let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.4))
         subtitle.alignment = .center
         
-        let circle = NSView()
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.wantsLayer = true
-        circle.layer!.backgroundColor = .haze
-        circle.layer!.cornerRadius = 30
+        let available = Label("\(app.session.available)", 60, .light, .haze)
         
-        let available = Label("\(app.session.available)", 26, .bold, .black)
-        
-        let info = Label(.key("Add.info"), 16, .regular, .init(white: 1, alpha: 0.7))
+        let info = Label(.key("Add.info"), 16, .regular, .init(white: 1, alpha: 0.8))
         info.alignment = .center
         
         let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), self, #selector(confirm), .haze, .black)
@@ -32,7 +26,7 @@ final class Add: Modal {
         
         let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.4))
         
-        [icon, title, subtitle, circle, available, info, _confirm, _purchases, cancel].forEach {
+        [icon, title, subtitle, available, info, _confirm, _purchases, cancel].forEach {
             contentView!.addSubview($0)
             $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         }
@@ -43,12 +37,7 @@ final class Add: Modal {
         title.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 30).isActive = true
         
         subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
-        
-        circle.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        circle.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        available.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
-        
+
         info.widthAnchor.constraint(equalToConstant: 280).isActive = true
         info.bottomAnchor.constraint(equalTo: _purchases.topAnchor, constant: -40).isActive = true
         
@@ -66,12 +55,12 @@ final class Add: Modal {
             _purchases.isHidden = true
             _purchases.target = nil
             icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 80).isActive = true
-            circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 80).isActive = true
+            available.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 60).isActive = true
         } else {
             _confirm.isHidden = true
             _confirm.target = nil
             icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
-            circle.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
+            available.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 10).isActive = true
         }
     }
     

@@ -1,6 +1,27 @@
-import AppKit
+import UIKit
 
-final class Text: NSTextView {
+final class Text: UITextView {
+    private final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
+        private let padding = CGFloat(4)
+        
+        func layoutManager(_: NSLayoutManager, shouldSetLineFragmentRect: UnsafeMutablePointer<CGRect>,
+                           lineFragmentUsedRect: UnsafeMutablePointer<CGRect>, baselineOffset: UnsafeMutablePointer<CGFloat>,
+                           in: NSTextContainer, forGlyphRange: CGRange) -> Bool {
+            baselineOffset.pointee = baselineOffset.pointee + padding
+            shouldSetLineFragmentRect.pointee.size.height += padding + padding
+            lineFragmentUsedRect.pointee.size.height += padding + padding
+            return true
+        }
+        
+        override func setExtraLineFragmentRect(_ rect: NSRect, usedRect: NSRect, textContainer: NSTextContainer) {
+            var rect = rect
+            var used = usedRect
+            rect.size.height += padding + padding
+            used.size.height += padding + padding
+            super.setExtraLineFragmentRect(rect, usedRect: used, textContainer: textContainer)
+        }
+    }
+    
     var edit = false
     var tab = false
     var intro = false
@@ -15,7 +36,14 @@ final class Text: NSTextView {
     
     required init?(coder: NSCoder) { nil }
     init() {
-        super.init(frame: .zero, textContainer: Container())
+        let storage = NSTextStorage()
+        super.init(frame: .zero, textContainer: {
+            $1.delegate = $1
+            storage.addLayoutManager($1)
+            $1.addTextContainer($0)
+            $0.lineBreakMode = .byTruncatingTail
+            return $0
+        } (NSTextContainer(), Layout()))
         textContainerInset.height = 10
         textContainerInset.width = 10
         setAccessibilityElement(true)

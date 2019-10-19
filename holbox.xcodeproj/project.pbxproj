@@ -97,6 +97,11 @@
 		DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A3234E3F1B00835E3E /* Control.swift */; };
 		DAD8F1A6234E415D00835E3E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A5234E415D00835E3E /* Image.swift */; };
 		DAE81688235323F90005BE0B /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE81687235323F90005BE0B /* Tab.swift */; };
+		DAF09639235B03F400BCC800 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09638235B03F400BCC800 /* Card.swift */; };
+		DAF0963B235B041900BCC800 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963A235B041900BCC800 /* Column.swift */; };
+		DAF0963D235B045000BCC800 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963C235B045000BCC800 /* Text.swift */; };
+		DAF0963F235B077C00BCC800 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963E235B077C00BCC800 /* Container.swift */; };
+		DAF09640235B077C00BCC800 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963E235B077C00BCC800 /* Container.swift */; };
 		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -263,6 +268,10 @@
 		DAD8F1A3234E3F1B00835E3E /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		DAD8F1A5234E415D00835E3E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		DAE81687235323F90005BE0B /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		DAF09638235B03F400BCC800 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		DAF0963A235B041900BCC800 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		DAF0963C235B045000BCC800 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		DAF0963E235B077C00BCC800 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		DAF68E5E234764200060895A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DAF68E5F234764200060895A /* Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mac.entitlements; sourceTree = "<group>"; };
 		DAF68E60234764210060895A /* MacToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacToday.entitlements; sourceTree = "<group>"; };
@@ -520,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				DAF68E8E2347653E0060895A /* Shared.swift */,
+				DAF0963E235B077C00BCC800 /* Container.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -533,6 +543,8 @@
 				DAA463FB2358868100A5E990 /* Bar.swift */,
 				DAA463FF23588A8900A5E990 /* Border.swift */,
 				DAA4640323588DFD00A5E990 /* Button.swift */,
+				DAF09638235B03F400BCC800 /* Card.swift */,
+				DAF0963A235B041900BCC800 /* Column.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAA463F12358640C00A5E990 /* Extensions.swift */,
@@ -544,6 +556,7 @@
 				DAB979572359D64C00631280 /* Modal.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
+				DAF0963C235B045000BCC800 /* Text.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1011,6 +1024,7 @@
 				DA8B96042356FA60007E82F7 /* Shop.swift in Sources */,
 				DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */,
 				DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */,
+				DAF0963F235B077C00BCC800 /* Container.swift in Sources */,
 				DAD8F19A234DBB9700835E3E /* Label.swift in Sources */,
 				DAD8F193234DBAB900835E3E /* Menu.swift in Sources */,
 			);
@@ -1021,13 +1035,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
+				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
+				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
 				DAA4640223588AE600A5E990 /* Tab.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
+				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
 				DAB979582359D64C00631280 /* Modal.swift in Sources */,
+				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* Shared.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
