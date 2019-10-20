@@ -26,7 +26,6 @@ final class TestStoreProject: XCTestCase {
     
     func testSharedNotLocal() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
@@ -34,10 +33,10 @@ final class TestStoreProject: XCTestCase {
         project.id = 99
         project.mode = .kanban
         saved.projects = [project]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
-        try! coder.project(project).write(to: shared.url["hello world99"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(saved).write(to: shared.url["session"]!)
+        try! coder.project(project).write(to: shared.url["99"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
@@ -54,7 +53,6 @@ final class TestStoreProject: XCTestCase {
     
     func testSharedMultipleNotLocal() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
@@ -67,12 +65,12 @@ final class TestStoreProject: XCTestCase {
         projectB.id = 101
         projectB.mode = .kanban
         saved.projects = [projectA, projectB]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
-        shared.url["hello world101"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
-        try! coder.project(projectA).write(to: shared.url["hello world99"]!)
-        try! coder.project(projectB).write(to: shared.url["hello world101"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["101"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2")
+        try! coder.global(saved).write(to: shared.url["session"]!)
+        try! coder.project(projectA).write(to: shared.url["99"]!)
+        try! coder.project(projectB).write(to: shared.url["101"]!)
         store.loadSession {
             XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99"))))
             XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("101"))))
@@ -85,15 +83,14 @@ final class TestStoreProject: XCTestCase {
     
     func testSharedNotLocalFailed() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         var project = Project()
         project.id = 99
         saved.projects = [project]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(saved).write(to: shared.url["session"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertTrue(session.projects.isEmpty)
@@ -105,7 +102,6 @@ final class TestStoreProject: XCTestCase {
     
     func testSharedUpdate() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var project = Project()
@@ -119,10 +115,10 @@ final class TestStoreProject: XCTestCase {
         project.time = .init(timeIntervalSince1970: 100)
         project.name = "ipsum"
         saved.projects = [project]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
-        try! coder.project(project).write(to: shared.url["hello world99"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(saved).write(to: shared.url["session"]!)
+        try! coder.project(project).write(to: shared.url["99"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
@@ -142,7 +138,6 @@ final class TestStoreProject: XCTestCase {
     
     func testSharedUpdateFail() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var project = Project()
@@ -155,8 +150,8 @@ final class TestStoreProject: XCTestCase {
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 100)
         saved.projects = [project]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(saved).write(to: shared.url["session"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
@@ -176,7 +171,6 @@ final class TestStoreProject: XCTestCase {
         let expectGlobal = expectation(description: "")
         let expectProject = expectation(description: "")
         let expectReady = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var project = Project()
@@ -188,16 +182,16 @@ final class TestStoreProject: XCTestCase {
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
         saved.projects = []
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(saved).write(to: shared.url["session"]!)
         shared.save = {
-            if $0["hello world99"] != nil {
-                let uploaded = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
+            if $0["99"] != nil {
+                let uploaded = try! self.coder.project(.init(contentsOf: $0["99"]!))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
                 expectProject.fulfill()
-            } else if $0["hello world"] != nil {
-                let global = try! self.coder.global(.init(contentsOf: $0["hello world"]!))
+            } else if $0["session"] != nil {
+                let global = try! self.coder.global(.init(contentsOf: $0["session"]!))
                 XCTAssertEqual(1, global.1.count)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
@@ -223,7 +217,6 @@ final class TestStoreProject: XCTestCase {
     func testLocalNotSharedMultiple() {
         let expectProjects = expectation(description: "")
         let expectReady = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var projectA = Project()
@@ -237,10 +230,9 @@ final class TestStoreProject: XCTestCase {
         try! coder.project(projectA).write(to: Store.url.appendingPathComponent("99"))
         try! coder.project(projectB).write(to: Store.url.appendingPathComponent("101"))
         shared.save = {
-            print($0.keys)
-            if $0["hello world99"] != nil && $0["hello world101"] != nil {
-                let a = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
-                let b = try! self.coder.project(.init(contentsOf: $0["hello world101"]!))
+            if $0["99"] != nil && $0["101"] != nil {
+                let a = try! self.coder.project(.init(contentsOf: $0["99"]!))
+                let b = try! self.coder.project(.init(contentsOf: $0["101"]!))
                 XCTAssertEqual("lorem", a.name)
                 XCTAssertEqual("ipsum", b.name)
                 expectProjects.fulfill()
@@ -256,7 +248,6 @@ final class TestStoreProject: XCTestCase {
         let expectGlobal = expectation(description: "")
         let expectProject = expectation(description: "")
         let expectReady = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var project = Project()
@@ -270,16 +261,16 @@ final class TestStoreProject: XCTestCase {
         project.time = .init(timeIntervalSince1970: 50)
         project.name = "ipsum"
         saved.projects = [project]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(saved).write(to: shared.url["session"]!)
         shared.save = {
-            if $0["hello world99"] != nil {
-                let uploaded = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
+            if $0["99"] != nil {
+                let uploaded = try! self.coder.project(.init(contentsOf: $0["99"]!))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
                 expectProject.fulfill()
-            } else if $0["hello world"] != nil {
-                let global = try! self.coder.global(.init(contentsOf: $0["hello world"]!))
+            } else if $0["session"] != nil {
+                let global = try! self.coder.global(.init(contentsOf: $0["session"]!))
                 XCTAssertEqual(1, global.1.count)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
@@ -306,18 +297,17 @@ final class TestStoreProject: XCTestCase {
         let expectLoad = expectation(description: "")
         let expectProject = expectation(description: "")
         let expectReady = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let session = Session()
         session.projects = [.init()]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["hello world0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
-        try! coder.global(session).write(to: shared.url["hello world"]!)
-        try! coder.project(session.projects.first!).write(to: shared.url["hello world0"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(session).write(to: shared.url["session"]!)
+        try! coder.project(session.projects.first!).write(to: shared.url["0"]!)
         shared.load = {
-            if $0.first == "hello world" {
+            if $0.first == "session" {
                 expectLoad.fulfill()
-            } else if $0.first == "hello world0" {
+            } else if $0.first == "0" {
                 expectProject.fulfill()
             }
         }
@@ -332,16 +322,15 @@ final class TestStoreProject: XCTestCase {
         let expectLoad = expectation(description: "")
         let expectProject = expectation(description: "")
         let expectReady = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let session = Session()
         session.projects = [.init()]
-        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        try! coder.global(session).write(to: shared.url["hello world"]!)
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(session).write(to: shared.url["session"]!)
         shared.load = {
-            if $0.first == "hello world" {
+            if $0.first == "session" {
                 expectLoad.fulfill()
-            } else if $0.first == "hello world0" {
+            } else if $0.first == "0" {
                 expectProject.fulfill()
             }
         }
@@ -354,7 +343,6 @@ final class TestStoreProject: XCTestCase {
     
     func testLocalNotSharedFails() {
         let expect = expectation(description: "")
-        Store.id = "hello world"
         store.prepare()
         let saved = Session()
         var project = Project()

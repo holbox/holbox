@@ -38,9 +38,8 @@ final class TestStore: XCTestCase {
         let expectShare = expectation(description: "")
         let expectSave = expectation(description: "")
         let expectFinish = expectation(description: "")
-        Store.id = "hello"
         shared.save = {
-            XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["hello"]!)))
+            XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
             expectShare.fulfill()
         }
         store.save(Session()) {
@@ -55,7 +54,6 @@ final class TestStore: XCTestCase {
     
     func testSaveSessionNotSharing() {
         let expect = expectation(description: "")
-        Store.id = "hello"
         shared.save = { _ in XCTFail() }
         store.save(Session()) {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
@@ -67,9 +65,8 @@ final class TestStore: XCTestCase {
     func testSaveProject() {
         let expectShare = expectation(description: "")
         let expectSave = expectation(description: "")
-        Store.id = "hello"
         shared.save = {
-            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["hello56"]!)))
+            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["56"]!)))
             expectShare.fulfill()
         }
         var project = Project()
@@ -78,41 +75,6 @@ final class TestStore: XCTestCase {
             XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("56"))))
             expectSave.fulfill()
         }
-        waitForExpectations(timeout: 1)
-    }
-    
-    func testUbi() {
-        let expect = expectation(description: "")
-        shared.id = "hello world"
-        store.prepare()
-        store.loadId {
-            XCTAssertEqual("hello world", Store.id)
-            XCTAssertEqual("hello world", try! String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self))
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-    
-    func testSecondTime() {
-        let expect = expectation(description: "")
-        store.prepare()
-        try! Data("hello world".utf8).write(to: Store.url.appendingPathComponent("id"))
-        store.loadId {
-            XCTAssertEqual("hello world", Store.id)
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-    
-    func testRefreshAlways() {
-        let expect = expectation(description: "")
-        store.prepare()
-        try! Data("hello world".utf8).write(to: Store.url.appendingPathComponent("id"))
-        shared.refreshed = {
-            XCTAssertEqual("hello world", $0)
-            expect.fulfill()
-        }
-        store.loadId { }
         waitForExpectations(timeout: 1)
     }
 }

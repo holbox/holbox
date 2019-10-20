@@ -1,7 +1,6 @@
 import Foundation
 
 class Store {
-    static var id = ""
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
     var shared = Shared()
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
@@ -10,11 +9,9 @@ class Store {
     func load(_ result: @escaping (Session) -> Void) {
         Store.queue.async {
             self.prepare()
-            self.loadId {
-                self.loadSession { session in
-                    DispatchQueue.main.async {
-                        result(session)
-                    }
+            self.loadSession { session in
+                DispatchQueue.main.async {
+                    result(session)
                 }
             }
         }
@@ -31,7 +28,7 @@ class Store {
         Store.queue.async {
             let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
             try! Store.coder.global(session).write(to: url, options: .atomic)
-            self.shared.save([Store.id: url], done: done)
+            self.shared.save(["session": url], done: done)
         }
     }
     
@@ -42,84 +39,66 @@ class Store {
         }
     }
     
-    func loadId(_ done: @escaping () -> Void) {
-        if let id = try? String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self) {
-            Store.id = id
-            shared.refresh(id)
-            done()
-        } else {
-            shared.load {
-                Store.id = $0
-                try! Data(Store.id.utf8).write(to: Store.url.appendingPathComponent("id"), options: .atomic)
-                done()
-            }
-        }
-    }
-    
     func loadSession(_ result: @escaping (Session) -> Void) {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
-            shared.load([Store.id]) {
-                if $0[Store.id] == nil {
-                    var update = Update(result: result)
-                    session.projects = session.projects.map {
-                        var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
-                        project.id = $0.id
-                        update.upload.append($0.id)
-                        return project
-                    }
-                    update.session = session
-                    update.share = true
-                    self.merge(update)
-                } else {
-                    let global = try! Store.coder.global(.init(contentsOf: $0[Store.id]!))
-                    var update = Update(result: result)
-                    update.session = session
-                    if global.0 > session.counter {
-                        update.session.counter = global.0
-                        update.write = true
-                    } else if global.0 < session.counter {
-                        update.share = true
-                    }
-                    update.session.projects = session.projects.map { stub in
-                        var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.id)")))
-                        project.id = stub.id
-                        if let shared = global.1.first(where: { $0.0 == stub.id }) {
-                            if shared.1 < stub.time {
-                                update.upload.append(stub.id)
-                            }
-                        } else {
-                            update.upload.append(stub.id)
-                        }
-                        return project
-                    }
-                    global.1.forEach { project in
-                        if let local = session.projects.first(where: { $0.id == project.0 }) {
-                            if local.time < project.1 {
-                                update.download.append(project.0)
-                            }
-                        } else {
-                            update.download.append(project.0)
-                        }
-                    }
-                    self.merge(update)
+            shared.load(["session"], error: {
+                var update = Update(result: result)
+                session.projects = session.projects.map {
+                    var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
+                    project.id = $0.id
+                    update.upload.append($0.id)
+                    return project
                 }
-            }
-        } else {
-            shared.load([Store.id]) {
-                if $0[Store.id] == nil {
-                    let session = Session()
-                    self.share(session) {
-                        self.write(session)
-                        result(session)
-                    }
-                } else {
-                    let global = try! Store.coder.global(.init(contentsOf: $0[Store.id]!))
-                    var update = Update(result: result)
+                update.session = session
+                update.share = true
+                self.merge(update)
+            }) {
+                let global = try! Store.coder.global(.init(contentsOf: $0.values.first!))
+                var update = Update(result: result)
+                update.session = session
+                if global.0 > session.counter {
                     update.session.counter = global.0
                     update.write = true
-                    update.download = global.1.map { $0.0 }
-                    self.merge(update)
+                } else if global.0 < session.counter {
+                    update.share = true
                 }
+                update.session.projects = session.projects.map { stub in
+                    var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.id)")))
+                    project.id = stub.id
+                    if let shared = global.1.first(where: { $0.0 == stub.id }) {
+                        if shared.1 < stub.time {
+                            update.upload.append(stub.id)
+                        }
+                    } else {
+                        update.upload.append(stub.id)
+                    }
+                    return project
+                }
+                global.1.forEach { project in
+                    if let local = session.projects.first(where: { $0.id == project.0 }) {
+                        if local.time < project.1 {
+                            update.download.append(project.0)
+                        }
+                    } else {
+                        update.download.append(project.0)
+                    }
+                }
+                self.merge(update)
+            }
+        } else {
+            shared.load(["session"], error: {
+                let session = Session()
+                self.share(session) {
+                    self.write(session)
+                    result(session)
+                }
+            }) {
+                let global = try! Store.coder.global(.init(contentsOf: $0.values.first!))
+                var update = Update(result: result)
+                update.session.counter = global.0
+                update.write = true
+                update.download = global.1.map { $0.0 }
+                self.merge(update)
             }
         }
     }
@@ -135,10 +114,13 @@ class Store {
     private func merge(_ update: Update) {
         var update = update
         if !update.download.isEmpty {
-            shared.load(update.download.map { Store.id + "\($0)" }) {
+            shared.load(update.download.map(String.init(_:)), error: {
+                update.download = []
+                self.merge(update)
+            }) {
                 $0.forEach {
                     var project = try! Store.coder.project(.init(contentsOf: $0.1))
-                    project.id = Int($0.0.replacingOccurrences(of: Store.id, with: ""))!
+                    project.id = Int($0.0)!
                     update.session.projects.removeAll { $0.id == project.id }
                     update.session.projects.append(project)
                     self.write(project)
@@ -175,6 +157,6 @@ class Store {
     }
     
     private func share(_ projects: [Int], done: @escaping () -> Void) {
-        shared.save(projects.reduce(into: [:]) { $0[Store.id + "\($1)"] = Store.url.appendingPathComponent("\($1)") }, done: done)
+        shared.save(projects.reduce(into: [:]) { $0["\($1)"] = Store.url.appendingPathComponent("\($1)") }, done: done)
     }
 }
