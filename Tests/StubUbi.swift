@@ -1,9 +1,10 @@
+@testable import holbox
 import Foundation
 
-final class StubUbi: NSUbiquitousKeyValueStore {
-    var string: String?
+final class StubUbi: Ubi {
+    var id = ""
     
-    override func synchronize() -> Bool { true }
-    override func string(forKey aKey: String) -> String? { string }
-    override func set(_ aString: String?, forKey aKey: String) { string = aString }
+    override func load(_ result: @escaping (String) -> Void) {
+        result(id)
+    }
 }

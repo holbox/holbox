@@ -3,7 +3,7 @@ import Foundation
 class Store {
     static var id = ""
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
-    var ubi = NSUbiquitousKeyValueStore.default
+    var ubi = Ubi()
     var shared = Shared()
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private static let coder = Coder()
@@ -11,10 +11,11 @@ class Store {
     func load(_ result: @escaping (Session) -> Void) {
         Store.queue.async {
             self.prepare()
-            self.loadId()
-            self.loadSession { session in
-                DispatchQueue.main.async {
-                    result(session)
+            self.loadId {
+                self.loadSession { session in
+                    DispatchQueue.main.async {
+                        result(session)
+                    }
                 }
             }
         }
@@ -42,12 +43,16 @@ class Store {
         }
     }
     
-    func loadId() {
+    func loadId(_ done: @escaping () -> Void) {
         if let id = try? String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self) {
             Store.id = id
+            done()
         } else {
-            loadUbi()
-            try! Data(Store.id.utf8).write(to: Store.url.appendingPathComponent("id"), options: .atomic)
+            ubi.load {
+                Store.id = $0
+                try! Data(Store.id.utf8).write(to: Store.url.appendingPathComponent("id"), options: .atomic)
+                done()
+            }
         }
     }
     
@@ -125,17 +130,6 @@ class Store {
         resources.isExcludedFromBackup = true
         try! root.setResourceValues(resources)
         try! FileManager.default.createDirectory(at: Store.url, withIntermediateDirectories: true)
-    }
-    
-    private func loadUbi() {
-        ubi.synchronize()
-        if let id = ubi.string(forKey: "id") {
-            Store.id = id
-        } else {
-            Store.id = UUID().uuidString
-            ubi.set(Store.id, forKey: "id")
-            ubi.synchronize()
-        }
     }
     
     private func merge(_ update: Update) {

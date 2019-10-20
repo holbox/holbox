@@ -16,7 +16,6 @@
 		DA40C94B2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
 		DA40C94C2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
 		DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C94D2356255B00F9E1C2 /* TestSettings.swift */; };
-		DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437010234CB10800CCB34D /* TestStoreUbi.swift */; };
 		DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437012234CB58000CCB34D /* TestStoreProject.swift */; };
 		DA437015234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
 		DA437016234CCC5B00CCB34D /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437014234CCC5B00CCB34D /* Update.swift */; };
@@ -40,6 +39,9 @@
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
+		DA811A70235CAE05000B98EE /* Ubi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA811A6F235CAE05000B98EE /* Ubi.swift */; };
+		DA811A71235CAE05000B98EE /* Ubi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA811A6F235CAE05000B98EE /* Ubi.swift */; };
+		DA811A72235CAE05000B98EE /* Ubi.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA811A6F235CAE05000B98EE /* Ubi.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
 		DAA463F22358640C00A5E990 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F12358640C00A5E990 /* Extensions.swift */; };
@@ -209,7 +211,6 @@
 		DA40C947235610AC00F9E1C2 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DA40C94D2356255B00F9E1C2 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
-		DA437010234CB10800CCB34D /* TestStoreUbi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreUbi.swift; sourceTree = "<group>"; };
 		DA437012234CB58000CCB34D /* TestStoreProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreProject.swift; sourceTree = "<group>"; };
 		DA437014234CCC5B00CCB34D /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		DA437018234D147F00CCB34D /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		DA811A6F235CAE05000B98EE /* Ubi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ubi.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
 		DAA463F12358640C00A5E990 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -466,7 +468,6 @@
 				DA437018234D147F00CCB34D /* TestStore.swift */,
 				DA437012234CB58000CCB34D /* TestStoreProject.swift */,
 				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
-				DA437010234CB10800CCB34D /* TestStoreUbi.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -483,6 +484,7 @@
 				DA40C9492356174000F9E1C2 /* Settings.swift */,
 				DABC36452348C3F0002011C8 /* Shared.swift */,
 				DABC363323487DBF002011C8 /* Store.swift */,
+				DA811A6F235CAE05000B98EE /* Ubi.swift */,
 				DA437014234CCC5B00CCB34D /* Update.swift */,
 			);
 			path = Source;
@@ -945,6 +947,7 @@
 				DABC363823487F55002011C8 /* Session.swift in Sources */,
 				DA75C7C0234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */,
+				DA811A70235CAE05000B98EE /* Ubi.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +965,7 @@
 				DABC363923487F55002011C8 /* Session.swift in Sources */,
 				DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */,
+				DA811A71235CAE05000B98EE /* Ubi.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,6 +983,7 @@
 				DABC363A23487F55002011C8 /* Session.swift in Sources */,
 				DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */,
+				DA811A72235CAE05000B98EE /* Ubi.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,7 +999,6 @@
 				DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */,
 				DABC36422348A411002011C8 /* StubUbi.swift in Sources */,
 				DA437019234D147F00CCB34D /* TestStore.swift in Sources */,
-				DA437011234CB10800CCB34D /* TestStoreUbi.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
 				DABC364023489A0C002011C8 /* TestStoreSession.swift in Sources */,
 				DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */,

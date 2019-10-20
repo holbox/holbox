@@ -83,4 +83,27 @@ final class TestStore: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testUbi() {
+        let expect = expectation(description: "")
+        ubi.id = "hello world"
+        store.prepare()
+        store.loadId {
+            XCTAssertEqual("hello world", Store.id)
+            XCTAssertEqual("hello world", try! String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self))
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testSecondTime() {
+        let expect = expectation(description: "")
+        store.prepare()
+        try! Data("hello world".utf8).write(to: Store.url.appendingPathComponent("id"))
+        store.loadId {
+            XCTAssertEqual("hello world", Store.id)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
 }
