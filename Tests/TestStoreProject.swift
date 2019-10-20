@@ -11,6 +11,7 @@ final class TestStoreProject: XCTestCase {
         try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2"))
         coder = .init()
         ubi = .init()
         shared = .init()
@@ -23,6 +24,7 @@ final class TestStoreProject: XCTestCase {
         try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
+        try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2"))
     }
     
     func testSharedNotLocal() {
@@ -48,6 +50,37 @@ final class TestStoreProject: XCTestCase {
             XCTAssertEqual(.kanban, $0.projects.first?.mode)
             XCTAssertEqual(0, stored.id)
             XCTAssertEqual(.kanban, stored.mode)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testSharedMultipleNotLocal() {
+        let expect = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let saved = Session()
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
+        var projectA = Project()
+        projectA.name = "hello"
+        projectA.id = 99
+        projectA.mode = .kanban
+        var projectB = Project()
+        projectB.name = "world"
+        projectB.id = 101
+        projectB.mode = .kanban
+        saved.projects = [projectA, projectB]
+        shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["hello world99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["hello world101"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2")
+        try! coder.global(saved).write(to: shared.url["hello world"]!)
+        try! coder.project(projectA).write(to: shared.url["hello world99"]!)
+        try! coder.project(projectB).write(to: shared.url["hello world101"]!)
+        store.loadSession {
+            XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99"))))
+            XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("101"))))
+            XCTAssertTrue($0.projects.contains { $0.id == 99 })
+            XCTAssertTrue($0.projects.contains { $0.id == 101 })
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -253,9 +286,9 @@ final class TestStoreProject: XCTestCase {
         try! coder.global(session).write(to: shared.url["hello world"]!)
         try! coder.project(session.projects.first!).write(to: shared.url["hello world0"]!)
         shared.load = {
-            if $0 == "hello world" {
+            if $0.first == "hello world" {
                 expectLoad.fulfill()
-            } else if $0 == "hello world0" {
+            } else if $0.first == "hello world0" {
                 expectProject.fulfill()
             }
         }
@@ -277,9 +310,9 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["hello world"]!)
         shared.load = {
-            if $0 == "hello world" {
+            if $0.first == "hello world" {
                 expectLoad.fulfill()
-            } else if $0 == "hello world0" {
+            } else if $0.first == "hello world0" {
                 expectProject.fulfill()
             }
         }

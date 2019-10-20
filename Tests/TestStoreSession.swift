@@ -30,7 +30,7 @@ final class TestStoreSession: XCTestCase {
         Store.id = "hello world"
         store.prepare()
         shared.load = {
-            XCTAssertEqual("hello world", $0)
+            XCTAssertEqual("hello world", $0.first)
             expectLoad.fulfill()
         }
         shared.save = {
@@ -59,7 +59,7 @@ final class TestStoreSession: XCTestCase {
         saved.counter = 55
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         shared.load = {
-            XCTAssertEqual("hello world", $0)
+            XCTAssertEqual("hello world", $0.first)
             expectLoad.fulfill()
         }
         shared.save = {
@@ -89,7 +89,7 @@ final class TestStoreSession: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
         try! coder.global(session).write(to: shared.url["hello world"]!)
         shared.load = {
-            XCTAssertEqual("hello world", $0)
+            XCTAssertEqual("hello world", $0.first)
             expectLoad.fulfill()
         }
         store.loadSession {
@@ -114,7 +114,7 @@ final class TestStoreSession: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.load = {
-            XCTAssertEqual("hello world", $0)
+            XCTAssertEqual("hello world", $0.first)
             expectLoad.fulfill()
         }
         store.loadSession {
