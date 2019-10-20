@@ -122,4 +122,22 @@ final class TestSession: XCTestCase {
         session.delete(0)
         waitForExpectations(timeout: 1)
     }
+    
+    func testSorted() {
+        var project0 = Project()
+        var project1 = Project()
+        var project2 = Project()
+        project1.id = 1
+        project2.id = 2
+        project0.mode = .kanban
+        project1.mode = .kanban
+        project2.mode = .kanban
+        project0.name = "b"
+        project1.name = "c"
+        project2.name = "a"
+        session.projects = [project0, project1, project2]
+        XCTAssertEqual(2, session.projects(.kanban)[0])
+        XCTAssertEqual(0, session.projects(.kanban)[1])
+        XCTAssertEqual(1, session.projects(.kanban)[2])
+    }
 }

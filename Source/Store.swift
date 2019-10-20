@@ -45,7 +45,7 @@ class Store {
                 update.share = true
                 self.merge(update)
             }) {
-                let global = try! Store.coder.global(.init(contentsOf: $0.values.first!))
+                let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
                 update.session = session
                 if global.0 > session.counter {
@@ -84,7 +84,7 @@ class Store {
                 self.shared.save(["session": self.url(session)])
                 result(session)
             }) {
-                let global = try! Store.coder.global(.init(contentsOf: $0.values.first!))
+                let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
                 update.session.counter = global.0
                 update.write = true
@@ -108,10 +108,10 @@ class Store {
             shared.load(update.download.map(String.init(_:)), error: {
                 update.download = []
                 self.merge(update)
-            }) {
-                $0.forEach {
-                    var project = try! Store.coder.project(.init(contentsOf: $0.1))
-                    project.id = Int($0.0)!
+            }) { urls in
+                update.download.enumerated().forEach {
+                    var project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
+                    project.id = $0.1
                     update.session.projects.removeAll { $0.id == project.id }
                     update.session.projects.append(project)
                     self.write(project)

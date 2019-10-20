@@ -1,12 +1,12 @@
 import CloudKit
 
 class Shared {
-    func load(_ ids: [String], error: @escaping () -> Void, result: @escaping ([String : URL]) -> Void) {
+    func load(_ ids: [String], error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-        operation.configuration.timeoutIntervalForResource = 15
+        operation.configuration.timeoutIntervalForResource = 25
         operation.fetchRecordsCompletionBlock = {
-            guard $0 != nil && $1 == nil else { return error() }
-            result($0!.reduce(into: [:]) { $0[$1.0.recordName] = ($1.1["asset"] as! CKAsset).fileURL! })
+            guard let records = $0, $1 == nil else { return error() }
+            result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
         }
         CKContainer(identifier: "iCloud.holbox").privateCloudDatabase.add(operation)
     }
@@ -17,7 +17,7 @@ class Shared {
             record["asset"] = CKAsset(fileURL: $0.1)
             return record
         })
-        operation.configuration.timeoutIntervalForResource = 30
+        operation.configuration.timeoutIntervalForResource = 40
         operation.savePolicy = .allKeys
         CKContainer(identifier: "iCloud.holbox").privateCloudDatabase.add(operation)
     }

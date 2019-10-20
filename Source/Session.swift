@@ -35,7 +35,7 @@ public final class Session {
     }
     
     public func projects(_ mode: Mode) -> [Int] {
-        projects.enumerated().filter { $0.1.mode == mode }.map { $0.0 }
+        projects.enumerated().filter { $0.1.mode == mode }.sorted { $0.1.name < $1.1.name }.map { $0.0 }
     }
     
     public func lists(_ project: Int) -> Int {

@@ -49,7 +49,7 @@ final class TestStoreSession: XCTestCase {
         let expectReady = expectation(description: "")
         store.prepare()
         let saved = Session()
-        saved.rating = Date(timeIntervalSince1970: 10)
+        saved.rating = .init(timeIntervalSince1970: 10)
         saved.counter = 55
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         shared.load = {
@@ -99,7 +99,7 @@ final class TestStoreSession: XCTestCase {
         let expectReady = expectation(description: "")
         store.prepare()
         let saved = Session()
-        saved.rating = Date(timeIntervalSince1970: 10)
+        saved.rating = .init(timeIntervalSince1970: 10)
         saved.counter = 55
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
@@ -120,7 +120,7 @@ final class TestStoreSession: XCTestCase {
         let expect = expectation(description: "")
         store.prepare()
         let saved = Session()
-        saved.rating = Date(timeIntervalSince1970: 10)
+        saved.rating = .init(timeIntervalSince1970: 10)
         saved.counter = 55
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         saved.counter = 88
@@ -141,7 +141,7 @@ final class TestStoreSession: XCTestCase {
         let expectReady = expectation(description: "")
         store.prepare()
         let saved = Session()
-        saved.rating = Date(timeIntervalSince1970: 10)
+        saved.rating = .init(timeIntervalSince1970: 10)
         saved.counter = 33
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         saved.counter = 11

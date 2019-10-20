@@ -29,13 +29,13 @@ final class Base: UIView {
             previousTop?.constant = 50
             top.constant = 100
             
-            UIView.animate(withDuration: 0.6, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.layoutIfNeeded()
             }) { _ in
                 top.constant = 0
                 previousTop?.constant = 60
                 
-                UIView.animate(withDuration: 0.4, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     self.layoutIfNeeded()
                 }) { _ in
                     previous.removeFromSuperview()
