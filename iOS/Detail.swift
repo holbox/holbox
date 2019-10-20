@@ -32,6 +32,12 @@ final class Detail: UIView {
             super.touchesBegan(touches, with: with)
         }
         
+        override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
+            backgroundColor = .clear
+            label.textColor = .white
+            super.touchesCancelled(touches, with: with)
+        }
+        
         override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
             if bounds.contains(touches.first!.location(in: self)) {
                 app.main.project(index)
