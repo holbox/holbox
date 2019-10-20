@@ -55,6 +55,11 @@ class Store {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load(Store.id, error: {
                 self.share(session) {
+                    session.projects = session.projects.map {
+                        var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
+                        project.id = $0.id
+                        return project
+                    }
                     result(session)
                 }
             }) {

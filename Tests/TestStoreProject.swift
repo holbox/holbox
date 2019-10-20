@@ -289,4 +289,25 @@ final class TestStoreProject: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testLocalNotSharedFails() {
+        let expect = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let saved = Session()
+        var project = Project()
+        project.id = 33
+        project.mode = .kanban
+        project.name = "lorem"
+        saved.projects = [project]
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: Store.url.appendingPathComponent("33"))
+        store.loadSession {
+            XCTAssertEqual(33, $0.projects.first?.id)
+            XCTAssertEqual("lorem", $0.projects.first?.name)
+            XCTAssertEqual(.kanban, $0.projects.first?.mode)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
 }
