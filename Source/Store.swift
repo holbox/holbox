@@ -31,14 +31,14 @@ class Store {
         Store.queue.async {
             let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
             try! Store.coder.global(session).write(to: url, options: .atomic)
-            self.shared.save(Store.id, url: url, done: done)
+            self.shared.save([Store.id: url], done: done)
         }
     }
     
     func save(_ project: Project, done: @escaping () -> Void) {
         Store.queue.async {
             self.write(project)
-            self.share(project.id, done: done)
+            self.share([project.id], done: done)
         }
     }
     
@@ -55,14 +55,16 @@ class Store {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load([Store.id]) {
                 if $0[Store.id] == nil {
-                    self.share(session) {
-                        session.projects = session.projects.map {
-                            var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
-                            project.id = $0.id
-                            return project
-                        }
-                        result(session)
+                    var update = Update(result: result)
+                    session.projects = session.projects.map {
+                        var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
+                        project.id = $0.id
+                        update.upload.append($0.id)
+                        return project
                     }
+                    update.session = session
+                    update.share = true
+                    self.merge(update)
                 } else {
                     let global = try! Store.coder.global(.init(contentsOf: $0[Store.id]!))
                     var update = Update(result: result)
@@ -153,8 +155,8 @@ class Store {
             }
         } else if !update.upload.isEmpty {
             update.share = true
-            let upload = update.upload.removeFirst()
-            share(upload) {
+            share(update.upload) {
+                update.upload = []
                 self.merge(update)
             }
         } else if update.share {
@@ -178,7 +180,7 @@ class Store {
         try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(project.id)"), options: .atomic)
     }
     
-    private func share(_ project: Int, done: @escaping () -> Void) {
-        shared.save(Store.id + "\(project)", url: Store.url.appendingPathComponent("\(project)"), done: done)
+    private func share(_ projects: [Int], done: @escaping () -> Void) {
+        shared.save(projects.reduce(into: [:]) { $0[Store.id + "\($1)"] = Store.url.appendingPathComponent("\($1)") }, done: done)
     }
 }

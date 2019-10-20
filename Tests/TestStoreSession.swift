@@ -34,8 +34,7 @@ final class TestStoreSession: XCTestCase {
             expectLoad.fulfill()
         }
         shared.save = {
-            XCTAssertEqual("hello world", $0)
-            let global = try! self.coder.global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $0["hello world"]!))
             XCTAssertTrue(global.1.isEmpty)
             expectSave.fulfill()
         }
@@ -63,8 +62,7 @@ final class TestStoreSession: XCTestCase {
             expectLoad.fulfill()
         }
         shared.save = {
-            XCTAssertEqual("hello world", $0)
-            let global = try! self.coder.global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $0["hello world"]!))
             XCTAssertEqual(55, global.0)
             expectSave.fulfill()
         }
@@ -159,8 +157,7 @@ final class TestStoreSession: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            XCTAssertEqual("hello world", $0)
-            let global = try! self.coder.global(Data(contentsOf: $1))
+            let global = try! self.coder.global(Data(contentsOf: $0["hello world"]!))
             XCTAssertEqual(33, global.0)
             expectSave.fulfill()
         }

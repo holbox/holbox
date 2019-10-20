@@ -11,10 +11,12 @@ class Shared {
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
     }
     
-    func save(_ id: String, url: URL, done: @escaping () -> Void) {
-        let record = CKRecord(recordType: "Record", recordID: .init(recordName: id))
-        record["asset"] = CKAsset(fileURL: url)
-        let operation = CKModifyRecordsOperation(recordsToSave: [record])
+    func save(_ ids: [String : URL], done: @escaping () -> Void) {
+        let operation = CKModifyRecordsOperation(recordsToSave: ids.map {
+            let record = CKRecord(recordType: "Record", recordID: .init(recordName: $0.0))
+            record["asset"] = CKAsset(fileURL: $0.1)
+            return record
+        })
         operation.configuration.timeoutIntervalForResource = 10
         operation.savePolicy = .allKeys
         operation.completionBlock = done

@@ -194,13 +194,13 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "hello world99" {
-                let uploaded = try! self.coder.project(.init(contentsOf: $1))
+            if $0["hello world99"] != nil {
+                let uploaded = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
                 expectProject.fulfill()
-            } else if $0 == "hello world" {
-                let global = try! self.coder.global(.init(contentsOf: $1))
+            } else if $0["hello world"] != nil {
+                let global = try! self.coder.global(.init(contentsOf: $0["hello world"]!))
                 XCTAssertEqual(1, global.1.count)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
@@ -218,6 +218,38 @@ final class TestStoreProject: XCTestCase {
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.projects.first?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.projects.first?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
+            expectReady.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testLocalNotSharedMultiple() {
+        let expectProjects = expectation(description: "")
+        let expectReady = expectation(description: "")
+        Store.id = "hello world"
+        store.prepare()
+        let saved = Session()
+        var projectA = Project()
+        projectA.id = 99
+        projectA.name = "lorem"
+        var projectB = Project()
+        projectB.id = 101
+        projectB.name = "ipsum"
+        saved.projects = [projectA, projectB]
+        try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.project(projectA).write(to: Store.url.appendingPathComponent("99"))
+        try! coder.project(projectB).write(to: Store.url.appendingPathComponent("101"))
+        shared.save = {
+            print($0.keys)
+            if $0["hello world99"] != nil && $0["hello world101"] != nil {
+                let a = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
+                let b = try! self.coder.project(.init(contentsOf: $0["hello world101"]!))
+                XCTAssertEqual("lorem", a.name)
+                XCTAssertEqual("ipsum", b.name)
+                expectProjects.fulfill()
+            }
+        }
+        store.loadSession { _ in
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -244,13 +276,13 @@ final class TestStoreProject: XCTestCase {
         shared.url["hello world"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["hello world"]!)
         shared.save = {
-            if $0 == "hello world99" {
-                let uploaded = try! self.coder.project(.init(contentsOf: $1))
+            if $0["hello world99"] != nil {
+                let uploaded = try! self.coder.project(.init(contentsOf: $0["hello world99"]!))
                 XCTAssertEqual("lorem", uploaded.name)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(uploaded.time.timeIntervalSince1970))
                 expectProject.fulfill()
-            } else if $0 == "hello world" {
-                let global = try! self.coder.global(.init(contentsOf: $1))
+            } else if $0["hello world"] != nil {
+                let global = try! self.coder.global(.init(contentsOf: $0["hello world"]!))
                 XCTAssertEqual(1, global.1.count)
                 XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
