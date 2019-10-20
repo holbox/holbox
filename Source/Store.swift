@@ -3,7 +3,6 @@ import Foundation
 class Store {
     static var id = ""
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Store")
-    var ubi = Ubi()
     var shared = Shared()
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private static let coder = Coder()
@@ -46,9 +45,10 @@ class Store {
     func loadId(_ done: @escaping () -> Void) {
         if let id = try? String(decoding: Data(contentsOf: Store.url.appendingPathComponent("id")), as: UTF8.self) {
             Store.id = id
+            shared.refresh(id)
             done()
         } else {
-            ubi.load {
+            shared.load {
                 Store.id = $0
                 try! Data(Store.id.utf8).write(to: Store.url.appendingPathComponent("id"), options: .atomic)
                 done()

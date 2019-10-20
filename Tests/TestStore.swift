@@ -3,7 +3,6 @@ import XCTest
 
 final class TestStore: XCTestCase {
     private var store: Store!
-    private var ubi: StubUbi!
     private var shared: StubShared!
     private var coder: Coder!
     
@@ -12,10 +11,8 @@ final class TestStore: XCTestCase {
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         coder = .init()
-        ubi = .init()
         shared = .init()
         store = .init()
-        store.ubi = ubi
         store.shared = shared
         store.prepare()
     }
@@ -86,7 +83,7 @@ final class TestStore: XCTestCase {
     
     func testUbi() {
         let expect = expectation(description: "")
-        ubi.id = "hello world"
+        shared.id = "hello world"
         store.prepare()
         store.loadId {
             XCTAssertEqual("hello world", Store.id)
@@ -104,6 +101,18 @@ final class TestStore: XCTestCase {
             XCTAssertEqual("hello world", Store.id)
             expect.fulfill()
         }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testRefreshAlways() {
+        let expect = expectation(description: "")
+        store.prepare()
+        try! Data("hello world".utf8).write(to: Store.url.appendingPathComponent("id"))
+        shared.refreshed = {
+            XCTAssertEqual("hello world", $0)
+            expect.fulfill()
+        }
+        store.loadId { }
         waitForExpectations(timeout: 1)
     }
 }

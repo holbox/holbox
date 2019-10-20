@@ -3,7 +3,6 @@ import XCTest
 
 final class TestStoreProject: XCTestCase {
     private var store: Store!
-    private var ubi: StubUbi!
     private var shared: StubShared!
     private var coder: Coder!
     
@@ -13,10 +12,8 @@ final class TestStoreProject: XCTestCase {
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2"))
         coder = .init()
-        ubi = .init()
         shared = .init()
         store = .init()
-        store.ubi = ubi
         store.shared = shared
     }
     

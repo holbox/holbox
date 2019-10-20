@@ -3,7 +3,6 @@ import XCTest
 
 final class TestStoreSession: XCTestCase {
     private var store: Store!
-    private var ubi: StubUbi!
     private var shared: StubShared!
     private var coder: Coder!
     
@@ -11,10 +10,8 @@ final class TestStoreSession: XCTestCase {
         try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp"))
         coder = .init()
-        ubi = .init()
         shared = .init()
         store = .init()
-        store.ubi = ubi
         store.shared = shared
     }
     
