@@ -15,93 +15,57 @@ final class TestProject: XCTestCase {
     }
     
     func testAddList() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.time)
-            XCTAssertEqual(1, $0.cards.count)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertLessThanOrEqual(time, $1.time)
+            XCTAssertEqual(1, $1.cards.count)
+            expect.fulfill()
         }
         session.add(0)
         waitForExpectations(timeout: 1)
     }
     
     func testName() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.add(0)
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual("hello world", $0.name)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual("hello world", $1.name)
+            expect.fulfill()
         }
         session.name(0, name: "hello world")
         waitForExpectations(timeout: 1)
     }
     
     func testNameList() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.add(0)
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual("hello world", $0.cards[0].0)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual("hello world", $1.cards[0].0)
+            expect.fulfill()
         }
         session.name(0, list: 0, name: "hello world")
         waitForExpectations(timeout: 1)
     }
     
     func testAddCard() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.add(0)
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual(2, $0.cards[0].1.count)
-            XCTAssertEqual("", $0.cards[0].1.first)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(2, $1.cards[0].1.count)
+            XCTAssertEqual("", $1.cards[0].1.first)
+            expect.fulfill()
         }
         session.projects[0].cards = [("", ["hello"])]
         session.add(0, list: 0)
@@ -109,24 +73,15 @@ final class TestProject: XCTestCase {
     }
     
     func testDeleteCard() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.add(0)
         session.projects[0].time = .init(timeIntervalSince1970: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual(3, $0.cards[0].1.count)
-            XCTAssertEqual("lorem", $0.cards[0].1[1])
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(3, $1.cards[0].1.count)
+            XCTAssertEqual("lorem", $1.cards[0].1[1])
+            expect.fulfill()
         }
         session.projects[0].cards = [("", ["hello", "world", "lorem", "ipsum"])]
         session.delete(0, list: 0, card: 1)
@@ -134,49 +89,31 @@ final class TestProject: XCTestCase {
     }
     
     func testContent() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.add(0)
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.add(0, list: 0)
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual("hello world", $0.cards[0].1.first)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual("hello world", $1.cards[0].1.first)
+            expect.fulfill()
         }
         session.content(0, list: 0, card: 0, content: "hello world")
         waitForExpectations(timeout: 1)
     }
     
     func testMove() {
-        let expectProject = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectShare = expectation(description: "")
+        let expect = expectation(description: "")
         let time = Date()
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("", ["hello", "world"])]
-        store.save = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectSave.fulfill()
-        }
-        store.share = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            expectShare.fulfill()
-        }
         store.project = {
-            XCTAssertEqual("world", $0.cards[0].1.first)
-            XCTAssertEqual("hello", $0.cards[0].1.last)
-            XCTAssertEqual(2, $0.cards[0].1.count)
-            expectProject.fulfill()
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual("world", $1.cards[0].1.first)
+            XCTAssertEqual("hello", $1.cards[0].1.last)
+            XCTAssertEqual(2, $1.cards[0].1.count)
+            expect.fulfill()
         }
         session.move(0, list: 0, card: 0, destination: 0, index: 1)
         waitForExpectations(timeout: 1)
@@ -186,9 +123,8 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].name = "hello world"
-        store.save = { _ in XCTFail() }
-        store.share = { _ in XCTFail() }
-        store.project = { _ in XCTFail() }
+        store.session = { _ in XCTFail() }
+        store.project = { _, _ in XCTFail() }
         session.name(0, name: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
@@ -197,9 +133,8 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("hello world", [])]
-        store.save = { _ in XCTFail() }
-        store.share = { _ in XCTFail() }
-        store.project = { _ in XCTFail() }
+        store.session = { _ in XCTFail() }
+        store.project = { _, _ in XCTFail() }
         session.name(0, list: 0, name: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
@@ -208,9 +143,8 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("", ["hello world"])]
-        store.save = { _ in XCTFail() }
-        store.share = { _ in XCTFail() }
-        store.project = { _ in XCTFail() }
+        store.session = { _ in XCTFail() }
+        store.project = { _, _ in XCTFail() }
         session.content(0, list: 0, card: 0, content: "hello world")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
@@ -219,9 +153,8 @@ final class TestProject: XCTestCase {
         session.projects = [.init()]
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         session.projects[0].cards = [("", ["hello", "world"])]
-        store.save = { _ in XCTFail() }
-        store.share = { _ in XCTFail() }
-        store.project = { _ in XCTFail() }
+        store.session = { _ in XCTFail() }
+        store.project = { _, _ in XCTFail() }
         session.move(0, list: 0, card: 1, destination: 0, index: 1)
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }

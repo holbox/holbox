@@ -31,7 +31,7 @@ public final class Session {
     
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!
-        store.save(self) { }
+        store.save(self)
     }
     
     public func projects(_ mode: Mode) -> [Int] {
@@ -115,22 +115,16 @@ public final class Session {
     public func purchase(_ perk: Perk) {
         guard !perks.contains(perk) else { return }
         perks.append(perk)
-        store.save(self) { }
+        store.save(self)
     }
     
     public func spell(_ spell: Bool) {
         settings.spell = spell
-        store.save(self) { }
+        store.save(self)
     }
     
     private func save(_ project: Int) {
         projects[project].time = .init()
-        store.save(projects[project]) { [weak self] in
-            guard let self = self else { return }
-            self.store.save(self) { [weak self] in
-                guard let self = self else { return }
-                self.store.share(self) { }
-            }
-        }
+        store.save(self, project: projects[project])
     }
 }

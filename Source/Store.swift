@@ -17,25 +17,17 @@ class Store {
         }
     }
     
-    func save(_ session: Session, done: @escaping () -> Void) {
+    func save(_ session: Session) {
         Store.queue.async {
             self.write(session)
-            done()
         }
     }
     
-    func share(_ session: Session, done: @escaping () -> Void) {
+    func save(_ session: Session, project: Project) {
         Store.queue.async {
-            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
-            try! Store.coder.global(session).write(to: url, options: .atomic)
-            self.shared.save(["session": url], done: done)
-        }
-    }
-    
-    func save(_ project: Project, done: @escaping () -> Void) {
-        Store.queue.async {
+            self.write(session)
             self.write(project)
-            self.share([project.id], done: done)
+            self.shared.save(["session": self.url(session), "\(project.id)": Store.url.appendingPathComponent("\(project.id)")])
         }
     }
     
@@ -88,10 +80,9 @@ class Store {
         } else {
             shared.load(["session"], error: {
                 let session = Session()
-                self.share(session) {
-                    self.write(session)
-                    result(session)
-                }
+                self.write(session)
+                self.shared.save(["session": self.url(session)])
+                result(session)
             }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0.values.first!))
                 var update = Update(result: result)
@@ -130,16 +121,14 @@ class Store {
                 self.merge(update)
             }
         } else if !update.upload.isEmpty {
+            shared.save(update.upload.reduce(into: [:]) { $0["\($1)"] = Store.url.appendingPathComponent("\($1)") })
             update.share = true
-            share(update.upload) {
-                update.upload = []
-                self.merge(update)
-            }
+            update.upload = []
+            self.merge(update)
         } else if update.share {
+            shared.save(["session": url(update.session)])
             update.share = false
-            share(update.session) {
-                self.merge(update)
-            }
+            self.merge(update)
         } else {
             if update.write {
                 write(update.session)
@@ -156,7 +145,9 @@ class Store {
         try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(project.id)"), options: .atomic)
     }
     
-    private func share(_ projects: [Int], done: @escaping () -> Void) {
-        shared.save(projects.reduce(into: [:]) { $0["\($1)"] = Store.url.appendingPathComponent("\($1)") }, done: done)
+    private func url(_ session: Session) -> URL {
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
+        try! Store.coder.global(session).write(to: url, options: .atomic)
+        return url
     }
 }

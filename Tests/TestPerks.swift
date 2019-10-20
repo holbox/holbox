@@ -13,11 +13,10 @@ final class TestPerks: XCTestCase {
     
     func testPurchase() {
         let expect = expectation(description: "")
-        store.save = {
+        store.session = {
             XCTAssertEqual(.two, $0.perks.first)
             expect.fulfill()
         }
-        store.share = { _ in XCTFail() }
         session.purchase(.two)
         XCTAssertEqual(3, session.available)
         waitForExpectations(timeout: 1)

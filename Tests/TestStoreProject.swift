@@ -184,7 +184,7 @@ final class TestStoreProject: XCTestCase {
         saved.projects = []
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
-        shared.save = {
+        shared.saved = {
             if $0["99"] != nil {
                 let uploaded = try! self.coder.project(.init(contentsOf: $0["99"]!))
                 XCTAssertEqual("lorem", uploaded.name)
@@ -229,7 +229,7 @@ final class TestStoreProject: XCTestCase {
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(projectA).write(to: Store.url.appendingPathComponent("99"))
         try! coder.project(projectB).write(to: Store.url.appendingPathComponent("101"))
-        shared.save = {
+        shared.saved = {
             if $0["99"] != nil && $0["101"] != nil {
                 let a = try! self.coder.project(.init(contentsOf: $0["99"]!))
                 let b = try! self.coder.project(.init(contentsOf: $0["101"]!))
@@ -263,7 +263,7 @@ final class TestStoreProject: XCTestCase {
         saved.projects = [project]
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
-        shared.save = {
+        shared.saved = {
             if $0["99"] != nil {
                 let uploaded = try! self.coder.project(.init(contentsOf: $0["99"]!))
                 XCTAssertEqual("lorem", uploaded.name)

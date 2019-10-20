@@ -34,28 +34,11 @@ final class TestStore: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    func testSaveSession() {
-        let expectShare = expectation(description: "")
-        let expectSave = expectation(description: "")
-        let expectFinish = expectation(description: "")
-        shared.save = {
-            XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
-            expectShare.fulfill()
-        }
-        store.save(Session()) {
-            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
-            expectSave.fulfill()
-        }
-        store.share(Session()) {
-            expectFinish.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-    
     func testSaveSessionNotSharing() {
         let expect = expectation(description: "")
-        shared.save = { _ in XCTFail() }
-        store.save(Session()) {
+        shared.saved = { _ in XCTFail() }
+        store.save(Session())
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.01) {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
             expect.fulfill()
         }
@@ -63,18 +46,17 @@ final class TestStore: XCTestCase {
     }
     
     func testSaveProject() {
-        let expectShare = expectation(description: "")
-        let expectSave = expectation(description: "")
-        shared.save = {
+        let expect = expectation(description: "")
+        shared.saved = {
+            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
+            XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("56"))))
+            XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
             XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["56"]!)))
-            expectShare.fulfill()
+            expect.fulfill()
         }
         var project = Project()
         project.id = 56
-        store.save(project) {
-            XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("56"))))
-            expectSave.fulfill()
-        }
+        store.save(Session(), project: project)
         waitForExpectations(timeout: 1)
     }
 }
