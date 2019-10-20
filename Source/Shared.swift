@@ -16,8 +16,9 @@ class Shared {
         let record = CKRecord(recordType: "Record", recordID: .init(recordName: id))
         record["asset"] = CKAsset(fileURL: url)
         let operation = CKModifyRecordsOperation(recordsToSave: [record])
+        operation.configuration.timeoutIntervalForResource = 1
         operation.savePolicy = .allKeys
-        operation.perRecordCompletionBlock = { _, _ in done() }
+        operation.completionBlock = done
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
     }
 }
