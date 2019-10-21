@@ -1,7 +1,6 @@
 import UIKit
 
-final class Label: UILabel {
-    override var accessibilityLabel: String? { get { attributedText!.string } set { } } 
+final class Label: UILabel { 
     required init?(coder: NSCoder) { nil }
     
     init(_ string: String, _ size: CGFloat, _ weight: UIFont.Weight, _ color: UIColor) {
@@ -9,6 +8,7 @@ final class Label: UILabel {
         font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: size), weight: weight)
         text = string
         textColor = color
+        accessibilityLabel = string
         configure()
     }
     
@@ -17,6 +17,7 @@ final class Label: UILabel {
         attributedText = strings.reduce(into: NSMutableAttributedString(), {
             $0.append(.init(string: $1.0, attributes: [.font: UIFont.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: $1.1), weight: $1.2), .foregroundColor: $1.3]))
         })
+        accessibilityLabel = attributedText!.string
         configure()
     }
     

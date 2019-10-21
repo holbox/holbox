@@ -6,9 +6,10 @@ final class Text: UITextView {
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
-        textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        textContainerInset = .init(top: 30, left: 20, bottom: 20, right: 20)
         isAccessibilityElement = true
         translatesAutoresizingMaskIntoConstraints = false
+        indicatorStyle = .black
         textColor = .white
         backgroundColor = .clear
         bounces = false

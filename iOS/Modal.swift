@@ -18,6 +18,7 @@ class Modal: UIViewController {
     }
     
     @objc final func close() {
+        app.win.endEditing(true)
         presentingViewController!.dismiss(animated: true)
     }
 }

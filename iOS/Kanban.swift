@@ -27,15 +27,14 @@ final class Kanban: UIView {
                 scroll.add(card)
                 
                 if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
+                    card.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
-                    top!.child = card
+                    card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10).isActive = true
                 }
                 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 40).isActive = true
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 20)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 20)
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 60).isActive = true
+                column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 10).isActive = true
+                card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 10).isActive = true
                 top = card
             }
             
@@ -45,8 +44,8 @@ final class Kanban: UIView {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
-            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true
             left = column.rightAnchor
         }
         
@@ -56,17 +55,12 @@ final class Kanban: UIView {
             space.translatesAutoresizingMaskIntoConstraints = false
             scroll.content.insertSubview(space, at: 0)
             
-            space.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+            space.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
             space.leftAnchor.constraint(equalTo: left!).isActive = true
             scroll.right.constraint(greaterThanOrEqualTo: space.rightAnchor).isActive = true
         }
         
-        let name = UILabel()
-        name.translatesAutoresizingMaskIntoConstraints = false
-        name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.text = app.session.name(app.project)
-        name.isAccessibilityElement = true
-        name.accessibilityTraits = .staticText
+        let name = Label(app.session.name(app.project), 30, .bold, .white)
         name.accessibilityLabel = .key("Kanban.project")
         name.accessibilityValue = app.session.name(app.project)
         name.alpha = 0.2
@@ -77,8 +71,8 @@ final class Kanban: UIView {
         
         [_card, _more].forEach {
             scroll.add($0)
-            $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            $0.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 60).isActive = true
             $0.centerYAnchor.constraint(equalTo: name.centerYAnchor).isActive = true
         }
 
@@ -86,7 +80,7 @@ final class Kanban: UIView {
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 60).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
@@ -94,31 +88,11 @@ final class Kanban: UIView {
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.top, constant: 180).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.top, constant: 165).isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
     }
-    /*
-    override func mouseDown(with: NSEvent) {
-        super.mouseDown(with: with)
-        window!.makeFirstResponder(nil)
-    }
-    
-    override func mouseDragged(with: NSEvent) {
-        super.mouseDragged(with: with)
-        if let drag = self.drag {
-            drag.drag(with.deltaX, with.deltaY)
-        } else if let view = hitTest(with.locationInWindow) {
-            drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card
-        }
-    }
-    
-    override func mouseUp(with: NSEvent) {
-        super.mouseUp(with: with)
-        drag?.stop(with.locationInWindow.x + scroll.documentVisibleRect.origin.x, scroll.documentVisibleRect.height - with.locationInWindow.y + scroll.documentVisibleRect.origin.y)
-        drag = nil
-    }*/
     
     @objc private func card() {
         app.session.add(app.project, list: 0)

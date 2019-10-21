@@ -39,6 +39,7 @@
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
+		DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA82CDA6235DAB5E00CBB15D /* Capsule.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
 		DAA463F22358640C00A5E990 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F12358640C00A5E990 /* Extensions.swift */; };
@@ -222,6 +223,7 @@
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		DA82CDA6235DAB5E00CBB15D /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
 		DAA463F12358640C00A5E990 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 				DAF09641235B27EB00BCC800 /* Base.swift */,
 				DAA463FF23588A8900A5E990 /* Border.swift */,
 				DAA4640323588DFD00A5E990 /* Button.swift */,
+				DA82CDA6235DAB5E00CBB15D /* Capsule.swift */,
 				DAF09638235B03F400BCC800 /* Card.swift */,
 				DAF0963A235B041900BCC800 /* Column.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
@@ -1046,6 +1049,7 @@
 				DAB979582359D64C00631280 /* Modal.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
+				DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DAA463F22358640C00A5E990 /* Extensions.swift in Sources */,

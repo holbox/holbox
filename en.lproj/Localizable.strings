@@ -51,6 +51,7 @@ Shop.descr.hundred="\n\nThe total amount of projects you can have will be increa
 Error="Error";
 Logo="Loading";
 Card="Card";
+Card.done="Done";
 Column="Column";
 Kanban.project="Project";
 Menu.holbox="holbox";

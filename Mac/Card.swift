@@ -28,13 +28,13 @@ final class Card: NSView, NSTextViewDelegate {
         base.wantsLayer = true
         base.layer!.cornerRadius = 8
         base.layer!.borderWidth = 1
-        base.layer!.borderColor = .black
+        base.layer!.borderColor = app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .black : .clear
         addSubview(base)
         self.base = base
         
         let content = Text()
         content.setAccessibilityLabel(.key("Card"))
-        content.font = .monospacedSystemFont(ofSize: 16, weight: .regular)
+        content.font = .monospacedSystemFont(ofSize: 16, weight: .light)
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true
@@ -74,18 +74,15 @@ final class Card: NSView, NSTextViewDelegate {
         addCursorRect(bounds, cursor: .pointingHand)
     }
     
-    func textDidChange(_: Notification) {
-        app.session.content(app.project, list: column, card: index, content: content.string)
-    }
-    
     func textDidBeginEditing(_: Notification) {
         base.layer!.borderColor = .haze
         base.layer!.borderWidth = 2
     }
     
     func textDidEndEditing(_: Notification) {
-        base.layer!.borderColor = .black
+        base.layer!.borderColor = content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .black : .clear
         base.layer!.borderWidth = 1
+        app.session.content(app.project, list: column, card: index, content: content.string)
     }
     
     func edit() {

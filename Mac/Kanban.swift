@@ -37,8 +37,8 @@ final class Kanban: NSView, NSTextViewDelegate {
                 }
                 
                 scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 40)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 80)
+                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 60)
                 top = card
             }
             
