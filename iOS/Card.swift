@@ -36,10 +36,10 @@ final class Card: UIView {
             
             border.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
             border.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-            bottom = border.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70)
+            bottom = border.bottomAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60)
             bottom.isActive = true
             
-            done.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
+            done.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
             done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
             done.widthAnchor.constraint(equalToConstant: 70).isActive = true
             
@@ -57,14 +57,19 @@ final class Card: UIView {
         func textViewDidEndEditing(_: UITextView) {
             card.update(text.text)
         }
+        
+        override func willTransition(to: UITraitCollection, with: UIViewControllerTransitionCoordinator) {
+            super.willTransition(to: to, with: with)
+            app.win.endEditing(true)
+        }
 
         @objc private func show(_ notification: NSNotification) {
-            bottom.constant = -((notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.height + 70)
+            bottom.constant = -((notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height + 60 - view.safeAreaInsets.bottom)
             UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
         }
 
         @objc private func hide() {
-            bottom.constant = -70
+            bottom.constant = -60
             UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
         }
     }
@@ -72,6 +77,7 @@ final class Card: UIView {
     let index: Int
     let column: Int
     private weak var content: UILabel!
+    private weak var base: UIView!
 
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, column: Int) {
@@ -79,8 +85,14 @@ final class Card: UIView {
         self.column = column
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        layer.cornerRadius = 8
-        layer.borderColor = .black
+        
+        let base = UIView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.isUserInteractionEnabled = false
+        base.layer.cornerRadius = 8
+        base.layer.borderColor = .black
+        addSubview(base)
+        self.base = base
         
         let content = Label(app.session.content(app.project, list: column, card: index), 14, .light, .white)
         content.font = .monospacedSystemFont(ofSize: 14, weight: .light)
@@ -91,6 +103,11 @@ final class Card: UIView {
         
         rightAnchor.constraint(equalTo: content.rightAnchor, constant: 30).isActive = true
         bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 30).isActive = true
+        
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         
         content.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
         content.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
@@ -133,8 +150,8 @@ final class Card: UIView {
     }
     
     private func update(_ active: Bool) {
-        layer.borderWidth = content.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 1 : 0
-        backgroundColor = active ? .haze : .clear
+        base.layer.borderWidth = content.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 1 : 0
+        base.backgroundColor = active ? .haze : .clear
         content.textColor = active ? .black : .white
         content.alpha = active ? 1 : 0.8
     }
