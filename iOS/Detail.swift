@@ -1,54 +1,6 @@
 import UIKit
 
 final class Detail: UIView {
-    private final class Item: UIView {
-        private weak var label: Label!
-        private let index: Int
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ index: Int) {
-            self.index = index
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            isAccessibilityElement = true
-            accessibilityTraits = .button
-            accessibilityLabel = app.session.name(index)
-            layer.cornerRadius = 8
-            
-            let label = Label(app.session.name(index), 16, .bold, .white)
-            addSubview(label)
-            self.label = label
-            
-            heightAnchor.constraint(equalToConstant: 60).isActive = true
-            
-            label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-            label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-        }
-        
-        override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-            backgroundColor = .haze
-            label.textColor = .black
-            super.touchesBegan(touches, with: with)
-        }
-        
-        override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-            backgroundColor = .clear
-            label.textColor = .white
-            super.touchesCancelled(touches, with: with)
-        }
-        
-        override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-            if bounds.contains(touches.first!.location(in: self)) {
-                app.main.project(index)
-            } else {
-                backgroundColor = .clear
-                label.textColor = .white
-            }
-            super.touchesEnded(touches, with: with)
-        }
-    }
-    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
@@ -81,7 +33,7 @@ final class Detail: UIView {
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
-                let item = Item($0)
+                let item = Item(app.session.name($0), index: $0, self, #selector(project(_:)))
                 scroll.add(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
@@ -109,7 +61,6 @@ final class Detail: UIView {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -131,5 +82,9 @@ final class Detail: UIView {
     
     @objc private func add() {
         app.present(Add(), animated: true)
+    }
+    
+    @objc private func project(_ item: Item) {
+        app.main.project(item.index)
     }
 }

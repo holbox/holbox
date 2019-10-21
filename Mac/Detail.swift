@@ -1,52 +1,6 @@
 import AppKit
 
 final class Detail: NSView {
-    private final class Item: NSView {
-        override var mouseDownCanMoveWindow: Bool { false }
-        private weak var label: Label!
-        private let index: Int
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ index: Int) {
-            self.index = index
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            setAccessibilityElement(true)
-            setAccessibilityRole(.button)
-            setAccessibilityLabel(app.session.name(index))
-            wantsLayer = true
-            layer!.cornerRadius = 8
-            
-            let label = Label(app.session.name(index), 16, .bold, .white)
-            addSubview(label)
-            self.label = label
-            
-            heightAnchor.constraint(equalToConstant: 60).isActive = true
-            
-            label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-            label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-        }
-        
-        override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
-        
-        override func mouseDown(with: NSEvent) {
-            layer!.backgroundColor = .haze
-            label.textColor = .black
-            super.mouseDown(with: with)
-        }
-        
-        override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) {
-                app.main.project(index)
-            } else {
-                layer!.backgroundColor = .clear
-                label.textColor = .white
-            }
-            super.mouseUp(with: with)
-        }
-    }
-    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
@@ -80,7 +34,7 @@ final class Detail: NSView {
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
-                let item = Item($0)
+                let item = Item(app.session.name($0), index: $0, self, #selector(project(_:)))
                 scroll.add(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
@@ -130,5 +84,9 @@ final class Detail: NSView {
     
     @objc private func add() {
         app.runModal(for: Add())
+    }
+    
+    @objc private func project(_ item: Item) {
+        app.main.project(item.index)
     }
 }

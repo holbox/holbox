@@ -1,6 +1,46 @@
 import UIKit
 
 final class Card: UIView {
+    private final class Move: Modal {
+        private weak var card: Card!
+        private weak var scroll: Scroll!
+        
+        required init?(coder: NSCoder) { return nil }
+        init(_ card: Card) {
+            super.init(nibName: nil, bundle: nil)
+            self.card = card
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            
+            let scroll = Scroll()
+            view.addSubview(scroll)
+            self.scroll = scroll
+            
+            let done = Capsule(.key("Card.move.done"), self, #selector(close), .haze, .black)
+            scroll.add(done)
+            
+            let column = Label(.key("Card.move.column"), 20, .bold, .init(white: 1, alpha: 0.2))
+            scroll.add(column)
+            
+            
+            
+            scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
+            scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1).isActive = true
+            scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+            scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+            
+            done.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+            done.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
+            done.widthAnchor.constraint(equalToConstant: 70).isActive = true
+            
+            column.topAnchor.constraint(equalTo: done.bottomAnchor).isActive = true
+            column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+            
+        }
+    }
+    
     private final class Edit: Modal, UITextViewDelegate {
         private weak var card: Card!
         private weak var text: Text!
@@ -32,6 +72,9 @@ final class Card: UIView {
             let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, .haze)
             view.addSubview(_delete)
             
+            let _move = Capsule(.key("Card.move"), self, #selector(move), .black, .haze)
+            view.addSubview(_move)
+            
             text.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
             text.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
             text.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
@@ -49,6 +92,10 @@ final class Card: UIView {
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
             _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
             _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            
+            _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
+            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor, constant: 10).isActive = true
+            _move.widthAnchor.constraint(equalToConstant: 80).isActive = true
             
             NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -78,6 +125,11 @@ final class Card: UIView {
         @objc private func hide() {
             bottom.constant = -60
             UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
+        }
+        
+        @objc private func move() {
+            app.win.endEditing(true)
+            present(Move(card), animated: true)
         }
         
         @objc private func remove() {

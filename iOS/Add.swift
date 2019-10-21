@@ -39,7 +39,7 @@ final class Add: Modal {
         scroll.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        scroll.right.constraint(equalTo: view.rightAnchor).isActive = true
+        scroll.content.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancel.bottomAnchor, constant: 20).isActive = true
         
         icon.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
