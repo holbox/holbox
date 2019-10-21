@@ -4,10 +4,16 @@ final class Card: UIView {
     private final class Move: Modal {
         private weak var card: Card!
         private weak var scroll: Scroll!
+        private weak var stepper: UIStepper!
+        private weak var position: Label!
+        private var index = 0
+        private var list = 0
         
         required init?(coder: NSCoder) { return nil }
         init(_ card: Card) {
             super.init(nibName: nil, bundle: nil)
+            index = card.index
+            list = card.column
             self.card = card
         }
         
@@ -21,11 +27,50 @@ final class Card: UIView {
             let done = Capsule(.key("Card.move.done"), self, #selector(close), .haze, .black)
             scroll.add(done)
             
-            let column = Label(.key("Card.move.column"), 20, .bold, .init(white: 1, alpha: 0.2))
-            scroll.add(column)
+            let _column = Label(.key("Card.move.column"), 20, .bold, .init(white: 1, alpha: 0.3))
+            scroll.add(_column)
             
+            var top: NSLayoutYAxisAnchor?
+            (0 ..< app.session.lists(app.project)).forEach {
+                let item = Item(app.session.name(app.project, list: $0), index: $0, self, #selector(column))
+                item.selected = card.column == $0
+                scroll.add(item)
+                
+                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
+                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -80).isActive = true
+                
+                if top == nil {
+                    item.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
+                } else {
+                    let border = Border()
+                    scroll.add(border)
+                    
+                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -60).isActive = true
+                    border.topAnchor.constraint(equalTo: top!).isActive = true
+                    
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                }
+                
+                top = item.bottomAnchor
+            }
             
+            let _position = Label(.key("Card.move.position"), 20, .bold, .init(white: 1, alpha: 0.3))
+            scroll.add(_position)
             
+            let position = Label("", 35, .light, .white)
+            scroll.addSubview(position)
+            self.position = position
+            
+            let stepper = UIStepper()
+            stepper.translatesAutoresizingMaskIntoConstraints = false
+            stepper.value = .init(index)
+            stepper.maximumValue = .init(app.session.cards(app.project, list: list))
+            stepper.addTarget(self, action: #selector(changed), for: .valueChanged)
+            scroll.addSubview(stepper)
+            self.stepper = stepper
+            
+            scroll.bottom.constraint(greaterThanOrEqualTo: _position.bottomAnchor, constant: 60).isActive = true
             scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
             scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1).isActive = true
             scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
@@ -35,9 +80,50 @@ final class Card: UIView {
             done.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
             done.widthAnchor.constraint(equalToConstant: 70).isActive = true
             
-            column.topAnchor.constraint(equalTo: done.bottomAnchor).isActive = true
-            column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+            _column.topAnchor.constraint(equalTo: done.bottomAnchor).isActive = true
+            _column.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
             
+            _position.topAnchor.constraint(equalTo: top!, constant: 50).isActive = true
+            _position.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
+            
+            position.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
+            position.rightAnchor.constraint(equalTo: stepper.leftAnchor, constant: -15).isActive = true
+            
+            stepper.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
+            stepper.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
+            
+            update()
+        }
+        
+        override func viewDidDisappear(_ animated: Bool) {
+            super.viewDidDisappear(animated)
+            let index = self.index
+            let list = self.list
+            if index != card.index || list != card.column {
+                app.dismiss(animated: true) { [weak card] in
+                    card?.move(list, position: index)
+                }
+            }
+        }
+        
+        private func update() {
+            position.text = "\((index + 1))/\(Int(stepper.maximumValue + 1))"
+        }
+        
+        @objc private func column(_ item: Item) {
+            scroll.views.compactMap { $0 as? Item }.forEach { $0.selected = $0 === item }
+            list = item.index
+            stepper.maximumValue = .init(app.session.cards(app.project, list: list))
+            if index >= app.session.cards(app.project, list: list) {
+                index = app.session.cards(app.project, list: list)
+                stepper.value = .init(index)
+            }
+            update()
+        }
+        
+        @objc private func changed() {
+            index = .init(stepper.value)
+            update()
         }
     }
     
@@ -94,7 +180,7 @@ final class Card: UIView {
             _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
             
             _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor, constant: 10).isActive = true
+            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor, constant: 20).isActive = true
             _move.widthAnchor.constraint(equalToConstant: 80).isActive = true
             
             NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -229,6 +315,11 @@ final class Card: UIView {
         base.backgroundColor = active ? .haze : .clear
         content.textColor = active ? .black : .white
         content.alpha = active ? 1 : 0.8
+    }
+    
+    private func move(_ destination: Int, position: Int) {
+        app.session.move(app.project, list: column, card: index, destination: destination, index: position)
+        kanban.refresh()
     }
     
     @objc private func delete() {
