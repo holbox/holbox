@@ -12,7 +12,7 @@ final class Column: NSView, NSTextViewDelegate {
         
         let name = Text()
         name.setAccessibilityLabel(.key("Column"))
-        name.font = .monospacedSystemFont(ofSize: 20, weight: .bold)
+        name.font = .systemFont(ofSize: 20, weight: .bold)
         name.string = app.session.name(app.project, list: index)
         name.textContainer!.size.width = 400
         name.textContainer!.size.height = 45

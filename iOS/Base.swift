@@ -13,9 +13,8 @@ final class Base: UIView {
     func show(_ view: UIView) {
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         if let previous = subviews.last {
-            previous.layer.cornerRadius = 20
-            view.layer.cornerRadius = 20
             view.backgroundColor = .background
+            view.layer.cornerRadius = 20
             addSubview(view)
             
             view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
@@ -25,21 +24,23 @@ final class Base: UIView {
             top.isActive = true
             let previousTop = self.top
             layoutIfNeeded()
-            previous.backgroundColor = .black
-            previousTop?.constant = 50
-            top.constant = 100
+            backgroundColor = .black
+            previousTop?.constant = 110
+            top.constant = 120
             
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.7, animations: {
                 self.layoutIfNeeded()
             }) { _ in
                 top.constant = 0
                 previousTop?.constant = 60
                 
-                UIView.animate(withDuration: 0.3, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     self.layoutIfNeeded()
                 }) { _ in
                     previous.removeFromSuperview()
+                    view.backgroundColor = .clear
                     view.layer.cornerRadius = 0
+                    self.backgroundColor = .clear
                     self.top = top
                 }
             }

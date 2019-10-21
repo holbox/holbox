@@ -84,9 +84,9 @@
 		DACB75DE2347710800037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
 		DAD8F195234DBAC600835E3E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F194234DBAC600835E3E /* Alert.swift */; };
-		DAD8F196234DBB5500835E3E /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* Shared.swift */; };
-		DAD8F197234DBB5700835E3E /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* Shared.swift */; };
-		DAD8F198234DBB5A00835E3E /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* Shared.swift */; };
+		DAD8F196234DBB5500835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
+		DAD8F197234DBB5700835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
+		DAD8F198234DBB5A00835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
 		DAD8F19A234DBB9700835E3E /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F199234DBB9700835E3E /* Label.swift */; };
 		DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19B234DBEBE00835E3E /* Extensions.swift */; };
 		DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19D234DD3F400835E3E /* Bar.swift */; };
@@ -294,7 +294,7 @@
 		DAF68E7B234764A60060895A /* Mac.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Mac.xcassets; sourceTree = "<group>"; };
 		DAF68E84234764BE0060895A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAF68E8B234765220060895A /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		DAF68E8E2347653E0060895A /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		DAF68E8E2347653E0060895A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		DAF68E91234765820060895A /* iOS.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iOS.storyboard; sourceTree = "<group>"; };
 		DAF68E92234765820060895A /* iOS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iOS.xcassets; sourceTree = "<group>"; };
 		DAF68E94234765820060895A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -527,7 +527,7 @@
 		DAF68E8D2347653E0060895A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				DAF68E8E2347653E0060895A /* Shared.swift */,
+				DAF68E8E2347653E0060895A /* String.swift */,
 				DAF0963E235B077C00BCC800 /* Container.swift */,
 			);
 			path = Shared;
@@ -998,7 +998,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4BC3F623546A4600C023D6 /* More.swift in Sources */,
-				DAD8F196234DBB5500835E3E /* Shared.swift in Sources */,
+				DAD8F196234DBB5500835E3E /* String.swift in Sources */,
 				DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */,
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
 				DA4BC3F823546C6800C023D6 /* Modal.swift in Sources */,
@@ -1045,7 +1045,7 @@
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
 				DAB979582359D64C00631280 /* Modal.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
-				DAD8F197234DBB5700835E3E /* Shared.swift in Sources */,
+				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DAA463F22358640C00A5E990 /* Extensions.swift in Sources */,
@@ -1063,7 +1063,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAD8F198234DBB5A00835E3E /* Shared.swift in Sources */,
+				DAD8F198234DBB5A00835E3E /* String.swift in Sources */,
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
 				DAF68EA4234766300060895A /* Watch.swift in Sources */,
 			);
