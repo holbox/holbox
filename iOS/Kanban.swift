@@ -54,7 +54,7 @@ final class Kanban: UIView {
         refresh()
     }
     
-    private func refresh() {
+    func refresh() {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in
@@ -63,7 +63,7 @@ final class Kanban: UIView {
             
             var top: Card?
             (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card($0, column: list)
+                let card = Card(self, index: $0, column: list)
                 scroll.add(card)
                 
                 if top == nil {

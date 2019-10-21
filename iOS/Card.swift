@@ -29,6 +29,9 @@ final class Card: UIView {
             let done = Capsule(.key("Card.done"), self, #selector(close), .haze, .black)
             view.addSubview(done)
             
+            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, .haze)
+            view.addSubview(_delete)
+            
             text.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
             text.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
             text.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
@@ -42,6 +45,10 @@ final class Card: UIView {
             done.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
             done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
             done.widthAnchor.constraint(equalToConstant: 70).isActive = true
+            
+            _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
             
             NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -72,17 +79,33 @@ final class Card: UIView {
             bottom.constant = -60
             UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
         }
+        
+        @objc private func remove() {
+            app.win.endEditing(true)
+            let alert = UIAlertController(title: .key("Card.delete.title"), message: nil, preferredStyle: .actionSheet)
+            alert.addAction(.init(title: .key("Card.delete.confirm"), style: .destructive) { [weak self] _ in
+                self?.presentingViewController!.dismiss(animated: true) { [weak self] in
+                    self?.card.delete()
+                }
+            })
+            alert.addAction(.init(title: .key("Card.delete.cancel"), style: .cancel))
+            alert.popoverPresentationController?.sourceView = view
+            alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
+            present(alert, animated: true)
+        }
     }
     
     let index: Int
     let column: Int
     private weak var content: UILabel!
     private weak var base: UIView!
+    private weak var kanban: Kanban!
 
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int, column: Int) {
+    init(_ kanban: Kanban, index: Int, column: Int) {
         self.index = index
         self.column = column
+        self.kanban = kanban
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -154,5 +177,10 @@ final class Card: UIView {
         base.backgroundColor = active ? .haze : .clear
         content.textColor = active ? .black : .white
         content.alpha = active ? 1 : 0.8
+    }
+    
+    @objc private func delete() {
+        app.session.delete(app.project, list: column, card: index)
+        kanban.refresh()
     }
 }
