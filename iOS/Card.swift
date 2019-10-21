@@ -69,9 +69,9 @@ final class Card: UIView {
         }
     }
     
+    let index: Int
+    let column: Int
     private weak var content: UILabel!
-    private let index: Int
-    private let column: Int
 
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, column: Int) {
@@ -116,6 +116,15 @@ final class Card: UIView {
             update(false)
         }
         super.touchesEnded(touches, with: with)
+    }
+    
+    func edit() {
+        UIView.animate(withDuration: 0.35, animations: { [weak self] in
+            self?.update(true)
+        }) { [weak self] _ in
+            guard let self = self else { return }
+            app.present(Edit(self), animated: true)
+        }
     }
     
     private func update(_ text: String) {
