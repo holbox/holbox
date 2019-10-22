@@ -1,6 +1,51 @@
 import UIKit
 
 final class Kanban: UIView {
+    private final class Detail: Edit {
+        private weak var kanban: Kanban!
+        
+        deinit { print("detail gone") }
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ kanban: Kanban) {
+            super.init(nibName: nil, bundle: nil)
+            self.kanban = kanban
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            text.text = app.session.name(app.project)
+            
+            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), .black, .haze)
+            view.addSubview(_delete)
+            
+            _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        }
+        
+        override func textViewDidEndEditing(_: UITextView) {
+            kanban.name.text = text.text
+            app.session.name(app.project, name: text.text)
+        }
+        
+        
+        @objc private func remove() {
+            app.win.endEditing(true)
+            let alert = UIAlertController(title: .key("Delete.title.\(app.mode.rawValue)"), message: app.session.name(app.project), preferredStyle: .actionSheet)
+            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
+                self?.presentingViewController!.dismiss(animated: true) {
+                    app.session.delete(app.project)
+                    app.main.kanban()
+                }
+            })
+            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
+            alert.popoverPresentationController?.sourceView = view
+            alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
+            present(alert, animated: true)
+        }
+    }
+    
     private weak var scroll: Scroll!
     private weak var name: Label!
     private weak var border: Border!
@@ -108,6 +153,6 @@ final class Kanban: UIView {
     }
     
     @objc private func more() {
-//        app.runModal(for: More.Project())
+        app.present(Detail(self), animated: true)
     }
 }

@@ -9,7 +9,7 @@ final class Card: UIView {
         private var index = 0
         private var list = 0
         
-        required init?(coder: NSCoder) { return nil }
+        required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
             super.init(nibName: nil, bundle: nil)
             index = card.index
@@ -133,13 +133,10 @@ final class Card: UIView {
         }
     }
     
-    private final class Edit: Modal, UITextViewDelegate {
+    private final class Detail: Edit {
         private weak var card: Card!
-        private weak var text: Text!
-        private weak var bottom: NSLayoutConstraint!
         
-        deinit { NotificationCenter.default.removeObserver(self) }
-        required init?(coder: NSCoder) { return nil }
+        required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
             super.init(nibName: nil, bundle: nil)
             self.card = card
@@ -147,39 +144,13 @@ final class Card: UIView {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            
-            let text = Text()
-            text.font = .monospacedSystemFont(ofSize: 20, weight: .regular)
             text.text = card.content.text!
-            text.delegate = self
-            view.addSubview(text)
-            self.text = text
-            
-            let border = Border()
-            view.addSubview(border)
-            
-            let done = Capsule(.key("Card.done"), self, #selector(close), .haze, .black)
-            view.addSubview(done)
             
             let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, .haze)
             view.addSubview(_delete)
             
             let _move = Capsule(.key("Card.move"), self, #selector(move), .black, .haze)
             view.addSubview(_move)
-            
-            text.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
-            text.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-            text.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-            text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
-            
-            border.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-            border.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-            bottom = border.bottomAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60)
-            bottom.isActive = true
-            
-            done.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-            done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-            done.widthAnchor.constraint(equalToConstant: 70).isActive = true
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
             _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
@@ -188,11 +159,6 @@ final class Card: UIView {
             _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
             _move.leftAnchor.constraint(equalTo: _delete.rightAnchor, constant: 20).isActive = true
             _move.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)
-            
-            text.becomeFirstResponder()
         }
         
         override func viewDidDisappear(_ animated: Bool) {
@@ -200,23 +166,8 @@ final class Card: UIView {
             card.update(false)
         }
         
-        func textViewDidEndEditing(_: UITextView) {
+        override func textViewDidEndEditing(_: UITextView) {
             card.update(text.text)
-        }
-        
-        override func willTransition(to: UITraitCollection, with: UIViewControllerTransitionCoordinator) {
-            super.willTransition(to: to, with: with)
-            app.win.endEditing(true)
-        }
-
-        @objc private func show(_ notification: NSNotification) {
-            bottom.constant = -((notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height + 60 - view.safeAreaInsets.bottom)
-            UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
-        }
-
-        @objc private func hide() {
-            bottom.constant = -60
-            UIView.animate(withDuration: 0.5) { [weak self] in self?.view.layoutIfNeeded() }
         }
         
         @objc private func move() {
@@ -226,13 +177,13 @@ final class Card: UIView {
         
         @objc private func remove() {
             app.win.endEditing(true)
-            let alert = UIAlertController(title: .key("Card.delete.title"), message: nil, preferredStyle: .actionSheet)
-            alert.addAction(.init(title: .key("Card.delete.confirm"), style: .destructive) { [weak self] _ in
+            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
+            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
                 self?.presentingViewController!.dismiss(animated: true) { [weak self] in
                     self?.card.delete()
                 }
             })
-            alert.addAction(.init(title: .key("Card.delete.cancel"), style: .cancel))
+            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
             alert.popoverPresentationController?.sourceView = view
             alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
             present(alert, animated: true)
@@ -295,7 +246,7 @@ final class Card: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
-            app.present(Edit(self), animated: true)
+            app.present(Detail(self), animated: true)
         } else {
             update(false)
         }
@@ -307,7 +258,7 @@ final class Card: UIView {
             self?.update(true)
         }) { [weak self] _ in
             guard let self = self else { return }
-            app.present(Edit(self), animated: true)
+            app.present(Detail(self), animated: true)
         }
     }
     
