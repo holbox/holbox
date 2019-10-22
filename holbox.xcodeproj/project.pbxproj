@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
+		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
@@ -212,6 +213,7 @@
 
 /* Begin PBXFileReference section */
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
+		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		DA40C947235610AC00F9E1C2 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -582,6 +584,7 @@
 				DAB979572359D64C00631280 /* Modal.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
+				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
 			);
@@ -1066,6 +1069,7 @@
 				DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */,
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
 				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
+				DA1FD278235F38B4003718A5 /* Shop.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,

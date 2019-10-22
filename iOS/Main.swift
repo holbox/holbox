@@ -87,7 +87,7 @@ final class Main: UIView {
         bar?._todo.selected = false
         bar?._shopping.selected = false
         bar?._shop.selected = true
-//        show(Shop())
+        base?.show(Shop())
     }
     
     @objc func more() {
