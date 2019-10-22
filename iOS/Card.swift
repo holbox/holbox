@@ -4,8 +4,8 @@ final class Card: UIView {
     private final class Move: Modal {
         private weak var card: Card!
         private weak var scroll: Scroll!
-        private weak var stepper: UIStepper!
         private weak var position: Label!
+        private weak var stepper: UIStepper!
         private var index = 0
         private var list = 0
         
@@ -27,12 +27,12 @@ final class Card: UIView {
             let done = Capsule(.key("Card.move.done"), self, #selector(close), .haze, .black)
             scroll.add(done)
             
-            let _column = Label(.key("Card.move.column"), 20, .bold, .init(white: 1, alpha: 0.3))
+            let _column = Label(.key("Card.move.column"), 24, .bold, .init(white: 1, alpha: 0.3))
             scroll.add(_column)
             
             var top: NSLayoutYAxisAnchor?
             (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0), index: $0, self, #selector(column))
+                let item = Item(app.session.name(app.project, list: $0) + ": \(app.session.cards(app.project, list: $0))", index: $0, self, #selector(column))
                 item.selected = card.column == $0
                 scroll.add(item)
                 
@@ -43,6 +43,7 @@ final class Card: UIView {
                     item.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
                 } else {
                     let border = Border()
+                    border.alpha = 0.2
                     scroll.add(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
@@ -55,18 +56,17 @@ final class Card: UIView {
                 top = item.bottomAnchor
             }
             
-            let _position = Label(.key("Card.move.position"), 20, .bold, .init(white: 1, alpha: 0.3))
+            let _position = Label(.key("Card.move.position"), 24, .bold, .init(white: 1, alpha: 0.3))
             scroll.add(_position)
             
-            let position = Label("", 35, .light, .white)
+            let position = Label("", 25, .bold, .white)
             scroll.addSubview(position)
             self.position = position
             
             let stepper = UIStepper()
             stepper.translatesAutoresizingMaskIntoConstraints = false
-            stepper.value = .init(index)
-            stepper.maximumValue = .init(app.session.cards(app.project, list: list))
             stepper.addTarget(self, action: #selector(changed), for: .valueChanged)
+            stepper.tintColor = .haze
             scroll.addSubview(stepper)
             self.stepper = stepper
             
@@ -80,18 +80,19 @@ final class Card: UIView {
             done.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
             done.widthAnchor.constraint(equalToConstant: 70).isActive = true
             
-            _column.topAnchor.constraint(equalTo: done.bottomAnchor).isActive = true
+            _column.topAnchor.constraint(equalTo: done.bottomAnchor, constant: 20).isActive = true
             _column.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
             
             _position.topAnchor.constraint(equalTo: top!, constant: 50).isActive = true
             _position.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
             
             position.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
-            position.rightAnchor.constraint(equalTo: stepper.leftAnchor, constant: -15).isActive = true
+            position.rightAnchor.constraint(equalTo: stepper.leftAnchor, constant: -20).isActive = true
             
             stepper.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
-            stepper.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
+            stepper.rightAnchor.constraint(equalTo: scroll.right, constant: -60).isActive = true
             
+            limits()
             update()
         }
         
@@ -107,17 +108,22 @@ final class Card: UIView {
         }
         
         private func update() {
-            position.text = "\((index + 1))/\(Int(stepper.maximumValue + 1))"
+            position.text = "\(index + 1)"
+        }
+        
+        private func limits() {
+            let max = app.session.cards(app.project, list: list) - (list == card.column ? 1 : 0)
+            stepper.maximumValue = .init(max)
+            if index >= max {
+                index = max
+            }
+            stepper.value = .init(index)
         }
         
         @objc private func column(_ item: Item) {
             scroll.views.compactMap { $0 as? Item }.forEach { $0.selected = $0 === item }
             list = item.index
-            stepper.maximumValue = .init(app.session.cards(app.project, list: list))
-            if index >= app.session.cards(app.project, list: list) {
-                index = app.session.cards(app.project, list: list)
-                stepper.value = .init(index)
-            }
+            limits()
             update()
         }
         
