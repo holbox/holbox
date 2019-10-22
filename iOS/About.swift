@@ -106,7 +106,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         case 3: UIApplication.shared.open(URL(string: "itms-apps://itunes.apple.com/\(Locale.current.regionCode!.lowercased())/app/holbox/id1484470903")!)
         default: break
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak item] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak item] in
             item?.selected = false
         }
     }

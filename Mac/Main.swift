@@ -115,7 +115,7 @@ final class Main: Window {
     }
     
     @objc func about() {
-        app.runModal(for: More.Main())
+        app.runModal(for: About())
     }
     
     @objc func full() { zoom(self) }

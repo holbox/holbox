@@ -63,6 +63,8 @@
 		DAB979582359D64C00631280 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979572359D64C00631280 /* Modal.swift */; };
 		DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0F9235EFFB600BD3179 /* Check.swift */; };
 		DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FB235F060D00BD3179 /* Privacy.swift */; };
+		DABAD0FE235F267E00BD3179 /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FD235F267E00BD3179 /* About.swift */; };
+		DABAD100235F330F00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FF235F330F00BD3179 /* Privacy.swift */; };
 		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
@@ -253,6 +255,8 @@
 		DAB979572359D64C00631280 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DABAD0F9235EFFB600BD3179 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DABAD0FB235F060D00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
+		DABAD0FD235F267E00BD3179 /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
+		DABAD0FF235F330F00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
@@ -499,6 +503,7 @@
 		DAF68E76234764A60060895A /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				DABAD0FD235F267E00BD3179 /* About.swift */,
 				DAD8F1A1234E2E6300835E3E /* Add.swift */,
 				DAD8F194234DBAC600835E3E /* Alert.swift */,
 				DAF68E77234764A60060895A /* App.swift */,
@@ -522,6 +527,7 @@
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
 				DA4BC3F723546C6800C023D6 /* Modal.swift */,
 				DA4BC3F523546A4600C023D6 /* More.swift */,
+				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DAE81687235323F90005BE0B /* Tab.swift */,
@@ -1024,6 +1030,7 @@
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
 				DA4BC3F823546C6800C023D6 /* Modal.swift in Sources */,
 				DAC22D272354D1F90004FBFD /* Column.swift in Sources */,
+				DABAD100235F330F00BD3179 /* Privacy.swift in Sources */,
 				DAF09644235B280E00BCC800 /* Base.swift in Sources */,
 				DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */,
 				DAD8F195234DBAC600835E3E /* Alert.swift in Sources */,
@@ -1042,6 +1049,7 @@
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
 				DAC22D252354D1BC0004FBFD /* Card.swift in Sources */,
+				DABAD0FE235F267E00BD3179 /* About.swift in Sources */,
 				DA8B96042356FA60007E82F7 /* Shop.swift in Sources */,
 				DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */,
 				DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */,
