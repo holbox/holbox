@@ -4,8 +4,6 @@ final class Kanban: UIView {
     private final class Detail: Edit {
         private weak var kanban: Kanban!
         
-        deinit { print("detail gone") }
-        
         required init?(coder: NSCoder) { nil }
         init(_ kanban: Kanban) {
             super.init(nibName: nil, bundle: nil)
