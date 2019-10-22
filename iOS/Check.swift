@@ -1,13 +1,13 @@
-import AppKit
+import UIKit
 
-final class Check: NSView {
+final class Check: UIView {
     var on = false { didSet { update() } }
     private weak var target: AnyObject!
     private weak var icon: Image!
     private weak var label: Label!
+    private weak var base: UIView!
     private let action: Selector
-    override var mouseDownCanMoveWindow: Bool { false }
-    override func accessibilityValue() -> Any? { on }
+    override var accessibilityValue: String? { get { .init(on) } set { } }
     
     required init?(coder: NSCoder) { nil }
     init(_ text: String, target: AnyObject, action: Selector) {
@@ -15,14 +15,19 @@ final class Check: NSView {
         self.action = action
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        setAccessibilityElement(true)
-        setAccessibilityRole(.checkBox)
-        setAccessibilityLabel(text)
-        wantsLayer = true
-        layer!.cornerRadius = 4
+        isAccessibilityElement = true
+        accessibilityTraits = .adjustable
+        accessibilityLabel = text
+        
+        let base = UIView()
+        base.isUserInteractionEnabled = false
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.layer.cornerRadius = 4
+        addSubview(base)
+        self.base = base
         
         let label = Label(text, 14, .medium, .black)
-        label.setAccessibilityElement(false)
+        label.isAccessibilityElement = false
         addSubview(label)
         self.label = label
         
@@ -30,7 +35,12 @@ final class Check: NSView {
         addSubview(icon)
         self.icon = icon
         
-        heightAnchor.constraint(equalToConstant: 38).isActive = true
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -44,22 +54,17 @@ final class Check: NSView {
         update()
     }
     
-    override func resetCursorRects() {
-        addCursorRect(bounds, cursor: .pointingHand)
-    }
-    
-    override func mouseUp(with: NSEvent) {
-        window!.makeFirstResponder(nil)
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        if bounds.contains(touches.first!.location(in: self)) {
             on.toggle()
             _ = target.perform(action, with: self)
         }
-        super.mouseUp(with: with)
+        super.touchesEnded(touches, with: with)
     }
     
     private func update() {
         icon.isHidden = !on
         label.textColor = on ? .black : .init(white: 1, alpha: 0.6)
-        layer!.backgroundColor = on ? .haze : NSColor(white: 1, alpha: 0.05).cgColor
+        base.backgroundColor = on ? .haze : .init(white: 1, alpha: 0.05)
     }
 }

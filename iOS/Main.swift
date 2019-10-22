@@ -91,10 +91,6 @@ final class Main: UIView {
     }
     
     @objc func more() {
-        
-    }
-    
-    @objc func about() {
-        
+        app.present(About(), animated: true)
     }
 }

@@ -10,7 +10,7 @@ final class Item: NSView {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, index: Int, _ target: AnyObject, _ action: Selector) {
+    init(_ title: String, index: Int, _ font: NSFont.Weight, _ target: AnyObject, _ action: Selector) {
         self.index = index
         self.action = action
         self.target = target
@@ -28,7 +28,7 @@ final class Item: NSView {
         addSubview(base)
         self.base = base
         
-        let label = Label(title, 16, .bold, .white)
+        let label = Label(title, 16, font, .white)
         addSubview(label)
         self.label = label
         

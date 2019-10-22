@@ -61,6 +61,8 @@
 		DAB979542359CF8200631280 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979532359CF8200631280 /* Add.swift */; };
 		DAB979562359D63C00631280 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979552359D63C00631280 /* Control.swift */; };
 		DAB979582359D64C00631280 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979572359D64C00631280 /* Modal.swift */; };
+		DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0F9235EFFB600BD3179 /* Check.swift */; };
+		DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FB235F060D00BD3179 /* Privacy.swift */; };
 		DABC363423487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363523487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
 		DABC363623487DBF002011C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC363323487DBF002011C8 /* Store.swift */; };
@@ -249,6 +251,8 @@
 		DAB979532359CF8200631280 /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DAB979552359D63C00631280 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		DAB979572359D64C00631280 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
+		DABAD0F9235EFFB600BD3179 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
+		DABAD0FB235F060D00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
 		DABC363323487DBF002011C8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		DABC363723487F55002011C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DABC363B23488059002011C8 /* TestSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSession.swift; sourceTree = "<group>"; };
@@ -557,6 +561,7 @@
 				DAA4640323588DFD00A5E990 /* Button.swift */,
 				DA82CDA6235DAB5E00CBB15D /* Capsule.swift */,
 				DAF09638235B03F400BCC800 /* Card.swift */,
+				DABAD0F9235EFFB600BD3179 /* Check.swift */,
 				DAF0963A235B041900BCC800 /* Column.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
@@ -569,6 +574,7 @@
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
 				DAB979572359D64C00631280 /* Modal.swift */,
+				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
@@ -1049,6 +1055,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */,
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
 				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
@@ -1074,6 +1081,7 @@
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,
 				DAA464082358A29800A5E990 /* Detail.swift in Sources */,
+				DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */,
 				DAF68E98234765820060895A /* App.swift in Sources */,
 				DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */,
 			);
