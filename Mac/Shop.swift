@@ -20,7 +20,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
             
-            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
+            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale

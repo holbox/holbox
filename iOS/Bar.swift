@@ -46,7 +46,7 @@ final class Bar: UIView {
         _kanban.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor).isActive = true
-        _shop.leftAnchor.constraint(equalTo: _shopping.rightAnchor).isActive = true
+        _shop.leftAnchor.constraint(equalTo: _kanban.rightAnchor).isActive = true
         
         _more.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         _more.widthAnchor.constraint(equalToConstant: 65).isActive = true
@@ -55,5 +55,8 @@ final class Bar: UIView {
         border.topAnchor.constraint(equalTo: topAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
+        _todo.isHidden = true
+        _shopping.isHidden = true
     }
 }

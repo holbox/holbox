@@ -20,7 +20,7 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
             
-            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
+            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.ios.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale
@@ -78,9 +78,9 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
     private weak var _restore: Control!
     private var products = [SKProduct]() { didSet { DispatchQueue.main.async { [weak self] in self?.refresh() } } }
     private let formatter = NumberFormatter()
-    private let map = [Perk.two: "holbox.mac.two",
-                       Perk.ten: "holbox.mac.ten",
-                       Perk.hundred: "holbox.mac.hundred"]
+    private let map = [Perk.two: "holbox.ios.two",
+                       Perk.ten: "holbox.ios.ten",
+                       Perk.hundred: "holbox.ios.hundred"]
     
     deinit { SKPaymentQueue.default().remove(self) }
     
@@ -121,9 +121,10 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
+        scroll.right.constraint(equalTo: rightAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 20).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+        title.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 80).isActive = true
@@ -191,17 +192,17 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             scroll.add(item)
             
             if top == nil {
-                item.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
+                item.topAnchor.constraint(equalTo: scroll.top, constant: 100).isActive = true
             } else {
                 item.topAnchor.constraint(equalTo: top!).isActive = true
             }
             
-            item.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-            item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -140).isActive = true
+            item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+            item.widthAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.widthAnchor, constant: -40).isActive = true
             top = item.bottomAnchor
         }
         if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 60).isActive = true
+            scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
         }
     }
     
