@@ -19,44 +19,6 @@ final class Kanban: NSView, NSTextViewDelegate {
         let border = Border()
         scroll.add(border)
         
-        var left: NSLayoutXAxisAnchor?
-        (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(list)
-            scroll.add(column)
-            
-            var top: Card?
-            (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card($0, column: list)
-                scroll.add(card)
-                
-                if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
-                } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
-                    top!.child = card
-                }
-                
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 60)
-                top = card
-            }
-            
-            if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-            } else {
-                column.leftAnchor.constraint(equalTo: left!).isActive = true
-            }
-            
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
-            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
-            left = column.rightAnchor
-        }
-        
-        if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 70).isActive = true
-        }
-        
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
@@ -94,6 +56,8 @@ final class Kanban: NSView, NSTextViewDelegate {
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
         name.didChangeText()
         name.delegate = self
+        
+        refresh()
     }
     
     func textDidEndEditing(_: Notification) {
@@ -120,9 +84,50 @@ final class Kanban: NSView, NSTextViewDelegate {
         drag = nil
     }
     
+    func refresh() {
+        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+        var left: NSLayoutXAxisAnchor?
+        (0 ..< app.session.lists(app.project)).forEach { list in
+            let column = Column(list)
+            scroll.add(column)
+            
+            var top: Card?
+            (0 ..< app.session.cards(app.project, list: list)).forEach {
+                let card = Card(self, index: $0, column: list)
+                scroll.add(card)
+                
+                if top == nil {
+                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
+                } else {
+                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
+                    top!.child = card
+                }
+                
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
+                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 60)
+                top = card
+            }
+            
+            if left == nil {
+                column.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+            } else {
+                column.leftAnchor.constraint(equalTo: left!).isActive = true
+            }
+            
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
+            left = column.rightAnchor
+        }
+        
+        if left != nil {
+            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 70).isActive = true
+        }
+    }
+    
     @objc private func card() {
         app.session.add(app.project, list: 0)
-        app.main.project(app.project)
+        refresh()
         (app.main.base!.subviews.first as! Kanban).scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
     

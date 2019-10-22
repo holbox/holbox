@@ -96,6 +96,7 @@ final class Kanban: UIView {
         
         name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
+        
         refresh()
     }
     

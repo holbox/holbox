@@ -27,7 +27,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let price = Label(shop.formatter.string(from: product.price) ?? "", 18, .bold, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), 20, .bold, .haze)
+            let purchased = Label(.key("Shop.purchased"), 18, .medium, .haze)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze, .black)

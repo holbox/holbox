@@ -10,15 +10,17 @@ final class Card: NSView, NSTextViewDelegate {
     private weak var content: Text!
     private weak var base: NSView!
     private weak var _delete: Button!
+    private weak var kanban: Kanban!
     private var dragging = false
     private var deltaX = CGFloat(0)
     private var deltaY = CGFloat(0)
     override var mouseDownCanMoveWindow: Bool { false }
 
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int, column: Int) {
+    init(_ kanban: Kanban, index: Int, column: Int) {
         self.index = index
         self.column = column
+        self.kanban = kanban
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
@@ -135,9 +137,7 @@ final class Card: NSView, NSTextViewDelegate {
                 $0.allowsImplicitAnimation = true
                 base.layer!.backgroundColor = .clear
                 content.textColor = .white
-            }) {
-              app.main.project(app.project)
-            }
+            }) { [weak self] in self?.kanban.refresh() }
         }
         dragging = false
         deltaX = 0
@@ -164,6 +164,6 @@ final class Card: NSView, NSTextViewDelegate {
     
     @objc private func delete() {
         _delete.alphaValue = 0
-        app.runModal(for: Delete.Card(index, list: column))
+        app.runModal(for: Delete.Card(kanban, index: index, list: column))
     }
 }
