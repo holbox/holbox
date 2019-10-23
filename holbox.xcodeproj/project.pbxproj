@@ -133,7 +133,7 @@
 		DAF68E9C234765B70060895A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E9B234765B60060895A /* TodayViewController.swift */; };
 		DAF68E9E234766040060895A /* Watch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E9D234766040060895A /* Watch.storyboard */; };
 		DAF68EA3234766300060895A /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA02347662F0060895A /* ComplicationController.swift */; };
-		DAF68EA4234766300060895A /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA12347662F0060895A /* Watch.swift */; };
+		DAF68EA4234766300060895A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA12347662F0060895A /* App.swift */; };
 		DAF68EA5234766300060895A /* WatchExtension.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68EA2234766300060895A /* WatchExtension.xcassets */; };
 		DAF68EA72347664E0060895A /* Watch.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68EA62347664E0060895A /* Watch.xcassets */; };
 /* End PBXBuildFile section */
@@ -321,7 +321,7 @@
 		DAF68E9B234765B60060895A /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		DAF68E9D234766040060895A /* Watch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Watch.storyboard; sourceTree = "<group>"; };
 		DAF68EA02347662F0060895A /* ComplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		DAF68EA12347662F0060895A /* Watch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
+		DAF68EA12347662F0060895A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		DAF68EA2234766300060895A /* WatchExtension.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WatchExtension.xcassets; sourceTree = "<group>"; };
 		DAF68EA62347664E0060895A /* Watch.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Watch.xcassets; sourceTree = "<group>"; };
 		DAF68EA8234766B40060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -603,7 +603,7 @@
 			isa = PBXGroup;
 			children = (
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
-				DAF68EA12347662F0060895A /* Watch.swift */,
+				DAF68EA12347662F0060895A /* App.swift */,
 			);
 			path = Watch;
 			sourceTree = "<group>";
@@ -1105,7 +1105,7 @@
 			files = (
 				DAD8F198234DBB5A00835E3E /* String.swift in Sources */,
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
-				DAF68EA4234766300060895A /* Watch.swift in Sources */,
+				DAF68EA4234766300060895A /* App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2121,7 +2121,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IBSC_MODULE = WatchApp_WatchKit_Extension;
+				IBSC_MODULE = "$(PRODUCT_MODULE_NAME)Extension";
 				INFOPLIST_FILE = Watch.plist;
 				MARKETING_VERSION = 1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -2181,7 +2181,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IBSC_MODULE = WatchApp_WatchKit_Extension;
+				IBSC_MODULE = "$(PRODUCT_MODULE_NAME)Extension";
 				INFOPLIST_FILE = Watch.plist;
 				MARKETING_VERSION = 1;
 				MTL_ENABLE_DEBUG_INFO = NO;
