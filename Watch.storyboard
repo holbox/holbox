@@ -6,12 +6,34 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15400"/>
     </dependencies>
     <scenes>
-        <!--App-->
+        <!--Kanban-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <hostingController id="3mp-fW-waa" customClass="App" customModule="holboxWatchExtension"/>
+                <hostingController id="3mp-fW-waa" customClass="Kanban" customModule="holboxWatchExtension">
+                    <connections>
+                        <segue destination="wsj-VG-M1H" kind="relationship" relationship="nextPage" id="7wB-Nb-kXW"/>
+                    </connections>
+                </hostingController>
             </objects>
             <point key="canvasLocation" x="34" y="31"/>
+        </scene>
+        <!--Shop-->
+        <scene sceneID="eiE-vw-hNV">
+            <objects>
+                <hostingController id="wsj-VG-M1H" customClass="Shop" customModule="holboxWatchExtension">
+                    <connections>
+                        <segue destination="sFv-hW-4cS" kind="relationship" relationship="nextPage" id="xbt-U4-xiS"/>
+                    </connections>
+                </hostingController>
+            </objects>
+            <point key="canvasLocation" x="334" y="31"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="H3L-dS-e3X">
+            <objects>
+                <hostingController id="sFv-hW-4cS" customClass="About" customModule="holboxWatchExtension"/>
+            </objects>
+            <point key="canvasLocation" x="646" y="31"/>
         </scene>
     </scenes>
 </document>
