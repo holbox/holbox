@@ -13,6 +13,8 @@
 		DA21BDE923607AE7000A46AA /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE823607AE7000A46AA /* Shop.swift */; };
 		DA21BDEB23607B0D000A46AA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEA23607B0D000A46AA /* About.swift */; };
 		DA21BDED23607E66000A46AA /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEC23607E66000A46AA /* Add.swift */; };
+		DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEE23608FD7000A46AA /* Detail.swift */; };
+		DA21BDF323609268000A46AA /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
 		DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
@@ -93,12 +95,10 @@
 		DACB75CE2347708100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
-		DACB75DE2347710800037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
 		DAD8F195234DBAC600835E3E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F194234DBAC600835E3E /* Alert.swift */; };
 		DAD8F196234DBB5500835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
 		DAD8F197234DBB5700835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
-		DAD8F198234DBB5A00835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
 		DAD8F19A234DBB9700835E3E /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F199234DBB9700835E3E /* Label.swift */; };
 		DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19B234DBEBE00835E3E /* Extensions.swift */; };
 		DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F19D234DD3F400835E3E /* Bar.swift */; };
@@ -143,6 +143,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DA21BDF423609268000A46AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAF68D93234752760060895A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAF68DB5234756D60060895A;
+			remoteInfo = Watch;
+		};
 		DAB291B423606748006B2432 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAF68D93234752760060895A /* Project object */;
@@ -163,13 +170,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DAF68DAA234756720060895A;
 			remoteInfo = iOS;
-		};
-		DACB75DF2347710800037180 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAF68D93234752760060895A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAF68DB5234756D60060895A;
-			remoteInfo = Watch;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -222,6 +222,7 @@
 		DA21BDE823607AE7000A46AA /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA21BDEA23607B0D000A46AA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DA21BDEC23607E66000A46AA /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
+		DA21BDEE23608FD7000A46AA /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		DA40C947235610AC00F9E1C2 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -395,8 +396,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DACB75DE2347710800037180 /* libholbox.a in Frameworks */,
 				DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */,
+				DA21BDF323609268000A46AA /* libholbox.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +615,7 @@
 				DA21BDEC23607E66000A46AA /* Add.swift */,
 				DAF68EA12347662F0060895A /* App.swift */,
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
+				DA21BDEE23608FD7000A46AA /* Detail.swift */,
 				DA21BDE623607AD0000A46AA /* Kanban.swift */,
 				DA21BDE823607AE7000A46AA /* Shop.swift */,
 			);
@@ -781,7 +783,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DACB75E02347710800037180 /* PBXTargetDependency */,
+				DA21BDF523609268000A46AA /* PBXTargetDependency */,
 			);
 			name = WatchExtension;
 			productName = "WatchApp WatchKit Extension";
@@ -1115,8 +1117,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAD8F198234DBB5A00835E3E /* String.swift in Sources */,
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
+				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA21BDE923607AE7000A46AA /* Shop.swift in Sources */,
@@ -1144,6 +1146,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DA21BDF523609268000A46AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAF68DB5234756D60060895A /* Watch */;
+			targetProxy = DA21BDF423609268000A46AA /* PBXContainerItemProxy */;
+		};
 		DAB291B523606748006B2432 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAF68E0B234758C60060895A /* WatchExtension */;
@@ -1158,11 +1165,6 @@
 			isa = PBXTargetDependency;
 			target = DAF68DAA234756720060895A /* iOS */;
 			targetProxy = DACB75D6234770E100037180 /* PBXContainerItemProxy */;
-		};
-		DACB75E02347710800037180 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAF68DB5234756D60060895A /* Watch */;
-			targetProxy = DACB75DF2347710800037180 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1493,7 +1495,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)Watch";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1548,7 +1549,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)Watch";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
