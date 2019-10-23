@@ -29,8 +29,8 @@ final class Main: Window {
     
     override func resignKey() {
         super.resignKey()
-        bar?.alphaValue = 0.8
-        base?.alphaValue = 0.8
+        bar?.alphaValue = 0.3
+        base?.alphaValue = 0.3
     }
     
     override func zoom(_ sender: Any?) {

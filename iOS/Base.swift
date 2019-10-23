@@ -13,7 +13,7 @@ final class Base: UIView {
     func show(_ view: UIView) {
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         if let previous = subviews.last {
-            view.backgroundColor = .background
+            view.backgroundColor = .black
             view.layer.cornerRadius = 20
             addSubview(view)
             
@@ -24,15 +24,15 @@ final class Base: UIView {
             top.isActive = true
             let previousTop = self.top
             layoutIfNeeded()
-            backgroundColor = .black
-            previousTop?.constant = 110
-            top.constant = 120
+            backgroundColor = .background
+            previousTop?.constant = 220
+            top.constant = 230
             
-            UIView.animate(withDuration: 0.7, animations: {
+            UIView.animate(withDuration: 0.4, animations: {
                 self.layoutIfNeeded()
             }) { _ in
                 top.constant = 0
-                previousTop?.constant = 60
+                previousTop?.constant = 230
                 
                 UIView.animate(withDuration: 0.2, animations: {
                     self.layoutIfNeeded()

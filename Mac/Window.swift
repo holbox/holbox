@@ -11,7 +11,7 @@ class Window: NSWindow, NSWindowDelegate {
             translatesAutoresizingMaskIntoConstraints = false
             setAccessibilityElement(true)
             setAccessibilityRole(.button)
-            alphaValue = 0.5
+            alphaValue = 0.6
             
             let icon = Image(image)
             addSubview(icon)
@@ -38,7 +38,7 @@ class Window: NSWindow, NSWindowDelegate {
             if bounds.contains(convert(with.locationInWindow, from: nil)) {
                 _ = window!.perform(action, with: nil)
             }
-            alphaValue = 0.5
+            alphaValue = 0.6
             super.mouseUp(with: with)
         }
     }
@@ -93,15 +93,11 @@ class Window: NSWindow, NSWindowDelegate {
     
     override func becomeKey() {
         super.becomeKey()
-        contentView!.layer!.backgroundColor = .background
-        [_close, _minimise, _zoom].forEach { $0!.alphaValue = 0.5 }
         hasShadow = true
     }
     
     override func resignKey() {
         super.resignKey()
-        contentView!.layer!.backgroundColor = .black
-        [_close, _minimise, _zoom].forEach { $0!.alphaValue = 0.3 }
         hasShadow = false
     }
 }

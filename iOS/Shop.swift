@@ -54,7 +54,7 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             purchased.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             purchased.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 5).isActive = true
             
-            control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
+            control.topAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
             control.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
             control.widthAnchor.constraint(equalToConstant: 110).isActive = true
             

@@ -12,7 +12,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         logo.contentMode = .scaleAspectFit
         scroll.add(logo)
         
-        let title = Label([(.key("About.title"), 16, .bold, .white), (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
+        let title = Label([(.key("About.title"), 20, .bold, .white), (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 20, .light, .white)])
         scroll.add(title)
         
         let settings = Label(.key("More.title"), 24, .bold, .init(white: 1, alpha: 0.3))
