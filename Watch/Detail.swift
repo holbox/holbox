@@ -7,30 +7,31 @@ struct Detail: View {
     var body: some View {
         GeometryReader { geo in
             List {
-                Section(header: VStack {
-                    HStack {
-                        Spacer()
+                Section(header:
+                    VStack {
+                        HStack {
+                            Spacer()
+                                
+                            Image("detail.\(self.global.mode.rawValue)")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5)
                             
-                        Image("detail.\(self.global.mode.rawValue)")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5)
+                                
+                            Spacer()
+                        }
                         
+                        HStack {
+                            Text(.init("Detail.title.\(self.global.mode.rawValue)")).font(.largeTitle)
                             
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        Text(.init("Detail.title.\(self.global.mode.rawValue)")).font(.largeTitle)
-                        
-                        Spacer()
-                        
-                        Image("plus")
-                    }.onTapGesture { self.creating.toggle() }
+                            Spacer()
+                            
+                            Image("plus")
+                        }.onTapGesture { self.creating.toggle() }
                 }) {
                     ForEach(self.global.session?.projects(self.global.mode) ?? [], id: \.self) { project in
-                        Text(self.global.session!.name(project))
-                    }.onDelete(perform: { _ in })
+                        NavigationLink(self.global.session!.name(project), destination: Board(), tag: project, selection: self.$global.project)
+                    }
                 }
             }
         }

@@ -6,5 +6,6 @@ final class Kanban: WKHostingController<AnyView> {
     override func didAppear() {
         super.didAppear()
         app.global.mode = .kanban
+        app.global.project = nil
     }
 }
