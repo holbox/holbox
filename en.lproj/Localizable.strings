@@ -66,6 +66,7 @@ Card.move.done="Done";
 Column="Column";
 Kanban.project="Project";
 Kanban.delete="Delete";
+Kanban.rename="Rename";
 About.title="holbox\n";
 About.options="Options";
 About.options.0="Privacy";

@@ -18,9 +18,3 @@ final class App: NSObject, WKExtensionDelegate {
         }
     }
 }
-
-final class Global: ObservableObject {
-    @Published var session: Session!
-    @Published var project: Int?
-    var mode = Mode.off
-}

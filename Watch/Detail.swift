@@ -11,33 +11,33 @@ struct Detail: View {
                     VStack {
                         HStack {
                             Spacer()
-                                
                             Image("detail.\(self.global.mode.rawValue)")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5)
-                            
-                                
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5)
                             Spacer()
                         }
-                        
                         HStack {
-                            Text(.init("Detail.title.\(self.global.mode.rawValue)")).font(.largeTitle)
-                            
+                            Text(.init("Detail.title.\(self.global.mode.rawValue)"))
+                                .font(.largeTitle)
                             Spacer()
-                            
-                            Image("plus")
-                        }.onTapGesture { self.creating.toggle() }
+                            Button(action: {
+                                self.creating.toggle()
+                            }) { Image("plus") }
+                        }
                 }) {
-                    ForEach(self.global.session?.projects(self.global.mode) ?? [], id: \.self) { project in
-                        NavigationLink(self.global.session!.name(project), destination: Board(global: self.global), tag: project, selection: self.$global.project)
+                    ForEach(self.global.session?.projects(self.global.mode) ?? [], id: \.self) {
+                        NavigationLink(self.global.session!.name($0), destination: Board(global: self.global), tag: $0, selection: self.$global.project)
+                            .listRowBackground(Color("background").cornerRadius(6))
                     }
                 }
             }
         }
-        .sheet(isPresented: $creating) { Add(global: self.global) {
-            self.creating.toggle()
-            self.global.session.add(self.global.mode)
-        } }
+        .sheet(isPresented: $creating) {
+            Add(global: self.global) {
+                self.creating.toggle()
+                self.global.session.add(self.global.mode)   
+            }
+        }
     }
 }
