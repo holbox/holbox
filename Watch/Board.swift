@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Board: View {
-    @EnvironmentObject var global: Global
+    @ObservedObject var global: Global
     
     var body: some View {
         List {

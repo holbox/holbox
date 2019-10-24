@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Detail: View {
-    @EnvironmentObject var global: Global
+    @ObservedObject var global: Global
     @State private var creating = false
     
     var body: some View {
@@ -30,14 +30,14 @@ struct Detail: View {
                         }.onTapGesture { self.creating.toggle() }
                 }) {
                     ForEach(self.global.session?.projects(self.global.mode) ?? [], id: \.self) { project in
-                        NavigationLink(self.global.session!.name(project), destination: Board(), tag: project, selection: self.$global.project)
+                        NavigationLink(self.global.session!.name(project), destination: Board(global: self.global), tag: project, selection: self.$global.project)
                     }
                 }
             }
         }
-        .sheet(isPresented: $creating) { Add {
+        .sheet(isPresented: $creating) { Add(global: self.global) {
             self.creating.toggle()
             self.global.session.add(self.global.mode)
-        }.environmentObject(self.global) }
+        } }
     }
 }

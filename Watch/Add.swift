@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Add: View {
-    @EnvironmentObject var global: Global
+    @ObservedObject var global: Global
     var add: () -> Void
     
     var body: some View {
