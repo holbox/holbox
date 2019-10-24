@@ -61,6 +61,7 @@ Card.done="Done";
 Card.move="Move";
 Card.move.column="Column: cards";
 Card.move.position="Position";
+Card.move.title="Column";
 Card.delete="Delete";
 Card.move.done="Done";
 Column="Column";

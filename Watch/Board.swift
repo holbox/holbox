@@ -33,10 +33,7 @@ struct Board: View {
                         Text(self.global.session.name(self.global.project!, list: list))
                             .font(.title)) {
                             ForEach(0 ..< self.global.session.cards(self.global.project!, list: list), id: \.self) { card in
-                                NavigationLink(destination: Card(global: self.global, content: self.global.session.content(self.global.project!, list: list, card: card)) {
-                                    self.global.card = nil
-                                    self.global.session.content(self.global.project!, list: list, card: card, content: $0)
-                                }, tag: card, selection: self.$global.card) {
+                                NavigationLink(destination: Card(global: self.global, content: self.global.session.content(self.global.project!, list: list, card: card), list: list, card: card), tag: card, selection: self.$global.card) {
                                     if self.global.session.content(self.global.project!, list: list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                                         Image("empty")
                                     } else {
