@@ -5,8 +5,18 @@ struct Detail: View {
     @State private var creating = false
     
     var body: some View {
-        GeometryReader { geo in
-            List {
+        List {
+            if self.global.session == nil {
+                HStack {
+                    Spacer()
+                    Image("logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 120, height: 120)
+                        .padding(.top, 20)
+                    Spacer()
+                }.listRowBackground(Color.clear)
+            } else {
                 Section(header:
                     VStack {
                         HStack {
@@ -14,7 +24,7 @@ struct Detail: View {
                             Image("detail.\(self.global.mode.rawValue)")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: geo.size.height * 0.5, height: geo.size.height * 0.5)
+                                .frame(width: 90, height: 90)
                             Spacer()
                         }
                         HStack {
@@ -26,9 +36,12 @@ struct Detail: View {
                             }) { Image("plus") }
                         }
                 }) {
-                    ForEach(self.global.session?.projects(self.global.mode) ?? [], id: \.self) {
+                    ForEach(self.global.session!.projects(self.global.mode), id: \.self) {
                         NavigationLink(self.global.session!.name($0), destination: Board(global: self.global), tag: $0, selection: self.$global.project)
                             .listRowBackground(Color("background").cornerRadius(6))
+                    }.onDelete {
+                        self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])
+                        self.global.session = self.global.session
                     }
                 }
             }

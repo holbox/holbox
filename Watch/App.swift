@@ -3,6 +3,7 @@ import WatchKit
 
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
+    var awoke = false
     let global = Global()
     
     override init() {
@@ -11,7 +12,13 @@ final class App: NSObject, WKExtensionDelegate {
     }
     
     func applicationDidBecomeActive() {
-        if global.session == nil {
+        awoke = true
+    }
+    
+    func refresh() {
+        if awoke {
+            awoke = false
+            global.session = nil
             Session.load {
                 self.global.session = $0
             }

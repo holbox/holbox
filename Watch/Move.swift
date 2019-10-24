@@ -17,10 +17,11 @@ struct Move: View {
                             HStack {
                                 Text(self.global.session.name(self.global.project!, list: index))
                                     .foregroundColor(.black)
+                                    .frame(height: 35)
+                                    .padding(.leading, 12)
                                 Spacer()
                             }.background(Color("haze")
                                 .cornerRadius(6))
-                            .padding(.vertical, 4)
                         }
                         else {
                             Button(self.global.session.name(self.global.project!, list: index)) {
@@ -28,6 +29,7 @@ struct Move: View {
                                 self.list = index
                             }.background(Color.clear)
                                 .accentColor(.clear)
+                            .padding(.leading, 12)
                         }
                     }.listRowBackground(Color.clear)
                 }
@@ -40,15 +42,17 @@ struct Move: View {
                             HStack {
                                 Text("\(index + 1)")
                                     .foregroundColor(.black)
+                                    .frame(height: 35)
+                                    .padding(.leading, 12)
                                 Spacer()
                             }.background(Color("haze")
                                 .cornerRadius(6))
-                            .padding(.vertical, 4)
                         } else {
                             Button("\(index + 1)") {
                                 self.card = index
                             }.background(Color.clear)
                                 .accentColor(.clear)
+                            .padding(.leading, 12)
                         }
                     }.listRowBackground(Color.clear)
                 }

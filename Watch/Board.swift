@@ -40,6 +40,9 @@ struct Board: View {
                                         Text(self.global.session.content(self.global.project!, list: list, card: card))
                                     }
                                 }.listRowBackground(Color.clear)
+                            }.onDelete {
+                                self.global.session.delete(self.global.project!, list: list, card: $0.first!)
+                                self.global.session = self.global.session
                             }
                             if self.global.session.cards(self.global.project!, list: list) == 0 {
                                 Spacer()
