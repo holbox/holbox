@@ -1,6 +1,6 @@
 import SwiftUI
 
-final class Kanban: WKHostingController<AnyView> {
+final class Main: WKHostingController<AnyView> {
     override var body: AnyView { .init(Detail(global: app.global)) }
     
     override func didAppear() {

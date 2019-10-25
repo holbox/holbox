@@ -10,7 +10,7 @@
 		DA04D3362361D34500A8B21F /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D3352361D34500A8B21F /* Project.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
-		DA21BDE723607AD0000A46AA /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE623607AD0000A46AA /* Kanban.swift */; };
+		DA21BDE723607AD0000A46AA /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE623607AD0000A46AA /* Main.swift */; };
 		DA21BDEB23607B0D000A46AA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEA23607B0D000A46AA /* About.swift */; };
 		DA21BDED23607E66000A46AA /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEC23607E66000A46AA /* Add.swift */; };
 		DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEE23608FD7000A46AA /* Detail.swift */; };
@@ -223,7 +223,7 @@
 		DA04D3352361D34500A8B21F /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
-		DA21BDE623607AD0000A46AA /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
+		DA21BDE623607AD0000A46AA /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA21BDEA23607B0D000A46AA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DA21BDEC23607E66000A46AA /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DA21BDEE23608FD7000A46AA /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -627,7 +627,7 @@
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
 				DAD3681623619C8D00643C9C /* Global.swift */,
-				DA21BDE623607AD0000A46AA /* Kanban.swift */,
+				DA21BDE623607AD0000A46AA /* Main.swift */,
 				DA90167D2361B67B00B8A933 /* Move.swift */,
 				DA04D3352361D34500A8B21F /* Project.swift */,
 			);
@@ -1135,7 +1135,7 @@
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA28EBE6236174AB002EF691 /* Board.swift in Sources */,
-				DA21BDE723607AD0000A46AA /* Kanban.swift in Sources */,
+				DA21BDE723607AD0000A46AA /* Main.swift in Sources */,
 				DA04D3362361D34500A8B21F /* Project.swift in Sources */,
 				DAF68EA4234766300060895A /* App.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,

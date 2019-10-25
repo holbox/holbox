@@ -3,7 +3,7 @@ import WatchKit
 
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
-    var awoke = false
+    var awoke = true
     let global = Global()
     
     override init() {

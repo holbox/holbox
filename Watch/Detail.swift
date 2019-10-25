@@ -37,7 +37,7 @@ struct Detail: View {
                         }
                 }) {
                     ForEach(self.global.session!.projects(self.global.mode), id: \.self) {
-                        NavigationLink(self.global.session!.name($0), destination: Board(global: self.global), tag: $0, selection: self.$global.project)
+                        NavigationLink(self.global.session!.name($0), destination: Board(global: self.global, name: self.global.session.name($0)), tag: $0, selection: self.$global.project)
                             .listRowBackground(Color("background").cornerRadius(6))
                     }.onDelete {
                         self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])

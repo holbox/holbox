@@ -9,8 +9,10 @@ struct Card: View {
     
     var body: some View {
         List {
-            Section(header: TextField(.init("Card"), text: $content)
-                .background(Color.clear)) {
+            Section(header:
+                TextField(.init("Card"), text: $content)
+                    .background(Color("background")
+                        .cornerRadius(6))) {
                 NavigationLink(.init("Card.move"), destination: Move(global: global, list: list, card: card, current: list, update: {
                     self.global.session.move(self.global.project!, list: self.list, card: self.card, destination: $0, index: $1)
                     self.moving.toggle()

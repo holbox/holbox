@@ -6,10 +6,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15400"/>
     </dependencies>
     <scenes>
-        <!--Kanban-->
+        <!--Main-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <hostingController id="3mp-fW-waa" customClass="Kanban" customModule="holboxWatchExtension">
+                <hostingController id="3mp-fW-waa" customClass="Main" customModule="holboxWatchExtension">
                     <connections>
                         <segue destination="sFv-hW-4cS" kind="relationship" relationship="nextPage" id="a2A-oB-IHb"/>
                     </connections>

@@ -9,8 +9,9 @@ struct Move: View {
     
     var body: some View {
         List {
-            Section(header: Text(.init("Card.move.title"))
-                .font(.title)) {
+            Section(header:
+                Text(.init("Card.move.title"))
+                    .font(.title)) {
                 ForEach(0 ..< global.session.lists(global.project!), id: \.self) { index in
                     HStack {
                         if index == self.list {
@@ -34,8 +35,9 @@ struct Move: View {
                     }.listRowBackground(Color.clear)
                 }
             }
-            Section(header: Text(.init("Card.move.position"))
-                .font(.title)) {
+            Section(header:
+                Text(.init("Card.move.position"))
+                    .font(.title)) {
                 ForEach(0 ..< global.session.cards(global.project!, list: list) + (list == current ? 0 : 1), id: \.self) { index in
                     HStack {
                         if index == self.card {
