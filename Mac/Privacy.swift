@@ -10,7 +10,7 @@ final class Privacy: Modal {
         let label = Label(.key("Privacy.label"), 16, .regular, .white)
         contentView!.addSubview(label)
         
-        let done = Control(.key("Privacy.done"), self, #selector(close), .haze, .black)
+        let done = Control(.key("Privacy.done"), self, #selector(close), NSColor(named: "haze")!.cgColor, .black)
         contentView!.addSubview(done)
         
         title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true

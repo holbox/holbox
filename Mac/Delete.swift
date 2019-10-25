@@ -49,7 +49,7 @@ class Delete: Modal {
         contentView!.addSubview(heading)
         self.heading = heading
         
-        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, .haze)
+        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, NSColor(named: "haze")!)
         let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .white)
         
         [_confirm, _cancel].forEach {

@@ -77,7 +77,7 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     func textDidBeginEditing(_: Notification) {
-        base.layer!.borderColor = .haze
+        base.layer!.borderColor = NSColor(named: "haze")!.cgColor
         base.layer!.borderWidth = 2
     }
     
@@ -105,7 +105,7 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete.isHidden = true
                 top.constant += deltaY
                 left.constant += deltaX
-                base.layer!.backgroundColor = NSColor.haze.withAlphaComponent(0.95).cgColor
+                base.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.95).cgColor
                 content.textColor = .black
                 
                 layer!.removeFromSuperlayer()

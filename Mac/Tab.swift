@@ -47,7 +47,7 @@ final class Tab: NSView {
     }
     
     private func update() {
-        layer!.backgroundColor = selected ? .haze : .clear
+        layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
         icon.image = selected ? image.tint(.black) : image
         icon.alphaValue = selected ? 1 : 0.4
     }

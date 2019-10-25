@@ -8,7 +8,7 @@ final class Alert: Modal {
         let ribbon = NSView()
         ribbon.translatesAutoresizingMaskIntoConstraints = false
         ribbon.wantsLayer = true
-        ribbon.layer!.backgroundColor = .haze
+        ribbon.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
         contentView!.addSubview(ribbon)
         
         let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .light, .init(white: 1, alpha: 0.8))])

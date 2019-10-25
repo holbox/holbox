@@ -39,7 +39,7 @@ class More: Modal {
     private init() {
         super.init(400, 280)
         
-        let _done = Control(.key("More.done"), self, #selector(close), .haze, .black)
+        let _done = Control(.key("More.done"), self, #selector(close), NSColor(named: "haze")!.cgColor, .black)
         let _title = Label(.key("More.title"), 20, .bold, .init(white: 1, alpha: 0.2))
         self._title = _title
         

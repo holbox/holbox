@@ -29,16 +29,16 @@ final class Logo: NSView {
             }
             self.rays.sublayers!.enumerated().forEach {
                 if $0.0 < self.counter {
-                    ($0.1 as! CAShapeLayer).strokeColor = NSColor.haze.withAlphaComponent(0.2).cgColor
+                    ($0.1 as! CAShapeLayer).strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                 } else {
-                    ($0.1 as! CAShapeLayer).strokeColor = .haze
+                    ($0.1 as! CAShapeLayer).strokeColor = NSColor(named: "haze")!.cgColor
                 }
             }
         }
         
         let rays = CAShapeLayer()
         rays.fillColor = .clear
-        rays.strokeColor = .haze
+        rays.strokeColor = NSColor(named: "haze")!.cgColor
         layer!.addSublayer(rays)
         self.rays = rays
         

@@ -13,15 +13,15 @@ final class Add: Modal {
         let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.4))
         subtitle.alignment = .center
         
-        let available = Label("\(app.session.available)", 60, .light, .haze)
+        let available = Label("\(app.session.available)", 60, .light, NSColor(named: "haze")!)
         
         let info = Label(.key("Add.info"), 16, .regular, .init(white: 1, alpha: 0.8))
         info.alignment = .center
         
-        let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), self, #selector(confirm), .haze, .black)
+        let _confirm = Control(.key("Add.title.\(app.mode.rawValue)"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
         self._confirm = _confirm
         
-        let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze, .black)
+        let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), NSColor(named: "haze")!.cgColor, .black)
         self._purchases = _purchases
         
         let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.4))

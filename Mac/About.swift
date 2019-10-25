@@ -13,7 +13,7 @@ final class About: Modal {
         
         let options = Label(.key("About.options"), 24, .bold, .init(white: 1, alpha: 0.3))
         
-        let _done = Control(.key("More.done"), self, #selector(close), .haze, .black)
+        let _done = Control(.key("More.done"), self, #selector(close), NSColor(named: "haze")!.cgColor, .black)
 
         [options, _done].forEach {
             contentView!.addSubview($0)

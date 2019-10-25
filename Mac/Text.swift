@@ -28,7 +28,7 @@ final class Text: NSTextView {
         drawsBackground = false
         isContinuousSpellCheckingEnabled = app.session.spell
         isAutomaticTextCompletionEnabled = app.session.spell
-        insertionPointColor = .haze
+        insertionPointColor = NSColor(named: "haze")!
         alphaValue = standby
         
         width = widthAnchor.constraint(equalToConstant: 0)

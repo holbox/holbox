@@ -27,10 +27,10 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             let price = Label(shop.formatter.string(from: product.price) ?? "", 18, .bold, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), 18, .medium, .haze)
+            let purchased = Label(.key("Shop.purchased"), 18, .medium, NSColor(named: "haze")!)
             addSubview(purchased)
             
-            let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze, .black)
+            let control = Control(.key("Shop.purchase"), self, #selector(purchase), NSColor(named: "haze")!.cgColor, .black)
             addSubview(control)
             
             bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 40).isActive = true
@@ -109,7 +109,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, .haze)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, NSColor(named: "haze")!)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore

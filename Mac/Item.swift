@@ -61,7 +61,7 @@ final class Item: NSView {
     }
     
     private func update() {
-        base.layer!.backgroundColor = selected ? .haze : .clear
+        base.layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
         label.textColor = selected ? .black : .white
     }
 }

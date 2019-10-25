@@ -60,6 +60,6 @@ final class Check: NSView {
     private func update() {
         icon.isHidden = !on
         label.textColor = on ? .black : .init(white: 1, alpha: 0.6)
-        layer!.backgroundColor = on ? .haze : NSColor(white: 1, alpha: 0.05).cgColor
+        layer!.backgroundColor = on ? NSColor(named: "haze")!.cgColor : NSColor(white: 1, alpha: 0.05).cgColor
     }
 }
