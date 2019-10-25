@@ -37,6 +37,12 @@ final class TestStoreRefresh: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testRefreshable() {
+        XCTAssertFalse(session.refreshable)
+        session.refreshed = 0
+        XCTAssertTrue(session.refreshable)
+    }
+    
     func testRefreshInterval() {
         let expectStore = expectation(description: "")
         let expectAll = expectation(description: "")

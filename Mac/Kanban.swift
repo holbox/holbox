@@ -1,17 +1,14 @@
 import AppKit
 
-final class Kanban: NSView, NSTextViewDelegate {
+final class Kanban: Base.View, NSTextViewDelegate {
     private weak var drag: Card?
     private weak var scroll: Scroll!
     private weak var name: Text!
     override var mouseDownCanMoveWindow: Bool { drag == nil }
     
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        wantsLayer = true
-        
+    override init() {
+        super.init()
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
@@ -84,7 +81,7 @@ final class Kanban: NSView, NSTextViewDelegate {
         drag = nil
     }
     
-    func refresh() {
+    override func refresh() {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in

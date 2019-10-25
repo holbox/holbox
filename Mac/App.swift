@@ -19,7 +19,11 @@ private(set) weak var app: App!
     }
     
     func applicationDidBecomeActive(_: Notification) {
-        print("active")
+        if session?.refreshable == true {
+            session?.refresh {
+                self.main.base?.refresh()
+            }
+        }
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }

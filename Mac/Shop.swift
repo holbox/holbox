@@ -2,7 +2,7 @@ import holbox
 import AppKit
 import StoreKit
 
-final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private final class Item: NSView {
         private weak var shop: Shop!
         private let product: SKProduct
@@ -84,9 +84,8 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
     
     deinit { SKPaymentQueue.default().remove(self) }
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
+    override init() {
+        super.init()
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
@@ -150,32 +149,7 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         request.start()
     }
     
-    func productsRequest(_: SKProductsRequest, didReceive: SKProductsResponse) { products = didReceive.products }
-    func paymentQueue(_: SKPaymentQueue, updatedTransactions: [SKPaymentTransaction]) { update(updatedTransactions) }
-    func paymentQueue(_: SKPaymentQueue, removedTransactions: [SKPaymentTransaction]) { update(removedTransactions) }
-    func paymentQueueRestoreCompletedTransactionsFinished(_: SKPaymentQueue) { DispatchQueue.main.async { [weak self] in self?.refresh() } }
-    func request(_: SKRequest, didFailWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(didFailWithError.localizedDescription) } }
-    func paymentQueue(_: SKPaymentQueue, restoreCompletedTransactionsFailedWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(restoreCompletedTransactionsFailedWithError.localizedDescription) } }
-    
-    private func update(_ transactions: [SKPaymentTransaction]) {
-        guard transactions.first(where: { $0.transactionState == .purchasing }) == nil else { return }
-        transactions.forEach { transaction in
-            switch transaction.transactionState {
-            case .failed: SKPaymentQueue.default().finishTransaction(transaction)
-            case .restored:
-                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
-            case .purchased:
-                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
-                SKPaymentQueue.default().finishTransaction(transaction)
-            default: break
-            }
-        }
-        if !products.isEmpty {
-            DispatchQueue.main.async { [weak self] in self?.refresh() }
-        }
-    }
-    
-    private func refresh() {
+    override func refresh() {
         image.isHidden = true
         _restore.isHidden = false
         message.isHidden = true
@@ -201,6 +175,31 @@ final class Shop: NSView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         }
         if top != nil {
             scroll.bottom.constraint(equalTo: top!, constant: 60).isActive = true
+        }
+    }
+    
+    func productsRequest(_: SKProductsRequest, didReceive: SKProductsResponse) { products = didReceive.products }
+    func paymentQueue(_: SKPaymentQueue, updatedTransactions: [SKPaymentTransaction]) { update(updatedTransactions) }
+    func paymentQueue(_: SKPaymentQueue, removedTransactions: [SKPaymentTransaction]) { update(removedTransactions) }
+    func paymentQueueRestoreCompletedTransactionsFinished(_: SKPaymentQueue) { DispatchQueue.main.async { [weak self] in self?.refresh() } }
+    func request(_: SKRequest, didFailWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(didFailWithError.localizedDescription) } }
+    func paymentQueue(_: SKPaymentQueue, restoreCompletedTransactionsFailedWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(restoreCompletedTransactionsFailedWithError.localizedDescription) } }
+    
+    private func update(_ transactions: [SKPaymentTransaction]) {
+        guard transactions.first(where: { $0.transactionState == .purchasing }) == nil else { return }
+        transactions.forEach { transaction in
+            switch transaction.transactionState {
+            case .failed: SKPaymentQueue.default().finishTransaction(transaction)
+            case .restored:
+                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
+            case .purchased:
+                app.session.purchase(map.first { $0.1 == transaction.payment.productIdentifier }!.key)
+                SKPaymentQueue.default().finishTransaction(transaction)
+            default: break
+            }
+        }
+        if !products.isEmpty {
+            DispatchQueue.main.async { [weak self] in self?.refresh() }
         }
     }
     

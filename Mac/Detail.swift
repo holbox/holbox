@@ -1,17 +1,34 @@
 import AppKit
 
-final class Detail: NSView {
+final class Detail: Base.View {
+    private weak var scroll: Scroll!
+    
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        wantsLayer = true
-        
+    override init() {
+        super.init()
         let scroll = Scroll()
         addSubview(scroll)
+        self.scroll = scroll
         
         let _add = Button("plus", target: self, action: #selector(add))
         addSubview(_add)
+        
+        scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        scroll.right.constraint(equalTo: rightAnchor).isActive = true
+        
+        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        _add.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        
+        refresh()
+    }
+    
+    override func refresh() {
+        scroll.views.forEach { $0.removeFromSuperview() }
         
         let image = Image("detail.\(app.mode.rawValue)")
         image.imageScaling = .scaleProportionallyDown
@@ -57,17 +74,6 @@ final class Detail: NSView {
             }
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 60).isActive = true
         }
-        
-        scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        
-        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        _add.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        _add.topAnchor.constraint(equalTo: topAnchor).isActive = true
         
         image.widthAnchor.constraint(equalToConstant: 120).isActive = true
         image.heightAnchor.constraint(equalToConstant: 120).isActive = true
