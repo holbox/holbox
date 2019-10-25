@@ -69,6 +69,7 @@ Kanban.project="Project";
 Kanban.delete="Delete";
 Kanban.rename="Rename";
 About.title="holbox\n";
+About.small="holbox";
 About.options="Options";
 About.options.0="Privacy";
 About.options.1="Notifications";

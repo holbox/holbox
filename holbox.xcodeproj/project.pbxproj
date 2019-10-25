@@ -97,6 +97,7 @@
 		DACB75CE2347708100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
+		DAD319CF2362EA0E00A1011C /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319CE2362EA0E00A1011C /* More.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
 		DAD3681723619C8D00643C9C /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Global.swift */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
@@ -289,6 +290,7 @@
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A362347745700EF8832 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		DACB75CC23476CCF00037180 /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAD319CE2362EA0E00A1011C /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAD3681623619C8D00643C9C /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		DAD8F192234DBAB900835E3E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
 				DAD3681623619C8D00643C9C /* Global.swift */,
 				DA21BDE623607AD0000A46AA /* Main.swift */,
+				DAD319CE2362EA0E00A1011C /* More.swift */,
 				DA90167D2361B67B00B8A933 /* Move.swift */,
 				DA04D3352361D34500A8B21F /* Project.swift */,
 			);
@@ -1133,6 +1136,7 @@
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
 				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
+				DAD319CF2362EA0E00A1011C /* More.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA28EBE6236174AB002EF691 /* Board.swift in Sources */,
 				DA21BDE723607AD0000A46AA /* Main.swift in Sources */,

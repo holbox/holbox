@@ -38,6 +38,8 @@ struct Board: View {
                                         Image("empty")
                                     } else {
                                         Text(self.global.session.content(self.global.project!, list: list, card: card))
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .lineLimit(10)
                                     }
                                 }.listRowBackground(Color.clear)
                             }.onDelete {

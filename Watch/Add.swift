@@ -34,6 +34,7 @@ struct Add: View {
                 } else {
                     Text(.init("Add.other"))
                         .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(10)
                 }
             }
         }

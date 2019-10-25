@@ -17,10 +17,10 @@
             </objects>
             <point key="canvasLocation" x="34" y="31"/>
         </scene>
-        <!--About-->
+        <!--More-->
         <scene sceneID="H3L-dS-e3X">
             <objects>
-                <hostingController id="sFv-hW-4cS" customClass="About" customModule="holboxWatchExtension"/>
+                <hostingController id="sFv-hW-4cS" customClass="More" customModule="holboxWatchExtension"/>
             </objects>
             <point key="canvasLocation" x="422" y="31"/>
         </scene>
