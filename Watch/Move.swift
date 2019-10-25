@@ -11,7 +11,7 @@ struct Move: View {
         List {
             Section(header:
                 Text(.init("Card.move.title"))
-                    .font(.title)) {
+                    .font(Font.headline.bold())) {
                 ForEach(0 ..< global.session.lists(global.project!), id: \.self) { index in
                     HStack {
                         if index == self.list {
@@ -37,7 +37,7 @@ struct Move: View {
             }
             Section(header:
                 Text(.init("Card.move.position"))
-                    .font(.title)) {
+                    .font(Font.headline.bold())) {
                 ForEach(0 ..< global.session.cards(global.project!, list: list) + (list == current ? 0 : 1), id: \.self) { index in
                     HStack {
                         if index == self.card {

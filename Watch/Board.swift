@@ -18,6 +18,7 @@ struct Board: View {
                         self.global.session.add(self.global.project!, list: 0)
                         self.global.session = self.global.session
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.global.card = nil
                             self.global.card = 0
                         }
                     }) {
