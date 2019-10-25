@@ -98,6 +98,7 @@
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
 		DAD319CF2362EA0E00A1011C /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319CE2362EA0E00A1011C /* More.swift */; };
+		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
 		DAD3681723619C8D00643C9C /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Global.swift */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
@@ -291,6 +292,7 @@
 		DAC73A362347745700EF8832 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
 		DACB75CC23476CCF00037180 /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD319CE2362EA0E00A1011C /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
+		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAD3681623619C8D00643C9C /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		DAD8F192234DBAB900835E3E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				DA40C94D2356255B00F9E1C2 /* TestSettings.swift */,
 				DA437018234D147F00CCB34D /* TestStore.swift */,
 				DA437012234CB58000CCB34D /* TestStoreProject.swift */,
+				DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */,
 				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
 			);
 			path = Tests;
@@ -1046,6 +1049,7 @@
 				DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */,
 				DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */,
 				DA437019234D147F00CCB34D /* TestStore.swift in Sources */,
+				DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
 				DABC364023489A0C002011C8 /* TestStoreSession.swift in Sources */,
 				DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */,

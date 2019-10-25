@@ -87,6 +87,38 @@ class Store {
         }
     }
     
+    func refresh(_ session: Session, done: @escaping () -> Void) {
+        Store.queue.async {
+            self.shared.load(["session"], error: {
+                DispatchQueue.main.async { done() }
+            }) {
+                let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter { project in
+                    if let local = session.projects.first(where: { $0.id == project.0 }), local.time > project.1 {
+                        return false
+                    }
+                    return true
+                }.map { $0.0 }
+                if download.isEmpty {
+                    DispatchQueue.main.async { done() }
+                } else {
+                    self.shared.load(download.map(String.init(_:)), error: {
+                        DispatchQueue.main.async { done() }
+                    }) { urls in
+                        download.enumerated().forEach {
+                            var project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
+                            project.id = $0.1
+                            session.projects.removeAll { $0.id == project.id }
+                            session.projects.append(project)
+                            self.write(project)
+                            self.write(session)
+                        }
+                        DispatchQueue.main.async { done() }
+                    }
+                }
+            }
+        }
+    }
+    
     func prepare() {
         var root = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         var resources = URLResourceValues()
