@@ -1,7 +1,7 @@
 import Foundation
 
 struct Settings {
-    static let size = 10
+    static let size = 30
     
     var spell = true
 }
