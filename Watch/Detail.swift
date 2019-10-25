@@ -3,6 +3,7 @@ import SwiftUI
 struct Detail: View {
     @ObservedObject var global: Global
     @State private var creating = false
+    @State private var project: Int?
     
     var body: some View {
         List {
@@ -36,12 +37,19 @@ struct Detail: View {
                             }) { Image("plus") }
                         }
                 }) {
-                    ForEach(self.global.session!.projects(self.global.mode), id: \.self) {
-                        NavigationLink(self.global.session!.name($0), destination: Board(global: self.global, name: self.global.session.name($0)), tag: $0, selection: self.$global.project)
-                            .listRowBackground(Color("background").cornerRadius(6))
-                    }.onDelete {
-                        self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])
-                        self.global.session = self.global.session
+                    if project == nil {
+                        ForEach(global.session!.projects(global.mode), id: \.self) {
+                            NavigationLink(self.global.session!.name($0), destination: Board(global: self.global, name: self.global.session.name($0)), tag: $0, selection: self.$global.project)
+                                .listRowBackground(Color("background").cornerRadius(6))
+                        }.onDelete {
+                            self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])
+                            self.global.session = self.global.session
+                        }
+                    } else {
+                        NavigationLink(global.session!.name(project!), destination: Board(global: global, name: global.session.name(project!)), tag: project!, selection: $project)
+                            .listRowBackground(Color("background").cornerRadius(6)).onDisappear {
+                                self.global.project = nil
+                        }
                     }
                 }
             }
@@ -49,7 +57,12 @@ struct Detail: View {
         .sheet(isPresented: $creating) {
             Add(global: self.global) {
                 self.creating.toggle()
-                self.global.session.add(self.global.mode)   
+                self.global.session.add(self.global.mode)
+                self.global.session = self.global.session
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.project = 0
+                    self.global.project = 0
+                }
             }
         }
     }

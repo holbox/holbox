@@ -17,14 +17,11 @@ struct Add: View {
                     
                     Spacer()
                 }
-                
-                Text(.init("Add.title.\(global.mode.rawValue)")).font(.headline)
-                
+                Text(.init("Add.title.\(global.mode.rawValue)"))
+                    .font(.headline)
                 Text(.init("Add.subtitle.other"))
-                
                 Text("\(global.session.available)")
                     .font(.largeTitle)
-                
                 if global.session.available > 0 {
                     Button(action: add) {
                         Text(.init("Add.title.\(self.global.mode.rawValue)"))
