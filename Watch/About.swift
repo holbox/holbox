@@ -8,15 +8,12 @@ struct About: View {
                     Image("logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 80, height: 80)
-                    VStack {
+                        .frame(width: 70, height: 70)
+                    VStack(alignment: .leading) {
                         Spacer()
                         Text(.init("About.small"))
                             .font(Font.body.bold())
-                        HStack {
-                            Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
-                            Spacer()
-                        }
+                        Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
                         Spacer()
                     }
                 }

@@ -45,6 +45,8 @@ struct Detail: View {
                             self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])
                             self.global.session = self.global.session
                         }
+                        Spacer()
+                            .listRowBackground(Color.clear)
                     } else {
                         NavigationLink(global.session!.name(project!), destination: Board(global: global, name: global.session.name(project!)), tag: project!, selection: $project)
                             .listRowBackground(Color("background").cornerRadius(6)).onDisappear {
