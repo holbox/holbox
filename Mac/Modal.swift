@@ -6,6 +6,17 @@ class Modal: Window {
         _close.isHidden = true
         _minimise.isHidden = true
         _zoom.isHidden = true
+        contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+    }
+    
+    override func becomeKey() {
+        super.becomeKey()
+        contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+    }
+    
+    override func resignKey() {
+        super.resignKey()
+        contentView!.layer!.backgroundColor = .black
     }
     
     override func keyDown(with: NSEvent) {

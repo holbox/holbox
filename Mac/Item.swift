@@ -28,7 +28,7 @@ final class Item: NSView {
         addSubview(base)
         self.base = base
         
-        let label = Label(title, 16, font, .white)
+        let label = Label(title, 16, font, NSColor(named: "haze")!)
         addSubview(label)
         self.label = label
         
@@ -62,6 +62,6 @@ final class Item: NSView {
     
     private func update() {
         base.layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
-        label.textColor = selected ? .black : .white
+        label.textColor = selected ? .black : NSColor(named: "haze")
     }
 }

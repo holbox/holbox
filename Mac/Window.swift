@@ -11,7 +11,7 @@ class Window: NSWindow, NSWindowDelegate {
             translatesAutoresizingMaskIntoConstraints = false
             setAccessibilityElement(true)
             setAccessibilityRole(.button)
-            alphaValue = 0.6
+            alphaValue = 0.4
             
             let icon = Image(image)
             addSubview(icon)
@@ -38,7 +38,7 @@ class Window: NSWindow, NSWindowDelegate {
             if bounds.contains(convert(with.locationInWindow, from: nil)) {
                 _ = window!.perform(action, with: nil)
             }
-            alphaValue = 0.6
+            alphaValue = 0.4
             super.mouseUp(with: with)
         }
     }

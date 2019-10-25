@@ -6,7 +6,7 @@ final class Border: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        layer!.backgroundColor = .black
+        layer!.backgroundColor = NSColor(named: "background")!.cgColor
         
         heightAnchor.constraint(equalToConstant: 1).isActive = true
     }

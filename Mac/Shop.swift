@@ -42,7 +42,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
             image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             image.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            image.heightAnchor.constraint(equalToConstant: 80).isActive = true
+            image.heightAnchor.constraint(equalToConstant: 60).isActive = true
             
             label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
             label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -109,7 +109,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, NSColor(named: "haze")!)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "background")!.cgColor, .white)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
@@ -174,7 +174,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             top = item.bottomAnchor
         }
         if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 60).isActive = true
+            scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
         }
     }
     
