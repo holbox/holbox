@@ -5,4 +5,9 @@ extension UIColor {
     static let background = #colorLiteral(red: 0.1450980392, green: 0.1529411765, blue: 0.2156862745, alpha: 1)
 }
 
-
+extension CGColor {
+    static let haze = UIColor.haze.cgColor
+    static let background = UIColor.background.cgColor
+    static let clear = UIColor.clear.cgColor
+    static let black = UIColor.black.cgColor
+}

@@ -122,6 +122,7 @@
 		DAF09640235B077C00BCC800 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963E235B077C00BCC800 /* Container.swift */; };
 		DAF09642235B27EB00BCC800 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09641235B27EB00BCC800 /* Base.swift */; };
 		DAF09644235B280E00BCC800 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09643235B280E00BCC800 /* Base.swift */; };
+		DAF125D4236323AC0037B78D /* holbox.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DAF68EAD234766DF0060895A /* holbox.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -177,6 +178,13 @@
 			remoteGlobalIDString = DAF68DAA234756720060895A;
 			remoteInfo = iOS;
 		};
+		DAF125D0236323050037B78D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAF68D93234752760060895A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAF68DFC234758C50060895A;
+			remoteInfo = WatchApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -215,6 +223,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				DAF125D4236323AC0037B78D /* holbox.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,7 +358,7 @@
 		DAF68EA9234766BB0060895A /* holbox.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = holbox.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAA234766C30060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAB234766CB0060895A /* holbox.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = holbox.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		DAF68EAC234766D90060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAF68EAC234766D90060895A /* holboxWrapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holboxWrapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAD234766DF0060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAE234766E60060895A /* holbox.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = holbox.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAF234769850060895A /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -451,7 +460,7 @@
 				DAF68EAA234766C30060895A /* holbox.app */,
 				DAF68EA8234766B40060895A /* holbox.app */,
 				DAF68EAD234766DF0060895A /* holbox.app */,
-				DAF68EAC234766D90060895A /* holbox.app */,
+				DAF68EAC234766D90060895A /* holboxWrapper.app */,
 				DAF68EAB234766CB0060895A /* holbox.appex */,
 				DAF68EA9234766BB0060895A /* holbox.appex */,
 				DAF68EAE234766E60060895A /* holbox.appex */,
@@ -767,10 +776,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				DAF125D1236323050037B78D /* PBXTargetDependency */,
 			);
 			name = WatchWrapper;
 			productName = WatchApp;
-			productReference = DAF68EAC234766D90060895A /* holbox.app */;
+			productReference = DAF68EAC234766D90060895A /* holboxWrapper.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
 		};
 		DAF68DFC234758C50060895A /* WatchApp */ = {
@@ -1189,6 +1199,11 @@
 			isa = PBXTargetDependency;
 			target = DAF68DAA234756720060895A /* iOS */;
 			targetProxy = DACB75D6234770E100037180 /* PBXContainerItemProxy */;
+		};
+		DAF125D1236323050037B78D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAF68DFC234758C50060895A /* WatchApp */;
+			targetProxy = DAF125D0236323050037B78D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2296,6 +2311,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = holbox;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)WatchWrapper";
+				PRODUCT_NAME = holboxWrapper;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 			};
@@ -2351,6 +2367,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = holbox;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)WatchWrapper";
+				PRODUCT_NAME = holboxWrapper;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;

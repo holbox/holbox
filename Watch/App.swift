@@ -11,7 +11,7 @@ final class App: NSObject, WKExtensionDelegate {
         app = self
     }
     
-    func applicationDidFinishLaunching() {
+    func applicationDidBecomeActive() {
         if global.session == nil {
             Session.load {
                 self.global.session = $0

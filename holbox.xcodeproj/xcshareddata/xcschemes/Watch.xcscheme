@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DAF68DF9234758C50060895A"
-               BuildableName = "holbox.app"
+               BuildableName = "holboxWrapper.app"
                BlueprintName = "WatchWrapper"
                ReferencedContainer = "container:holbox.xcodeproj">
             </BuildableReference>
