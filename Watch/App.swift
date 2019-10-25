@@ -27,9 +27,11 @@ final class App: NSObject, WKExtensionDelegate {
         if awoke {
             awoke = false
             if let session = global.session {
-                global.session = nil
-                session.refresh {
-                    self.global.session = session
+                if session.refreshable {
+                    global.session = nil
+                    session.refresh {
+                        self.global.session = session
+                    }
                 }
             }
         }
