@@ -6,6 +6,7 @@ public final class Session {
     var projects = [Project]()
     var perks = [Perk]()
     var settings = Settings()
+    var refreshed = Date().timeIntervalSince1970
     
     public var rate: Bool { Date() >= rating }
     public var available: Int { max(capacity - projects.filter { $0.mode != .off }.count, 0) }
@@ -29,7 +30,14 @@ public final class Session {
     }
     
     public func refresh(done: @escaping () -> Void) {
-        store.refresh(self, done: done)
+        if Date().timeIntervalSince1970 > refreshed + 30 {
+            refreshed = Date().timeIntervalSince1970
+            store.refresh(self, done: done)
+        } else {
+            DispatchQueue.main.async {
+                done()
+            }
+        }
     }
     
     public func rated() {

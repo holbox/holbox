@@ -18,6 +18,10 @@ private(set) weak var app: App!
         UserDefaults.standard.set(false, forKey: "NSFullScreenMenuItemEverywhere")
     }
     
+    func applicationDidBecomeActive(_: Notification) {
+        print("active")
+    }
+    
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }
     
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent: UNNotification, withCompletionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

@@ -37,6 +37,25 @@ final class TestStoreRefresh: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testRefreshInterval() {
+        let expectStore = expectation(description: "")
+        let expectAll = expectation(description: "")
+        let store = StubStore()
+        session.refreshed = 0
+        store.refresh = { _ in
+            expectStore.fulfill()
+        }
+        self.session.store = store
+        self.session.refresh {
+            DispatchQueue.global(qos: .background).async {
+                self.session.refresh {
+                    expectAll.fulfill()
+                }
+            }
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
     func testNoSession() {
         let expect = expectation(description: "")
         store.refresh(session) {
