@@ -11,14 +11,16 @@ final class App: NSObject, WKExtensionDelegate {
         app = self
     }
     
-    func applicationDidBecomeActive() {
+    func applicationDidFinishLaunching() {
         if global.session == nil {
             Session.load {
                 self.global.session = $0
             }
-        } else {
-            awoke = true
         }
+    }
+    
+    func applicationDidEnterBackground() {
+        awoke = true
     }
     
     func refresh() {
