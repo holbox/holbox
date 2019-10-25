@@ -192,8 +192,8 @@ final class TestStoreProject: XCTestCase {
                 expectProject.fulfill()
             } else if $0["session"] != nil {
                 let global = try! self.coder.global(.init(contentsOf: $0["session"]!))
-                XCTAssertEqual(1, global.1.count)
-                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
+                XCTAssertEqual(1, global.count)
+                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
             }
         }
@@ -271,8 +271,8 @@ final class TestStoreProject: XCTestCase {
                 expectProject.fulfill()
             } else if $0["session"] != nil {
                 let global = try! self.coder.global(.init(contentsOf: $0["session"]!))
-                XCTAssertEqual(1, global.1.count)
-                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.1.first?.1.timeIntervalSince1970 ?? 0))
+                XCTAssertEqual(1, global.count)
+                XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(global.first?.1.timeIntervalSince1970 ?? 0))
                 expectGlobal.fulfill()
             }
         }

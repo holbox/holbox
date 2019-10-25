@@ -22,13 +22,11 @@ final class TestCoder: XCTestCase {
         project2.time = time2
         let session = Session()
         session.rating = date
-        session.counter = 9
         session.projects = [project1, project2]
         session.perks = [.hundred, .shopping, .two]
         session.settings.spell = false
         let decoded = coder.session(coder.session(session))
         XCTAssertEqual(date, decoded.rating)
-        XCTAssertEqual(9, decoded.counter)
         XCTAssertEqual(2, decoded.projects.count)
         XCTAssertEqual(.off, decoded.projects.first?.mode)
         XCTAssertEqual(88, decoded.projects.first?.id)

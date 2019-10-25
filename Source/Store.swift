@@ -48,16 +48,10 @@ class Store {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
                 update.session = session
-                if global.0 > session.counter {
-                    update.session.counter = global.0
-                    update.write = true
-                } else if global.0 < session.counter {
-                    update.share = true
-                }
                 update.session.projects = session.projects.map { stub in
                     var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.id)")))
                     project.id = stub.id
-                    if let shared = global.1.first(where: { $0.0 == stub.id }) {
+                    if let shared = global.first(where: { $0.0 == stub.id }) {
                         if shared.1 < stub.time {
                             update.upload.append(stub.id)
                         }
@@ -66,7 +60,7 @@ class Store {
                     }
                     return project
                 }
-                global.1.forEach { project in
+                global.forEach { project in
                     if let local = session.projects.first(where: { $0.id == project.0 }) {
                         if local.time < project.1 {
                             update.download.append(project.0)
@@ -86,9 +80,8 @@ class Store {
             }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
-                update.session.counter = global.0
                 update.write = true
-                update.download = global.1.map { $0.0 }
+                update.download = global.map { $0.0 }
                 self.merge(update)
             }
         }

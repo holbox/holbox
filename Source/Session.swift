@@ -3,7 +3,6 @@ import Foundation
 public final class Session {
     var store = Store()
     var rating = Calendar.current.date(byAdding: .day, value: 1, to: .init())!
-    var counter = 0
     var projects = [Project]()
     var perks = [Perk]()
     var settings = Settings()
@@ -97,8 +96,13 @@ public final class Session {
     }
     
     public func add(_ mode: Mode) {
-        projects.insert(.make(mode, counter: counter), at: 0)
-        counter += 1
+        let id = projects.filter { $0.mode != .off }.sorted { $0.id < $1.id }.reduce(into: 0) {
+            if $1.id == $0 {
+                $0 = $1.id + 1
+            }
+        }
+        projects.removeAll { $0.id == id }
+        projects.insert(.make(mode, id: id), at: 0)
         save(0)
     }
     

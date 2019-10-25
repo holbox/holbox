@@ -63,18 +63,72 @@ final class TestSession: XCTestCase {
         XCTAssertEqual(103, session.capacity)
     }
     
-    func testAdd() {
+    func testAddFirst() {
+        session.add(.kanban)
+        XCTAssertEqual(.kanban, session.projects[0].mode)
+        XCTAssertEqual(0, session.projects[0].id)
+    }
+    
+    func testAddSecond() {
+        var project = Project()
+        project.mode = .todo
+        session.projects = [project]
+        session.add(.kanban)
+        XCTAssertEqual(1, session.projects[0].id)
+    }
+    
+    func testAddLowerId() {
+        var project = Project()
+        project.mode = .todo
+        project.id = 5
+        session.projects = [project]
+        session.add(.kanban)
+        XCTAssertEqual(0, session.projects[0].id)
+    }
+    
+    func testAddIntersectedId() {
+        var projectA = Project()
+        projectA.mode = .todo
+        projectA.id = 3
+        var projectB = Project()
+        projectB.mode = .todo
+        projectB.id = 0
+        session.projects = [projectA, projectB]
+        session.add(.kanban)
+        XCTAssertEqual(1, session.projects[0].id)
+    }
+    
+    func testAddDeadId() {
+        var projectA = Project()
+        projectA.id = 0
+        projectA.mode = .todo
+        var projectB = Project()
+        projectB.name = "old one"
+        projectB.id = 1
+        var projectC = Project()
+        projectC.id = 2
+        projectC.mode = .todo
+        session.projects = [projectA, projectB, projectC]
+        session.add(.kanban)
+        XCTAssertEqual(1, session.projects[0].id)
+        XCTAssertEqual(3, session.projects.count)
+        session.projects.forEach {
+            XCTAssertNotEqual("old one", $0.name)
+        }
+    }
+    
+    func testAddSaves() {
         let expect = expectation(description: "")
-        session.projects = [.init()]
-        session.counter = 77
+        var project = Project()
+        project.mode = .todo
+        session.projects = [project]
         store.project = {
             XCTAssertEqual(1, $0.projects(.kanban).count)
-            XCTAssertEqual(78, $0.counter)
             XCTAssertEqual(0, $0.projects(.kanban).first)
-            XCTAssertEqual(77, $0.projects.first?.id)
+            XCTAssertEqual(1, $0.projects.first?.id)
             XCTAssertEqual(2, $0.projects.count)
             XCTAssertEqual(.kanban, $0.projects.first?.mode)
-            XCTAssertEqual(77, $1.id)
+            XCTAssertEqual(1, $1.id)
             expect.fulfill()
         }
         session.add(.kanban)
