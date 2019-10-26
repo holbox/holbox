@@ -58,21 +58,21 @@ final class Detail: Base.View {
                 item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 } else {
                     let border = Border()
                     scroll.add(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
-                    border.topAnchor.constraint(equalTo: top!).isActive = true
+                    border.topAnchor.constraint(equalTo: top!, constant: 10).isActive = true
                     
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 }
                 
                 top = item.bottomAnchor
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 60).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
         }
         
         image.widthAnchor.constraint(equalToConstant: 120).isActive = true

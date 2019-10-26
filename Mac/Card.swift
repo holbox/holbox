@@ -7,6 +7,7 @@ final class Card: NSView, NSTextViewDelegate {
     weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
+    private weak var empty: Image?
     private weak var content: Text!
     private weak var base: NSView!
     private weak var _delete: Button!
@@ -28,20 +29,19 @@ final class Card: NSView, NSTextViewDelegate {
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
-        base.layer!.cornerRadius = 8
-        base.layer!.borderWidth = 1
-        base.layer!.borderColor = app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .black : .clear
+        base.layer!.cornerRadius = 16
+        base.layer!.borderColor = NSColor(named: "haze")!.cgColor
         addSubview(base)
         self.base = base
         
         let content = Text()
         content.setAccessibilityLabel(.key("Card"))
-        content.font = .monospacedSystemFont(ofSize: 16, weight: .light)
+        content.font = .systemFont(ofSize: 16, weight: .medium)
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true
-        content.standby = 0.8
-        content.textContainer!.size.width = 360
+        content.standby = .init(white: 1, alpha: 0.8)
+        content.textContainer!.size.width = 300
         content.textContainer!.size.height = 5000
         addSubview(content)
         self.content = content
@@ -51,7 +51,7 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(_delete)
         self._delete = _delete
         
-        rightAnchor.constraint(equalTo: base.rightAnchor, constant: 40).isActive = true
+        rightAnchor.constraint(equalTo: base.rightAnchor, constant: 30).isActive = true
         bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -59,7 +59,7 @@ final class Card: NSView, NSTextViewDelegate {
         base.rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
         base.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
         
-        _delete.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 10).isActive = true
+        _delete.leftAnchor.constraint(equalTo: base.rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -70,6 +70,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.delegate = self
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        update()
     }
     
     override func resetCursorRects() {
@@ -77,14 +78,14 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     func textDidBeginEditing(_: Notification) {
-        base.layer!.borderColor = NSColor(named: "haze")!.cgColor
         base.layer!.borderWidth = 2
+        empty?.removeFromSuperview()
     }
     
     func textDidEndEditing(_: Notification) {
-        base.layer!.borderColor = content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .black : .clear
-        base.layer!.borderWidth = 1
+        base.layer!.borderWidth = 0
         app.session.content(app.project, list: column, card: index, content: content.string)
+        update()
     }
     
     func edit() {
@@ -105,7 +106,7 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete.isHidden = true
                 top.constant += deltaY
                 left.constant += deltaX
-                base.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.95).cgColor
+                base.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
                 content.textColor = .black
                 
                 layer!.removeFromSuperlayer()
@@ -118,7 +119,7 @@ final class Card: NSView, NSTextViewDelegate {
                     child.top = child.topAnchor.constraint(equalTo: top.secondAnchor as! NSLayoutAnchor<NSLayoutYAxisAnchor>, constant: 20)
                     self.child = nil
                     NSAnimationContext.runAnimationGroup {
-                        $0.duration = 1
+                        $0.duration = 0.3
                         $0.allowsImplicitAnimation = true
                         superview!.layoutSubtreeIfNeeded()
                     }
@@ -131,12 +132,11 @@ final class Card: NSView, NSTextViewDelegate {
         if dragging {
             let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
             app.session.move(app.project, list: column, card: index, destination: destination, index:
-                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.minY < y }.count)
+                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
             NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.3
                 $0.allowsImplicitAnimation = true
-                base.layer!.backgroundColor = .clear
-                content.textColor = .white
+                alphaValue = 0.1
             }) { [weak self] in self?.kanban.refresh() }
         }
         dragging = false
@@ -159,6 +159,20 @@ final class Card: NSView, NSTextViewDelegate {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             _delete.alphaValue = 0
+        }
+    }
+    
+    private func update() {
+        self.empty?.removeFromSuperview()
+        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let empty = Image("empty")
+            addSubview(empty, positioned: .below, relativeTo: content)
+            self.empty = empty
+            
+            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.leftAnchor.constraint(equalTo: content.leftAnchor, constant: 11).isActive = true
+            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         }
     }
     

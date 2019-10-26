@@ -32,10 +32,10 @@ final class Item: NSView {
         addSubview(label)
         self.label = label
         
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         

@@ -9,7 +9,8 @@ public final class Session {
     var refreshed = Date().timeIntervalSince1970
     
     public var rate: Bool { Date() >= rating }
-    public var available: Int { max(capacity - projects.filter { $0.mode != .off }.count, 0) }
+    public var available: Int { max(capacity - count, 0) }
+    public var count: Int { projects.filter { $0.mode != .off }.count }
     public var spell: Bool { settings.spell }
     public var refreshable: Bool { Date().timeIntervalSince1970 > refreshed + 15 }
     

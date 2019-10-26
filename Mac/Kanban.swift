@@ -47,9 +47,9 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.top, constant: 180).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.top, constant: 220).isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
         name.didChangeText()
         name.delegate = self
@@ -94,13 +94,13 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 scroll.add(card)
                 
                 if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40)
+                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
                 } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
+                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 5)
                     top!.child = card
                 }
                 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 80).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 40).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
                 card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 60)
                 top = card
@@ -112,7 +112,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 120).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 160).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }

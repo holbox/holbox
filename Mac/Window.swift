@@ -30,16 +30,19 @@ class Window: NSWindow, NSWindowDelegate {
         init(_ width: CGFloat, _ height: CGFloat) {
             super.init(width, height, mask: [])
             contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            contentView!.layer!.borderColor = NSColor(named: "background")!.cgColor
         }
         
         override func becomeKey() {
             super.becomeKey()
-            contentView!.alphaValue = 1
+            contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            contentView!.layer!.borderWidth = 0
         }
         
         override func resignKey() {
             super.resignKey()
-            contentView!.alphaValue = 0.85
+            contentView!.layer!.backgroundColor = .black
+            contentView!.layer!.borderWidth = 1
         }
         
         override func keyDown(with: NSEvent) {

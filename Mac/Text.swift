@@ -4,7 +4,7 @@ final class Text: NSTextView {
     var edit = false
     var tab = false
     var intro = false
-    var standby = CGFloat(0.2) { didSet { alphaValue = standby } }
+    var standby = NSColor(named: "haze")!.withAlphaComponent(0.5) { didSet { textColor = standby } }
     override var acceptsFirstResponder: Bool { edit }
     override var mouseDownCanMoveWindow: Bool { !edit }
     override var canBecomeKeyView: Bool { edit }
@@ -22,20 +22,25 @@ final class Text: NSTextView {
         setAccessibilityElement(true)
         setAccessibilityRole(.textField)
         translatesAutoresizingMaskIntoConstraints = false
-        textColor = .white
+        textColor = standby
         allowsUndo = true
         isRichText = false
         drawsBackground = false
         isContinuousSpellCheckingEnabled = app.session.spell
         isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = NSColor(named: "haze")!
-        alphaValue = standby
         
         width = widthAnchor.constraint(equalToConstant: 0)
         height = heightAnchor.constraint(equalToConstant: 0)
         height.isActive = true
         width.isActive = true
     }
+    
+    override var textColor: NSColor? { didSet {
+        guard let storage = textStorage, let color = textColor else { return }
+        storage.removeAttribute(.foregroundColor, range: .init(location: 0, length: storage.length))
+        storage.addAttribute(.foregroundColor, value: color, range: .init(location: 0, length: storage.length))
+    } }
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
         var rect = rect
@@ -56,7 +61,7 @@ final class Text: NSTextView {
     }
     
     override func becomeFirstResponder() -> Bool {
-        alphaValue = 1
+        textColor = .white
         textContainer!.lineBreakMode = .byTruncatingMiddle
         delegate?.textDidBeginEditing?(Notification(name: .init("")))
         return super.becomeFirstResponder()
@@ -64,7 +69,7 @@ final class Text: NSTextView {
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
-        alphaValue = standby
+        textColor = standby
         textContainer!.lineBreakMode = .byTruncatingTail
         edit = false
         return super.resignFirstResponder()

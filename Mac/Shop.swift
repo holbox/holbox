@@ -20,7 +20,9 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
             
-            let title = Label([(.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .init(white: 1, alpha: 0.9)), (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.9))])
+            let title = Label([
+                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .init(white: 1, alpha: 0.9)),
+                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.9))])
             addSubview(title)
             
             let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, .init(white: 1, alpha: 0.6))
