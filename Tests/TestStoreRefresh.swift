@@ -96,6 +96,24 @@ final class TestStoreRefresh: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testNothingNewWithProject() {
+        let expect = expectation(description: "")
+        var project = Project()
+        project.time = .init(timeIntervalSince1970: 100)
+        session.projects = [project]
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(session).write(to: shared.url["session"]!)
+        shared.load = {
+            $0.forEach {
+                XCTAssertEqual("session", $0)
+            }
+        }
+        store.refresh(session) {
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
     func testDownloadFailed() {
             let expect = expectation(description: "")
             let online = Session()
@@ -154,6 +172,30 @@ final class TestStoreRefresh: XCTestCase {
             XCTAssertEqual("lorem", stored.name)
             XCTAssertEqual(1, session.projects.count)
             XCTAssertEqual(1, self.session.projects.count)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testUpdateSamePosition() {
+        let expect = expectation(description: "")
+        var projectA = Project()
+        projectA.id = 33
+        projectA.name = "ipsum"
+        projectA.time = .init(timeIntervalSince1970: 11)
+        var projectB = Project()
+        projectB.id = 44
+        session.projects = [projectA, projectB]
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["33"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(session).write(to: shared.url["session"]!)
+        try! coder.project(projectA).write(to: shared.url["33"]!)
+        session.projects[0].time = .init(timeIntervalSince1970: 10)
+        session.projects[0].name = "lorem"
+        store.refresh(session) {
+            XCTAssertEqual("ipsum", self.session.projects[0].name)
+            XCTAssertEqual(33, self.session.projects[0].id)
+            XCTAssertEqual(44, self.session.projects[1].id)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

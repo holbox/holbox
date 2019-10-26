@@ -93,7 +93,7 @@ class Store {
                 DispatchQueue.main.async { done() }
             }) {
                 let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter { project in
-                    if let local = session.projects.first(where: { $0.id == project.0 }), local.time > project.1 {
+                    if let local = session.projects.first(where: { $0.id == project.0 }), local.time >= project.1 {
                         return false
                     }
                     return true
@@ -107,8 +107,11 @@ class Store {
                         download.enumerated().forEach {
                             var project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
                             project.id = $0.1
-                            session.projects.removeAll { $0.id == project.id }
-                            session.projects.append(project)
+                            if let index = session.projects.firstIndex(where: { $0.id == project.id }) {
+                                session.projects[index] = project
+                            } else {
+                                session.projects.append(project)
+                            }
                             self.write(project)
                             self.write(session)
                         }
