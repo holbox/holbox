@@ -7,13 +7,15 @@ final class Item: NSView {
     private weak var target: AnyObject!
     private weak var base: NSView!
     private let action: Selector
+    private let color: NSColor
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, index: Int, _ font: NSFont.Weight, _ target: AnyObject, _ action: Selector) {
+    init(_ title: String, index: Int, _ font: NSFont.Weight, _ color: NSColor, _ target: AnyObject, _ action: Selector) {
         self.index = index
         self.action = action
         self.target = target
+        self.color = color
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
@@ -28,7 +30,7 @@ final class Item: NSView {
         addSubview(base)
         self.base = base
         
-        let label = Label(title, 16, font, NSColor(named: "haze")!)
+        let label = Label(title, 16, font, color)
         addSubview(label)
         self.label = label
         
@@ -62,6 +64,6 @@ final class Item: NSView {
     
     private func update() {
         base.layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
-        label.textColor = selected ? .black : NSColor(named: "haze")
+        label.textColor = selected ? .black : color
     }
 }

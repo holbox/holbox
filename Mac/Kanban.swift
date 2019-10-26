@@ -102,12 +102,12 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 
                 scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 40).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 60)
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 10)
                 top = card
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
@@ -118,7 +118,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         }
         
         if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 70).isActive = true
+            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 80).isActive = true
         }
     }
     

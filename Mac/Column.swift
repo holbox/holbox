@@ -19,9 +19,9 @@ final class Column: NSView, NSTextViewDelegate {
         addSubview(name)
         self.name = name
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 70).isActive = true
+        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
         bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 70).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
         name.topAnchor.constraint(equalTo: topAnchor).isActive = true
         name.didChangeText()
         name.delegate = self

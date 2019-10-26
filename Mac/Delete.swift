@@ -43,26 +43,26 @@ class Delete: Window.Modal {
     private weak var heading: Label!
     
     private init() {
-        super.init(320, 180)
+        super.init(260, 200)
         
-        let heading = Label("", 20, .bold, .init(white: 1, alpha: 0.3))
-        contentView!.addSubview(heading)
+        let heading = Label("", 18, .bold, .init(white: 1, alpha: 0.9))
         self.heading = heading
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, NSColor(named: "haze")!)
-        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .white)
+        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
         
-        [_confirm, _cancel].forEach {
+        [heading, _confirm, _cancel].forEach {
             contentView!.addSubview($0)
-            $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
+            $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         }
         
         heading.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        heading.leftAnchor.constraint(equalTo: _cancel.leftAnchor, constant: 25).isActive = true
         
-        _confirm.leftAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-        _cancel.rightAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        _confirm.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 25).isActive = true
+        _confirm.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        
+        _cancel.topAnchor.constraint(equalTo: _confirm.bottomAnchor, constant: 10).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
     }
     
     @objc private func confirm() {
