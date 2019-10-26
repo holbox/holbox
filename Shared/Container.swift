@@ -6,7 +6,7 @@
 #endif
 
 final class Container: NSTextContainer {
-    private let storage = Storage()
+    private let storage = NSTextStorage()
     
     required init(coder: NSCoder) { fatalError() }
     init() {
@@ -16,24 +16,6 @@ final class Container: NSTextContainer {
         layout.addTextContainer(self)
         storage.addLayoutManager(layout)
         lineBreakMode = .byTruncatingTail
-    }
-}
-
-private final class Storage: NSTextStorage {
-    override var string: String { storage.string }
-    private let storage = NSTextStorage()
-    
-    override func attributes(at: Int, effectiveRange: NSRangePointer?) -> [NSAttributedString.Key : Any] {
-        storage.attributes(at: at, effectiveRange: effectiveRange)
-    }
-    
-    override func replaceCharacters(in range: NSRange, with: String) {
-        storage.replaceCharacters(in: range, with: with)
-        edited(.editedCharacters, range: range, changeInLength: (with as NSString).length - range.length)
-    }
-    
-    override func setAttributes(_ attrs: [NSAttributedString.Key : Any]?, range: NSRange) {
-        storage.setAttributes(attrs, range: range)
     }
 }
 
