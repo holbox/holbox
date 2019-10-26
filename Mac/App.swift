@@ -9,6 +9,7 @@ private(set) weak var app: App!
     var mode = Mode.off
     private(set) var session: Session!
     private(set) weak var main: Main!
+    func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }
     
     required init?(coder: NSCoder) { nil }
     override init() {
@@ -19,39 +20,14 @@ private(set) weak var app: App!
     }
     
     func applicationDidBecomeActive(_: Notification) {
-        if session?.refreshable == true {
-            session?.refresh {
-                self.main.base?.refresh()
-            }
-        }
+        refresh()
     }
-    
-    func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }
     
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent: UNNotification, withCompletionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         withCompletionHandler([.alert])
         UNUserNotificationCenter.current().getDeliveredNotifications { UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: $0.map { $0.request.identifier
         }.filter { $0 != willPresent.request.identifier }) }
     }
-    
-//    override func makeTouchBar() -> NSTouchBar? {
-//        let bar = NSTouchBar()
-//        bar.delegate = self
-//        bar.defaultItemIdentifiers = [.init("Options")]
-//        return bar
-//    }
-//
-//    func touchBar(_: NSTouchBar, makeItemForIdentifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
-//        let item = NSCustomTouchBarItem(identifier: makeItemForIdentifier)
-//        let button = NSButton(title: "", target: self, action: nil)
-//        item.view = button
-//        button.title = .key(makeItemForIdentifier.rawValue)
-//        switch makeItemForIdentifier.rawValue {
-//        case "Options": button.action = #selector(about)
-//        default: break
-//        }
-//        return item
-//    }
     
     func applicationWillFinishLaunching(_: Notification) {
         mainMenu = Menu()
@@ -89,6 +65,14 @@ private(set) weak var app: App!
                 } (UNMutableNotificationContent()))
             } else {
                 DispatchQueue.main.async { Alert(title, message: message).makeKeyAndOrderFront(nil) }
+            }
+        }
+    }
+    
+    func refresh() {
+        if session?.refreshable == true {
+            session?.refresh {
+                self.main.base?.refresh()
             }
         }
     }

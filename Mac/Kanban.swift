@@ -36,8 +36,8 @@ final class Kanban: Base.View, NSTextViewDelegate {
         }
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true

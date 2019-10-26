@@ -8,7 +8,7 @@ final class Main: Window.Full {
     init() {
         super.init(800, 700)
         minSize = .init(width: 300, height: 200)
-        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
+        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 200))
         
         let logo = Logo()
         logo.start()
@@ -75,6 +75,7 @@ final class Main: Window.Full {
     }
     
     @objc func kanban() {
+        app.refresh()
         app.mode = .kanban
         bar?._kanban.selected = true
         bar?._todo.selected = false
@@ -84,6 +85,7 @@ final class Main: Window.Full {
     }
     
     @objc func todo() {
+        app.refresh()
         app.mode = .todo
         bar?._kanban.selected = false
         bar?._todo.selected = true
@@ -93,6 +95,7 @@ final class Main: Window.Full {
     }
     
     @objc func shopping() {
+        app.refresh()
         app.mode = .shopping
         bar?._kanban.selected = false
         bar?._todo.selected = false

@@ -45,10 +45,10 @@ class Delete: Window.Modal {
     private init() {
         super.init(260, 200)
         
-        let heading = Label("", 18, .bold, .init(white: 1, alpha: 0.9))
+        let heading = Label("", 18, .bold, .init(white: 1, alpha: 0.8))
         self.heading = heading
         
-        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, NSColor(named: "haze")!)
+        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, .white)
         let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
         
         [heading, _confirm, _cancel].forEach {
