@@ -19,7 +19,6 @@ final class Kanban: Base.View, NSTextViewDelegate {
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.string = app.session.name(app.project)
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 55
         scroll.add(name)
@@ -51,7 +50,6 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         name.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-        name.didChangeText()
         name.delegate = self
         
         refresh()
@@ -83,6 +81,8 @@ final class Kanban: Base.View, NSTextViewDelegate {
     
     override func refresh() {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+        name.string = app.session.name(app.project)
+        name.didChangeText()
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in
             let column = Column(list)

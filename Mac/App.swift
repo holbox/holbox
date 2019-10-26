@@ -71,8 +71,11 @@ private(set) weak var app: App!
     
     func refresh() {
         if session?.refreshable == true {
-            session?.refresh {
-                self.main.base?.refresh()
+            main.makeFirstResponder(nil)
+            DispatchQueue.main.async {
+                self.session?.refresh {
+                    self.main.base?.refresh()
+                }
             }
         }
     }
