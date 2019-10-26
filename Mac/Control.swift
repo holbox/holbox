@@ -18,11 +18,11 @@ final class Control: NSView {
         layer!.cornerRadius = 8
         layer!.backgroundColor = background
         
-        let label = Label(title, 14, .bold, text)
+        let label = Label(title, 12, .bold, text)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        heightAnchor.constraint(equalToConstant: 40).isActive = true
+        heightAnchor.constraint(equalToConstant: 32).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

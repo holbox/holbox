@@ -1,6 +1,6 @@
 import AppKit
 
-class Delete: Modal {
+class Delete: Window.Modal {
     final class Board: Delete {
         override init() {
             super.init()

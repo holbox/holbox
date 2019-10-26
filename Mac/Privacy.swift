@@ -1,6 +1,6 @@
 import AppKit
 
-final class Privacy: Modal {
+final class Privacy: Window.Modal {
     init() {
         super.init(640, 600)
         

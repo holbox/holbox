@@ -1,6 +1,6 @@
 import AppKit
 
-final class About: Modal {
+final class About: Window.Modal {
     init() {
         super.init(400, 580)
         

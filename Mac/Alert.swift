@@ -1,6 +1,6 @@
 import AppKit
 
-final class Alert: Modal {
+final class Alert: Window.Modal {
     init(_ title: String, message: String) {
         super.init(500, 70)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 250, y: NSScreen.main!.frame.maxY - 120))

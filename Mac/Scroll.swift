@@ -17,8 +17,8 @@ final class Scroll: NSScrollView {
         hasHorizontalScroller = true
         verticalScroller!.controlSize = .mini
         horizontalScroller!.controlSize = .mini
-        verticalScroller!.knobStyle = .dark
-        horizontalScroller!.knobStyle = .dark
+        verticalScroller!.knobStyle = .light
+        horizontalScroller!.knobStyle = .light
         horizontalScrollElasticity = .automatic
         verticalScrollElasticity = .automatic
         documentView = Flipped()

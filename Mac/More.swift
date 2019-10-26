@@ -1,6 +1,6 @@
 import AppKit
 
-class More: Modal {
+class More: Window.Modal {
     final class Main: More {
         override init() {
             super.init()

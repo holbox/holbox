@@ -1,12 +1,12 @@
 import AppKit
 
-final class Main: Window {
+final class Main: Window.Full {
     private(set) weak var base: Base?
     private weak var bar: Bar?
     private weak var logo: Logo?
 
     init() {
-        super.init(800, 700, mask: [.miniaturizable, .resizable])
+        super.init(800, 700)
         minSize = .init(width: 300, height: 200)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 250))
         
@@ -43,7 +43,7 @@ final class Main: Window {
         logo!.removeFromSuperview()
         
         let bar = Bar()
-        contentView!.addSubview(bar, positioned: .below, relativeTo: _close)
+        contentView!.addSubview(bar, positioned: .below, relativeTo: nil)
         self.bar = bar
         
         let base = Base()

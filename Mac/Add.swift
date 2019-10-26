@@ -1,6 +1,6 @@
 import AppKit
 
-final class Add: Modal {
+final class Add: Window.Modal {
     private weak var _confirm: Control!
     private weak var _purchases: Control!
     

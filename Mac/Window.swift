@@ -1,56 +1,66 @@
 import AppKit
 
 class Window: NSWindow, NSWindowDelegate {
-    final class Button: NSView {
-        private let action: Selector
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ image: String, action: Selector) {
-            self.action = action
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            setAccessibilityElement(true)
-            setAccessibilityRole(.button)
-            alphaValue = 0.4
+    class Full: Window {
+        init(_ width: CGFloat, _ height: CGFloat) {
+            super.init(width, height, mask: [.miniaturizable, .resizable])
+            contentView!.layer!.backgroundColor = .black
             
-            let icon = Image(image)
-            addSubview(icon)
+            let _close = Tool("close", action: #selector(close))
+            _close.setAccessibilityLabel(.key("Window.close"))
             
-            widthAnchor.constraint(equalToConstant: 12).isActive = true
-            heightAnchor.constraint(equalToConstant: 12).isActive = true
+            let _minimise = Tool("minimise", action: #selector(miniaturize(_:)))
+            _minimise.setAccessibilityLabel(.key("Window.minimise"))
             
-            icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        }
-        
-        override func resetCursorRects() {
-            addCursorRect(bounds, cursor: .pointingHand)
-        }
-        
-        override func mouseDown(with: NSEvent) {
-            alphaValue = 1
-            super.mouseDown(with: with)
-        }
-        
-        override func mouseUp(with: NSEvent) {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) {
-                _ = window!.perform(action, with: nil)
+            let _zoom = Tool("zoom", action: #selector(zoom(_:)))
+            _zoom.setAccessibilityLabel(.key("Window.zoom"))
+            
+            [_close, _minimise, _zoom].forEach {
+                contentView!.addSubview($0)
+                $0.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
             }
-            alphaValue = 0.4
-            super.mouseUp(with: with)
+            
+            _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
+            _minimise.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 8).isActive = true
+            _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
+        }
+    }
+    
+    class Modal: Window {
+        init(_ width: CGFloat, _ height: CGFloat) {
+            super.init(width, height, mask: [])
+            contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        }
+        
+        override func becomeKey() {
+            super.becomeKey()
+            contentView!.alphaValue = 1
+        }
+        
+        override func resignKey() {
+            super.resignKey()
+            contentView!.alphaValue = 0.85
+        }
+        
+        override func keyDown(with: NSEvent) {
+            switch with.keyCode {
+            case 53: close()
+            default: super.keyDown(with: with)
+            }
+        }
+        
+        override func close() {
+            super.close()
+            app.stopModal()
         }
     }
     
     override var canBecomeKey: Bool { true }
     override var acceptsFirstResponder: Bool { true }
-    private(set) weak var _close: Button!
-    private(set) weak var _minimise: Button!
-    private(set) weak var _zoom: Button!
 
-    init(_ width: CGFloat, _ height: CGFloat, mask: NSWindow.StyleMask) {
+    private init(_ width: CGFloat, _ height: CGFloat, mask: NSWindow.StyleMask) {
         super.init(contentRect: .init(x: 0, y: 0, width: width, height: height), styleMask: [.borderless, mask], backing: .buffered, defer: false)
+        appearance = NSAppearance(named: .darkAqua)
         backgroundColor = .clear
         isOpaque = false
         collectionBehavior = .fullScreenNone
@@ -58,29 +68,7 @@ class Window: NSWindow, NSWindowDelegate {
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 20
-        contentView!.layer!.backgroundColor = .black
         delegate = self
-        
-        let _close = Button("close", action: #selector(close))
-        _close.setAccessibilityLabel(.key("Window.close"))
-        self._close = _close
-        
-        let _minimise = Button("minimise", action: #selector(miniaturize(_:)))
-        _minimise.setAccessibilityLabel(.key("Window.minimise"))
-        self._minimise = _minimise
-        
-        let _zoom = Button("zoom", action: #selector(zoom(_:)))
-        _zoom.setAccessibilityLabel(.key("Window.zoom"))
-        self._zoom = _zoom
-        
-        [_close, _minimise, _zoom].forEach {
-            contentView!.addSubview($0)
-            $0.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
-        }
-        
-        _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
-        _minimise.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 8).isActive = true
-        _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
     }
     
     func windowWillStartLiveResize(_: Notification) {

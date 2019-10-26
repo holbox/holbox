@@ -11,7 +11,7 @@ public final class Session {
     public var rate: Bool { Date() >= rating }
     public var available: Int { max(capacity - projects.filter { $0.mode != .off }.count, 0) }
     public var spell: Bool { settings.spell }
-    public var refreshable: Bool { Date().timeIntervalSince1970 > refreshed + 30 }
+    public var refreshable: Bool { Date().timeIntervalSince1970 > refreshed + 15 }
     
     public var capacity: Int {
         var result = 1

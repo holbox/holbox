@@ -1,54 +1,58 @@
 import AppKit
 
-final class Tab: NSView {
-    var selected = false { didSet { update() } }
+final class Tool: NSView {
     private weak var icon: Image!
-    private weak var target: AnyObject!
     private let action: Selector
-    private let image: NSImage
     
     required init?(coder: NSCoder) { nil }
-    init(_ image: String, target: AnyObject, action: Selector) {
-        self.image = NSImage(named: image)!
-        self.target = target
+    init(_ image: String, action: Selector) {
         self.action = action
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
-        wantsLayer = true
-        layer!.cornerRadius = 4
+        alphaValue = 0.8
         
         let icon = Image(image)
+        icon.alphaValue = 0.5
         addSubview(icon)
         self.icon = icon
         
-        widthAnchor.constraint(equalToConstant: 30).isActive = true
-        heightAnchor.constraint(equalToConstant: 30).isActive = true
+        widthAnchor.constraint(equalToConstant: 12).isActive = true
+        heightAnchor.constraint(equalToConstant: 12).isActive = true
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
         icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        update()
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     override func resetCursorRects() {
         addCursorRect(bounds, cursor: .pointingHand)
     }
     
-    override func mouseUp(with: NSEvent) {
-        if !selected && bounds.contains(convert(with.locationInWindow, from: nil)) {
-            app.main.makeFirstResponder(self)
-            _ = target.perform(action, with: nil)
-        }
-        super.mouseUp(with: with)
+    override func mouseEntered(with: NSEvent) {
+        super.mouseEntered(with: with)
+        icon.alphaValue = 1
     }
     
-    private func update() {
-        layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
-        icon.image = selected ? image.tint(.black) : image
-        icon.alphaValue = selected ? 1 : 0.7
+    override func mouseExited(with: NSEvent) {
+        super.mouseExited(with: with)
+        icon.alphaValue = 0.5
+    }
+    
+    override func mouseDown(with: NSEvent) {
+        alphaValue = 1
+        super.mouseDown(with: with)
+    }
+    
+    override func mouseUp(with: NSEvent) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+            _ = window!.perform(action, with: nil)
+        }
+        alphaValue = 0.8
+        super.mouseUp(with: with)
     }
 }

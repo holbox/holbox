@@ -32,7 +32,6 @@
 		DA43701B234D2B2000CCB34D /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701A234D2B2000CCB34D /* Window.swift */; };
 		DA43701D234D2B5300CCB34D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701C234D2B5300CCB34D /* Main.swift */; };
 		DA4BC3F623546A4600C023D6 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F523546A4600C023D6 /* More.swift */; };
-		DA4BC3F823546C6800C023D6 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F723546C6800C023D6 /* Modal.swift */; };
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
 		DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6513235E00AD00B5F6EE /* Item.swift */; };
 		DA4C6516235E00D400B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6515235E00D400B5F6EE /* Item.swift */; };
@@ -101,6 +100,7 @@
 		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
 		DAD3681723619C8D00643C9C /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Global.swift */; };
+		DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5E6ED2364336200EE4AD9 /* Tool.swift */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
 		DAD8F195234DBAC600835E3E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F194234DBAC600835E3E /* Alert.swift */; };
 		DAD8F196234DBB5500835E3E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E8E2347653E0060895A /* String.swift */; };
@@ -249,7 +249,6 @@
 		DA43701A234D2B2000CCB34D /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		DA43701C234D2B5300CCB34D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA4BC3F523546A4600C023D6 /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
-		DA4BC3F723546C6800C023D6 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA4C6513235E00AD00B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA4C6515235E00D400B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -304,6 +303,7 @@
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAD3681623619C8D00643C9C /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		DAD5E6ED2364336200EE4AD9 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		DAD8F192234DBAB900835E3E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DAD8F194234DBAC600835E3E /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		DAD8F199234DBB9700835E3E /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
@@ -558,13 +558,13 @@
 				DA1A4D3923508FD1008D110A /* Logo.swift */,
 				DA43701C234D2B5300CCB34D /* Main.swift */,
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
-				DA4BC3F723546C6800C023D6 /* Modal.swift */,
 				DA4BC3F523546A4600C023D6 /* More.swift */,
 				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DAE81687235323F90005BE0B /* Tab.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
+				DAD5E6ED2364336200EE4AD9 /* Tool.swift */,
 				DA43701A234D2B2000CCB34D /* Window.swift */,
 			);
 			path = Mac;
@@ -1073,8 +1073,8 @@
 				DA4BC3F623546A4600C023D6 /* More.swift in Sources */,
 				DAD8F196234DBB5500835E3E /* String.swift in Sources */,
 				DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */,
+				DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */,
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
-				DA4BC3F823546C6800C023D6 /* Modal.swift in Sources */,
 				DAC22D272354D1F90004FBFD /* Column.swift in Sources */,
 				DABAD100235F330F00BD3179 /* Privacy.swift in Sources */,
 				DAF09644235B280E00BCC800 /* Base.swift in Sources */,
