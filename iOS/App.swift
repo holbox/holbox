@@ -21,7 +21,7 @@ private(set) weak var app: App!
         return true
     }
     
-    func applicationDidBecomeActive(_: UIApplication) {
+    func applicationWillEnterForeground(_: UIApplication) {
         refresh()
     }
     
