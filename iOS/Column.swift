@@ -9,15 +9,20 @@ final class Column: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let name = Label(app.session.name(app.project, list: index), 20, .bold, .white)
+        let name = Label(app.session.name(app.project, list: index), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
         name.accessibilityLabel = .key("Column")
         name.accessibilityValue = app.session.name(app.project, list: index)
-        name.alpha = 0.2
+        name.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(name)
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 40).isActive = true
-        bottomAnchor.constraint(equalTo: name.bottomAnchor, constant: 25).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
-        name.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        let width = widthAnchor.constraint(equalToConstant: 0)
+        width.priority = .defaultLow
+        width.isActive = true
+        
+        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
+        bottomAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        name.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        name.widthAnchor.constraint(lessThanOrEqualToConstant: 350).isActive = true
     }
 }

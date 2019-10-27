@@ -1,6 +1,6 @@
 import UIKit
 
-class Edit: Modal, UITextViewDelegate {
+class Edit: UIViewController, UITextViewDelegate {
     private(set) weak var text: Text!
     private(set) weak var done: Capsule!
     private weak var bottom: NSLayoutConstraint!
@@ -9,6 +9,10 @@ class Edit: Modal, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
+        view.layer.borderColor = UIColor(named: "background")!.cgColor
+        view.layer.borderWidth = 2
+        view.layer.cornerRadius = 20
         
         let text = Text()
         text.delegate = self
@@ -33,8 +37,8 @@ class Edit: Modal, UITextViewDelegate {
         bottom.isActive = true
         
         done.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        done.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
+        done.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -47,6 +51,11 @@ class Edit: Modal, UITextViewDelegate {
     override func willTransition(to: UITraitCollection, with: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: to, with: with)
         app.win.endEditing(true)
+    }
+    
+    @objc final func close() {
+        app.win.endEditing(true)
+        presentingViewController!.dismiss(animated: true)
     }
 
     @objc private func show(_ notification: NSNotification) {

@@ -146,14 +146,14 @@ final class Card: UIView {
             super.viewDidLoad()
             text.text = card.content.text!
             
-            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, UIColor(named: "haze")!)
+            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
             
-            let _move = Capsule(.key("Card.move"), self, #selector(move), .black, UIColor(named: "haze")!)
+            let _move = Capsule(.key("Card.move"), self, #selector(move), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_move)
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
             _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
             
             _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
@@ -192,10 +192,11 @@ final class Card: UIView {
     
     let index: Int
     let column: Int
+    private weak var empty: Image?
     private weak var content: UILabel!
     private weak var base: UIView!
     private weak var kanban: Kanban!
-
+    
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int, column: Int) {
         self.index = index
@@ -207,31 +208,32 @@ final class Card: UIView {
         let base = UIView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
-        base.layer.cornerRadius = 8
-        base.layer.borderColor = UIColor.black.cgColor
+        base.layer.cornerRadius = 16
         addSubview(base)
         self.base = base
         
-        let content = Label(app.session.content(app.project, list: column, card: index), 14, .light, .white)
-        content.font = .monospacedSystemFont(ofSize: 14, weight: .light)
+        let content = Label(app.session.content(app.project, list: column, card: index), 16, .medium, .init(white: 1, alpha: 0.8))
         content.accessibilityLabel = .key("Card")
         content.accessibilityValue = app.session.content(app.project, list: column, card: index)
         addSubview(content)
         self.content = content
         
-        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 30).isActive = true
-        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 30).isActive = true
+        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
+        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
         
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
-        content.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        content.widthAnchor.constraint(lessThanOrEqualToConstant: 220).isActive = true
+        content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         
         update(false)
+        update()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -264,14 +266,28 @@ final class Card: UIView {
     
     private func update(_ text: String) {
         content.text = text
+        content.accessibilityValue = text
         app.session.content(app.project, list: column, card: index, content: text)
+        update()
     }
     
     private func update(_ active: Bool) {
-        base.layer.borderWidth = content.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 1 : 0
         base.backgroundColor = active ? UIColor(named: "haze")! : .clear
-        content.textColor = active ? .black : .white
-        content.alpha = active ? 1 : 0.8
+        content.textColor = active ? .black : .init(white: 1, alpha: 0.8)
+    }
+    
+    private func update() {
+        self.empty?.removeFromSuperview()
+        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let empty = Image("empty")
+            insertSubview(empty, at: 0)
+            self.empty = empty
+            
+            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
+            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        }
     }
     
     private func move(_ destination: Int, position: Int) {

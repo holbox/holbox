@@ -18,7 +18,7 @@ final class Capsule: UIView {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
         base.backgroundColor = background
-        base.layer.cornerRadius = 16
+        base.layer.cornerRadius = 15
         addSubview(base)
         
         let label = Label(title, 14, .bold, text)
@@ -28,7 +28,7 @@ final class Capsule: UIView {
         heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 30).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         

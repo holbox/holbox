@@ -58,11 +58,9 @@ final class Kanban: Base.View {
         scroll.add(border)
         self.border = border
         
-        let name = Label(app.session.name(app.project), 30, .bold, .white)
+        let name = Label("", 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
         name.accessibilityLabel = .key("Kanban.project")
-        name.accessibilityValue = app.session.name(app.project)
         name.numberOfLines = 1
-        name.alpha = 0.2
         addSubview(name)
         self.name = name
         
@@ -81,17 +79,17 @@ final class Kanban: Base.View {
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.content.safeAreaLayoutGuide.rightAnchor.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 20).isActive = true
-        scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
+        scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: border.bottomAnchor, constant: 20).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.top, constant: 165).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.rightAnchor).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 200).isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
         name.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         
         refresh()
@@ -99,6 +97,8 @@ final class Kanban: Base.View {
     
     override func refresh() {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+        name.text = app.session.name(app.project)
+        name.accessibilityValue = app.session.name(app.project)
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in
             let column = Column(list)
@@ -112,35 +112,28 @@ final class Kanban: Base.View {
                 if top == nil {
                     card.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 } else {
-                    card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10).isActive = true
+                    card.topAnchor.constraint(equalTo: top!.bottomAnchor).isActive = true
                 }
                 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 60).isActive = true
-                column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor, constant: 10).isActive = true
-                card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 10).isActive = true
+                scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
+                column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
+                card.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
                 top = card
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
-            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 140).isActive = true
+            scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 60).isActive = true
             left = column.rightAnchor
         }
         
         if left != nil {
-            let space = UIView()
-            space.isUserInteractionEnabled = false
-            space.translatesAutoresizingMaskIntoConstraints = false
-            scroll.content.insertSubview(space, at: 0)
-            
-            space.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
-            space.leftAnchor.constraint(equalTo: left!).isActive = true
-            scroll.right.constraint(greaterThanOrEqualTo: space.rightAnchor).isActive = true
+            scroll.content.safeAreaLayoutGuide.rightAnchor.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
         }
     }
     

@@ -42,7 +42,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.intro = true
         content.standby = .init(white: 1, alpha: 0.8)
         content.textContainer!.size.width = 300
-        content.textContainer!.size.height = 5000
+        content.textContainer!.size.height = 6000
         addSubview(content)
         self.content = content
 

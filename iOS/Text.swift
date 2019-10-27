@@ -6,7 +6,7 @@ final class Text: UITextView {
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
-        textContainerInset = .init(top: 40, left: 22, bottom: 20, right: 22)
+        textContainerInset = .init(top: 40, left: 30, bottom: 30, right: 30)
         isAccessibilityElement = true
         translatesAutoresizingMaskIntoConstraints = false
         indicatorStyle = .black
@@ -14,7 +14,7 @@ final class Text: UITextView {
         backgroundColor = .clear
         bounces = false
         tintColor = UIColor(named: "haze")!
-        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .medium)
+        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 25), weight: .medium)
         keyboardType = .alphabet
         keyboardAppearance = .dark
         keyboardDismissMode = .interactive
