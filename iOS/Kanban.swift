@@ -78,18 +78,18 @@ final class Kanban: Base.View {
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        scroll.content.safeAreaLayoutGuide.rightAnchor.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 20).isActive = true
-        scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: border.bottomAnchor, constant: 20).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: border.bottomAnchor, constant: 20).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.rightAnchor).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 200).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.top, constant: 200).isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
         name.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         
         refresh()
@@ -115,25 +115,25 @@ final class Kanban: Base.View {
                     card.topAnchor.constraint(equalTo: top!.bottomAnchor).isActive = true
                 }
                 
-                scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
                 column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
                 card.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
                 top = card
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 140).isActive = true
-            scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 60).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 140).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 60).isActive = true
             left = column.rightAnchor
         }
         
         if left != nil {
-            scroll.content.safeAreaLayoutGuide.rightAnchor.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
+            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
         }
     }
     

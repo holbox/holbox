@@ -124,7 +124,10 @@ final class Card: UIView {
         }
         
         @objc private func column(_ item: Item) {
-            scroll.views.compactMap { $0 as? Item }.forEach { $0.selected = $0 === item }
+            scroll.views.compactMap { $0 as? Item }.forEach {
+                $0.selected = $0 === item
+                $0.highlighted = false
+            }
             list = item.index
             limits()
             update()

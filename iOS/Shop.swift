@@ -129,10 +129,10 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        scroll.content.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 20).isActive = true
+        title.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
@@ -206,7 +206,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             }
             
             item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-            item.widthAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.widthAnchor, constant: -40).isActive = true
+            item.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
             top = item.bottomAnchor
         }
         if top != nil {

@@ -2,6 +2,7 @@ import UIKit
 
 final class Item: UIView {
     var selected = false { didSet { update() } }
+    var highlighted = false { didSet { update() } }
     let index: Int
     private weak var label: Label!
     private weak var target: AnyObject!
@@ -45,26 +46,26 @@ final class Item: UIView {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-        selected = true
+        highlighted = true
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        selected = false
+        highlighted = false
         super.touchesCancelled(touches, with: with)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        if bounds.contains(touches.first!.location(in: self)) {
+        if !selected && bounds.contains(touches.first!.location(in: self)) {
+            selected = true
             _ = target.perform(action, with: self)
-        } else {
-            selected = false
         }
+        highlighted = false
         super.touchesEnded(touches, with: with)
     }
     
     private func update() {
-        base.backgroundColor = selected ? UIColor(named: "haze")! : .clear
-        label.textColor = selected ? .black : color
+        base.backgroundColor = selected || highlighted ? UIColor(named: "haze")! : .clear
+        label.textColor = selected || highlighted ? .black : color
     }
 }
