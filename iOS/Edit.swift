@@ -11,7 +11,6 @@ class Edit: Modal, UITextViewDelegate {
         super.viewDidLoad()
         
         let text = Text()
-        text.font = .monospacedSystemFont(ofSize: 20, weight: .regular)
         text.delegate = self
         view.addSubview(text)
         self.text = text

@@ -5,7 +5,7 @@ final class Check: UIView {
     private weak var target: AnyObject!
     private weak var icon: Image!
     private weak var label: Label!
-    private weak var base: UIView!
+    private weak var circle: UIView!
     private let action: Selector
     override var accessibilityValue: String? { get { .init(on) } set { } }
     
@@ -19,14 +19,14 @@ final class Check: UIView {
         accessibilityTraits = .adjustable
         accessibilityLabel = text
         
-        let base = UIView()
-        base.isUserInteractionEnabled = false
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.layer.cornerRadius = 4
-        addSubview(base)
-        self.base = base
+        let circle = UIView()
+        circle.isUserInteractionEnabled = false
+        circle.translatesAutoresizingMaskIntoConstraints = false
+        circle.layer.cornerRadius = 15
+        addSubview(circle)
+        self.circle = circle
         
-        let label = Label(text, 14, .medium, .black)
+        let label = Label(text, 14, .medium, .init(white: 1, alpha: 0.9))
         label.isAccessibilityElement = false
         addSubview(label)
         self.label = label
@@ -36,22 +36,32 @@ final class Check: UIView {
         self.icon = icon
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
+        widthAnchor.constraint(equalToConstant: 180).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        circle.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        icon.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        icon.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
+        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
+        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: icon.leftAnchor, constant: -10).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         
         update()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
+        alpha = 0.4
+        super.touchesBegan(touches, with: with)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
+        alpha = 1
+        super.touchesCancelled(touches, with: with)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -59,12 +69,12 @@ final class Check: UIView {
             on.toggle()
             _ = target.perform(action, with: self)
         }
+        alpha = 1
         super.touchesEnded(touches, with: with)
     }
     
     private func update() {
         icon.isHidden = !on
-        label.textColor = on ? .black : .init(white: 1, alpha: 0.6)
-        base.backgroundColor = on ? UIColor(named: "haze")! : .init(white: 1, alpha: 0.05)
+        circle.backgroundColor = on ? UIColor(named: "haze")! : .init(white: 0, alpha: 0.3)
     }
 }

@@ -158,4 +158,18 @@ final class TestProject: XCTestCase {
         session.move(0, list: 0, card: 1, destination: 0, index: 1)
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
+    
+    func testNameTrim() {
+        session.projects = [.init()]
+        session.projects[0].name = "abc"
+        session.name(0, name: "hello\nworld")
+        XCTAssertEqual("helloworld", session.projects[0].name)
+    }
+    
+    func testListNameTrim() {
+        session.projects = [.init()]
+        session.projects[0].cards = [("abc", [])]
+        session.name(0, list: 0, name: "hello\nworld")
+        XCTAssertEqual("helloworld", session.projects[0].cards[0].0)
+    }
 }

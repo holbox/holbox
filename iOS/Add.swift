@@ -40,14 +40,14 @@ final class Add: Modal {
             $0.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         }
         
-        scroll.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        scroll.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scroll.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
+        scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.content.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancel.bottomAnchor, constant: 10).isActive = true
+        scroll.bottom.constraint(equalTo: cancel.bottomAnchor, constant: 10).isActive = true
         
-        icon.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 70).isActive = true
+        icon.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 60).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 60).isActive = true
         icon.rightAnchor.constraint(equalTo: scroll.centerX, constant: -50).isActive = true

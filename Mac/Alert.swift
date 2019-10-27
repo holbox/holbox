@@ -2,25 +2,15 @@ import AppKit
 
 final class Alert: Window.Modal {
     init(_ title: String, message: String) {
-        super.init(500, 70)
-        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 250, y: NSScreen.main!.frame.maxY - 120))
+        super.init(400, 80)
+        contentView!.alphaValue = 0.7
+        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 200, y: NSScreen.main!.frame.maxY - 150))
         
-        let ribbon = NSView()
-        ribbon.translatesAutoresizingMaskIntoConstraints = false
-        ribbon.wantsLayer = true
-        ribbon.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
-        contentView!.addSubview(ribbon)
-        
-        let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .light, .init(white: 1, alpha: 0.8))])
+        let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .regular, .white)])
         contentView!.addSubview(label)
         
-        ribbon.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true
-        ribbon.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor).isActive = true
-        ribbon.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
-        ribbon.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        
         label.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 35).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -25).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -35).isActive = true
         label.centerYAnchor.constraint(equalTo: contentView!.centerYAnchor).isActive = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in self?.close() }

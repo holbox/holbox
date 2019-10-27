@@ -76,6 +76,7 @@ public final class Session {
     }
     
     public func name(_ project: Int, name: String) {
+        let name = name.replacingOccurrences(of: "\n", with: "")
         guard projects[project].name != name else { return }
         projects[project].name = name
         save(project)
@@ -87,6 +88,7 @@ public final class Session {
     }
     
     public func name(_ project: Int, list: Int, name: String) {
+        let name = name.replacingOccurrences(of: "\n", with: "")
         guard projects[project].cards[list].0 != name else { return }
         projects[project].cards[list].0 = name
         save(project)

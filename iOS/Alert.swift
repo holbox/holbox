@@ -5,16 +5,16 @@ final class Alert: UIView {
     init(_ title: String, message: String) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .black
+        backgroundColor = UIColor(named: "background")!
         layer.cornerRadius = 8
         layer.borderWidth = 1
-        layer.borderColor = UIColor(named: "haze")!.cgColor
+        layer.borderColor = UIColor.black.cgColor
         isAccessibilityElement = true
         accessibilityTraits = .staticText
         accessibilityViewIsModal = true
         accessibilityLabel = title + ": " + message
         
-        let label = Label([(title + "\n", 14, .bold, UIColor(named: "haze")!), (message, 14, .light, .white)])
+        let label = Label([(title + "\n", 14, .bold, .white), (message, 14, .light, .init(white: 1, alpha: 0.8))])
         label.isAccessibilityElement = false
         addSubview(label)
         

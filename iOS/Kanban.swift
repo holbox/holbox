@@ -27,7 +27,6 @@ final class Kanban: Base.View {
             app.session.name(app.project, name: text.text)
         }
         
-        
         @objc private func remove() {
             app.win.endEditing(true)
             let alert = UIAlertController(title: .key("Delete.title.\(app.mode.rawValue)"), message: app.session.name(app.project), preferredStyle: .actionSheet)
@@ -62,6 +61,7 @@ final class Kanban: Base.View {
         let name = Label(app.session.name(app.project), 30, .bold, .white)
         name.accessibilityLabel = .key("Kanban.project")
         name.accessibilityValue = app.session.name(app.project)
+        name.numberOfLines = 1
         name.alpha = 0.2
         addSubview(name)
         self.name = name
@@ -76,12 +76,12 @@ final class Kanban: Base.View {
             $0.centerYAnchor.constraint(equalTo: name.centerYAnchor).isActive = true
         }
 
-        scroll.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
-        scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 60).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
+        scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        scroll.content.safeAreaLayoutGuide.rightAnchor.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 20).isActive = true
+        scroll.content.safeAreaLayoutGuide.bottomAnchor.constraint(greaterThanOrEqualTo: name.bottomAnchor, constant: 60).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
@@ -92,6 +92,7 @@ final class Kanban: Base.View {
         
         name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
+        name.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         
         refresh()
     }
