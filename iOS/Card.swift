@@ -32,7 +32,7 @@ final class Card: UIView {
             
             var top: NSLayoutYAxisAnchor?
             (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0) + ": \(app.session.cards(app.project, list: $0))", index: $0, .bold, self, #selector(column))
+                let item = Item(app.session.name(app.project, list: $0) + ": \(app.session.cards(app.project, list: $0))", index: $0, .bold, .white, self, #selector(column))
                 item.selected = card.column == $0
                 scroll.add(item)
                 

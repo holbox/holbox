@@ -20,20 +20,25 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
             
-            let label = Label([(.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .medium, .init(white: 1, alpha: 0.8)), (.key("Shop.descr.ios.\(product.productIdentifier.components(separatedBy: ".").last!)"), 16, .regular, .init(white: 1, alpha: 0.6))])
+            let title = Label([
+                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .init(white: 1, alpha: 0.9)),
+                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.9))])
+            addSubview(title)
+            
+            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, .init(white: 1, alpha: 0.6))
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale
-            let price = Label(shop.formatter.string(from: product.price) ?? "", 18, .bold, .white)
+            let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), 18, .medium, UIColor(named: "haze")!)
+            let purchased = Label(.key("Shop.purchased"), 16, .medium, UIColor(named: "haze")!)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), self, #selector(purchase), UIColor(named: "haze")!, .black)
             addSubview(control)
             
-            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 40).isActive = true
+            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 20).isActive = true
             
             border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -41,22 +46,27 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             
             image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
             image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            image.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            image.heightAnchor.constraint(equalToConstant: 80).isActive = true
+            image.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            image.heightAnchor.constraint(equalToConstant: 120).isActive = true
+            
+            title.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -10).isActive = true
+            title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
+            title.rightAnchor.constraint(lessThanOrEqualTo: label.rightAnchor).isActive = true
             
             label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
             label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
+            label.widthAnchor.constraint(lessThanOrEqualToConstant: 450).isActive = true
             
-            price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 40).isActive = true
-            price.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30).isActive = true
+            price.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
             
-            purchased.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            purchased.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
             purchased.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 5).isActive = true
             
             control.topAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
-            control.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            control.widthAnchor.constraint(equalToConstant: 110).isActive = true
+            control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
+            control.widthAnchor.constraint(equalToConstant: 130).isActive = true
             
             if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
                 control.isHidden = true
@@ -93,7 +103,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 30, .bold, .init(white: 1, alpha: 0.3))
+        let title = Label(.key("Shop.title"), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
         scroll.add(title)
         
         let logo = Logo()
@@ -105,12 +115,12 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.add(image)
         self.image = image
         
-        let message = Label("", 16, .light, .init(white: 1, alpha: 0.7))
+        let message = Label("", 16, .light, .init(white: 1, alpha: 0.8))
         message.isHidden = true
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, UIColor(named: "haze")!)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), UIColor(named: "background")!, .white)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
@@ -123,7 +133,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 20).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+        title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 80).isActive = true
@@ -139,10 +149,9 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
-        _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
         loading()
-        
         SKPaymentQueue.default().add(self)
 
         let request = SKProductsRequest(productIdentifiers: .init(map.values))

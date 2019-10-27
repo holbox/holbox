@@ -80,7 +80,7 @@ final class Detail: Base.View {
         image.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
+        title.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true
         title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 50).isActive = true
         
         border.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true

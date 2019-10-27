@@ -7,12 +7,14 @@ final class Item: UIView {
     private weak var target: AnyObject!
     private weak var base: UIView!
     private let action: Selector
+    private let color: UIColor
    
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, index: Int, _ font: UIFont.Weight, _ target: AnyObject, _ action: Selector) {
+    init(_ title: String, index: Int, _ font: UIFont.Weight, _ color: UIColor , _ target: AnyObject, _ action: Selector) {
         self.index = index
         self.action = action
         self.target = target
+        self.color = color
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
@@ -26,14 +28,14 @@ final class Item: UIView {
         addSubview(base)
         self.base = base
         
-        let label = Label(title, 16, font, .white)
+        let label = Label(title, 16, font, color)
         addSubview(label)
         self.label = label
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
@@ -63,6 +65,6 @@ final class Item: UIView {
     
     private func update() {
         base.backgroundColor = selected ? UIColor(named: "haze")! : .clear
-        label.textColor = selected ? .black : .white
+        label.textColor = selected ? .black : color
     }
 }

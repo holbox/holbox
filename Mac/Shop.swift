@@ -114,7 +114,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.add(image)
         self.image = image
         
-        let message = Label("", 16, .light, .init(white: 1, alpha: 0.7))
+        let message = Label("", 16, .light, .init(white: 1, alpha: 0.8))
         message.isHidden = true
         scroll.add(message)
         self.message = message

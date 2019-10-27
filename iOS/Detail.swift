@@ -18,8 +18,8 @@ final class Detail: Base.View {
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        _add.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 80).isActive = true
         _add.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         _add.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         
@@ -33,57 +33,57 @@ final class Detail: Base.View {
         image.contentMode = .scaleAspectFit
         scroll.add(image)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, .init(white: 1, alpha: 0.3))
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
         scroll.add(title)
         
         let border = Border()
         scroll.add(border)
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.4))
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.5))
             scroll.add(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
-            empty.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
+            empty.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 33).isActive = true
             
             scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
-                let item = Item(app.session.name($0), index: $0, .bold, self, #selector(project(_:)))
+                let item = Item(app.session.name($0), index: $0, .bold, UIColor(named: "haze")!, self, #selector(project(_:)))
                 scroll.add(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -80).isActive = true
+                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 13).isActive = true
+                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -26).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 } else {
                     let border = Border()
                     scroll.add(border)
                     
-                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -60).isActive = true
-                    border.topAnchor.constraint(equalTo: top!).isActive = true
+                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 33).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -33).isActive = true
+                    border.topAnchor.constraint(equalTo: top!, constant: 10).isActive = true
                     
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
                 }
                 
                 top = item.bottomAnchor
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
         
         image.widthAnchor.constraint(equalToConstant: 120).isActive = true
         image.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        image.topAnchor.constraint(equalTo: scroll.top, constant: 80).isActive = true
+        image.topAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
+        title.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true
         title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 50).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.rightAnchor, constant: -60).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.leftAnchor, constant: 33).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.content.safeAreaLayoutGuide.rightAnchor, constant: -33).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
     }
     
