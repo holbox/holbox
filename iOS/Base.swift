@@ -1,6 +1,17 @@
 import UIKit
 
 final class Base: UIView {
+    class View: UIView {
+        required init?(coder: NSCoder) { nil }
+        init() {
+            super.init(frame: .zero)
+            translatesAutoresizingMaskIntoConstraints = false
+            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        
+        func refresh() { }
+    }
+    
     private weak var top: NSLayoutConstraint?
     
     required init?(coder: NSCoder) { nil }
@@ -10,8 +21,7 @@ final class Base: UIView {
         clipsToBounds = true
     }
     
-    func show(_ view: UIView) {
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    func show(_ view: View) {
         if let previous = subviews.last {
             view.backgroundColor = .black
             view.layer.cornerRadius = 20
@@ -24,7 +34,7 @@ final class Base: UIView {
             top.isActive = true
             let previousTop = self.top
             layoutIfNeeded()
-            backgroundColor = .background
+            backgroundColor = UIColor(named: "background")!
             previousTop?.constant = 220
             top.constant = 230
             
@@ -56,5 +66,9 @@ final class Base: UIView {
             
             UIView.animate(withDuration: 1) { [weak view] in view?.alpha = 1 }
         }
+    }
+    
+    func refresh() {
+        (subviews.first as? View)?.refresh()
     }
 }

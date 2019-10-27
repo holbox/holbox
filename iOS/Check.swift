@@ -65,6 +65,6 @@ final class Check: UIView {
     private func update() {
         icon.isHidden = !on
         label.textColor = on ? .black : .init(white: 1, alpha: 0.6)
-        base.backgroundColor = on ? .haze : .init(white: 1, alpha: 0.05)
+        base.backgroundColor = on ? UIColor(named: "haze")! : .init(white: 1, alpha: 0.05)
     }
 }

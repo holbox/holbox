@@ -13,7 +13,7 @@ final class Scroll: UIScrollView {
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        indicatorStyle = .black
+        indicatorStyle = .white
         keyboardDismissMode = .interactive
         clipsToBounds = true
         

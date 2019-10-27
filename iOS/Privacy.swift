@@ -13,7 +13,7 @@ final class Privacy: Modal {
         let label = Label(.key("Privacy.label"), 16, .regular, .white)
         scroll.add(label)
         
-        let done = Control(.key("Privacy.done"), self, #selector(close), .haze, .black)
+        let done = Control(.key("Privacy.done"), self, #selector(close), UIColor(named: "haze")!, .black)
         scroll.add(done)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true

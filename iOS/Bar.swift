@@ -43,12 +43,12 @@ final class Bar: UIView {
         
         topAnchor.constraint(equalTo: _kanban.topAnchor).isActive = true
         
-        _kanban.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
+        _kanban.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor).isActive = true
         _shop.leftAnchor.constraint(equalTo: _kanban.rightAnchor).isActive = true
         
-        _more.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        _more.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
         _more.widthAnchor.constraint(equalToConstant: 65).isActive = true
         _more.heightAnchor.constraint(equalToConstant: 65).isActive = true
         

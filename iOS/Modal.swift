@@ -3,7 +3,7 @@ import UIKit
 class Modal: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .background
+        view.backgroundColor = UIColor(named: "background")!
     }
     
     @objc final func close() {

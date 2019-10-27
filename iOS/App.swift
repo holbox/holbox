@@ -21,6 +21,10 @@ private(set) weak var app: App!
         return true
     }
     
+    func applicationDidBecomeActive(_: UIApplication) {
+        refresh()
+    }
+    
     func userNotificationCenter(_: UNUserNotificationCenter, willPresent: UNNotification, withCompletionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         withCompletionHandler([.alert])
         UNUserNotificationCenter.current().getDeliveredNotifications { UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: $0.map { $0.request.identifier
@@ -70,6 +74,17 @@ private(set) weak var app: App!
                     alert.topAnchor.constraint(equalTo: self.main.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
                     alert.leftAnchor.constraint(equalTo: self.main.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
                     alert.rightAnchor.constraint(equalTo: self.main.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+                }
+            }
+        }
+    }
+    
+    func refresh() {
+        if session?.refreshable == true {
+            win.endEditing(true)
+            DispatchQueue.main.async {
+                self.session?.refresh {
+                    self.main.base?.refresh()
                 }
             }
         }

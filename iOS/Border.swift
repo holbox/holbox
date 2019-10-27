@@ -6,7 +6,7 @@ final class Border: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = false
-        backgroundColor = .black
+        backgroundColor = UIColor(named: "background")!
         
         heightAnchor.constraint(equalToConstant: 1).isActive = true
     }

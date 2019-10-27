@@ -19,7 +19,7 @@ class Edit: Modal, UITextViewDelegate {
         let border = Border()
         view.addSubview(border)
         
-        let done = Capsule(.key("Card.done"), self, #selector(close), .haze, .black)
+        let done = Capsule(.key("Card.done"), self, #selector(close), UIColor(named: "haze")!, .black)
         view.addSubview(done)
         self.done = done
         

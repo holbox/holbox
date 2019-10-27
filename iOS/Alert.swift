@@ -8,13 +8,13 @@ final class Alert: UIView {
         backgroundColor = .black
         layer.cornerRadius = 8
         layer.borderWidth = 1
-        layer.borderColor = .haze
+        layer.borderColor = UIColor(named: "haze")!.cgColor
         isAccessibilityElement = true
         accessibilityTraits = .staticText
         accessibilityViewIsModal = true
         accessibilityLabel = title + ": " + message
         
-        let label = Label([(title + "\n", 14, .bold, .haze), (message, 14, .light, .white)])
+        let label = Label([(title + "\n", 14, .bold, UIColor(named: "haze")!), (message, 14, .light, .white)])
         label.isAccessibilityElement = false
         addSubview(label)
         

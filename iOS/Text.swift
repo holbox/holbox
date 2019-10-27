@@ -13,7 +13,7 @@ final class Text: UITextView {
         textColor = .white
         backgroundColor = .clear
         bounces = false
-        tintColor = .haze
+        tintColor = UIColor(named: "haze")!
         keyboardType = .alphabet
         keyboardAppearance = .dark
         keyboardDismissMode = .interactive

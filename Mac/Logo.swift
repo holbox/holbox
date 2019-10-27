@@ -29,7 +29,7 @@ final class Logo: NSView {
             }
             self.rays.sublayers!.enumerated().forEach {
                 if $0.0 < self.counter {
-                    ($0.1 as! CAShapeLayer).strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+                    ($0.1 as! CAShapeLayer).strokeColor = NSColor(named: "background")!.cgColor
                 } else {
                     ($0.1 as! CAShapeLayer).strokeColor = NSColor(named: "haze")!.cgColor
                 }
@@ -42,8 +42,8 @@ final class Logo: NSView {
         layer!.addSublayer(rays)
         self.rays = rays
         
-        widthAnchor.constraint(equalToConstant: 50).isActive = true
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        widthAnchor.constraint(equalToConstant: 60).isActive = true
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     override func draw(_ rect: NSRect) {

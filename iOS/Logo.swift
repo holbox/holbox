@@ -25,16 +25,16 @@ final class Logo: UIView {
             }
             self.rays.sublayers!.enumerated().forEach {
                 if $0.0 > self.counter {
-                    ($0.1 as! CAShapeLayer).strokeColor = UIColor.haze.withAlphaComponent(0.2).cgColor
+                    ($0.1 as! CAShapeLayer).strokeColor = UIColor(named: "background")!.cgColor
                 } else {
-                    ($0.1 as! CAShapeLayer).strokeColor = .haze
+                    ($0.1 as! CAShapeLayer).strokeColor = UIColor(named: "haze")!.cgColor
                 }
             }
         }
         
         let rays = CAShapeLayer()
-        rays.fillColor = .clear
-        rays.strokeColor = .haze
+        rays.fillColor = UIColor.clear.cgColor
+        rays.strokeColor = UIColor(named: "haze")!.cgColor
         layer.addSublayer(rays)
         self.rays = rays
         
@@ -63,7 +63,7 @@ final class Logo: UIView {
             } (CGMutablePath())
             prev += deg5 * 2
             ray.lineWidth = width
-            ray.fillColor = .clear
+            ray.fillColor = UIColor.clear.cgColor
             rays.addSublayer(ray)
         }
     }

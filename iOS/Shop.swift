@@ -2,7 +2,7 @@ import holbox
 import UIKit
 import StoreKit
 
-final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private final class Item: UIView {
         private weak var shop: Shop!
         private let product: SKProduct
@@ -27,10 +27,10 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
             let price = Label(shop.formatter.string(from: product.price) ?? "", 18, .bold, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), 18, .medium, .haze)
+            let purchased = Label(.key("Shop.purchased"), 18, .medium, UIColor(named: "haze")!)
             addSubview(purchased)
             
-            let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze, .black)
+            let control = Control(.key("Shop.purchase"), self, #selector(purchase), UIColor(named: "haze")!, .black)
             addSubview(control)
             
             bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 40).isActive = true
@@ -85,9 +85,8 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
     deinit { SKPaymentQueue.default().remove(self) }
     
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
+    override init() {
+        super.init()
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
@@ -111,7 +110,7 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, .haze)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .black, UIColor(named: "haze")!)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
@@ -177,7 +176,7 @@ final class Shop: UIView, SKRequestDelegate, SKProductsRequestDelegate, SKPaymen
         }
     }
     
-    private func refresh() {
+    override func refresh() {
         image.isHidden = true
         _restore.isHidden = false
         message.isHidden = true

@@ -50,7 +50,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
             top = item.bottomAnchor
         }
         
-        let done = Control(.key("More.done"), self, #selector(close), .haze, .black)
+        let done = Control(.key("More.done"), self, #selector(close), UIColor(named: "haze")!, .black)
         scroll.add(done)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true

@@ -52,7 +52,6 @@
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
 		DA90167E2361B67B00B8A933 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA90167D2361B67B00B8A933 /* Move.swift */; };
-		DAA463F22358640C00A5E990 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F12358640C00A5E990 /* Extensions.swift */; };
 		DAA463F423586E0400A5E990 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F323586E0400A5E990 /* Logo.swift */; };
 		DAA463F623586F3600A5E990 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F523586F3600A5E990 /* Main.swift */; };
 		DAA463FC2358868100A5E990 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463FB2358868100A5E990 /* Bar.swift */; };
@@ -263,7 +262,6 @@
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
 		DA90167D2361B67B00B8A933 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
-		DAA463F12358640C00A5E990 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DAA463F323586E0400A5E990 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DAA463F523586F3600A5E990 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DAA463FB2358868100A5E990 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
@@ -605,7 +603,6 @@
 				DAB979552359D63C00631280 /* Control.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
-				DAA463F12358640C00A5E990 /* Extensions.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DA4C6513235E00AD00B5F6EE /* Item.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
@@ -1129,7 +1126,6 @@
 				DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
-				DAA463F22358640C00A5E990 /* Extensions.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
 				DAA4640623589A4000A5E990 /* Kanban.swift in Sources */,

@@ -62,7 +62,7 @@ final class Item: UIView {
     }
     
     private func update() {
-        base.backgroundColor = selected ? .haze : .clear
+        base.backgroundColor = selected ? UIColor(named: "haze")! : .clear
         label.textColor = selected ? .black : .white
     }
 }

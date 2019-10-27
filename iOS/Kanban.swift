@@ -1,6 +1,6 @@
 import UIKit
 
-final class Kanban: UIView {
+final class Kanban: Base.View {
     private final class Detail: Edit {
         private weak var kanban: Kanban!
         
@@ -14,7 +14,7 @@ final class Kanban: UIView {
             super.viewDidLoad()
             text.text = app.session.name(app.project)
             
-            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), .black, .haze)
+            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), .black, UIColor(named: "haze")!)
             view.addSubview(_delete)
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
@@ -49,10 +49,8 @@ final class Kanban: UIView {
     private weak var border: Border!
     
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        
+    override init() {
+        super.init()
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
@@ -98,7 +96,7 @@ final class Kanban: UIView {
         refresh()
     }
     
-    func refresh() {
+    override func refresh() {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project)).forEach { list in

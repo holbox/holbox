@@ -55,6 +55,7 @@ final class Main: UIView {
     }
     
     @objc func kanban() {
+        app.refresh()
         app.mode = .kanban
         bar?._kanban.selected = true
         bar?._todo.selected = false
@@ -64,6 +65,7 @@ final class Main: UIView {
     }
     
     @objc func todo() {
+        app.refresh()
         app.mode = .todo
         bar?._kanban.selected = false
         bar?._todo.selected = true
@@ -73,6 +75,7 @@ final class Main: UIView {
     }
     
     @objc func shopping() {
+        app.refresh()
         app.mode = .shopping
         bar?._kanban.selected = false
         bar?._todo.selected = false

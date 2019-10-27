@@ -24,7 +24,7 @@ final class Card: UIView {
             view.addSubview(scroll)
             self.scroll = scroll
             
-            let done = Capsule(.key("Card.move.done"), self, #selector(close), .haze, .black)
+            let done = Capsule(.key("Card.move.done"), self, #selector(close), UIColor(named: "haze")!, .black)
             scroll.add(done)
             
             let _column = Label(.key("Card.move.column"), 24, .bold, .init(white: 1, alpha: 0.3))
@@ -66,7 +66,7 @@ final class Card: UIView {
             let stepper = UIStepper()
             stepper.translatesAutoresizingMaskIntoConstraints = false
             stepper.addTarget(self, action: #selector(changed), for: .valueChanged)
-            stepper.tintColor = .haze
+            stepper.tintColor = UIColor(named: "haze")!
             scroll.addSubview(stepper)
             self.stepper = stepper
             
@@ -146,10 +146,10 @@ final class Card: UIView {
             super.viewDidLoad()
             text.text = card.content.text!
             
-            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, .haze)
+            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), .black, UIColor(named: "haze")!)
             view.addSubview(_delete)
             
-            let _move = Capsule(.key("Card.move"), self, #selector(move), .black, .haze)
+            let _move = Capsule(.key("Card.move"), self, #selector(move), .black, UIColor(named: "haze")!)
             view.addSubview(_move)
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
@@ -208,7 +208,7 @@ final class Card: UIView {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
         base.layer.cornerRadius = 8
-        base.layer.borderColor = .black
+        base.layer.borderColor = UIColor.black.cgColor
         addSubview(base)
         self.base = base
         
@@ -269,7 +269,7 @@ final class Card: UIView {
     
     private func update(_ active: Bool) {
         base.layer.borderWidth = content.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 1 : 0
-        base.backgroundColor = active ? .haze : .clear
+        base.backgroundColor = active ? UIColor(named: "haze")! : .clear
         content.textColor = active ? .black : .white
         content.alpha = active ? 1 : 0.8
     }
