@@ -14,11 +14,11 @@ final class Kanban: Base.View {
             super.viewDidLoad()
             text.text = app.session.name(app.project)
             
-            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), .black, UIColor(named: "haze")!)
+            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
             _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
         }
         

@@ -64,7 +64,6 @@ Logo="Loading";
 Card="Card";
 Card.done="Done";
 Card.move="Move";
-Card.move.column="Column: cards";
 Card.move.position="Position";
 Card.move.title="Column";
 Card.delete="Delete";

@@ -2,7 +2,7 @@ import UIKit
 
 final class Card: UIView {
     private final class Move: Modal {
-        private weak var card: Card!
+        private weak var card: Card?
         private weak var scroll: Scroll!
         private weak var position: Label!
         private weak var stepper: UIStepper!
@@ -19,6 +19,7 @@ final class Card: UIView {
         
         override func viewDidLoad() {
             super.viewDidLoad()
+            guard let card = self.card else { return }
             
             let scroll = Scroll()
             view.addSubview(scroll)
@@ -27,39 +28,39 @@ final class Card: UIView {
             let done = Capsule(.key("Card.move.done"), self, #selector(close), UIColor(named: "haze")!, .black)
             scroll.add(done)
             
-            let _column = Label(.key("Card.move.column"), 24, .bold, .init(white: 1, alpha: 0.3))
+            let _column = Label(.key("Card.move.title"), 22, .bold, .init(white: 1, alpha: 0.2))
             scroll.add(_column)
             
             var top: NSLayoutYAxisAnchor?
             (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0) + ": \(app.session.cards(app.project, list: $0))", index: $0, .bold, .white, self, #selector(column))
+                let item = Item(app.session.name(app.project, list: $0), index: $0, .medium, .init(white: 1, alpha: 0.6), self, #selector(column))
                 item.selected = card.column == $0
                 scroll.add(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 40).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -80).isActive = true
+                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
+                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -60).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 10).isActive = true
+                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 20).isActive = true
                 } else {
                     let border = Border()
-                    border.alpha = 0.2
+                    border.backgroundColor = .black
                     scroll.add(border)
                     
-                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 60).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -60).isActive = true
-                    border.topAnchor.constraint(equalTo: top!).isActive = true
+                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
+                    border.topAnchor.constraint(equalTo: top!, constant: 5).isActive = true
                     
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
                 }
                 
                 top = item.bottomAnchor
             }
             
-            let _position = Label(.key("Card.move.position"), 24, .bold, .init(white: 1, alpha: 0.3))
+            let _position = Label(.key("Card.move.position"), 22, .bold, .init(white: 1, alpha: 0.2))
             scroll.add(_position)
             
-            let position = Label("", 25, .bold, .white)
+            let position = Label("", 30, .bold, .white)
             scroll.addSubview(position)
             self.position = position
             
@@ -70,27 +71,27 @@ final class Card: UIView {
             scroll.addSubview(stepper)
             self.stepper = stepper
             
-            scroll.bottom.constraint(greaterThanOrEqualTo: _position.bottomAnchor, constant: 60).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: done.bottomAnchor, constant: 20).isActive = true
             scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
             scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1).isActive = true
             scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
             scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
             
-            done.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
-            done.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
-            done.widthAnchor.constraint(equalToConstant: 70).isActive = true
+            done.centerXAnchor.constraint(equalTo: scroll.centerXAnchor).isActive = true
+            done.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            done.topAnchor.constraint(equalTo: _position.bottomAnchor, constant: 50).isActive = true
             
-            _column.topAnchor.constraint(equalTo: done.bottomAnchor, constant: 20).isActive = true
-            _column.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
+            _column.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+            _column.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
             
-            _position.topAnchor.constraint(equalTo: top!, constant: 50).isActive = true
-            _position.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
+            _position.topAnchor.constraint(equalTo: top!, constant: 56).isActive = true
+            _position.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
             
             position.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
             position.rightAnchor.constraint(equalTo: stepper.leftAnchor, constant: -20).isActive = true
             
             stepper.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
-            stepper.rightAnchor.constraint(equalTo: scroll.right, constant: -60).isActive = true
+            stepper.rightAnchor.constraint(equalTo: scroll.right, constant: -33).isActive = true
             
             limits()
             update()
@@ -98,6 +99,7 @@ final class Card: UIView {
         
         override func viewDidDisappear(_ animated: Bool) {
             super.viewDidDisappear(animated)
+            guard let card = self.card else { return }
             let index = self.index
             let list = self.list
             if index != card.index || list != card.column {
@@ -112,6 +114,7 @@ final class Card: UIView {
         }
         
         private func limits() {
+            guard let card = self.card else { return }
             let max = app.session.cards(app.project, list: list) - (list == card.column ? 1 : 0)
             stepper.maximumValue = .init(max)
             if index >= max {
@@ -134,7 +137,7 @@ final class Card: UIView {
     }
     
     private final class Detail: Edit {
-        private weak var card: Card!
+        private weak var card: Card?
         
         required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
@@ -144,6 +147,7 @@ final class Card: UIView {
         
         override func viewDidLoad() {
             super.viewDidLoad()
+            guard let card = self.card else { return }
             text.text = card.content.text!
             
             let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
@@ -163,15 +167,16 @@ final class Card: UIView {
         
         override func viewDidDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
-            card.update(false)
+            card?.update(false)
         }
         
         override func textViewDidEndEditing(_: UITextView) {
-            card.update(text.text)
+            card?.update(text.text)
         }
         
         @objc private func move() {
             app.win.endEditing(true)
+            guard let card = self.card else { return }
             present(Move(card), animated: true)
         }
         
@@ -180,7 +185,7 @@ final class Card: UIView {
             let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
             alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
                 self?.presentingViewController!.dismiss(animated: true) { [weak self] in
-                    self?.card.delete()
+                    self?.card?.delete()
                 }
             })
             alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))

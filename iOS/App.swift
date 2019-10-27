@@ -82,6 +82,7 @@ private(set) weak var app: App!
     func refresh() {
         if session?.refreshable == true {
             win.endEditing(true)
+            dismiss(animated: false)
             DispatchQueue.main.async {
                 self.session?.refresh {
                     self.main.base?.refresh()
