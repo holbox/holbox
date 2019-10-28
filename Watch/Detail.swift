@@ -18,7 +18,7 @@ struct Detail: View {
                 }.listRowBackground(Color.clear)
             } else {
                 Section(header:
-                    VStack(spacing: 10) {
+                    VStack(spacing: 20) {
                         HStack {
                             Spacer()
                             Image("detail.\(self.global.mode.rawValue)")
@@ -30,6 +30,10 @@ struct Detail: View {
                         HStack {
                             Text(.init("Detail.title.\(self.global.mode.rawValue)"))
                                 .font(Font.headline.bold())
+                                .foregroundColor(Color("haze")
+                                    .opacity(0.6))
+                            Spacer()
+                            Spacer()
                             Spacer()
                             Button(action: {
                                 self.creating.toggle()

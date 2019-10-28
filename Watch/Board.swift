@@ -32,7 +32,9 @@ struct Board: View {
                 ForEach(0 ..< global.session.lists(global.project!), id: \.self) { list in
                     Section(header:
                         Text(self.global.session.name(self.global.project!, list: list))
-                            .font(Font.headline.bold())) {
+                            .font(Font.headline.bold())
+                            .foregroundColor(Color("haze")
+                                .opacity(0.6))) {
                             ForEach(0 ..< self.global.session.cards(self.global.project!, list: list), id: \.self) { card in
                                 NavigationLink(destination: Card(global: self.global, content: self.global.session.content(self.global.project!, list: list, card: card), list: list, card: card), tag: card, selection: self.$global.card) {
                                     if self.global.session.content(self.global.project!, list: list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -40,7 +42,8 @@ struct Board: View {
                                     } else {
                                         Text(self.global.session.content(self.global.project!, list: list, card: card))
                                             .fixedSize(horizontal: false, vertical: true)
-                                            .lineLimit(10)
+                                            .lineLimit(15)
+                                            .padding(.vertical, 8)
                                     }
                                 }.listRowBackground(Color.clear)
                             }.onDelete {
