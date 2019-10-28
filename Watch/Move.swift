@@ -2,37 +2,41 @@ import SwiftUI
 
 struct Move: View {
     @ObservedObject var global: Global
-    @State var list: Int
-    @State var card: Int
-    var current: Int
-    var update: (Int, Int) -> Void
+    @ObservedObject var position: Position
+    let current: Int
     
     var body: some View {
-        List {
-            Section(header:
-                Text(.init("Card.move.title"))
-                    .font(Font.headline.bold())
-                    .foregroundColor(Color("haze")
-                        .opacity(0.6))) {
-                ForEach(0 ..< global.session.lists(global.project!), id: \.self) { index in
-                    HStack {
-                        if index == self.list {
-                            Text(self.global.session.name(self.global.project!, list: index))
-                            Image(systemName: "checkmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color("haze"))
-                                .frame(width: 20, height: 20)
-                        }
-                        else {
-                            Button(self.global.session.name(self.global.project!, list: index)) {
-                                self.card = 0
-                                self.list = index
-                            }.background(Color.clear)
-                                .accentColor(.clear)
-                        }
-                    }.listRowBackground(Color.clear)
-                }
-            }
+        Circle()
+//        List {
+//            Button(action: {
+//
+//            }) { () -> PrimitiveButtonStyleConfiguration.Label in
+//
+//            }
+//            Section(header:
+//                Text(.init("Card.move.title"))
+//                    .font(Font.headline.bold())
+//                    .foregroundColor(Color("haze")
+//                        .opacity(0.6))) {
+//                ForEach(0 ..< global.session.lists(global.project!), id: \.self) { index in
+//                    HStack {
+//                        if index == self.position.column {
+//                            Text(self.global.session.name(self.global.project!, list: index))
+//                            Image(systemName: "checkmark.circle.fill")
+//                                .resizable()
+//                                .foregroundColor(Color("haze"))
+//                                .frame(width: 20, height: 20)
+//                        }
+//                        else {
+//                            Button(self.global.session.name(self.global.project!, list: index)) {
+//                                self.position.card = 0
+//                                self.position.column = index
+//                            }.background(Color.clear)
+//                                .accentColor(.clear)
+//                        }
+//                    }.listRowBackground(Color.clear)
+//                }
+//            }
 //            Section(header:
 //                Text(.init("Card.move.position"))
 //                    .font(Font.headline.bold())) {
@@ -57,11 +61,6 @@ struct Move: View {
 //                    }.listRowBackground(Color.clear)
 //                }
 //            }
-            Button(.init("Card.move.done")) {
-                self.update(self.list, self.card)
-            }.listRowBackground(Color("haze")
-                .cornerRadius(6))
-                .foregroundColor(.black)
-        }.navigationBarBackButtonHidden(true)
+//        }
     }
 }
