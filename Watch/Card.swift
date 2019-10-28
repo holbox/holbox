@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Card: View {
     @EnvironmentObject var global: Global
@@ -95,3 +95,4 @@ private struct Footer: View {
         }
     }
 }
+*/

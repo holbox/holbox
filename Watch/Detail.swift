@@ -1,15 +1,14 @@
-import holbox
 import SwiftUI
 
 struct Detail: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     
     var body: some View {
         List {
-            if global.session == nil {
+            if session.loading {
                 Logo()
             } else {
-                Projects(items: global.session.projects(global.mode))
+                Projects()
             }
         }
     }
@@ -30,18 +29,14 @@ private struct Logo: View {
 }
 
 private struct Projects: View {
-    @EnvironmentObject var global: Global
-    @State var items: [Int]
+    @EnvironmentObject var session: Session
     
     var body: some View {
-        Section(header: Header(items: $items)) {
-            ForEach(items, id: \.self) {
-                Project(name: self.global.session.name($0), index: $0)
-            }.onDelete {
-                self.global.session.delete(self.global.session.projects(self.global.mode)[$0.first!])
-                self.items = self.global.session.projects(self.global.mode)
-            }
-            if items.isEmpty {
+        Section(header: Header()) {
+            ForEach(session.projects, id: \.self) {
+                Project(index: $0)
+            }.onDelete(perform: session.delete)
+            if session.projects.isEmpty {
                 Spacer()
                     .listRowBackground(Color.clear)
             }
@@ -50,21 +45,19 @@ private struct Projects: View {
 }
 
 private struct Project: View {
-    @EnvironmentObject var global: Global
-    @State var name: String
+    @EnvironmentObject var session: Session
     let index: Int
     
     var body: some View {
-        NavigationLink(name, destination:
-            Board(name: $name, project: index)
-                .environmentObject(global))
+        NavigationLink(session.name(index), destination:
+            Board(project: index)
+                .environmentObject(session))
             .listRowBackground(Color.clear)
     }
 }
 
 private struct Header: View {
-    @EnvironmentObject var global: Global
-    @Binding var items: [Int]
+    @EnvironmentObject var session: Session
     @State private var creating = false
     
     var body: some View {
@@ -74,23 +67,19 @@ private struct Header: View {
         }.sheet(isPresented: $creating) {
             Add {
                 self.creating.toggle()
-                self.global.session.add(self.global.mode)
-                var items = self.global.session.projects(self.global.mode)
-                items.removeAll { $0 == 0 }
-                items.insert(0, at: 0)
-                self.items = items
-            }.environmentObject(self.global)
+                self.session.add()
+            }.environmentObject(self.session)
         }
     }
 }
 
 private struct Icon: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     
     var body: some View {
         HStack {
             Spacer()
-            Image("detail.\(global.mode.rawValue)")
+            Image("detail.\(session.mode.rawValue)")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 80, height: 80)
@@ -100,12 +89,12 @@ private struct Icon: View {
 }
 
 private struct New: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     @Binding var creating: Bool
 
     var body: some View {
         HStack {
-            Text(.init("Detail.title.\(global.mode.rawValue)"))
+            Text(.init("Detail.title.\(session.mode.rawValue)"))
                 .font(Font.headline.bold())
                 .foregroundColor(Color("haze")
                     .opacity(0.6))

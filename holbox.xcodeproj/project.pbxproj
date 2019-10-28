@@ -97,7 +97,7 @@
 		DAD319CF2362EA0E00A1011C /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319CE2362EA0E00A1011C /* More.swift */; };
 		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
-		DAD3681723619C8D00643C9C /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Global.swift */; };
+		DAD3681723619C8D00643C9C /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Session.swift */; };
 		DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5E6ED2364336200EE4AD9 /* Tool.swift */; };
 		DAD8F193234DBAB900835E3E /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F192234DBAB900835E3E /* Menu.swift */; };
 		DAD8F195234DBAC600835E3E /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F194234DBAC600835E3E /* Alert.swift */; };
@@ -299,7 +299,7 @@
 		DAD319CE2362EA0E00A1011C /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		DAD3681623619C8D00643C9C /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		DAD3681623619C8D00643C9C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		DAD5E6ED2364336200EE4AD9 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		DAD8F192234DBAB900835E3E /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DAD8F194234DBAC600835E3E /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -637,11 +637,11 @@
 				DAD368142361966A00643C9C /* Card.swift */,
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
-				DAD3681623619C8D00643C9C /* Global.swift */,
-				DAF2A9222366EAD7006CB641 /* Position.swift */,
 				DA21BDE623607AD0000A46AA /* Main.swift */,
 				DAD319CE2362EA0E00A1011C /* More.swift */,
 				DA90167D2361B67B00B8A933 /* Move.swift */,
+				DAF2A9222366EAD7006CB641 /* Position.swift */,
+				DAD3681623619C8D00643C9C /* Session.swift */,
 			);
 			path = Watch;
 			sourceTree = "<group>";
@@ -1153,7 +1153,7 @@
 				DA21BDE723607AD0000A46AA /* Main.swift in Sources */,
 				DAF68EA4234766300060895A /* App.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
-				DAD3681723619C8D00643C9C /* Global.swift in Sources */,
+				DAD3681723619C8D00643C9C /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

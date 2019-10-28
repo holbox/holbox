@@ -1,10 +1,9 @@
-import holbox
 import WatchKit
 
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
     var awoke = false
-    let global = Global()
+    let session = Session()
     
     override init() {
         super.init()
@@ -13,11 +12,7 @@ final class App: NSObject, WKExtensionDelegate {
     
     func applicationDidBecomeActive() {
         print("awoke")
-        if global.session == nil {
-            Session.load {
-                self.global.session = $0
-            }
-        }
+        session.load()
     }
     
     func applicationDidEnterBackground() {
@@ -27,13 +22,7 @@ final class App: NSObject, WKExtensionDelegate {
     func refresh() {
         if awoke {
             awoke = false
-            if let session = global.session {
-                if session.refreshable {
-                    session.refresh {
-                        self.global.session = session
-                    }
-                }
-            }
+            session.refresh()
         }
     }
 }

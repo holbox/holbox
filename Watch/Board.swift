@@ -1,29 +1,29 @@
 import SwiftUI
 
 struct Board: View {
-    @EnvironmentObject var global: Global
-    @Binding var name: String
+    @EnvironmentObject var session: Session
     @State var columns = 0
     @State var selected: Int?
     let project: Int
     
     var body: some View {
-        List {
-            Header(columns: $columns, selected: $selected, name: $name, project: project)
-            ForEach(0 ..< columns, id: \.self) {
-                Column(selected: self.$selected, index: $0, project: self.project)
-            }
-        }.onAppear {
-            self.columns = self.global.session.lists(self.project)
-        }
+        Circle()
+//        List {
+//            Header(columns: $columns, selected: $selected, name: global.session.name(project), project: project)
+//            ForEach(0 ..< columns, id: \.self) {
+//                Column(selected: self.$selected, index: $0, project: self.project)
+//            }
+//        }.onAppear {
+//            self.columns = self.global.session.lists(self.project)
+//        }
     }
 }
-
+/*
 private struct Header: View {
     @EnvironmentObject var global: Global
     @Binding var columns: Int
     @Binding var selected: Int?
-    @Binding var name: String
+    @State var name: String
     let project: Int
     
     var body: some View {
@@ -110,3 +110,4 @@ private struct Item: View {
                                         }.listRowBackground(Color.clear)
     }
 }
+*/

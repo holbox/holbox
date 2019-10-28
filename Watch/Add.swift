@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Add: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     var add: () -> Void
     
     var body: some View {
@@ -9,7 +9,7 @@ struct Add: View {
             VStack(spacing: 10) {
                 Header()
                 Available()
-                if true || global.session.available > 0 {
+                if true || session.available > 0 {
                     Create(add: add)
                 } else {
                     Text(.init("Add.other"))
@@ -36,15 +36,15 @@ private struct Header: View {
 }
 
 private struct Available: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     
     var body: some View {
         VStack {
-            Text(.init("Add.title.\(global.mode.rawValue)"))
+            Text(.init("Add.title.\(session.mode.rawValue)"))
                 .font(.headline)
             Text(.init("Add.subtitle.other"))
                 .opacity(0.4)
-            Text("\(global.session.available)")
+            Text("\(session.available)")
                 .font(.largeTitle)
                 .foregroundColor(Color("haze"))
         }
@@ -52,14 +52,14 @@ private struct Available: View {
 }
 
 private struct Create: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
     var add: () -> Void
     
     var body: some View {
         HStack {
             Spacer()
             Button(action: add) {
-                Text(.init("Add.title.\(self.global.mode.rawValue)"))
+                Text(.init("Add.title.\(self.session.mode.rawValue)"))
                     .foregroundColor(.black)
                     .fontWeight(.bold)
             }.background(Color("haze")
