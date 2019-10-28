@@ -33,8 +33,6 @@ struct Detail: View {
                                 .foregroundColor(Color("haze")
                                     .opacity(0.6))
                             Spacer()
-                            Spacer()
-                            Spacer()
                             Button(action: {
                                 self.creating.toggle()
                             }) { Image("plus") }
@@ -53,8 +51,7 @@ struct Detail: View {
                     }
                 }
             }
-        }
-        .sheet(isPresented: $creating) {
+        }.sheet(isPresented: $creating) {
             Add(global: self.global) {
                 self.creating.toggle()
                 self.global.session.add(self.global.mode)

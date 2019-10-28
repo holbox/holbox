@@ -14,23 +14,30 @@ struct Add: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
+                        .padding(.top, 10)
                     
                     Spacer()
                 }
                 Text(.init("Add.title.\(global.mode.rawValue)"))
                     .font(.headline)
                 Text(.init("Add.subtitle.other"))
+                    .opacity(0.4)
                 Text("\(global.session.available)")
                     .font(.largeTitle)
+                    .foregroundColor(Color("haze"))
                 if global.session.available > 0 {
-                    Button(action: add) {
-                        Text(.init("Add.title.\(self.global.mode.rawValue)"))
-                            .foregroundColor(.black)
-                            .fontWeight(.bold)
+                    HStack {
+                        Spacer()
+                        Button(action: add) {
+                            Text(.init("Add.title.\(self.global.mode.rawValue)"))
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                        }.background(Color("haze")
+                            .cornerRadius(6))
+                            .accentColor(.clear)
+                            .frame(minWidth: 120)
+                        Spacer()
                     }
-                    .background(Color("haze"))
-                    .cornerRadius(6, antialiased: true)
-                    .padding(.horizontal, 20)
                 } else {
                     Text(.init("Add.other"))
                         .fixedSize(horizontal: false, vertical: true)
