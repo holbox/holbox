@@ -121,7 +121,6 @@
 		DAF09642235B27EB00BCC800 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09641235B27EB00BCC800 /* Base.swift */; };
 		DAF09644235B280E00BCC800 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09643235B280E00BCC800 /* Base.swift */; };
 		DAF125D4236323AC0037B78D /* holbox.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DAF68EAD234766DF0060895A /* holbox.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DAF2A9232366EAD7006CB641 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2A9222366EAD7006CB641 /* Position.swift */; };
 		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -319,7 +318,6 @@
 		DAF0963E235B077C00BCC800 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		DAF09641235B27EB00BCC800 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		DAF09643235B280E00BCC800 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
-		DAF2A9222366EAD7006CB641 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		DAF68E5E234764200060895A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DAF68E5F234764200060895A /* Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mac.entitlements; sourceTree = "<group>"; };
 		DAF68E60234764210060895A /* MacToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacToday.entitlements; sourceTree = "<group>"; };
@@ -640,7 +638,6 @@
 				DA21BDE623607AD0000A46AA /* Main.swift */,
 				DAD319CE2362EA0E00A1011C /* More.swift */,
 				DA90167D2361B67B00B8A933 /* Move.swift */,
-				DAF2A9222366EAD7006CB641 /* Position.swift */,
 				DAD3681623619C8D00643C9C /* Session.swift */,
 			);
 			path = Watch;
@@ -1144,7 +1141,6 @@
 			files = (
 				DA90167E2361B67B00B8A933 /* Move.swift in Sources */,
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
-				DAF2A9232366EAD7006CB641 /* Position.swift in Sources */,
 				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
 				DAD319CF2362EA0E00A1011C /* More.swift in Sources */,

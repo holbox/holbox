@@ -9,7 +9,7 @@ struct Add: View {
             VStack(spacing: 10) {
                 Header()
                 Available()
-                if true || session.available > 0 {
+                if session.available > 0 {
                     Create(add: add)
                 } else {
                     Text(.init("Add.other"))

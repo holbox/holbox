@@ -1,29 +1,16 @@
-/*import SwiftUI
+import SwiftUI
 
 struct Card: View {
-    @EnvironmentObject var global: Global
-    let position: Position
-    //content: self.global.session.content(self.global.project!, list: list, card: card)
+    @EnvironmentObject var session: Session
+    @Binding var column: Int
+    @Binding var card: Int
+    let project: Int
+    
     var body: some View {
         List {
             Section(header: Circle(), footer: Circle()) {
-                ForEach(0 ..< global.session.lists(global.project!), id: \.self) { index in
-                    HStack {
-                        if index == self.position.column {
-                            Text(self.global.session.name(self.global.project!, list: index))
-                            Image(systemName: "checkmark.circle.fill")
-                                .resizable()
-                                .foregroundColor(Color("haze"))
-                                .frame(width: 20, height: 20)
-                        }
-                        else {
-                            Button(self.global.session.name(self.global.project!, list: index)) {
-                                self.position.card = 0
-                                self.position.column = index
-                            }.background(Color.clear)
-                                .accentColor(.clear)
-                        }
-                    }.listRowBackground(Color.clear)
+                ForEach(0 ..< session.lists(project), id: \.self) {
+                    Column(column: self.$column, card: self.$card, index: $0, project: self.project)
                 }
             }
         }
@@ -31,8 +18,11 @@ struct Card: View {
 }
 
 private struct Header: View {
-    @EnvironmentObject var global: Global
+    @EnvironmentObject var session: Session
+    @Binding var column: Int
+    @Binding var card: Int
     @State var content: String
+    let project: Int
     
     var body: some View {
         VStack {
@@ -52,8 +42,13 @@ private struct Header: View {
     }
 }
 
+
 private struct Footer: View {
-    @ObservedObject var position: Position
+    @EnvironmentObject var session: Session
+    @Binding var column: Int
+    @Binding var card: Int
+    let index: Int
+    let project: Int
     
     var body: some View {
         VStack {
@@ -63,7 +58,7 @@ private struct Footer: View {
                     .foregroundColor(Color("haze")
                         .opacity(0.6))
                 Spacer()
-                Text("\(position.card)")
+                Text("\(card)")
                     .font(.title)
                     .foregroundColor(Color("haze"))
                 Text("1")
@@ -95,4 +90,34 @@ private struct Footer: View {
         }
     }
 }
-*/
+
+private struct Column: View {
+    @EnvironmentObject var session: Session
+    @Binding var column: Int
+    @Binding var card: Int
+    let index: Int
+    let project: Int
+    
+    var body: some View {
+        HStack {
+            if index == column {
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .foregroundColor(Color("haze"))
+                    .frame(width: 20, height: 20)
+                    .padding(.horizontal, 10)
+                Text(session.name(project, list: index))
+            }
+            else {
+                Button(session.name(project, list: index)) {
+                    let column = self.column
+                    let card = self.card
+                    self.card = 0
+                    self.column = self.index
+                    self.session.move(self.project, list: column, card: card, destination: self.column, index: self.card)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+            }
+        }.listRowBackground(Color.clear)
+    }
+}
