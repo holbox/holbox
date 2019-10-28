@@ -12,6 +12,7 @@ final class App: NSObject, WKExtensionDelegate {
     }
     
     func applicationDidBecomeActive() {
+        print("awoke")
         if global.session == nil {
             Session.load {
                 self.global.session = $0
@@ -28,7 +29,6 @@ final class App: NSObject, WKExtensionDelegate {
             awoke = false
             if let session = global.session {
                 if session.refreshable {
-                    global.session = nil
                     session.refresh {
                         self.global.session = session
                     }

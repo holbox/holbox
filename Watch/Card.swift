@@ -70,28 +70,28 @@ private struct Footer: View {
                     .font(.caption)
                     .foregroundColor(Color("haze"))
             }
-            HStack {
-                Spacer()
-                Button(action: {
-                    print("minus")
-                }) {
-                    Image(systemName: "minus.circle.fill")
-                        .resizable()
-                        .foregroundColor(Color("haze"))
-                        .frame(width: 40, height: 40)
-                }.buttonStyle(PlainButtonStyle())
-                Spacer()
-                Button(action: {
-                    print("plus")
-                }, label: {
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .renderingMode(.original)
-                        .foregroundColor(Color("haze"))
-                        .frame(width: 40, height: 40)
-                })
-                Spacer()
-            }
+//            HStack {
+//                Spacer()
+//                Button(action: {
+//                    print("minus")
+//                }) {
+//                    Image(systemName: "minus.circle.fill")
+//                        .resizable()
+//                        .foregroundColor(Color("haze"))
+//                        .frame(width: 40, height: 40)
+//                }.buttonStyle(PlainButtonStyle())
+//                Spacer()
+//                Button(action: {
+//                    print("plus")
+//                }, label: {
+//                    Image(systemName: "plus.circle.fill")
+//                        .resizable()
+//                        .renderingMode(.original)
+//                        .foregroundColor(Color("haze"))
+//                        .frame(width: 40, height: 40)
+//                })
+//                Spacer()
+//            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Move: View {
     @ObservedObject var global: Global
@@ -64,3 +64,4 @@ struct Move: View {
 //        }
     }
 }
+*/

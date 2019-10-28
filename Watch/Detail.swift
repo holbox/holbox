@@ -9,7 +9,7 @@ struct Detail: View {
             if global.session == nil {
                 Logo()
             } else {
-                Projects(items: global.session!.projects(global.mode))
+                Projects(items: global.session.projects(global.mode))
             }
         }
     }
@@ -32,15 +32,14 @@ private struct Logo: View {
 private struct Projects: View {
     @EnvironmentObject var global: Global
     @State var items: [Int]
-    @State private var selected: Int?
     
     var body: some View {
-        Section(header: Header(items: $items, selected: $selected)) {
+        Section(header: Header(items: $items)) {
             ForEach(items, id: \.self) {
-                Project(active: self.selected == $0, index: $0)
+                Project(name: self.global.session.name($0), index: $0)
             }.onDelete {
-                self.global.session.delete(self.global.session!.projects(self.global.mode)[$0.first!])
-                self.items = self.global.session!.projects(self.global.mode)
+                self.global.session.delete(self.global.session.projects(self.global.mode)[$0.first!])
+                self.items = self.global.session.projects(self.global.mode)
             }
             if items.isEmpty {
                 Spacer()
@@ -52,11 +51,13 @@ private struct Projects: View {
 
 private struct Project: View {
     @EnvironmentObject var global: Global
-    @State var active: Bool
+    @State var name: String
     let index: Int
     
     var body: some View {
-        NavigationLink(global.session!.name(index), destination: Board().environmentObject(global), isActive: $active)
+        NavigationLink(name, destination:
+            Board(name: $name, project: index)
+                .environmentObject(global))
             .listRowBackground(Color.clear)
     }
 }
@@ -64,22 +65,20 @@ private struct Project: View {
 private struct Header: View {
     @EnvironmentObject var global: Global
     @Binding var items: [Int]
-    @Binding var selected: Int?
     @State private var creating = false
     
     var body: some View {
         VStack(spacing: 20) {
-            Detail()
+            Icon()
             New(creating: $creating)
         }.sheet(isPresented: $creating) {
             Add {
                 self.creating.toggle()
                 self.global.session.add(self.global.mode)
-                var items = self.global.session!.projects(self.global.mode)
+                var items = self.global.session.projects(self.global.mode)
                 items.removeAll { $0 == 0 }
                 items.insert(0, at: 0)
                 self.items = items
-                self.selected = 0
             }.environmentObject(self.global)
         }
     }
@@ -111,6 +110,7 @@ private struct New: View {
                 .foregroundColor(Color("haze")
                     .opacity(0.6))
             Button(action: {
+                print("creating")
                 self.creating.toggle()
             }) {
                 Image("plus")
