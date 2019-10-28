@@ -2,7 +2,6 @@ import SwiftUI
 
 struct Add: View {
     @EnvironmentObject var session: Session
-    var add: () -> Void
     
     var body: some View {
         ScrollView {
@@ -10,12 +9,14 @@ struct Add: View {
                 Header()
                 Available()
                 if session.available > 0 {
-                    Create(add: add)
+                    Create()
                 } else {
                     Text(.init("Add.other"))
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(10)
+                        .opacity(0.6)
                 }
+                Cancel()
             }
         }
     }
@@ -53,17 +54,35 @@ private struct Available: View {
 
 private struct Create: View {
     @EnvironmentObject var session: Session
-    var add: () -> Void
     
     var body: some View {
         HStack {
             Spacer()
-            Button(action: add) {
+            Button(action: session.add) {
                 Text(.init("Add.title.\(self.session.mode.rawValue)"))
                     .foregroundColor(.black)
                     .fontWeight(.bold)
             }.background(Color("haze")
                 .cornerRadius(6))
+                .accentColor(.clear)
+                .frame(minWidth: 120)
+            Spacer()
+        }
+    }
+}
+
+private struct Cancel: View {
+    @EnvironmentObject var session: Session
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                self.session.creating = false
+            }) {
+                Text(.init("Add.cancel"))
+                    .foregroundColor(.white)
+            }.background(Color.clear)
                 .accentColor(.clear)
                 .frame(minWidth: 120)
             Spacer()

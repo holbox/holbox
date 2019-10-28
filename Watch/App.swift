@@ -11,7 +11,6 @@ final class App: NSObject, WKExtensionDelegate {
     }
     
     func applicationDidBecomeActive() {
-        print("awoke")
         session.load()
     }
     

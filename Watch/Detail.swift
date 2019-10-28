@@ -5,26 +5,8 @@ struct Detail: View {
     
     var body: some View {
         List {
-            if session.loading {
-                Logo()
-            } else {
-                Projects()
-            }
+            Projects()
         }
-    }
-}
-
-private struct Logo: View {
-    var body: some View {
-        HStack {
-            Spacer()
-            Image("logo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
-                .padding(.top, 30)
-            Spacer()
-        }.listRowBackground(Color.clear)
     }
 }
 
@@ -49,26 +31,17 @@ private struct Project: View {
     let index: Int
     
     var body: some View {
-        NavigationLink(session.name(index), destination:
-            Board(project: index)
-                .environmentObject(session))
-            .listRowBackground(Color.clear)
+        Button(session.name(index)) {
+            self.session.project = self.index
+        }.listRowBackground(Color.clear)
     }
 }
 
 private struct Header: View {
-    @EnvironmentObject var session: Session
-    @State private var creating = false
-    
     var body: some View {
         VStack(spacing: 20) {
             Icon()
-            New(creating: $creating)
-        }.sheet(isPresented: $creating) {
-            Add {
-                self.creating.toggle()
-                self.session.add()
-            }.environmentObject(self.session)
+            New()
         }
     }
 }
@@ -90,7 +63,6 @@ private struct Icon: View {
 
 private struct New: View {
     @EnvironmentObject var session: Session
-    @Binding var creating: Bool
 
     var body: some View {
         HStack {
@@ -99,8 +71,7 @@ private struct New: View {
                 .foregroundColor(Color("haze")
                     .opacity(0.6))
             Button(action: {
-                print("creating")
-                self.creating.toggle()
+                self.session.creating = true
             }) {
                 Image("plus")
             }.padding(.leading, 10)

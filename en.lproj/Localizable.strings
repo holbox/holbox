@@ -84,6 +84,7 @@ About.body="Dear holbox, \n\n\n";
 Privacy.title="Privacy";
 Privacy.label="\n\nWe do NOT track your activity in any way, not Analytics nor any other event nor behaviour metrics. Whatever you do with this app is up to you and we don't want to know about it.\n\nYour projects are codified, compressed and stored locally in your device, they are also sent to a private container in iCloud to be able to share them with your other devices, only you have access to them; if you prefer you can disable iCloud for this app in your device Settings > Apple ID > iCloud > holbox, you will still be able to create and modify your projects but you won't be able to share them among your devices.\n\nNotifications are only used to let you know of important messages or errors while you are using the app. We will NOT send you Push Notifications.\n\nIf you have any question please contact us.\n\nCheers,\nholbox team";
 Privacy.done="Continue";
+Back="Back";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";
