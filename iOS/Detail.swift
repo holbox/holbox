@@ -57,16 +57,16 @@ final class Detail: Base.View {
                 item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -26).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
                     let border = Border()
                     scroll.add(border)
                     
                     border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 33).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -33).isActive = true
-                    border.topAnchor.constraint(equalTo: top!, constant: 10).isActive = true
+                    border.topAnchor.constraint(equalTo: top!).isActive = true
                     
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 }
                 
                 top = item.bottomAnchor
