@@ -21,7 +21,7 @@ private struct Header: View {
     var body: some View {
         VStack {
             Back {
-                self.session.project = nil
+                self.session.send()
             }
             TextField(.init("Card"), text: $content) {
                 self.session.content(self.content)
