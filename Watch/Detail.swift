@@ -34,6 +34,8 @@ private struct Project: View {
         Button(session.name(index)) {
             self.session.project = self.index
         }.listRowBackground(Color.clear)
+            .font(.headline)
+            .foregroundColor(Color("haze"))
     }
 }
 
@@ -55,7 +57,7 @@ private struct Icon: View {
             Image("detail.\(session.mode.rawValue)")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
+                .frame(width: 70, height: 70)
             Spacer()
         }
     }
@@ -74,7 +76,12 @@ private struct New: View {
                 self.session.creating = true
             }) {
                 Image("plus")
+            }.padding(.horizontal, 10)
+            Button(action: {
+                self.session.more = true
+            }) {
+                Image("more")
             }.padding(.leading, 10)
-        }
+        }.padding(.bottom, 10)
     }
 }

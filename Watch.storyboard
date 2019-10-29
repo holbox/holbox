@@ -9,20 +9,9 @@
         <!--Main-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <hostingController id="3mp-fW-waa" customClass="Main" customModule="holboxWatchExtension">
-                    <connections>
-                        <segue destination="sFv-hW-4cS" kind="relationship" relationship="nextPage" id="a2A-oB-IHb"/>
-                    </connections>
-                </hostingController>
+                <hostingController id="3mp-fW-waa" customClass="Main" customModule="holboxWatchExtension"/>
             </objects>
             <point key="canvasLocation" x="34" y="31"/>
-        </scene>
-        <!--More-->
-        <scene sceneID="H3L-dS-e3X">
-            <objects>
-                <hostingController id="sFv-hW-4cS" customClass="More" customModule="holboxWatchExtension"/>
-            </objects>
-            <point key="canvasLocation" x="422" y="31"/>
         </scene>
     </scenes>
 </document>

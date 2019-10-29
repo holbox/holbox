@@ -19,16 +19,8 @@ private struct Header: View {
     var body: some View {
         Section(header:
             VStack {
-                HStack {
-                    Button(action: {
-                        self.session.project = nil
-                    }) {
-                        Text(.init("Back"))
-                            .font(.caption)
-                    }.accentColor(.clear)
-                        .background(Color.clear)
-                        .frame(width: 60, height: 40)
-                    Spacer()
+                Back {
+                    self.session.project = nil
                 }
                 TextField(.init("Kanban.project"), text: $name) {
                     self.session.name(self.name)

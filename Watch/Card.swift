@@ -20,16 +20,8 @@ private struct Header: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Button(action: {
-                    self.session.send()
-                }) {
-                    Text(.init("Back"))
-                        .font(.caption)
-                }.accentColor(.clear)
-                    .background(Color.clear)
-                    .frame(width: 60, height: 40)
-                Spacer()
+            Back {
+                self.session.project = nil
             }
             TextField(.init("Card"), text: $content) {
                 self.session.content(self.content)
@@ -99,7 +91,7 @@ private struct Stepper: View {
                     .frame(width: 40, height: 40)
             }
             Spacer()
-        }.padding(.vertical, 10)
+        }.padding(.bottom, 10)
     }
 }
 

@@ -5,6 +5,7 @@ final class Session: ObservableObject {
     @Published var project: Int? { didSet { update() } }
     @Published var item: (Int, Int)?
     @Published var creating = false
+    @Published var more = false
     @Published private(set) var loading = true
     @Published private(set) var projects = [Int]()
     @Published private(set) var columns = 0

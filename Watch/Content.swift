@@ -9,6 +9,8 @@ struct Content: View {
                 Logo()
             } else if session.creating {
                 Add()
+            } else if session.more {
+                About()
             } else if session.project != nil && session.item != nil {
                 Card()
             } else if session.project != nil {
