@@ -2,19 +2,25 @@ import holbox
 import Foundation
 
 final class Session: ObservableObject {
-    @Published private(set) var loading = true
-    @Published private(set) var projects = [Int]()
-    @Published private(set) var columns = 0
     @Published var project: Int? { didSet { update() } }
     @Published var item: (Int, Int)?
     @Published var creating = false
+    @Published private(set) var loading = true
+    @Published private(set) var projects = [Int]()
+    @Published private(set) var columns = 0
+    @Published private(set) var position: (Int, Int)?
     var session: holbox.Session? { didSet { update() } }
     var available: Int { session?.available ?? 0 }
     let mode = Mode.kanban
     
-    var cards: Int {
-        guard let item = self.item else { return 0 }
-        return cards(item.0)
+    var space: Int {
+        if let item = self.item {
+            if position == nil {
+                position = item
+            }
+            return cards(position!.0) + (item.0 == position!.0 ? 0 : 1)
+        }
+        return 0
     }
     
     var name: String {
@@ -106,33 +112,42 @@ final class Session: ObservableObject {
     }
     
     func move(_ destination: Int) {
-        guard let project = self.project, let item = self.item else { return }
-        session?.move(project, list: item.0, card: item.1, destination: destination, index: 0)
-        self.item = nil
-        update()
+        position = (destination, 0)
     }
     
     func minus() {
-        guard let project = self.project, let item = self.item else { return }
-        if item.1 > 0 {
-            session?.move(project, list: item.0, card: item.1, destination: item.0, index: item.1 - 1)
-            self.item = nil
-            update()
+        guard let item = self.item else { return }
+        if position == nil {
+            position = item
+        }
+        if position!.1 > 0 {
+            position!.1 -= 1
         }
     }
     
     func plus() {
-        guard let project = self.project, let item = self.item else { return }
-        if item.1 < cards - 1 {
-            session?.move(project, list: item.0, card: item.1, destination: item.0, index: item.1 + 1)
-            self.item = nil
-            update()
+        guard let item = self.item else { return }
+        if position == nil {
+            position = item
+        }
+        if position!.1 < space - 1 {
+            position!.1 += 1
         }
     }
     
+    func send() {
+        if let project = self.project, let item = self.item, let position = self.position {
+            session?.move(project, list: item.0, card: item.1, destination: position.0, index: position.1)
+        }
+        item = nil
+        position = nil
+        update()
+    }
+  
     private func update() {
         loading = session == nil
         projects = session?.projects(mode) ?? []
+        
         if let project = self.project {
             columns = session?.lists(project) ?? 0
         } else {

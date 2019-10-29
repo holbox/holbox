@@ -22,7 +22,7 @@ private struct Header: View {
         VStack {
             HStack {
                 Button(action: {
-                    self.session.item = nil
+                    self.session.send()
                 }) {
                     Text(.init("Back"))
                         .font(.caption)
@@ -58,14 +58,18 @@ private struct Footer: View {
                     .foregroundColor(Color("haze")
                         .opacity(0.6))
                 Spacer()
-                Text("\((session.item?.1 ?? 0) + 1)")
+            }.padding(.top, 10)
+            HStack(spacing: 0) {
+                Spacer()
+                Text("\((session.position?.1 ?? 0) + 1)")
                     .font(.title)
+                    .bold()
                     .foregroundColor(Color("haze"))
-                Text("/\(session.cards)")
+                Text("/\(session.space)")
                     .font(.caption)
                     .foregroundColor(Color("haze"))
                 Spacer()
-            }.padding(.top, 20)
+            }
             Stepper()
         }
     }
@@ -82,7 +86,7 @@ private struct Stepper: View {
             }) {
                 Image(systemName: "minus.circle.fill")
                     .resizable()
-                    .foregroundColor(session.item?.1 == 0 ? Color("background") : Color("haze"))
+                    .foregroundColor(session.position?.1 == 0 ? Color("background") : Color("haze"))
                     .frame(width: 40, height: 40)
             }
             Spacer()
@@ -91,11 +95,11 @@ private struct Stepper: View {
             }) {
                 Image(systemName: "plus.circle.fill")
                     .resizable()
-                    .foregroundColor(session.item?.1 == session.cards - 1 ? Color("background") : Color("haze"))
+                    .foregroundColor(session.position?.1 == session.space - 1 ? Color("background") : Color("haze"))
                     .frame(width: 40, height: 40)
             }
             Spacer()
-        }.padding(.top, 10)
+        }.padding(.vertical, 10)
     }
 }
 
@@ -105,7 +109,7 @@ private struct Column: View {
     
     var body: some View {
         HStack {
-            if index == self.session.item!.0 {
+            if index == self.session.position?.0 {
                 Text(session.list(index))
                     .foregroundColor(Color("haze"))
                     .bold()
