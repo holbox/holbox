@@ -32,8 +32,8 @@ private struct Header: View {
                 }
                 TextField(.init("Kanban.project"), text: $name) {
                     self.session.name(self.name)
-                }.background(Color("background")
-                    .cornerRadius(6))
+                }.background(Color.clear)
+                    .accentColor(.clear)
                     .font(Font.body.bold())
             }
         ) {
