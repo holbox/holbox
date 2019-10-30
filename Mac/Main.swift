@@ -70,6 +70,7 @@ final class Main: Window.Full {
         bar?._shop.selected = false
         switch app.mode {
         case .kanban: base?.show(Kanban())
+        case .todo: base?.show(Todo())
         default: break
         }
     }

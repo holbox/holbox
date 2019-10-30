@@ -4,7 +4,6 @@ final class Kanban: Base.View, NSTextViewDelegate {
     private weak var drag: Card?
     private weak var scroll: Scroll!
     private weak var name: Text!
-    override var mouseDownCanMoveWindow: Bool { drag == nil }
     
     required init?(coder: NSCoder) { nil }
     override init() {
