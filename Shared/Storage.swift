@@ -27,6 +27,15 @@ final class Storage: NSTextStorage {
         storage.invalidateAttributes(in: range)
     }
     
+    override func edited(_ editedMask: NSTextStorageEditActions, range: NSRange, changeInLength: Int) {
+        super.edited(editedMask, range: range, changeInLength: changeInLength)
+        storage.edited(editedMask, range: range, changeInLength: changeInLength)
+    }
+    
+    override func attributedSubstring(from: NSRange) -> NSAttributedString {
+        storage.attributedSubstring(from: from)
+    }
+    
     override func enumerateAttribute(_ attrName: NSAttributedString.Key, in enumerationRange: NSRange, options: NSAttributedString.EnumerationOptions = [], using: (Any?, NSRange, UnsafeMutablePointer<ObjCBool>) -> Void) {
         storage.enumerateAttribute(attrName, in: enumerationRange, options: options, using: using)
     }
