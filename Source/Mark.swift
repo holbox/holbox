@@ -2,13 +2,25 @@ import Foundation
 
 public extension String {
     enum Mode {
-        case none
+        case plain
         case bold
         case emoji
     }
     
     func mark<T>(_ transform: (Mode, Range<Index>) throws -> T) rethrows -> [T] {
-        try isEmpty ? [] : [transform(.none, startIndex ..< endIndex)]
+        try indices.reduce(into: [(Mode, Range<Index>)]()) {
+            guard !String(self[$1]).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+            var mode = Mode.plain
+            var range = $1 ..< index(after: $1)
+            if let position = $1.samePosition(in: unicodeScalars),
+                unicodeScalars[position].properties.isEmojiPresentation {
+                mode = .emoji
+            }
+            if mode == $0.last?.0 {
+                range = $0.removeLast().1.lowerBound ..< range.upperBound
+            }
+            $0.append((mode, range))
+        }.map(transform)
     }
 }
 
