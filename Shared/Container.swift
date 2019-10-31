@@ -6,7 +6,7 @@
 #endif
 
 final class Container: NSTextContainer {
-    private let storage = NSTextStorage()
+    private let storage = Storage()
     
     required init(coder: NSCoder) { fatalError() }
     init() {
