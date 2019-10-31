@@ -16,7 +16,8 @@ final class Column: NSView, NSTextViewDelegate {
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.5)
         name.string = app.session.name(app.project, list: index)
         name.textContainer!.size.width = 400
-        name.textContainer!.size.height = 45
+        name.textContainer!.size.height = 100
+        name.textContainer!.maximumNumberOfLines = 1
         addSubview(name)
         self.name = name
         

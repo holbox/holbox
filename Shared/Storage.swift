@@ -6,7 +6,7 @@
 #endif
 
 final class Storage: NSTextStorage {
-    lazy var fonts = [String.Mode.plain: font!]
+    lazy var fonts = [String.Mode.plain: self.font!]
     override var string: String { storage.string }
     private let storage = NSTextStorage()
     
@@ -16,7 +16,6 @@ final class Storage: NSTextStorage {
         string.mark { (fonts[$0]!, .init($1, in: string)) }.forEach {
             storage.addAttribute(.font, value: $0.0, range: $0.1)
         }
-        edited(.editedAttributes, range: .init(location: 0, length: storage.length), changeInLength: 0)
         layoutManagers.first!.processEditing(for: self, edited: .editedAttributes, range: .init(), changeInLength: 0, invalidatedRange: .init(location: 0, length: storage.length))
     }
     

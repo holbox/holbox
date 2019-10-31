@@ -4,6 +4,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
     private weak var drag: Card?
     private weak var scroll: Scroll!
     private weak var name: Text!
+    private weak var border: Border!
     
     required init?(coder: NSCoder) { nil }
     override init() {
@@ -14,13 +15,15 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         let border = Border()
         scroll.add(border)
+        self.border = border
         
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.5)
         name.textContainer!.size.width = 500
-        name.textContainer!.size.height = 55
+        name.textContainer!.size.height = 150
+        name.textContainer!.maximumNumberOfLines = 1
         scroll.add(name)
         self.name = name
         
@@ -46,9 +49,11 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-        border.topAnchor.constraint(equalTo: scroll.top, constant: 220).isActive = true
+        let top = border.topAnchor.constraint(equalTo: scroll.top)
+        top.priority = .defaultLow
+        top.isActive = true
         
-        name.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+        name.centerYAnchor.constraint(equalTo: scroll.top, constant: 100).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
         name.delegate = self
         
@@ -94,7 +99,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 scroll.add(card)
                 
                 if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
+                    card.top = card.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20)
                 } else {
                     card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 5)
                     top!.child = card
@@ -112,7 +117,9 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 160).isActive = true
+            border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 20).isActive = true
+            
+            column.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }

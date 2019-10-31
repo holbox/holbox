@@ -131,6 +131,7 @@
 		DAF267C6236B29390099E40E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAF267C4236B29390099E40E /* Localizable.strings */; };
 		DAF267C7236B29390099E40E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAF267C4236B29390099E40E /* Localizable.strings */; };
 		DAF267C8236B29390099E40E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAF267C4236B29390099E40E /* Localizable.strings */; };
+		DAF267CA236B2BBF0099E40E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF267C9236B2BBF0099E40E /* Extensions.swift */; };
 		DAF68E6E2347643A0060895A /* TestProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E6D2347643A0060895A /* TestProject.swift */; };
 		DAF68E712347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
 		DAF68E732347646E0060895A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E702347646E0060895A /* Project.swift */; };
@@ -328,6 +329,7 @@
 		DAF09641235B27EB00BCC800 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		DAF09643235B280E00BCC800 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		DAF267C5236B29390099E40E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DAF267C9236B2BBF0099E40E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DAF68E5E234764200060895A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DAF68E5F234764200060895A /* Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mac.entitlements; sourceTree = "<group>"; };
 		DAF68E60234764210060895A /* MacToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacToday.entitlements; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 				DAB979552359D63C00631280 /* Control.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
+				DAF267C9236B2BBF0099E40E /* Extensions.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DA4C6513235E00AD00B5F6EE /* Item.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
@@ -1140,6 +1143,7 @@
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
 				DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
+				DAF267CA236B2BBF0099E40E /* Extensions.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
