@@ -4,7 +4,7 @@ final class Text: NSTextView {
     var edit = false
     var tab = false
     var intro = false
-    var standby = NSColor(named: "haze")!.withAlphaComponent(0.5) { didSet { textColor = standby } }
+    var standby: NSColor? { didSet { textColor = standby } }
     override var acceptsFirstResponder: Bool { edit }
     override var mouseDownCanMoveWindow: Bool { !edit }
     override var canBecomeKeyView: Bool { edit }
@@ -14,6 +14,13 @@ final class Text: NSTextView {
     private weak var width: NSLayoutConstraint!
     private weak var height: NSLayoutConstraint!
     
+    override var font: NSFont? { didSet {
+        (textStorage as! Storage).fonts = [.plain: font!,
+                                           .emoji: .systemFont(ofSize: font!.pointSize * 3, weight: .regular),
+                                           .bold: .systemFont(ofSize: font!.pointSize * 2, weight: .bold)]
+    } }
+    
+    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
@@ -22,7 +29,6 @@ final class Text: NSTextView {
         setAccessibilityElement(true)
         setAccessibilityRole(.textField)
         translatesAutoresizingMaskIntoConstraints = false
-        textColor = standby
         allowsUndo = true
         isRichText = false
         drawsBackground = false
@@ -61,15 +67,19 @@ final class Text: NSTextView {
     }
     
     override func becomeFirstResponder() -> Bool {
-        textColor = .white
+        if standby != nil {
+            textColor = .white
+        }
         textContainer!.lineBreakMode = .byTruncatingMiddle
-        delegate?.textDidBeginEditing?(Notification(name: .init("")))
+        delegate?.textDidBeginEditing?(.init(name: .init("")))
         return super.becomeFirstResponder()
     }
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
-        textColor = standby
+        if let standby = standby {
+            textColor = standby
+        }
         textContainer!.lineBreakMode = .byTruncatingTail
         edit = false
         return super.resignFirstResponder()

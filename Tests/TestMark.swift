@@ -140,13 +140,17 @@ lorem ipsum
 # hello 🦊
     🐷lorem ipsum
 """
-            let mark = string.mark { ($0, $1) }
-            XCTAssertEqual(3, mark.count)
-            XCTAssertEqual(.bold, mark[0].0)
-            XCTAssertEqual(string.range(of: "# hello"), mark[0].1)
-            XCTAssertEqual(.emoji, mark[1].0)
-            XCTAssertEqual(string.range(of: "🦊\n    🐷"), mark[1].1)
-            XCTAssertEqual(.plain, mark[2].0)
-            XCTAssertEqual(string.range(of: "lorem ipsum"), mark[2].1)
-        }
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(3, mark.count)
+        XCTAssertEqual(.bold, mark[0].0)
+        XCTAssertEqual(string.range(of: "# hello"), mark[0].1)
+        XCTAssertEqual(.emoji, mark[1].0)
+        XCTAssertEqual(string.range(of: "🦊\n    🐷"), mark[1].1)
+        XCTAssertEqual(.plain, mark[2].0)
+        XCTAssertEqual(string.range(of: "lorem ipsum"), mark[2].1)
+    }
+    
+    func testEmojiChili() {
+        _ = "🌶".mark { mode, range in XCTAssertEqual(.emoji, mode) }
+    }
 }

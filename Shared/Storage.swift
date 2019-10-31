@@ -6,7 +6,7 @@
 #endif
 
 final class Storage: NSTextStorage {
-    var size = 15
+    lazy var fonts = [String.Mode.plain: font!]
     override var string: String { storage.string }
     private let storage = NSTextStorage()
     
@@ -23,35 +23,19 @@ final class Storage: NSTextStorage {
         storage.setAttributes(attrs, range: range)
     }
     
+    override func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) {
+        storage.removeAttribute(name, range: range)
+    }
+    
+    override func addAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
+        storage.addAttribute(name, value: value, range: range)
+    }
+    
     override func processEditing() {
         super.processEditing()
-        storage.removeAttribute(.font, range:NSMakeRange(0, storage.length))
-
-        string.indices.forEach {
-            guard let pos = $0.samePosition(in: string.unicodeScalars) else {
-                print("none")
-                return }
-            if string.unicodeScalars[pos].properties.isEmojiPresentation {
-                storage.addAttribute(.font, value: NSFont.systemFont(ofSize: 40, weight: .regular), range: NSRange($0 ..< string.index(after: $0), in: string))
-            } else {
-                storage.addAttribute(.font, value: NSFont.systemFont(ofSize: 5, weight: .regular), range: NSRange($0 ..< string.index(after: $0), in: string))
-            }
+        storage.removeAttribute(.font, range: .init(location: 0, length: storage.length))
+        string.mark { (fonts[$0]!, .init($1, in: string)) }.forEach {
+            storage.addAttribute(.font, value: $0.0, range: $0.1)
         }
-        
-        
-        
-//        string.utf8.indices.reduce(into: [(14, NSRange(location: 0, length: 0))]) {
-//            if string.utf8.index(after: <#T##String.UTF8View.Index#>)
-//        }
-//        string.indices.reduce(into: (string.startIndex, NSFont.systemFont(ofSize: 10), [(NSFont, Range)]()) ) {
-//            if string.index(after:$1) == string.endIndex {
-//                string.unicodeScalars[$0.0].properties.is
-//
-//                $0.2.append((string[$1] == "#" ? NSFont.systemFont(ofSize: 10) : $0.1, $0.0 ..< string.index(after:$1)))
-//            } else if string[$1] == "#" || string[$1] == "\n" {
-//                $0.2.append(($0.1, $0.0 ..< $1))
-//                $0.0 = $1
-//                $0.1 = string[$1] == "#" ? NSFont.systemFont(ofSize: 10) : NSFont.systemFont(ofSize: 10)
-//            } }.2.forEach { storage.addAttribute(.font, value:$0.0, range:NSRange($0.1, in:string)) }
     }
 }

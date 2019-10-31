@@ -40,7 +40,6 @@ final class Card: NSView, NSTextViewDelegate {
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true
-        content.standby = .init(white: 1, alpha: 0.8)
         content.textContainer!.size.width = 300
         content.textContainer!.size.height = 6000
         addSubview(content)
