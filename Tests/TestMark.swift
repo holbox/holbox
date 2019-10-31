@@ -40,7 +40,6 @@ final class TestMark: XCTestCase {
 🐷
 """
         let mark = string.mark { ($0, $1) }
-        print(mark)
         XCTAssertEqual(1, mark.count)
         XCTAssertEqual(.emoji, mark.first?.0)
         XCTAssertEqual(string.range(of: "🐱🦊\n🐷"), mark.first?.1)
@@ -49,7 +48,6 @@ final class TestMark: XCTestCase {
     func testSpace() {
         let string = "🐱🦊 🐷"
         let mark = string.mark { ($0, $1) }
-        print(mark)
         XCTAssertEqual(1, mark.count)
         XCTAssertEqual(.emoji, mark.first?.0)
         XCTAssertEqual(string.range(of: "🐱🦊 🐷"), mark.first?.1)
@@ -58,9 +56,97 @@ final class TestMark: XCTestCase {
     func testTab() {
         let string = "🐱🦊  🐷"
         let mark = string.mark { ($0, $1) }
-        print(mark)
         XCTAssertEqual(1, mark.count)
         XCTAssertEqual(.emoji, mark.first?.0)
         XCTAssertEqual(string.range(of: "🐱🦊  🐷"), mark.first?.1)
     }
+    
+    func testBold() {
+        let string = "#"
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(1, mark.count)
+        XCTAssertEqual(.bold, mark.first?.0)
+        XCTAssertEqual(string.startIndex ..< string.endIndex, mark.first?.1)
+    }
+    
+    func testBoldLine() {
+        let string = "# hello world"
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(1, mark.count)
+        XCTAssertEqual(.bold, mark.first?.0)
+        XCTAssertEqual(string.startIndex ..< string.endIndex, mark.first?.1)
+    }
+    
+    func testBoldAndPlain() {
+        let string = """
+# hello world
+lorem ipsum
+"""
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(2, mark.count)
+        XCTAssertEqual(.bold, mark.first?.0)
+        XCTAssertEqual(string.range(of: "# hello world"), mark.first?.1)
+        XCTAssertEqual(.plain, mark.last?.0)
+        XCTAssertEqual(string.range(of: "lorem ipsum"), mark.last?.1)
+    }
+    
+    func testBoldAndEmoji() {
+            let string = """
+# hello world
+    🐷
+"""
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(2, mark.count)
+        XCTAssertEqual(.bold, mark.first?.0)
+        XCTAssertEqual(string.range(of: "# hello world"), mark.first?.1)
+        XCTAssertEqual(.emoji, mark.last?.0)
+        XCTAssertEqual(string.range(of: "🐷"), mark.last?.1)
+    }
+    
+    func testBoldAndEmojiComplex() {
+                let string = """
+# hello 🦊 world
+    lorem ipsum
+"""
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(4, mark.count)
+        XCTAssertEqual(.bold, mark[0].0)
+        XCTAssertEqual(string.range(of: "# hello"), mark[0].1)
+        XCTAssertEqual(.emoji, mark[1].0)
+        XCTAssertEqual(string.range(of: "🦊"), mark[1].1)
+        XCTAssertEqual(.bold, mark[2].0)
+        XCTAssertEqual(string.range(of: "world"), mark[2].1)
+        XCTAssertEqual(.plain, mark[3].0)
+        XCTAssertEqual(string.range(of: "lorem ipsum"), mark[3].1)
+    }
+    
+    func testBoldAndEmojiComplexNewLine() {
+                    let string = """
+# hello 🦊
+    lorem ipsum
+"""
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(3, mark.count)
+        XCTAssertEqual(.bold, mark[0].0)
+        XCTAssertEqual(string.range(of: "# hello"), mark[0].1)
+        XCTAssertEqual(.emoji, mark[1].0)
+        XCTAssertEqual(string.range(of: "🦊"), mark[1].1)
+        XCTAssertEqual(.plain, mark[2].0)
+        XCTAssertEqual(string.range(of: "lorem ipsum"), mark[2].1)
+    }
+    
+    func testBoldAndEmojiComplexNewLineBetween() {
+                        let string = """
+# hello 🦊
+    🐷lorem ipsum
+"""
+            let mark = string.mark { ($0, $1) }
+            XCTAssertEqual(3, mark.count)
+            XCTAssertEqual(.bold, mark[0].0)
+            XCTAssertEqual(string.range(of: "# hello"), mark[0].1)
+            XCTAssertEqual(.emoji, mark[1].0)
+            XCTAssertEqual(string.range(of: "🦊\n    🐷"), mark[1].1)
+            XCTAssertEqual(.plain, mark[2].0)
+            XCTAssertEqual(string.range(of: "lorem ipsum"), mark[2].1)
+        }
 }
