@@ -62,6 +62,7 @@ final class Text: NSTextView {
     
     override func didChangeText() {
         super.didChangeText()
+        layoutManager!.ensureLayout(for: textContainer!)
         width.constant = max(layoutManager!.usedRect(for: textContainer!).size.width + 20, 60)
         height.constant = layoutManager!.usedRect(for: textContainer!).size.height + 20
     }
