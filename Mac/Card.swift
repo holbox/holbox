@@ -176,7 +176,8 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     @objc private func delete() {
-        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        window!.makeFirstResponder(content)
+        if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.session.delete(app.project, list: column, card: index)
             kanban.refresh()
         } else {

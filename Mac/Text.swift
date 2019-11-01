@@ -4,7 +4,7 @@ final class Text: NSTextView {
     var edit = false
     var tab = false
     var intro = false
-    var standby: NSColor? { didSet { textColor = standby } }
+    var standby: NSColor? { didSet { applyStandby() } }
     override var acceptsFirstResponder: Bool { edit }
     override var mouseDownCanMoveWindow: Bool { !edit }
     override var canBecomeKeyView: Bool { edit }
@@ -70,6 +70,7 @@ final class Text: NSTextView {
     override func becomeFirstResponder() -> Bool {
         if standby != nil {
             textColor = .white
+            alphaValue = 1
         }
         textContainer!.lineBreakMode = .byTruncatingMiddle
         delegate?.textDidBeginEditing?(.init(name: .init("")))
@@ -78,9 +79,7 @@ final class Text: NSTextView {
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
-        if let standby = standby {
-            textColor = standby
-        }
+        applyStandby()
         textContainer!.lineBreakMode = .byTruncatingTail
         edit = false
         return super.resignFirstResponder()
@@ -111,5 +110,12 @@ final class Text: NSTextView {
             window!.makeFirstResponder(self)
         }
         super.mouseDown(with: with)
+    }
+    
+    private func applyStandby() {
+        if let standby = standby {
+            textColor = standby
+            alphaValue = 0.6
+        }
     }
 }

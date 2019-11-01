@@ -20,7 +20,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.standby = NSColor(named: "haze")!.withAlphaComponent(0.5)
+        name.standby = NSColor(named: "haze")!
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 150
         name.textContainer!.maximumNumberOfLines = 1
