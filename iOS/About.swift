@@ -25,21 +25,21 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         
         var top: NSLayoutYAxisAnchor?
         (0 ..< 5).forEach {
-            let item = Item(.key("About.options.\($0)"), index: $0, .regular, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
+            let item = Item(.key("About.options.\($0)"), index: $0, .medium, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
             scroll.add(item)
             
-            item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 13).isActive = true
-            item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -26).isActive = true
+            item.leftAnchor.constraint(equalTo: scroll.left, constant: 23).isActive = true
+            item.widthAnchor.constraint(equalTo: scroll.width, constant: -46).isActive = true
             
             if top == nil {
                 item.topAnchor.constraint(equalTo: _spell.bottomAnchor, constant: 30).isActive = true
             } else {
                 let border = Border()
-                border.backgroundColor = .black
+                border.backgroundColor = .init(white: 0, alpha: 0.5)
                 scroll.add(border)
                 
-                border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 33).isActive = true
-                border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -33).isActive = true
+                border.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
+                border.rightAnchor.constraint(equalTo: scroll.right, constant: -43).isActive = true
                 border.topAnchor.constraint(equalTo: top!).isActive = true
                 
                 item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
@@ -66,7 +66,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         title.leftAnchor.constraint(equalTo: logo.rightAnchor).isActive = true
         
         settings.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 70).isActive = true
-        settings.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
+        settings.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
         
         _spell.topAnchor.constraint(equalTo: settings.bottomAnchor, constant: 10).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true

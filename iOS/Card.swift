@@ -33,25 +33,25 @@ final class Card: UIView {
             
             var top: NSLayoutYAxisAnchor?
             (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0), index: $0, .medium, .init(white: 1, alpha: 0.6), self, #selector(column))
+                let item = Item(app.session.name(app.project, list: $0), index: $0, .bold, .init(white: 1, alpha: 0.5), self, #selector(column))
                 item.selected = card.column == $0
                 scroll.add(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.widthAnchor, constant: -60).isActive = true
+                item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+                item.widthAnchor.constraint(equalToConstant: 200).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 20).isActive = true
+                    item.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
                 } else {
                     let border = Border()
-                    border.backgroundColor = .black
+                    border.backgroundColor = .init(white: 0, alpha: 0.5)
                     scroll.add(border)
                     
-                    border.leftAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
-                    border.topAnchor.constraint(equalTo: top!, constant: 5).isActive = true
+                    border.leftAnchor.constraint(equalTo: item.leftAnchor, constant: 20).isActive = true
+                    border.rightAnchor.constraint(equalTo: item.rightAnchor, constant: -20).isActive = true
+                    border.topAnchor.constraint(equalTo: top!).isActive = true
                     
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
+                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 }
                 
                 top = item.bottomAnchor
@@ -78,14 +78,13 @@ final class Card: UIView {
             scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
             
             done.centerXAnchor.constraint(equalTo: scroll.centerXAnchor).isActive = true
-            done.widthAnchor.constraint(equalToConstant: 80).isActive = true
             done.topAnchor.constraint(equalTo: _position.bottomAnchor, constant: 50).isActive = true
             
             _column.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
-            _column.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
+            _column.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
             
             _position.topAnchor.constraint(equalTo: top!, constant: 56).isActive = true
-            _position.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
+            _position.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
             
             position.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
             position.rightAnchor.constraint(equalTo: stepper.leftAnchor, constant: -20).isActive = true
@@ -151,7 +150,7 @@ final class Card: UIView {
         override func viewDidLoad() {
             super.viewDidLoad()
             guard let card = self.card else { return }
-            text.text = card.content.text!
+            text.text = app.session.content(app.project, list: card.column, card: card.index)
             
             let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
@@ -205,7 +204,7 @@ final class Card: UIView {
     let index: Int
     let column: Int
     private weak var empty: Image?
-    private weak var content: UILabel!
+    private weak var content: Label?
     private weak var base: UIView!
     private weak var kanban: Kanban!
     
@@ -220,31 +219,15 @@ final class Card: UIView {
         let base = UIView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
-        base.layer.cornerRadius = 16
+        base.layer.cornerRadius = 12
         addSubview(base)
         self.base = base
         
-        let content = Label(app.session.content(app.project, list: column, card: index), 16, .medium, .white)
-        content.accessibilityLabel = .key("Card")
-        content.accessibilityValue = app.session.content(app.project, list: column, card: index)
-        addSubview(content)
-        self.content = content
-        
-        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
-        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
-        
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-        content.widthAnchor.constraint(lessThanOrEqualToConstant: 220).isActive = true
-        content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        
-        update(false)
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 1).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
+
         update()
     }
     
@@ -277,28 +260,54 @@ final class Card: UIView {
     }
     
     private func update(_ text: String) {
-        content.text = text
-        content.accessibilityValue = text
         app.session.content(app.project, list: column, card: index, content: text)
         update()
+        update(true)
     }
     
     private func update(_ active: Bool) {
         base.backgroundColor = active ? UIColor(named: "haze")! : .clear
-        content.textColor = active ? .black : .init(white: 1, alpha: 0.8)
+        content?.textColor = active ? .black : .white
     }
     
     private func update() {
-        self.empty?.removeFromSuperview()
-        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        content?.removeFromSuperview()
+        empty?.removeFromSuperview()
+        let string = app.session.content(app.project, list: column, card: index)
+        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             let empty = Image("empty")
-            insertSubview(empty, at: 0)
+            addSubview(empty)
             self.empty = empty
+            
+            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
+            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
             
             empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
             empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
             empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
-            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        } else {
+            let content = Label(string.mark {
+                switch $0 {
+                case .plain: return (.init(string[$1]), 16, .medium, .white)
+                case .emoji: return (.init(string[$1]), 40, .regular, .white)
+                case .bold: return (.init(string[$1]), 28, .bold, .white)
+                }
+            })
+            content.accessibilityLabel = .key("Card")
+            content.accessibilityValue = string
+            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            addSubview(content)
+            self.content = content
+            
+            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
+            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
+            
+            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         }
     }
     

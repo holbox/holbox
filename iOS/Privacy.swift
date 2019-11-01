@@ -6,8 +6,8 @@ final class Privacy: Modal {
         let scroll = Scroll()
         view.addSubview(scroll)
         
-        let label = Label([(.key("Privacy.title"), 24, .bold, .init(white: 1, alpha: 0.4)),
-                           (.key("Privacy.label"), 14, .regular, .white)])
+        let label = Label([(.key("Privacy.title"), 26, .bold, .init(white: 1, alpha: 0.4)),
+                           (.key("Privacy.label"), 16, .regular, .white)])
         scroll.add(label)
         
         let done = Control(.key("Privacy.done"), self, #selector(close), UIColor(named: "haze")!, .black)

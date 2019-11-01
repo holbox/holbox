@@ -119,7 +119,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
             
             border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 20).isActive = true
             
-            column.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
+            column.centerYAnchor.constraint(equalTo: name.bottomAnchor, constant: 70).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }

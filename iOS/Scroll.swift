@@ -7,6 +7,7 @@ final class Scroll: UIScrollView {
     var left: NSLayoutXAxisAnchor { content.leftAnchor }
     var right: NSLayoutXAxisAnchor { content.rightAnchor }
     var centerX: NSLayoutXAxisAnchor { content.centerXAnchor }
+    var width: NSLayoutDimension { content.widthAnchor }
     private(set) weak var content: UIView!
     
     required init?(coder: NSCoder) { nil }
@@ -16,6 +17,7 @@ final class Scroll: UIScrollView {
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         keyboardDismissMode = .interactive
+        alwaysBounceVertical = true
         clipsToBounds = true
         
         let content = UIView()

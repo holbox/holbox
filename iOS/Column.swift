@@ -9,9 +9,17 @@ final class Column: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let name = Label(app.session.name(app.project, list: index), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
+        let string = app.session.name(app.project, list: index)
+        let name = Label(string.mark {
+            switch $0 {
+            case .plain: return (.init(string[$1]), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
+            case .emoji: return (.init(string[$1]), 50, .regular, UIColor(named: "haze")!.withAlphaComponent(0.6))
+            case .bold: return (.init(string[$1]), 32, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
+            }
+        })
         name.accessibilityLabel = .key("Column")
-        name.accessibilityValue = app.session.name(app.project, list: index)
+        name.accessibilityValue = string
+        name.numberOfLines = 1
         name.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(name)
         

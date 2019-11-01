@@ -129,7 +129,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-        scroll.content.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
+        scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
