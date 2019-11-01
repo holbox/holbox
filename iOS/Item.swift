@@ -56,11 +56,11 @@ final class Item: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        highlighted = false
         if !selected && bounds.contains(touches.first!.location(in: self)) {
             selected = true
             _ = target.perform(action, with: self)
         }
-        highlighted = false
         super.touchesEnded(touches, with: with)
     }
     

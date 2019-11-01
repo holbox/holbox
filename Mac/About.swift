@@ -17,7 +17,7 @@ final class About: Window.Modal {
         
         var top: NSLayoutYAxisAnchor?
         (0 ..< 5).forEach {
-            let item = Item(.key("About.options.\($0)"), index: $0, .regular, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
+            let item = Item(.key("About.options.\($0)"), index: $0, .medium, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
             contentView!.addSubview(item)
             
             item.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
@@ -27,7 +27,7 @@ final class About: Window.Modal {
                 item.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 20).isActive = true
             } else {
                 let border = Border()
-                border.layer!.backgroundColor = .black
+                border.layer!.backgroundColor = NSColor(white: 0, alpha: 0.5).cgColor
                 contentView!.addSubview(border)
                 
                 border.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true

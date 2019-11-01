@@ -65,11 +65,11 @@ final class Check: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        alpha = 1
         if bounds.contains(touches.first!.location(in: self)) {
             on.toggle()
             _ = target.perform(action, with: self)
         }
-        alpha = 1
         super.touchesEnded(touches, with: with)
     }
     

@@ -27,7 +27,7 @@ final class Check: NSView {
         addSubview(circle)
         self.circle = circle
         
-        let label = Label(text, 14, .medium, .init(white: 1, alpha: 0.9))
+        let label = Label(text, 15, .semibold, .init(white: 1, alpha: 0.6))
         label.setAccessibilityElement(false)
         addSubview(label)
         
@@ -36,7 +36,7 @@ final class Check: NSView {
         self.icon = icon
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true
-        widthAnchor.constraint(equalToConstant: 180).isActive = true
+        widthAnchor.constraint(equalToConstant: 160).isActive = true
         
         circle.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
         circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

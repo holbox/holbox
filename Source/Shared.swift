@@ -6,7 +6,8 @@ class Shared {
             guard let user = $0, $1 == nil else { return error() }
             let ids = ids.map { $0 + user.recordName }
             let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-            operation.configuration.timeoutIntervalForResource = 6
+            operation.configuration.timeoutIntervalForResource = 7
+            operation.configuration.timeoutIntervalForRequest = 7
             operation.fetchRecordsCompletionBlock = {
                 guard let records = $0, $1 == nil else { return error() }
                 result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
