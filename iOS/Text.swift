@@ -6,10 +6,11 @@ final class Text: UITextView {
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
-        textContainerInset = .init(top: 40, left: 30, bottom: 30, right: 30)
+        textContainerInset = .init(top: 20, left: 20, bottom: 20, right: 20)
         isAccessibilityElement = true
         translatesAutoresizingMaskIntoConstraints = false
-        indicatorStyle = .black
+        indicatorStyle = .white
+        verticalScrollIndicatorInsets.top = 20
         textColor = .white
         backgroundColor = .clear
         bounces = false
@@ -21,6 +22,10 @@ final class Text: UITextView {
         spellCheckingType = app.session.spell ? .yes : .no
         autocorrectionType = app.session.spell ? .yes : .no
         autocapitalizationType = app.session.spell ? .sentences : .none
+        
+        (textStorage as! Storage).fonts = [.plain: font!,
+                                           .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
+                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 40), weight: .bold)]
     }
     
     override func caretRect(for position: UITextPosition) -> CGRect {

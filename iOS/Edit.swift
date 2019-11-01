@@ -7,12 +7,16 @@ class Edit: UIViewController, UITextViewDelegate {
     
     deinit { NotificationCenter.default.removeObserver(self) }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        view.layer.borderColor = UIColor(named: "background")!.cgColor
+        view.layer.borderColor = UIColor(named: "haze")!.cgColor
         view.layer.borderWidth = 2
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 30
         
         let text = Text()
         text.delegate = self
@@ -37,8 +41,7 @@ class Edit: UIViewController, UITextViewDelegate {
         bottom.isActive = true
         
         done.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -30).isActive = true
-        done.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)

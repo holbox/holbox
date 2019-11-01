@@ -18,22 +18,23 @@ final class Capsule: UIView {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
         base.backgroundColor = background
-        base.layer.cornerRadius = 15
+        base.layer.cornerRadius = 14
         addSubview(base)
         
-        let label = Label(title, 14, .bold, text)
+        let label = Label(title, 12, .bold, text)
         label.isAccessibilityElement = false
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 15).isActive = true
+        label.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -15).isActive = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {

@@ -160,12 +160,10 @@ final class Card: UIView {
             view.addSubview(_move)
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 30).isActive = true
-            _delete.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
             
             _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor, constant: 20).isActive = true
-            _move.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor).isActive = true
         }
         
         override func viewDidDisappear(_ animated: Bool) {
@@ -185,16 +183,22 @@ final class Card: UIView {
         
         @objc private func remove() {
             app.win.endEditing(true)
-            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
-            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
-                self?.presentingViewController!.dismiss(animated: true) { [weak self] in
+            if text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                presentingViewController!.dismiss(animated: true) { [weak self] in
                     self?.card?.delete()
                 }
-            })
-            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-            alert.popoverPresentationController?.sourceView = view
-            alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
-            present(alert, animated: true)
+            } else {
+                let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
+                alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
+                    self?.presentingViewController!.dismiss(animated: true) { [weak self] in
+                        self?.card?.delete()
+                    }
+                })
+                alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
+                alert.popoverPresentationController?.sourceView = view
+                alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
+                present(alert, animated: true)
+            }
         }
     }
     
@@ -220,7 +224,7 @@ final class Card: UIView {
         addSubview(base)
         self.base = base
         
-        let content = Label(app.session.content(app.project, list: column, card: index), 16, .medium, .init(white: 1, alpha: 0.8))
+        let content = Label(app.session.content(app.project, list: column, card: index), 16, .medium, .white)
         content.accessibilityLabel = .key("Card")
         content.accessibilityValue = app.session.content(app.project, list: column, card: index)
         addSubview(content)

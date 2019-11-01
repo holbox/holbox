@@ -58,7 +58,7 @@ final class Kanban: Base.View {
         scroll.add(border)
         self.border = border
         
-        let name = Label("", 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
+        let name = Label("", 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
         name.accessibilityLabel = .key("Kanban.project")
         name.numberOfLines = 1
         addSubview(name)

@@ -9,7 +9,7 @@ final class Column: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let name = Label(app.session.name(app.project, list: index), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
+        let name = Label(app.session.name(app.project, list: index), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
         name.accessibilityLabel = .key("Column")
         name.accessibilityValue = app.session.name(app.project, list: index)
         name.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

@@ -38,7 +38,7 @@ final class Base: UIView {
             previousTop?.constant = 220
             top.constant = 230
             
-            UIView.animate(withDuration: 0.4, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.layoutIfNeeded()
             }) { _ in
                 top.constant = 0
