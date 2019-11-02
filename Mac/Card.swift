@@ -29,7 +29,7 @@ final class Card: NSView, NSTextViewDelegate {
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
-        base.layer!.cornerRadius = 16
+        base.layer!.cornerRadius = 12
         base.layer!.borderColor = NSColor(named: "haze")!.cgColor
         addSubview(base)
         self.base = base
@@ -133,9 +133,9 @@ final class Card: NSView, NSTextViewDelegate {
             app.session.move(app.project, list: column, card: index, destination: destination, index:
                 superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
             NSAnimationContext.runAnimationGroup ({
-                $0.duration = 0.3
+                $0.duration = 0.4
                 $0.allowsImplicitAnimation = true
-                alphaValue = 0.1
+                base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
             }) { [weak self] in self?.kanban.refresh() }
         }
         dragging = false
@@ -148,6 +148,7 @@ final class Card: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
+            base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
             _delete.alphaValue = 1
         }
     }
@@ -157,6 +158,7 @@ final class Card: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
+            base.layer!.backgroundColor = .clear
             _delete.alphaValue = 0
         }
     }

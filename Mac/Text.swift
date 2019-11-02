@@ -16,8 +16,8 @@ final class Text: NSTextView {
     
     override var font: NSFont? { didSet {
         (textStorage as! Storage).fonts = [.plain: font!,
-                                           .emoji: .systemFont(ofSize: font!.pointSize * 3, weight: .regular),
-                                           .bold: .systemFont(ofSize: font!.pointSize * 2, weight: .bold)]
+                                           .emoji: .systemFont(ofSize: font!.pointSize * 2.5, weight: .regular),
+                                           .bold: .systemFont(ofSize: font!.pointSize * 1.5, weight: .bold)]
     } }
     
     
@@ -115,7 +115,6 @@ final class Text: NSTextView {
     private func applyStandby() {
         if let standby = standby {
             textColor = standby
-            alphaValue = 0.6
         }
     }
 }

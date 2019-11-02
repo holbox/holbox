@@ -51,7 +51,7 @@ final class Detail: Base.View {
         } else {
             var top: NSLayoutYAxisAnchor?
             app.session.projects(app.mode).forEach {
-                let item = Item(app.session.name($0), index: $0, .bold, NSColor(named: "haze")!, self, #selector(project(_:)))
+                let item = Item(app.session.name($0), index: $0, .bold, 20, NSColor(named: "haze")!, self, #selector(project(_:)))
                 scroll.add(item)
                 
                 item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true

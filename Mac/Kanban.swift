@@ -20,7 +20,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
         name.font = .systemFont(ofSize: 30, weight: .bold)
-        name.standby = NSColor(named: "haze")!
+        name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 150
         name.textContainer!.maximumNumberOfLines = 1
@@ -41,6 +41,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: border.bottomAnchor, constant: 20).isActive = true
         
@@ -53,7 +54,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         top.priority = .defaultLow
         top.isActive = true
         
-        name.centerYAnchor.constraint(equalTo: scroll.top, constant: 100).isActive = true
+        name.centerYAnchor.constraint(equalTo: scroll.top, constant: 80).isActive = true
         name.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
         name.delegate = self
         
@@ -117,9 +118,9 @@ final class Kanban: Base.View, NSTextViewDelegate {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 20).isActive = true
+            border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor).isActive = true
             
-            column.centerYAnchor.constraint(equalTo: name.bottomAnchor, constant: 70).isActive = true
+            column.centerYAnchor.constraint(equalTo: name.bottomAnchor, constant: 50).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }

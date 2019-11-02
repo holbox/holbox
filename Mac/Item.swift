@@ -11,7 +11,7 @@ final class Item: NSView {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, index: Int, _ font: NSFont.Weight, _ color: NSColor, _ target: AnyObject, _ action: Selector) {
+    init(_ title: String, index: Int, _ font: NSFont.Weight, _ size: CGFloat, _ color: NSColor, _ target: AnyObject, _ action: Selector) {
         self.index = index
         self.action = action
         self.target = target
@@ -30,7 +30,7 @@ final class Item: NSView {
         addSubview(base)
         self.base = base
         
-        let label = Label(title, 16, font, color)
+        let label = Label(title, size, font, color)
         addSubview(label)
         self.label = label
         
@@ -56,9 +56,8 @@ final class Item: NSView {
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) {
             _ = target.perform(action, with: self)
-        } else {
-            selected = false
         }
+        selected = false
         super.mouseUp(with: with)
     }
     
