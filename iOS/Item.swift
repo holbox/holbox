@@ -6,12 +6,11 @@ final class Item: UIView {
     let index: Int
     private weak var label: Label!
     private weak var target: AnyObject!
-    private weak var base: UIView!
     private let action: Selector
     private let color: UIColor
    
     required init?(coder: NSCoder) { nil }
-    init(_ title: String, index: Int, _ font: UIFont.Weight, _ color: UIColor , _ target: AnyObject, _ action: Selector) {
+    init(_ title: String, index: Int, _ font: UIFont.Weight, _ size: CGFloat, _ color: UIColor , _ target: AnyObject, _ action: Selector) {
         self.index = index
         self.action = action
         self.target = target
@@ -21,24 +20,13 @@ final class Item: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         accessibilityLabel = title
-        
-        let base = UIView()
-        base.isUserInteractionEnabled = false
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.layer.cornerRadius = 8
-        addSubview(base)
-        self.base = base
-        
-        let label = Label(title, 16, font, color)
+        layer.cornerRadius = 8
+
+        let label = Label(title, size, font, color)
         addSubview(label)
         self.label = label
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -65,7 +53,7 @@ final class Item: UIView {
     }
     
     private func update() {
-        base.backgroundColor = selected || highlighted ? UIColor(named: "haze")! : .clear
+        backgroundColor = selected || highlighted ? UIColor(named: "haze")! : .clear
         label.textColor = selected || highlighted ? .black : color
     }
 }

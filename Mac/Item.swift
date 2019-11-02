@@ -5,7 +5,6 @@ final class Item: NSView {
     let index: Int
     private weak var label: Label!
     private weak var target: AnyObject!
-    private weak var base: NSView!
     private let action: Selector
     private let color: NSColor
     override var mouseDownCanMoveWindow: Bool { false }
@@ -22,24 +21,17 @@ final class Item: NSView {
         setAccessibilityRole(.button)
         setAccessibilityLabel(title)
         wantsLayer = true
+        layer!.cornerRadius = 8
         
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
-        base.layer!.cornerRadius = 8
-        addSubview(base)
-        self.base = base
         
         let label = Label(title, size, font, color)
         addSubview(label)
         self.label = label
         
         heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -62,7 +54,7 @@ final class Item: NSView {
     }
     
     private func update() {
-        base.layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
+        layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
         label.textColor = selected ? .black : color
     }
 }

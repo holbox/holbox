@@ -25,7 +25,7 @@ final class Text: UITextView {
         
         (textStorage as! Storage).fonts = [.plain: font!,
                                            .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
-                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 40), weight: .bold)]
+                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .bold)]
     }
     
     override func caretRect(for position: UITextPosition) -> CGRect {

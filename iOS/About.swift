@@ -25,7 +25,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         
         var top: NSLayoutYAxisAnchor?
         (0 ..< 5).forEach {
-            let item = Item(.key("About.options.\($0)"), index: $0, .medium, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
+            let item = Item(.key("About.options.\($0)"), index: $0, .medium, 16, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
             scroll.add(item)
             
             item.leftAnchor.constraint(equalTo: scroll.left, constant: 23).isActive = true

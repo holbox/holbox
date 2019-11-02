@@ -12,9 +12,9 @@ final class Column: UIView {
         let string = app.session.name(app.project, list: index)
         let name = Label(string.mark {
             switch $0 {
-            case .plain: return (.init(string[$1]), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
-            case .emoji: return (.init(string[$1]), 50, .regular, UIColor(named: "haze")!.withAlphaComponent(0.6))
-            case .bold: return (.init(string[$1]), 32, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
+            case .plain: return (.init(string[$1]), 18, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .emoji: return (.init(string[$1]), 24, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .bold: return (.init(string[$1]), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
             }
         })
         name.accessibilityLabel = .key("Column")

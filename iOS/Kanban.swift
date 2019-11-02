@@ -3,6 +3,7 @@ import UIKit
 final class Kanban: Base.View {
     private final class Detail: Edit {
         private weak var kanban: Kanban!
+        private weak var _delete: Capsule!
         
         required init?(coder: NSCoder) { nil }
         init(_ kanban: Kanban) {
@@ -16,6 +17,7 @@ final class Kanban: Base.View {
             
             let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
+            self._delete = _delete
             
             _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
             _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
@@ -23,12 +25,12 @@ final class Kanban: Base.View {
         
         override func textViewDidEndEditing(_: UITextView) {
             app.session.name(app.project, name: text.text)
-            kanban.rename()
+            kanban.refresh()
         }
         
         @objc private func remove() {
             app.win.endEditing(true)
-            let alert = UIAlertController(title: .key("Delete.title.\(app.mode.rawValue)"), message: app.session.name(app.project), preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: .key("Delete.title.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
             alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
                 self?.presentingViewController!.dismiss(animated: true) {
                     app.session.delete(app.project)
@@ -36,8 +38,7 @@ final class Kanban: Base.View {
                 }
             })
             alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-            alert.popoverPresentationController?.sourceView = view
-            alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
+            alert.popoverPresentationController?.sourceView = _delete
             present(alert, animated: true)
         }
     }
@@ -112,14 +113,14 @@ final class Kanban: Base.View {
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.left, constant: 5).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!).isActive = true
             }
             
-            border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 5).isActive = true
+            border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: -15).isActive = true
             
-            column.centerYAnchor.constraint(equalTo: name!.bottomAnchor, constant: 60).isActive = true
+            column.centerYAnchor.constraint(equalTo: name!.bottomAnchor, constant: 40).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 60).isActive = true
             left = column.rightAnchor
         }
@@ -134,9 +135,9 @@ final class Kanban: Base.View {
         let string = app.session.name(app.project)
         let name = Label(string.mark {
             switch $0 {
-            case .plain: return (.init(string[$1]), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
-            case .emoji: return (.init(string[$1]), 70, .regular, UIColor(named: "haze")!.withAlphaComponent(0.6))
-            case .bold: return (.init(string[$1]), 50, .bold, UIColor(named: "haze")!.withAlphaComponent(0.6))
+            case .plain: return (.init(string[$1]), 26, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .emoji: return (.init(string[$1]), 40, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .bold: return (.init(string[$1]), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
             }
         })
         name.accessibilityLabel = .key("Kanban.project")
@@ -145,8 +146,8 @@ final class Kanban: Base.View {
         addSubview(name)
         self.name = name
         
-        name.centerYAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
-        name.leftAnchor.constraint(equalTo: scroll.left, constant: 40).isActive = true
+        name.centerYAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+        name.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
         name.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         
         _card.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true

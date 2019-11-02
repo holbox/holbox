@@ -35,7 +35,7 @@ final class Card: UIView {
             
             var top: NSLayoutYAxisAnchor?
             (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0), index: $0, .bold, .init(white: 1, alpha: 0.5), self, #selector(column))
+                let item = Item(app.session.name(app.project, list: $0), index: $0, .bold, 18, .init(white: 1, alpha: 0.5), self, #selector(column))
                 item.selected = card.column == $0
                 scroll.add(item)
                 
@@ -160,6 +160,7 @@ final class Card: UIView {
     
     private final class Detail: Edit {
         private weak var card: Card?
+        private weak var _delete: Capsule!
         
         required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
@@ -174,6 +175,7 @@ final class Card: UIView {
             
             let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
+            self._delete = _delete
             
             let _move = Capsule(.key("Card.move"), self, #selector(move), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_move)
@@ -214,8 +216,7 @@ final class Card: UIView {
                     }
                 })
                 alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-                alert.popoverPresentationController?.sourceView = view
-                alert.popoverPresentationController?.sourceRect = .init(x: view.bounds.midX, y: 0, width: 1, height: 1)
+                alert.popoverPresentationController?.sourceView = _delete
                 present(alert, animated: true)
             }
         }
@@ -225,8 +226,8 @@ final class Card: UIView {
     let column: Int
     private weak var empty: Image?
     private weak var content: Label?
-    private weak var base: UIView!
     private weak var kanban: Kanban!
+    private weak var base: UIView!
     
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int, column: Int) {
@@ -310,8 +311,8 @@ final class Card: UIView {
             let content = Label(string.mark {
                 switch $0 {
                 case .plain: return (.init(string[$1]), 16, .medium, .white)
-                case .emoji: return (.init(string[$1]), 40, .regular, .white)
-                case .bold: return (.init(string[$1]), 28, .bold, .white)
+                case .emoji: return (.init(string[$1]), 32, .regular, .white)
+                case .bold: return (.init(string[$1]), 20, .bold, .white)
                 }
             })
             content.accessibilityLabel = .key("Card")

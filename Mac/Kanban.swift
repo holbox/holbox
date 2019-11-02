@@ -19,7 +19,9 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         let name = Text()
         name.setAccessibilityLabel(.key("Kanban.project"))
-        name.font = .systemFont(ofSize: 30, weight: .bold)
+        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
+                                                .emoji: .systemFont(ofSize: 40, weight: .regular),
+                                                .bold: .systemFont(ofSize: 34, weight: .bold)]
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
         name.textContainer!.size.width = 500
         name.textContainer!.size.height = 150

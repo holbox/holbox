@@ -14,13 +14,6 @@ final class Text: NSTextView {
     private weak var width: NSLayoutConstraint!
     private weak var height: NSLayoutConstraint!
     
-    override var font: NSFont? { didSet {
-        (textStorage as! Storage).fonts = [.plain: font!,
-                                           .emoji: .systemFont(ofSize: font!.pointSize * 2.5, weight: .regular),
-                                           .bold: .systemFont(ofSize: font!.pointSize * 1.5, weight: .bold)]
-    } }
-    
-    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
