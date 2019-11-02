@@ -6,7 +6,8 @@ struct Detail: View {
     var body: some View {
         List {
             Projects()
-        }
+        }.edgesIgnoringSafeArea(.top)
+            .transition(.move(edge: .bottom))
     }
 }
 
@@ -32,16 +33,18 @@ private struct Project: View {
     
     var body: some View {
         Button(session.name(index)) {
-            self.session.project = self.index
+            withAnimation(.linear(duration: 0.4)) {
+                self.session.project = self.index
+            }
         }.listRowBackground(Color.clear)
-            .font(.headline)
+            .font(Font.body.bold())
             .foregroundColor(Color("haze"))
     }
 }
 
 private struct Header: View {
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             Icon()
             New()
         }
@@ -57,7 +60,11 @@ private struct Icon: View {
             Image("detail.\(session.mode.rawValue)")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 70, height: 70)
+                .frame(width: 70, height: 50)
+            Text(.init("Detail.title.\(session.mode.rawValue)"))
+                .font(.headline)
+                .foregroundColor(Color("haze"))
+                .padding(.top, 20)
             Spacer()
         }
     }
@@ -68,20 +75,25 @@ private struct New: View {
 
     var body: some View {
         HStack {
-            Text(.init("Detail.title.\(session.mode.rawValue)"))
-                .font(Font.headline.bold())
-                .foregroundColor(Color("haze")
-                    .opacity(0.6))
             Button(action: {
-                self.session.creating = true
-            }) {
-                Image("plus")
-            }.padding(.horizontal, 10)
-            Button(action: {
-                self.session.more = true
+                withAnimation(.linear(duration: 0.4)) {
+                    self.session.more = true
+                }
             }) {
                 Image("more")
-            }.padding(.leading, 10)
-        }.padding(.bottom, 10)
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+            Spacer()
+            Button(action: {
+                withAnimation(.linear(duration: 0.4)) {
+                    self.session.creating = true
+                }
+            }) {
+                Image("plus")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+        }
     }
 }

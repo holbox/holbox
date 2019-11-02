@@ -2,12 +2,18 @@ import SwiftUI
 
 struct About: View {
     @EnvironmentObject var session: Session
+    @State private var opacity = 1.0
     
     var body: some View {
         ScrollView {
             VStack {
                 Back {
-                    self.session.more = false
+                    withAnimation(.linear(duration: 0.3)) {
+                        self.opacity = 0
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        self.session.more = false
+                    }
                 }
                 Logo()
                 HStack {
@@ -22,7 +28,10 @@ struct About: View {
                     .lineLimit(50)
                     .offset(.init(width: 0, height: -25))
             }
-        }
+        }.background(Color.black)
+            .opacity(opacity)
+            .edgesIgnoringSafeArea(.all)
+            .transition(.move(edge: .bottom))
     }
 }
 

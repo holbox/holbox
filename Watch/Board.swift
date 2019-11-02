@@ -2,31 +2,43 @@ import SwiftUI
 
 struct Board: View {
     @EnvironmentObject var session: Session
+    @State private var opacity = 1.0
     
     var body: some View {
         List {
-            Header(name: session.name)
-            ForEach(0 ..< session.columns, id: \.self) {
-                Column(column: $0)
+            Header(name: session.name) {
+                withAnimation(.linear(duration: 0.3)) {
+                    self.opacity = 0
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    self.session.project = nil
+                }
             }
-        }
+            if session.columns > 0 {
+                ForEach(0 ..< session.columns, id: \.self) {
+                    Column(column: $0)
+                }
+            }
+        }.edgesIgnoringSafeArea(.top)
+            .opacity(opacity)
+            .transition(.move(edge: .bottom))
     }
 }
 private struct Header: View {
     @EnvironmentObject var session: Session
     @State var name: String
+    var back: () -> Void
     
     var body: some View {
         Section(header:
-            VStack {
-                Back {
-                    self.session.project = nil
-                }
+            HStack {
+                Back(action: back)
                 TextField(.init("Kanban.project"), text: $name) {
                     self.session.name(self.name)
                 }.background(Color.clear)
                     .accentColor(.clear)
                     .font(Font.body.bold())
+                    .padding(.top, 20)
             }
         ) {
             Create()
@@ -39,7 +51,9 @@ private struct Create: View {
     
     var body: some View {
         Button(action: {
-            self.session.card()
+            withAnimation(.linear(duration: 0.4)) {
+                self.session.card()
+            }
         }) {
             HStack {
                 Spacer()
@@ -47,6 +61,7 @@ private struct Create: View {
                 Spacer()
             }
         }.listRowBackground(Color.clear)
+            .padding(.top, 10)
     }
 }
 
@@ -59,15 +74,11 @@ private struct Column: View {
             Text(session.list(column))
                 .font(Font.headline.bold())
                 .foregroundColor(Color("haze")
-                    .opacity(0.6))) {
+                    .opacity(0.4))) {
                         ForEach(0 ..< self.session.cards(column), id: \.self) {
                             Item(column: self.column, card: $0)
                         }.onDelete {
                             self.session.delete(self.column, card: $0)
-                        }
-                        if self.session.cards(column) == 0 {
-                            Spacer()
-                                .listRowBackground(Color.clear)
                         }
         }
     }
@@ -80,16 +91,21 @@ private struct Item: View {
     
     var body: some View {
         Button(action: {
-            self.session.item = (self.column, self.card)
+            withAnimation(.linear(duration: 0.4)) {
+                self.session.item = (self.column, self.card)
+            }
         }) {
             if session.content(column, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Image("empty")
             } else {
-                Text(session.content(column, card: card))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(15)
-                    .padding(.vertical, 8)
+                ForEach(session.content(column, card: card).mark { ($0, $1) }, id: \.1) {
+                    Text(self.session.content(self.column, card: self.card)[$0.1])
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(30)
+                        .font($0.0 == .plain ? .body : .title)
+                }
             }
         }.listRowBackground(Color.clear)
+            .padding(.top, 10)
     }
 }

@@ -12,7 +12,7 @@ struct Back: View {
                     .frame(width: 18, height: 18)
             }.accentColor(.clear)
                 .background(Color.clear)
-                .frame(width: 60, height: 40)
+                .frame(width: 60, height: 50)
             Spacer()
         }
     }

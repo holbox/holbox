@@ -2,32 +2,43 @@ import SwiftUI
 
 struct Card: View {
     @EnvironmentObject var session: Session
+    @State private var opacity = 1.0
     
     var body: some View {
         List {
-            Section(header: Header(content: session.content), footer: Footer()) {
+            Section(header: Header(content: session.content) {
+                withAnimation(.linear(duration: 0.3)) {
+                    self.opacity = 0
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    self.session.send()
+                }
+            }, footer: Footer()) {
                 ForEach(0 ..< session.columns, id: \.self) {
                     Column(index: $0)
                 }
             }
-        }
+        }.edgesIgnoringSafeArea(.top)
+            .opacity(opacity)
+            .transition(.move(edge: .bottom))
     }
 }
 
 private struct Header: View {
     @EnvironmentObject var session: Session
     @State var content: String
+    var back: () -> Void
     
     var body: some View {
         VStack {
-            Back {
-                self.session.send()
-            }
-            TextField(.init("Card"), text: $content) {
-                self.session.content(self.content)
-            }.background(Color.clear)
-                .accentColor(.clear)
-                .padding(.bottom, 20)
+            HStack {
+                Back(action: back)
+                TextField(.init("Card"), text: $content) {
+                    self.session.content(self.content)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                    .padding(.top, 20)
+            }.padding(.bottom, 20)
             HStack {
                 Text(.init("Card.move.title"))
                     .font(Font.headline.bold())
@@ -80,7 +91,8 @@ private struct Stepper: View {
                     .resizable()
                     .foregroundColor(session.position?.1 == 0 ? Color("background") : Color("haze"))
                     .frame(width: 40, height: 40)
-            }
+            }.background(Color.clear)
+                .accentColor(.clear)
             Spacer()
             Button(action: {
                 self.session.plus()
@@ -89,7 +101,8 @@ private struct Stepper: View {
                     .resizable()
                     .foregroundColor(session.position?.1 == session.space - 1 ? Color("background") : Color("haze"))
                     .frame(width: 40, height: 40)
-            }
+            }.background(Color.clear)
+                .accentColor(.clear)
             Spacer()
         }.padding(.bottom, 10)
     }

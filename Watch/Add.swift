@@ -2,6 +2,7 @@ import SwiftUI
 
 struct Add: View {
     @EnvironmentObject var session: Session
+    @State private var opacity = 1.0
     
     var body: some View {
         ScrollView {
@@ -9,16 +10,35 @@ struct Add: View {
                 Header()
                 Available()
                 if session.available > 0 {
-                    Create()
+                    Create {
+                        withAnimation(.linear(duration: 0.3)) {
+                            self.opacity = 0
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            withAnimation(.linear(duration: 0.4)) {
+                                self.session.add()
+                            }
+                        }
+                    }
                 } else {
                     Text(.init("Add.other"))
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(10)
                         .opacity(0.6)
                 }
-                Cancel()
+                Cancel {
+                    withAnimation(.linear(duration: 0.3)) {
+                        self.opacity = 0
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        self.session.creating = false
+                    }
+                }
             }
-        }
+        }.background(Color.black)
+            .opacity(opacity)
+            .edgesIgnoringSafeArea(.all)
+            .transition(.move(edge: .bottom))
     }
 }
 
@@ -54,11 +74,12 @@ private struct Available: View {
 
 private struct Create: View {
     @EnvironmentObject var session: Session
+    var create: () -> Void
     
     var body: some View {
         HStack {
             Spacer()
-            Button(action: session.add) {
+            Button(action: create) {
                 Text(.init("Add.title.\(self.session.mode.rawValue)"))
                     .foregroundColor(.black)
                     .fontWeight(.bold)
@@ -73,19 +94,18 @@ private struct Create: View {
 
 private struct Cancel: View {
     @EnvironmentObject var session: Session
+    var cancel: () -> Void
     
     var body: some View {
         HStack {
             Spacer()
-            Button(action: {
-                self.session.creating = false
-            }) {
+            Button(action: cancel) {
                 Text(.init("Add.cancel"))
                     .foregroundColor(.white)
             }.background(Color.clear)
                 .accentColor(.clear)
                 .frame(minWidth: 120)
             Spacer()
-        }
+        }.padding(.bottom, 20)
     }
 }

@@ -4,21 +4,25 @@ struct Content: View {
     @EnvironmentObject var session: Session
     
     var body: some View {
-        Group {
-            if session.loading {
-                Logo()
-            } else if session.creating {
-                Add()
-            } else if session.more {
-                About()
-            } else if session.project != nil && session.item != nil {
-                Card()
-            } else if session.project != nil {
-                Board()
-            } else {
+        ZStack {
+            Logo()
+            if !session.loading {
                 Detail()
+                if session.project == nil {
+                    if session.more {
+                        About()
+                    }
+                    if session.creating {
+                        Add()
+                    }
+                } else {
+                    Board()
+                    if session.item != nil {
+                        Card()
+                    }
+                }
             }
-        }
+        }.navigationBarHidden(true)
     }
 }
 
