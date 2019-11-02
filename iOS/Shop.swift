@@ -46,8 +46,8 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             
             image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
             image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            image.widthAnchor.constraint(equalToConstant: 120).isActive = true
-            image.heightAnchor.constraint(equalToConstant: 120).isActive = true
+            image.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            image.heightAnchor.constraint(equalToConstant: 80).isActive = true
             
             title.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -10).isActive = true
             title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true

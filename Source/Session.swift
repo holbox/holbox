@@ -21,7 +21,6 @@ public final class Session {
             case .two: result += 2
             case .ten: result += 10
             case .hundred: result += 100
-            default: break
             }
         }
         return result
