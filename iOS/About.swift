@@ -32,7 +32,7 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
             item.widthAnchor.constraint(equalTo: scroll.width, constant: -46).isActive = true
             
             if top == nil {
-                item.topAnchor.constraint(equalTo: _spell.bottomAnchor, constant: 30).isActive = true
+                item.topAnchor.constraint(equalTo: _spell.bottomAnchor, constant: 10).isActive = true
             } else {
                 let border = Border()
                 border.backgroundColor = .init(white: 0, alpha: 0.5)
@@ -65,13 +65,13 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: logo.rightAnchor).isActive = true
         
-        settings.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 70).isActive = true
+        settings.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 50).isActive = true
         settings.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
         
         _spell.topAnchor.constraint(equalTo: settings.bottomAnchor, constant: 10).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        done.topAnchor.constraint(equalTo: top!, constant: 50).isActive = true
+        done.topAnchor.constraint(equalTo: top!, constant: 30).isActive = true
         done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         done.widthAnchor.constraint(equalToConstant: 140).isActive = true
     }

@@ -106,7 +106,7 @@ final class Kanban: Base.View {
                     card.topAnchor.constraint(equalTo: top!.bottomAnchor).isActive = true
                 }
                 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
                 card.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
                 top = card
@@ -121,12 +121,12 @@ final class Kanban: Base.View {
             border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: -15).isActive = true
             
             column.centerYAnchor.constraint(equalTo: name!.bottomAnchor, constant: 40).isActive = true
-            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 60).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true
             left = column.rightAnchor
         }
         
         if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
+            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
         }
     }
     

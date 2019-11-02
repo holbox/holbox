@@ -43,7 +43,7 @@ final class Card: UIView {
                 item.widthAnchor.constraint(equalToConstant: 200).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 15).isActive = true
                 } else {
                     let border = Border()
                     border.backgroundColor = .init(white: 0, alpha: 0.5)
@@ -94,7 +94,7 @@ final class Card: UIView {
             _position.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
             
             position.centerYAnchor.constraint(equalTo: _position.centerYAnchor).isActive = true
-            position.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+            position.rightAnchor.constraint(equalTo: scroll.centerX).isActive = true
             
             total.bottomAnchor.constraint(equalTo: position.bottomAnchor, constant: -3).isActive = true
             total.leftAnchor.constraint(equalTo: position.rightAnchor, constant: 1).isActive = true

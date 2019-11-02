@@ -18,12 +18,12 @@ final class Add: Modal {
         let subtitle = Label(.key("Add.subtitle.\(app.mode.rawValue)") + .key("Add.subtitle.bottom"), 14, .regular, .init(white: 1, alpha: 0.6))
         subtitle.textAlignment = .center
         
-        let available = Label("\(app.session.available)", 40, .light, UIColor(named: "haze")!)
+        let available = Label("\(app.session.available)", 40, .regular, UIColor(named: "haze")!)
         
-        let capacity = Label([(.key("Add.projects.title"), 14, .bold, .init(white: 1, alpha: 0.4)),
-                              ("\(app.session.count)", 16, .light, .init(white: 1, alpha: 0.8)),
-                              (.key("Add.capacity.title"), 14, .bold, .init(white: 1, alpha: 0.4)),
-                              ("\(app.session.capacity)", 16, .light, .init(white: 1, alpha: 0.8))])
+        let capacity = Label([(.key("Add.projects.title"), 14, .regular, .init(white: 1, alpha: 0.5)),
+                              ("\(app.session.count)", 14, .light, .white),
+                              (.key("Add.capacity.title"), 14, .regular, .init(white: 1, alpha: 0.5)),
+                              ("\(app.session.capacity)", 14, .light, .white)])
         
         let info = Label(.key("Add.info"), 16, .regular, .white)
         
@@ -47,15 +47,15 @@ final class Add: Modal {
         scroll.width.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.bottom.constraint(equalTo: cancel.bottomAnchor, constant: 10).isActive = true
         
-        icon.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
-        icon.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        icon.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 80).isActive = true
         icon.rightAnchor.constraint(equalTo: scroll.centerX, constant: -50).isActive = true
         
         title.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 10).isActive = true
         
-        subtitle.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 30).isActive = true
+        subtitle.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 15).isActive = true
         
         available.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 30).isActive = true
         
