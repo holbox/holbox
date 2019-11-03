@@ -7,6 +7,7 @@ struct Board: View {
     var body: some View {
         List {
             Header(name: session.name) {
+                self.session.columns = 0
                 withAnimation(.linear(duration: 0.3)) {
                     self.opacity = 0
                 }
@@ -75,12 +76,16 @@ private struct Column: View {
                 .font(Font.headline.bold())
                 .foregroundColor(Color("haze")
                     .opacity(0.4))) {
-//                        ForEach(0 ..< self.session.cards(column), id: \.self) {
-//                            Item(column: self.column, card: $0)
-//                        }.onDelete {
-//                            self.session.delete(self.column, card: $0)
-//                        }
-                        Circle()
+                        ForEach(0 ..< self.session.cards(column), id: \.self) {
+                            Item(column: self.column, card: $0)
+                        }.onDelete {
+                            self.session.delete(self.column, card: $0)
+                        }
+                        if session.cards(column) == 0 {
+                            Spacer()
+                                .listRowBackground(Color.clear)
+                                .frame(height: 0)
+                        }
         }
     }
 }

@@ -6,9 +6,9 @@ final class Session: ObservableObject {
     @Published var item: (Int, Int)?
     @Published var creating = false
     @Published var more = false
+    @Published var columns = 0
     @Published private(set) var loading = true
     @Published private(set) var projects = [Int]()
-    @Published private(set) var columns = 0
     @Published private(set) var position: (Int, Int)?
     var session: holbox.Session? { didSet { update() } }
     var available: Int { session?.available ?? 0 }
