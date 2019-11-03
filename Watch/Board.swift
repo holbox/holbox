@@ -84,7 +84,6 @@ private struct Column: View {
                         if session.cards(column) == 0 {
                             Spacer()
                                 .listRowBackground(Color.clear)
-                                .frame(height: 0)
                         }
         }
     }
