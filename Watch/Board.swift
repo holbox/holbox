@@ -75,11 +75,12 @@ private struct Column: View {
                 .font(Font.headline.bold())
                 .foregroundColor(Color("haze")
                     .opacity(0.4))) {
-                        ForEach(0 ..< self.session.cards(column), id: \.self) {
-                            Item(column: self.column, card: $0)
-                        }.onDelete {
-                            self.session.delete(self.column, card: $0)
-                        }
+//                        ForEach(0 ..< self.session.cards(column), id: \.self) {
+//                            Item(column: self.column, card: $0)
+//                        }.onDelete {
+//                            self.session.delete(self.column, card: $0)
+//                        }
+                        Circle()
         }
     }
 }

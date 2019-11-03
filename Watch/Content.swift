@@ -7,17 +7,18 @@ struct Content: View {
         ZStack {
             Logo()
             if !session.loading {
-                Detail()
                 if session.project == nil {
                     if session.more {
                         About()
-                    }
-                    if session.creating {
+                    } else if session.creating {
                         Add()
+                    } else {
+                        Detail()
                     }
                 } else {
-                    Board()
-                    if session.item != nil {
+                    if session.item == nil {
+                        Board()
+                    } else {
                         Card()
                     }
                 }
