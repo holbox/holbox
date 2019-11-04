@@ -19,7 +19,6 @@ final class Todo: Base.View, NSTextViewDelegate {
         new.tab = true
         new.intro = true
         new.string = "hello world"
-        new.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(new)
         self.new = new
         
@@ -33,7 +32,8 @@ final class Todo: Base.View, NSTextViewDelegate {
         new.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
         new.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
-        new.didChangeText()
+        
+//        new.didChangeText()
         new.delegate = self
     }
     

@@ -22,13 +22,9 @@ class Resize {
         }
         
         override func update(_ text: Text) {
-            super.update(text)
-            layout(text)
-        }
-        
-        override func layout(_ text: Text) {
-            super.layout(text)
+            text.layoutManager!.ensureLayout(for: text.textContainer!)
             w.constant = max(text.layoutManager!.usedRect(for: text.textContainer!).size.width + 20, 60)
+            h.constant = text.layoutManager!.usedRect(for: text.textContainer!).size.height + 20
         }
     }
     
@@ -47,15 +43,14 @@ class Resize {
         }
         
         override func update(_ text: Text) {
-            super.update(text)
             layout(text)
         }
         
         override func layout(_ text: Text) {
             text.textContainer!.size.width = max(min(width, text.superview!.frame.width) - 20, 60)
+            text.layoutManager!.ensureLayout(for: text.textContainer!)
             w.constant = max(text.layoutManager!.usedRect(for: text.textContainer!).size.width + 20, 60)
-            print(w.constant)
-            super.layout(text)
+            h.constant = text.layoutManager!.usedRect(for: text.textContainer!).size.height + 20
         }
     }
     
@@ -70,11 +65,6 @@ class Resize {
         w.isActive = true
     }
     
-    func update(_ text: Text) {
-        text.layoutManager!.ensureLayout(for: text.textContainer!)
-    }
-    
-    func layout(_ text: Text) {
-        h.constant = text.layoutManager!.usedRect(for: text.textContainer!).size.height + 20
-    }
+    func update(_ text: Text) { }
+    func layout(_ text: Text) { }
 }
