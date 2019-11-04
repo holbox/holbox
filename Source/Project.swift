@@ -35,11 +35,11 @@ private struct Kanban: Factory {
 }
 
 private struct Todo: Factory {
-    let name = "New Tasks"
+    let name = "New List"
     let lists = ["", ""]
 }
 
 private struct Shopping: Factory {
-    let name = "New List"
+    let name = "Shopping"
     let lists = ["", ""]
 }

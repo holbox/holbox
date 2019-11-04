@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DA16F18D2370020600F3A1FE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18C2370020600F3A1FE /* Task.swift */; };
 		DA16F18F2370189100F3A1FE /* Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18E2370189100F3A1FE /* Resize.swift */; };
+		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA21BDE723607AD0000A46AA /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE623607AD0000A46AA /* Main.swift */; };
@@ -239,6 +240,7 @@
 /* Begin PBXFileReference section */
 		DA16F18C2370020600F3A1FE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DA16F18E2370189100F3A1FE /* Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resize.swift; sourceTree = "<group>"; };
+		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA21BDE623607AD0000A46AA /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 				DAD8F1A3234E3F1B00835E3E /* Control.swift */,
 				DA4BC3F92354780700C023D6 /* Delete.swift */,
 				DA75C7C3234F465600FD61DC /* Detail.swift */,
+				DA16F19223704F7E00F3A1FE /* Edit.swift */,
 				DAD8F19B234DBEBE00835E3E /* Extensions.swift */,
 				DAD8F1A5234E415D00835E3E /* Image.swift */,
 				DA4C6515235E00D400B5F6EE /* Item.swift */,
@@ -1114,6 +1117,7 @@
 				DA75C7C4234F465600FD61DC /* Detail.swift in Sources */,
 				DAD8F1A6234E415D00835E3E /* Image.swift in Sources */,
 				DAF68E7F234764A70060895A /* App.swift in Sources */,
+				DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */,
 				DA61F30123699DB2006DD924 /* Todo.swift in Sources */,
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,

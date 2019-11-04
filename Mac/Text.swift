@@ -1,21 +1,22 @@
 import AppKit
 
-final class Text: NSTextView {    
-    var edit = false
+final class Text: NSTextView {
     var tab = false
     var intro = false
     var standby: NSColor? { didSet { applyStandby() } }
+    let edit: Edit
     private let resize: Resize
-    override var acceptsFirstResponder: Bool { edit }
-    override var mouseDownCanMoveWindow: Bool { !edit }
-    override var canBecomeKeyView: Bool { edit }
-    override var isEditable: Bool { get { edit } set { } }
-    override var isSelectable: Bool { get { edit } set { } }
+    override var acceptsFirstResponder: Bool { edit.active }
+    override var mouseDownCanMoveWindow: Bool { !edit.active }
+    override var canBecomeKeyView: Bool { edit.active }
+    override var isEditable: Bool { get { edit.active } set { } }
+    override var isSelectable: Bool { get { edit.active } set { } }
     override func accessibilityValue() -> String? { string }
     
     required init?(coder: NSCoder) { nil }
-    init(_ resize: Resize) {
+    init(_ resize: Resize, _ edit: Edit) {
         self.resize = resize
+        self.edit = edit
         super.init(frame: .zero, textContainer: Container())
         textContainerInset.height = 10
         textContainerInset.width = 10
@@ -68,7 +69,7 @@ final class Text: NSTextView {
         setSelectedRange(.init())
         textContainer!.lineBreakMode = .byTruncatingTail
         applyStandby()
-        edit = false
+        edit.resign()
         return super.resignFirstResponder()
     }
     
@@ -92,8 +93,8 @@ final class Text: NSTextView {
     }
     
     override func mouseDown(with: NSEvent) {
-        if !edit && with.clickCount == 2 {
-            edit = true
+        if !edit.active && with.clickCount == 2 {
+            edit.click()
             window!.makeFirstResponder(self)
         }
         super.mouseDown(with: with)

@@ -17,12 +17,13 @@ final class Kanban: Base.View, NSTextViewDelegate {
         scroll.add(border)
         self.border = border
         
-        let name = Text(.Both(500, 150, lines: 1))
+        let name = Text(.Both(500, 150), Block())
         name.setAccessibilityLabel(.key("Kanban.project"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 40, weight: .regular),
                                                 .bold: .systemFont(ofSize: 34, weight: .bold)]
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
+        name.textContainer!.maximumNumberOfLines = 1
         scroll.add(name)
         self.name = name
         

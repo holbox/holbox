@@ -2,14 +2,12 @@ import AppKit
 
 class Resize {
     final class Both: Resize {
-        private let lines: Int
         private let width: CGFloat
         private let height: CGFloat
         
-        init(_ width: CGFloat, _ height: CGFloat, lines: Int) {
+        init(_ width: CGFloat, _ height: CGFloat) {
             self.width = width
             self.height = height
-            self.lines = lines
             super.init()
         }
         
@@ -17,7 +15,6 @@ class Resize {
             w = text.widthAnchor.constraint(equalToConstant: 0)
             text.textContainer!.size.width = width
             text.textContainer!.size.height = height
-            text.textContainer!.maximumNumberOfLines = lines
             super.configure(text)
         }
         
