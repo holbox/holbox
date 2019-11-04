@@ -44,9 +44,9 @@ final class Bar: NSView {
         heightAnchor.constraint(equalToConstant: 51).isActive = true
         
         _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
-        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 10).isActive = true
+        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 20).isActive = true
         _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 10).isActive = true
-        _shop.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 20).isActive = true
+        _shop.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 20).isActive = true
         
         _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -56,7 +56,6 @@ final class Bar: NSView {
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        _todo.isHidden = true
         _shopping.isHidden = true
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA16F18D2370020600F3A1FE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18C2370020600F3A1FE /* Task.swift */; };
+		DA16F18F2370189100F3A1FE /* Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18E2370189100F3A1FE /* Resize.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA21BDE723607AD0000A46AA /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE623607AD0000A46AA /* Main.swift */; };
@@ -235,6 +237,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA16F18C2370020600F3A1FE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		DA16F18E2370189100F3A1FE /* Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resize.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA21BDE623607AD0000A46AA /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
@@ -569,9 +573,11 @@
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
 				DA4BC3F523546A4600C023D6 /* More.swift */,
 				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
+				DA16F18E2370189100F3A1FE /* Resize.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DAE81687235323F90005BE0B /* Tab.swift */,
+				DA16F18C2370020600F3A1FE /* Task.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
 				DA61F30023699DB2006DD924 /* Todo.swift */,
 				DAD5E6ED2364336200EE4AD9 /* Tool.swift */,
@@ -1092,9 +1098,11 @@
 				DABAD100235F330F00BD3179 /* Privacy.swift in Sources */,
 				DAF09644235B280E00BCC800 /* Base.swift in Sources */,
 				DAD8F19C234DBEBE00835E3E /* Extensions.swift in Sources */,
+				DA16F18F2370189100F3A1FE /* Resize.swift in Sources */,
 				DAD8F195234DBAC600835E3E /* Alert.swift in Sources */,
 				DA43701D234D2B5300CCB34D /* Main.swift in Sources */,
 				DA4C6516235E00D400B5F6EE /* Item.swift in Sources */,
+				DA16F18D2370020600F3A1FE /* Task.swift in Sources */,
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,

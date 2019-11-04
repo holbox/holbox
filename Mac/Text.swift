@@ -1,6 +1,6 @@
 import AppKit
 
-final class Text: NSTextView {
+final class Text: NSTextView {    
     var edit = false
     var tab = false
     var intro = false
@@ -11,8 +11,8 @@ final class Text: NSTextView {
     override var isEditable: Bool { get { edit } set { } }
     override var isSelectable: Bool { get { edit } set { } }
     override func accessibilityValue() -> String? { string }
-    private weak var width: NSLayoutConstraint!
-    private weak var height: NSLayoutConstraint!
+    private(set) weak var width: NSLayoutConstraint!
+    private(set) weak var height: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
