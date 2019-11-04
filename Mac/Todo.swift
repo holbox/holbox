@@ -11,21 +11,14 @@ final class Todo: Base.View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let new = Text()
+        let new = Text(Vertically(500))
         new.setAccessibilityLabel(.key("Task"))
         (new.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 16, weight: .medium),
                                                .emoji: .systemFont(ofSize: 32, weight: .regular),
                                                .bold: .systemFont(ofSize: 24, weight: .bold)]
         new.tab = true
         new.intro = true
-//        new.textContainer!.size.width = 500
-        new.textContainer!.size.height = 1000
         new.string = "hello world"
-        new.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        new.width.priority = .defaultLow
-        new.height.priority = .defaultLow
-        new.textContainer!.widthTracksTextView = true
-        new.isVerticallyResizable = true
         addSubview(new)
         self.new = new
         
@@ -34,7 +27,9 @@ final class Todo: Base.View, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        
+
+        new.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        new.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
         new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         new.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true

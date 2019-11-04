@@ -5,17 +5,17 @@ final class Text: NSTextView {
     var tab = false
     var intro = false
     var standby: NSColor? { didSet { applyStandby() } }
+    private let resize: Resize
     override var acceptsFirstResponder: Bool { edit }
     override var mouseDownCanMoveWindow: Bool { !edit }
     override var canBecomeKeyView: Bool { edit }
     override var isEditable: Bool { get { edit } set { } }
     override var isSelectable: Bool { get { edit } set { } }
     override func accessibilityValue() -> String? { string }
-    private(set) weak var width: NSLayoutConstraint!
-    private(set) weak var height: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
-    init() {
+    init(_ resize: Resize) {
+        self.resize = resize
         super.init(frame: .zero, textContainer: Container())
         textContainerInset.height = 10
         textContainerInset.width = 10
@@ -28,11 +28,7 @@ final class Text: NSTextView {
         isContinuousSpellCheckingEnabled = app.session.spell
         isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = NSColor(named: "haze")!
-        
-        width = widthAnchor.constraint(equalToConstant: 0)
-        height = heightAnchor.constraint(equalToConstant: 0)
-        height.isActive = true
-        width.isActive = true
+        resize.configure(self)
     }
     
     override var textColor: NSColor? { didSet {
@@ -55,9 +51,7 @@ final class Text: NSTextView {
     
     override func didChangeText() {
         super.didChangeText()
-        layoutManager!.ensureLayout(for: textContainer!)
-        width.constant = max(layoutManager!.usedRect(for: textContainer!).size.width + 20, 60)
-        height.constant = layoutManager!.usedRect(for: textContainer!).size.height + 20
+        resize.update(self)
     }
     
     override func becomeFirstResponder() -> Bool {

@@ -10,16 +10,13 @@ final class Column: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let name = Text()
+        let name = Text(Bothways(400, 100, lines: 1))
         name.setAccessibilityLabel(.key("Column"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 18, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 24, weight: .regular),
                                                 .bold: .systemFont(ofSize: 20, weight: .bold)]
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
         name.string = app.session.name(app.project, list: index)
-        name.textContainer!.size.width = 400
-        name.textContainer!.size.height = 100
-        name.textContainer!.maximumNumberOfLines = 1
         addSubview(name)
         self.name = name
         

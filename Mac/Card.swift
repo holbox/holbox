@@ -34,7 +34,7 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(base)
         self.base = base
         
-        let content = Text()
+        let content = Text(Bothways(300, 6000, lines: 0))
         content.setAccessibilityLabel(.key("Card"))
         (content.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 16, weight: .medium),
                                                    .emoji: .systemFont(ofSize: 32, weight: .regular),
@@ -42,8 +42,6 @@ final class Card: NSView, NSTextViewDelegate {
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true
-        content.textContainer!.size.width = 300
-        content.textContainer!.size.height = 6000
         addSubview(content)
         self.content = content
 
