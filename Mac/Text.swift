@@ -66,8 +66,8 @@ final class Text: NSTextView {
     
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
-        applyStandby()
         textContainer!.lineBreakMode = .byTruncatingTail
+        applyStandby()
         edit = false
         return super.resignFirstResponder()
     }
@@ -97,6 +97,11 @@ final class Text: NSTextView {
             window!.makeFirstResponder(self)
         }
         super.mouseDown(with: with)
+    }
+    
+    override func layout() {
+        super.layout()
+        resize.layout(self)
     }
     
     private func applyStandby() {

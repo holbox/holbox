@@ -10,7 +10,7 @@ final class Column: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let name = Text(Bothways(400, 100, lines: 1))
+        let name = Text(.Both(400, 100, lines: 1))
         name.setAccessibilityLabel(.key("Column"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 18, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 24, weight: .regular),
