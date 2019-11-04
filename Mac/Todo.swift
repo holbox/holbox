@@ -12,7 +12,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let name = Text(.Vertical(500), Block())
+        let name = Text(.Vertical(400), Block())
         name.setAccessibilityLabel(.key("Kanban.project"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 40, weight: .regular),
@@ -44,15 +44,15 @@ final class Todo: Base.View, NSTextViewDelegate {
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
 
-        name.topAnchor.constraint(equalTo: _more.bottomAnchor).isActive = true
+        name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         name.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         name.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         name.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
         
         _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        _more.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        _more.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+        _more.centerYAnchor.constraint(equalTo: name.centerYAnchor, constant: 2).isActive = true
+        _more.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
         
         new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         new.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
@@ -76,6 +76,7 @@ final class Todo: Base.View, NSTextViewDelegate {
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         name.string = app.session.name(app.project)
+        name.didChangeText()
     }
     
     @objc private func more() {

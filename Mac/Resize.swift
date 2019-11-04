@@ -40,7 +40,7 @@ class Resize {
         }
         
         override func update(_ text: Text) {
-            layout(text)
+            text.needsLayout = true
         }
         
         override func layout(_ text: Text) {
