@@ -11,6 +11,11 @@ final class Base: NSView {
         }
         
         func refresh() { }
+        
+        override func mouseDown(with: NSEvent) {
+            super.mouseDown(with: with)
+            window!.makeFirstResponder(nil)
+        }
     }
     
     override var mouseDownCanMoveWindow: Bool { false }

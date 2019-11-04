@@ -23,10 +23,6 @@ final class Item: NSView {
         wantsLayer = true
         layer!.cornerRadius = 8
         
-        let base = NSView()
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.wantsLayer = true
-        
         let label = Label(title, size, font, color)
         addSubview(label)
         self.label = label

@@ -1,6 +1,7 @@
 import AppKit
 
 final class Todo: Base.View, NSTextViewDelegate {
+    private weak var empty: Label?
     private weak var scroll: Scroll!
     private weak var new: Text!
     private weak var name: Text!
@@ -42,7 +43,6 @@ final class Todo: Base.View, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
 
         name.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         name.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
@@ -75,8 +75,62 @@ final class Todo: Base.View, NSTextViewDelegate {
     
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
+        empty?.removeFromSuperview()
         name.string = app.session.name(app.project)
         name.didChangeText()
+        
+        if app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1) == 0 {
+            let empty = Label(.key("Todo.empty"), 14, .light, .init(white: 1, alpha: 0.5))
+            scroll.add(empty)
+            self.empty = empty
+
+            empty.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
+            empty.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+
+            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+        } else {
+            var top: NSLayoutYAxisAnchor?
+            [0, 1].forEach { list in
+                (0 ..< app.session.cards(app.project, list: list)).forEach {
+                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, selected: list == 1, self, #selector(change(_:)))
+                    scroll.add(task)
+
+                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
+                    task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+                    task.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
+                    
+                    let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
+                    left.priority = .defaultLow
+                    left.isActive = true
+
+                    if top == nil {
+                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
+                    } else {
+                        task.topAnchor.constraint(equalTo: top!).isActive = true
+                    }
+
+                    top = task.bottomAnchor
+                }
+            }
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
+        }
+    }
+    
+    func textDidEndEditing(_ notification: Notification) {
+        if (notification.object as! Text) == new {
+            let string = new.string
+            new.string = ""
+            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0)
+                app.session.content(app.project, list: 0, card: 0, content: string)
+                refresh()
+            } else {
+                new.needsLayout = true
+            }
+        } else {
+            app.session.name(app.project, name: name.string)
+        }
     }
     
     @objc private func more() {
@@ -85,11 +139,17 @@ final class Todo: Base.View, NSTextViewDelegate {
     
     @objc private func add() {
         if new.string.isEmpty {
-            print("made")
+            if new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                new.string = ""
+                new.needsLayout = true
+            }
             window!.makeFirstResponder(new)
         } else {
-            print("unmake")
             window!.makeFirstResponder(nil)
         }
+    }
+    
+    @objc private func change(_ task: Task) {
+        
     }
 }

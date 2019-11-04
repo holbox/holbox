@@ -86,6 +86,7 @@ Privacy.label="\n\nWe do NOT track your activity in any way, not Analytics nor a
 Privacy.done="Continue";
 Back="Back";
 Task="Task";
+Todo.empty="No tasks yet";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";

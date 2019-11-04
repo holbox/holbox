@@ -65,11 +65,6 @@ final class Kanban: Base.View, NSTextViewDelegate {
         app.session.name(app.project, name: name.string)
     }
     
-    override func mouseDown(with: NSEvent) {
-        super.mouseDown(with: with)
-        window!.makeFirstResponder(nil)
-    }
-    
     override func mouseDragged(with: NSEvent) {
         super.mouseDragged(with: with)
         if let drag = self.drag {
