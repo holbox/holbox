@@ -24,12 +24,14 @@ final class Task: NSView {
         setAccessibilityRole(.button)
         setAccessibilityLabel(content)
         wantsLayer = true
-        layer!.cornerRadius = 8
+        layer!.cornerRadius = 12
         
         let circle = NSView()
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.wantsLayer = true
         circle.layer!.cornerRadius = 15
+        circle.layer!.borderColor = .black
+        circle.layer!.borderWidth = 2
         addSubview(circle)
         self.circle = circle
         
@@ -41,10 +43,10 @@ final class Task: NSView {
         addSubview(label)
         self.label = label
         
-        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 10).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
         
         circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
         circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
         circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
@@ -55,7 +57,7 @@ final class Task: NSView {
         
         label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         update()

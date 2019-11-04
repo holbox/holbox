@@ -103,6 +103,10 @@ final class Todo: Base.View, NSTextViewDelegate {
                     let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
                     left.priority = .defaultLow
                     left.isActive = true
+                    
+                    let width = task.widthAnchor.constraint(equalToConstant: 500)
+                    width.priority = .defaultLow
+                    width.isActive = true
 
                     if top == nil {
                         task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
@@ -150,6 +154,7 @@ final class Todo: Base.View, NSTextViewDelegate {
     }
     
     @objc private func change(_ task: Task) {
-        
+        app.session.move(app.project, list: task.selected ? 1 : 0, card: task.index, destination: task.selected ? 0 : 1, index: 0)
+        refresh()
     }
 }
