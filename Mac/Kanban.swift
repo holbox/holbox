@@ -130,8 +130,4 @@ final class Kanban: Base.View, NSTextViewDelegate {
         refresh()
         (app.main.base!.subviews.first as! Kanban).scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
-    
-    @objc private func more() {
-        app.runModal(for: More.Project())
-    }
 }

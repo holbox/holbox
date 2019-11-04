@@ -98,6 +98,11 @@ public final class Session {
         save(project)
     }
     
+    public func add(_ project: Int, list: Int, content: String) {
+        projects[project].cards[list].1.insert(content, at: 0)
+        save(project)
+    }
+    
     public func content(_ project: Int, list: Int, card: Int, content: String) {
         guard projects[project].cards[list].1[card] != content else { return }
         projects[project].cards[list].1[card] = content

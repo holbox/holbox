@@ -73,6 +73,27 @@ final class Todo: Base.View, NSTextViewDelegate {
         name.needsLayout = true
     }
     
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 36: add()
+        default: super.keyDown(with: with)
+        }
+    }
+    
+    func textDidEndEditing(_ notification: Notification) {
+        if (notification.object as! Text) == new {
+            let string = new.string
+            new.string = ""
+            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0, content: string)
+                refresh()
+            }
+            new.needsLayout = true
+        } else {
+            app.session.name(app.project, name: name.string)
+        }
+    }
+    
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         empty?.removeFromSuperview()
@@ -117,28 +138,8 @@ final class Todo: Base.View, NSTextViewDelegate {
                     top = task.bottomAnchor
                 }
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
         }
-    }
-    
-    func textDidEndEditing(_ notification: Notification) {
-        if (notification.object as! Text) == new {
-            let string = new.string
-            new.string = ""
-            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project, list: 0)
-                app.session.content(app.project, list: 0, card: 0, content: string)
-                refresh()
-            } else {
-                new.needsLayout = true
-            }
-        } else {
-            app.session.name(app.project, name: name.string)
-        }
-    }
-    
-    @objc private func more() {
-        
     }
     
     @objc private func add() {
@@ -154,6 +155,7 @@ final class Todo: Base.View, NSTextViewDelegate {
     }
     
     @objc private func change(_ task: Task) {
+        app.alert(task.selected ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: task.selected ? 1 : 0, card: task.index))
         app.session.move(app.project, list: task.selected ? 1 : 0, card: task.index, destination: task.selected ? 0 : 1, index: 0)
         refresh()
     }

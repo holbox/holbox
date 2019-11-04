@@ -72,6 +72,22 @@ final class TestProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testAddCardContent() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.add(0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(2, $1.cards[0].1.count)
+            XCTAssertEqual("world", $1.cards[0].1.first)
+            expect.fulfill()
+        }
+        session.projects[0].cards = [("world", ["hello"])]
+        session.add(0, list: 0, content: "world")
+        waitForExpectations(timeout: 1)
+    }
+    
     func testDeleteCard() {
         let expect = expectation(description: "")
         let time = Date()
