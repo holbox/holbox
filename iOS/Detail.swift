@@ -40,7 +40,7 @@ final class Detail: Base.View {
         scroll.add(border)
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 14, .light, .init(white: 1, alpha: 0.5))
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 15, .medium, UIColor(named: "haze")!)
             scroll.add(empty)
             
             empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true

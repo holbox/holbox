@@ -52,6 +52,6 @@ final class Tab: UIView {
     private func update() {
         base.backgroundColor = selected ? UIColor(named: "haze")! : .clear
         icon.tintColor = selected ? .black : UIColor(named: "haze")!
-        icon.alpha = selected ? 1 : 0.47
+        icon.alpha = selected ? 1 : 0.7
     }
 }

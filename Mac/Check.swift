@@ -27,7 +27,7 @@ final class Check: NSView {
         addSubview(circle)
         self.circle = circle
         
-        let label = Label(text, 15, .semibold, .init(white: 1, alpha: 0.6))
+        let label = Label(text, 15, .semibold, .init(white: 1, alpha: 0.7))
         label.setAccessibilityElement(false)
         addSubview(label)
         

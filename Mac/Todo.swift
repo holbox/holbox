@@ -102,7 +102,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         name.didChangeText()
         
         if app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1) == 0 {
-            let empty = Label(.key("Todo.empty"), 14, .light, .init(white: 1, alpha: 0.5))
+            let empty = Label(.key("Todo.empty"), 15, .medium, NSColor(named: "haze")!)
             scroll.add(empty)
             self.empty = empty
 
