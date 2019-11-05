@@ -338,6 +338,7 @@ final class Card: UIView {
     }
     
     @objc private func delete() {
+        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: column, card: index))
         app.session.delete(app.project, list: column, card: index)
         kanban.refresh()
     }
