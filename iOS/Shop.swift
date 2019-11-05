@@ -186,6 +186,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
     }
     
     override func refresh() {
+        super.refresh()
         image.isHidden = true
         _restore.isHidden = false
         message.isHidden = true
@@ -212,6 +213,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         if top != nil {
             scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
         }
+        isUserInteractionEnabled = true
     }
     
     private func loading() {

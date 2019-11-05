@@ -84,6 +84,7 @@ final class Card: NSView, NSTextViewDelegate {
     func textDidEndEditing(_: Notification) {
         base.layer!.borderWidth = 0
         app.session.content(app.project, list: column, card: index, content: content.string)
+        app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.string)
         update()
     }
     

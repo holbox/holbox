@@ -1,6 +1,24 @@
 import UIKit
 
 final class Todo: Base.View {
+    private final class Detail: Edit {
+        private weak var todo: Todo?
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ todo: Todo) {
+            super.init()
+            self.todo = todo
+        }
+        
+        override func textViewDidEndEditing(_: UITextView) {
+            if !text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0, content: text.text)
+                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text.text)
+                todo?.refresh()
+            }
+        }
+    }
+    
     private weak var deleting: Task?
     private weak var empty: Label?
     private weak var name: Label?
@@ -45,10 +63,10 @@ final class Todo: Base.View {
     }
     
     override func refresh() {
-        rename()
+        super.refresh()
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
+        rename()
         empty?.removeFromSuperview()
-        
         if app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1) == 0 {
             let empty = Label(.key("Todo.empty"), 15, .medium, UIColor(named: "haze")!)
             scroll.add(empty)
@@ -79,6 +97,7 @@ final class Todo: Base.View {
             }
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
+        isUserInteractionEnabled = true
     }
     
     private func rename() {
@@ -107,15 +126,7 @@ final class Todo: Base.View {
     }
     
     @objc private func add() {
-//        if new.string.isEmpty {
-//            if new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//                new.string = ""
-//                new.needsLayout = true
-//            }
-//            window!.makeFirstResponder(new)
-//        } else {
-//            window!.makeFirstResponder(self)
-//        }
+        app.present(Detail(self), animated: true)
     }
     
     @objc private func panning(_ gesture: UIPanGestureRecognizer) {

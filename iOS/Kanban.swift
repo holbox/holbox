@@ -47,6 +47,7 @@ final class Kanban: Base.View {
     }
     
     override func refresh() {
+        super.refresh()
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         rename()
         
@@ -88,6 +89,7 @@ final class Kanban: Base.View {
         if left != nil {
             scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
         }
+        isUserInteractionEnabled = true
     }
     
     private func rename() {

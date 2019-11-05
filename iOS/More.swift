@@ -33,7 +33,11 @@ final class More: Edit {
         alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
             self?.presentingViewController!.dismiss(animated: true) {
                 app.session.delete(app.project)
-                app.main.kanban()
+                switch app.mode {
+                case .todo: app.main.todo()
+                case .shopping: app.main.shopping()
+                default: app.main.kanban()
+                }
             }
         })
         alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))

@@ -4,9 +4,9 @@ final class Task: UIView {
     var delta = CGFloat()
     let index: Int
     let list: Int
+    private weak var todo: Todo?
     private weak var label: Label!
     private weak var icon: Image!
-    private weak var todo: Todo!
     private weak var circle: UIView!
     private weak var base: UIView!
     private weak var _swipe: UIView!
@@ -134,13 +134,14 @@ final class Task: UIView {
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         highlighted = false
         if bounds.contains(touches.first!.location(in: self)) {
+            todo?.isUserInteractionEnabled = false
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
             app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
             _swipeRight.constant = app.main.bounds.width
             UIView.animate(withDuration: 0.35, animations: { [weak self] in
                 self?.layoutIfNeeded()
                 self?._swipe.alpha = 0.9
-            }) { [weak self] _ in self?.todo.refresh() }
+            }) { [weak self] _ in self?.todo?.refresh() }
         }
         super.touchesEnded(touches, with: with)
     }
@@ -189,6 +190,6 @@ final class Task: UIView {
     private func confirm() {
         app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
         app.session.delete(app.project, list: list, card: index)
-        todo.refresh()
+        todo?.refresh()
     }
 }

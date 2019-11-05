@@ -9,7 +9,9 @@ final class Base: UIView {
             layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
         
-        func refresh() { }
+        func refresh() {
+            isUserInteractionEnabled = false
+        }
         
         @objc final func more() {
             app.present(More(self), animated: true)

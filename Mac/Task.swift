@@ -1,10 +1,10 @@
 import AppKit
 
 final class Task: NSView {
+    private weak var todo: Todo?
     private weak var label: Label!
     private weak var icon: Image!
     private weak var _delete: Button!
-    private weak var todo: Todo!
     private weak var circle: NSView!
     private weak var base: NSView!
     private var highlighted = false { didSet { update() } }
@@ -123,7 +123,7 @@ final class Task: NSView {
         if base.bounds.contains(convert(with.locationInWindow, from: nil)) {
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
             app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
-            todo.refresh()
+            todo?.refresh()
         }
         highlighted = false
         super.mouseUp(with: with)
@@ -136,6 +136,7 @@ final class Task: NSView {
     
     @objc private func delete() {
         window!.makeFirstResponder(self)
+        guard let todo = self.todo else { return }
         _delete.alphaValue = 0
         app.runModal(for: Delete.Card(todo, index: index, list: list))
     }

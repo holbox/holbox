@@ -282,6 +282,7 @@ final class Card: UIView {
     
     private func update(_ text: String) {
         app.session.content(app.project, list: column, card: index, content: text)
+        app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
         update()
         update(true)
     }

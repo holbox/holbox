@@ -87,6 +87,7 @@ final class Todo: Base.View, NSTextViewDelegate {
             new.string = ""
             if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.add(app.project, list: 0, content: string)
+                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: string)
                 refresh()
             }
             new.needsLayout = true

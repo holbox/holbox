@@ -27,6 +27,7 @@ final class Detail: Base.View {
     }
     
     override func refresh() {
+        super.refresh()
         scroll.views.forEach { $0.removeFromSuperview() }
         
         let image = Image("detail.\(app.mode.rawValue)")
@@ -85,6 +86,8 @@ final class Detail: Base.View {
         border.leftAnchor.constraint(equalTo: scroll.left, constant: 33).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right, constant: -33).isActive = true
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+        
+        isUserInteractionEnabled = true
     }
     
     @objc private func add() {
