@@ -45,25 +45,25 @@ final class Task: UIView {
         let _swipe = UIView()
         _swipe.isUserInteractionEnabled = false
         _swipe.translatesAutoresizingMaskIntoConstraints = false
-        _swipe.alpha = 0
         _swipe.layer.cornerRadius = 8
+        _swipe.alpha = 0
         _swipe.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "background")!
         addSubview(_swipe)
         self._swipe = _swipe
         
         let _deleteTitle = Label(.key("Todo.delete"), 14, .bold, UIColor(named: "haze")!)
-        _delete.addSubview(_deleteTitle)
+        addSubview(_deleteTitle)
         
         let circle = UIView()
         circle.isUserInteractionEnabled = false
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.layer.cornerRadius = 15
-        base.addSubview(circle)
+        addSubview(circle)
         self.circle = circle
         
         let icon = Image("check")
-        base.addSubview(icon)
+        addSubview(icon)
         self.icon = icon
         
         let label = Label(content.mark {
@@ -73,7 +73,7 @@ final class Task: UIView {
             case .bold: return (.init(content[$1]), 28, .bold, list == 1 ? UIColor(named: "haze")! : .white)
             }
         })
-        base.addSubview(label)
+        addSubview(label)
         self.label = label
         
         heightAnchor.constraint(greaterThanOrEqualTo: label.heightAnchor, constant: 2).isActive = true
@@ -85,8 +85,8 @@ final class Task: UIView {
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
-        base.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        base.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
         _delete.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -136,8 +136,8 @@ final class Task: UIView {
         if bounds.contains(touches.first!.location(in: self)) {
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
             app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
-            _swipeRight.constant = bounds.width + 20
-            UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            _swipeRight.constant = app.main.bounds.width
+            UIView.animate(withDuration: 0.35, animations: { [weak self] in
                 self?.layoutIfNeeded()
                 self?._swipe.alpha = 0.9
             }) { [weak self] _ in self?.todo.refresh() }
@@ -174,7 +174,7 @@ final class Task: UIView {
         if isUserInteractionEnabled {
             delta = 0
             _deleteLeft.constant = 0
-            UIView.animate(withDuration: 0.35) { [weak self] in
+            UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.layoutIfNeeded()
             }
         }
@@ -182,7 +182,8 @@ final class Task: UIView {
     
     private func update() {
         icon.isHidden = !active
-        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "background")!
+        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.2)
+        base.backgroundColor = highlighted ? UIColor(named: "background") : .clear
     }
     
     private func confirm() {
