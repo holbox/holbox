@@ -28,7 +28,9 @@ final class Task: NSView {
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
-        base.layer!.cornerRadius = 12
+        base.alphaValue = 0
+        base.layer!.cornerRadius = 10
+        base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
         addSubview(base)
         self.base = base
         
@@ -41,9 +43,6 @@ final class Task: NSView {
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.wantsLayer = true
         circle.layer!.cornerRadius = 15
-        circle.layer!.borderColor = .black
-        circle.layer!.borderWidth = 2
-        circle.layer!.allowsEdgeAntialiasing = true
         addSubview(circle)
         self.circle = circle
         
@@ -51,7 +50,13 @@ final class Task: NSView {
         addSubview(icon)
         self.icon = icon
         
-        let label = Label(content, 16, .medium, .white)
+        let label = Label(content.mark {
+            switch $0 {
+            case .plain: return (.init(content[$1]), 16, .medium, active ? NSColor(named: "haze")! : .white)
+            case .emoji: return (.init(content[$1]), 36, .regular, active ? NSColor(named: "haze")! : .white)
+            case .bold: return (.init(content[$1]), 28, .bold, active ? NSColor(named: "haze")! : .white)
+            }
+        })
         addSubview(label)
         self.label = label
         
@@ -59,10 +64,10 @@ final class Task: NSView {
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -30).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -32).isActive = true
         base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        _delete.leftAnchor.constraint(equalTo: base.rightAnchor).isActive = true
+        _delete.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 2).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -97,9 +102,9 @@ final class Task: NSView {
     override func mouseEntered(with: NSEvent) {
         super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
+            $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            base.alphaValue = 1
             _delete.alphaValue = 1
         }
     }
@@ -107,9 +112,9 @@ final class Task: NSView {
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
+            $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            base.layer!.backgroundColor = .clear
+            base.alphaValue = 0
             _delete.alphaValue = 0
         }
     }
@@ -126,8 +131,7 @@ final class Task: NSView {
     
     private func update() {
         icon.isHidden = !active
-        circle.layer!.backgroundColor = active ? NSColor(named: "haze")!.cgColor : NSColor(named: "background")!.cgColor
-        label.textColor = active ? NSColor(named: "haze")! : .white
+        circle.layer!.backgroundColor = active ? NSColor(named: "haze")!.cgColor : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
     }
     
     @objc private func delete() {
