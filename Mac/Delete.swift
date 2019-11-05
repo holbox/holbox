@@ -21,21 +21,22 @@ class Delete: Window.Modal {
     }
     
     final class Card: Delete {
-        private weak var kanban: Kanban!
+        private weak var base: Base.View!
         private let index: Int
         private let list: Int
         
-        init(_ kanban: Kanban, index: Int, list: Int) {
+        init(_ base: Base.View, index: Int, list: Int) {
             self.index = index
             self.list = list
-            self.kanban = kanban
+            self.base = base
             super.init()
             heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
         }
         
         override func confirm() {
+            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
             app.session.delete(app.project, list: list, card: index)
-            kanban.refresh()
+            base.refresh()
             super.confirm()
         }
     }

@@ -14,7 +14,7 @@ final class Base: NSView {
         
         override func mouseDown(with: NSEvent) {
             super.mouseDown(with: with)
-            window!.makeFirstResponder(nil)
+            window!.makeFirstResponder(self)
         }
         
         @objc final func more() {

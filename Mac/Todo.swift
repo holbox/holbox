@@ -28,14 +28,15 @@ final class Todo: Base.View, NSTextViewDelegate {
         
         let new = Text(.Vertical(500), Active())
         new.setAccessibilityLabel(.key("Task"))
-        (new.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 20, weight: .medium),
-                                               .emoji: .systemFont(ofSize: 36, weight: .regular),
-                                               .bold: .systemFont(ofSize: 26, weight: .bold)]
+        new.font = .systemFont(ofSize: 28, weight: .medium)
+        (new.textStorage as! Storage).fonts = [.plain: new.font!,
+                                               .emoji: .systemFont(ofSize: 45, weight: .regular),
+                                               .bold: .systemFont(ofSize: 35, weight: .bold)]
         new.delegate = self
         scroll.add(new)
         self.new = new
         
-        let _add = Button("plus", target: self, action: #selector(add))
+        let _add = Button("plusbig", target: self, action: #selector(add))
         scroll.add(_add)
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -57,12 +58,12 @@ final class Todo: Base.View, NSTextViewDelegate {
         new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         new.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-        new.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
+        new.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 5).isActive = true
         
         _add.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
         _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         refresh()
     }
@@ -113,7 +114,7 @@ final class Todo: Base.View, NSTextViewDelegate {
             var top: NSLayoutYAxisAnchor?
             [0, 1].forEach { list in
                 (0 ..< app.session.cards(app.project, list: list)).forEach {
-                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, selected: list == 1, self, #selector(change(_:)))
+                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, list: list, self)
                     scroll.add(task)
 
                     task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
@@ -150,13 +151,7 @@ final class Todo: Base.View, NSTextViewDelegate {
             }
             window!.makeFirstResponder(new)
         } else {
-            window!.makeFirstResponder(nil)
+            window!.makeFirstResponder(self)
         }
-    }
-    
-    @objc private func change(_ task: Task) {
-        app.alert(task.selected ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: task.selected ? 1 : 0, card: task.index))
-        app.session.move(app.project, list: task.selected ? 1 : 0, card: task.index, destination: task.selected ? 0 : 1, index: 0)
-        refresh()
     }
 }
