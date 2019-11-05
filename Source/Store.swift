@@ -3,6 +3,9 @@ import Foundation
 class Store {
     static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("holbox")
     var shared = Shared()
+    var time = TimeInterval(1.5)
+    private var timer: DispatchSourceTimer?
+    private static var balancing = [String: URL]()
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private static let coder = Coder()
     
@@ -27,7 +30,7 @@ class Store {
         Store.queue.async {
             self.write(session)
             self.write(project)
-            self.shared.save(["session": self.url(session), "\(project.id)": Store.url.appendingPathComponent("\(project.id)")])
+            self.save(["session": self.url(session), "\(project.id)": Store.url.appendingPathComponent("\(project.id)")])
         }
     }
     
@@ -75,7 +78,7 @@ class Store {
             shared.load(["session"], error: {
                 let session = Session()
                 self.write(session)
-                self.shared.save(["session": self.url(session)])
+                self.save(["session": self.url(session)])
                 result(session)
             }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
@@ -130,6 +133,23 @@ class Store {
         try! FileManager.default.createDirectory(at: Store.url, withIntermediateDirectories: true)
     }
     
+    func save(_ ids: [String : URL]) {
+        timer?.schedule(deadline: .distantFuture)
+        Store.balancing.merge(ids) { $1 }
+        if timer == nil {
+            timer = DispatchSource.makeTimerSource(queue: .global(qos: .background))
+            timer!.activate()
+            timer!.setEventHandler { [weak self] in
+                guard let self = self else { return }
+                self.timer!.schedule(deadline: .distantFuture)
+                let balancing = Store.balancing
+                Store.balancing = [:]
+                self.shared.save(balancing)
+            }
+        }
+        timer!.schedule(deadline: .now() + time)
+    }
+    
     private func merge(_ update: Update) {
         var update = update
         if !update.download.isEmpty {
@@ -149,12 +169,12 @@ class Store {
                 self.merge(update)
             }
         } else if !update.upload.isEmpty {
-            shared.save(update.upload.reduce(into: [:]) { $0["\($1)"] = Store.url.appendingPathComponent("\($1)") })
+            save(update.upload.reduce(into: [:]) { $0["\($1)"] = Store.url.appendingPathComponent("\($1)") })
             update.share = true
             update.upload = []
             self.merge(update)
         } else if update.share {
-            shared.save(["session": url(update.session)])
+            save(["session": url(update.session)])
             update.share = false
             self.merge(update)
         } else {

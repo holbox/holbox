@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */; };
 		DA16F18D2370020600F3A1FE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18C2370020600F3A1FE /* Task.swift */; };
 		DA16F18F2370189100F3A1FE /* Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18E2370189100F3A1FE /* Resize.swift */; };
 		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
@@ -241,6 +242,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreSave.swift; sourceTree = "<group>"; };
 		DA16F18C2370020600F3A1FE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DA16F18E2370189100F3A1FE /* Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resize.swift; sourceTree = "<group>"; };
 		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
@@ -531,6 +533,7 @@
 				DA437018234D147F00CCB34D /* TestStore.swift */,
 				DA437012234CB58000CCB34D /* TestStoreProject.swift */,
 				DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */,
+				DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */,
 				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
 			);
 			path = Tests;
@@ -1084,6 +1087,7 @@
 			files = (
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
 				DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */,
+				DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
 				DAD8ECBC236ACDF400245778 /* TestMark.swift in Sources */,

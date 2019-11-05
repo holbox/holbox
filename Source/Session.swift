@@ -7,7 +7,7 @@ public final class Session {
     var perks = [Perk]()
     var settings = Settings()
     var refreshed = Date().timeIntervalSince1970
-    
+
     public var rate: Bool { Date() >= rating }
     public var available: Int { max(capacity - count, 0) }
     public var count: Int { projects.filter { $0.mode != .off }.count }

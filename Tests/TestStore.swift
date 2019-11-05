@@ -15,6 +15,7 @@ final class TestStore: XCTestCase {
         store = .init()
         store.shared = shared
         store.prepare()
+        store.time = 0
     }
     
     override func tearDown() {
