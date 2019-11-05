@@ -18,7 +18,7 @@ final class Logo: NSView {
         setAccessibilityRole(.progressIndicator)
         setAccessibilityLabel(.key("Logo"))
         
-        timer.resume()
+        timer.activate()
         timer.schedule(deadline: .distantFuture)
         timer.setEventHandler { [weak self] in
             guard let self = self else { return }

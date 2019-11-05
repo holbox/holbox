@@ -34,7 +34,7 @@ private struct Header: View {
         Section(header:
             HStack {
                 Back(action: back)
-                TextField(.init("Kanban.project"), text: $name) {
+                TextField(.init("Project"), text: $name) {
                     self.session.name(self.name)
                 }.background(Color.clear)
                     .accentColor(.clear)

@@ -123,6 +123,9 @@
 		DAE0C7AD235EE8AD00402E4B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AC235EE8AD00402E4B /* About.swift */; };
 		DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AE235EE92B00402E4B /* Edit.swift */; };
 		DAE81688235323F90005BE0B /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE81687235323F90005BE0B /* Tab.swift */; };
+		DAEAE3D423717066001F24BE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D323717066001F24BE /* Todo.swift */; };
+		DAEAE3D6237174A1001F24BE /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D5237174A1001F24BE /* More.swift */; };
+		DAEAE3D823717755001F24BE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D723717755001F24BE /* Task.swift */; };
 		DAF09639235B03F400BCC800 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09638235B03F400BCC800 /* Card.swift */; };
 		DAF0963B235B041900BCC800 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963A235B041900BCC800 /* Column.swift */; };
 		DAF0963D235B045000BCC800 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963C235B045000BCC800 /* Text.swift */; };
@@ -328,6 +331,9 @@
 		DAE0C7AC235EE8AD00402E4B /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DAE0C7AE235EE92B00402E4B /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DAE81687235323F90005BE0B /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		DAEAE3D323717066001F24BE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		DAEAE3D5237174A1001F24BE /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
+		DAEAE3D723717755001F24BE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DAF09638235B03F400BCC800 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAF0963A235B041900BCC800 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		DAF0963C235B045000BCC800 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
@@ -633,11 +639,14 @@
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
 				DAB979572359D64C00631280 /* Modal.swift */,
+				DAEAE3D5237174A1001F24BE /* More.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
+				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
+				DAEAE3D323717066001F24BE /* Todo.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1152,6 +1161,7 @@
 				DAB979582359D64C00631280 /* Modal.swift in Sources */,
 				DAE0C7AD235EE8AD00402E4B /* About.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
+				DAEAE3D6237174A1001F24BE /* More.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
 				DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
@@ -1163,9 +1173,11 @@
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,
 				DAA464082358A29800A5E990 /* Detail.swift in Sources */,
+				DAEAE3D423717066001F24BE /* Todo.swift in Sources */,
 				DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */,
 				DAF68E98234765820060895A /* App.swift in Sources */,
 				DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */,
+				DAEAE3D823717755001F24BE /* Task.swift in Sources */,
 				DAD8ECBA236ACCF800245778 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,48 +1,6 @@
 import UIKit
 
 final class Kanban: Base.View {
-    private final class Detail: Edit {
-        private weak var kanban: Kanban!
-        private weak var _delete: Capsule!
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ kanban: Kanban) {
-            super.init(nibName: nil, bundle: nil)
-            self.kanban = kanban
-        }
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            text.text = app.session.name(app.project)
-            
-            let _delete = Capsule(.key("Kanban.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
-            view.addSubview(_delete)
-            self._delete = _delete
-            
-            _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
-        }
-        
-        override func textViewDidEndEditing(_: UITextView) {
-            app.session.name(app.project, name: text.text)
-            kanban.refresh()
-        }
-        
-        @objc private func remove() {
-            app.win.endEditing(true)
-            let alert = UIAlertController(title: .key("Delete.title.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
-            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
-                self?.presentingViewController!.dismiss(animated: true) {
-                    app.session.delete(app.project)
-                    app.main.kanban()
-                }
-            })
-            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-            alert.popoverPresentationController?.sourceView = _delete
-            present(alert, animated: true)
-        }
-    }
-    
     private weak var name: Label?
     private weak var scroll: Scroll!
     private weak var border: Border!
@@ -76,6 +34,8 @@ final class Kanban: Base.View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 20).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: border.bottomAnchor, constant: 20).isActive = true
+        scroll.width.constraint(greaterThanOrEqualTo: widthAnchor).isActive = true
+        scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
         
         _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
         _more.centerYAnchor.constraint(equalTo: _card.centerYAnchor).isActive = true
@@ -140,7 +100,7 @@ final class Kanban: Base.View {
             case .bold: return (.init(string[$1]), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
             }
         })
-        name.accessibilityLabel = .key("Kanban.project")
+        name.accessibilityLabel = .key("Project")
         name.accessibilityValue = string
         name.numberOfLines = 1
         addSubview(name)
@@ -158,9 +118,5 @@ final class Kanban: Base.View {
         app.session.add(app.project, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
-    }
-    
-    @objc private func more() {
-        app.present(Detail(self), animated: true)
     }
 }

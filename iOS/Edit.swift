@@ -6,6 +6,8 @@ class Edit: UIViewController, UITextViewDelegate {
     private weak var bottom: NSLayoutConstraint!
     private weak var _bold: Button!
     
+    required init?(coder: NSCoder) { nil }
+    init() { super.init(nibName: nil, bundle: nil) }
     deinit { NotificationCenter.default.removeObserver(self) }
     
     override func viewDidLoad() {

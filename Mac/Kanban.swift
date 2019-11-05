@@ -18,7 +18,7 @@ final class Kanban: Base.View, NSTextViewDelegate {
         self.border = border
         
         let name = Text(.Both(500, 150), Block())
-        name.setAccessibilityLabel(.key("Kanban.project"))
+        name.setAccessibilityLabel(.key("Project"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 40, weight: .regular),
                                                 .bold: .systemFont(ofSize: 34, weight: .bold)]

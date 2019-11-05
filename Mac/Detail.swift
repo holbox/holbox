@@ -34,7 +34,7 @@ final class Detail: Base.View {
         image.imageScaling = .scaleProportionallyDown
         scroll.add(image)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, NSColor(named: "haze")!.withAlphaComponent(0.5))
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, NSColor(named: "haze")!.withAlphaComponent(0.7))
         scroll.add(title)
         
         let border = Border()

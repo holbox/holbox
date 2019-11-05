@@ -14,7 +14,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         self.scroll = scroll
         
         let name = Text(.Vertical(400), Block())
-        name.setAccessibilityLabel(.key("Kanban.project"))
+        name.setAccessibilityLabel(.key("Project"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
                                                 .emoji: .systemFont(ofSize: 40, weight: .regular),
                                                 .bold: .systemFont(ofSize: 34, weight: .bold)]

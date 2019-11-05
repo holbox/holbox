@@ -164,7 +164,7 @@ final class Card: UIView {
         
         required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
-            super.init(nibName: nil, bundle: nil)
+            super.init()
             self.card = card
         }
         

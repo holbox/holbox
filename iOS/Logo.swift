@@ -14,7 +14,7 @@ final class Logo: UIView {
         isUserInteractionEnabled = false
         isHidden = true
         
-        timer.resume()
+        timer.activate()
         timer.schedule(deadline: .distantFuture)
         timer.setEventHandler { [weak self] in
             guard let self = self else { return }

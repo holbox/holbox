@@ -10,6 +10,10 @@ final class Base: UIView {
         }
         
         func refresh() { }
+        
+        @objc final func more() {
+            app.present(More(self), animated: true)
+        }
     }
     
     private weak var top: NSLayoutConstraint?

@@ -20,10 +20,10 @@ final class Add: Modal {
         
         let available = Label("\(app.session.available)", 40, .regular, UIColor(named: "haze")!)
         
-        let capacity = Label([(.key("Add.projects.title"), 14, .regular, .init(white: 1, alpha: 0.5)),
-                              ("\(app.session.count)", 14, .light, .white),
-                              (.key("Add.capacity.title"), 14, .regular, .init(white: 1, alpha: 0.5)),
-                              ("\(app.session.capacity)", 14, .light, .white)])
+        let capacity = Label([(.key("Add.projects.title"), 16, .regular, .init(white: 1, alpha: 0.6)),
+                              ("\(app.session.count)", 16, .light, .white),
+                              (.key("Add.capacity.title"), 16, .regular, .init(white: 1, alpha: 0.6)),
+                              ("\(app.session.capacity)", 16, .light, .white)])
         
         let info = Label(.key("Add.info"), 16, .regular, .white)
         

@@ -103,7 +103,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.5))
+        let title = Label(.key("Shop.title"), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
         scroll.add(title)
         
         let logo = Logo()
