@@ -90,6 +90,7 @@ Task="Task";
 Todo.empty="No tasks yet";
 Todo.restart="Re starting task";
 Todo.completed="Done!";
+Todo.delete="Delete";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";

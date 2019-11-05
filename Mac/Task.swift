@@ -1,16 +1,16 @@
 import AppKit
 
 final class Task: NSView {
-    var highlighted = false { didSet { update() } }
-    let index: Int
-    let list: Int
     private weak var label: Label!
     private weak var icon: Image!
     private weak var _delete: Button!
     private weak var todo: Todo!
     private weak var circle: NSView!
     private weak var base: NSView!
+    private var highlighted = false { didSet { update() } }
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
+    private let index: Int
+    private let list: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }

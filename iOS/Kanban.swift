@@ -95,9 +95,9 @@ final class Kanban: Base.View {
         let string = app.session.name(app.project)
         let name = Label(string.mark {
             switch $0 {
-            case .plain: return (.init(string[$1]), 26, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .plain: return (.init(string[$1]), 26, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
             case .emoji: return (.init(string[$1]), 40, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
-            case .bold: return (.init(string[$1]), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+            case .bold: return (.init(string[$1]), 30, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
             }
         })
         name.accessibilityLabel = .key("Project")

@@ -15,9 +15,9 @@ final class Todo: Base.View, NSTextViewDelegate {
         
         let name = Text(.Vertical(400), Block())
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .bold),
+        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .heavy),
                                                 .emoji: .systemFont(ofSize: 40, weight: .regular),
-                                                .bold: .systemFont(ofSize: 34, weight: .bold)]
+                                                .bold: .systemFont(ofSize: 34, weight: .heavy)]
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
         name.delegate = self
         scroll.add(name)

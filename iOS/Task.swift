@@ -1,14 +1,16 @@
 import UIKit
 
 final class Task: UIView {
-    var highlighted = false { didSet { update() } }
     let index: Int
     let list: Int
+    private(set) weak var _deleteLeft: NSLayoutConstraint!
     private weak var label: Label!
     private weak var icon: Image!
     private weak var todo: Todo!
     private weak var circle: UIView!
     private weak var base: UIView!
+    private weak var _delete: UIView!
+    private var highlighted = false { didSet { update() } }
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
     
     required init?(coder: NSCoder) { nil }
@@ -25,21 +27,30 @@ final class Task: UIView {
         let base = UIView()
         base.isUserInteractionEnabled = false
         base.translatesAutoresizingMaskIntoConstraints = false
-        base.alpha = 0
-        base.layer.cornerRadius = 10
-        base.backgroundColor = UIColor(named: "background")!
         addSubview(base)
         self.base = base
+        
+        let _delete = UIView()
+        _delete.isUserInteractionEnabled = false
+        _delete.translatesAutoresizingMaskIntoConstraints = false
+        _delete.layer.cornerRadius = 8
+        _delete.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        _delete.backgroundColor = UIColor(named: "background")!
+        addSubview(_delete)
+        self._delete = _delete
+        
+        let _deleteTitle = Label(.key("Todo.delete"), 14, .bold, UIColor(named: "haze")!)
+        _delete.addSubview(_deleteTitle)
         
         let circle = UIView()
         circle.isUserInteractionEnabled = false
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.layer.cornerRadius = 15
-        addSubview(circle)
+        base.addSubview(circle)
         self.circle = circle
         
         let icon = Image("check")
-        addSubview(icon)
+        base.addSubview(icon)
         self.icon = icon
         
         let label = Label(content.mark {
@@ -49,18 +60,32 @@ final class Task: UIView {
             case .bold: return (.init(content[$1]), 28, .bold, active ? UIColor(named: "haze")! : .white)
             }
         })
-        addSubview(label)
+        base.addSubview(label)
         self.label = label
         
-        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualTo: label.heightAnchor, constant: 2).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        
+        let height = heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
+        base.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
+        _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        _delete.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        _deleteLeft = _delete.leftAnchor.constraint(equalTo: rightAnchor)
+        _deleteLeft.isActive = true
+        
+        _deleteTitle.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
+        _deleteTitle.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
+        
         circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        circle.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
         circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
         circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
@@ -71,7 +96,8 @@ final class Task: UIView {
         
         label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 450).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
         update()
     }
@@ -116,6 +142,6 @@ final class Task: UIView {
     
     private func update() {
         icon.isHidden = !active
-        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.2)
+        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "background")!
     }
 }
