@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Add: View {
     @EnvironmentObject var session: Session
@@ -61,8 +61,10 @@ private struct Available: View {
     
     var body: some View {
         VStack {
-            Text(.init("Add.title.\(session.mode.rawValue)"))
-                .font(.headline)
+            if session.mode != nil {
+                Text(.init("Add.title.\(session.mode!.rawValue)"))
+                    .font(.headline)
+            }
             Text(.init("Add.subtitle.other"))
                 .opacity(0.4)
             Text("\(session.available)")
@@ -79,14 +81,16 @@ private struct Create: View {
     var body: some View {
         HStack {
             Spacer()
-            Button(action: create) {
-                Text(.init("Add.title.\(self.session.mode.rawValue)"))
-                    .foregroundColor(.black)
-                    .fontWeight(.bold)
-            }.background(Color("haze")
-                .cornerRadius(6))
-                .accentColor(.clear)
-                .frame(minWidth: 120)
+            if session.mode != nil {
+                Button(action: create) {
+                    Text(.init("Add.title.\(self.session.mode!.rawValue)"))
+                        .foregroundColor(.black)
+                        .fontWeight(.bold)
+                }.background(Color("haze")
+                    .cornerRadius(6))
+                    .accentColor(.clear)
+                    .frame(minWidth: 120)
+            }
             Spacer()
         }
     }
@@ -109,3 +113,4 @@ private struct Cancel: View {
         }.padding(.bottom, 20)
     }
 }
+*/

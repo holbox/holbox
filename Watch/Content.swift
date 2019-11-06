@@ -1,26 +1,14 @@
 import SwiftUI
 
 struct Content: View {
-    @EnvironmentObject var session: Session
+    @EnvironmentObject var model: Model
     
     var body: some View {
         ZStack {
             Logo()
-            if !session.loading {
-                Detail()
-                if session.project == nil {
-                    if session.more {
-                        About()
-                    } else if session.creating {
-                        Add()
-                    }
-                } else {
-                    Board()
-                    if session.item != nil {
-                        Card()
-                    }
-                }
-            }
+//            if !session.loading {
+//                Bar()
+//            }
         }.navigationBarHidden(true)
     }
 }
@@ -35,5 +23,41 @@ private struct Logo: View {
                 .frame(width: 100, height: 100)
             Spacer()
         }.listRowBackground(Color.clear)
+    }
+}
+
+private struct Bar: View {
+    @EnvironmentObject var model: Model
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                withAnimation(.linear(duration: 0.4)) {
+//                    self.session.mode = .kanban
+                }
+            }) {
+                Image("kanban")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+            Button(action: {
+                withAnimation(.linear(duration: 0.4)) {
+//                    self.session.mode = .todo
+                }
+            }) {
+                Image("todo")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+            Button(action: {
+                withAnimation(.linear(duration: 0.4)) {
+//                    self.session.more = true
+                }
+            }) {
+                Image("more")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+        }
     }
 }

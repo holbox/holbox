@@ -102,7 +102,7 @@
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
 		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
-		DAD3681723619C8D00643C9C /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Session.swift */; };
+		DAD3681723619C8D00643C9C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Model.swift */; };
 		DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5E6ED2364336200EE4AD9 /* Tool.swift */; };
 		DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
 		DAD8ECBA236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
@@ -316,7 +316,7 @@
 		DACB75CC23476CCF00037180 /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		DAD3681623619C8D00643C9C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		DAD3681623619C8D00643C9C /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DAD5E6ED2364336200EE4AD9 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		DAD8ECB8236ACCF800245778 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DAD8ECBB236ACDF400245778 /* TestMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMark.swift; sourceTree = "<group>"; };
@@ -675,7 +675,7 @@
 				DA32A734236769710018D6AE /* Content.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
 				DA21BDE623607AD0000A46AA /* Main.swift */,
-				DAD3681623619C8D00643C9C /* Session.swift */,
+				DAD3681623619C8D00643C9C /* Model.swift */,
 			);
 			path = Watch;
 			sourceTree = "<group>";
@@ -1199,7 +1199,7 @@
 				DA21BDE723607AD0000A46AA /* Main.swift in Sources */,
 				DAF68EA4234766300060895A /* App.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
-				DAD3681723619C8D00643C9C /* Session.swift in Sources */,
+				DAD3681723619C8D00643C9C /* Model.swift in Sources */,
 				DA32A735236769710018D6AE /* Content.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

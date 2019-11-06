@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Board: View {
     @EnvironmentObject var session: Session
@@ -114,3 +114,4 @@ private struct Item: View {
             .padding(.top, 10)
     }
 }
+*/

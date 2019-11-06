@@ -1,18 +1,20 @@
 import holbox
 import Foundation
 
-final class Session: ObservableObject {
-    @Published var project: Int? { didSet { update() } }
-    @Published var item: (Int, Int)?
-    @Published var creating = false
-    @Published var more = false
-    @Published var columns = 0
-    @Published private(set) var loading = true
-    @Published private(set) var projects = [Int]()
-    @Published private(set) var position: (Int, Int)?
-    var session: holbox.Session? { didSet { update() } }
-    var available: Int { session?.available ?? 0 }
-    let mode = Mode.kanban
+final class Model: ObservableObject {
+    private var session: holbox.Session?
+    
+//    @Published var mode: Mode?
+//    @Published var project: Int? { didSet { update() } }
+//    @Published var item: (Int, Int)?
+//    @Published var creating = false
+//    @Published var more = false
+//    @Published var columns = 0
+//    @Published private(set) var loading = true
+//    @Published private(set) var projects = [Int]()
+//    @Published private(set) var position: (Int, Int)?
+    
+    /*var available: Int { session?.available ?? 0 }
     
     var space: Int {
         if let item = self.item {
@@ -33,10 +35,10 @@ final class Session: ObservableObject {
         guard let item = self.item else { return "" }
         return content(item.0, card: item.1)
     }
-    
+    */
     func load() {
         if session == nil {
-            holbox.Session.load {
+            Session.load {
                 self.session = $0
             }
         }
@@ -52,7 +54,7 @@ final class Session: ObservableObject {
             }
         }
     }
-    
+    /*
     func name(_ project: Int) -> String {
         session?.name(project) ?? ""
     }
@@ -64,6 +66,7 @@ final class Session: ObservableObject {
     }
     
     func add() {
+        guard let mode = self.mode else { return }
         session?.add(mode)
         update()
         project = 0
@@ -71,7 +74,7 @@ final class Session: ObservableObject {
     }
     
     func delete(_ project: IndexSet) {
-        guard let session = self.session else { return }
+        guard let session = self.session, let mode = self.mode else { return }
         session.delete(session.projects(mode)[project.first!])
         update()
     }
@@ -147,12 +150,16 @@ final class Session: ObservableObject {
   
     private func update() {
         loading = session == nil
-        projects = session?.projects(mode) ?? []
-        
-        if let project = self.project {
-            columns = session?.lists(project) ?? 0
+        if let mode = self.mode {
+            projects = session?.projects(mode) ?? []
+            if let project = self.project {
+                columns = session?.lists(project) ?? 0
+            } else {
+                columns = 0
+            }
         } else {
+            projects = []
             columns = 0
         }
-    }
+    }*/
 }

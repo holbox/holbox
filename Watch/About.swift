@@ -1,5 +1,5 @@
 import SwiftUI
-
+/*
 struct About: View {
     @EnvironmentObject var session: Session
     @State private var opacity = 1.0
@@ -52,3 +52,4 @@ private struct Logo: View {
         }
     }
 }
+*/

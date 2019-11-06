@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Card: View {
     @EnvironmentObject var session: Session
@@ -137,3 +137,4 @@ private struct Column: View {
         }.listRowBackground(Color.clear)
     }
 }
+*/

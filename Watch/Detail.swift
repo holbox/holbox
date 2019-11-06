@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Detail: View {
     @EnvironmentObject var session: Session
@@ -57,14 +57,16 @@ private struct Icon: View {
     var body: some View {
         HStack {
             Spacer()
-            Image("detail.\(session.mode.rawValue)")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 70, height: 50)
-            Text(.init("Detail.title.\(session.mode.rawValue)"))
-                .font(.headline)
-                .foregroundColor(Color("haze"))
-                .padding(.top, 20)
+            if session.mode != nil {
+                Image("detail.\(session.mode!.rawValue)")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 70, height: 50)
+                Text(.init("Detail.title.\(session.mode!.rawValue)"))
+                    .font(.headline)
+                    .foregroundColor(Color("haze"))
+                    .padding(.top, 20)
+            }
             Spacer()
         }
     }
@@ -97,3 +99,4 @@ private struct New: View {
         }
     }
 }
+*/

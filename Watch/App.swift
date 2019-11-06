@@ -3,7 +3,7 @@ import WatchKit
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
     var awoke = false
-    let session = Session()
+    let model = Model()
     
     override init() {
         super.init()
@@ -11,7 +11,7 @@ final class App: NSObject, WKExtensionDelegate {
     }
     
     func applicationDidBecomeActive() {
-        session.load()
+        model.load()
     }
     
     func applicationDidEnterBackground() {
@@ -21,7 +21,7 @@ final class App: NSObject, WKExtensionDelegate {
     func refresh() {
         if awoke {
             awoke = false
-            session.refresh()
+            model.refresh()
         }
     }
 }
