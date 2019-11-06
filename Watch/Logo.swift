@@ -19,6 +19,7 @@ struct Logo: View {
                 }.stroke(index > self.counter ? Color("background") : Color("haze"), lineWidth: 3)
             }
         }.onAppear {
+            self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 if self.counter == 35 {
                     self.counter = -1

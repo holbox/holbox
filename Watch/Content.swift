@@ -1,4 +1,5 @@
 import SwiftUI
+import holbox
 
 struct Content: View {
     @EnvironmentObject var model: Model
@@ -22,17 +23,17 @@ private struct Bar: View {
     
     var body: some View {
         VStack {
-            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
+            NavigationLink(destination: Detail().environmentObject(model), tag: .kanban, selection: .init($model.mode)) {
                 Image("kanban")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
+            NavigationLink(destination: Detail().environmentObject(model), tag: .todo, selection: .init($model.mode)) {
                 Image("todo")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
+            NavigationLink(destination: About().environmentObject(model), isActive: $model.more) {
                 Image("more")
                     .renderingMode(.original)
                     .opacity(0.5)

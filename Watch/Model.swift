@@ -4,7 +4,29 @@ import Foundation
 final class Model: ObservableObject {
     @Published var loading = true
     @Published var more = false
+    @Published var create = false
+    @Published var mode = Mode.off
     private var session: holbox.Session!
+    
+    func load() {
+        if session == nil {
+            Session.load {
+                self.session = $0
+                self.loading = false
+            }
+        }
+    }
+    
+    func refresh() {
+        if let session = self.session {
+            if session.refreshable {
+                self.loading = true
+                session.refresh {
+                    self.loading = false
+                }
+            }
+        }
+    }
     
 //    @Published var mode: Mode?
 //    @Published var project: Int? { didSet { update() } }
@@ -38,25 +60,7 @@ final class Model: ObservableObject {
         return content(item.0, card: item.1)
     }
     */
-    func load() {
-        if session == nil {
-            Session.load {
-                self.session = $0
-                self.loading = false
-            }
-        }
-    }
     
-    func refresh() {
-        if let session = self.session {
-            if session.refreshable {
-                self.loading = true
-                session.refresh {
-                    self.loading = false
-                }
-            }
-        }
-    }
     /*
     func name(_ project: Int) -> String {
         session?.name(project) ?? ""

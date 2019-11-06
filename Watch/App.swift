@@ -1,4 +1,5 @@
 import WatchKit
+import SwiftUI
 
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
@@ -12,6 +13,7 @@ final class App: NSObject, WKExtensionDelegate {
     
     func applicationDidBecomeActive() {
         model.load()
+        refresh()
     }
     
     func applicationDidEnterBackground() {
@@ -24,4 +26,8 @@ final class App: NSObject, WKExtensionDelegate {
             model.refresh()
         }
     }
+}
+
+final class Main: WKHostingController<AnyView> {
+    override var body: AnyView { .init(Content().environmentObject(app.model)) }
 }

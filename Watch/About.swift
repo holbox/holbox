@@ -2,7 +2,6 @@ import SwiftUI
 
 struct About: View {
     @EnvironmentObject var model: Model
-    @State private var opacity = 1.0
     
     var body: some View {
         ScrollView {
@@ -23,10 +22,7 @@ struct About: View {
                     .lineLimit(50)
                     .offset(.init(width: 0, height: -25))
             }
-        }.background(Color.black)
-            .opacity(opacity)
-            .edgesIgnoringSafeArea(.all)
-            .transition(.move(edge: .bottom))
+        }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
 }

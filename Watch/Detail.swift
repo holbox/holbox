@@ -1,32 +1,78 @@
-/*import SwiftUI
+import SwiftUI
 
 struct Detail: View {
-    @EnvironmentObject var session: Session
+    @EnvironmentObject var model: Model
     
     var body: some View {
-        List {
-            Projects()
-        }.edgesIgnoringSafeArea(.top)
-            .transition(.move(edge: .bottom))
+        ScrollView {
+            VStack {
+                Header()
+                Projects()
+            }
+        }.edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
     }
 }
 
-private struct Projects: View {
-    @EnvironmentObject var session: Session
+private struct Header: View {
+    @EnvironmentObject var model: Model
     
     var body: some View {
-        Section(header: Header()) {
-            ForEach(session.projects, id: \.self) {
-                Project(index: $0)
-            }.onDelete(perform: session.delete)
-            if session.projects.isEmpty {
-                Spacer()
-                    .listRowBackground(Color.clear)
-            }
+        VStack {
+            Title()
+            New()
         }
     }
 }
 
+private struct Title: View {
+    @EnvironmentObject var model: Model
+    
+    var body: some View {
+        HStack {
+            Back {
+                self.model.mode = .off
+            }
+            if model.mode != .off {
+                Text(.init("Detail.title.\(model.mode.rawValue)"))
+                    .font(.headline)
+                    .foregroundColor(Color("haze"))
+                    .offset(x: -15)
+            }
+            Spacer()
+        }
+    }
+}
+
+private struct New: View {
+    @EnvironmentObject var model: Model
+    
+    var body: some View {
+        ZStack {
+            if model.mode != .off {
+                Image("detail.\(model.mode.rawValue)")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 70)
+                    .offset(y: -20)
+            }
+            NavigationLink(destination: Circle(), isActive: $model.create) {
+                Image("plus")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .offset(y: 10)
+        }
+    }
+}
+
+private struct Projects: View {
+
+    var body: some View {
+        Circle()
+    }
+}
+/*
 private struct Project: View {
     @EnvironmentObject var session: Session
     let index: Int
@@ -39,64 +85,6 @@ private struct Project: View {
         }.listRowBackground(Color.clear)
             .font(Font.body.bold())
             .foregroundColor(Color("haze"))
-    }
-}
-
-private struct Header: View {
-    var body: some View {
-        VStack {
-            Icon()
-            New()
-        }
-    }
-}
-
-private struct Icon: View {
-    @EnvironmentObject var session: Session
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            if session.mode != nil {
-                Image("detail.\(session.mode!.rawValue)")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 70, height: 50)
-                Text(.init("Detail.title.\(session.mode!.rawValue)"))
-                    .font(.headline)
-                    .foregroundColor(Color("haze"))
-                    .padding(.top, 20)
-            }
-            Spacer()
-        }
-    }
-}
-
-private struct New: View {
-    @EnvironmentObject var session: Session
-
-    var body: some View {
-        HStack {
-            Button(action: {
-                withAnimation(.linear(duration: 0.4)) {
-                    self.session.more = true
-                }
-            }) {
-                Image("more")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            Spacer()
-            Button(action: {
-                withAnimation(.linear(duration: 0.4)) {
-                    self.session.creating = true
-                }
-            }) {
-                Image("plus")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-        }
     }
 }
 */

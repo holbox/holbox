@@ -13,7 +13,6 @@
 		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
-		DA21BDE723607AD0000A46AA /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDE623607AD0000A46AA /* Main.swift */; };
 		DA21BDEB23607B0D000A46AA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEA23607B0D000A46AA /* About.swift */; };
 		DA21BDED23607E66000A46AA /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEC23607E66000A46AA /* Add.swift */; };
 		DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEE23608FD7000A46AA /* Detail.swift */; };
@@ -249,7 +248,6 @@
 		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
-		DA21BDE623607AD0000A46AA /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA21BDEA23607B0D000A46AA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DA21BDEC23607E66000A46AA /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DA21BDEE23608FD7000A46AA /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -677,7 +675,6 @@
 				DA32A734236769710018D6AE /* Content.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
-				DA21BDE623607AD0000A46AA /* Main.swift */,
 				DAD3681623619C8D00643C9C /* Model.swift */,
 			);
 			path = Watch;
@@ -1199,7 +1196,6 @@
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA28EBE6236174AB002EF691 /* Board.swift in Sources */,
-				DA21BDE723607AD0000A46AA /* Main.swift in Sources */,
 				DAF68EA4234766300060895A /* App.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
 				DAD3681723619C8D00643C9C /* Model.swift in Sources */,
