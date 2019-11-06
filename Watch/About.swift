@@ -10,7 +10,7 @@ struct About: View {
                 Back {
                     self.model.more = false
                 }
-                Logo()
+                Icon()
                 HStack {
                     Text(.init("Privacy.title"))
                         .font(.headline)
@@ -26,11 +26,12 @@ struct About: View {
         }.background(Color.black)
             .opacity(opacity)
             .edgesIgnoringSafeArea(.all)
-            .transition(.move(edge: .bottom)).navigationBarHidden(true)
+            .transition(.move(edge: .bottom))
+            .navigationBarHidden(true)
     }
 }
 
-private struct Logo: View {
+private struct Icon: View {
     var body: some View {
         HStack {
             Image("logo")

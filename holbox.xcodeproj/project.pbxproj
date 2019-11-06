@@ -40,6 +40,7 @@
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
 		DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6513235E00AD00B5F6EE /* Item.swift */; };
 		DA4C6516235E00D400B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6515235E00D400B5F6EE /* Item.swift */; };
+		DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9D2372D33E002B5E51 /* Logo.swift */; };
 		DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
 		DA5AC043234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
 		DA5AC044234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
@@ -268,6 +269,7 @@
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA4C6513235E00AD00B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA4C6515235E00D400B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		DA561E9D2372D33E002B5E51 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
 		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
 		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
 				DA32A734236769710018D6AE /* Content.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
+				DA561E9D2372D33E002B5E51 /* Logo.swift */,
 				DA21BDE623607AD0000A46AA /* Main.swift */,
 				DAD3681623619C8D00643C9C /* Model.swift */,
 			);
@@ -1200,6 +1203,7 @@
 				DAF68EA4234766300060895A /* App.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
 				DAD3681723619C8D00643C9C /* Model.swift in Sources */,
+				DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */,
 				DA32A735236769710018D6AE /* Content.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
