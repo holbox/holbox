@@ -8,7 +8,7 @@ struct Detail: View {
             Header()
             Projects()
             Spacer()
-                .frame(height: 10)
+                .frame(height: 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -74,17 +74,26 @@ private struct Projects: View {
             NavigationLink(destination:
                 Kanban()
                     .environmentObject(self.model), tag: project, selection: .init(self.$model.project)) {
-                    HStack {
-                        Circle()
-                            .foregroundColor(.init("haze"))
-                            .frame(width: 10, height: 10)
-                        Text(self.model.name(project))
-                            .foregroundColor(.init("haze"))
-                            .bold()
-                        Spacer()
-                    }
+                Project(project: project)
             }.background(Color.clear)
                 .accentColor(.clear)
+        }
+    }
+}
+
+private struct Project: View {
+    @EnvironmentObject var model: Model
+    let project: Int
+
+    var body: some View {
+        HStack {
+            Circle()
+                .foregroundColor(.init("haze"))
+                .frame(width: 10, height: 10)
+            Text(model.name(project))
+                .foregroundColor(.init("haze"))
+                .bold()
+            Spacer()
         }
     }
 }

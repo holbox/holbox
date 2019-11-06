@@ -16,7 +16,6 @@ final class Text: UITextView {
         bounces = false
         tintColor = UIColor(named: "haze")!
         font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 25), weight: .medium)
-        keyboardType = .alphabet
         keyboardAppearance = .dark
         keyboardDismissMode = .interactive
         spellCheckingType = app.session.spell ? .yes : .no

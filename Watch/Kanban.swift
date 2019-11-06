@@ -7,6 +7,8 @@ struct Kanban: View {
         ScrollView {
             Header()
             Columns()
+            Spacer()
+                .frame(height: 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -75,16 +77,50 @@ private struct Column: View {
             NavigationLink(destination:
                 Circle(), tag: card, selection: .init(self.$model.card)) {
                     HStack {
-                        Circle()
-                            .foregroundColor(.init("haze"))
-                            .frame(width: 10, height: 10)
-                        Text(self.model.content(self.list, card: card))
-                            .foregroundColor(.init("haze"))
-                            .bold()
+                        Card(list: self.list, card: card)
                         Spacer()
                     }
             }.background(Color.clear)
                 .accentColor(.clear)
+        }
+    }
+}
+
+private struct Card: View {
+    @EnvironmentObject var model: Model
+    let list: Int
+    let card: Int
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            if model.content(list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Image("empty")
+                    .renderingMode(.original)
+            } else {
+                ForEach(model.content(list, card: card).mark { ($0, $1) }, id: \.1) {
+                    Item(list: self.list, card: self.card, mark: $0)
+                }
+            }
+        }
+    }
+}
+
+private struct Item: View {
+    @EnvironmentObject var model: Model
+    let list: Int
+    let card: Int
+    let mark: (String.Mode, Range<String.Index>)
+    
+    var body: some View {
+        HStack {
+            Text(model.content(list, card: card)[mark.1])
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(100)
+                .font(mark.0 == .plain ? .caption :
+                    mark.0 == .bold ? Font.body.bold() : .title)
+                .foregroundColor(.white)
+                .padding(.zero)
+            Spacer()
         }
     }
 }
