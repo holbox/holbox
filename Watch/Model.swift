@@ -2,7 +2,9 @@ import holbox
 import Foundation
 
 final class Model: ObservableObject {
-    private var session: holbox.Session?
+    @Published var loading = true
+    @Published var more = false
+    private var session: holbox.Session!
     
 //    @Published var mode: Mode?
 //    @Published var project: Int? { didSet { update() } }
@@ -40,6 +42,7 @@ final class Model: ObservableObject {
         if session == nil {
             Session.load {
                 self.session = $0
+                self.loading = false
             }
         }
     }
@@ -47,9 +50,9 @@ final class Model: ObservableObject {
     func refresh() {
         if let session = self.session {
             if session.refreshable {
-                self.session = nil
+                self.loading = true
                 session.refresh {
-                    self.session = session
+                    self.loading = false
                 }
             }
         }

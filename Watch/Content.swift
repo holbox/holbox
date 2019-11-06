@@ -4,12 +4,16 @@ struct Content: View {
     @EnvironmentObject var model: Model
     
     var body: some View {
-        ZStack {
-            Logo()
-//            if !session.loading {
-//                Bar()
-//            }
-        }.navigationBarHidden(true)
+        GeometryReader {
+            if self.model.loading {
+                Logo()
+                    .frame(width: $0.size.width, height: $0.size.height)
+            } else {
+                Bar()
+                    .frame(width: $0.size.width, height: $0.size.height)
+            }
+        }.edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
     }
 }
 
@@ -22,7 +26,7 @@ private struct Logo: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
             Spacer()
-        }.listRowBackground(Color.clear)
+        }
     }
 }
 
@@ -31,31 +35,20 @@ private struct Bar: View {
     
     var body: some View {
         VStack {
-            Button(action: {
-                withAnimation(.linear(duration: 0.4)) {
-//                    self.session.mode = .kanban
-                }
-            }) {
+            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
                 Image("kanban")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            Button(action: {
-                withAnimation(.linear(duration: 0.4)) {
-//                    self.session.mode = .todo
-                }
-            }) {
+            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
                 Image("todo")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            Button(action: {
-                withAnimation(.linear(duration: 0.4)) {
-//                    self.session.more = true
-                }
-            }) {
+            NavigationLink(destination: About().environmentObject(self.model), isActive: self.$model.more) {
                 Image("more")
                     .renderingMode(.original)
+                    .opacity(0.5)
             }.background(Color.clear)
                 .accentColor(.clear)
         }
