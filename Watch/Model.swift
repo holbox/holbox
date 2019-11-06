@@ -5,11 +5,11 @@ final class Model: ObservableObject {
     @Published var more = false
     @Published var create = false
     @Published var mode = Mode.off
-    @Published var project = -1
+    @Published var project = -1 { didSet { updateLists() } }
     @Published var card = -1
     @Published private(set) var loading = true
+    @Published private(set) var lists = 0
     var projects: [Int] { session.projects(mode) }
-    var lists: Int { project >= 0 ? session.lists(project) : 0 }
     private var session: holbox.Session!
     
     func load() {
@@ -43,12 +43,30 @@ final class Model: ObservableObject {
         project >= 0 ? session.name(project, list: list) : ""
     }
     
+    func marks(_ list: Int, card: Int) -> [(String, String.Mode)] {
+        let content = session.content(project, list: list, card: card)
+        return content.mark { (.init(content[$1]), $0) }
+    }
+    
     func content(_ list: Int, card: Int) -> String {
-        project >= 0 ? session.content(project, list: list, card: card) : ""
+        project >= 0 && card >= 0 && list < lists && card < cards(list) ? session.content(project, list: list, card: card) : ""
+    }
+    
+    func content(_ list: Int, _ card: Int, _ content: String) {
+        session.content(project, list: list, card: card, content: content)
     }
     
     func cards(_ list: Int) -> Int {
         project >= 0 ? session.cards(project, list: list) : 0
     }
     
+    func delete(_ list: Int, card: Int) {
+        guard project >= 0 && card >= 0 else { return }
+        session.delete(project, list: list, card: card)
+        updateLists()
+    }
+    
+    private func updateLists() {
+        lists = project >= 0 ? session.lists(project) : 0
+    }
 }

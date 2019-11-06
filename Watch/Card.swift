@@ -1,3 +1,136 @@
+import SwiftUI
+
+struct Card: View {
+    @EnvironmentObject var model: Model
+    @State var list: Int
+    
+    var body: some View {
+        ScrollView {
+            Header(list: $list)
+            Move(list: $list)
+            Spacer()
+                .frame(height: 20)
+        }.edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
+    }
+}
+
+private struct Header: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
+    @State var deleting = false
+    
+    var body: some View {
+        VStack {
+            Title(list: $list, content: model.content(list, card: model.card))
+            Button(action: {
+                self.deleting = true
+            }) {
+                Image("delete")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .padding(.top, 10)
+        }.sheet(isPresented: $deleting) {
+            if self.model.mode != .off {
+                Button(.init("Delete.title.card.\(self.model.mode.rawValue)")) {
+                    self.model.delete(self.list, card: self.model.card)
+                    self.deleting = false
+                    self.model.card = -1
+                }.background(Color("haze")
+                    .cornerRadius(8))
+                    .accentColor(.clear)
+                    .foregroundColor(.black)
+                    .font(Font.headline.bold())
+            }
+        }
+    }
+}
+
+private struct Title: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
+    @State var content: String
+    
+    var body: some View {
+        HStack {
+            Back {
+                self.model.card = -1
+            }
+            TextField(.init("Card"), text: $content) {
+                self.model.content(self.list, self.model.card, self.content)
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .padding(.top, 15)
+        }
+    }
+}
+
+private struct Move: View {
+    @EnvironmentObject var mode: Model
+    @Binding var list: Int
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text(.init("Card.move.title"))
+                    .font(Font.caption
+                        .bold())
+                    .foregroundColor(Color("haze"))
+                    .opacity(0.6)
+                Spacer()
+            }
+            Columns(list: $list)
+        }
+    }
+}
+
+private struct Columns: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
+    
+    var body: some View {
+        ForEach(0 ..< model.lists, id: \.self) {
+            Column(list: self.$list, index: $0)
+        }
+    }
+}
+
+private struct Column: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
+    let index: Int
+    
+    var body: some View {
+        HStack {
+            if index == list {
+                Text(model.list(index))
+                    .foregroundColor(Color("haze"))
+                    .font(Font.subheadline
+                        .bold())
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .foregroundColor(Color("haze"))
+                    .frame(width: 20, height: 20)
+                    .padding(.leading, 5)
+                Spacer()
+            } else {
+                Button(action: {
+//                    self.session.move(self.index)
+                }) {
+                    Text(model.list(index))
+                        .foregroundColor(.white)
+                        .font(Font.subheadline
+                            .bold())
+                    Spacer()
+                    Spacer()
+                }.background(Color.clear)
+                    .accentColor(.clear)
+            }
+        }
+    }
+}
+
 /*import SwiftUI
 
 struct Card: View {
@@ -108,33 +241,5 @@ private struct Stepper: View {
     }
 }
 
-private struct Column: View {
-    @EnvironmentObject var session: Session
-    let index: Int
-    
-    var body: some View {
-        HStack {
-            if index == self.session.position?.0 {
-                Text(session.list(index))
-                    .foregroundColor(Color("haze"))
-                    .bold()
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .foregroundColor(Color("haze"))
-                    .frame(width: 20, height: 20)
-                    .padding(.leading, 3)
-            }
-            else {
-                Button(action: {
-                    self.session.move(self.index)
-                }) {
-                    Text(session.list(index))
-                        .foregroundColor(Color("haze"))
-                        .bold()
-                }.background(Color.clear)
-                    .accentColor(.clear)
-            }
-        }.listRowBackground(Color.clear)
-    }
-}
+
 */

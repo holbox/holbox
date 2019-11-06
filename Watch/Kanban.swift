@@ -37,12 +37,10 @@ private struct Title: View {
             Back {
                 self.model.project = -1
             }
-            if model.mode != .off {
-                Text(model.name(model.project))
-                    .font(.caption)
-                    .foregroundColor(Color("haze"))
-                    .offset(x: -15)
-            }
+            Text(model.name(model.project))
+                .font(.caption)
+                .foregroundColor(Color("haze"))
+                .offset(x: -15)
             Spacer()
         }
     }
@@ -75,9 +73,10 @@ private struct Column: View {
     var body: some View {
         ForEach(0 ..< model.cards(list), id: \.self) { card in
             NavigationLink(destination:
-                Circle(), tag: card, selection: .init(self.$model.card)) {
+                Card(list: self.list)
+                    .environmentObject(self.model), tag: card, selection: .init(self.$model.card)) {
                     HStack {
-                        Card(list: self.list, card: card)
+                        Items(list: self.list, card: card)
                         Spacer()
                     }
             }.background(Color.clear)
@@ -86,19 +85,19 @@ private struct Column: View {
     }
 }
 
-private struct Card: View {
+private struct Items: View {
     @EnvironmentObject var model: Model
     let list: Int
     let card: Int
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             if model.content(list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Image("empty")
                     .renderingMode(.original)
             } else {
-                ForEach(model.content(list, card: card).mark { ($0, $1) }, id: \.1) {
-                    Item(list: self.list, card: self.card, mark: $0)
+                ForEach(model.marks(list, card: card), id: \.1) {
+                    Item(list: self.list, card: self.card, content: $0.0, mode: $0.1)
                 }
             }
         }
@@ -109,17 +108,16 @@ private struct Item: View {
     @EnvironmentObject var model: Model
     let list: Int
     let card: Int
-    let mark: (String.Mode, Range<String.Index>)
+    let content: String
+    let mode: String.Mode
     
     var body: some View {
         HStack {
-            Text(model.content(list, card: card)[mark.1])
+            Text(content)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(100)
-                .font(mark.0 == .plain ? .caption :
-                    mark.0 == .bold ? Font.body.bold() : .title)
+                .font(mode == .plain ? .caption : mode == .bold ? Font.body.bold() : .title)
                 .foregroundColor(.white)
-                .padding(.zero)
             Spacer()
         }
     }
