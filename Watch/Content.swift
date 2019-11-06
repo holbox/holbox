@@ -23,14 +23,14 @@ private struct Bar: View {
     var body: some View {
         VStack {
             NavigationLink(destination:
-                Detail(projects: model.projects(.kanban))
+                Detail()
                     .environmentObject(model), tag: .kanban, selection: .init($model.mode)) {
                 Image("kanban")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
             NavigationLink(destination:
-                Detail(projects: model.projects(.todo))
+                Detail()
                     .environmentObject(model), tag: .todo, selection: .init($model.mode)) {
                 Image("todo")
                     .renderingMode(.original)

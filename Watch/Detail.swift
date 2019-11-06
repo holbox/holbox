@@ -2,14 +2,13 @@ import SwiftUI
 
 struct Detail: View {
     @EnvironmentObject var model: Model
-    let projects: [Int]
     
     var body: some View {
         ScrollView {
             Header()
-            Projects(projects: projects)
+            Projects()
             Spacer()
-                .frame(height: 100)
+                .frame(height: 10)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -69,19 +68,16 @@ private struct New: View {
 
 private struct Projects: View {
     @EnvironmentObject var model: Model
-    @State private var project = -1
-    let projects: [Int]
 
     var body: some View {
-        ForEach(projects, id: \.self) { project in
+        ForEach(model.projects, id: \.self) { project in
             NavigationLink(destination:
-                Kanban(project: self.$project)
-                    .environmentObject(self.model), tag: project, selection: .init(self.$project)) {
+                Kanban()
+                    .environmentObject(self.model), tag: project, selection: .init(self.$model.project)) {
                     HStack {
                         Circle()
                             .foregroundColor(.init("haze"))
-                            .frame(width: 8, height: 8)
-                            .padding(.leading, 10)
+                            .frame(width: 10, height: 10)
                         Text(self.model.name(project))
                             .foregroundColor(.init("haze"))
                             .bold()
