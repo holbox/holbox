@@ -2,13 +2,14 @@ import SwiftUI
 
 struct Detail: View {
     @EnvironmentObject var model: Model
+    let projects: [Int]
     
     var body: some View {
         ScrollView {
-            VStack {
-                Header()
-                Projects()
-            }
+            Header()
+            Projects(projects: projects)
+            Spacer()
+                .frame(height: 100)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -62,29 +63,32 @@ private struct New: View {
             }.background(Color.clear)
                 .accentColor(.clear)
                 .offset(y: 10)
-        }
+        }.padding(.bottom, 10)
     }
 }
 
 private struct Projects: View {
+    @EnvironmentObject var model: Model
+    @State private var project = -1
+    let projects: [Int]
 
     var body: some View {
-        Circle()
+        ForEach(projects, id: \.self) { project in
+            NavigationLink(destination:
+                Kanban(project: self.$project)
+                    .environmentObject(self.model), tag: project, selection: .init(self.$project)) {
+                    HStack {
+                        Circle()
+                            .foregroundColor(.init("haze"))
+                            .frame(width: 8, height: 8)
+                            .padding(.leading, 10)
+                        Text(self.model.name(project))
+                            .foregroundColor(.init("haze"))
+                            .bold()
+                        Spacer()
+                    }
+            }.background(Color.clear)
+                .accentColor(.clear)
+        }
     }
 }
-/*
-private struct Project: View {
-    @EnvironmentObject var session: Session
-    let index: Int
-    
-    var body: some View {
-        Button(session.name(index)) {
-            withAnimation(.linear(duration: 0.4)) {
-                self.session.project = self.index
-            }
-        }.listRowBackground(Color.clear)
-            .font(Font.body.bold())
-            .foregroundColor(Color("haze"))
-    }
-}
-*/
