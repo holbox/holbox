@@ -71,12 +71,12 @@ private struct Column: View {
     let list: Int
     
     var body: some View {
-        ForEach(0 ..< model.cards(list), id: \.self) { card in
+        ForEach(0 ..< model.cards(list), id: \.self) { index in
             NavigationLink(destination:
-                Card(list: self.list)
-                    .environmentObject(self.model), tag: card, selection: .init(self.$model.card)) {
+                Card()
+                    .environmentObject(self.model), tag: .init(list: self.list, index: index), selection: .init(self.$model.card)) {
                     HStack {
-                        Items(list: self.list, card: card)
+                        Items(card: .init(list: self.list, index: index))
                         Spacer()
                     }
             }.background(Color.clear)
@@ -87,17 +87,16 @@ private struct Column: View {
 
 private struct Items: View {
     @EnvironmentObject var model: Model
-    let list: Int
-    let card: Int
+    let card: Index
     
     var body: some View {
         VStack {
-            if model.content(list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if model.content(card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Image("empty")
                     .renderingMode(.original)
             } else {
-                ForEach(model.marks(list, card: card), id: \.1) {
-                    Item(list: self.list, card: self.card, content: $0.0, mode: $0.1)
+                ForEach(model.marks(card), id: \.1) {
+                    Item(content: $0.0, mode: $0.1)
                 }
             }
         }
@@ -105,9 +104,6 @@ private struct Items: View {
 }
 
 private struct Item: View {
-    @EnvironmentObject var model: Model
-    let list: Int
-    let card: Int
     let content: String
     let mode: String.Mode
     

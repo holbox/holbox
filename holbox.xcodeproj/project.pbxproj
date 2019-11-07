@@ -39,6 +39,7 @@
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
 		DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6513235E00AD00B5F6EE /* Item.swift */; };
 		DA4C6516235E00D400B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6515235E00D400B5F6EE /* Item.swift */; };
+		DA50B85B23740D5A0042EE72 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA50B85A23740D5A0042EE72 /* Index.swift */; };
 		DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9D2372D33E002B5E51 /* Logo.swift */; };
 		DA561EA023730191002B5E51 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9F23730191002B5E51 /* Kanban.swift */; };
 		DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
@@ -268,6 +269,7 @@
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA4C6513235E00AD00B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA4C6515235E00D400B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		DA50B85A23740D5A0042EE72 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		DA561E9D2372D33E002B5E51 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA561E9F23730191002B5E51 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
@@ -676,6 +678,7 @@
 				DAF68EA02347662F0060895A /* ComplicationController.swift */,
 				DA32A734236769710018D6AE /* Content.swift */,
 				DA21BDEE23608FD7000A46AA /* Detail.swift */,
+				DA50B85A23740D5A0042EE72 /* Index.swift */,
 				DA561E9F23730191002B5E51 /* Kanban.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
 				DAD3681623619C8D00643C9C /* Model.swift */,
@@ -1197,6 +1200,7 @@
 				DA38B683236834D000C6203F /* Back.swift in Sources */,
 				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
+				DA50B85B23740D5A0042EE72 /* Index.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA28EBE6236174AB002EF691 /* Board.swift in Sources */,
 				DA561EA023730191002B5E51 /* Kanban.swift in Sources */,
