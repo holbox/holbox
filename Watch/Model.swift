@@ -13,11 +13,11 @@ final class Model: ObservableObject {
     
     func load() {
         if session == nil {
-            Session.load {
-                self.session = $0
-                self.available = $0.available
-                self.loading = false
-            }
+//            Session.load {
+//                self.session = $0
+//                self.available = $0.available
+//                self.loading = false
+//            }
         }
     }
     
