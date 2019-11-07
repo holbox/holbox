@@ -5,16 +5,16 @@ struct Detail: View {
     
     var body: some View {
         ScrollView {
-            Header()
+            Title()
             Projects()
             Spacer()
-                .frame(height: 20)
+                .frame(height: 30)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
 }
 
-private struct Header: View {
+private struct Title: View {
     @EnvironmentObject var model: Model
     
     var body: some View {

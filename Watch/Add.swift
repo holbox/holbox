@@ -6,7 +6,7 @@ struct Add: View {
     
     var body: some View {
         ScrollView {
-            Header()
+            Title()
             Available()
             if model.available > 0 {
                 Button(.init("Add.title.\(model.mode.rawValue)")) {
@@ -29,7 +29,7 @@ struct Add: View {
     }
 }
 
-private struct Header: View {
+private struct Title: View {
     var body: some View {
         HStack {
             Spacer()

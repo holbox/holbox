@@ -3,39 +3,25 @@ import SwiftUI
 struct Card: View {
     @EnvironmentObject var model: Model
     @State var card: Index
+    @State private var content = ""
     
     var body: some View {
         ScrollView {
-            Header(card: $card, content: model.content(card))
+            Header(name: $content) {
+                self.model.card = .null
+            }
             Columns(card: $card)
             Position(card: $card)
             Stepper(card: $card)
-            Footer(card: $card)
+            Footer(name: $content, title: .init("Delete.title.card.\(self.model.mode.rawValue)"), delete: {
+                self.model.delete(self.card)
+            }) {
+                self.model.content(self.card, content: self.content)
+            }
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
-    }
-}
-
-private struct Header: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    @State var content: String
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Back {
-                    self.model.card = .null
-                }
-                Spacer()
-            }
-            TextField(.init("Card"), text: $content) {
-                self.model.content(self.card, content: self.content)
-            }.background(Color("background")
-                .cornerRadius(8))
-                .accentColor(.clear)
-                .padding(.vertical, 25)
-                .offset(y: -10)
+            .onAppear {
+                self.content = self.model.content(self.card)
         }
     }
 }
@@ -135,30 +121,5 @@ private struct Stepper: View {
                 .accentColor(.clear)
                 .padding(.trailing, 10)
         }
-    }
-}
-
-private struct Footer: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    @State private var deleting = false
-    
-    var body: some View {
-        Button(action: {
-            self.deleting = true
-        }) {
-            Image(systemName: "trash.circle.fill")
-                .resizable()
-                .foregroundColor(Color("haze"))
-                .frame(width: 35, height: 35)
-        }.background(Color.clear)
-            .accentColor(.clear)
-            .padding(.vertical, 30)
-            .sheet(isPresented: $deleting) {
-                Delete(title: .init("Delete.title.card.\(self.model.mode.rawValue)")) {
-                    self.model.delete(self.card)
-                    self.deleting = false
-                }
-            }
     }
 }

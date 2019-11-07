@@ -25,6 +25,7 @@ final class Model: ObservableObject {
         guard session != nil else { return }
         if session.refreshable {
             loading = true
+            WKExtension.shared().rootInterfaceController!.dismissTextInputController()
             WKExtension.shared().rootInterfaceController!.dismiss()
             WKExtension.shared().rootInterfaceController!.popToRootController()
             card = .null
