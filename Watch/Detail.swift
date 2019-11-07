@@ -19,27 +19,19 @@ private struct Header: View {
     
     var body: some View {
         VStack {
-            Title()
+            HStack {
+                Back {
+                    self.model.mode = .off
+                }
+                if model.mode != .off {
+                    Text(.init("Detail.title.\(model.mode.rawValue)"))
+                        .font(.headline)
+                        .foregroundColor(Color("haze"))
+                        .offset(x: -15)
+                }
+                Spacer()
+            }
             New()
-        }
-    }
-}
-
-private struct Title: View {
-    @EnvironmentObject var model: Model
-    
-    var body: some View {
-        HStack {
-            Back {
-                self.model.mode = .off
-            }
-            if model.mode != .off {
-                Text(.init("Detail.title.\(model.mode.rawValue)"))
-                    .font(.headline)
-                    .foregroundColor(Color("haze"))
-                    .offset(x: -15)
-            }
-            Spacer()
         }
     }
 }
@@ -78,8 +70,11 @@ private struct Projects: View {
     var body: some View {
         ForEach(model.projects, id: \.self) { project in
             NavigationLink(destination:
-                Kanban()
-                    .environmentObject(self.model), tag: project, selection: .init(self.$model.project)) {
+            self.model.mode == .todo
+                ? AnyView(Todo()
+                    .environmentObject(self.model))
+                : AnyView(Kanban()
+                    .environmentObject(self.model)), tag: project, selection: .init(self.$model.project)) {
                 Project(project: project)
             }.background(Color.clear)
                 .accentColor(.clear)

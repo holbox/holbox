@@ -6,7 +6,7 @@ struct Kanban: View {
     var body: some View {
         ScrollView {
             VStack {
-                Header()
+                Header(name: model.name(model.project))
                 Columns()
                 Footer()
             }
@@ -16,23 +16,6 @@ struct Kanban: View {
 }
 
 private struct Header: View {
-    @EnvironmentObject var model: Model
-    
-    var body: some View {
-        VStack {
-            Title(name: model.name(model.project))
-            Button(action: {
-                self.model.addCard()
-            }) {
-                Image("card")
-                .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-        }
-    }
-}
-
-private struct Title: View {
     @EnvironmentObject var model: Model
     @State var name: String
     
@@ -51,6 +34,13 @@ private struct Title: View {
                 .accentColor(.clear)
                 .padding(.vertical, 25)
                 .offset(y: -10)
+            Button(action: {
+                self.model.addCard()
+            }) {
+                Image("card")
+                .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
         }
     }
 }
