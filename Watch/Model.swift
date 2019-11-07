@@ -52,24 +52,26 @@ final class Model: ObservableObject {
         project >= 0 && card != .null && card.list < lists && card.index < cards(card.list) ? session.content(project, list: card.list, card: card.index) : ""
     }
     
-    func content(_ content: String) {
+    func content(_ card: Index, content: String) {
         session.content(project, list: card.list, card: card.index, content: content)
     }
     
     func cards(_ list: Int) -> Int {
-        project >= 0 ? session.cards(project, list: list) : 0
+        project >= 0 && list >= 0 ? session.cards(project, list: list) : 0
     }
     
-    func delete() {
-        guard project >= 0 && card != .null else { return }
+    func delete(_ card: Index) {
         session.delete(project, list: card.list, card: card.index)
         relist()
-        card = .null
+        self.card = .null
     }
     
-    func move(list: Int) {
-        guard project >= 0 && card != .null else { return }
+    func move(_ card: Index, list: Int) {
         session.move(project, list: card.list, card: card.index, destination: list, index: 0)
+    }
+    
+    func move(_ card: Index, index: Int) {
+        session.move(project, list: card.list, card: card.index, destination: card.list, index: index)
     }
     
     private func relist() {

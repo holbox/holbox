@@ -73,7 +73,7 @@ private struct Column: View {
     var body: some View {
         ForEach(0 ..< model.cards(list), id: \.self) { index in
             NavigationLink(destination:
-                Card()
+                Card(card: .init(list: self.list, index: index))
                     .environmentObject(self.model), tag: .init(list: self.list, index: index), selection: .init(self.$model.card)) {
                     HStack {
                         Items(card: .init(list: self.list, index: index))
