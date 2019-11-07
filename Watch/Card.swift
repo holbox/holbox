@@ -7,9 +7,11 @@ struct Card: View {
     var body: some View {
         ScrollView {
             Header(list: $list)
-            Move(list: $list)
+            Columns(list: $list)
+            Position(list: $list)
+            Stepper(list: $list)
             Spacer()
-                .frame(height: 20)
+                .frame(height: 25)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -22,6 +24,9 @@ private struct Header: View {
     
     var body: some View {
         VStack {
+            Back {
+                self.model.card = -1
+            }
             Title(list: $list, content: model.content(list, card: model.card))
             Button(action: {
                 self.deleting = true
@@ -66,25 +71,6 @@ private struct Title: View {
     }
 }
 
-private struct Move: View {
-    @EnvironmentObject var mode: Model
-    @Binding var list: Int
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text(.init("Card.move.title"))
-                    .font(Font.caption
-                        .bold())
-                    .foregroundColor(Color("haze"))
-                    .opacity(0.6)
-                Spacer()
-            }
-            Columns(list: $list)
-        }
-    }
-}
-
 private struct Columns: View {
     @EnvironmentObject var model: Model
     @Binding var list: Int
@@ -108,22 +94,23 @@ private struct Column: View {
                     .foregroundColor(Color("haze"))
                     .font(Font.subheadline
                         .bold())
+                    .padding(.leading, 15)
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .foregroundColor(Color("haze"))
-                    .frame(width: 20, height: 20)
-                    .padding(.leading, 5)
+                    .frame(width: 15, height: 15)
+                    .padding(.leading, 2)
                 Spacer()
             } else {
                 Button(action: {
-//                    self.session.move(self.index)
+                    self.model.move(self.list, listB: self.index)
+                    self.list = self.index
                 }) {
                     Text(model.list(index))
                         .foregroundColor(.white)
                         .font(Font.subheadline
                             .bold())
                     Spacer()
-                    Spacer()
                 }.background(Color.clear)
                     .accentColor(.clear)
             }
@@ -131,115 +118,52 @@ private struct Column: View {
     }
 }
 
-/*import SwiftUI
-
-struct Card: View {
-    @EnvironmentObject var session: Session
-    @State private var opacity = 1.0
-    
-    var body: some View {
-        List {
-            Section(header: Header(content: session.content) {
-                withAnimation(.linear(duration: 0.3)) {
-                    self.opacity = 0
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                    self.session.send()
-                }
-            }, footer: Footer()) {
-                ForEach(0 ..< session.columns, id: \.self) {
-                    Column(index: $0)
-                }
-            }
-        }.edgesIgnoringSafeArea(.top)
-            .opacity(opacity)
-            .transition(.move(edge: .bottom))
-    }
-}
-
-private struct Header: View {
-    @EnvironmentObject var session: Session
-    @State var content: String
-    var back: () -> Void
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Back(action: back)
-                TextField(.init("Card"), text: $content) {
-                    self.session.content(self.content)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                    .padding(.top, 20)
-            }.padding(.bottom, 20)
-            HStack {
-                Text(.init("Card.move.title"))
-                    .font(Font.headline.bold())
-                    .foregroundColor(Color("haze")
-                        .opacity(0.6))
-                Spacer()
-            }
-        }
-    }
-}
-
-private struct Footer: View {
-    @EnvironmentObject var session: Session
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text(.init("Card.move.position"))
-                    .font(Font.headline.bold())
-                    .foregroundColor(Color("haze")
-                        .opacity(0.6))
-                Spacer()
-            }.padding(.top, 10)
-            HStack(spacing: 0) {
-                Spacer()
-                Text("\((session.position?.1 ?? 0) + 1)")
-                    .font(.title)
-                    .bold()
-                    .foregroundColor(Color("haze"))
-                Text("/\(session.space)")
-                    .font(.caption)
-                    .foregroundColor(Color("haze"))
-                Spacer()
-            }
-            Stepper()
-        }
-    }
-}
-
-private struct Stepper: View {
-    @EnvironmentObject var session: Session
+private struct Position: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
     
     var body: some View {
         HStack {
             Spacer()
-            Button(action: {
-                self.session.minus()
-            }) {
-                Image(systemName: "minus.circle.fill")
-                    .resizable()
-                    .foregroundColor(session.position?.1 == 0 ? Color("background") : Color("haze"))
-                    .frame(width: 40, height: 40)
-            }.background(Color.clear)
-                .accentColor(.clear)
+            Text("\(model.card + 1)")
+                .font(.title)
+                .bold()
+                .foregroundColor(Color("haze"))
+            Text("/\(model.cards(list))")
+                .font(.caption)
+                .foregroundColor(Color("haze"))
             Spacer()
-            Button(action: {
-                self.session.plus()
-            }) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .foregroundColor(session.position?.1 == session.space - 1 ? Color("background") : Color("haze"))
-                    .frame(width: 40, height: 40)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            Spacer()
-        }.padding(.bottom, 10)
+        }.offset(y: 20)
     }
 }
 
-
-*/
+private struct Stepper: View {
+    @EnvironmentObject var model: Model
+    @Binding var list: Int
+    
+    var body: some View {
+        HStack {
+            Button(action: {
+//                self.session.minus()
+            }) {
+                Image(systemName: "minus.circle.fill")
+                    .resizable()
+                    .foregroundColor(self.model.card == 0 ? Color("background") : Color("haze"))
+                    .frame(width: 40, height: 40)
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .padding(.leading, 10)
+            Spacer()
+            Button(action: {
+//                self.session.plus()
+            }) {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .foregroundColor(self.model.card == self.model.cards(self.list) - 1 ? Color("background") : Color("haze"))
+                    .frame(width: 40, height: 40)
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .padding(.trailing, 10)
+        }
+    }
+}

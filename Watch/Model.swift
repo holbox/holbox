@@ -5,10 +5,10 @@ final class Model: ObservableObject {
     @Published var more = false
     @Published var create = false
     @Published var mode = Mode.off
-    @Published var project = -1 { didSet { updateLists() } }
-    @Published var card = -1
+    @Published var project = -1 { didSet { print("set project \(project)"); updateLists() } }
+    @Published var card = -1 { didSet { print("set card \(card)") } }
     @Published private(set) var loading = true
-    @Published private(set) var lists = 0
+    @Published private(set) var lists = 0 { didSet { print("set lists \(lists)") } }
     var projects: [Int] { session.projects(mode) }
     private var session: holbox.Session!
     
@@ -64,6 +64,11 @@ final class Model: ObservableObject {
         guard project >= 0 && card >= 0 else { return }
         session.delete(project, list: list, card: card)
         updateLists()
+    }
+    
+    func move(_ listA: Int, listB: Int) {
+        guard project >= 0 && card >= 0 else { return }
+        session.move(project, list: listA, card: card, destination: listB, index: 0)
     }
     
     private func updateLists() {
