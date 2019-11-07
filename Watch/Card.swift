@@ -6,12 +6,11 @@ struct Card: View {
     
     var body: some View {
         ScrollView {
-            Header(card: $card)
+            Header(card: $card, content: model.content(card))
             Columns(card: $card)
             Position(card: $card)
             Stepper(card: $card)
-            Spacer()
-                .frame(height: 25)
+            Footer(card: $card)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
@@ -20,6 +19,7 @@ struct Card: View {
 private struct Header: View {
     @EnvironmentObject var model: Model
     @Binding var card: Index
+    @State var content: String
     
     var body: some View {
         VStack {
@@ -29,42 +29,13 @@ private struct Header: View {
                 }
                 Spacer()
             }
-            Name(card: $card, content: model.content(card))
-                .padding(.bottom, 20)
-        }
-    }
-}
-
-private struct Name: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    @State var content: String
-    @State private var deleting = false
-    
-    var body: some View {
-        HStack {
             TextField(.init("Card"), text: $content) {
                 self.model.content(self.card, content: self.content)
-            }.background(Color.clear)
+            }.background(Color("background")
+                .cornerRadius(8))
                 .accentColor(.clear)
-            Button(action: {
-                self.deleting = true
-            }) {
-                Image("delete")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-        }.sheet(isPresented: $deleting) {
-            if self.model.mode != .off {
-                Button(.init("Delete.title.card.\(self.model.mode.rawValue)")) {
-                    self.model.delete(self.card)
-                    self.deleting = false
-                }.background(Color("haze")
-                    .cornerRadius(8))
-                    .accentColor(.clear)
-                    .foregroundColor(.black)
-                    .font(Font.headline.bold())
-            }
+                .padding(.vertical, 25)
+                .offset(y: -10)
         }
     }
 }
@@ -128,7 +99,7 @@ private struct Position: View {
                 .font(.caption)
                 .foregroundColor(Color("haze"))
             Spacer()
-        }.offset(y: 15)
+        }.padding(.top, 20)
     }
 }
 
@@ -146,7 +117,7 @@ private struct Stepper: View {
                 Image(systemName: "minus.circle.fill")
                     .resizable()
                     .foregroundColor(card.index > 0 ? Color("haze") : Color("background"))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 35, height: 35)
             }.background(Color.clear)
                 .accentColor(.clear)
                 .padding(.leading, 10)
@@ -159,10 +130,35 @@ private struct Stepper: View {
                 Image(systemName: "plus.circle.fill")
                     .resizable()
                     .foregroundColor(card.index == model.cards(card.list) - 1 ? Color("background") : Color("haze"))
-                    .frame(width: 40, height: 40)
+                    .frame(width: 35, height: 35)
             }.background(Color.clear)
                 .accentColor(.clear)
                 .padding(.trailing, 10)
         }
+    }
+}
+
+private struct Footer: View {
+    @EnvironmentObject var model: Model
+    @Binding var card: Index
+    @State private var deleting = false
+    
+    var body: some View {
+        Button(action: {
+            self.deleting = true
+        }) {
+            Image(systemName: "trash.circle.fill")
+                .resizable()
+                .foregroundColor(Color("haze"))
+                .frame(width: 35, height: 35)
+        }.background(Color.clear)
+            .accentColor(.clear)
+            .padding(.vertical, 30)
+            .sheet(isPresented: $deleting) {
+                Delete(title: .init("Delete.title.card.\(self.model.mode.rawValue)")) {
+                    self.model.delete(self.card)
+                    self.deleting = false
+                }
+            }
     }
 }

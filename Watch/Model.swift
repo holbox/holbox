@@ -13,11 +13,11 @@ final class Model: ObservableObject {
     
     func load() {
         if session == nil {
-//            Session.load {
-//                self.session = $0
-//                self.available = $0.available
-//                self.loading = false
-//            }
+            Session.load {
+                self.session = $0
+                self.available = $0.available
+                self.loading = false
+            }
         }
     }
     
@@ -54,12 +54,22 @@ final class Model: ObservableObject {
         project >= 0 && card != .null && card.list < lists && card.index < cards(card.list) ? session.content(project, list: card.list, card: card.index) : ""
     }
     
+    func name(_ name: String) {
+        session.name(project, name: name)
+    }
+    
     func content(_ card: Index, content: String) {
         session.content(project, list: card.list, card: card.index, content: content)
     }
     
     func cards(_ list: Int) -> Int {
         project >= 0 && list >= 0 ? session.cards(project, list: list) : 0
+    }
+    
+    func delete() {
+        session.delete(project)
+        project = -1
+        projects = session.projects(mode)
     }
     
     func delete(_ card: Index) {

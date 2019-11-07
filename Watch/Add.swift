@@ -6,30 +6,24 @@ struct Add: View {
     
     var body: some View {
         ScrollView {
-            if model.mode != .off {
-                VStack(spacing: 10) {
-                    Header()
-                    Available()
-                    if model.available > 0 {
-                        Button(action: {
-                            self.model.addProject()
-                            self.create = false
-                        }) {
-                            Text(.init("Add.title.\(model.mode.rawValue)"))
-                                .font(Font.subheadline
-                                    .bold())
-                                .foregroundColor(.black)
-                        }.background(Color("haze")
-                            .cornerRadius(12))
-                            .accentColor(.clear)
-                            .padding(.horizontal, 20)
-                    } else {
-                        Text(.init("Add.other"))
-                            .fixedSize(horizontal: false, vertical: true)
-                            .lineLimit(10)
-                            .opacity(0.6)
-                    }
-                }
+            Header()
+            Available()
+            if model.available > 0 {
+                Button(.init("Add.title.\(model.mode.rawValue)")) {
+                    self.model.addProject()
+                    self.create = false
+                }.background(Color("haze")
+                    .cornerRadius(12))
+                    .accentColor(.clear)
+                    .font(Font.subheadline
+                        .bold())
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 20)
+            } else {
+                Text(.init("Add.other"))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(10)
+                    .opacity(0.6)
             }
         }
     }
