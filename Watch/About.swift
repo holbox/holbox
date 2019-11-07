@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct About: View {
-    @EnvironmentObject var model: Model
+    @Binding var more: Bool
     
     var body: some View {
         ScrollView {
             VStack {
-                Back {
-                    self.model.more = false
+                HStack {
+                    Back {
+                        self.more = false
+                    }
+                    Spacer()
                 }
                 Icon()
                 HStack {
@@ -41,7 +44,7 @@ private struct Icon: View {
                 Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
                 Spacer()
             }
-        }
+        }.offset(y: -10)
     }
 }
 

@@ -46,6 +46,7 @@ private struct Title: View {
 
 private struct New: View {
     @EnvironmentObject var model: Model
+    @State private var create = false
     
     var body: some View {
         ZStack {
@@ -56,12 +57,17 @@ private struct New: View {
                     .frame(width: 80, height: 70)
                     .offset(y: -20)
             }
-            NavigationLink(destination: Circle(), isActive: $model.create) {
+            Button(action: {
+                self.create = true
+            }) {
                 Image("plus")
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
                 .offset(y: 10)
+        }.sheet(isPresented: $create) {
+            Add(create: self.$create)
+                .environmentObject(self.model)
         }.padding(.bottom, 10)
     }
 }

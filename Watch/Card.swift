@@ -86,33 +86,30 @@ private struct Column: View {
     let index: Int
     
     var body: some View {
-        HStack {
-            if index == card.list {
+        Button(action: {
+            if self.index != self.card.list {
+                self.model.move(self.card, list: self.index)
+                self.card = .init(list: self.index, index: 0)
+            }
+        }) {
+            HStack {
                 Text(model.list(index))
-                    .foregroundColor(Color("haze"))
+                    .foregroundColor(index == card.list ? .black : Color("haze"))
                     .font(Font.subheadline
                         .bold())
-                    .padding(.leading, 15)
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .foregroundColor(Color("haze"))
-                    .frame(width: 15, height: 15)
-                    .padding(.leading, 2)
                 Spacer()
-            } else {
-                Button(action: {
-                    self.model.move(self.card, list: self.index)
-                    self.card = .init(list: self.index, index: 0)
-                }) {
-                    Text(model.list(index))
-                        .foregroundColor(.white)
-                        .font(Font.subheadline
-                            .bold())
-                    Spacer()
-                }.background(Color.clear)
-                    .accentColor(.clear)
+                Image(systemName: "checkmark")
+                    .resizable()
+                    .foregroundColor(.black)
+                    .frame(width: 10, height: 10)
+                    .padding(.trailing, 4)
+                    .opacity(index == card.list ? 1 : 0)
             }
-        }
+        }.background(index == card.list ? Color("haze")
+            .cornerRadius(10) : Color("background")
+                .cornerRadius(10))
+            .accentColor(.clear)
+            .padding(.horizontal, 15)
     }
 }
 
@@ -131,7 +128,7 @@ private struct Position: View {
                 .font(.caption)
                 .foregroundColor(Color("haze"))
             Spacer()
-        }.offset(y: 20)
+        }.offset(y: 15)
     }
 }
 

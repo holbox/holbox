@@ -1,36 +1,38 @@
 import holbox
-import Foundation
+import WatchKit
 
 final class Model: ObservableObject {
-    @Published var more = false
-    @Published var create = false
-    @Published var mode = Mode.off
-    @Published var project = -1 { didSet { relist() } }
+    @Published var mode = Mode.off { didSet { projects = session.projects(mode) } }
+    @Published var project = -1 { didSet { lists = project >= 0 ? session.lists(project) : 0 } }
     @Published var card = Index.null
     @Published private(set) var loading = true
     @Published private(set) var lists = 0
-    var projects: [Int] { session.projects(mode) }
+    @Published private(set) var available = 0
+    @Published private(set) var projects = [Int]()
     private var session: holbox.Session!
     
     func load() {
         if session == nil {
             Session.load {
                 self.session = $0
+                self.available = $0.available
                 self.loading = false
             }
         }
     }
     
     func refresh() {
-        if let session = self.session {
-            if session.refreshable {
-                self.loading = true
-                self.card = .null
-                self.project = -1
-                self.mode = .off
-                session.refresh {
-                    self.loading = false
-                }
+        guard session != nil else { return }
+        if session.refreshable {
+            loading = true
+            WKExtension.shared().rootInterfaceController!.dismiss()
+            WKExtension.shared().rootInterfaceController!.popToRootController()
+            card = .null
+            project = -1
+            mode = .off
+            session.refresh {
+                self.available = self.session.available
+                self.loading = false
             }
         }
     }
@@ -62,7 +64,7 @@ final class Model: ObservableObject {
     
     func delete(_ card: Index) {
         session.delete(project, list: card.list, card: card.index)
-        relist()
+        lists = session.lists(project)
         self.card = .null
     }
     
@@ -74,7 +76,14 @@ final class Model: ObservableObject {
         session.move(project, list: card.list, card: card.index, destination: card.list, index: index)
     }
     
-    private func relist() {
-        lists = project >= 0 ? session.lists(project) : 0
+    func addProject() {
+        session.add(mode)
+        available = session.available
+        projects = session.projects(mode)
+    }
+    
+    func addCard() {
+        session.add(project, list: 0)
+        lists = session.lists(project)
     }
 }

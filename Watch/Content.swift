@@ -19,6 +19,7 @@ struct Content: View {
 
 private struct Bar: View {
     @EnvironmentObject var model: Model
+    @State private var more = false
     
     var body: some View {
         VStack {
@@ -36,9 +37,7 @@ private struct Bar: View {
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            NavigationLink(destination:
-                About()
-                    .environmentObject(model), isActive: $model.more) {
+            NavigationLink(destination: About(more: $more), isActive: $more) {
                 Image("more")
                     .renderingMode(.original)
                     .opacity(0.5)

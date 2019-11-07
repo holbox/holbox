@@ -1,44 +1,37 @@
-/*import SwiftUI
+import SwiftUI
 
 struct Add: View {
-    @EnvironmentObject var session: Session
-    @State private var opacity = 1.0
+    @EnvironmentObject var model: Model
+    @Binding var create: Bool
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
-                Header()
-                Available()
-                if session.available > 0 {
-                    Create {
-                        withAnimation(.linear(duration: 0.3)) {
-                            self.opacity = 0
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            withAnimation(.linear(duration: 0.4)) {
-                                self.session.add()
-                            }
-                        }
-                    }
-                } else {
-                    Text(.init("Add.other"))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(10)
-                        .opacity(0.6)
-                }
-                Cancel {
-                    withAnimation(.linear(duration: 0.3)) {
-                        self.opacity = 0
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                        self.session.creating = false
+            if model.mode != .off {
+                VStack(spacing: 10) {
+                    Header()
+                    Available()
+                    if model.available > 0 {
+                        Button(action: {
+                            self.model.addProject()
+                            self.create = false
+                        }) {
+                            Text(.init("Add.title.\(model.mode.rawValue)"))
+                                .font(Font.subheadline
+                                    .bold())
+                                .foregroundColor(.black)
+                        }.background(Color("haze")
+                            .cornerRadius(12))
+                            .accentColor(.clear)
+                            .padding(.horizontal, 20)
+                    } else {
+                        Text(.init("Add.other"))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(10)
+                            .opacity(0.6)
                     }
                 }
             }
-        }.background(Color.black)
-            .opacity(opacity)
-            .edgesIgnoringSafeArea(.all)
-            .transition(.move(edge: .bottom))
+        }
     }
 }
 
@@ -57,60 +50,17 @@ private struct Header: View {
 }
 
 private struct Available: View {
-    @EnvironmentObject var session: Session
+    @EnvironmentObject var model: Model
     
     var body: some View {
         VStack {
-            if session.mode != nil {
-                Text(.init("Add.title.\(session.mode!.rawValue)"))
-                    .font(.headline)
-            }
+            Text(.init("Add.title.\(model.mode.rawValue)"))
+                .font(.headline)
             Text(.init("Add.subtitle.other"))
                 .opacity(0.4)
-            Text("\(session.available)")
+            Text("\(model.available)")
                 .font(.largeTitle)
                 .foregroundColor(Color("haze"))
         }
     }
 }
-
-private struct Create: View {
-    @EnvironmentObject var session: Session
-    var create: () -> Void
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            if session.mode != nil {
-                Button(action: create) {
-                    Text(.init("Add.title.\(self.session.mode!.rawValue)"))
-                        .foregroundColor(.black)
-                        .fontWeight(.bold)
-                }.background(Color("haze")
-                    .cornerRadius(6))
-                    .accentColor(.clear)
-                    .frame(minWidth: 120)
-            }
-            Spacer()
-        }
-    }
-}
-
-private struct Cancel: View {
-    @EnvironmentObject var session: Session
-    var cancel: () -> Void
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            Button(action: cancel) {
-                Text(.init("Add.cancel"))
-                    .foregroundColor(.white)
-            }.background(Color.clear)
-                .accentColor(.clear)
-                .frame(minWidth: 120)
-            Spacer()
-        }.padding(.bottom, 20)
-    }
-}
-*/

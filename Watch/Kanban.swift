@@ -20,9 +20,11 @@ private struct Header: View {
     var body: some View {
         VStack {
             Title()
-            NavigationLink(destination: Circle(), isActive: $model.create) {
+            Button(action: {
+                self.model.addCard()
+            }) {
                 Image("card")
-                    .renderingMode(.original)
+                .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
         }
