@@ -168,7 +168,9 @@ lorem ipsum
         XCTAssertEqual(string.range(of: "lorem ipsum"), mark[4].1)
     }
     
-    func testEmojiChili() {
-        _ = "🌶".mark { mode, range in XCTAssertEqual(.emoji, mode) }
+    func testEmojisGalore() {
+        ["🌶", "🍏"].forEach {
+            _ = $0.mark { mode, range in XCTAssertEqual(.emoji, mode) }
+        }
     }
 }

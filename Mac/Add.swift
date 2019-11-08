@@ -5,7 +5,7 @@ final class Add: Window.Modal {
     private weak var _purchases: Control!
     
     init() {
-        super.init(400, 600)
+        super.init(400, app.session.available > 0 ? 450 : 600)
         let icon = Image("new")
         contentView!.addSubview(icon)
         

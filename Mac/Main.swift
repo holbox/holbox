@@ -7,7 +7,7 @@ final class Main: Window.Full {
 
     init() {
         super.init(800, 700)
-        minSize = .init(width: 300, height: 200)
+        minSize = .init(width: 200, height: 200)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 200))
         
         let logo = Logo()
@@ -69,9 +69,9 @@ final class Main: Window.Full {
         bar?._shopping.selected = false
         bar?._shop.selected = false
         switch app.mode {
-        case .kanban: base?.show(Kanban())
         case .todo: base?.show(Todo())
-        default: break
+        case .shopping: base?.show(Shopping())
+        default: base?.show(Kanban())
         }
     }
     

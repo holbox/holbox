@@ -54,6 +54,7 @@ class Window: NSWindow, NSWindowDelegate {
         
         override func close() {
             super.close()
+            makeFirstResponder(nil)
             app.stopModal()
         }
     }

@@ -80,12 +80,14 @@ final class Text: NSTextView {
             if tab {
                 super.keyDown(with: with)
             } else {
+                window!.keyDown(with: with)
                 window!.makeFirstResponder(superview!)
             }
         case 36:
             if intro {
                 super.keyDown(with: with)
             } else {
+                window!.keyDown(with: with)
                 window!.makeFirstResponder(superview!)
             }
         default: super.keyDown(with: with)

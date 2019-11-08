@@ -40,6 +40,6 @@ private struct Todo: Factory {
 }
 
 private struct Shopping: Factory {
-    let name = "Shopping"
+    let name = "Groceries"
     let lists = ["", ""]
 }

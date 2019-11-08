@@ -111,11 +111,13 @@ final class Task: NSView {
     
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
-        NSAnimationContext.runAnimationGroup {
+        NSAnimationContext.runAnimationGroup({
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             base.alphaValue = 0
             _delete.alphaValue = 0
+        }) { [weak self] in
+            self?.highlighted = false
         }
     }
     

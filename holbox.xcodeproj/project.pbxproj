@@ -51,6 +51,8 @@
 		DA5AC049234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA5AC04A234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA61F30123699DB2006DD924 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA61F30023699DB2006DD924 /* Todo.swift */; };
+		DA647E5323759AB90030CB5E /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E5223759AB90030CB5E /* Shopping.swift */; };
+		DA647E552375B5CD0030CB5E /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E542375B5CD0030CB5E /* Stock.swift */; };
 		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
 		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
 		DA75C7C0234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
@@ -281,6 +283,8 @@
 		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
 		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		DA61F30023699DB2006DD924 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		DA647E5223759AB90030CB5E /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
+		DA647E542375B5CD0030CB5E /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
@@ -600,6 +604,8 @@
 				DA16F18E2370189100F3A1FE /* Resize.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
+				DA647E5223759AB90030CB5E /* Shopping.swift */,
+				DA647E542375B5CD0030CB5E /* Stock.swift */,
 				DAE81687235323F90005BE0B /* Tab.swift */,
 				DA16F18C2370020600F3A1FE /* Task.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
@@ -1124,6 +1130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4BC3F623546A4600C023D6 /* More.swift in Sources */,
+				DA647E5323759AB90030CB5E /* Shopping.swift in Sources */,
 				DAD8F196234DBB5500835E3E /* String.swift in Sources */,
 				DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */,
 				DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */,
@@ -1139,6 +1146,7 @@
 				DA16F18D2370020600F3A1FE /* Task.swift in Sources */,
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
+				DA647E552375B5CD0030CB5E /* Stock.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
 				DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */,
 				DAE81688235323F90005BE0B /* Tab.swift in Sources */,

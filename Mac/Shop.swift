@@ -184,7 +184,7 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             top = item.bottomAnchor
         }
         if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
+            scroll.bottom.constraint(equalTo: top!, constant: 30).isActive = true
         }
     }
     
