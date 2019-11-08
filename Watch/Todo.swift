@@ -17,7 +17,7 @@ struct Todo: View {
             }.background(Color.clear)
                 .accentColor(.clear)
             
-            Footer(name: $name, title: .init("Delete.title.\(model.mode.rawValue)"), delete: {
+            Footer(name: $name, title: .init("Delete.title.\(model.mode.rawValue)"), placeholder: .init("Project"), delete: {
                 self.model.delete()
             }) {
                 self.model.name(self.name)

@@ -13,7 +13,7 @@ struct Card: View {
             Columns(card: $card)
             Position(card: $card)
             Stepper(card: $card)
-            Footer(name: $content, title: .init("Delete.title.card.\(self.model.mode.rawValue)"), delete: {
+            Footer(name: $content, title: .init("Delete.title.card.\(self.model.mode.rawValue)"), placeholder: .init("Card"), delete: {
                 self.model.delete(self.card)
             }) {
                 self.model.content(self.card, content: self.content)

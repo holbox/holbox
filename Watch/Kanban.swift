@@ -17,7 +17,7 @@ struct Kanban: View {
             }.background(Color.clear)
                 .accentColor(.clear)
             Columns()
-            Footer(name: $name, title: .init("Delete.title.\(model.mode.rawValue)"), delete: {
+            Footer(name: $name, title: .init("Delete.title.\(model.mode.rawValue)"), placeholder: .init("Project"), delete: {
                 self.model.delete()
             }) {
                 self.model.name(self.name)
@@ -96,7 +96,7 @@ private struct Item: View {
             Text(content)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(100)
-                .font(mode == .plain ? .caption : mode == .bold ? Font.body.bold() : .title)
+                .font(mode == .plain ? .body : mode == .bold ? Font.body.bold() : .title)
                 .foregroundColor(.white)
             Spacer()
         }

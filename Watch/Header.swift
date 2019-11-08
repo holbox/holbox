@@ -8,12 +8,13 @@ struct Header: View {
         VStack {
             HStack {
                 Back(action: back)
-                Text(name)
-                    .font(.caption)
-                    .foregroundColor(Color("haze"))
-                    .offset(x: -15)
                 Spacer()
             }
-        }
+            Text(name)
+                .font(.caption)
+                .foregroundColor(Color("haze"))
+                .offset(y: -20)
+                .zIndex(-1)
+        }.padding(.bottom, -15)
     }
 }

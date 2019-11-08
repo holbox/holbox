@@ -5,6 +5,7 @@ struct Footer: View {
     @State private var deleting = false
     @State private var renaming = false
     let title: LocalizedStringKey
+    let placeholder: LocalizedStringKey
     let delete: () -> Void
     let rename: () -> Void
     
@@ -26,7 +27,7 @@ struct Footer: View {
             }) {
                 Icon(name: "pencil.circle.fill")
             }.sheet(isPresented: $renaming) {
-                Rename(name: self.$name) {
+                Rename(name: self.$name, placeholder: self.placeholder) {
                     self.renaming = false
                     self.rename()
                 }
@@ -53,10 +54,12 @@ private struct Delete: View {
 
 private struct Rename: View {
     @Binding var name: String
+    let placeholder: LocalizedStringKey
     let action: () -> Void
     
     var body: some View {
-        TextField(.init("Project"), text: $name, onCommit: action).background(Color("background")
+        TextField(placeholder, text: $name, onCommit: action)
+            .background(Color("background")
             .cornerRadius(8))
             .accentColor(.clear)
             .padding(.vertical, 25)

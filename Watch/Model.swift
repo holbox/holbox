@@ -48,7 +48,9 @@ final class Model: ObservableObject {
     
     func marks(_ card: Index) -> [(String, String.Mode)] {
         let string = content(card)
-        return string.mark { (.init(string[$1]), $0) }
+        return string.mark { ({
+            $0.first == "\n" ? .init($0.dropFirst()) : .init($0)
+        } (string[$1]), $0) }
     }
     
     func content(_ card: Index) -> String {
