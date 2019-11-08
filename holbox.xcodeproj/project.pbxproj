@@ -13,6 +13,7 @@
 		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1DDA3323755C3000BAB515 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DDA3223755C3000BAB515 /* Task.swift */; };
+		DA1DDA352375645B00BAB515 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DDA342375645B00BAB515 /* Item.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA21BDEB23607B0D000A46AA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEA23607B0D000A46AA /* About.swift */; };
 		DA21BDED23607E66000A46AA /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA21BDEC23607E66000A46AA /* Add.swift */; };
@@ -253,6 +254,7 @@
 		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1DDA3223755C3000BAB515 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		DA1DDA342375645B00BAB515 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA21BDEA23607B0D000A46AA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DA21BDEC23607E66000A46AA /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 				DAF716EC2374766900938E20 /* Footer.swift */,
 				DAF716EE2374787400938E20 /* Header.swift */,
 				DA50B85A23740D5A0042EE72 /* Index.swift */,
+				DA1DDA342375645B00BAB515 /* Item.swift */,
 				DA561E9F23730191002B5E51 /* Kanban.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
 				DAD3681623619C8D00643C9C /* Model.swift */,
@@ -1207,6 +1210,7 @@
 			files = (
 				DAF68EA3234766300060895A /* ComplicationController.swift in Sources */,
 				DA38B683236834D000C6203F /* Back.swift in Sources */,
+				DA1DDA352375645B00BAB515 /* Item.swift in Sources */,
 				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
 				DA50B85B23740D5A0042EE72 /* Index.swift in Sources */,

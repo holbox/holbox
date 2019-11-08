@@ -10,9 +10,7 @@ struct Todo: View {
                 self.model.project = -1
             }
             Create()
-            if model.lists == 2 {
-                Items()
-            }
+            Tasks()
             Footer(name: $name, title: .init("Delete.title.\(model.mode.rawValue)"), placeholder: .init("Project"), delete: {
                 self.model.delete()
             }) {
@@ -43,6 +41,7 @@ private struct Create: View {
                 if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     withAnimation(.linear(duration: 0.5)) {
                         self.model.addTask(self.content)
+                        self.content = ""
                     }
                 }
             }.background(Color("background")
@@ -53,30 +52,48 @@ private struct Create: View {
     }
 }
 
-private struct Items: View {
+private struct Tasks: View {
     @EnvironmentObject var model: Model
     
     var body: some View {
-        ForEach(0 ..< 2, id: \.self) { list in
-            ForEach(0 ..< self.model.cards(list), id: \.self) { index in
-                NavigationLink(destination:
-                    Task(card: .init(list: list, index: index))
-                        .environmentObject(self.model), tag: .init(list: list, index: index), selection: .init(self.$model.card)) {
-                            Item(card: .init(list: list, index: index))
-                }.background(Color.clear)
-                    .accentColor(.clear)
+        ForEach(0 ..< model.lists, id: \.self) { list in
+            VStack {
+                Column(list: list)
             }
         }
     }
 }
 
-private struct Item: View {
+private struct Column: View {
+    @EnvironmentObject var model: Model
+    let list: Int
+    
+    var body: some View {
+        ForEach(0 ..< model.cards(list), id: \.self) { index in
+            NavigationLink(destination:
+                Task(card: .init(list: self.list, index: index))
+                    .environmentObject(self.model), tag: .init(list: self.list, index: index), selection: .init(self.$model.card)) {
+                        Items(card: .init(list: self.list, index: index))
+            }.background(Color.clear)
+                .accentColor(.clear)
+        }
+    }
+}
+
+private struct Items: View {
     @EnvironmentObject var model: Model
     let card: Index
     
     var body: some View {
         HStack {
-            Circle()
+            Image(systemName: card.list == 0 ? "circle.fill" : "checkmark.circle.fill")
+                .resizable()
+                .foregroundColor(card.list == 0 ? Color("background") : Color("haze"))
+                .frame(width: 30, height: 30)
+            ForEach(model.marks(card), id: \.1) {
+                Item(content: $0.0, mode: $0.1)
+            }
+            Spacer()
         }
     }
 }

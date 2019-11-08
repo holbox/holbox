@@ -54,7 +54,9 @@ final class Model: ObservableObject {
     }
     
     func content(_ card: Index) -> String {
-        project >= 0 && card != .null && card.list < lists && card.index < cards(card.list) ? session.content(project, list: card.list, card: card.index) : ""
+        project >= 0 && card != .null && card.list < session.lists(project) && card.index < session.cards(project, list: card.list)
+            ? session.content(project, list: card.list, card: card.index)
+            : ""
     }
     
     func name(_ name: String) {
