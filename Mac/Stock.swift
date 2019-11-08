@@ -2,8 +2,8 @@ import AppKit
 
 class Stock: Window.Modal, NSTextViewDelegate {
     final class New: Stock {
-        init() {
-            super.init(.key("Stock.add.title"), .key("Stock.add.done"))
+        init(_ shopping: Shopping) {
+            super.init(shopping, .key("Stock.add.title"), .key("Stock.add.done"))
             
             emoji.string = .key("Stock.add.emoji")
             message.string = .key("Stock.add.message")
@@ -21,12 +21,20 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         override func done() {
             super.done()
+            let emoji = self.emoji.string.trimmingCharacters(in: .whitespacesAndNewlines)
+            let message = self.message.string.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !emoji.isEmpty || !message.isEmpty {
+                app.session.add(app.project, list: 0, content: "\(emoji)\n\(message)")
+                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: emoji.isEmpty ? message : emoji)
+                shopping?.refresh()
+            }
+            close()
         }
     }
     
     final class Edit: Stock {
-        init() {
-            super.init(.key("Stock.edit.title"), .key("Stock.edit.done"))
+        init(_ shopping: Shopping) {
+            super.init(shopping, .key("Stock.edit.title"), .key("Stock.edit.done"))
             
             let _delete = Control(.key("Stock.delete"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
             contentView!.addSubview(_delete)
@@ -46,10 +54,11 @@ class Stock: Window.Modal, NSTextViewDelegate {
         }
     }
     
+    private weak var shopping: Shopping?
     private weak var emoji: Text!
     private weak var message: Text!
     
-    private init(_ title: String, _ button: String) {
+    private init(_ shopping: Shopping, _ title: String, _ button: String) {
         super.init(400, 440)
         
         let _title = Label(title, 18, .bold, NSColor(named: "haze")!)
@@ -95,24 +104,15 @@ class Stock: Window.Modal, NSTextViewDelegate {
         _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
     }
-//    
-//    func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
-//        <#code#>
-//    }
     
-    func textDidEndEditing(_ notification: Notification) {
-//        if (notification.object as! Text) == new {
-//            let string = new.string
-//            new.string = ""
-//            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//                app.session.add(app.project, list: 0, content: string)
-//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: string)
-//                refresh()
-//            }
-//            new.needsLayout = true
-//        } else {
-//            app.session.name(app.project, name: name.string)
-//        }
+    func textView(_ text: NSTextView, shouldChangeTextIn: NSRange, replacementString: String?) -> Bool {
+        if text == emoji {
+            if replacementString?.mark({ mode, _ in mode }).first(where: { $0 != .emoji }) != nil {
+                return false
+            }
+            return (text.string as NSString).replacingCharacters(in: shouldChangeTextIn, with: replacementString ?? "").count < 2
+        }
+        return true
     }
     
     @objc func done() {

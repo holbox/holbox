@@ -131,6 +131,6 @@ final class Shopping: Base.View, NSTextViewDelegate {
     }
     
     @objc private func add() {
-        app.runModal(for: Stock.New())
+        app.runModal(for: Stock.New(self))
     }
 }
