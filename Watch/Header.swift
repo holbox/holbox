@@ -13,8 +13,8 @@ struct Header: View {
             Text(name)
                 .font(.caption)
                 .foregroundColor(Color("haze"))
-                .offset(y: -20)
+                .offset(y: -15)
                 .zIndex(-1)
-        }.padding(.bottom, -15)
+        }.padding(.bottom, -10)
     }
 }

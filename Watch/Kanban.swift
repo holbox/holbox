@@ -10,7 +10,9 @@ struct Kanban: View {
                 self.model.project = -1
             }
             Button(action: {
-                self.model.addCard()
+                withAnimation(.linear(duration: 0.5)) {
+                    self.model.addCard()
+                }
             }) {
                 Image("card")
                 .renderingMode(.original)

@@ -10,8 +10,10 @@ struct Add: View {
             Available()
             if model.available > 0 {
                 Button(.init("Add.title.\(model.mode.rawValue)")) {
-                    self.model.addProject()
                     self.create = false
+                    withAnimation(.linear(duration: 0.5)) {
+                        self.model.addProject()
+                    }
                 }.background(Color("haze")
                     .cornerRadius(12))
                     .accentColor(.clear)

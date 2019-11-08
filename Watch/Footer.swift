@@ -62,8 +62,6 @@ private struct Rename: View {
             .background(Color("background")
             .cornerRadius(8))
             .accentColor(.clear)
-            .padding(.vertical, 25)
-            .offset(y: -10)
     }
 }
 

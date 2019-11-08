@@ -99,4 +99,9 @@ final class Model: ObservableObject {
         session.add(project, list: 0)
         lists = session.lists(project)
     }
+    
+    func addTask(_ content: String) {
+        session.add(project, list: 0, content: content)
+        lists = session.lists(project)
+    }
 }
