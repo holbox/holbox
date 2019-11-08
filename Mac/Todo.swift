@@ -115,12 +115,11 @@ final class Todo: Base.View, NSTextViewDelegate {
             var top: NSLayoutYAxisAnchor?
             [0, 1].forEach { list in
                 (0 ..< app.session.cards(app.project, list: list)).forEach {
-                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, list: list, self)
+                    let task = Task($0, list: list, self)
                     scroll.add(task)
 
                     task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
                     task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-                    task.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
                     task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
                     
                     let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)

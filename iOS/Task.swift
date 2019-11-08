@@ -17,7 +17,7 @@ final class Task: UIView {
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
     
     required init?(coder: NSCoder) { nil }
-    init(_ content: String, index: Int, list: Int, _ todo: Todo) {
+    init(_ index: Int, list: Int, _ todo: Todo) {
         self.index = index
         self.list = list
         self.todo = todo
@@ -25,6 +25,8 @@ final class Task: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
         accessibilityTraits = .button
+        
+        let content = app.session.content(app.project, list: list, card: index)
         accessibilityLabel = content
         
         let base = UIView()

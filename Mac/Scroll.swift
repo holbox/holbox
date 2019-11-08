@@ -7,6 +7,7 @@ final class Scroll: NSScrollView {
     var left: NSLayoutXAxisAnchor { documentView!.leftAnchor }
     var right: NSLayoutXAxisAnchor { documentView!.rightAnchor }
     var centerX: NSLayoutXAxisAnchor { documentView!.centerXAnchor }
+    var centerY: NSLayoutYAxisAnchor { documentView!.centerYAnchor }
     var width: NSLayoutDimension { documentView!.widthAnchor }
     
     required init?(coder: NSCoder) { nil }

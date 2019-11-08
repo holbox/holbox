@@ -80,7 +80,7 @@ final class Todo: Base.View {
             var top: NSLayoutYAxisAnchor?
             [0, 1].forEach { list in
                 (0 ..< app.session.cards(app.project, list: list)).forEach {
-                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, list: list, self)
+                    let task = Task($0, list: list, self)
                     scroll.add(task)
 
                     task.leftAnchor.constraint(equalTo: scroll.left).isActive = true

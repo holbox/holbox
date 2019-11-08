@@ -42,11 +42,12 @@ final class Shopping: Base.View, NSTextViewDelegate {
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
 
-        stock.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        stock.heightAnchor.constraint(equalToConstant: 120).isActive = true
         stock.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         stock.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         stock.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         stock.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
+        stock.bottom.constraint(equalTo: stock.bottomAnchor).isActive = true
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: _add.leftAnchor, constant: 12).isActive = true
@@ -88,7 +89,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
         name.didChangeText()
         print("refresh")
         
-        if app.session.cards(app.project, list: 1) == 0 {
+        if app.session.cards(app.project, list: 0) == 0 {
             let empty = Label(.key("Shopping.empty"), 15, .medium, NSColor(named: "haze")!)
             scroll.add(empty)
             self.empty = empty
@@ -97,36 +98,23 @@ final class Shopping: Base.View, NSTextViewDelegate {
             empty.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
 
             scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
-        } else {/*
-            var top: NSLayoutYAxisAnchor?
-            [0, 1].forEach { list in
-                (0 ..< app.session.cards(app.project, list: list)).forEach {
-                    let task = Task(app.session.content(app.project, list: list, card: $0), index: $0, list: list, self)
-                    scroll.add(task)
+        } else {
+            var left: NSLayoutXAxisAnchor?
+            (0 ..< app.session.cards(app.project, list: 0)).forEach {
+                let product = Product($0, self)
+                stock.add(product)
 
-                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
-                    task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-                    task.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
+                product.centerYAnchor.constraint(equalTo: stock.centerY).isActive = true
 
-                    let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
-                    left.priority = .defaultLow
-                    left.isActive = true
-
-                    let width = task.widthAnchor.constraint(equalToConstant: 500)
-                    width.priority = .defaultLow
-                    width.isActive = true
-
-                    if top == nil {
-                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
-                    } else {
-                        task.topAnchor.constraint(equalTo: top!).isActive = true
-                    }
-
-                    top = task.bottomAnchor
+                if left == nil {
+                    product.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+                } else {
+                    product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
                 }
+
+                left = product.rightAnchor
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true*/
+            stock.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
         }
     }
     

@@ -1,6 +1,7 @@
 import AppKit
 
 class Stock: Window.Modal, NSTextViewDelegate {
+    deinit { print("gone") }
     final class New: Stock {
         init(_ shopping: Shopping) {
             super.init(shopping, .key("Stock.add.title"), .key("Stock.add.done"))
@@ -60,6 +61,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
     
     private init(_ shopping: Shopping, _ title: String, _ button: String) {
         super.init(400, 440)
+        self.shopping = shopping
         
         let _title = Label(title, 18, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(_title)

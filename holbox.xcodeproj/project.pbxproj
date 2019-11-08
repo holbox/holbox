@@ -55,6 +55,7 @@
 		DA647E552375B5CD0030CB5E /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E542375B5CD0030CB5E /* Stock.swift */; };
 		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
 		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
+		DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA748D792375D35D00CED0E4 /* Product.swift */; };
 		DA75C7C0234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
@@ -287,6 +288,7 @@
 		DA647E542375B5CD0030CB5E /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DA82CDA6235DAB5E00CBB15D /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
@@ -601,6 +603,7 @@
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
 				DA4BC3F523546A4600C023D6 /* More.swift */,
 				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
+				DA748D792375D35D00CED0E4 /* Product.swift */,
 				DA16F18E2370189100F3A1FE /* Resize.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
@@ -1146,6 +1149,7 @@
 				DA16F18D2370020600F3A1FE /* Task.swift in Sources */,
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
+				DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */,
 				DA647E552375B5CD0030CB5E /* Stock.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
 				DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */,

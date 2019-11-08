@@ -14,7 +14,7 @@ final class Task: NSView {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ content: String, index: Int, list: Int, _ todo: Todo) {
+    init(_ index: Int, list: Int, _ todo: Todo) {
         self.index = index
         self.list = list
         self.todo = todo
@@ -22,8 +22,10 @@ final class Task: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
-        setAccessibilityLabel(content)
         wantsLayer = true
+        
+        let content = app.session.content(app.project, list: list, card: index)
+        setAccessibilityLabel(content)
         
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +62,7 @@ final class Task: NSView {
         addSubview(label)
         self.label = label
         
+        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
         bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
