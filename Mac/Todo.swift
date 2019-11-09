@@ -118,6 +118,11 @@ final class Todo: Base.View, NSTextViewDelegate {
                     let task = Task($0, list: list, self)
                     scroll.add(task)
 
+                    if top == nil {
+                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
+                    } else {
+                        task.topAnchor.constraint(equalTo: top!).isActive = true
+                    }
                     task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
                     task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
                     task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
@@ -125,17 +130,6 @@ final class Todo: Base.View, NSTextViewDelegate {
                     let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
                     left.priority = .defaultLow
                     left.isActive = true
-                    
-                    let width = task.widthAnchor.constraint(equalToConstant: 500)
-                    width.priority = .defaultLow
-                    width.isActive = true
-
-                    if top == nil {
-                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
-                    } else {
-                        task.topAnchor.constraint(equalTo: top!).isActive = true
-                    }
-
                     top = task.bottomAnchor
                 }
             }

@@ -1,7 +1,6 @@
 import AppKit
 
 class Stock: Window.Modal, NSTextViewDelegate {
-    deinit { print("gone") }
     final class New: Stock {
         init(_ shopping: Shopping) {
             super.init(shopping, .key("Stock.add.title"), .key("Stock.add.done"))
@@ -22,12 +21,14 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         override func done() {
             super.done()
-            let emoji = self.emoji.string.trimmingCharacters(in: .whitespacesAndNewlines)
-            let message = self.message.string.trimmingCharacters(in: .whitespacesAndNewlines)
-            if !emoji.isEmpty || !message.isEmpty {
-                app.session.add(app.project, list: 0, content: "\(emoji)\n\(message)")
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: emoji.isEmpty ? message : emoji)
+            let count = app.session.cards(app.project, list: 0)
+            app.session.add(app.project, emoji: emoji.string, description: message.string)
+            if app.session.cards(app.project, list: 0) > count {
+                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
+                    $0.0 + " " + $0.1
+                } (app.session.product(app.project, index: count)))
                 shopping?.refresh()
+                shopping?.stockLast()
             }
             close()
         }

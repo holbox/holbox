@@ -83,15 +83,13 @@ final class Todo: Base.View {
                     let task = Task($0, list: list, self)
                     scroll.add(task)
 
-                    task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                    task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-
                     if top == nil {
                         task.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10).isActive = true
                     } else {
                         task.topAnchor.constraint(equalTo: top!).isActive = true
                     }
-
+                    task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                    task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
                     top = task.bottomAnchor
                 }
             }

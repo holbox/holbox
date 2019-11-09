@@ -3,6 +3,8 @@ import AppKit
 final class Product: NSView {
     let index: Int
     private weak var shopping: Shopping?
+    private weak var message: Label!
+    private var active = true
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
@@ -16,21 +18,23 @@ final class Product: NSView {
         wantsLayer = true
         layer!.cornerRadius = 20
         layer!.borderColor = NSColor(named: "haze")!.cgColor
-        layer!.borderWidth = 0
-        alphaValue = 0.8
         
-        let content = app.session.content(app.project, list: 0, card: index).components(separatedBy: "\n")
-        setAccessibilityLabel(content[1].isEmpty ? content[0] : content[1])
+        active = !app.session.contains(app.project, reference: index)
+        let product = app.session.product(app.project, index: index)
+        alphaValue = active ? 1 : 0.5
+        layer!.borderWidth = active ? 0 : 2
+        setAccessibilityLabel(product.1)
         
-        let emoji = Label(content[0], 30, .regular, .white)
+        let emoji = Label(product.0, 30, .regular, .white)
         emoji.setAccessibilityElement(false)
         addSubview(emoji)
         
-        let message = Label(content[1], 11, .light, NSColor(named: "haze")!)
+        let message = Label(product.1, 11, .light, NSColor(named: "haze")!)
         message.setAccessibilityElement(false)
         message.maximumNumberOfLines = 2
         message.alignment = .center
         addSubview(message)
+        self.message = message
         
         heightAnchor.constraint(equalToConstant: 100).isActive = true
         widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -43,11 +47,15 @@ final class Product: NSView {
         message.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 5).isActive = true
         message.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -5).isActive = true
         
-        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        if active {
+            addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        }
     }
     
     override func resetCursorRects() {
-        addCursorRect(bounds, cursor: .pointingHand)
+        if active {
+            addCursorRect(bounds, cursor: .pointingHand)
+        }
     }
     
     override func mouseEntered(with: NSEvent) {
@@ -55,7 +63,7 @@ final class Product: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            alphaValue = 1
+            message.textColor = .white
             layer!.backgroundColor = NSColor(named: "background")!.cgColor
         }
     }
@@ -65,21 +73,28 @@ final class Product: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            alphaValue = 0.8
+            message.textColor = NSColor(named: "haze")!
             layer!.backgroundColor = .clear
         }
     }
     
     override func mouseDown(with: NSEvent) {
-        layer!.borderWidth = 2
+        if active {
+            layer!.borderWidth = 2
+        }
         super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
-            
+        if active {
+            if bounds.contains(convert(with.locationInWindow, from: nil)) {
+                active = false
+                app.session.add(app.project, reference: index)
+                shopping?.refresh()
+                shopping?.groceryLast()
+            }
+            layer!.borderWidth = 0
         }
-        layer!.borderWidth = 0
         super.mouseUp(with: with)
     }
 }

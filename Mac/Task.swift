@@ -59,11 +59,16 @@ final class Task: NSView {
             case .bold: return (.init(content[$1]), 28, .bold, active ? NSColor(named: "haze")! : .white)
             }
         })
+        label.setAccessibilityElement(false)
         addSubview(label)
         self.label = label
         
         widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
         bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
+        
+        let width = widthAnchor.constraint(equalToConstant: 500)
+        width.priority = .defaultLow
+        width.isActive = true
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

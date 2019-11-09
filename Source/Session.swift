@@ -81,7 +81,11 @@ public final class Session {
     }
     
     public func reference(_ project: Int, index: Int) -> (String, String) {
-        product(0, index: Int(projects[project].cards[1].1[index])!)
+        product(project, index: Int(projects[project].cards[1].1[index])!)
+    }
+    
+    public func contains(_ project: Int, reference: Int) -> Bool {
+        projects[project].cards[1].1.contains(.init(reference))
     }
     
     public func name(_ project: Int, name: String) {
@@ -124,7 +128,7 @@ public final class Session {
     }
     
     public func add(_ project: Int, reference: Int) {
-        guard !projects[project].cards[1].1.contains(.init(reference)) else { return }
+        guard !contains(project, reference: reference) else { return }
         projects[project].cards[1].1.append(.init(reference))
         save(project)
     }

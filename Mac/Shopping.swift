@@ -1,7 +1,8 @@
 import AppKit
 
 final class Shopping: Base.View, NSTextViewDelegate {
-    private weak var empty: Label?
+    private weak var emptyGrocery: Label?
+    private weak var emptyProducts: Label?
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
     private weak var name: Text!
@@ -42,7 +43,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
 
-        stock.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        stock.heightAnchor.constraint(equalToConstant: 130).isActive = true
         stock.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         stock.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         stock.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
@@ -82,39 +83,85 @@ final class Shopping: Base.View, NSTextViewDelegate {
     
     override func refresh() {
         (app.modalWindow as? Stock)?.close()
-        scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
-        empty?.removeFromSuperview()
+        emptyGrocery?.removeFromSuperview()
+        emptyProducts?.removeFromSuperview()
         name.string = app.session.name(app.project)
         name.didChangeText()
         print("refresh")
         
+        if app.session.cards(app.project, list: 1) == 0 {
+            let emptyGrocery = Label(.key("Shopping.empty.grocery"), 15, .medium, NSColor(named: "haze")!)
+            scroll.add(emptyGrocery)
+            self.emptyGrocery = emptyGrocery
+
+            emptyGrocery.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
+            emptyGrocery.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: emptyGrocery.bottomAnchor, constant: 40).isActive = true
+        } else {
+            var top: NSLayoutYAxisAnchor?
+            (0 ..< app.session.cards(app.project, list: 1)).forEach {
+                let grocery = Grocery($0, self)
+                scroll.add(grocery)
+                
+                if top == nil {
+                    grocery.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
+                } else {
+                    grocery.topAnchor.constraint(equalTo: top!).isActive = true
+                }
+                grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
+                grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+                grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -100).isActive = true
+                
+                let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -100)
+                left.priority = .defaultLow
+                left.isActive = true
+                top = grocery.bottomAnchor
+            }
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
+        }
         if app.session.cards(app.project, list: 0) == 0 {
-            let empty = Label(.key("Shopping.empty"), 15, .medium, NSColor(named: "haze")!)
-            scroll.add(empty)
-            self.empty = empty
+            let emptyProducts = Label(.key("Shopping.empty.products"), 15, .medium, NSColor(named: "haze")!)
+            stock.add(emptyProducts)
+            self.emptyProducts = emptyProducts
 
-            empty.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 40).isActive = true
-            empty.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-
-            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+            emptyProducts.leftAnchor.constraint(equalTo: stock.left, constant: 40).isActive = true
+            emptyProducts.centerYAnchor.constraint(equalTo: stock.centerY).isActive = true
+            stock.right.constraint(greaterThanOrEqualTo: emptyProducts.rightAnchor, constant: 40).isActive = true
         } else {
             var left: NSLayoutXAxisAnchor?
             (0 ..< app.session.cards(app.project, list: 0)).forEach {
                 let product = Product($0, self)
                 stock.add(product)
 
-                product.centerYAnchor.constraint(equalTo: stock.centerY).isActive = true
-
                 if left == nil {
                     product.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
                 } else {
                     product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
                 }
-
+                product.topAnchor.constraint(equalTo: stock.top, constant: 10).isActive = true
                 left = product.rightAnchor
             }
             stock.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
+        }
+    }
+    
+    func stockLast() {
+        stock.documentView!.layoutSubtreeIfNeeded()
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.8
+            $0.allowsImplicitAnimation = true
+            stock.contentView.scroll(to: .init(x: stock.documentView!.bounds.width - stock.bounds.width, y: 0))
+        }
+    }
+    
+    func groceryLast() {
+        scroll.documentView!.layoutSubtreeIfNeeded()
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.8
+            $0.allowsImplicitAnimation = true
+            scroll.contentView.scroll(to: .init(x: 0, y: scroll.documentView!.bounds.height - scroll.bounds.height))
         }
     }
     

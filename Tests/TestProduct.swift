@@ -126,4 +126,11 @@ final class TestProduct: XCTestCase {
         session.add(0, reference: 0)
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
     }
+    
+    func testContains() {
+        XCTAssertFalse(session.contains(0, reference: 0))
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.add(0, reference: 0)
+        XCTAssertTrue(session.contains(0, reference: 0))
+    }
 }
