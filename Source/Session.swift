@@ -74,6 +74,10 @@ public final class Session {
         projects[project].cards[list].1[card]
     }
     
+    public func product(_ project: Int, index: Int) -> (String, String) {
+        ("", "")
+    }
+    
     public func name(_ project: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
         guard projects[project].name != name else { return }
@@ -101,6 +105,11 @@ public final class Session {
     public func add(_ project: Int, list: Int, content: String) {
         projects[project].cards[list].1.insert(content, at: 0)
         save(project)
+    }
+    
+    public func add(_ project: Int, emoji: String, description: String) {
+        guard !description.isEmpty else { return }
+        projects[project].cards[0].1.insert(description, at: 0)
     }
     
     public func content(_ project: Int, list: Int, card: Int, content: String) {

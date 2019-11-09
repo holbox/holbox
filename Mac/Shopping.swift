@@ -81,7 +81,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
     }
     
     override func refresh() {
-        (app.modalWindow as? Stock.Edit)?.close()
+        (app.modalWindow as? Stock)?.close()
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
         empty?.removeFromSuperview()

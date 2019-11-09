@@ -15,6 +15,8 @@ final class Product: NSView {
         setAccessibilityRole(.button)
         wantsLayer = true
         layer!.cornerRadius = 20
+        layer!.borderColor = NSColor(named: "haze")!.cgColor
+        layer!.borderWidth = 0
         alphaValue = 0.8
         
         let content = app.session.content(app.project, list: 0, card: index).components(separatedBy: "\n")
@@ -69,15 +71,15 @@ final class Product: NSView {
     }
     
     override func mouseDown(with: NSEvent) {
-        alphaValue = 0.3
+        layer!.borderWidth = 2
         super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) {
-            alphaValue = 1
+            
         }
-        
+        layer!.borderWidth = 0
         super.mouseUp(with: with)
     }
 }

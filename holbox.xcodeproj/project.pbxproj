@@ -60,6 +60,7 @@
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
+		DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAD2376B8E400A3393C /* TestProduct.swift */; };
 		DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA82CDA6235DAB5E00CBB15D /* Capsule.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
@@ -291,6 +292,7 @@
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		DA813BAD2376B8E400A3393C /* TestProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProduct.swift; sourceTree = "<group>"; };
 		DA82CDA6235DAB5E00CBB15D /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
 				DAD8ECBB236ACDF400245778 /* TestMark.swift */,
 				DA8B960523573E81007E82F7 /* TestPerks.swift */,
+				DA813BAD2376B8E400A3393C /* TestProduct.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 				DA40C94D2356255B00F9E1C2 /* TestSettings.swift */,
@@ -1113,6 +1116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
+				DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */,
 				DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */,
 				DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
