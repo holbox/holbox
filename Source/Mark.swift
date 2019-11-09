@@ -12,7 +12,7 @@ public extension String {
             var mode = Mode.plain
             var range = $1 ..< index(after: $1)
             if let position = $1.samePosition(in: unicodeScalars),
-            unicodeScalars[position].properties.isEmojiPresentation || unicodeScalars[position].properties.generalCategory == .otherSymbol {
+            unicodeScalars[position].emoji || unicodeScalars[position].emoji {
                 mode = .emoji
             } else if self[$1] == "#" {
                 mode = .bold
@@ -33,4 +33,8 @@ public extension String {
             $0.append((mode, range))
         }.map(transform)
     }
+}
+
+extension Unicode.Scalar {
+    var emoji: Bool { properties.isEmojiPresentation || properties.generalCategory == .otherSymbol }
 }

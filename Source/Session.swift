@@ -75,7 +75,9 @@ public final class Session {
     }
     
     public func product(_ project: Int, index: Int) -> (String, String) {
-        ("", "")
+        {
+            ($0[0], $0[1])
+        } (projects[project].cards[0].1[index].components(separatedBy: "\n"))
     }
     
     public func name(_ project: Int, name: String) {
@@ -108,8 +110,13 @@ public final class Session {
     }
     
     public func add(_ project: Int, emoji: String, description: String) {
-        guard !description.isEmpty else { return }
-        projects[project].cards[0].1.insert(description, at: 0)
+        let emoji = {
+            $0.unicodeScalars.first?.emoji == true ? $0 : ""
+        } (emoji.trimmingCharacters(in: .whitespacesAndNewlines))
+        let description = description.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !emoji.isEmpty || !description.isEmpty else { return }
+        projects[project].cards[0].1.insert(emoji + "\n" + description, at: 0)
+        save(project)
     }
     
     public func content(_ project: Int, list: Int, card: Int, content: String) {
