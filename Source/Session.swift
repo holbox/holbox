@@ -80,6 +80,10 @@ public final class Session {
         } (projects[project].cards[0].1[index].components(separatedBy: "\n"))
     }
     
+    public func reference(_ project: Int, index: Int) -> (String, String) {
+        product(0, index: Int(projects[project].cards[1].1[index])!)
+    }
+    
     public func name(_ project: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
         guard projects[project].name != name else { return }
@@ -115,7 +119,13 @@ public final class Session {
         } (emoji.trimmingCharacters(in: .whitespacesAndNewlines))
         let description = description.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !emoji.isEmpty || !description.isEmpty else { return }
-        projects[project].cards[0].1.insert(emoji + "\n" + description, at: 0)
+        projects[project].cards[0].1.append(emoji + "\n" + description)
+        save(project)
+    }
+    
+    public func add(_ project: Int, reference: Int) {
+        guard !projects[project].cards[1].1.contains(.init(reference)) else { return }
+        projects[project].cards[1].1.append(.init(reference))
         save(project)
     }
     

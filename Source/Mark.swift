@@ -12,7 +12,7 @@ public extension String {
             var mode = Mode.plain
             var range = $1 ..< index(after: $1)
             if let position = $1.samePosition(in: unicodeScalars),
-            unicodeScalars[position].emoji || unicodeScalars[position].emoji {
+            unicodeScalars[position].emoji {
                 mode = .emoji
             } else if self[$1] == "#" {
                 mode = .bold
