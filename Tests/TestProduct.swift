@@ -133,4 +133,35 @@ final class TestProduct: XCTestCase {
         session.add(0, reference: 0)
         XCTAssertTrue(session.contains(0, reference: 0))
     }
+    
+    func testUpdate() {
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.product(0, index: 0, emoji: "🦊", description: "fox")
+        XCTAssertEqual(1, session.cards(0, list: 0))
+        XCTAssertEqual("🦊", session.product(0, index: 0).0)
+        XCTAssertEqual("fox", session.product(0, index: 0).1)
+    }
+    
+    func testUpdateSaves() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(1, $1.cards[0].1.count)
+            expect.fulfill()
+        }
+        session.product(0, index: 0, emoji: "🦊", description: "fox")
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testUpdateSameNotSave() {
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.session = { _ in XCTFail() }
+        store.project = { _, _ in XCTFail() }
+        session.product(0, index: 0, emoji: "🐷", description: "piggy")
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+    }
 }

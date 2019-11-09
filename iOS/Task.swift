@@ -2,8 +2,6 @@ import UIKit
 
 final class Task: UIView {
     var delta = CGFloat()
-    let index: Int
-    let list: Int
     private weak var todo: Todo?
     private weak var label: Label!
     private weak var icon: Image!
@@ -15,6 +13,8 @@ final class Task: UIView {
     private weak var _deleteLeft: NSLayoutConstraint!
     private var highlighted = false { didSet { update() } }
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
+    private let index: Int
+    private let list: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, list: Int, _ todo: Todo) {

@@ -118,12 +118,8 @@ public final class Session {
     }
     
     public func add(_ project: Int, emoji: String, description: String) {
-        let emoji = {
-            $0.unicodeScalars.first?.emoji == true ? $0 : ""
-        } (emoji.trimmingCharacters(in: .whitespacesAndNewlines))
-        let description = description.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !emoji.isEmpty || !description.isEmpty else { return }
-        projects[project].cards[0].1.append(emoji + "\n" + description)
+        guard let item = product(emoji, description: description) else { return }
+        projects[project].cards[0].1.append(item)
         save(project)
     }
     
@@ -136,6 +132,12 @@ public final class Session {
     public func content(_ project: Int, list: Int, card: Int, content: String) {
         guard projects[project].cards[list].1[card] != content else { return }
         projects[project].cards[list].1[card] = content
+        save(project)
+    }
+    
+    public func product(_ project: Int, index: Int, emoji: String, description: String) {
+        guard let item = product(emoji, description: description), projects[project].cards[0].1[index] != item else { return }
+        projects[project].cards[0].1[index] = item
         save(project)
     }
     
@@ -175,6 +177,15 @@ public final class Session {
     public func spell(_ spell: Bool) {
         settings.spell = spell
         store.save(self)
+    }
+    
+    private func product(_ emoji: String, description: String) -> String? {
+        let emoji = {
+            $0.unicodeScalars.first?.emoji == true ? $0 : ""
+        } (emoji.trimmingCharacters(in: .whitespacesAndNewlines))
+        let description = description.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !emoji.isEmpty || !description.isEmpty else { return nil }
+        return emoji + "\n" + description
     }
     
     private func save(_ project: Int) {
