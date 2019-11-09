@@ -68,8 +68,10 @@ class Stock: Window.Modal, NSTextViewDelegate {
         }
         
         @objc private func delete() {
+            makeFirstResponder(nil)
             close()
-            //app.runModal(for: Delete.Card(<#T##base: Base.View##Base.View#>, index: <#T##Int#>, list: <#T##Int#>))
+            guard let shopping = self.shopping else { return }
+            app.runModal(for: Delete.Product(shopping, index: index))
         }
     }
     
@@ -130,9 +132,16 @@ class Stock: Window.Modal, NSTextViewDelegate {
             if replacementString?.mark({ mode, _ in mode }).first(where: { $0 != .emoji }) != nil {
                 return false
             }
-            return (text.string as NSString).replacingCharacters(in: shouldChangeTextIn, with: replacementString ?? "").count < 2
         }
         return true
+    }
+    
+    func textDidChange(_ notification: Notification) {
+        if (notification.object as! Text) == emoji {
+            if emoji.string.count > 1 {
+                emoji.string = .init(emoji.string.suffix(1))
+            }
+        }
     }
     
     @objc func done() {
@@ -141,7 +150,16 @@ class Stock: Window.Modal, NSTextViewDelegate {
     
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
-        case 36: done()
+        case 36:
+            if firstResponder == emoji {
+                DispatchQueue.main.async { [weak self] in
+                    self?.makeFirstResponder(self?.message)
+                }
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.done()
+                }
+            }
         case 48:
             if firstResponder == emoji {
                 DispatchQueue.main.async { [weak self] in

@@ -20,7 +20,7 @@ class Delete: Window.Modal {
     }
     
     final class Card: Delete {
-        private weak var base: Base.View!
+        private weak var base: Base.View?
         private let index: Int
         private let list: Int
         
@@ -35,7 +35,27 @@ class Delete: Window.Modal {
         override func confirm() {
             app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
             app.session.delete(app.project, list: list, card: index)
-            base.refresh()
+            base?.refresh()
+            super.confirm()
+        }
+    }
+    
+    final class Product: Delete {
+        private weak var shopping: Shopping?
+        private let index: Int
+        
+        init(_ shopping: Shopping, index: Int) {
+            self.index = index
+            self.shopping = shopping
+            super.init()
+            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
+        }
+        
+        override func confirm() {
+            let product = app.session.product(app.project, index: index)
+            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
+            app.session.delete(app.project, product: index)
+            shopping?.refresh()
             super.confirm()
         }
     }

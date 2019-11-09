@@ -168,6 +168,18 @@ public final class Session {
         save(project)
     }
     
+    public func delete(_ project: Int, product: Int) {
+        projects[project].cards[0].1.remove(at: product)
+        projects[project].cards[1].1 = projects[project].cards[1].1.compactMap {
+            switch Int($0)! {
+            case product: return nil
+            case let index where index > product: return .init(index - 1)
+            default: return $0
+            }
+        }
+        save(project)
+    }
+    
     public func purchase(_ perk: Perk) {
         guard !perks.contains(perk) else { return }
         perks.append(perk)

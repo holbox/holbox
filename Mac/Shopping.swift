@@ -158,10 +158,12 @@ final class Shopping: Base.View, NSTextViewDelegate {
     
     func groceryLast() {
         scroll.documentView!.layoutSubtreeIfNeeded()
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.8
-            $0.allowsImplicitAnimation = true
-            scroll.contentView.scroll(to: .init(x: 0, y: scroll.documentView!.bounds.height - scroll.bounds.height))
+        if scroll.documentView!.bounds.height > scroll.bounds.height {
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.8
+                $0.allowsImplicitAnimation = true
+                scroll.contentView.scroll(to: .init(x: 0, y: scroll.documentView!.bounds.height - scroll.bounds.height))
+            }
         }
     }
     

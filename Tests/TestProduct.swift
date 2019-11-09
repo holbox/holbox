@@ -103,7 +103,7 @@ final class TestProduct: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.project = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertEqual(1, $1.cards[0].1.count)
+            XCTAssertEqual(1, $1.cards[1].1.count)
             expect.fulfill()
         }
         session.add(0, reference: 0)
@@ -149,7 +149,7 @@ final class TestProduct: XCTestCase {
         session.projects[0].time = .init(timeIntervalSince1970: 0)
         store.project = {
             XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertEqual(1, $1.cards[0].1.count)
+            XCTAssertTrue($1.cards[0].1[0].contains("🦊"))
             expect.fulfill()
         }
         session.product(0, index: 0, emoji: "🦊", description: "fox")
@@ -163,5 +163,61 @@ final class TestProduct: XCTestCase {
         store.project = { _, _ in XCTFail() }
         session.product(0, index: 0, emoji: "🐷", description: "piggy")
         XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+    }
+    
+    func testDelete() {
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.add(0, reference: 0)
+        session.delete(0, product: 0)
+        XCTAssertEqual(0, session.cards(0, list: 0))
+        XCTAssertEqual(0, session.cards(0, list: 1))
+    }
+    
+    func testDeleteSaves() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.add(0, reference: 0)
+        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
+            XCTAssertEqual(0, $1.cards[0].1.count)
+            XCTAssertEqual(0, $1.cards[1].1.count)
+            expect.fulfill()
+        }
+        session.delete(0, product: 0)
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testDeleteUpdatesReferences() {
+        session.add(0, emoji: "🐷", description: "piggy")
+        session.add(0, emoji: "🦊", description: "fox")
+        session.add(0, emoji: "🐱", description: "cat")
+        session.add(0, emoji: "🐷", description: "piggy2")
+        session.add(0, emoji: "🐷", description: "piggy3")
+        session.add(0, emoji: "🐷", description: "piggy4")
+        session.add(0, emoji: "🐷", description: "piggy5")
+        session.add(0, emoji: "🐷", description: "piggy6")
+        session.add(0, emoji: "🐷", description: "piggy7")
+        session.add(0, reference: 2)
+        session.add(0, reference: 3)
+        session.add(0, reference: 4)
+        session.add(0, reference: 5)
+        session.add(0, reference: 6)
+        session.add(0, reference: 1)
+        session.add(0, reference: 0)
+        session.add(0, reference: 7)
+        session.add(0, reference: 8)
+        session.delete(0, product: 1)
+        XCTAssertEqual(8, session.cards(0, list: 0))
+        XCTAssertEqual(8, session.cards(0, list: 1))
+        XCTAssertEqual("1", session.content(0, list: 1, card: 0))
+        XCTAssertEqual("2", session.content(0, list: 1, card: 1))
+        XCTAssertEqual("3", session.content(0, list: 1, card: 2))
+        XCTAssertEqual("4", session.content(0, list: 1, card: 3))
+        XCTAssertEqual("5", session.content(0, list: 1, card: 4))
+        XCTAssertEqual("0", session.content(0, list: 1, card: 5))
+        XCTAssertEqual("6", session.content(0, list: 1, card: 6))
+        XCTAssertEqual("7", session.content(0, list: 1, card: 7))
     }
 }
