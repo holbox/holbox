@@ -58,6 +58,8 @@ final class Shopping: Base.View {
         border.rightAnchor.constraint(equalTo: _add.leftAnchor, constant: 15).isActive = true
         border.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
         
+        stock.content.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(edit(_:))))
+        
         refresh()
     }
     
@@ -165,5 +167,12 @@ final class Shopping: Base.View {
     
     @objc private func add() {
         app.present(Stock.New(self), animated: true)
+    }
+    
+    @objc private func edit(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            guard let product = stock.content.hitTest(gesture.location(in: stock.content), with: nil) as? Product else { return }
+            app.present(Stock.Edit(self, index: product.index), animated: true)
+        }
     }
 }

@@ -20,36 +20,33 @@ final class Product: NSView {
         
         active = !app.session.contains(app.project, reference: index)
         let product = app.session.product(app.project, index: index)
-        layer!.borderWidth = active ? 0 : 1
-        layer!.borderColor = active ? NSColor(named: "haze")!.cgColor : NSColor(named: "background")!.cgColor
         setAccessibilityLabel(product.1)
         
         let emoji = Label(product.0, 30, .regular, .white)
         emoji.setAccessibilityElement(false)
-        emoji.alphaValue = active ? 1 : 0.4
         addSubview(emoji)
         
         let label = Label(product.1, 11, .light, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         label.maximumNumberOfLines = 2
-        label.alignment = .center
-        label.alphaValue = active ? 1 : 0.8
         addSubview(label)
         self.label = label
         
         heightAnchor.constraint(equalToConstant: 100).isActive = true
         widthAnchor.constraint(equalToConstant: 100).isActive = true
         
-        emoji.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10).isActive = true
-        emoji.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        emoji.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
         
-        label.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 6).isActive = true
-        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        label.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 8).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -8).isActive = true
+        label.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 5).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
 
         if active {
             addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        } else {
+            layer!.backgroundColor = NSColor(named: "background")!.withAlphaComponent(0.7).cgColor
+            alphaValue = 0.6
         }
     }
     
@@ -63,7 +60,6 @@ final class Product: NSView {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            label.textColor = .white
         }
     }
     
@@ -73,13 +69,16 @@ final class Product: NSView {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.backgroundColor = .clear
-            label.textColor = NSColor(named: "haze")!
+            if active {
+                label.textColor = NSColor(named: "haze")!
+            }
         }
     }
     
     override func mouseDown(with: NSEvent) {
         if active {
-            layer!.borderWidth = 2
+            layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+            label.textColor = .black
         }
         super.mouseDown(with: with)
     }
@@ -102,7 +101,8 @@ final class Product: NSView {
                 shopping?.refresh()
                 shopping?.groceryLast()
             }
-            layer!.borderWidth = 0
+            layer!.backgroundColor = .clear
+            label.textColor = NSColor(named: "haze")!
         }
         super.mouseUp(with: with)
     }

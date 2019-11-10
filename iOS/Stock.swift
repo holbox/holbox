@@ -18,7 +18,7 @@ class Stock: Modal, UITextViewDelegate {
             view.addSubview(cancel)
 
             cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
-            cancel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+            cancel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
             cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         }
         
@@ -60,7 +60,7 @@ class Stock: Modal, UITextViewDelegate {
             self._delete = _delete
             
             _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
-            _delete.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+            _delete.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
             _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         }
         
@@ -159,7 +159,7 @@ class Stock: Modal, UITextViewDelegate {
         label.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         label.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         label.topAnchor.constraint(equalTo: emoji.bottomAnchor).isActive = true
-        label.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 90).isActive = true
     
         _done.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         _done.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true

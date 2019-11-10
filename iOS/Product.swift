@@ -1,10 +1,10 @@
 import UIKit
 
 final class Product: UIView {
+    let index: Int
     private weak var shopping: Shopping?
     private weak var label: Label!
     private var active = true
-    private let index: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, _ shopping: Shopping) {
@@ -44,8 +44,6 @@ final class Product: UIView {
             backgroundColor = UIColor(named: "background")!.withAlphaComponent(0.7)
             alpha = 0.6
         }
-        
-        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(edit)))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -79,10 +77,5 @@ final class Product: UIView {
             label.textColor = UIColor(named: "haze")!
         }
         super.touchesEnded(touches, with: with)
-    }
-    
-    @objc private func edit() {
-        guard let shopping = self.shopping else { return }
-        app.present(Stock.Edit(shopping, index: index), animated: true)
     }
 }
