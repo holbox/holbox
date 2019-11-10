@@ -88,7 +88,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         let emoji = Text(.Both(320, 150), Active())
         emoji.setAccessibilityLabel(.key("Product.emoji"))
-        emoji.font = .systemFont(ofSize: 80, weight: .regular)
+        emoji.font = NSFont(name: "Times New Roman", size: 80)!
         (emoji.textStorage as! Storage).fonts = [.plain: emoji.font!,
                                                .emoji: emoji.font!,
                                                .bold: emoji.font!]
@@ -153,7 +153,9 @@ class Stock: Window.Modal, NSTextViewDelegate {
         case 36:
             if firstResponder == emoji {
                 DispatchQueue.main.async { [weak self] in
-                    self?.makeFirstResponder(self?.message)
+                    guard let message = self?.message else { return }
+                    self?.makeFirstResponder(message)
+                    message.setSelectedRange(.init(location: 0, length: message.string.count))
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in

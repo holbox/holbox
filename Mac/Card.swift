@@ -37,7 +37,7 @@ final class Card: NSView, NSTextViewDelegate {
         let content = Text(.Both(300, 6000), Block())
         content.setAccessibilityLabel(.key("Card"))
         (content.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 16, weight: .medium),
-                                                   .emoji: .systemFont(ofSize: 32, weight: .regular),
+                                                   .emoji: NSFont(name: "Times New Roman", size: 32)!,
                                                    .bold: .systemFont(ofSize: 24, weight: .bold)]
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true

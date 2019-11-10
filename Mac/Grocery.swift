@@ -15,6 +15,8 @@ final class Grocery: NSView {
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         wantsLayer = true
+        layer!.cornerRadius = 10
+        self.shopping = shopping
         
         let product = app.session.reference(app.project, index: index)
         setAccessibilityLabel(product.1)
@@ -25,7 +27,7 @@ final class Grocery: NSView {
         addSubview(emoji)
         self.emoji = emoji
         
-        let label = Label(product.1, 14, .medium, NSColor(named: "haze")!)
+        let label = Label(product.1, 14, .semibold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         label.maximumNumberOfLines = 3
         addSubview(label)
@@ -51,7 +53,7 @@ final class Grocery: NSView {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseDown(with: NSEvent) {
-        //
+        alphaValue = 0.5
         super.mouseDown(with: with)
     }
     
@@ -60,7 +62,7 @@ final class Grocery: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            //
+            layer!.backgroundColor = NSColor(named: "background")!.cgColor
         }
     }
     
@@ -69,16 +71,18 @@ final class Grocery: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            //
+            layer!.backgroundColor = .clear
         }
     }
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) {
-            //
+            let product = app.session.reference(app.project, index: index)
+            app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
+            app.session.delete(app.project, list: 1, card: index)
             shopping?.refresh()
         }
-        //
+        alphaValue = 1
         super.mouseUp(with: with)
     }
 }

@@ -13,7 +13,7 @@ final class Column: NSView, NSTextViewDelegate {
         let name = Text(.Both(400, 100), Block())
         name.setAccessibilityLabel(.key("Column"))
         (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 18, weight: .bold),
-                                                .emoji: .systemFont(ofSize: 24, weight: .regular),
+                                                .emoji: NSFont(name: "Times New Roman", size: 24)!,
                                                 .bold: .systemFont(ofSize: 20, weight: .bold)]
         name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
         name.string = app.session.name(app.project, list: index)
