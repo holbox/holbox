@@ -75,6 +75,12 @@ final class Text: NSTextView {
     
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
+        case 12:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                app.terminate(nil)
+            } else {
+                super.keyUp(with: with)
+            }
         case 53: window!.makeFirstResponder(superview!)
         case 48:
             if tab {

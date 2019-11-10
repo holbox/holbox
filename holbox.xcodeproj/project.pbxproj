@@ -54,6 +54,8 @@
 		DA647E5323759AB90030CB5E /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E5223759AB90030CB5E /* Shopping.swift */; };
 		DA647E552375B5CD0030CB5E /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E542375B5CD0030CB5E /* Stock.swift */; };
 		DA6B02802378234C0084AB0A /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B027F2378234C0084AB0A /* Shopping.swift */; };
+		DA6B0282237831830084AB0A /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0281237831830084AB0A /* Grocery.swift */; };
+		DA6B0284237831900084AB0A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0283237831900084AB0A /* Product.swift */; };
 		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
 		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
 		DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA748D792375D35D00CED0E4 /* Product.swift */; };
@@ -288,6 +290,8 @@
 		DA647E5223759AB90030CB5E /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		DA647E542375B5CD0030CB5E /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		DA6B027F2378234C0084AB0A /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
+		DA6B0281237831830084AB0A /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
+		DA6B0283237831900084AB0A /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -624,6 +628,7 @@
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
 				DAF267C9236B2BBF0099E40E /* Extensions.swift */,
+				DA6B0281237831830084AB0A /* Grocery.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DA4C6513235E00AD00B5F6EE /* Item.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
@@ -633,13 +638,14 @@
 				DAB979572359D64C00631280 /* Modal.swift */,
 				DAEAE3D5237174A1001F24BE /* More.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
+				DA6B0283237831900084AB0A /* Product.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
+				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
 				DAEAE3D323717066001F24BE /* Todo.swift */,
-				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1097,6 +1103,7 @@
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
 				DAA4640223588AE600A5E990 /* Tab.swift in Sources */,
+				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
 				DAB979582359D64C00631280 /* Modal.swift in Sources */,
@@ -1112,6 +1119,7 @@
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
 				DAA4640623589A4000A5E990 /* Kanban.swift in Sources */,
+				DA6B0284237831900084AB0A /* Product.swift in Sources */,
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,
 				DAA464082358A29800A5E990 /* Detail.swift in Sources */,
@@ -1785,7 +1793,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 227;
 				DEVELOPMENT_TEAM = 7AMWG3RLHN;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1856,7 +1864,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 227;
 				DEVELOPMENT_TEAM = 7AMWG3RLHN;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

@@ -10,13 +10,13 @@ final class Grocery: NSView {
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, _ shopping: Shopping) {
         self.index = index
+        self.shopping = shopping
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         wantsLayer = true
         layer!.cornerRadius = 10
-        self.shopping = shopping
         
         let product = app.session.reference(app.project, index: index)
         setAccessibilityLabel(product.1)
@@ -27,16 +27,16 @@ final class Grocery: NSView {
         addSubview(emoji)
         self.emoji = emoji
         
-        let label = Label(product.1, 14, .semibold, NSColor(named: "haze")!)
+        let label = Label(product.1, 16, .semibold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         label.maximumNumberOfLines = 3
         addSubview(label)
         self.label = label
         
-        widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
         heightAnchor.constraint(equalToConstant: 76).isActive = true
         
-        let width = widthAnchor.constraint(equalToConstant: 260)
+        let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
         width.isActive = true
         

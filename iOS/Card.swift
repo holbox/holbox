@@ -281,10 +281,12 @@ final class Card: UIView {
     }
     
     private func update(_ text: String) {
-        app.session.content(app.project, list: column, card: index, content: text)
-        app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
-        update()
-        update(true)
+        if text != app.session.content(app.project, list: column, card: index) {
+            app.session.content(app.project, list: column, card: index, content: text)
+            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
+            update()
+            update(true)
+        }
     }
     
     private func update(_ active: Bool) {

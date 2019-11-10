@@ -115,19 +115,19 @@ final class TestStoreRefresh: XCTestCase {
     }
     
     func testDownloadFailed() {
-            let expect = expectation(description: "")
-            let online = Session()
-            var project = Project()
-            project.id = 99
-            project.mode = .kanban
-            online.projects = [project]
-            shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-            try! coder.global(online).write(to: shared.url["session"]!)
-            store.refresh(session) {
-                expect.fulfill()
-            }
-            waitForExpectations(timeout: 1)
+        let expect = expectation(description: "")
+        let online = Session()
+        var project = Project()
+        project.id = 99
+        project.mode = .kanban
+        online.projects = [project]
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        try! coder.global(online).write(to: shared.url["session"]!)
+        store.refresh(session) {
+            expect.fulfill()
         }
+        waitForExpectations(timeout: 1)
+    }
     
     func testDownload() {
         let expect = expectation(description: "")

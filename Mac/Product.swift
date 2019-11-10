@@ -2,7 +2,7 @@ import AppKit
 
 final class Product: NSView {
     private weak var shopping: Shopping?
-    private weak var message: Label!
+    private weak var label: Label!
     private var active = true
     private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
@@ -29,13 +29,13 @@ final class Product: NSView {
         emoji.alphaValue = active ? 1 : 0.4
         addSubview(emoji)
         
-        let message = Label(product.1, 11, .light, NSColor(named: "haze")!)
-        message.setAccessibilityElement(false)
-        message.maximumNumberOfLines = 2
-        message.alignment = .center
-        message.alphaValue = active ? 1 : 0.8
-        addSubview(message)
-        self.message = message
+        let label = Label(product.1, 11, .light, NSColor(named: "haze")!)
+        label.setAccessibilityElement(false)
+        label.maximumNumberOfLines = 2
+        label.alignment = .center
+        label.alphaValue = active ? 1 : 0.8
+        addSubview(label)
+        self.label = label
         
         heightAnchor.constraint(equalToConstant: 100).isActive = true
         widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -43,10 +43,10 @@ final class Product: NSView {
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10).isActive = true
         emoji.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        message.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 6).isActive = true
-        message.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        message.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 5).isActive = true
-        message.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -5).isActive = true
+        label.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 6).isActive = true
+        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        label.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 8).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -8).isActive = true
 
         if active {
             addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
@@ -63,7 +63,7 @@ final class Product: NSView {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            message.textColor = .white
+            label.textColor = .white
         }
     }
     
@@ -73,7 +73,7 @@ final class Product: NSView {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.backgroundColor = .clear
-            message.textColor = NSColor(named: "haze")!
+            label.textColor = NSColor(named: "haze")!
         }
     }
     

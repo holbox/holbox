@@ -47,6 +47,12 @@ class Window: NSWindow, NSWindowDelegate {
         
         override func keyDown(with: NSEvent) {
             switch with.keyCode {
+            case 12:
+                if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                    app.terminate(nil)
+                } else {
+                    super.keyUp(with: with)
+                }
             case 53: close()
             default: super.keyDown(with: with)
             }

@@ -165,7 +165,9 @@ class Stock: Window.Modal, NSTextViewDelegate {
         case 48:
             if firstResponder == emoji {
                 DispatchQueue.main.async { [weak self] in
-                    self?.makeFirstResponder(self?.message)
+                    guard let message = self?.message else { return }
+                    self?.makeFirstResponder(message)
+                    message.setSelectedRange(.init(location: 0, length: message.string.count))
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in

@@ -17,6 +17,7 @@ final class Detail: Base.View {
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        scroll.right.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 80).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 80).isActive = true

@@ -111,14 +111,14 @@ final class Shopping: Base.View, NSTextViewDelegate {
                 }
                 grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
                 grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-                grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -100).isActive = true
+                grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
                 
-                let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -100)
+                let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
                 left.priority = .defaultLow
                 left.isActive = true
                 top = grocery.bottomAnchor
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
         if app.session.cards(app.project, list: 0) == 0 {
             let emptyProducts = Label(.key("Shopping.empty.products"), 15, .medium, NSColor(named: "haze")!)
@@ -135,7 +135,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
                 stock.add(product)
 
                 if left == nil {
-                    product.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+                    product.leftAnchor.constraint(equalTo: stock.left, constant: 15).isActive = true
                 } else {
                     product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
                 }

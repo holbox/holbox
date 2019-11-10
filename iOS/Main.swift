@@ -49,9 +49,9 @@ final class Main: UIView {
         bar?._shopping.selected = false
         bar?._shop.selected = false
         switch app.mode {
-        case .kanban: base?.show(Kanban())
         case .todo: base?.show(Todo())
-        default: break
+        case .shopping: base?.show(Shopping())
+        default: base?.show(Kanban())
         }
     }
     

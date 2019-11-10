@@ -7,6 +7,7 @@ final class Scroll: UIScrollView {
     var left: NSLayoutXAxisAnchor { content.leftAnchor }
     var right: NSLayoutXAxisAnchor { content.rightAnchor }
     var centerX: NSLayoutXAxisAnchor { content.centerXAnchor }
+    var centerY: NSLayoutYAxisAnchor { content.centerYAnchor }
     var width: NSLayoutDimension { content.widthAnchor }
     var height: NSLayoutDimension { content.heightAnchor }
     private(set) weak var content: UIView!
