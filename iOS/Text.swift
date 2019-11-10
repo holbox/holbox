@@ -23,7 +23,7 @@ final class Text: UITextView {
         autocapitalizationType = app.session.spell ? .sentences : .none
         
         (textStorage as! Storage).fonts = [.plain: font!,
-                                           .emoji: UIFont(name: "Times New Roman", size: UIFontMetrics.default.scaledValue(for: 50),
+                                           .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
                                            .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .bold)]
     }
     

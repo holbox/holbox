@@ -89,7 +89,6 @@ final class Shopping: Base.View, NSTextViewDelegate {
         emptyProducts?.removeFromSuperview()
         name.string = app.session.name(app.project)
         name.didChangeText()
-        print("refresh")
         
         if app.session.cards(app.project, list: 1) == 0 {
             let emptyGrocery = Label(.key("Shopping.empty.grocery"), 15, .medium, NSColor(named: "haze")!)
