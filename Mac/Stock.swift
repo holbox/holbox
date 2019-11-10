@@ -6,7 +6,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
             super.init(shopping, .key("Stock.add.title"), .key("Stock.add.done"))
             
             emoji.string = .key("Stock.add.emoji")
-            message.string = .key("Stock.add.message")
+            label.string = .key("Stock.add.label")
             
             let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
             contentView!.addSubview(cancel)
@@ -16,13 +16,13 @@ class Stock: Window.Modal, NSTextViewDelegate {
             cancel.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
             
             emoji.didChangeText()
-            message.didChangeText()
+            label.didChangeText()
         }
         
         override func done() {
             super.done()
             let count = app.session.cards(app.project, list: 0)
-            app.session.add(app.project, emoji: emoji.string, description: message.string)
+            app.session.add(app.project, emoji: emoji.string, description: label.string)
             if app.session.cards(app.project, list: 0) > count {
                 app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
                     $0.0 + " " + $0.1
@@ -42,7 +42,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
             super.init(shopping, .key("Stock.edit.title"), .key("Stock.edit.done"))
             let content = app.session.product(app.project, index: index)
             emoji.string = content.0
-            message.string = content.1
+            label.string = content.1
             
             let _delete = Control(.key("Stock.delete"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
             contentView!.addSubview(_delete)
@@ -52,13 +52,13 @@ class Stock: Window.Modal, NSTextViewDelegate {
             _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
             
             emoji.didChangeText()
-            message.didChangeText()
+            label.didChangeText()
         }
         
         override func done() {
             super.done()
             let old = app.session.product(app.project, index: index)
-            app.session.product(app.project, index: index, emoji: emoji.string, description: message.string)
+            app.session.product(app.project, index: index, emoji: emoji.string, description: label.string)
             let content = app.session.product(app.project, index: index)
             if old != content {
                 app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.0 + " " + content.1)
@@ -77,7 +77,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
     
     private weak var shopping: Shopping?
     private weak var emoji: Text!
-    private weak var message: Text!
+    private weak var label: Text!
     
     private init(_ shopping: Shopping, _ title: String, _ button: String) {
         super.init(400, 440)
@@ -97,16 +97,16 @@ class Stock: Window.Modal, NSTextViewDelegate {
         contentView!.addSubview(emoji)
         self.emoji = emoji
         
-        let message = Text(.Vertical(320), Active())
-        message.setAccessibilityLabel(.key("Product.description"))
-        message.font = .systemFont(ofSize: 25, weight: .medium)
-        (message.textStorage as! Storage).fonts = [.plain: message.font!,
-                                               .emoji: message.font!,
-                                               .bold: message.font!]
-        message.textContainer!.maximumNumberOfLines = 2
-        message.delegate = self
-        contentView!.addSubview(message)
-        self.message = message
+        let label = Text(.Vertical(320), Active())
+        label.setAccessibilityLabel(.key("Product.description"))
+        label.font = .systemFont(ofSize: 25, weight: .medium)
+        (label.textStorage as! Storage).fonts = [.plain: label.font!,
+                                               .emoji: label.font!,
+                                               .bold: label.font!]
+        label.textContainer!.maximumNumberOfLines = 2
+        label.delegate = self
+        contentView!.addSubview(label)
+        self.label = label
         
         let _done = Control(button, self, #selector(done), NSColor(named: "haze")!.cgColor, .black)
         contentView!.addSubview(_done)
@@ -117,10 +117,10 @@ class Stock: Window.Modal, NSTextViewDelegate {
         emoji.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         emoji.topAnchor.constraint(equalTo: _title.bottomAnchor, constant: 20).isActive = true
         
-        message.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-        message.leftAnchor.constraint(greaterThanOrEqualTo: contentView!.leftAnchor).isActive = true
-        message.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor).isActive = true
-        message.topAnchor.constraint(equalTo: emoji.bottomAnchor).isActive = true
+        label.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        label.leftAnchor.constraint(greaterThanOrEqualTo: contentView!.leftAnchor).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: emoji.bottomAnchor).isActive = true
         
         _done.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -82).isActive = true
         _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
@@ -153,9 +153,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
         case 36:
             if firstResponder == emoji {
                 DispatchQueue.main.async { [weak self] in
-                    guard let message = self?.message else { return }
-                    self?.makeFirstResponder(message)
-                    message.setSelectedRange(.init(location: 0, length: message.string.count))
+                    self?.relabel()
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
@@ -165,9 +163,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
         case 48:
             if firstResponder == emoji {
                 DispatchQueue.main.async { [weak self] in
-                    guard let message = self?.message else { return }
-                    self?.makeFirstResponder(message)
-                    message.setSelectedRange(.init(location: 0, length: message.string.count))
+                    self?.relabel()
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
@@ -176,5 +172,10 @@ class Stock: Window.Modal, NSTextViewDelegate {
             }
         default: super.keyDown(with: with)
         }
+    }
+    
+    private func relabel() {
+        makeFirstResponder(label)
+        label.setSelectedRange(.init(location: 0, length: label.string.count))
     }
 }

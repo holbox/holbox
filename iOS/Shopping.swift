@@ -146,7 +146,10 @@ final class Shopping: Base.View {
     func stockLast() {
         stock.content.layoutIfNeeded()
         if stock.content.bounds.width > stock.bounds.width {
-            stock.scrollRectToVisible(.init(x: stock.content.bounds.width - stock.bounds.width, y: 0, width: stock.bounds.width, height: 1), animated: true)
+            let offset = stock.content.bounds.width - stock.bounds.width
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.stock.contentOffset.x = offset
+            }
         }
     }
     
@@ -161,6 +164,6 @@ final class Shopping: Base.View {
     }
     
     @objc private func add() {
-        //app.present(Detail(self), animated: true)
+        app.present(Stock.New(self), animated: true)
     }
 }

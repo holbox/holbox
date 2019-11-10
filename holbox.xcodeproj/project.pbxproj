@@ -56,6 +56,7 @@
 		DA6B02802378234C0084AB0A /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B027F2378234C0084AB0A /* Shopping.swift */; };
 		DA6B0282237831830084AB0A /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0281237831830084AB0A /* Grocery.swift */; };
 		DA6B0284237831900084AB0A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0283237831900084AB0A /* Product.swift */; };
+		DA6B0286237854710084AB0A /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0285237854710084AB0A /* Stock.swift */; };
 		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
 		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
 		DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA748D792375D35D00CED0E4 /* Product.swift */; };
@@ -292,6 +293,7 @@
 		DA6B027F2378234C0084AB0A /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		DA6B0281237831830084AB0A /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
 		DA6B0283237831900084AB0A /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		DA6B0285237854710084AB0A /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
+				DA6B0285237854710084AB0A /* Stock.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
@@ -1094,6 +1097,7 @@
 			files = (
 				DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */,
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
+				DA6B0286237854710084AB0A /* Stock.swift in Sources */,
 				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
 				DA1FD278235F38B4003718A5 /* Shop.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
