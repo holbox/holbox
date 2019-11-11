@@ -51,7 +51,7 @@ private struct Create: View {
             Image("plusbig")
                 .renderingMode(.original)
         }.sheet(isPresented: $create) {
-            Stock(emoji: NSLocalizedString("Stock.add.emoji", comment: ""), label: NSLocalizedString("Stock.add.label", comment: ""), show: self.$create)
+            Stock(show: self.$create, index: nil)
         }.background(Color.clear)
             .accentColor(.clear)
     }
@@ -87,7 +87,9 @@ private struct Grocery: View {
     
     var body: some View {
         Button(action: {
-//            self.model.delete(.init(list: 1, index: self.index))
+            withAnimation(.linear(duration: 0.4)) {
+                self.model.delete(.init(list: 1, index: self.index))
+            }
         }) {
             HStack {
                 Text(model.reference(index).0)
@@ -107,6 +109,7 @@ private struct Grocery: View {
 private struct Product: View {
     @EnvironmentObject var model: Model
     let index: Int
+    @State private var edit = false
     
     var body: some View {
         HStack {
@@ -125,46 +128,18 @@ private struct Product: View {
                 .accentColor(.clear)
                 .frame(width: 50)
             Button(action: {
-                
+                if !self.model.active(self.index) {
+                    withAnimation(.linear(duration: 0.4)) {
+                        self.model.addReference(self.index)
+                    }
+                }
             }) {
-                Icon(name: "plus", width: 14, height: 14, color: model.active(index) ? "haze" : "background")
+                Icon(name: "plus", width: 14, height: 14, color: model.active(index) ? "background" : "haze")
             }.background(Color.clear)
                 .accentColor(.clear)
                 .frame(width: 50)
+        }.sheet(isPresented: $edit) {
+            Stock(show: self.$edit, index: self.index)
         }.padding(.vertical, 10)
-    }
-}
-
-private struct Stock: View {
-    @EnvironmentObject var model: Model
-    @State var emoji = ""
-    @State var label = ""
-    @Binding var show: Bool
-    
-    var body: some View {
-        VStack {
-                        TextField(.init("Task"), text: self.$emoji) {
-                            self.show = false
-        //                    if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-        //                        withAnimation(.linear(duration: 0.5)) {
-        //                            self.model.addTask(self.emoji)
-        //                            self.emoji = ""
-        //                        }
-        //                    }
-                        }.background(Color("background")
-                            .cornerRadius(8))
-                            .accentColor(.clear)
-                        TextField(.init("Task"), text: self.$label) {
-                            self.show = false
-        //                    if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-        //                        withAnimation(.linear(duration: 0.5)) {
-        //                            self.model.addTask(self.label)
-        //                            self.label = ""
-        //                        }
-        //                    }
-                        }.background(Color("background")
-                            .cornerRadius(8))
-                            .accentColor(.clear)
-                    }
     }
 }

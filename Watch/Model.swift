@@ -85,6 +85,10 @@ final class Model: ObservableObject {
         session.content(project, list: card.list, card: card.index, content: content)
     }
     
+    func product(_ index: Int, emoji: String, description: String) {
+        session.product(project, index: index, emoji: emoji, description: description)
+    }
+    
     func cards(_ list: Int) -> Int {
         project >= 0 && list >= 0 ? session.cards(project, list: list) : 0
     }
@@ -99,6 +103,11 @@ final class Model: ObservableObject {
         session.delete(project, list: card.list, card: card.index)
         lists = session.lists(project)
         self.card = .null
+    }
+    
+    func delete(_ product: Int) {
+        session.delete(project, product: product)
+        lists = session.lists(project)
     }
     
     func move(_ card: Index, list: Int) {
@@ -122,6 +131,16 @@ final class Model: ObservableObject {
     
     func addTask(_ content: String) {
         session.add(project, list: 0, content: content)
+        lists = session.lists(project)
+    }
+    
+    func addProduct(_ emoji: String, description: String) {
+        session.add(project, emoji: emoji, description: description)
+        lists = session.lists(project)
+    }
+    
+    func addReference(_ index: Int) {
+        session.add(project, reference: index)
         lists = session.lists(project)
     }
 }
