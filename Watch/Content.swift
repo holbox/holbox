@@ -9,7 +9,7 @@ struct Content: View {
                 Logo()
                     .frame(width: $0.size.width, height: $0.size.height)
             } else {
-                Bar()
+                Bar(width: $0.size.width, height: $0.size.height)
                     .frame(width: $0.size.width, height: $0.size.height)
             }
         }.edgesIgnoringSafeArea(.all)
@@ -20,6 +20,8 @@ struct Content: View {
 private struct Bar: View {
     @EnvironmentObject var model: Model
     @State private var more = false
+    let width: CGFloat
+    let height: CGFloat
     
     var body: some View {
         VStack {
@@ -31,6 +33,16 @@ private struct Bar: View {
                         .renderingMode(.original)
                 }.background(Color.clear)
                     .accentColor(.clear)
+                    .frame(width: width / 2, height: height / 2)
+                NavigationLink(destination: About(more: $more), isActive: $more) {
+                    Image("more")
+                        .renderingMode(.original)
+                        .opacity(0.5)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                    .frame(width: width / 2, height: height / 2)
+            }
+            HStack {
                 NavigationLink(destination:
                     Detail()
                         .environmentObject(model), tag: .todo, selection: .init($model.mode)) {
@@ -38,8 +50,7 @@ private struct Bar: View {
                         .renderingMode(.original)
                 }.background(Color.clear)
                     .accentColor(.clear)
-            }
-            HStack {
+                    .frame(width: width / 2, height: height / 2)
                 NavigationLink(destination:
                     Detail()
                         .environmentObject(model), tag: .shopping, selection: .init($model.mode)) {
@@ -47,12 +58,7 @@ private struct Bar: View {
                         .renderingMode(.original)
                 }.background(Color.clear)
                     .accentColor(.clear)
-                NavigationLink(destination: About(more: $more), isActive: $more) {
-                    Image("more")
-                        .renderingMode(.original)
-                        .opacity(0.5)
-                }.background(Color.clear)
-                    .accentColor(.clear)
+                    .frame(width: width / 2, height: height / 2)
             }
         }
     }

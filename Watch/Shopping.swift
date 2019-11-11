@@ -29,11 +29,13 @@ private struct Stack: View {
     var body: some View {
         VStack {
             Groceries()
-            Create()
             Text(.init("Shopping.products"))
-                .font(Font.subheadline.bold())
+                .font(Font.caption
+                    .bold())
                 .foregroundColor(Color("haze"))
                 .opacity(0.6)
+                .padding(.top, 20)
+            Create()
             Products()
         }
     }
@@ -42,7 +44,6 @@ private struct Stack: View {
 private struct Create: View {
     @EnvironmentObject var model: Model
     @State private var create = false
-    @State private var content = ""
     
     var body: some View {
         Button(action: {
@@ -51,17 +52,7 @@ private struct Create: View {
             Image("plusbig")
                 .renderingMode(.original)
         }.sheet(isPresented: $create) {
-            TextField(.init("Task"), text: self.$content) {
-                self.create = false
-                if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    withAnimation(.linear(duration: 0.5)) {
-                        self.model.addTask(self.content)
-                        self.content = ""
-                    }
-                }
-            }.background(Color("background")
-                .cornerRadius(8))
-                .accentColor(.clear)
+            Stock(emoji: NSLocalizedString("Stock.add.emoji", comment: ""), label: NSLocalizedString("Stock.add.label", comment: ""), show: self.$create)
         }.background(Color.clear)
             .accentColor(.clear)
     }
@@ -134,5 +125,39 @@ private struct Product: View {
             }
             Spacer()
         }
+    }
+}
+
+private struct Stock: View {
+    @EnvironmentObject var model: Model
+    @State var emoji = ""
+    @State var label = ""
+    @Binding var show: Bool
+    
+    var body: some View {
+        VStack {
+                        TextField(.init("Task"), text: self.$emoji) {
+                            self.show = false
+        //                    if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        //                        withAnimation(.linear(duration: 0.5)) {
+        //                            self.model.addTask(self.emoji)
+        //                            self.emoji = ""
+        //                        }
+        //                    }
+                        }.background(Color("background")
+                            .cornerRadius(8))
+                            .accentColor(.clear)
+                        TextField(.init("Task"), text: self.$label) {
+                            self.show = false
+        //                    if !self.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        //                        withAnimation(.linear(duration: 0.5)) {
+        //                            self.model.addTask(self.label)
+        //                            self.label = ""
+        //                        }
+        //                    }
+                        }.background(Color("background")
+                            .cornerRadius(8))
+                            .accentColor(.clear)
+                    }
     }
 }
