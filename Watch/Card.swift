@@ -55,11 +55,9 @@ private struct Column: View {
                     .font(Font.subheadline
                         .bold())
                 Spacer()
-                Image(systemName: "checkmark")
-                    .resizable()
-                    .foregroundColor(.black)
-                    .frame(width: 10, height: 10)
+                Icon(name: "checkmark", width: 10, height: 10, color: "background")
                     .padding(.trailing, 4)
+                    .foregroundColor(.black)
                     .opacity(index == card.list ? 1 : 0)
             }
         }.background(index == card.list ? Color("haze")
@@ -100,10 +98,7 @@ private struct Stepper: View {
                 self.model.move(self.card, index: self.card.index - 1)
                 self.card = .init(list: self.card.list, index: self.card.index - 1)
             }) {
-                Image(systemName: "minus.circle.fill")
-                    .resizable()
-                    .foregroundColor(card.index > 0 ? Color("haze") : Color("background"))
-                    .frame(width: 35, height: 35)
+                Icon(name: "minus.circle.fill", width: 35, height: 35, color: card.index > 0 ? "haze" : "background")
             }.background(Color.clear)
                 .accentColor(.clear)
                 .padding(.leading, 10)
@@ -113,10 +108,7 @@ private struct Stepper: View {
                 self.model.move(self.card, index: self.card.index + 1)
                 self.card = .init(list: self.card.list, index: self.card.index + 1)
             }) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .foregroundColor(card.index == model.cards(card.list) - 1 ? Color("background") : Color("haze"))
-                    .frame(width: 35, height: 35)
+                Icon(name: "plus.circle.fill", width: 35, height: 35, color: card.index == model.cards(card.list) - 1 ? "background" : "haze")
             }.background(Color.clear)
                 .accentColor(.clear)
                 .padding(.trailing, 10)

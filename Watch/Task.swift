@@ -41,15 +41,9 @@ private struct Change: View {
             }
         }) {
             ZStack {
-                Image(systemName: "checkmark.circle")
-                    .resizable()
-                    .foregroundColor(Color("background"))
-                    .frame(width: 45, height: 45)
+                Icon(name: "checkmark.circle", width: 45, height: 45, color: "background")
                     .opacity(card.list == 0 ? 1 : 0)
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .foregroundColor(Color("haze"))
-                    .frame(width: 45, height: 45)
+                Icon(name: "checkmark.circle.fill", width: 45, height: 45, color: "haze")
                     .opacity(card.list == 0 ? 0 : 1)
             }
         }.background(Color.clear)

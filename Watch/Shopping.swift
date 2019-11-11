@@ -34,7 +34,6 @@ private struct Stack: View {
                     .bold())
                 .foregroundColor(Color("haze"))
                 .opacity(0.6)
-                .padding(.top, 20)
             Create()
             Products()
         }
@@ -63,15 +62,10 @@ private struct Groceries: View {
     
     var body: some View {
         VStack {
-            ForEach(0 ..< model.cards(1), id: \.self) { index in
-                NavigationLink(destination:
-                    Task(card: .init(list: 1, index: index))
-                        .environmentObject(self.model), tag: .init(list: 1, index: index), selection: .init(self.$model.card)) {
-                            Grocery(card: .init(list: 1, index: index))
-                }.background(Color.clear)
-                    .accentColor(.clear)
+            ForEach(0 ..< model.cards(1), id: \.self) {
+                Grocery(index: $0)
             }
-        }
+        }.padding(.vertical, 20)
     }
 }
 
@@ -80,13 +74,8 @@ private struct Products: View {
     
     var body: some View {
         VStack {
-            ForEach(0 ..< model.cards(0), id: \.self) { index in
-                NavigationLink(destination:
-                    Task(card: .init(list: 1, index: index))
-                        .environmentObject(self.model), tag: .init(list: 1, index: index), selection: .init(self.$model.card)) {
-                            Product(card: .init(list: 1, index: index))
-                }.background(Color.clear)
-                    .accentColor(.clear)
+            ForEach(0 ..< model.cards(0), id: \.self) {
+                Product(index: $0)
             }
         }
     }
@@ -94,37 +83,55 @@ private struct Products: View {
 
 private struct Grocery: View {
     @EnvironmentObject var model: Model
-    let card: Index
+    let index: Int
     
     var body: some View {
-        HStack {
-            Image(systemName: card.list == 0 ? "circle.fill" : "checkmark.circle.fill")
-                .resizable()
-                .foregroundColor(card.list == 0 ? Color("background") : Color("haze"))
-                .frame(width: 30, height: 30)
-            ForEach(model.marks(card), id: \.1) {
-                Item(content: $0.0, mode: $0.1)
+        Button(action: {
+//            self.model.delete(.init(list: 1, index: self.index))
+        }) {
+            HStack {
+                Text(model.reference(index).0)
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                Text(model.reference(index).1)
+                    .font(Font.subheadline
+                        .bold())
+                    .foregroundColor(Color("haze"))
+                Spacer()
             }
-            Spacer()
-        }
+        }.background(Color.clear)
+            .accentColor(.clear)
     }
 }
 
 private struct Product: View {
     @EnvironmentObject var model: Model
-    let card: Index
+    let index: Int
     
     var body: some View {
         HStack {
-            Image(systemName: card.list == 0 ? "circle.fill" : "checkmark.circle.fill")
-                .resizable()
-                .foregroundColor(card.list == 0 ? Color("background") : Color("haze"))
-                .frame(width: 30, height: 30)
-            ForEach(model.marks(card), id: \.1) {
-                Item(content: $0.0, mode: $0.1)
+            VStack(alignment: .leading) {
+                Text(model.product(index).0)
+                    .font(.body)
+                Text(model.product(index).1)
+                    .font(.caption)
             }
             Spacer()
-        }
+            Button(action: {
+                
+            }) {
+                Icon(name: "pencil", width: 14, height: 14, color: "haze")
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .frame(width: 50)
+            Button(action: {
+                
+            }) {
+                Icon(name: "plus", width: 14, height: 14, color: model.active(index) ? "haze" : "background")
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .frame(width: 50)
+        }.padding(.vertical, 10)
     }
 }
 

@@ -12,7 +12,7 @@ struct About: View {
                     }
                     Spacer()
                 }
-                Icon()
+                Title()
                 HStack {
                     Text(.init("Privacy.title"))
                         .font(.headline)
@@ -30,7 +30,7 @@ struct About: View {
     }
 }
 
-private struct Icon: View {
+private struct Title: View {
     var body: some View {
         HStack {
             Image("logo")
@@ -47,4 +47,3 @@ private struct Icon: View {
         }.offset(y: -10)
     }
 }
-

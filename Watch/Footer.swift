@@ -14,7 +14,7 @@ struct Footer: View {
             Button(action: {
                 self.deleting = true
             }) {
-                Icon(name: "trash.circle.fill")
+                Icon(name: "trash.circle.fill", width: 35, height: 35, color: "haze")
             }.sheet(isPresented: $deleting) {
                 Delete(title: self.title) {
                     self.deleting = false
@@ -25,7 +25,7 @@ struct Footer: View {
             Button(action: {
                 self.renaming = true
             }) {
-                Icon(name: "pencil.circle.fill")
+                Icon(name: "pencil.circle.fill", width: 35, height: 35, color: "haze")
             }.sheet(isPresented: $renaming) {
                 Rename(name: self.$name, placeholder: self.placeholder) {
                     self.renaming = false
@@ -62,16 +62,5 @@ private struct Rename: View {
             .background(Color("background")
             .cornerRadius(8))
             .accentColor(.clear)
-    }
-}
-
-private struct Icon: View {
-    let name: String
-    
-    var body: some View {
-        Image(systemName: name)
-            .resizable()
-            .foregroundColor(Color("haze"))
-            .frame(width: 35, height: 35)
     }
 }

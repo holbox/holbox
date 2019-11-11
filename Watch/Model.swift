@@ -59,6 +59,24 @@ final class Model: ObservableObject {
             : ""
     }
     
+    func product(_ index: Int) -> (String, String) {
+        project >= 0 && session.lists(project) > 0 && index < session.cards(project, list: 0)
+            ? session.product(project, index: index)
+            : ("", "")
+    }
+    
+    func reference(_ index: Int) -> (String, String) {
+        project >= 0 && session.lists(project) > 1 && index < session.cards(project, list: 1)
+            ? session.reference(project, index: index)
+            : ("", "")
+    }
+    
+    func active(_ index: Int) -> Bool {
+        project >= 0 && session.lists(project) > 0 && index < session.cards(project, list: 0)
+            ? session.contains(project, reference: index)
+            : false
+    }
+    
     func name(_ name: String) {
         session.name(project, name: name)
     }
