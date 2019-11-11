@@ -100,6 +100,7 @@ Shopping.empty.grocery="Nothing to buy";
 Shopping.empty.products="No products added";
 Shopping.add="Added";
 Shopping.got="Got";
+Shopping.products="Products";
 Stock.add.title="New product";
 Stock.add.done="Add";
 Stock.edit.title="Edit product";

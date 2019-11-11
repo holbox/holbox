@@ -73,8 +73,11 @@ private struct Projects: View {
             self.model.mode == .todo
                 ? AnyView(Todo()
                     .environmentObject(self.model))
-                : AnyView(Kanban()
-                    .environmentObject(self.model)), tag: project, selection: .init(self.$model.project)) {
+                : self.model.mode == .shopping
+                    ? AnyView(Shopping()
+                        .environmentObject(self.model))
+                    : AnyView(Kanban()
+                        .environmentObject(self.model)), tag: project, selection: .init(self.$model.project)) {
                 Project(project: project)
             }.background(Color.clear)
                 .accentColor(.clear)

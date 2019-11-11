@@ -23,26 +23,37 @@ private struct Bar: View {
     
     var body: some View {
         VStack {
-            NavigationLink(destination:
-                Detail()
-                    .environmentObject(model), tag: .kanban, selection: .init($model.mode)) {
-                Image("kanban")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            NavigationLink(destination:
-                Detail()
-                    .environmentObject(model), tag: .todo, selection: .init($model.mode)) {
-                Image("todo")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            NavigationLink(destination: About(more: $more), isActive: $more) {
-                Image("more")
-                    .renderingMode(.original)
-                    .opacity(0.5)
-            }.background(Color.clear)
-                .accentColor(.clear)
+            HStack {
+                NavigationLink(destination:
+                    Detail()
+                        .environmentObject(model), tag: .kanban, selection: .init($model.mode)) {
+                    Image("kanban")
+                        .renderingMode(.original)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                NavigationLink(destination:
+                    Detail()
+                        .environmentObject(model), tag: .todo, selection: .init($model.mode)) {
+                    Image("todo")
+                        .renderingMode(.original)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+            }
+            HStack {
+                NavigationLink(destination:
+                    Detail()
+                        .environmentObject(model), tag: .shopping, selection: .init($model.mode)) {
+                    Image("shopping")
+                        .renderingMode(.original)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                NavigationLink(destination: About(more: $more), isActive: $more) {
+                    Image("more")
+                        .renderingMode(.original)
+                        .opacity(0.5)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+            }
         }
     }
 }
