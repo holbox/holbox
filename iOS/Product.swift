@@ -24,7 +24,7 @@ final class Product: UIView {
         emoji.isAccessibilityElement = false
         addSubview(emoji)
         
-        let label = Label(product.1, 11, .light, UIColor(named: "haze")!)
+        let label = Label(product.1, 11, .light, active ? .white : UIColor(named: "haze")!)
         label.isAccessibilityElement = false
         label.numberOfLines = 2
         addSubview(label)
@@ -41,8 +41,8 @@ final class Product: UIView {
         label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
         
         if !active {
-            backgroundColor = UIColor(named: "background")!.withAlphaComponent(0.7)
-            alpha = 0.6
+            backgroundColor = UIColor(named: "background")!.withAlphaComponent(0.6)
+            alpha = 0.7
         }
     }
     

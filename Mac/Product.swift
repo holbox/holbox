@@ -26,7 +26,7 @@ final class Product: NSView {
         emoji.setAccessibilityElement(false)
         addSubview(emoji)
         
-        let label = Label(product.1, 11, .light, NSColor(named: "haze")!)
+        let label = Label(product.1, 11, .light, active ? .white : NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         label.maximumNumberOfLines = 2
         addSubview(label)
@@ -45,8 +45,8 @@ final class Product: NSView {
         if active {
             addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         } else {
-            layer!.backgroundColor = NSColor(named: "background")!.withAlphaComponent(0.7).cgColor
-            alphaValue = 0.6
+            layer!.backgroundColor = NSColor(named: "background")!.withAlphaComponent(0.6).cgColor
+            alphaValue = 0.7
         }
     }
     

@@ -16,7 +16,7 @@ final class Block: Edit {
     }
     
     func resign() {
-        active = true
+        active = false
     }
     
     func click() {

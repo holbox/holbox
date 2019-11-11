@@ -79,7 +79,7 @@ final class Text: NSTextView {
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
                 app.terminate(nil)
             } else {
-                super.keyUp(with: with)
+                super.keyDown(with: with)
             }
         case 53: window!.makeFirstResponder(superview!)
         case 48:

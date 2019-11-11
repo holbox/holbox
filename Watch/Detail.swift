@@ -54,7 +54,7 @@ private struct New: View {
                     Icon(name: "plus.circle.fill", width: 25, height: 25, color: "haze")
                 }.background(Color.clear)
                     .accentColor(.clear)
-                    .offset(y: 8)
+                    .offset(y: 12)
             }
         }.sheet(isPresented: $create) {
             Add(create: self.$create)

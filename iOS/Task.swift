@@ -70,9 +70,9 @@ final class Task: UIView {
         
         let label = Label(content.mark {
             switch $0 {
-            case .plain: return (.init(content[$1]), 16, .medium, list == 1 ? UIColor(named: "haze")! : .white)
-            case .emoji: return (.init(content[$1]), 36, .regular, list == 1 ? UIColor(named: "haze")! : .white)
-            case .bold: return (.init(content[$1]), 28, .bold, list == 1 ? UIColor(named: "haze")! : .white)
+            case .plain: return (.init(content[$1]), list == 1 ? 16 : 20, .medium, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+            case .emoji: return (.init(content[$1]), list == 1 ? 36 : 42, .regular, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+            case .bold: return (.init(content[$1]), list == 1 ? 28 : 35, .bold, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
             }
         })
         addSubview(label)

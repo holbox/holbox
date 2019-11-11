@@ -51,7 +51,7 @@ class Window: NSWindow, NSWindowDelegate {
                 if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
                     app.terminate(nil)
                 } else {
-                    super.keyUp(with: with)
+                    super.keyDown(with: with)
                 }
             case 53: close()
             default: super.keyDown(with: with)
