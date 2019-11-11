@@ -97,8 +97,7 @@ private struct Grocery: View {
                     .font(.largeTitle)
                     .foregroundColor(.white)
                 Text(model.reference(index).1)
-                    .font(Font.subheadline
-                        .bold())
+                    .font(.caption)
                     .foregroundColor(Color("haze"))
                 Spacer()
             }

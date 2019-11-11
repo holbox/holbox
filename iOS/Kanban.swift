@@ -80,6 +80,9 @@ final class Kanban: Base.View {
             }
             
             border.topAnchor.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: -15).isActive = true
+            let bordering = border.topAnchor.constraint(equalTo: column.bottomAnchor)
+            bordering.priority = .defaultLow
+            bordering.isActive = true
             
             column.centerYAnchor.constraint(equalTo: name!.bottomAnchor, constant: 40).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 40).isActive = true

@@ -88,8 +88,10 @@ private struct Items: View {
         HStack {
             Icon(name: card.list == 0 ? "circle.fill" : "checkmark.circle.fill", width: 30, height: 30, color: card.list == 0 ? "background" : "haze")
                 .frame(width: 30, height: 30)
-            ForEach(model.marks(card), id: \.1) {
-                Item(content: $0.0, mode: $0.1)
+            VStack {
+                ForEach(model.marks(card), id: \.1) {
+                    Item(content: $0.0, mode: $0.1)
+                }
             }
             Spacer()
         }

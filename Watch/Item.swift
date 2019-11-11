@@ -9,7 +9,7 @@ struct Item: View {
             Text(content)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineLimit(100)
-                .font(mode == .plain ? .body : mode == .bold ? Font.body.bold() : .title)
+                .font(mode == .plain ? .caption : mode == .bold ? Font.caption.bold() : .title)
                 .foregroundColor(.white)
             Spacer()
         }
