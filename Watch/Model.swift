@@ -87,6 +87,7 @@ final class Model: ObservableObject {
     
     func product(_ index: Int, emoji: String, description: String) {
         session.product(project, index: index, emoji: emoji, description: description)
+        lists = session.lists(project)
     }
     
     func cards(_ list: Int) -> Int {

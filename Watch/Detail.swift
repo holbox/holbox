@@ -48,15 +48,14 @@ private struct New: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 80, height: 70)
                     .offset(y: -20)
+                Button(action: {
+                    self.create = true
+                }) {
+                    Icon(name: "plus.circle.fill", width: 25, height: 25, color: "haze")
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                    .offset(y: 8)
             }
-            Button(action: {
-                self.create = true
-            }) {
-                Image("plus")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-                .offset(y: 10)
         }.sheet(isPresented: $create) {
             Add(create: self.$create)
                 .environmentObject(self.model)

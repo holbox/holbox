@@ -52,6 +52,7 @@ private struct Create: View {
                 .renderingMode(.original)
         }.sheet(isPresented: $create) {
             Stock(show: self.$create, index: nil)
+                .environmentObject(self.model)
         }.background(Color.clear)
             .accentColor(.clear)
     }
@@ -74,7 +75,7 @@ private struct Products: View {
     
     var body: some View {
         VStack {
-            ForEach(0 ..< model.cards(0), id: \.self) {
+            ForEach((0 ..< model.cards(0)).reversed(), id: \.self) {
                 Product(index: $0)
             }
         }
@@ -87,7 +88,7 @@ private struct Grocery: View {
     
     var body: some View {
         Button(action: {
-            withAnimation(.linear(duration: 0.4)) {
+            withAnimation(.linear(duration: 0.6)) {
                 self.model.delete(.init(list: 1, index: self.index))
             }
         }) {
@@ -121,7 +122,7 @@ private struct Product: View {
             }
             Spacer()
             Button(action: {
-                
+                self.edit = true
             }) {
                 Icon(name: "pencil", width: 14, height: 14, color: "haze")
             }.background(Color.clear)
@@ -129,7 +130,7 @@ private struct Product: View {
                 .frame(width: 50)
             Button(action: {
                 if !self.model.active(self.index) {
-                    withAnimation(.linear(duration: 0.4)) {
+                    withAnimation(.linear(duration: 0.6)) {
                         self.model.addReference(self.index)
                     }
                 }
@@ -140,6 +141,7 @@ private struct Product: View {
                 .frame(width: 50)
         }.sheet(isPresented: $edit) {
             Stock(show: self.$edit, index: self.index)
+                .environmentObject(self.model)
         }.padding(.vertical, 10)
     }
 }
