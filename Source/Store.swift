@@ -1,7 +1,11 @@
 import Foundation
 
 class Store {
-    static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("holbox")
+    #if DEBUG
+        static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("debug")
+    #else
+        static let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("holbox")
+    #endif
     var shared = Shared()
     var time = TimeInterval(1.5)
     private var timer: DispatchSourceTimer?
