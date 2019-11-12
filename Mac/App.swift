@@ -9,6 +9,7 @@ private(set) weak var app: App!
     var mode = Mode.off
     private(set) var session: Session!
     private(set) weak var main: Main!
+    
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }
     
     required init?(coder: NSCoder) { nil }

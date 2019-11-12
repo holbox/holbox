@@ -14,34 +14,34 @@ final class Bar: NSView {
         let border = Border()
         addSubview(border)
         
-        let _kanban = Tab("kanban", target: app.main, action: #selector(app.main.kanban))
+        let _kanban = Tab("kanban", target: self, action: #selector(kanban))
         _kanban.setAccessibilityLabel(.key("Bar.kanban"))
         addSubview(_kanban)
         self._kanban = _kanban
         
-        let _todo = Tab("todo", target: app.main, action: #selector(app.main.todo))
+        let _todo = Tab("todo", target: self, action: #selector(todo))
         _todo.setAccessibilityLabel(.key("Bar.todo"))
         addSubview(_todo)
         self._todo = _todo
         
-        let _shopping = Tab("shopping", target: app.main, action: #selector(app.main.shopping))
+        let _shopping = Tab("shopping", target: self, action: #selector(shopping))
         _shopping.setAccessibilityLabel(.key("Bar.shopping"))
         addSubview(_shopping)
         self._shopping = _shopping
         
-        let _shop = Tab("cart", target: app.main, action: #selector(app.main.shop))
+        let _shop = Tab("cart", target: self, action: #selector(shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
         addSubview(_shop)
         self._shop = _shop
         
-        let _more = Button("more", target: app.main, action: #selector(app.main.more))
+        let _more = Button("more", target: self, action: #selector(more))
         
         [_kanban, _todo, _shopping, _shop, _more].forEach {
             addSubview($0)
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         }
         
-        heightAnchor.constraint(equalToConstant: 51).isActive = true
+//        heightAnchor.constraint(equalToConstant: 51).isActive = true
         
         _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 20).isActive = true
@@ -51,6 +51,7 @@ final class Bar: NSView {
         _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
         _more.leftAnchor.constraint(greaterThanOrEqualTo: _shop.rightAnchor, constant: 20).isActive = true
+        
         let right = _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10)
         right.priority = .defaultLow
         right.isActive = true
@@ -58,5 +59,25 @@ final class Bar: NSView {
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+    }
+    
+    @objc private func kanban() {
+        
+    }
+    
+    @objc private func todo() {
+        
+    }
+    
+    @objc private func shopping() {
+        
+    }
+    
+    @objc private func shop() {
+        
+    }
+    
+    @objc private func more() {
+        
     }
 }

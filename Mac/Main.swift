@@ -7,7 +7,7 @@ final class Main: Window.Full {
 
     init() {
         super.init(800, 700)
-        minSize = .init(width: 200, height: 200)
+        minSize = .init(width: 100, height: 100)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 200))
         
         let logo = Logo()
@@ -53,13 +53,14 @@ final class Main: Window.Full {
         bar.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true
         bar.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
         bar.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
+        let height = bar.heightAnchor.constraint(equalTo: contentView!.heightAnchor)
+        height.priority = .defaultLow
+        height.isActive = true
         
         base.topAnchor.constraint(equalTo: bar.bottomAnchor).isActive = true
         base.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
-        
-        kanban()
     }
     
     func project(_ project: Int) {

@@ -5,5 +5,6 @@ public enum Mode: UInt8 {
     off,
     kanban,
     todo,
-    shopping
+    shopping,
+    notes
 }

@@ -31,7 +31,6 @@ final class Detail: Base.View {
         scroll.views.forEach { $0.removeFromSuperview() }
         
         let image = Image("detail.\(app.mode.rawValue)")
-        image.imageScaling = .scaleProportionallyDown
         scroll.add(image)
         
         let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, NSColor(named: "haze")!.withAlphaComponent(0.7))
@@ -75,8 +74,8 @@ final class Detail: Base.View {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
         }
         
-        image.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        image.heightAnchor.constraint(equalToConstant: 40).isActive = true
         image.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         

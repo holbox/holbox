@@ -47,8 +47,12 @@ final class Tab: NSView {
     }
     
     private func update() {
-        layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
         icon.image = selected ? image.tint(.black) : image
-        icon.alphaValue = selected ? 1 : 0.8
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            icon.alphaValue = selected ? 1 : 0.8
+            layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
+        }
     }
 }
