@@ -5,6 +5,7 @@ final class Bar: NSView {
     private weak var height: NSLayoutConstraint?
     private weak var title: Label?
     private weak var border: Border!
+    private weak var _shop: Button!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -21,6 +22,7 @@ final class Bar: NSView {
         
         let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
+        self._shop = _shop
         
         let _more = Button("more", target: app.main, action: #selector(app.main.more))
         _more.setAccessibilityLabel(.key("Bar.more"))
@@ -76,15 +78,35 @@ final class Bar: NSView {
     
     func project() {
         border.alphaValue = 1
-        title?.removeFromSuperview()
+        selected = nil
         resize(51, nil)
+        
+        let title = Label(app.session.name(app.project), 14, .bold, NSColor(named: "haze")!)
+        title.wantsLayer = true
+        title.alphaValue = 0
+        title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        addSubview(title)
+           
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 300).isActive = true
+        title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        _shop.leftAnchor.constraint(greaterThanOrEqualTo: title.rightAnchor, constant: 20).isActive = true
+        
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            title.alphaValue = 1
+            self.title?.alphaValue = 0
+        }) {
+            self.title?.removeFromSuperview()
+            self.title = title
+        }
     }
     
     func detail() {
         border.alphaValue = 1
-        resize(180, nil)
+        resize(151, nil)
         
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 20, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 18, .bold, NSColor(named: "haze")!)
         title.wantsLayer = true
         title.alphaValue = 0
         addSubview(title)
@@ -92,7 +114,6 @@ final class Bar: NSView {
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
      
-        print(subviews.count)
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true

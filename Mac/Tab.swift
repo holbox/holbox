@@ -50,7 +50,7 @@ final class Tab: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            icon.alphaValue = selected ? 1 : 0.8
+            icon.alphaValue = selected ? 1 : 0.5
             layer!.backgroundColor = selected ? NSColor(named: "haze")!.cgColor : .clear
         }
     }
