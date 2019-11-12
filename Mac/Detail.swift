@@ -30,20 +30,11 @@ final class Detail: Base.View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
-        let image = Image("detail.\(app.mode.rawValue)")
-        scroll.add(image)
-        
-        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 30, .bold, NSColor(named: "haze")!.withAlphaComponent(0.7))
-        scroll.add(title)
-        
-        let border = Border()
-        scroll.add(border)
-        
         if app.session.projects(app.mode).isEmpty {
             let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 15, .medium, NSColor(named: "haze")!)
             scroll.add(empty)
             
-            empty.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
+            empty.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
             empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
             
             scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
@@ -57,7 +48,7 @@ final class Detail: Base.View {
                 item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
                 
                 if top == nil {
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                    item.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
                 } else {
                     let border = Border()
                     scroll.add(border)
@@ -73,18 +64,6 @@ final class Detail: Base.View {
             }
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
         }
-        
-        image.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        image.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
-        image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
-        title.leftAnchor.constraint(equalTo: border.leftAnchor).isActive = true
-        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 50).isActive = true
-        
-        border.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-        border.rightAnchor.constraint(equalTo: scroll.right, constant: -70).isActive = true
-        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
     }
     
     @objc private func add() {

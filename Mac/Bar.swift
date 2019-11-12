@@ -3,6 +3,7 @@ import AppKit
 final class Bar: NSView {
     private weak var selected: Tab? { didSet { oldValue?.selected = false; selected?.selected = true } }
     private weak var height: NSLayoutConstraint?
+    private weak var title: Label?
     private weak var border: Border!
     
     required init?(coder: NSCoder) { nil }
@@ -75,17 +76,38 @@ final class Bar: NSView {
     
     func project() {
         border.alphaValue = 1
+        title?.removeFromSuperview()
         resize(51, nil)
     }
     
     func detail() {
         border.alphaValue = 1
-        resize(151, nil)
+        resize(180, nil)
+        
+        let title = Label(.key("Detail.title.\(app.mode.rawValue)"), 20, .bold, NSColor(named: "haze")!)
+        title.wantsLayer = true
+        title.alphaValue = 0
+        addSubview(title)
+        
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
+        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
+     
+        print(subviews.count)
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            title.alphaValue = 1
+            self.title?.alphaValue = 0
+        }) {
+            self.title?.removeFromSuperview()
+            self.title = title
+        }
     }
     
     @objc private func home() {
         selected = nil
         app.mode = .off
+        title?.removeFromSuperview()
         resize(nil) {
             self.border.alphaValue = 0
             app.main.base.clear()
@@ -99,7 +121,7 @@ final class Bar: NSView {
             height!.isActive = true
         }
         NSAnimationContext.runAnimationGroup({
-            $0.duration = 1
+            $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             superview!.layoutSubtreeIfNeeded()
         }, completionHandler: completion)

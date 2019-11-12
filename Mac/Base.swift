@@ -34,19 +34,19 @@ final class Base: NSView {
     func show(_ view: View) {
         let previous = subviews.first as? View
         addSubview(view)
-        window!.makeFirstResponder(view)
         
         view.top = view.topAnchor.constraint(equalTo: topAnchor, constant: -bounds.height)
         view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
         view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         layoutSubtreeIfNeeded()
+        window!.makeFirstResponder(view)
         
         view.top.constant = 0
         previous?.top.constant = bounds.height
         
         NSAnimationContext.runAnimationGroup({
-            $0.duration = 0.5
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             layoutSubtreeIfNeeded()
         }) {
