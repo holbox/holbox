@@ -9,11 +9,11 @@ class Delete: Window.Modal {
         
         override func confirm() {
             app.session.delete(app.project)
-            switch app.mode {
-            case .todo: app.main.todo()
-            case .shopping: app.main.shopping()
-            default: app.main.kanban()
-            }
+//            switch app.mode {
+//            case .todo: app.main.todo()
+//            case .shopping: app.main.shopping()
+//            default: app.main.kanban()
+//            }
             app.alert(.key("Delete.deleted.\(app.mode.rawValue)"), message: app.session.name(app.project))
             super.confirm()
         }

@@ -83,7 +83,7 @@ final class Add: Window.Modal {
     
     @objc private func purchases() {
         _purchases.target = nil
-        app.main.shop()
+//        app.main.shop()
         close()
     }
 }

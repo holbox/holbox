@@ -3,19 +3,18 @@ import AppKit
 final class Tab: NSView {
     var selected = false { didSet { update() } }
     private weak var icon: Image!
-    private weak var target: AnyObject!
-    private let action: Selector
+    private let action: (Tab) -> Void
     private let image: NSImage
     
     required init?(coder: NSCoder) { nil }
-    init(_ image: String, target: AnyObject, action: Selector) {
+    init(_ image: String, label: String, action: @escaping (Tab) -> Void) {
         self.image = NSImage(named: image)!
-        self.target = target
         self.action = action
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
+        setAccessibilityLabel(label)
         wantsLayer = true
         layer!.cornerRadius = 4
         
@@ -41,7 +40,7 @@ final class Tab: NSView {
     override func mouseUp(with: NSEvent) {
         if !selected && bounds.contains(convert(with.locationInWindow, from: nil)) {
             app.main.makeFirstResponder(self)
-            _ = target.perform(action, with: nil)
+            action(self)
         }
         super.mouseUp(with: with)
     }

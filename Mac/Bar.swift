@@ -1,10 +1,9 @@
 import AppKit
 
 final class Bar: NSView {
-    private(set) weak var _kanban: Tab!
-    private(set) weak var _todo: Tab!
-    private(set) weak var _shopping: Tab!
-    private(set) weak var _shop: Tab!
+    private weak var selected: Tab? { didSet { oldValue?.selected = false; selected?.selected = true } }
+    private weak var height: NSLayoutConstraint?
+    private weak var border: Border!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -12,72 +11,97 @@ final class Bar: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         
         let border = Border()
+        border.alphaValue = 0
         addSubview(border)
+        self.border = border
         
-        let _kanban = Tab("kanban", target: self, action: #selector(kanban))
-        _kanban.setAccessibilityLabel(.key("Bar.kanban"))
-        addSubview(_kanban)
-        self._kanban = _kanban
+        let _home = Button("logo", target: self, action: #selector(home))
+        _home.setAccessibilityLabel(.key("Bar.more"))
         
-        let _todo = Tab("todo", target: self, action: #selector(todo))
-        _todo.setAccessibilityLabel(.key("Bar.todo"))
-        addSubview(_todo)
-        self._todo = _todo
-        
-        let _shopping = Tab("shopping", target: self, action: #selector(shopping))
-        _shopping.setAccessibilityLabel(.key("Bar.shopping"))
-        addSubview(_shopping)
-        self._shopping = _shopping
-        
-        let _shop = Tab("cart", target: self, action: #selector(shop))
+        let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
-        addSubview(_shop)
-        self._shop = _shop
         
-        let _more = Button("more", target: self, action: #selector(more))
+        let _more = Button("more", target: app.main, action: #selector(app.main.more))
+        _more.setAccessibilityLabel(.key("Bar.more"))
         
-        [_kanban, _todo, _shopping, _shop, _more].forEach {
-            addSubview($0)
-            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        let _kanban = Tab("kanban", label: .key("Bar.kanban")) {
+            self.selected = $0
+            app.mode = .kanban
+            app.main.detail()
         }
         
-//        heightAnchor.constraint(equalToConstant: 51).isActive = true
+        let _todo = Tab("todo", label: .key("Bar.todo")) {
+            self.selected = $0
+            app.mode = .todo
+            app.main.detail()
+        }
         
-        _kanban.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
-        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 20).isActive = true
-        _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 20).isActive = true
-        _shop.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 20).isActive = true
+        let _shopping = Tab("shopping", label: .key("Bar.shopping")) {
+            self.selected = $0
+            app.mode = .shopping
+            app.main.detail()
+        }
         
-        _more.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        _more.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        _more.leftAnchor.constraint(greaterThanOrEqualTo: _shop.rightAnchor, constant: 20).isActive = true
+        [_home, _shop, _more].forEach {
+            addSubview($0)
+            
+            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+            $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        }
         
-        let right = _more.rightAnchor.constraint(equalTo: rightAnchor, constant: -10)
+        var left = _home.rightAnchor
+        [_kanban, _todo, _shopping].forEach {
+            addSubview($0)
+            
+            $0.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
+            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+            left = $0.rightAnchor
+        }
+        
+        _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
+        
+        _shop.leftAnchor.constraint(greaterThanOrEqualTo: left, constant: 20).isActive = true
+        let right = _shop.rightAnchor.constraint(equalTo: rightAnchor, constant: -65)
         right.priority = .defaultLow
         right.isActive = true
+        
+        _more.leftAnchor.constraint(equalTo: _shop.rightAnchor, constant: 20).isActive = true
         
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
-    @objc private func kanban() {
-        
+    func project() {
+        border.alphaValue = 1
+        resize(51, nil)
     }
     
-    @objc private func todo() {
-        
+    func detail() {
+        border.alphaValue = 1
+        resize(151, nil)
     }
     
-    @objc private func shopping() {
-        
+    @objc private func home() {
+        selected = nil
+        app.mode = .off
+        resize(nil) {
+            self.border.alphaValue = 0
+            app.main.base.clear()
+        }
     }
     
-    @objc private func shop() {
-        
-    }
-    
-    @objc private func more() {
-        
+    private func resize(_ amount: CGFloat?, _ completion: (() -> Void)?) {
+        height?.isActive = false
+        if let amount = amount {
+            height = heightAnchor.constraint(equalToConstant: amount)
+            height!.isActive = true
+        }
+        NSAnimationContext.runAnimationGroup({
+            $0.duration = 1
+            $0.allowsImplicitAnimation = true
+            superview!.layoutSubtreeIfNeeded()
+        }, completionHandler: completion)
     }
 }

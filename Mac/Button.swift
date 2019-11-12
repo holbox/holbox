@@ -15,6 +15,7 @@ final class Button: NSView {
         setAccessibilityRole(.button)
         
         let icon = Image(image)
+        icon.imageScaling = .scaleProportionallyDown
         addSubview(icon)
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

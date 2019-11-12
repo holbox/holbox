@@ -2,12 +2,13 @@ import AppKit
 
 final class Base: NSView {
     class View: NSView {
+        fileprivate weak var top: NSLayoutConstraint! { didSet { top.isActive = true }  }
+        
         required init?(coder: NSCoder) { nil }
         init() {
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
             wantsLayer = true
-            alphaValue = 0
         }
         
         func refresh() { }
@@ -31,20 +32,30 @@ final class Base: NSView {
     }
     
     func show(_ view: View) {
-        subviews.forEach { $0.removeFromSuperview() }
+        let previous = subviews.first as? View
         addSubview(view)
+        window!.makeFirstResponder(view)
         
-        view.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        view.top = view.topAnchor.constraint(equalTo: topAnchor, constant: -bounds.height)
+        view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
         view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        layoutSubtreeIfNeeded()
         
-        window!.makeFirstResponder(view)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
+        view.top.constant = 0
+        previous?.top.constant = bounds.height
+        
+        NSAnimationContext.runAnimationGroup({
+            $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            view.alphaValue = 1
+            layoutSubtreeIfNeeded()
+        }) {
+            previous?.removeFromSuperview()
         }
+    }
+    
+    func clear() {
+        subviews.forEach { $0.removeFromSuperview() }
     }
     
     func refresh() {
