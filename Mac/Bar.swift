@@ -45,6 +45,12 @@ final class Bar: NSView {
             app.main.detail()
         }
         
+        let _notes = Tab("notes", label: .key("Bar.notes")) {
+            self.selected = $0
+            app.mode = .notes
+            app.main.detail()
+        }
+        
         [_home, _shop, _more].forEach {
             addSubview($0)
             
@@ -54,7 +60,7 @@ final class Bar: NSView {
         }
         
         var left = _home.rightAnchor
-        [_kanban, _todo, _shopping].forEach {
+        [_kanban, _todo, _shopping, _notes].forEach {
             addSubview($0)
             
             $0.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
@@ -87,12 +93,12 @@ final class Bar: NSView {
         title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(title)
            
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 300).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
         title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         _shop.leftAnchor.constraint(greaterThanOrEqualTo: title.rightAnchor, constant: 20).isActive = true
         
         NSAnimationContext.runAnimationGroup ({
-            $0.duration = 0.5
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             title.alphaValue = 1
             self.title?.alphaValue = 0
@@ -115,7 +121,7 @@ final class Bar: NSView {
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
      
         NSAnimationContext.runAnimationGroup ({
-            $0.duration = 0.5
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             title.alphaValue = 1
             self.title?.alphaValue = 0
@@ -142,7 +148,7 @@ final class Bar: NSView {
             height!.isActive = true
         }
         NSAnimationContext.runAnimationGroup({
-            $0.duration = 0.5
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             superview!.layoutSubtreeIfNeeded()
         }, completionHandler: completion)

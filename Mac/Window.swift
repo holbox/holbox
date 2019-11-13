@@ -1,6 +1,6 @@
 import AppKit
 
-class Window: NSWindow, NSWindowDelegate {
+class Window: NSWindow {
     class Full: Window {
         init(_ width: CGFloat, _ height: CGFloat) {
             super.init(width, height, mask: [.miniaturizable, .resizable])
@@ -78,15 +78,6 @@ class Window: NSWindow, NSWindowDelegate {
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 20
-        delegate = self
-    }
-    
-    func windowWillStartLiveResize(_: Notification) {
-        isMovableByWindowBackground = false
-    }
-    
-    func windowDidEndLiveResize(_: Notification) {
-        isMovableByWindowBackground = true
     }
     
     override func becomeKey() {

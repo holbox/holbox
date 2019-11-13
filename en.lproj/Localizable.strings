@@ -4,6 +4,7 @@ Window.zoom="Zoom";
 Bar.kanban="Kanban";
 Bar.todo="To-Do";
 Bar.shopping="Shopping";
+Bar.notes="Notes";
 Bar.home="Home";
 Bar.shop="Purchases";
 Bar.more="Settings";
