@@ -76,7 +76,7 @@ final class Grocery: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             let product = app.session.reference(app.project, index: index)
             app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
             app.session.delete(app.project, list: 1, card: index)

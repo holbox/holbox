@@ -84,7 +84,7 @@ final class Product: NSView {
     }
     
     override func rightMouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             guard let shopping = self.shopping else { return }
             app.runModal(for: Stock.Edit(shopping, index: index))
         }
@@ -93,7 +93,7 @@ final class Product: NSView {
     
     override func mouseUp(with: NSEvent) {
         if active {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) {
+            if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
                 active = false
                 let product = app.session.product(app.project, index: index)
                 app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)

@@ -65,7 +65,7 @@ final class Check: NSView {
     
     override func mouseUp(with: NSEvent) {
         window!.makeFirstResponder(nil)
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             on.toggle()
             _ = target.perform(action, with: self)
         }

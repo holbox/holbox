@@ -130,7 +130,7 @@ final class Task: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if base.bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
             app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
             todo?.refresh()

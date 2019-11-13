@@ -39,7 +39,7 @@ final class Tab: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if !selected && bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if !selected && bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             app.main.makeFirstResponder(self)
             action(self)
         }

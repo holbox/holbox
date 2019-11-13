@@ -21,18 +21,6 @@ final class Main: Window.Full {
     
     override func close() { app.terminate(nil) }
     
-    override func becomeKey() {
-        super.becomeKey()
-        bar?.alphaValue = 1
-        base?.alphaValue = 1
-    }
-    
-    override func resignKey() {
-        super.resignKey()
-        bar?.alphaValue = 0.3
-        base?.alphaValue = 0.3
-    }
-    
     override func zoom(_ sender: Any?) {
         contentView!.layer!.cornerRadius = isZoomed ? 20 : 0
         super.zoom(sender)
@@ -122,7 +110,7 @@ final class Main: Window.Full {
     }*/
     
     @objc func shop() {
-        
+        app.runModal(for: Shop())
     }
     
     @objc func more() {

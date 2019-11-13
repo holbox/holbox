@@ -1,11 +1,13 @@
 import AppKit
 
-final class Bar: NSView {
+final class Bar: NSView, NSTextViewDelegate {
     private weak var selected: Tab? { didSet { oldValue?.selected = false; selected?.selected = true } }
     private weak var height: NSLayoutConstraint?
     private weak var title: Label?
+    private weak var name: Text?
     private weak var border: Border!
-    private weak var _shop: Button!
+    private weak var _add: Button!
+    private weak var homeSize: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -22,10 +24,15 @@ final class Bar: NSView {
         
         let _home = Button("logo", target: self, action: #selector(home))
         _home.setAccessibilityLabel(.key("Bar.more"))
+        addSubview(_home)
+        
+        let _add = Button("add", target: self, action: #selector(add))
+        _add.setAccessibilityLabel(.key("Bar.add"))
+        addSubview(_add)
+        self._add = _add
         
         let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
-        self._shop = _shop
         
         let _more = Button("more", target: app.main, action: #selector(app.main.more))
         _more.setAccessibilityLabel(.key("Bar.more"))
@@ -54,19 +61,24 @@ final class Bar: NSView {
             app.main.detail()
         }
         
-        [_home, _shop, _more].forEach {
+        var left: NSLayoutXAxisAnchor?
+        [_add, _shop, _more].forEach {
             addSubview($0)
             
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
             $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            if left != nil {
+                $0.leftAnchor.constraint(equalTo: left!, constant: 20).isActive = true
+            }
+            left = $0.rightAnchor
         }
         
-        var left = _home.rightAnchor
+        left = _home.rightAnchor
         [_kanban, _todo, _shopping, _notes].forEach {
             addSubview($0)
             
-            $0.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
+            $0.leftAnchor.constraint(equalTo: left!, constant: 20).isActive = true
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
             left = $0.rightAnchor
         }
@@ -77,18 +89,25 @@ final class Bar: NSView {
         unmove.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         unmove.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
+        _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        _home.centerXAnchor.constraint(equalTo: leftAnchor, constant: 115).isActive = true
+        _home.heightAnchor.constraint(equalTo: _home.widthAnchor).isActive = true
+        homeSize = _home.widthAnchor.constraint(equalToConstant: 100)
+        homeSize.isActive = true
         
-        _shop.leftAnchor.constraint(greaterThanOrEqualTo: left, constant: 20).isActive = true
-        let right = _shop.rightAnchor.constraint(equalTo: rightAnchor, constant: -65)
+        _add.leftAnchor.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
+        let right = _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -120)
         right.priority = .defaultLow
         right.isActive = true
-        
-        _more.leftAnchor.constraint(equalTo: _shop.rightAnchor, constant: 20).isActive = true
         
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+    }
+    
+    func textDidEndEditing(_: Notification) {
+        guard let name = self.name?.string else { return }
+        app.session.name(app.project, name: name)
     }
     
     func project() {
@@ -96,24 +115,35 @@ final class Bar: NSView {
         selected = nil
         resize(51, nil)
         
-        let title = Label(app.session.name(app.project), 14, .bold, NSColor(named: "haze")!)
-        title.wantsLayer = true
-        title.alphaValue = 0
-        title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        addSubview(title)
-           
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
-        title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        _shop.leftAnchor.constraint(greaterThanOrEqualTo: title.rightAnchor, constant: 20).isActive = true
+        let name = Text(.Both(300, 51), Block())
+        name.wantsLayer = true
+        name.alphaValue = 0
+        name.setAccessibilityLabel(.key("Project"))
+        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 14, weight: .bold),
+                                                .emoji: NSFont(name: "Times New Roman", size: 20)!,
+                                                .bold: .systemFont(ofSize: 16, weight: .heavy)]
+        name.textContainer!.maximumNumberOfLines = 1
+        name.string = app.session.name(app.project)
+        addSubview(name)
         
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        _add.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
+        name.didChangeText()
+        name.delegate = self
+        
+        homeSize.constant = 30
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
-            title.alphaValue = 1
-            self.title?.alphaValue = 0
+            layoutSubtreeIfNeeded()
+            name.alphaValue = 1
+            title?.alphaValue = 0
+            self.name?.alphaValue = 0
         }) {
             self.title?.removeFromSuperview()
-            self.title = title
+            self.name?.removeFromSuperview()
+            self.name = name
         }
     }
     
@@ -129,12 +159,16 @@ final class Bar: NSView {
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
      
+        homeSize.constant = 30
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
+            layoutSubtreeIfNeeded()
             title.alphaValue = 1
             self.title?.alphaValue = 0
+            name?.alphaValue = 0
         }) {
+            self.name?.removeFromSuperview()
             self.title?.removeFromSuperview()
             self.title = title
         }
@@ -144,10 +178,22 @@ final class Bar: NSView {
         selected = nil
         app.mode = .off
         title?.removeFromSuperview()
+        name?.removeFromSuperview()
         resize(nil) {
             self.border.alphaValue = 0
             app.main.base.clear()
         }
+        
+        homeSize.constant = 100
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.3
+            $0.allowsImplicitAnimation = true
+            layoutSubtreeIfNeeded()
+        }
+    }
+    
+    @objc private func add() {
+        app.runModal(for: Add())
     }
     
     private func resize(_ amount: CGFloat?, _ completion: (() -> Void)?) {

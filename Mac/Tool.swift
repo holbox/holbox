@@ -12,10 +12,10 @@ final class Tool: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
-        alphaValue = 0.8
+        alphaValue = 0.9
         
         let icon = Image(image)
-        icon.alphaValue = 0.5
+        icon.alphaValue = 0.3
         addSubview(icon)
         self.icon = icon
         
@@ -41,7 +41,7 @@ final class Tool: NSView {
     
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
-        icon.alphaValue = 0.5
+        icon.alphaValue = 0.3
     }
     
     override func mouseDown(with: NSEvent) {
@@ -50,10 +50,10 @@ final class Tool: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             _ = window!.perform(action, with: nil)
         }
-        alphaValue = 0.8
+        alphaValue = 0.9
         super.mouseUp(with: with)
     }
 }

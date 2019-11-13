@@ -2,7 +2,7 @@ import holbox
 import AppKit
 import StoreKit
 
-final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private final class Item: NSView {
         private weak var shop: Shop!
         private let product: SKProduct
@@ -21,8 +21,8 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
             addSubview(image)
             
             let title = Label([
-                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .init(white: 1, alpha: 0.9)),
-                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.9))])
+                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .white),
+                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.8))])
             addSubview(title)
             
             let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, .init(white: 1, alpha: 0.6))
@@ -94,15 +94,15 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
     
     deinit { SKPaymentQueue.default().remove(self) }
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
+    init() {
+        super.init(600, 600)
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
-        addSubview(scroll)
+        contentView!.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 30, .bold, NSColor(named: "haze")!.withAlphaComponent(0.7))
+        let title = Label(.key("Shop.title"), 20, .bold, NSColor(named: "haze")!)
         scroll.add(title)
         
         let logo = Logo()
@@ -119,73 +119,52 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "background")!.cgColor, .white)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .white)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
         
-        scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
+        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.8))
+        scroll.add(_cancel)
         
-        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
+        scroll.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 1).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -1).isActive = true
+        scroll.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
+        scroll.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
+        scroll.right.constraint(equalTo: contentView!.rightAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: contentView!.bottomAnchor).isActive = true
+        
+        title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
         title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
+        logo.centerYAnchor.constraint(equalTo: scroll.centerY).isActive = true
         
         image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
-        image.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
+        image.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
         image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         image.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         message.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
-        message.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-        message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -70).isActive = true
+        message.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
+        message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -50).isActive = true
+        
+        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
+        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -70).isActive = true
+        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor, constant: -20).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
         loading()
+        
         SKPaymentQueue.default().add(self)
 
         let request = SKProductsRequest(productIdentifiers: .init(map.values))
         request.delegate = self
         self.request = request
         request.start()
-    }
-    
-    override func refresh() {
-        image.isHidden = true
-        _restore.isHidden = false
-        message.isHidden = true
-        message.stringValue = ""
-        logo.stop()
-        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
-        var top: NSLayoutYAxisAnchor?
-        products.sorted { left, right in
-            map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
-        }.forEach {
-            let item = Item($0, shop: self)
-            scroll.add(item)
-            
-            if top == nil {
-                item.topAnchor.constraint(equalTo: scroll.top, constant: 100).isActive = true
-            } else {
-                item.topAnchor.constraint(equalTo: top!).isActive = true
-            }
-            
-            item.leftAnchor.constraint(equalTo: scroll.left, constant: 70).isActive = true
-            item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -140).isActive = true
-            top = item.bottomAnchor
-        }
-        if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 30).isActive = true
-        }
     }
     
     func productsRequest(_: SKProductsRequest, didReceive: SKProductsResponse) { products = didReceive.products }
@@ -235,6 +214,35 @@ final class Shop: Base.View, SKRequestDelegate, SKProductsRequestDelegate, SKPay
     private func purchase(_ product: SKProduct) {
         loading()
         SKPaymentQueue.default().add(.init(product: product))
+    }
+    
+    private func refresh() {
+        image.isHidden = true
+        _restore.isHidden = false
+        message.isHidden = true
+        message.stringValue = ""
+        logo.stop()
+        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        var top: NSLayoutYAxisAnchor?
+        products.sorted { left, right in
+            map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
+        }.forEach {
+            let item = Item($0, shop: self)
+            scroll.add(item)
+            
+            if top == nil {
+                item.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
+            } else {
+                item.topAnchor.constraint(equalTo: top!).isActive = true
+            }
+            
+            item.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
+            item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
+            top = item.bottomAnchor
+        }
+        if top != nil {
+            scroll.bottom.constraint(equalTo: top!, constant: 30).isActive = true
+        }
     }
     
     @objc private func restore() {

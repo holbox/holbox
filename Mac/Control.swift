@@ -1,7 +1,7 @@
 import AppKit
 
 final class Control: NSView {
-    weak var target: AnyObject?
+    private weak var target: AnyObject!
     private let action: Selector
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -38,8 +38,8 @@ final class Control: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) {
-            _ = target?.perform(action, with: nil)
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            _ = target.perform(action, with: nil)
         }
         alphaValue = 1
         super.mouseUp(with: with)
