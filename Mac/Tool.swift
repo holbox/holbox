@@ -3,6 +3,7 @@ import AppKit
 final class Tool: NSView {
     private weak var icon: Image!
     private let action: Selector
+    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ image: String, action: Selector) {

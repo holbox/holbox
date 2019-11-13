@@ -5,6 +5,7 @@ final class Tab: NSView {
     private weak var icon: Image!
     private let action: (Tab) -> Void
     private let image: NSImage
+    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ image: String, label: String, action: @escaping (Tab) -> Void) {

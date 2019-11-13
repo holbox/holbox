@@ -40,6 +40,7 @@
 		DA437019234D147F00CCB34D /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA437018234D147F00CCB34D /* TestStore.swift */; };
 		DA43701B234D2B2000CCB34D /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701A234D2B2000CCB34D /* Window.swift */; };
 		DA43701D234D2B5300CCB34D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701C234D2B5300CCB34D /* Main.swift */; };
+		DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AB0A9237C0667008725EB /* Unmove.swift */; };
 		DA4BC3F623546A4600C023D6 /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F523546A4600C023D6 /* More.swift */; };
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
 		DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6513235E00AD00B5F6EE /* Item.swift */; };
@@ -284,6 +285,7 @@
 		DA437018234D147F00CCB34D /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		DA43701A234D2B2000CCB34D /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		DA43701C234D2B5300CCB34D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		DA4AB0A9237C0667008725EB /* Unmove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unmove.swift; sourceTree = "<group>"; };
 		DA4BC3F523546A4600C023D6 /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA4C6513235E00AD00B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 				DA7420D02351FB6C005A8726 /* Text.swift */,
 				DA61F30023699DB2006DD924 /* Todo.swift */,
 				DAD5E6ED2364336200EE4AD9 /* Tool.swift */,
+				DA4AB0A9237C0667008725EB /* Unmove.swift */,
 				DA43701A234D2B2000CCB34D /* Window.swift */,
 			);
 			path = Mac;
@@ -1061,6 +1064,7 @@
 				DA647E5323759AB90030CB5E /* Shopping.swift in Sources */,
 				DAD8F196234DBB5500835E3E /* String.swift in Sources */,
 				DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */,
+				DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */,
 				DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */,
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
 				DAC22D272354D1F90004FBFD /* Column.swift in Sources */,

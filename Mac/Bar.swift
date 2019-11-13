@@ -12,6 +12,9 @@ final class Bar: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
+        let unmove = Unmove()
+        addSubview(unmove)
+        
         let border = Border()
         border.alphaValue = 0
         addSubview(border)
@@ -67,6 +70,12 @@ final class Bar: NSView {
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
             left = $0.rightAnchor
         }
+        
+        unmove.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 51).isActive = true
+        unmove.heightAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
+        unmove.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        unmove.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        unmove.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         

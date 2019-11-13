@@ -1,7 +1,7 @@
 import AppKit
 
 final class Logo: NSView {
-    override var mouseDownCanMoveWindow: Bool { true }
+    override var mouseDownCanMoveWindow: Bool { false }
     private weak var rays: CAShapeLayer!
     private var counter = 36
     private let deg5 = CGFloat(0.0872665)
