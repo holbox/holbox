@@ -16,9 +16,9 @@ final class Kanban: Base.View {
         
         [_card, _more].forEach {
             scroll.add($0)
-            $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            $0.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+            $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            $0.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
         }
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -29,8 +29,8 @@ final class Kanban: Base.View {
         scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         
-        _card.leftAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
-        _more.leftAnchor.constraint(equalTo: _card.rightAnchor).isActive = true
+        _card.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        _more.leftAnchor.constraint(equalTo: _card.rightAnchor, constant: 20).isActive = true
 
         refresh()
     }
@@ -63,25 +63,25 @@ final class Kanban: Base.View {
                 scroll.add(card)
                 
                 if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
+                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
                 } else {
                     card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 5)
                     top!.child = card
                 }
                 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 10)
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
                 top = card
             }
             
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
+                column.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
             } else {
-                column.leftAnchor.constraint(equalTo: left!).isActive = true
+                column.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
             }
             
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
             left = column.rightAnchor
         }

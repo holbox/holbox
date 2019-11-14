@@ -12,9 +12,10 @@ final class Column: NSView, NSTextViewDelegate {
         
         let name = Text(.Both(400, 100), Block())
         name.setAccessibilityLabel(.key("Column"))
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 18, weight: .bold), .white),
-                                                .emoji: (NSFont(name: "Times New Roman", size: 24)!, .white),
-                                                .bold: (.systemFont(ofSize: 20, weight: .bold), .white)]
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7)),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
+                                                .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7)),
+                                                .hash: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7))]
         name.string = app.session.name(app.project, list: index)
         name.textContainer!.maximumNumberOfLines = 1
         addSubview(name)
@@ -24,9 +25,9 @@ final class Column: NSView, NSTextViewDelegate {
         width.priority = .defaultLow
         width.isActive = true
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
+        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 5).isActive = true
         bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
         name.topAnchor.constraint(equalTo: topAnchor).isActive = true
         name.didChangeText()
         name.delegate = self

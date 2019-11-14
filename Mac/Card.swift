@@ -7,9 +7,7 @@ final class Card: NSView, NSTextViewDelegate {
     weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
-    private weak var empty: Image?
     private weak var content: Text!
-    private weak var base: NSView!
     private weak var _delete: Button!
     private weak var kanban: Kanban!
     private var dragging = false
@@ -25,20 +23,14 @@ final class Card: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
+        layer!.cornerRadius = 8
+        layer!.borderColor = NSColor(named: "haze")!.cgColor
         
-        let base = NSView()
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.wantsLayer = true
-        base.layer!.cornerRadius = 12
-        base.layer!.borderColor = NSColor(named: "haze")!.cgColor
-        addSubview(base)
-        self.base = base
-        
-        let content = Text(.Both(300, 6000), Block())
+        let content = Text(.Both(320, 10000), Block())
         content.setAccessibilityLabel(.key("Card"))
         (content.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
-                                                   .emoji: (NSFont(name: "Times New Roman", size: 35)!, .white),
-                                                   .bold: (.systemFont(ofSize: 24, weight: .heavy), NSColor(named: "haze")!),
+                                                   .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
+                                                   .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
                                                    .hash: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
@@ -51,21 +43,16 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(_delete)
         self._delete = _delete
         
-        rightAnchor.constraint(equalTo: base.rightAnchor, constant: 30).isActive = true
-        bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 5).isActive = true
+        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 5).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
-        base.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
+        _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
-        _delete.leftAnchor.constraint(equalTo: base.rightAnchor).isActive = true
-        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        content.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
         content.didChangeText()
         content.delegate = self
         
@@ -78,12 +65,11 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     func textDidBeginEditing(_: Notification) {
-        base.layer!.borderWidth = 2
-        empty?.removeFromSuperview()
+        layer!.borderWidth = 2
     }
     
     func textDidEndEditing(_: Notification) {
-        base.layer!.borderWidth = 0
+        layer!.borderWidth = 0
         if content.string != app.session.content(app.project, list: column, card: index) {
             app.session.content(app.project, list: column, card: index, content: content.string)
             app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.string)
@@ -109,7 +95,7 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete.isHidden = true
                 top.constant += deltaY
                 left.constant += deltaX
-                base.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+                layer!.backgroundColor = NSColor(named: "haze")!.cgColor
                 content.textColor = .black
                 
                 layer!.removeFromSuperlayer()
@@ -139,7 +125,7 @@ final class Card: NSView, NSTextViewDelegate {
             NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.4
                 $0.allowsImplicitAnimation = true
-                base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+                layer!.backgroundColor = NSColor(named: "background")!.cgColor
             }) { [weak self] in self?.kanban.refresh() }
         }
         dragging = false
@@ -152,7 +138,7 @@ final class Card: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            layer!.backgroundColor = NSColor(named: "background")!.cgColor
             _delete.alphaValue = 1
         }
     }
@@ -162,22 +148,16 @@ final class Card: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
-            base.layer!.backgroundColor = .clear
             _delete.alphaValue = 0
+            if !app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                layer!.backgroundColor = .clear
+            }
         }
     }
     
     private func update() {
-        self.empty?.removeFromSuperview()
         if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            let empty = Image("empty")
-            addSubview(empty, positioned: .below, relativeTo: content)
-            self.empty = empty
-            
-            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.leftAnchor.constraint(equalTo: content.leftAnchor, constant: 11).isActive = true
-            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            layer!.backgroundColor = NSColor(named: "background")!.cgColor
         }
     }
     
