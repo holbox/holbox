@@ -31,7 +31,7 @@ final class Card: NSView, NSTextViewDelegate {
         (content.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
                                                    .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
                                                    .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
-                                                   .hash: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
+                                                   .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true

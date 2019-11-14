@@ -12,10 +12,10 @@ final class Column: NSView, NSTextViewDelegate {
         
         let name = Text(.Both(400, 100), Block())
         name.setAccessibilityLabel(.key("Column"))
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7)),
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.6)),
                                                 .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
-                                                .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7)),
-                                                .hash: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.7))]
+                                                .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.6)),
+                                                .tag: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!.withAlphaComponent(0.6))]
         name.string = app.session.name(app.project, list: index)
         name.textContainer!.maximumNumberOfLines = 1
         addSubview(name)

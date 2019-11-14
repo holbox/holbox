@@ -5,7 +5,7 @@ public extension String {
         case plain
         case bold
         case emoji
-        case hash
+        case tag
     }
     
     func mark<T>(_ transform: (Mode, Range<Index>) throws -> T) rethrows -> [T] {
@@ -17,7 +17,7 @@ public extension String {
                 mode = .emoji
             } else if self[$1] == "#" {
                 if $1 < index(before: endIndex) && String(self[index(after: $1)]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
-                    mode = .hash
+                    mode = .tag
                 } else {
                     mode = .bold
                 }
@@ -33,9 +33,9 @@ public extension String {
                             mode = .bold
                         }
                     }
-                case .hash:
+                case .tag:
                     if self[last.1.upperBound ... $1].rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
-                        mode = .hash
+                        mode = .tag
                     }
                 default: break
                 }

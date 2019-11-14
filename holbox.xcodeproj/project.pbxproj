@@ -175,6 +175,7 @@
 		DAF716E923746A8000938E20 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716E823746A8000938E20 /* Todo.swift */; };
 		DAF716ED2374766900938E20 /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716EC2374766900938E20 /* Footer.swift */; };
 		DAF716EF2374787400938E20 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716EE2374787400938E20 /* Header.swift */; };
+		DAF7E389237DCABC00C2F648 /* TestProjectTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */; };
 		DAF8991B237D831100E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991A237D831100E1B76F /* Storager.swift */; };
 		DAF8991D237D836300E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991C237D836300E1B76F /* Storager.swift */; };
 /* End PBXBuildFile section */
@@ -414,6 +415,7 @@
 		DAF716E823746A8000938E20 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		DAF716EC2374766900938E20 /* Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footer.swift; sourceTree = "<group>"; };
 		DAF716EE2374787400938E20 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectTags.swift; sourceTree = "<group>"; };
 		DAF8991A237D831100E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 		DAF8991C237D836300E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -539,6 +541,7 @@
 				DA8B960523573E81007E82F7 /* TestPerks.swift */,
 				DA813BAD2376B8E400A3393C /* TestProduct.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
+				DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 				DA40C94D2356255B00F9E1C2 /* TestSettings.swift */,
 				DA437018234D147F00CCB34D /* TestStore.swift */,
@@ -1047,6 +1050,7 @@
 				DABC363C23488059002011C8 /* TestSession.swift in Sources */,
 				DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */,
 				DA5AC046234A0B23004D0803 /* TestCoder.swift in Sources */,
+				DAF7E389237DCABC00C2F648 /* TestProjectTags.swift in Sources */,
 				DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,

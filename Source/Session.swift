@@ -191,6 +191,33 @@ public final class Session {
         store.save(self)
     }
     
+    public func tags(_ project: Int, result: @escaping ([String : Int]) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            let tags = self.projects[project].cards.reduce([String : Int]()) {
+                $1.1.reduce($0) { list, string in
+                    string.indices.reduce(into: (list, nil) as ([String : Int], String?)) {
+                        if $0.1 != nil {
+                            if string[$1] != "#" && String(string[$1]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
+                                $0.1!.append(string[$1])
+                                if $1 == string.index(before: string.endIndex) {
+                                    $0.0[$0.1!] = ($0.0[$0.1!] ?? 0) + 1
+                                }
+                            } else if !$0.1!.isEmpty {
+                                $0.0[$0.1!] = ($0.0[$0.1!] ?? 0) + 1
+                                $0.1 = string[$1] == "#" ? "" : nil
+                            }
+                        } else if string[$1] == "#" {
+                            $0.1 = ""
+                        }
+                    }.0
+                }
+            }
+            DispatchQueue.main.async {
+                result(tags)
+            }
+        }
+    }
+    
     private func product(_ emoji: String, description: String) -> String? {
         let emoji = {
             $0.unicodeScalars.first?.emoji == true ? $0 : ""
