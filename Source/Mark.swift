@@ -5,6 +5,7 @@ public extension String {
         case plain
         case bold
         case emoji
+        case hash
     }
     
     func mark<T>(_ transform: (Mode, Range<Index>) throws -> T) rethrows -> [T] {
@@ -15,16 +16,28 @@ public extension String {
             unicodeScalars[position].emoji {
                 mode = .emoji
             } else if self[$1] == "#" {
-                mode = .bold
-            } else if let last = $0.last {
-                if last.0 == .bold && !self[last.1.upperBound ... $1].contains("\n") {
+                if $1 < index(before: endIndex) && String(self[index(after: $1)]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
+                    mode = .hash
+                } else {
                     mode = .bold
-                } else if last.0 == .emoji {
+                }
+            } else if let last = $0.last {
+                switch last.0 {
+                case .bold:
+                    if self[last.1.upperBound ... $1].rangeOfCharacter(from: .newlines) == nil {
+                        mode = .bold
+                    }
+                case .emoji:
                     if let previous = $0.suffix(2).first {
                         if previous.0 == .bold && !self[previous.1.upperBound ... $1].contains("\n") {
                             mode = .bold
                         }
                     }
+                case .hash:
+                    if self[last.1.upperBound ... $1].rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
+                        mode = .hash
+                    }
+                default: break
                 }
             }
             if mode == $0.last?.0 {

@@ -173,4 +173,33 @@ lorem ipsum
             _ = $0.mark { mode, range in XCTAssertEqual(.emoji, mode) }
         }
     }
+    
+    func testHash() {
+        let string = "#hello"
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(1, mark.count)
+        XCTAssertEqual(.hash, mark.first?.0)
+        XCTAssertEqual(string.startIndex ..< string.endIndex, mark.first?.1)
+    }
+    
+    func testHashAndText() {
+        let string = "#hello cat"
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(2, mark.count)
+        XCTAssertEqual(.hash, mark.first?.0)
+        XCTAssertEqual(.plain, mark.last?.0)
+        XCTAssertEqual(string.range(of: "#hello"), mark.first?.1)
+        XCTAssertEqual(string.range(of: " cat"), mark.last?.1)
+    }
+    
+    func testHashAndBold() {
+        let string = "#hello # world"
+        let mark = string.mark { ($0, $1) }
+        XCTAssertEqual(3, mark.count)
+        XCTAssertEqual(.hash, mark[0].0)
+        XCTAssertEqual(.plain, mark[1].0)
+        XCTAssertEqual(.bold, mark[2].0)
+        XCTAssertEqual(string.range(of: "#hello"), mark.first?.1)
+        XCTAssertEqual(string.range(of: "# world"), mark.last?.1)
+    }
 }
