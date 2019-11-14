@@ -14,7 +14,7 @@ class More: Window.Modal {
         
         @objc private func spell(_ check: Check) {
             app.session.spell(check.on)
-            app.main.base?.refresh()
+            app.main.refresh()
         }
     }
     

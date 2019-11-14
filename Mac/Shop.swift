@@ -241,7 +241,7 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
             top = item.bottomAnchor
         }
         if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 30).isActive = true
+            scroll.bottom.constraint(equalTo: top!, constant: 20).isActive = true
         }
     }
     

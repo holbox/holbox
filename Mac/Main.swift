@@ -1,7 +1,7 @@
 import AppKit
 
 final class Main: Window.Full {
-    private(set) weak var base: Base!
+    private weak var base: Base!
     private weak var bar: Bar!
     private weak var logo: Logo?
 
@@ -68,6 +68,15 @@ final class Main: Window.Full {
     func detail() {
         base.show(Detail())
         bar.detail()
+    }
+    
+    func refresh() {
+        base.refresh()
+        bar.refresh()
+    }
+    
+    func clear() {
+        base.clear()
     }
     /*
     @objc func kanban() {

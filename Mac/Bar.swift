@@ -174,6 +174,12 @@ final class Bar: NSView, NSTextViewDelegate {
         }
     }
     
+    func refresh() {
+        if let name = self.name {
+            name.string = app.session.name(app.project)
+        }
+    }
+    
     @objc private func home() {
         selected = nil
         app.mode = .off
@@ -181,7 +187,7 @@ final class Bar: NSView, NSTextViewDelegate {
         name?.removeFromSuperview()
         resize(nil) {
             self.border.alphaValue = 0
-            app.main.base.clear()
+            app.main.clear()
         }
         
         homeSize.constant = 100

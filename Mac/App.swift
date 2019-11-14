@@ -75,7 +75,7 @@ private(set) weak var app: App!
             main.makeFirstResponder(nil)
             DispatchQueue.main.async {
                 self.session?.refresh {
-                    self.main.base?.refresh()
+                    self.main.refresh()
                 }
             }
         }
