@@ -175,6 +175,8 @@
 		DAF716E923746A8000938E20 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716E823746A8000938E20 /* Todo.swift */; };
 		DAF716ED2374766900938E20 /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716EC2374766900938E20 /* Footer.swift */; };
 		DAF716EF2374787400938E20 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716EE2374787400938E20 /* Header.swift */; };
+		DAF8991B237D831100E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991A237D831100E1B76F /* Storager.swift */; };
+		DAF8991D237D836300E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991C237D836300E1B76F /* Storager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -412,6 +414,8 @@
 		DAF716E823746A8000938E20 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		DAF716EC2374766900938E20 /* Footer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footer.swift; sourceTree = "<group>"; };
 		DAF716EE2374787400938E20 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
+		DAF8991A237D831100E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
+		DAF8991C237D836300E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,6 +604,7 @@
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DA647E5223759AB90030CB5E /* Shopping.swift */,
 				DA647E542375B5CD0030CB5E /* Stock.swift */,
+				DAF8991C237D836300E1B76F /* Storager.swift */,
 				DAE81687235323F90005BE0B /* Tab.swift */,
 				DA16F18C2370020600F3A1FE /* Task.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
@@ -655,6 +660,7 @@
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 				DA6B0285237854710084AB0A /* Stock.swift */,
+				DAF8991A237D831100E1B76F /* Storager.swift */,
 				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
@@ -1083,6 +1089,7 @@
 				DA647E552375B5CD0030CB5E /* Stock.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
 				DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */,
+				DAF8991D237D836300E1B76F /* Storager.swift in Sources */,
 				DAE81688235323F90005BE0B /* Tab.swift in Sources */,
 				DA40C948235610AC00F9E1C2 /* Check.swift in Sources */,
 				DAC52F422350DB2B003A72CA /* Scroll.swift in Sources */,
@@ -1119,6 +1126,7 @@
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
 				DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
+				DAF8991B237D831100E1B76F /* Storager.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
 				DAA4640223588AE600A5E990 /* Tab.swift in Sources */,
 				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,

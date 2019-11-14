@@ -15,10 +15,9 @@ final class Todo: Base.View, NSTextViewDelegate {
         
         let name = Text(.Vertical(400), Block())
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .heavy),
-                                                .emoji: NSFont(name: "Times New Roman", size: 40)!,
-                                                .bold: .systemFont(ofSize: 34, weight: .heavy)]
-        name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 30, weight: .heavy), .white),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 40)!, .white),
+                                                .bold: (.systemFont(ofSize: 34, weight: .heavy), .white)]
         name.delegate = self
         scroll.add(name)
         self.name = name
@@ -28,10 +27,9 @@ final class Todo: Base.View, NSTextViewDelegate {
         
         let new = Text(.Vertical(500), Active())
         new.setAccessibilityLabel(.key("Task"))
-        new.font = .systemFont(ofSize: 28, weight: .medium)
-        (new.textStorage as! Storage).fonts = [.plain: new.font!,
-                                               .emoji: NSFont(name: "Times New Roman", size: 45)!,
-                                               .bold: .systemFont(ofSize: 35, weight: .bold)]
+        (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 28, weight: .medium), .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 45)!, .white),
+                                               .bold: (.systemFont(ofSize: 35, weight: .bold), .white)]
         new.delegate = self
         scroll.add(new)
         self.new = new

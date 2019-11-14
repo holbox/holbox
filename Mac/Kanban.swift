@@ -19,10 +19,9 @@ final class Kanban: Base.View, NSTextViewDelegate {
         
         let name = Text(.Both(500, 150), Block())
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 30, weight: .heavy),
-                                                .emoji: NSFont(name: "Times New Roman", size: 40)!,
-                                                .bold: .systemFont(ofSize: 34, weight: .heavy)]
-        name.standby = NSColor(named: "haze")!.withAlphaComponent(0.7)
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 30, weight: .heavy), .white),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 40)!, .white),
+                                                .bold: (.systemFont(ofSize: 34, weight: .heavy), .white)]
         name.textContainer!.maximumNumberOfLines = 1
         scroll.add(name)
         self.name = name

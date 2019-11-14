@@ -88,10 +88,9 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         let emoji = Text(.Both(320, 150), Active())
         emoji.setAccessibilityLabel(.key("Product.emoji"))
-        emoji.font = NSFont(name: "Times New Roman", size: 80)!
-        (emoji.textStorage as! Storage).fonts = [.plain: emoji.font!,
-                                               .emoji: emoji.font!,
-                                               .bold: emoji.font!]
+        (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 80)!, .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 80)!, .white),
+                                               .bold: (NSFont(name: "Times New Roman", size: 80)!, .white)]
         emoji.textContainer!.maximumNumberOfLines = 1
         emoji.delegate = self
         contentView!.addSubview(emoji)
@@ -99,10 +98,9 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         let label = Text(.Vertical(320), Active())
         label.setAccessibilityLabel(.key("Product.description"))
-        label.font = .systemFont(ofSize: 25, weight: .medium)
-        (label.textStorage as! Storage).fonts = [.plain: label.font!,
-                                               .emoji: label.font!,
-                                               .bold: label.font!]
+        (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 25, weight: .medium), .white),
+                                               .emoji: (.systemFont(ofSize: 25, weight: .medium), .white),
+                                               .bold: (.systemFont(ofSize: 25, weight: .medium), .white)]
         label.textContainer!.maximumNumberOfLines = 2
         label.delegate = self
         contentView!.addSubview(label)

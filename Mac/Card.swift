@@ -36,10 +36,10 @@ final class Card: NSView, NSTextViewDelegate {
         
         let content = Text(.Both(300, 6000), Block())
         content.setAccessibilityLabel(.key("Card"))
-        (content.textStorage as! Storage).fonts = [.plain: .systemFont(ofSize: 16, weight: .medium),
-                                                   .emoji: NSFont(name: "Times New Roman", size: 32)!,
-                                                   .bold: .systemFont(ofSize: 24, weight: .bold),
-                                                   .hash: .systemFont(ofSize: 14, weight: .medium)]
+        (content.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
+                                                   .emoji: (NSFont(name: "Times New Roman", size: 35)!, .white),
+                                                   .bold: (.systemFont(ofSize: 24, weight: .heavy), NSColor(named: "haze")!),
+                                                   .hash: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!.withAlphaComponent(0.85))]
         content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true

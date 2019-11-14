@@ -3,7 +3,6 @@ import AppKit
 final class Text: NSTextView {
     var tab = false
     var intro = false
-    var standby: NSColor? { didSet { applyStandby() } }
     let edit: Edit
     private let resize: Resize
     override var acceptsFirstResponder: Bool { edit.active }
@@ -32,12 +31,6 @@ final class Text: NSTextView {
         resize.configure(self)
     }
     
-    override var textColor: NSColor? { didSet {
-        guard let storage = textStorage, let color = textColor else { return }
-        storage.removeAttribute(.foregroundColor, range: .init(location: 0, length: storage.length))
-        storage.addAttribute(.foregroundColor, value: color, range: .init(location: 0, length: storage.length))
-    } }
-    
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
         var rect = rect
         rect.size.width = 3
@@ -56,10 +49,6 @@ final class Text: NSTextView {
     }
     
     override func becomeFirstResponder() -> Bool {
-        if standby != nil {
-            textColor = .white
-            alphaValue = 1
-        }
         textContainer!.lineBreakMode = .byTruncatingMiddle
         delegate?.textDidBeginEditing?(.init(name: .init("")))
         return super.becomeFirstResponder()
@@ -68,7 +57,6 @@ final class Text: NSTextView {
     override func resignFirstResponder() -> Bool {
         setSelectedRange(.init())
         textContainer!.lineBreakMode = .byTruncatingTail
-        applyStandby()
         edit.resign()
         return super.resignFirstResponder()
     }
@@ -111,11 +99,5 @@ final class Text: NSTextView {
     override func layout() {
         super.layout()
         resize.layout(self)
-    }
-    
-    private func applyStandby() {
-        if let standby = standby {
-            textColor = standby
-        }
     }
 }

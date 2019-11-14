@@ -1,20 +1,14 @@
-#if os(macOS)
-    import AppKit
-#endif
-#if os(iOS)
-    import UIKit
-#endif
+import Foundation
 
-final class Storage: NSTextStorage {
-    lazy var fonts = [String.Mode.plain: self.font!]
+final class Storage: Storager {
     override var string: String { storage.string }
-    private let storage = NSTextStorage()
     
     override func processEditing() {
         super.processEditing()
         storage.removeAttribute(.font, range: .init(location: 0, length: storage.length))
-        string.mark { (fonts[$0]!, .init($1, in: string)) }.forEach {
-            storage.addAttribute(.font, value: $0.0, range: $0.1)
+        storage.removeAttribute(.foregroundColor, range: .init(location: 0, length: storage.length))
+        string.mark { (fonts[$0]!, NSRange($1, in: string)) }.forEach {
+            storage.addAttributes([.font: $0.0.0, .foregroundColor: $0.0.1], range: $0.1)
         }
         layoutManagers.first!.processEditing(for: self, edited: .editedAttributes, range: .init(), changeInLength: 0, invalidatedRange: .init(location: 0, length: storage.length))
     }
