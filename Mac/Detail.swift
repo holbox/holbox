@@ -10,19 +10,11 @@ final class Detail: Base.View {
         addSubview(scroll)
         self.scroll = scroll
         
-        let _add = Button("plus", target: self, action: #selector(add))
-        addSubview(_add)
-        
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        
-        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        _add.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        _add.topAnchor.constraint(equalTo: topAnchor).isActive = true
         
         refresh()
     }
@@ -31,46 +23,30 @@ final class Detail: Base.View {
         scroll.views.forEach { $0.removeFromSuperview() }
         
         if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 15, .medium, NSColor(named: "haze")!)
+            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 16, .medium, NSColor(named: "haze")!.withAlphaComponent(0.6))
             scroll.add(empty)
             
-            empty.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
-            empty.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
+            empty.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
             
-            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+            scroll.bottom.constraint(equalTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
-            var top: NSLayoutYAxisAnchor?
+            var prev = scroll.top
             app.session.projects(app.mode).forEach {
-                let item = Item(app.session.name($0), index: $0, .bold, 20, NSColor(named: "haze")!, self, #selector(project(_:)))
+                let item = Project($0)
                 scroll.add(item)
                 
-                item.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
-                item.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -100).isActive = true
+                item.topAnchor.constraint(equalTo: prev, constant: 20).isActive = true
+                item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+                item.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
+                prev = item.bottomAnchor
                 
-                if top == nil {
-                    item.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
-                } else {
-                    let border = Border()
-                    scroll.add(border)
-                    
-                    border.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 70).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.rightAnchor, constant: -70).isActive = true
-                    border.topAnchor.constraint(equalTo: top!).isActive = true
-                    
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-                }
-                
-                top = item.bottomAnchor
             }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 40).isActive = true
+            scroll.bottom.constraint(equalTo: prev, constant: 20).isActive = true
         }
     }
     
     @objc private func add() {
         app.runModal(for: Add())
-    }
-    
-    @objc private func project(_ item: Item) {
-        app.main.project(item.index)
     }
 }
