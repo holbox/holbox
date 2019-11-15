@@ -15,6 +15,7 @@ final class Column: UIView {
             case .plain: return (.init(string[$1]), 18, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
             case .emoji: return (.init(string[$1]), 24, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
             case .bold: return (.init(string[$1]), 20, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+                case .tag: fatalError()
             }
         })
         name.accessibilityLabel = .key("Column")

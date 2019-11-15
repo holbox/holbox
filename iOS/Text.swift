@@ -22,9 +22,9 @@ final class Text: UITextView {
         autocorrectionType = app.session.spell ? .yes : .no
         autocapitalizationType = app.session.spell ? .sentences : .none
         
-        (textStorage as! Storage).fonts = [.plain: font!,
-                                           .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
-                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .bold)]
+//        (textStorage as! Storage).fonts = [.plain: font!,
+//                                           .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
+//                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .bold)]
     }
     
     override func caretRect(for position: UITextPosition) -> CGRect {

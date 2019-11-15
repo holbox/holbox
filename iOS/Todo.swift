@@ -106,6 +106,7 @@ final class Todo: Base.View {
             case .plain: return (.init(string[$1]), 26, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
             case .emoji: return (.init(string[$1]), 40, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
             case .bold: return (.init(string[$1]), 30, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
+                case .tag: fatalError()
             }
         })
         name.accessibilityLabel = .key("Project")

@@ -22,7 +22,7 @@ final class Main: Window.Full {
     override func close() { app.terminate(nil) }
     
     override func zoom(_ sender: Any?) {
-        contentView!.layer!.cornerRadius = isZoomed ? 20 : 0
+        contentView!.layer!.cornerRadius = isZoomed ? 10 : 0
         super.zoom(sender)
     }
     

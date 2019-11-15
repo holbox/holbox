@@ -65,7 +65,7 @@ class Window: NSWindow {
         isReleasedWhenClosed = false
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
-        contentView!.layer!.cornerRadius = 20
+        contentView!.layer!.cornerRadius = 10
     }
     
     override func becomeKey() {

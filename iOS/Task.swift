@@ -73,6 +73,7 @@ final class Task: UIView {
             case .plain: return (.init(content[$1]), list == 1 ? 16 : 20, .medium, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
             case .emoji: return (.init(content[$1]), list == 1 ? 36 : 42, .regular, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
             case .bold: return (.init(content[$1]), list == 1 ? 28 : 35, .bold, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+                case .tag: fatalError()
             }
         })
         addSubview(label)

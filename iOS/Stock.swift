@@ -117,9 +117,9 @@ class Stock: Modal, UITextViewDelegate {
         emoji.accessibilityLabel = .key("Product.emoji")
         emoji.font = .systemFont(ofSize: 60)
         emoji.textAlignment = .center
-        (emoji.textStorage as! Storage).fonts = [.plain: emoji.font!,
-                                               .emoji: emoji.font!,
-                                               .bold: emoji.font!]
+//        (emoji.textStorage as! Storage).fonts = [.plain: emoji.font!,
+//                                               .emoji: emoji.font!,
+//                                               .bold: emoji.font!]
         emoji.textContainerInset = .init(top: 10, left: 20, bottom: 0, right: 20)
         emoji.textContainer.maximumNumberOfLines = 1
         emoji.delegate = self
@@ -133,9 +133,9 @@ class Stock: Modal, UITextViewDelegate {
         label.textAlignment = .center
         label.accessibilityLabel = .key("Product.description")
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        (label.textStorage as! Storage).fonts = [.plain: label.font!,
-                                               .emoji: label.font!,
-                                               .bold: label.font!]
+//        (label.textStorage as! Storage).fonts = [.plain: label.font!,
+//                                               .emoji: label.font!,
+//                                               .bold: label.font!]
         label.textContainerInset = .init(top: 10, left: 20, bottom: 0, right: 20)
         label.textContainer.maximumNumberOfLines = 2
         label.delegate = self

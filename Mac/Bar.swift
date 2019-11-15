@@ -90,7 +90,7 @@ final class Bar: NSView, NSTextViewDelegate {
         unmove.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        _home.centerXAnchor.constraint(equalTo: leftAnchor, constant: 115).isActive = true
+        _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _home.heightAnchor.constraint(equalTo: _home.widthAnchor).isActive = true
         homeSize = _home.widthAnchor.constraint(equalToConstant: 100)
         homeSize.isActive = true

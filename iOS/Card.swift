@@ -316,6 +316,7 @@ final class Card: UIView {
                 case .plain: return (.init(string[$1]), 16, .medium, .white)
                 case .emoji: return (.init(string[$1]), 32, .regular, .white)
                 case .bold: return (.init(string[$1]), 20, .bold, .white)
+                    case .tag: fatalError()
                 }
             })
             content.accessibilityLabel = .key("Card")
