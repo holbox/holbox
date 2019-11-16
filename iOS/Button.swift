@@ -22,7 +22,7 @@ final class Button: UIView {
         icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
-    init(_ system: String, _ tint: UIColor, target: AnyObject, action: Selector) {
+    @available(iOS 13.0, *) init(_ system: String, _ tint: UIColor, target: AnyObject, action: Selector) {
         self.target = target
         self.action = action
         super.init(frame: .zero)

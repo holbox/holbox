@@ -77,6 +77,6 @@ class Window: NSWindow {
     override func resignKey() {
         super.resignKey()
         hasShadow = false
-        contentView!.subviews.forEach { $0.alphaValue = 0.5 }
+        contentView!.subviews.forEach { $0.alphaValue = 0.4 }
     }
 }

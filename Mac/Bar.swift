@@ -134,7 +134,7 @@ final class Bar: NSView, NSTextViewDelegate {
         title.alphaValue = 0
         addSubview(title)
         
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 105).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 104).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
      
         button.constant = 30

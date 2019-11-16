@@ -9,7 +9,7 @@ final class Image: UIImageView {
         clipsToBounds = true
     }
     
-    init(_ system: String, _ tint: UIColor) {
+    @available(iOS 13.0, *) init(_ system: String, _ tint: UIColor) {
         super.init(image: UIImage(systemName: system)!.withRenderingMode(.alwaysTemplate))
         tintColor = tint
         contentMode = .scaleAspectFit

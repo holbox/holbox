@@ -14,7 +14,9 @@ private(set) weak var app: App!
         app = self
         
         win = UIWindow()
-        win.overrideUserInterfaceStyle = .dark
+        if #available(iOS 13.0, *) {
+            win.overrideUserInterfaceStyle = .dark
+        }
         win.rootViewController = self
         win.backgroundColor = .black
         win.makeKeyAndVisible()

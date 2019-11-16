@@ -15,7 +15,7 @@ final class Control: NSView {
         setAccessibilityRole(.button)
         setAccessibilityLabel(title)
         wantsLayer = true
-        layer!.cornerRadius = 8
+        layer!.cornerRadius = 6
         layer!.backgroundColor = background
         
         let label = Label(title, 12, .bold, text)
