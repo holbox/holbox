@@ -3,16 +3,34 @@ import Foundation
 public final class Session {
     var store = Store()
     var rating = Calendar.current.date(byAdding: .day, value: 1, to: .init())!
-    var projects = [Int : Project]()
+    var items = [Int : Project]()
     var perks = [Perk]()
     var settings = Settings()
     var refreshed = Date().timeIntervalSince1970
 
-    public var rate: Bool { Date() >= rating }
-    public var available: Int { max(capacity - count, 0) }
-    public var count: Int { projects.values.filter { $0.mode != .off }.count }
-    public var spell: Bool { settings.spell }
-    public var refreshable: Bool { Date().timeIntervalSince1970 > refreshed + 10 }
+    public var projects: [Int] {
+        items.filter { $1.mode != .off }.sorted { $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending }.map { $0.0 }
+    }
+    
+    public var rate: Bool {
+        Date() >= rating
+    }
+    
+    public var available: Int {
+        max(capacity - count, 0)
+    }
+    
+    public var count: Int {
+        items.values.filter { $0.mode != .off }.count
+    }
+    
+    public var spell: Bool {
+        settings.spell
+    }
+    
+    public var refreshable: Bool {
+        Date().timeIntervalSince1970 > refreshed + 10
+    }
     
     public var capacity: Int {
         var result = 1
@@ -46,132 +64,131 @@ public final class Session {
         store.save(self)
     }
     
-    public func projects(_ mode: Mode) -> [Int] {
-//        projects.enumerated().filter { $0.1.mode == mode }.sorted { $0.1.name < $1.1.name }.map { $0.0 }
-        []
-    }
-    
     public func lists(_ project: Int) -> Int {
-        projects[project]!.cards.count
+        items[project]!.cards.count
     }
     
     public func cards(_ project: Int, list: Int) -> Int {
-        projects[project]!.cards[list].1.count
+        items[project]!.cards[list].1.count
     }
     
     public func purchased(_ perk: Perk) -> Bool {
         perks.contains(perk)
     }
     
+    public func mode(_ project: Int) -> Mode {
+        items[project]!.mode
+    }
+    
     public func name(_ project: Int) -> String {
-        projects[project]!.name
+        items[project]!.name
     }
     
     public func name(_ project: Int, list: Int) -> String {
-        projects[project]!.cards[list].0
+        items[project]!.cards[list].0
     }
     
     public func content(_ project: Int, list: Int, card: Int) -> String {
-        projects[project]!.cards[list].1[card]
+        items[project]!.cards[list].1[card]
     }
     
     public func product(_ project: Int, index: Int) -> (String, String) {
         {
             ($0[0], $0[1])
-        } (projects[project]!.cards[0].1[index].components(separatedBy: "\n"))
+        } (items[project]!.cards[0].1[index].components(separatedBy: "\n"))
     }
     
     public func reference(_ project: Int, index: Int) -> (String, String) {
-        product(project, index: Int(projects[project]!.cards[1].1[index])!)
+        product(project, index: Int(items[project]!.cards[1].1[index])!)
     }
     
     public func contains(_ project: Int, reference: Int) -> Bool {
-        projects[project]!.cards[1].1.contains(.init(reference))
+        items[project]!.cards[1].1.contains(.init(reference))
     }
     
     public func name(_ project: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
-        guard projects[project]!.name != name else { return }
-        projects[project]!.name = name
+        guard items[project]!.name != name else { return }
+        items[project]!.name = name
         save(project)
     }
     
     public func add(_ project: Int) {
-        projects[project]!.cards.append((.init(), .init()))
+        items[project]!.cards.append((.init(), .init()))
         save(project)
     }
     
     public func name(_ project: Int, list: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
-        guard projects[project]!.cards[list].0 != name else { return }
-        projects[project]!.cards[list].0 = name
+        guard items[project]!.cards[list].0 != name else { return }
+        items[project]!.cards[list].0 = name
         save(project)
     }
     
     public func add(_ project: Int, list: Int) {
-        projects[project]!.cards[list].1.insert(.init(), at: 0)
+        items[project]!.cards[list].1.insert(.init(), at: 0)
         save(project)
     }
     
     public func add(_ project: Int, list: Int, content: String) {
-        projects[project]!.cards[list].1.insert(content, at: 0)
+        items[project]!.cards[list].1.insert(content, at: 0)
         save(project)
     }
     
     public func add(_ project: Int, emoji: String, description: String) {
         guard let item = product(emoji, description: description) else { return }
-        projects[project]!.cards[0].1.append(item)
+        items[project]!.cards[0].1.append(item)
         save(project)
     }
     
     public func add(_ project: Int, reference: Int) {
         guard !contains(project, reference: reference) else { return }
-        projects[project]!.cards[1].1.append(.init(reference))
+        items[project]!.cards[1].1.append(.init(reference))
         save(project)
     }
     
     public func content(_ project: Int, list: Int, card: Int, content: String) {
-        guard projects[project]!.cards[list].1[card] != content else { return }
-        projects[project]!.cards[list].1[card] = content
+        guard items[project]!.cards[list].1[card] != content else { return }
+        items[project]!.cards[list].1[card] = content
         save(project)
     }
     
     public func product(_ project: Int, index: Int, emoji: String, description: String) {
-        guard let item = product(emoji, description: description), projects[project]!.cards[0].1[index] != item else { return }
-        projects[project]!.cards[0].1[index] = item
+        guard let item = product(emoji, description: description), items[project]!.cards[0].1[index] != item else { return }
+        items[project]!.cards[0].1[index] = item
         save(project)
     }
     
     public func move(_ project: Int, list: Int, card: Int, destination: Int, index: Int) {
         guard list != destination || card != index else { return }
-        projects[project]!.cards[destination].1.insert(projects[project]!.cards[list].1.remove(at: card), at: index)
+        items[project]!.cards[destination].1.insert(items[project]!.cards[list].1.remove(at: card), at: index)
         save(project)
     }
     
     public func add(_ mode: Mode) -> Int {
-        let id = projects.filter { $0.1.mode != .off }.sorted { $0.0 < $1.0 }.reduce(into: 0) {
+        let id = items.filter { $0.1.mode != .off }.sorted { $0.0 < $1.0 }.reduce(into: 0) {
             if $1.0 == $0 {
                 $0 = $1.0 + 1
             }
         }
-        projects[id] = .make(mode)
+        items[id] = .make(mode)
         save(id)
         return id
     }
     
     public func delete(_ project: Int) {
-        projects[project]!.mode = .off
+        items[project]!.mode = .off
         save(project)
     }
     
     public func delete(_ project: Int, list: Int, card: Int) {
-        projects[project]!.cards[list].1.remove(at: card)
+        items[project]!.cards[list].1.remove(at: card)
         save(project)
     }
     
     public func delete(_ project: Int, product: Int) {
-        projects[project]!.cards[0].1.remove(at: product)
-        projects[project]!.cards[1].1 = projects[project]!.cards[1].1.compactMap {
+        items[project]!.cards[0].1.remove(at: product)
+        items[project]!.cards[1].1 = items[project]!.cards[1].1.compactMap {
             switch Int($0)! {
             case product: return nil
             case let index where index > product: return .init(index - 1)
@@ -194,7 +211,7 @@ public final class Session {
     
     public func tags(_ project: Int, result: @escaping ([String : Int]) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            let tags = self.projects[project]!.cards.reduce([String : Int]()) {
+            let tags = self.items[project]!.cards.reduce([String : Int]()) {
                 $1.1.reduce($0) { list, string in
                     string.indices.reduce(into: (list, nil) as ([String : Int], String?)) {
                         if $0.1 != nil {
@@ -229,7 +246,7 @@ public final class Session {
     }
     
     private func save(_ project: Int) {
-        projects[project]!.time = .init()
-        store.save(self, id: project, project: projects[project]!)
+        items[project]!.time = .init()
+        store.save(self, id: project, project: items[project]!)
     }
 }

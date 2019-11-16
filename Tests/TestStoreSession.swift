@@ -38,7 +38,7 @@ final class TestStoreSession: XCTestCase {
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
-            XCTAssertTrue(session.projects.isEmpty)
+            XCTAssertTrue(session.items.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -81,7 +81,7 @@ final class TestStoreSession: XCTestCase {
         }
         store.loadSession {
             XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
-            XCTAssertTrue($0.projects.isEmpty)
+            XCTAssertTrue($0.items.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)

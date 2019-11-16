@@ -34,16 +34,16 @@ final class TestSession: XCTestCase {
     func testNoPerks() {
         XCTAssertEqual(1, session.available)
         XCTAssertEqual(1, session.capacity)
-        session.projects[0] = .init()
-        session.projects[0]!.mode = .kanban
+        session.items[0] = .init()
+        session.items[0]!.mode = .kanban
         XCTAssertEqual(0, session.available)
         XCTAssertEqual(1, session.capacity)
-        session.projects[0]!.mode = .off
+        session.items[0]!.mode = .off
         XCTAssertEqual(1, session.available)
         XCTAssertEqual(1, session.capacity)
-        session.projects = [0: .init(), 1: .init()]
-        session.projects[0]!.mode = .kanban
-        session.projects[1]!.mode = .kanban
+        session.items = [0: .init(), 1: .init()]
+        session.items[0]!.mode = .kanban
+        session.items[1]!.mode = .kanban
         XCTAssertEqual(0, session.available)
         XCTAssertEqual(1, session.capacity)
     }
@@ -65,24 +65,24 @@ final class TestSession: XCTestCase {
     
     func testAddFirst() {
         XCTAssertEqual(0, session.add(.kanban))
-        XCTAssertEqual(.kanban, session.projects[0]?.mode)
-        XCTAssertNotNil(session.projects[0])
+        XCTAssertEqual(.kanban, session.items[0]?.mode)
+        XCTAssertNotNil(session.items[0])
     }
     
     func testAddSecond() {
         var project = Project()
         project.mode = .todo
-        session.projects[0] = project
+        session.items[0] = project
         XCTAssertEqual(1, session.add(.kanban))
-        XCTAssertNotNil(session.projects[1])
+        XCTAssertNotNil(session.items[1])
     }
     
     func testAddLowerId() {
         var project = Project()
         project.mode = .todo
-        session.projects = [5: project]
+        session.items = [5: project]
         XCTAssertEqual(0, session.add(.kanban))
-        XCTAssertNotNil(session.projects[0])
+        XCTAssertNotNil(session.items[0])
     }
     
     func testAddIntersectedId() {
@@ -90,9 +90,9 @@ final class TestSession: XCTestCase {
         projectA.mode = .todo
         var projectB = Project()
         projectB.mode = .todo
-        session.projects = [3: projectA, 0: projectB]
+        session.items = [3: projectA, 0: projectB]
         XCTAssertEqual(1, session.add(.kanban))
-        XCTAssertNotNil(session.projects[1])
+        XCTAssertNotNil(session.items[1])
     }
     
     func testAddDeadId() {
@@ -102,11 +102,11 @@ final class TestSession: XCTestCase {
         projectB.name = "old one"
         var projectC = Project()
         projectC.mode = .todo
-        session.projects = [0: projectA, 1: projectB, 2: projectC]
+        session.items = [0: projectA, 1: projectB, 2: projectC]
         XCTAssertEqual(1, session.add(.kanban))
-        XCTAssertNotNil(session.projects[1])
-        XCTAssertEqual(3, session.projects.count)
-        session.projects.forEach {
+        XCTAssertNotNil(session.items[1])
+        XCTAssertEqual(3, session.items.count)
+        session.items.forEach {
             XCTAssertNotEqual("old one", $0.1.name)
         }
     }
@@ -115,13 +115,14 @@ final class TestSession: XCTestCase {
         let expect = expectation(description: "")
         var project = Project()
         project.mode = .todo
-        session.projects[0] = project
+        session.items[0] = project
         store.project = {
-            XCTAssertEqual(1, $0.projects(.kanban).count)
-            XCTAssertEqual(0, $0.projects(.kanban).first)
-            XCTAssertNotNil($0.projects[1])
             XCTAssertEqual(2, $0.projects.count)
-            XCTAssertEqual(.kanban, $0.projects[1]?.mode)
+            XCTAssertEqual(.todo, $0.mode(0))
+            XCTAssertEqual(.kanban, $0.mode(1))
+            XCTAssertNotNil($0.items[1])
+            XCTAssertEqual(2, $0.items.count)
+            XCTAssertEqual(.kanban, $0.items[1]?.mode)
             XCTAssertEqual(1, $1)
             XCTAssertEqual(.kanban, $2.mode)
             expect.fulfill()
@@ -132,38 +133,38 @@ final class TestSession: XCTestCase {
     
     func testAddKanban() {
         _ = session.add(.kanban)
-        XCTAssertEqual(3, session.projects[0]!.cards.count)
-        XCTAssertFalse(session.projects[0]!.name.isEmpty)
-        XCTAssertFalse(session.projects[0]!.cards[0].0.isEmpty)
-        XCTAssertFalse(session.projects[0]!.cards[1].0.isEmpty)
-        XCTAssertFalse(session.projects[0]!.cards[2].0.isEmpty)
+        XCTAssertEqual(3, session.items[0]!.cards.count)
+        XCTAssertFalse(session.items[0]!.name.isEmpty)
+        XCTAssertFalse(session.items[0]!.cards[0].0.isEmpty)
+        XCTAssertFalse(session.items[0]!.cards[1].0.isEmpty)
+        XCTAssertFalse(session.items[0]!.cards[2].0.isEmpty)
     }
     
     func testAddTodo() {
         _ = session.add(.todo)
-        XCTAssertEqual(2, session.projects[0]!.cards.count)
-        XCTAssertFalse(session.projects[0]!.name.isEmpty)
-        XCTAssertTrue(session.projects[0]!.cards[0].0.isEmpty)
-        XCTAssertTrue(session.projects[0]!.cards[1].0.isEmpty)
+        XCTAssertEqual(2, session.items[0]!.cards.count)
+        XCTAssertFalse(session.items[0]!.name.isEmpty)
+        XCTAssertTrue(session.items[0]!.cards[0].0.isEmpty)
+        XCTAssertTrue(session.items[0]!.cards[1].0.isEmpty)
     }
     
     func testAddShopping() {
         _ = session.add(.shopping)
-        XCTAssertEqual(2, session.projects[0]!.cards.count)
-        XCTAssertFalse(session.projects[0]!.name.isEmpty)
-        XCTAssertTrue(session.projects[0]!.cards[0].0.isEmpty)
-        XCTAssertTrue(session.projects[0]!.cards[1].0.isEmpty)
+        XCTAssertEqual(2, session.items[0]!.cards.count)
+        XCTAssertFalse(session.items[0]!.name.isEmpty)
+        XCTAssertTrue(session.items[0]!.cards[0].0.isEmpty)
+        XCTAssertTrue(session.items[0]!.cards[1].0.isEmpty)
     }
     
     func testDelete() {
         let expect = expectation(description: "")
         let time = Date()
-        session.projects[0] = .init()
-        session.projects[0]!.mode = .kanban
-        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
+        session.items[0] = .init()
+        session.items[0]!.mode = .kanban
+        session.items[0]!.time = .init(timeIntervalSince1970: 0)
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0]!.time)
-            XCTAssertEqual(.off, $0.projects[0]!.mode)
+            XCTAssertLessThanOrEqual(time, $0.items[0]!.time)
+            XCTAssertEqual(.off, $0.items[0]!.mode)
             XCTAssertLessThanOrEqual(time, $2.time)
             XCTAssertEqual(.off, $2.mode)
             expect.fulfill()
@@ -180,8 +181,9 @@ final class TestSession: XCTestCase {
         project0.name = "b"
         project1.name = "c"
         project2.name = "a"
-        session.projects = [0: project0, 1: project1, 2: project2]
-//        XCTAssertEqual(session.projects().count, <#T##expression2: Equatable##Equatable#>)
+        session.items = [0: project0, 33: project1, 2: project2]
+        XCTAssertEqual(1, session.projects.count)
+        XCTAssertEqual(33, session.projects.first)
     }
     
     func testSorted() {
@@ -194,9 +196,7 @@ final class TestSession: XCTestCase {
         project0.name = "b"
         project1.name = "c"
         project2.name = "a"
-        session.projects = [0: project0, 1: project1, 2: project2]
-//        XCTAssertEqual(2, session.projects(.kanban)[0])
-//        XCTAssertEqual(0, session.projects(.kanban)[1])
-//        XCTAssertEqual(1, session.projects(.kanban)[2])
+        session.items = [0: project0, 1: project1, 2: project2]
+        XCTAssertEqual([2, 0, 1], session.projects)
     }
 }

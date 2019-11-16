@@ -32,7 +32,7 @@ final class TestStoreProject: XCTestCase {
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         var project = Project()
         project.mode = .kanban
-        saved.projects[99] = project
+        saved.items[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(saved).write(to: shared.url["session"]!)
@@ -40,10 +40,10 @@ final class TestStoreProject: XCTestCase {
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertNotNil(session.projects[99])
-            XCTAssertEqual(.off, session.projects[99]?.mode)
-            XCTAssertNotNil($0.projects[99])
-            XCTAssertEqual(.kanban, $0.projects[99]?.mode)
+            XCTAssertNotNil(session.items[99])
+            XCTAssertEqual(.off, session.items[99]?.mode)
+            XCTAssertNotNil($0.items[99])
+            XCTAssertEqual(.kanban, $0.items[99]?.mode)
             XCTAssertEqual(.kanban, stored.mode)
             expect.fulfill()
         }
@@ -61,7 +61,7 @@ final class TestStoreProject: XCTestCase {
         var projectB = Project()
         projectB.name = "world"
         projectB.mode = .kanban
-        saved.projects = [99: projectA, 101: projectB]
+        saved.items = [99: projectA, 101: projectB]
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         shared.url["101"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2")
@@ -71,8 +71,8 @@ final class TestStoreProject: XCTestCase {
         store.loadSession {
             XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99"))))
             XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("101"))))
-            XCTAssertNotNil($0.projects[99])
-            XCTAssertNotNil($0.projects[101])
+            XCTAssertNotNil($0.items[99])
+            XCTAssertNotNil($0.items[101])
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -83,13 +83,13 @@ final class TestStoreProject: XCTestCase {
         store.prepare()
         let saved = Session()
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
-        saved.projects[99] = .init()
+        saved.items[99] = .init()
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
-            XCTAssertTrue(session.projects.isEmpty)
-            XCTAssertTrue($0.projects.isEmpty)
+            XCTAssertTrue(session.items.isEmpty)
+            XCTAssertTrue($0.items.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -103,12 +103,12 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 10)
-        saved.projects[99] = project
+        saved.items[99] = project
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 100)
         project.name = "ipsum"
-        saved.projects[99] = project
+        saved.items[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(saved).write(to: shared.url["session"]!)
@@ -116,14 +116,14 @@ final class TestStoreProject: XCTestCase {
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertEqual(1, session.projects.count)
-            XCTAssertEqual(1, $0.projects.count)
-            XCTAssertNotNil(session.projects[99])
-            XCTAssertNotNil($0.projects[99])
-            XCTAssertEqual("ipsum", $0.projects[99]?.name)
+            XCTAssertEqual(1, session.items.count)
+            XCTAssertEqual(1, $0.items.count)
+            XCTAssertNotNil(session.items[99])
+            XCTAssertNotNil($0.items[99])
+            XCTAssertEqual("ipsum", $0.items[99]?.name)
             XCTAssertEqual("ipsum", stored.name)
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 100).timeIntervalSince1970), Int(session.projects[99]?.time.timeIntervalSince1970 ?? 0))
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 100).timeIntervalSince1970), Int($0.projects[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 100).timeIntervalSince1970), Int(session.items[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 100).timeIntervalSince1970), Int($0.items[99]?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 100).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
             expect.fulfill()
         }
@@ -138,22 +138,22 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         project.time = .init(timeIntervalSince1970: 10)
         project.name = "lorem"
-        saved.projects[99] = project
+        saved.items[99] = project
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 100)
-        saved.projects[99] = project
+        saved.items[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertEqual(1, session.projects.count)
-            XCTAssertEqual(1, $0.projects.count)
-            XCTAssertEqual(.kanban, $0.projects[99]?.mode)
-            XCTAssertEqual("lorem", $0.projects[99]?.name)
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int(session.projects[99]?.time.timeIntervalSince1970 ?? 0))
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int($0.projects[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(1, session.items.count)
+            XCTAssertEqual(1, $0.items.count)
+            XCTAssertEqual(.kanban, $0.items[99]?.mode)
+            XCTAssertEqual("lorem", $0.items[99]?.name)
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int(session.items[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int($0.items[99]?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
             expect.fulfill()
         }
@@ -170,10 +170,10 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 200)
-        saved.projects[99] = project
+        saved.items[99] = project
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
-        saved.projects = [:]
+        saved.items = [:]
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
         shared.saved = {
@@ -192,14 +192,14 @@ final class TestStoreProject: XCTestCase {
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertNotNil(session.projects[99])
-            XCTAssertNotNil($0.projects[99])
-            XCTAssertEqual("lorem", $0.projects[99]?.name)
+            XCTAssertNotNil(session.items[99])
+            XCTAssertNotNil($0.items[99])
+            XCTAssertEqual("lorem", $0.items[99]?.name)
             XCTAssertEqual("lorem", stored.name)
-            XCTAssertEqual(.kanban, $0.projects[99]?.mode)
+            XCTAssertEqual(.kanban, $0.items[99]?.mode)
             XCTAssertEqual(.kanban, stored.mode)
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.projects[99]?.time.timeIntervalSince1970 ?? 0))
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.projects[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.items[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.items[99]?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
             expectReady.fulfill()
         }
@@ -215,7 +215,7 @@ final class TestStoreProject: XCTestCase {
         projectA.name = "lorem"
         var projectB = Project()
         projectB.name = "ipsum"
-        saved.projects = [99: projectA, 101: projectB]
+        saved.items = [99: projectA, 101: projectB]
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(projectA).write(to: Store.url.appendingPathComponent("99"))
         try! coder.project(projectB).write(to: Store.url.appendingPathComponent("101"))
@@ -244,12 +244,12 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 200)
-        saved.projects[99] = project
+        saved.items[99] = project
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 50)
         project.name = "ipsum"
-        saved.projects[99] = project
+        saved.items[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(saved).write(to: shared.url["session"]!)
         shared.saved = {
@@ -268,14 +268,14 @@ final class TestStoreProject: XCTestCase {
         store.loadSession {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertNotNil(session.projects[99])
-            XCTAssertNotNil($0.projects[99])
-            XCTAssertEqual("lorem", $0.projects[99]?.name)
+            XCTAssertNotNil(session.items[99])
+            XCTAssertNotNil($0.items[99])
+            XCTAssertEqual("lorem", $0.items[99]?.name)
             XCTAssertEqual("lorem", stored.name)
-            XCTAssertEqual(.kanban, $0.projects[99]?.mode)
+            XCTAssertEqual(.kanban, $0.items[99]?.mode)
             XCTAssertEqual(.kanban, stored.mode)
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.projects[99]?.time.timeIntervalSince1970 ?? 0))
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.projects[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(session.items[99]?.time.timeIntervalSince1970 ?? 0))
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int($0.items[99]?.time.timeIntervalSince1970 ?? 0))
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
             expectReady.fulfill()
         }
@@ -288,11 +288,11 @@ final class TestStoreProject: XCTestCase {
         let expectReady = expectation(description: "")
         store.prepare()
         let session = Session()
-        session.projects[0] = .init()
+        session.items[0] = .init()
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(session).write(to: shared.url["session"]!)
-        try! coder.project(session.projects[0]!).write(to: shared.url["0"]!)
+        try! coder.project(session.items[0]!).write(to: shared.url["0"]!)
         shared.load = {
             if $0.first == "session" {
                 expectLoad.fulfill()
@@ -301,7 +301,7 @@ final class TestStoreProject: XCTestCase {
             }
         }
         store.loadSession {
-            XCTAssertFalse($0.projects.isEmpty)
+            XCTAssertFalse($0.items.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -313,7 +313,7 @@ final class TestStoreProject: XCTestCase {
         let expectReady = expectation(description: "")
         store.prepare()
         let session = Session()
-        session.projects[0] = .init()
+        session.items[0] = .init()
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         shared.load = {
@@ -324,7 +324,7 @@ final class TestStoreProject: XCTestCase {
             }
         }
         store.loadSession {
-            XCTAssertTrue($0.projects.isEmpty)
+            XCTAssertTrue($0.items.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -337,13 +337,13 @@ final class TestStoreProject: XCTestCase {
         var project = Project()
         project.mode = .kanban
         project.name = "lorem"
-        saved.projects[33] = project
+        saved.items[33] = project
         try! coder.session(saved).write(to: Store.url.appendingPathComponent("session"))
         try! coder.project(project).write(to: Store.url.appendingPathComponent("33"))
         store.loadSession {
-            XCTAssertNotNil($0.projects[33])
-            XCTAssertEqual("lorem", $0.projects[33]?.name)
-            XCTAssertEqual(.kanban, $0.projects[33]?.mode)
+            XCTAssertNotNil($0.items[33])
+            XCTAssertEqual("lorem", $0.items[33]?.name)
+            XCTAssertEqual(.kanban, $0.items[33]?.mode)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

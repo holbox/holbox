@@ -42,7 +42,7 @@ class Store {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load(["session"], error: {
                 var update = Update(result: result)
-                session.projects = session.projects.keys.reduce(into: [:]) {
+                session.items = session.items.keys.reduce(into: [:]) {
                     update.upload.append($1)
                     $0[$1] = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($1)")))
                 }
@@ -53,7 +53,7 @@ class Store {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
                 update.session = session
-                update.session.projects = session.projects.reduce(into: [:]) { map, stub in
+                update.session.items = session.items.reduce(into: [:]) { map, stub in
                     if let shared = global.first(where: { $0.0 == stub.0 }) {
                         if shared.1 < stub.1.time {
                             update.upload.append(stub.0)
@@ -64,7 +64,7 @@ class Store {
                     map[stub.0] = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.0)")))
                 }
                 global.forEach {
-                    if let local = session.projects[$0.0] {
+                    if let local = session.items[$0.0] {
                         if local.time < $0.1 {
                             update.download.append($0.0)
                         }
@@ -96,7 +96,7 @@ class Store {
                 DispatchQueue.main.async { done() }
             }) {
                 let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter {
-                    session.projects[$0.0] == nil || session.projects[$0.0]!.time < $0.1
+                    session.items[$0.0] == nil || session.items[$0.0]!.time < $0.1
                 }.map { $0.0 }
                 if download.isEmpty {
                     DispatchQueue.main.async { done() }
@@ -106,7 +106,7 @@ class Store {
                     }) { urls in
                         download.enumerated().forEach {
                             let project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
-                            session.projects[$0.1] = project
+                            session.items[$0.1] = project
                             self.write($0.1, project: project)
                             self.write(session)
                         }
@@ -151,7 +151,7 @@ class Store {
             }) { urls in
                 update.download.enumerated().forEach {
                     let project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
-                    update.session.projects[$0.1] = project
+                    update.session.items[$0.1] = project
                     self.write($0.1, project: project)
                 }
                 update.download = []

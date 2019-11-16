@@ -20,18 +20,18 @@ final class TestCoder: XCTestCase {
         project2.time = time2
         let session = Session()
         session.rating = date
-        session.projects = [88: project1, 32: project2]
+        session.items = [88: project1, 32: project2]
         session.perks = [.hundred, .two]
         session.settings.spell = false
         let decoded = coder.session(coder.session(session))
         XCTAssertEqual(date, decoded.rating)
-        XCTAssertEqual(2, decoded.projects.count)
-        XCTAssertEqual(.off, decoded.projects[88]?.mode)
-        XCTAssertNotNil(decoded.projects[88])
-        XCTAssertEqual(time1, decoded.projects[88]?.time)
-        XCTAssertEqual(.off, decoded.projects[32]?.mode)
-        XCTAssertNotNil(decoded.projects[32])
-        XCTAssertEqual(time2, decoded.projects[32]?.time)
+        XCTAssertEqual(2, decoded.items.count)
+        XCTAssertEqual(.off, decoded.items[88]?.mode)
+        XCTAssertNotNil(decoded.items[88])
+        XCTAssertEqual(time1, decoded.items[88]?.time)
+        XCTAssertEqual(.off, decoded.items[32]?.mode)
+        XCTAssertNotNil(decoded.items[32])
+        XCTAssertEqual(time2, decoded.items[32]?.time)
         XCTAssertEqual(2, decoded.perks.count)
         XCTAssertEqual(.hundred, decoded.perks[0])
         XCTAssertEqual(.two, decoded.perks[1])
