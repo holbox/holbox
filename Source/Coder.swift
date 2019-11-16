@@ -14,8 +14,8 @@ final class Coder {
     func global(_ session: Session) -> Data {
         var result = Data()
         session.projects.forEach {
-            result.add($0.id)
-            result.add($0.time)
+            result.add($0.0)
+            result.add($0.1.time)
         }
         return result
     }
@@ -42,11 +42,10 @@ final class Coder {
         result.rating = data.date()
         result.perks = (0 ..< data.byte()).map { _ in data.perk() }
         let shared = global(data)
-        result.projects = shared.map {
+        result.projects = shared.reduce(into: [:]) {
             var project = Project()
-            project.id = $0.0
-            project.time = $0.1
-            return project
+            project.time = $1.1
+            $0[$1.0] = project
         }
         return result
     }

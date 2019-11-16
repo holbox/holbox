@@ -1,13 +1,12 @@
 import Foundation
 
 struct Project {
-    var id = 0
     var mode = Mode.off
     var name = ""
     var cards = [(String, [String])]()
     var time = Date()
     
-    static func make(_ mode: Mode, id: Int) -> Project {
+    static func make(_ mode: Mode) -> Project {
         var project = Project()
         let factory: Factory
         switch mode {
@@ -17,7 +16,6 @@ struct Project {
         default: fatalError()
         }
         project.mode = mode
-        project.id = id
         project.name = factory.name
         project.cards = factory.lists.map { ($0, []) }
         return project

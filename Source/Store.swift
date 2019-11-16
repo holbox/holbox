@@ -30,11 +30,11 @@ class Store {
         }
     }
     
-    func save(_ session: Session, project: Project) {
+    func save(_ session: Session, id: Int, project: Project) {
         Store.queue.async {
             self.write(session)
-            self.write(project)
-            self.save(["session": self.url(session), "\(project.id)": Store.url.appendingPathComponent("\(project.id)")])
+            self.write(id, project: project)
+            self.save(["session": self.url(session), "\(id)": Store.url.appendingPathComponent("\(id)")])
         }
     }
     
@@ -42,11 +42,9 @@ class Store {
         if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
             shared.load(["session"], error: {
                 var update = Update(result: result)
-                session.projects = session.projects.map {
-                    var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($0.id)")))
-                    project.id = $0.id
-                    update.upload.append($0.id)
-                    return project
+                session.projects = session.projects.keys.reduce(into: [:]) {
+                    update.upload.append($1)
+                    $0[$1] = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($1)")))
                 }
                 update.session = session
                 update.share = true
@@ -55,25 +53,23 @@ class Store {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(result: result)
                 update.session = session
-                update.session.projects = session.projects.map { stub in
-                    var project = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.id)")))
-                    project.id = stub.id
-                    if let shared = global.first(where: { $0.0 == stub.id }) {
-                        if shared.1 < stub.time {
-                            update.upload.append(stub.id)
+                update.session.projects = session.projects.reduce(into: [:]) { map, stub in
+                    if let shared = global.first(where: { $0.0 == stub.0 }) {
+                        if shared.1 < stub.1.time {
+                            update.upload.append(stub.0)
                         }
                     } else {
-                        update.upload.append(stub.id)
+                        update.upload.append(stub.0)
                     }
-                    return project
+                    map[stub.0] = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\(stub.0)")))
                 }
-                global.forEach { project in
-                    if let local = session.projects.first(where: { $0.id == project.0 }) {
-                        if local.time < project.1 {
-                            update.download.append(project.0)
+                global.forEach {
+                    if let local = session.projects[$0.0] {
+                        if local.time < $0.1 {
+                            update.download.append($0.0)
                         }
                     } else {
-                        update.download.append(project.0)
+                        update.download.append($0.0)
                     }
                 }
                 self.merge(update)
@@ -99,11 +95,8 @@ class Store {
             self.shared.load(["session"], error: {
                 DispatchQueue.main.async { done() }
             }) {
-                let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter { project in
-                    if let local = session.projects.first(where: { $0.id == project.0 }), local.time >= project.1 {
-                        return false
-                    }
-                    return true
+                let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter {
+                    session.projects[$0.0] == nil || session.projects[$0.0]!.time < $0.1
                 }.map { $0.0 }
                 if download.isEmpty {
                     DispatchQueue.main.async { done() }
@@ -112,14 +105,9 @@ class Store {
                         DispatchQueue.main.async { done() }
                     }) { urls in
                         download.enumerated().forEach {
-                            var project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
-                            project.id = $0.1
-                            if let index = session.projects.firstIndex(where: { $0.id == project.id }) {
-                                session.projects[index] = project
-                            } else {
-                                session.projects.append(project)
-                            }
-                            self.write(project)
+                            let project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
+                            session.projects[$0.1] = project
+                            self.write($0.1, project: project)
                             self.write(session)
                         }
                         DispatchQueue.main.async { done() }
@@ -162,11 +150,9 @@ class Store {
                 self.merge(update)
             }) { urls in
                 update.download.enumerated().forEach {
-                    var project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
-                    project.id = $0.1
-                    update.session.projects.removeAll { $0.id == project.id }
-                    update.session.projects.append(project)
-                    self.write(project)
+                    let project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
+                    update.session.projects[$0.1] = project
+                    self.write($0.1, project: project)
                 }
                 update.download = []
                 update.write = true
@@ -193,8 +179,8 @@ class Store {
         try! Store.coder.session(session).write(to: Store.url.appendingPathComponent("session"), options: .atomic)
     }
     
-    private func write(_ project: Project) {
-        try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(project.id)"), options: .atomic)
+    private func write(_ id: Int, project: Project) {
+        try! Store.coder.project(project).write(to: Store.url.appendingPathComponent("\(id)"), options: .atomic)
     }
     
     private func url(_ session: Session) -> URL {

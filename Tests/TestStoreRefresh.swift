@@ -82,7 +82,7 @@ final class TestStoreRefresh: XCTestCase {
     
     func testNothingNew() {
         let expect = expectation(description: "")
-        session.projects = [.init()]
+        session.projects[0] = .init()
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         shared.load = {
@@ -100,7 +100,7 @@ final class TestStoreRefresh: XCTestCase {
         let expect = expectation(description: "")
         var project = Project()
         project.time = .init(timeIntervalSince1970: 100)
-        session.projects = [project]
+        session.projects[0] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         shared.load = {
@@ -118,9 +118,8 @@ final class TestStoreRefresh: XCTestCase {
         let expect = expectation(description: "")
         let online = Session()
         var project = Project()
-        project.id = 99
         project.mode = .kanban
-        online.projects = [project]
+        online.projects[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(online).write(to: shared.url["session"]!)
         store.refresh(session) {
@@ -133,9 +132,8 @@ final class TestStoreRefresh: XCTestCase {
         let expect = expectation(description: "")
         let online = Session()
         var project = Project()
-        project.id = 99
         project.mode = .kanban
-        online.projects = [project]
+        online.projects[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["99"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(online).write(to: shared.url["session"]!)
@@ -143,11 +141,10 @@ final class TestStoreRefresh: XCTestCase {
         store.refresh(session) {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
-            XCTAssertEqual(99, session.projects.first?.id)
-            XCTAssertEqual(.off, session.projects.first?.mode)
-            XCTAssertEqual(99, self.session.projects.first?.id)
-            XCTAssertEqual(.kanban, self.session.projects.first?.mode)
-            XCTAssertEqual(0, stored.id)
+            XCTAssertNotNil(session.projects[99])
+            XCTAssertEqual(.off, session.projects.first?.1.mode)
+            XCTAssertNotNil(self.session.projects[99])
+            XCTAssertEqual(.kanban, self.session.projects.first?.1.mode)
             XCTAssertEqual(.kanban, stored.mode)
             expect.fulfill()
         }
@@ -158,44 +155,20 @@ final class TestStoreRefresh: XCTestCase {
         let expect = expectation(description: "")
         var project = Project()
         project.name = "lorem"
-        session.projects = [project]
+        session.projects[0] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         shared.url["0"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
         try! coder.global(session).write(to: shared.url["session"]!)
         try! coder.project(project).write(to: shared.url["0"]!)
-        session.projects[0].time = .init(timeIntervalSince1970: 10)
-        session.projects[0].name = "ipsum"
+        session.projects[0]!.time = .init(timeIntervalSince1970: 10)
+        session.projects[0]!.name = "ipsum"
         store.refresh(session) {
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("0")))
-            XCTAssertEqual("lorem", self.session.projects.first?.name)
+            XCTAssertEqual("lorem", self.session.projects.first?.1.name)
             XCTAssertEqual("lorem", stored.name)
             XCTAssertEqual(1, session.projects.count)
             XCTAssertEqual(1, self.session.projects.count)
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
-    
-    func testUpdateSamePosition() {
-        let expect = expectation(description: "")
-        var projectA = Project()
-        projectA.id = 33
-        projectA.name = "ipsum"
-        projectA.time = .init(timeIntervalSince1970: 11)
-        var projectB = Project()
-        projectB.id = 44
-        session.projects = [projectA, projectB]
-        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
-        shared.url["33"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
-        try! coder.global(session).write(to: shared.url["session"]!)
-        try! coder.project(projectA).write(to: shared.url["33"]!)
-        session.projects[0].time = .init(timeIntervalSince1970: 10)
-        session.projects[0].name = "lorem"
-        store.refresh(session) {
-            XCTAssertEqual("ipsum", self.session.projects[0].name)
-            XCTAssertEqual(33, self.session.projects[0].id)
-            XCTAssertEqual(44, self.session.projects[1].id)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

@@ -15,25 +15,23 @@ final class TestCoder: XCTestCase {
         var project1 = Project()
         var project2 = Project()
         project1.mode = .kanban
-        project1.id = 88
         project1.time = time1
         project2.mode = .todo
-        project2.id = 32
         project2.time = time2
         let session = Session()
         session.rating = date
-        session.projects = [project1, project2]
+        session.projects = [88: project1, 32: project2]
         session.perks = [.hundred, .two]
         session.settings.spell = false
         let decoded = coder.session(coder.session(session))
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(2, decoded.projects.count)
-        XCTAssertEqual(.off, decoded.projects.first?.mode)
-        XCTAssertEqual(88, decoded.projects.first?.id)
-        XCTAssertEqual(time1, decoded.projects.first?.time)
-        XCTAssertEqual(.off, decoded.projects.last?.mode)
-        XCTAssertEqual(32, decoded.projects.last?.id)
-        XCTAssertEqual(time2, decoded.projects.last?.time)
+        XCTAssertEqual(.off, decoded.projects[88]?.mode)
+        XCTAssertNotNil(decoded.projects[88])
+        XCTAssertEqual(time1, decoded.projects[88]?.time)
+        XCTAssertEqual(.off, decoded.projects[32]?.mode)
+        XCTAssertNotNil(decoded.projects[32])
+        XCTAssertEqual(time2, decoded.projects[32]?.time)
         XCTAssertEqual(2, decoded.perks.count)
         XCTAssertEqual(.hundred, decoded.perks[0])
         XCTAssertEqual(.two, decoded.perks[1])
@@ -42,7 +40,6 @@ final class TestCoder: XCTestCase {
     
     func testProject() {
         var project = Project()
-        project.id = 99
         project.mode = .shopping
         project.cards = [(.init(), .init()), ("first", .init()), ("second", ["card first", "card second", "card third", "card card", "third card"]), ("third", ["""
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Elementum nisi quis eleifend quam adipiscing vitae proin sagittis. Facilisis magna etiam tempor orci eu lobortis elementum nibh tellus. Vel fringilla est ullamcorper eget nulla facilisi. In massa tempor nec feugiat nisl pretium fusce id. Lacinia at quis risus sed. Purus semper eget duis at tellus at urna condimentum mattis. Lacus vel facilisis volutpat est velit egestas. Turpis egestas maecenas pharetra convallis posuere. Pharetra et ultrices neque ornare aenean euismod. In arcu cursus euismod quis viverra nibh cras. Sit amet mauris commodo quis. Aenean pharetra magna ac placerat vestibulum.
@@ -53,7 +50,6 @@ final class TestCoder: XCTestCase {
         """]), ("fourth", ["", "", ""])]
         project.time = .init(timeIntervalSince1970: 155)
         let decoded = coder.project(coder.project(project))
-        XCTAssertEqual(0, decoded.id)
         XCTAssertEqual(.shopping, decoded.mode)
         XCTAssertEqual(.init(timeIntervalSince1970: 155), decoded.time)
         XCTAssertEqual(5, decoded.cards.count)

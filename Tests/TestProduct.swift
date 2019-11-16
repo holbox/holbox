@@ -9,7 +9,7 @@ final class TestProduct: XCTestCase {
         store = .init()
         session = .init()
         session.store = store
-        session.add(.shopping)
+        _ = session.add(.shopping)
     }
     
     func testAddEmptyBoth() {
@@ -23,11 +23,11 @@ final class TestProduct: XCTestCase {
     }
     
     func testAddEmptyNotSave() {
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.session = { _ in XCTFail() }
-        store.project = { _, _ in XCTFail() }
+        store.project = { _, _, _ in XCTFail() }
         session.add(0, emoji: "", description: "")
-        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0]!.time)
     }
     
     func testAddEmptyEmoji() {
@@ -74,10 +74,10 @@ final class TestProduct: XCTestCase {
     func testAddSaves() {
         let expect = expectation(description: "")
         let time = Date()
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertEqual(1, $1.cards[0].1.count)
+            XCTAssertLessThanOrEqual(time, $0.projects[0]!.time)
+            XCTAssertEqual(1, $2.cards[0].1.count)
             expect.fulfill()
         }
         session.add(0, emoji: "", description: "a")
@@ -100,10 +100,10 @@ final class TestProduct: XCTestCase {
         let expect = expectation(description: "")
         let time = Date()
         session.add(0, emoji: "🐷", description: "piggy")
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertEqual(1, $1.cards[1].1.count)
+            XCTAssertLessThanOrEqual(time, $0.projects[0]!.time)
+            XCTAssertEqual(1, $2.cards[1].1.count)
             expect.fulfill()
         }
         session.add(0, reference: 0)
@@ -120,11 +120,11 @@ final class TestProduct: XCTestCase {
     func testAddReferenceDuplicatedNotSave() {
         session.add(0, emoji: "🐷", description: "piggy")
         session.add(0, reference: 0)
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.session = { _ in XCTFail() }
-        store.project = { _, _ in XCTFail() }
+        store.project = { _, _, _ in XCTFail() }
         session.add(0, reference: 0)
-        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0]!.time)
     }
     
     func testContains() {
@@ -146,10 +146,10 @@ final class TestProduct: XCTestCase {
         let expect = expectation(description: "")
         let time = Date()
         session.add(0, emoji: "🐷", description: "piggy")
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertTrue($1.cards[0].1[0].contains("🦊"))
+            XCTAssertLessThanOrEqual(time, $0.projects[0]!.time)
+            XCTAssertTrue($2.cards[0].1[0].contains("🦊"))
             expect.fulfill()
         }
         session.product(0, index: 0, emoji: "🦊", description: "fox")
@@ -158,11 +158,11 @@ final class TestProduct: XCTestCase {
     
     func testUpdateSameNotSave() {
         session.add(0, emoji: "🐷", description: "piggy")
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.session = { _ in XCTFail() }
-        store.project = { _, _ in XCTFail() }
+        store.project = { _, _, _ in XCTFail() }
         session.product(0, index: 0, emoji: "🐷", description: "piggy")
-        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0].time)
+        XCTAssertEqual(.init(timeIntervalSince1970: 0), session.projects[0]!.time)
     }
     
     func testDelete() {
@@ -178,11 +178,11 @@ final class TestProduct: XCTestCase {
         let time = Date()
         session.add(0, emoji: "🐷", description: "piggy")
         session.add(0, reference: 0)
-        session.projects[0].time = .init(timeIntervalSince1970: 0)
+        session.projects[0]!.time = .init(timeIntervalSince1970: 0)
         store.project = {
-            XCTAssertLessThanOrEqual(time, $0.projects[0].time)
-            XCTAssertEqual(0, $1.cards[0].1.count)
-            XCTAssertEqual(0, $1.cards[1].1.count)
+            XCTAssertLessThanOrEqual(time, $0.projects[0]!.time)
+            XCTAssertEqual(0, $2.cards[0].1.count)
+            XCTAssertEqual(0, $2.cards[1].1.count)
             expect.fulfill()
         }
         session.delete(0, product: 0)

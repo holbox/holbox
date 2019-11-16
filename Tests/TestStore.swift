@@ -55,9 +55,7 @@ final class TestStore: XCTestCase {
             XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["56"]!)))
             expect.fulfill()
         }
-        var project = Project()
-        project.id = 56
-        store.save(Session(), project: project)
+        store.save(Session(), id: 56, project: .init())
         waitForExpectations(timeout: 1)
     }
 }

@@ -61,7 +61,7 @@ final class Bar: NSView, NSTextViewDelegate {
         button = _home.widthAnchor.constraint(equalToConstant: 100)
         button.isActive = true
         
-        _add.leftAnchor.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
+        _add.leftAnchor.constraint(greaterThanOrEqualTo: _home.rightAnchor, constant: 20).isActive = true
         let right = _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -120)
         right.priority = .defaultLow
         right.isActive = true

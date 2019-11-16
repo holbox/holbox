@@ -9,7 +9,7 @@ final class TestProjectTags: XCTestCase {
         session.store = StubStore()
         var project = Project()
         project.mode = .kanban
-        session.projects = [project]
+        session.projects[0] = project
     }
     
     func testEmpty() {
@@ -26,7 +26,7 @@ final class TestProjectTags: XCTestCase {
     
     func testOneTag() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["#hello"])]
+        session.projects[0]!.cards = [("", ["#hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(1, $0["hello"])
@@ -37,7 +37,7 @@ final class TestProjectTags: XCTestCase {
     
     func testOneTagAndText() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["hello #world"])]
+        session.projects[0]!.cards = [("", ["hello #world"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(1, $0["world"])
@@ -48,7 +48,7 @@ final class TestProjectTags: XCTestCase {
     
     func testOneTagAndMoreText() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["hello #world lorem"])]
+        session.projects[0]!.cards = [("", ["hello #world lorem"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(1, $0["world"])
@@ -59,7 +59,7 @@ final class TestProjectTags: XCTestCase {
     
     func testTwoTags() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["#hello #world"])]
+        session.projects[0]!.cards = [("", ["#hello #world"])]
         session.tags(0) {
             XCTAssertEqual(2, $0.count)
             XCTAssertEqual(1, $0["hello"])
@@ -71,7 +71,7 @@ final class TestProjectTags: XCTestCase {
     
     func testRepeat() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["#hello #hello"])]
+        session.projects[0]!.cards = [("", ["#hello #hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(2, $0["hello"])
@@ -82,7 +82,7 @@ final class TestProjectTags: XCTestCase {
     
     func testRepeatDifferentColumns() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["#hello", "#hello"]), ("", ["#hello #hello"])]
+        session.projects[0]!.cards = [("", ["#hello", "#hello"]), ("", ["#hello #hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(4, $0["hello"])
@@ -93,7 +93,7 @@ final class TestProjectTags: XCTestCase {
     
     func testJoined() {
         let expect = expectation(description: "")
-        session.projects[0].cards = [("", ["#hello#world"])]
+        session.projects[0]!.cards = [("", ["#hello#world"])]
         session.tags(0) {
             XCTAssertEqual(2, $0.count)
             XCTAssertEqual(1, $0["hello"])
