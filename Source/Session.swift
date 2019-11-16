@@ -84,6 +84,10 @@ public final class Session {
         items[project]!.name
     }
     
+    public func time(_ project: Int) -> Date {
+        items[project]!.time
+    }
+    
     public func name(_ project: Int, list: Int) -> String {
         items[project]!.cards[list].0
     }

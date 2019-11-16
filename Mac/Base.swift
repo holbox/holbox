@@ -53,7 +53,6 @@ final class Base: NSView {
         if let view = subviews.first as? T {
             view.refresh()
         } else {
-            clear()
             show(T())
         }
     }

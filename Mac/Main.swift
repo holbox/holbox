@@ -54,8 +54,9 @@ final class Main: Window.Full {
     }
     
     func refresh() {
-        base.refresh()
+        
         bar.refresh()
+        base.refresh()
     }
     
     @objc func shop() {

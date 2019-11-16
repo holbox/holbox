@@ -72,8 +72,8 @@ final class Bar: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-//        guard let name = self.name?.string else { return }
-//        app.session.name∫(app.project, name: name)
+        guard let name = self.name?.string, let project = app.project else { return }
+        app.session.name(project, name: name)
     }
     
     func refresh() {
@@ -92,7 +92,7 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(51, nil)
         
-        let name = Text(.Both(300, 51), Block())
+        let name = Text(.Both(350, 51), Block())
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
@@ -104,7 +104,7 @@ final class Bar: NSView, NSTextViewDelegate {
         name.string = app.session.name(app.project!)
         addSubview(name)
         
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
         name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         _add.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
         name.didChangeText()
@@ -180,6 +180,7 @@ final class Bar: NSView, NSTextViewDelegate {
     }
     
     @objc private func home() {
+        app.main.makeFirstResponder(app.main)
         app.project = nil
     }
     
