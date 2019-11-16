@@ -32,7 +32,7 @@ final class Card: NSView, NSTextViewDelegate {
                                                    .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
                                                    .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
                                                    .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
-        content.string = app.session.content(app.project, list: column, card: index)
+//        content.string = app.session.content(app.project, list: column, card: index)
         content.tab = true
         content.intro = true
         addSubview(content)
@@ -70,10 +70,10 @@ final class Card: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         layer!.borderWidth = 0
-        if content.string != app.session.content(app.project, list: column, card: index) {
-            app.session.content(app.project, list: column, card: index, content: content.string)
-            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.string)
-        }
+//        if content.string != app.session.content(app.project, list: column, card: index) {
+//            app.session.content(app.project, list: column, card: index, content: content.string)
+//            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.string)
+//        }
         update()
     }
     
@@ -120,8 +120,8 @@ final class Card: NSView, NSTextViewDelegate {
     func stop(_ x: CGFloat, _ y: CGFloat) {
         if dragging {
             let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
-            app.session.move(app.project, list: column, card: index, destination: destination, index:
-                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
+//            app.session.move(app.project, list: column, card: index, destination: destination, index:
+//                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
             NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.4
                 $0.allowsImplicitAnimation = true
@@ -149,22 +149,22 @@ final class Card: NSView, NSTextViewDelegate {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             _delete.alphaValue = 0
-            if !app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                layer!.backgroundColor = .clear
-            }
+//            if !app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                layer!.backgroundColor = .clear
+//            }
         }
     }
     
     private func update() {
-        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
-        }
+//        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+//        }
     }
     
     @objc private func delete() {
         window!.makeFirstResponder(content)
         if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            app.session.delete(app.project, list: column, card: index)
+//            app.session.delete(app.project, list: column, card: index)
             kanban.refresh()
         } else {
             _delete.alphaValue = 0

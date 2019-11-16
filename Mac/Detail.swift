@@ -22,28 +22,28 @@ final class Detail: Base.View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
-        if app.session.projects(app.mode).isEmpty {
-            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 16, .medium, NSColor(named: "haze")!.withAlphaComponent(0.6))
-            scroll.add(empty)
-            
-            empty.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            
-            scroll.bottom.constraint(equalTo: empty.bottomAnchor, constant: 40).isActive = true
-        } else {
-            var prev = scroll.top
-            app.session.projects(app.mode).forEach {
-                let item = Project($0)
-                scroll.add(item)
-                
-                item.topAnchor.constraint(equalTo: prev, constant: 20).isActive = true
-                item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-                item.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
-                prev = item.bottomAnchor
-                
-            }
-            scroll.bottom.constraint(equalTo: prev, constant: 20).isActive = true
-        }
+//        if app.session.projects(app.mode).isEmpty {
+//            let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 16, .medium, NSColor(named: "haze")!.withAlphaComponent(0.6))
+//            scroll.add(empty)
+//            
+//            empty.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+//            empty.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//            
+//            scroll.bottom.constraint(equalTo: empty.bottomAnchor, constant: 40).isActive = true
+//        } else {
+//            var prev = scroll.top
+//            app.session.projects(app.mode).forEach {
+//                let item = Project($0)
+//                scroll.add(item)
+//                
+//                item.topAnchor.constraint(equalTo: prev, constant: 20).isActive = true
+//                item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+//                item.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
+//                prev = item.bottomAnchor
+//                
+//            }
+//            scroll.bottom.constraint(equalTo: prev, constant: 20).isActive = true
+//        }
     }
     
     @objc private func add() {

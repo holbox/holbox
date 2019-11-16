@@ -84,55 +84,55 @@ final class Todo: Base.View, NSTextViewDelegate {
             let string = new.string
             new.string = ""
             if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project, list: 0, content: string)
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: string)
-                refresh()
+//                app.session.add(app.project, list: 0, content: string)
+//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: string)
+//                refresh()
             }
             new.needsLayout = true
         } else {
-            app.session.name(app.project, name: name.string)
+//            app.session.name(app.project, name: name.string)
         }
     }
     
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         empty?.removeFromSuperview()
-        name.string = app.session.name(app.project)
+//        name.string = app.session.name(app.project)
         name.didChangeText()
         
-        if app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1) == 0 {
-            let empty = Label(.key("Todo.empty"), 15, .medium, NSColor(named: "haze")!)
-            scroll.add(empty)
-            self.empty = empty
-
-            empty.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
-            empty.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-
-            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
-        } else {
-            var top: NSLayoutYAxisAnchor?
-            [0, 1].forEach { list in
-                (0 ..< app.session.cards(app.project, list: list)).forEach {
-                    let task = Task($0, list: list, self)
-                    scroll.add(task)
-
-                    if top == nil {
-                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
-                    } else {
-                        task.topAnchor.constraint(equalTo: top!).isActive = true
-                    }
-                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
-                    task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
-                    
-                    let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
-                    left.priority = .defaultLow
-                    left.isActive = true
-                    top = task.bottomAnchor
-                }
-            }
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
-        }
+//        if app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1) == 0 {
+//            let empty = Label(.key("Todo.empty"), 15, .medium, NSColor(named: "haze")!)
+//            scroll.add(empty)
+//            self.empty = empty
+//
+//            empty.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
+//            empty.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+//
+//            scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
+//        } else {
+//            var top: NSLayoutYAxisAnchor?
+//            [0, 1].forEach { list in
+//                (0 ..< app.session.cards(app.project, list: list)).forEach {
+//                    let task = Task($0, list: list, self)
+//                    scroll.add(task)
+//
+//                    if top == nil {
+//                        task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 80).isActive = true
+//                    } else {
+//                        task.topAnchor.constraint(equalTo: top!).isActive = true
+//                    }
+//                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
+//                    task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+//                    task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
+//                    
+//                    let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
+//                    left.priority = .defaultLow
+//                    left.isActive = true
+//                    top = task.bottomAnchor
+//                }
+//            }
+//            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
+//        }
     }
     
     @objc private func add() {

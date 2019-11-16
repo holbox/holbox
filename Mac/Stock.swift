@@ -21,16 +21,16 @@ class Stock: Window.Modal, NSTextViewDelegate {
         
         override func done() {
             super.done()
-            let count = app.session.cards(app.project, list: 0)
-            app.session.add(app.project, emoji: emoji.string, description: label.string)
-            if app.session.cards(app.project, list: 0) > count {
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
-                    $0.0 + " " + $0.1
-                } (app.session.product(app.project, index: count)))
-                shopping?.refresh()
-                shopping?.stockLast()
-            }
-            close()
+//            let count = app.session.cards(app.project, list: 0)
+//            app.session.add(app.project, emoji: emoji.string, description: label.string)
+//            if app.session.cards(app.project, list: 0) > count {
+//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
+//                    $0.0 + " " + $0.1
+//                } (app.session.product(app.project, index: count)))
+//                shopping?.refresh()
+//                shopping?.stockLast()
+//            }
+//            close()
         }
     }
     
@@ -40,31 +40,31 @@ class Stock: Window.Modal, NSTextViewDelegate {
         init(_ shopping: Shopping, index: Int) {
             self.index = index
             super.init(shopping, .key("Stock.edit.title"), .key("Stock.edit.done"))
-            let content = app.session.product(app.project, index: index)
-            emoji.string = content.0
-            label.string = content.1
-            
-            let _delete = Control(.key("Stock.delete"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
-            contentView!.addSubview(_delete)
-            
-            _delete.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
-            _delete.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
-            
-            emoji.didChangeText()
-            label.didChangeText()
+//            let content = app.session.product(app.project, index: index)
+//            emoji.string = content.0
+//            label.string = content.1
+//
+//            let _delete = Control(.key("Stock.delete"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
+//            contentView!.addSubview(_delete)
+//
+//            _delete.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
+//            _delete.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+//            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
+//
+//            emoji.didChangeText()
+//            label.didChangeText()
         }
         
         override func done() {
             super.done()
-            let old = app.session.product(app.project, index: index)
-            app.session.product(app.project, index: index, emoji: emoji.string, description: label.string)
-            let content = app.session.product(app.project, index: index)
-            if old != content {
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.0 + " " + content.1)
-                shopping?.refresh()
-            }
-            close()
+//            let old = app.session.product(app.project, index: index)
+//            app.session.product(app.project, index: index, emoji: emoji.string, description: label.string)
+//            let content = app.session.product(app.project, index: index)
+//            if old != content {
+//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.0 + " " + content.1)
+//                shopping?.refresh()
+//            }
+//            close()
         }
         
         @objc private func delete() {

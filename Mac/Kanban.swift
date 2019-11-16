@@ -51,48 +51,48 @@ final class Kanban: Base.View {
     }
     
     override func refresh() {
-        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
-        var left: NSLayoutXAxisAnchor?
-        (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(list)
-            scroll.add(column)
-            
-            var top: Card?
-            (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card(self, index: $0, column: list)
-                scroll.add(card)
-                
-                if top == nil {
-                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
-                } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 5)
-                    top!.child = card
-                }
-                
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
-                top = card
-            }
-            
-            if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-            } else {
-                column.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
-            }
-            
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
-            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
-            left = column.rightAnchor
-        }
-        
-        if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 80).isActive = true
-        }
+//        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+//        var left: NSLayoutXAxisAnchor?
+//        (0 ..< app.session.lists(app.project)).forEach { list in
+//            let column = Column(list)
+//            scroll.add(column)
+//
+//            var top: Card?
+//            (0 ..< app.session.cards(app.project, list: list)).forEach {
+//                let card = Card(self, index: $0, column: list)
+//                scroll.add(card)
+//
+//                if top == nil {
+//                    card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
+//                } else {
+//                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 5)
+//                    top!.child = card
+//                }
+//
+//                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+//                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
+//                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
+//                top = card
+//            }
+//
+//            if left == nil {
+//                column.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+//            } else {
+//                column.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
+//            }
+//
+//            column.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
+//            scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 70).isActive = true
+//            left = column.rightAnchor
+//        }
+//
+//        if left != nil {
+//            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 80).isActive = true
+//        }
     }
     
     @objc private func card() {
-        app.session.add(app.project, list: 0)
+//        app.session.add(app.project, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }

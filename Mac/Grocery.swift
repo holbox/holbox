@@ -17,37 +17,37 @@ final class Grocery: NSView {
         setAccessibilityRole(.button)
         wantsLayer = true
         layer!.cornerRadius = 10
-        
-        let product = app.session.reference(app.project, index: index)
-        setAccessibilityLabel(product.1)
-        
-        let emoji = Label(product.0, 50, .regular, .white)
-        emoji.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        emoji.setAccessibilityElement(false)
-        addSubview(emoji)
-        self.emoji = emoji
-        
-        let label = Label(product.1, 16, .semibold, NSColor(named: "haze")!)
-        label.setAccessibilityElement(false)
-        label.maximumNumberOfLines = 3
-        addSubview(label)
-        self.label = label
-        
-        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        heightAnchor.constraint(equalToConstant: 76).isActive = true
-        
-        let width = widthAnchor.constraint(equalToConstant: 500)
-        width.priority = .defaultLow
-        width.isActive = true
-        
-        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        
-        label.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 10).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-
-        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+//
+//        let product = app.session.reference(app.project, index: index)
+//        setAccessibilityLabel(product.1)
+//
+//        let emoji = Label(product.0, 50, .regular, .white)
+//        emoji.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+//        emoji.setAccessibilityElement(false)
+//        addSubview(emoji)
+//        self.emoji = emoji
+//
+//        let label = Label(product.1, 16, .semibold, NSColor(named: "haze")!)
+//        label.setAccessibilityElement(false)
+//        label.maximumNumberOfLines = 3
+//        addSubview(label)
+//        self.label = label
+//
+//        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+//        heightAnchor.constraint(equalToConstant: 76).isActive = true
+//
+//        let width = widthAnchor.constraint(equalToConstant: 500)
+//        width.priority = .defaultLow
+//        width.isActive = true
+//
+//        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+//
+//        label.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 10).isActive = true
+//        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
+//        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+//
+//        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
@@ -76,13 +76,13 @@ final class Grocery: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            let product = app.session.reference(app.project, index: index)
-            app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
-            app.session.delete(app.project, list: 1, card: index)
-            shopping?.refresh()
-        }
-        alphaValue = 1
+//        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+//            let product = app.session.reference(app.project, index: index)
+//            app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
+//            app.session.delete(app.project, list: 1, card: index)
+//            shopping?.refresh()
+//        }
+//        alphaValue = 1
         super.mouseUp(with: with)
     }
 }

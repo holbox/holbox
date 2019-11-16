@@ -21,12 +21,12 @@ class More: Window.Modal {
     final class Project: More {
         override init() {
             super.init()
-            let _delete = Control(.key("More.delete.\(app.mode.rawValue)"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
-            contentView!.addSubview(_delete)
-            
-            _delete.topAnchor.constraint(equalTo: _title.bottomAnchor, constant: 35).isActive = true
-            _delete.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
+//            let _delete = Control(.key("More.delete.\(app.mode.rawValue)"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
+//            contentView!.addSubview(_delete)
+//            
+//            _delete.topAnchor.constraint(equalTo: _title.bottomAnchor, constant: 35).isActive = true
+//            _delete.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+//            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
         }
         
         @objc private func delete() {

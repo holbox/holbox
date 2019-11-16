@@ -18,36 +18,36 @@ final class Product: NSView {
         wantsLayer = true
         layer!.cornerRadius = 20
         
-        active = !app.session.contains(app.project, reference: index)
-        let product = app.session.product(app.project, index: index)
-        setAccessibilityLabel(product.1)
-        
-        let emoji = Label(product.0, 30, .regular, .white)
-        emoji.setAccessibilityElement(false)
-        addSubview(emoji)
-        
-        let label = Label(product.1, 11, .light, active ? .white : NSColor(named: "haze")!)
-        label.setAccessibilityElement(false)
-        label.maximumNumberOfLines = 2
-        addSubview(label)
-        self.label = label
-        
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
-        widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        emoji.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        
-        label.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 5).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
-
-        if active {
-            addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
-        } else {
-            layer!.backgroundColor = NSColor(named: "background")!.withAlphaComponent(0.6).cgColor
-            alphaValue = 0.7
-        }
+//        active = !app.session.contains(app.project, reference: index)
+//        let product = app.session.product(app.project, index: index)
+//        setAccessibilityLabel(product.1)
+//        
+//        let emoji = Label(product.0, 30, .regular, .white)
+//        emoji.setAccessibilityElement(false)
+//        addSubview(emoji)
+//        
+//        let label = Label(product.1, 11, .light, active ? .white : NSColor(named: "haze")!)
+//        label.setAccessibilityElement(false)
+//        label.maximumNumberOfLines = 2
+//        addSubview(label)
+//        self.label = label
+//        
+//        heightAnchor.constraint(equalToConstant: 100).isActive = true
+//        widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        
+//        emoji.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+//        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+//        
+//        label.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 5).isActive = true
+//        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+//        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
+//
+//        if active {
+//            addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+//        } else {
+//            layer!.backgroundColor = NSColor(named: "background")!.withAlphaComponent(0.6).cgColor
+//            alphaValue = 0.7
+//        }
     }
     
     override func resetCursorRects() {
@@ -92,18 +92,18 @@ final class Product: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if active {
-            if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-                active = false
-                let product = app.session.product(app.project, index: index)
-                app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
-                app.session.add(app.project, reference: index)
-                shopping?.refresh()
-                shopping?.groceryLast()
-            }
-            layer!.backgroundColor = .clear
-            label.textColor = NSColor(named: "haze")!
-        }
+//        if active {
+//            if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+//                active = false
+//                let product = app.session.product(app.project, index: index)
+//                app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
+//                app.session.add(app.project, reference: index)
+//                shopping?.refresh()
+//                shopping?.groceryLast()
+//            }
+//            layer!.backgroundColor = .clear
+//            label.textColor = NSColor(named: "haze")!
+//        }
         super.mouseUp(with: with)
     }
 }

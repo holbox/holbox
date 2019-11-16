@@ -85,28 +85,28 @@ final class Add: Window.Modal {
     }
     
     private func add() {
-        app.session.add(app.mode)
+//        app.session.add(app.mode)
         app.main.project(0)
         close()
     }
     
     @objc private func kanban() {
-        app.mode = .kanban
+//        app.mode = .kanban
         add()
     }
     
     @objc private func todo() {
-        app.mode = .todo
+//        app.mode = .todo
         add()
     }
     
     @objc private func shopping() {
-        app.mode = .shopping
+//        app.mode = .shopping
         add()
     }
     
     @objc private func notes() {
-        app.mode = .notes
+//        app.mode = .notes
         add()
     }
     

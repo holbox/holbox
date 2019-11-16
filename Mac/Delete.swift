@@ -4,17 +4,17 @@ class Delete: Window.Modal {
     final class Board: Delete {
         override init() {
             super.init()
-            heading.stringValue = .key("Delete.title.\(app.mode.rawValue)")
+//            heading.stringValue = .key("Delete.title.\(app.mode.rawValue)")
         }
         
         override func confirm() {
-            app.session.delete(app.project)
+//            app.session.delete(app.project)
 //            switch app.mode {
 //            case .todo: app.main.todo()
 //            case .shopping: app.main.shopping()
 //            default: app.main.kanban()
 //            }
-            app.alert(.key("Delete.deleted.\(app.mode.rawValue)"), message: app.session.name(app.project))
+//            app.alert(.key("Delete.deleted.\(app.mode.rawValue)"), message: app.session.name(app.project))
             super.confirm()
         }
     }
@@ -29,12 +29,12 @@ class Delete: Window.Modal {
             self.list = list
             self.base = base
             super.init()
-            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
+//            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
         }
         
         override func confirm() {
-            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
-            app.session.delete(app.project, list: list, card: index)
+//            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
+//            app.session.delete(app.project, list: list, card: index)
             base?.refresh()
             super.confirm()
         }
@@ -48,15 +48,15 @@ class Delete: Window.Modal {
             self.index = index
             self.shopping = shopping
             super.init()
-            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
+//            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
         }
         
         override func confirm() {
-            let product = app.session.product(app.project, index: index)
-            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
-            app.session.delete(app.project, product: index)
-            shopping?.refresh()
-            super.confirm()
+//            let product = app.session.product(app.project, index: index)
+//            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
+//            app.session.delete(app.project, product: index)
+//            shopping?.refresh()
+//            super.confirm()
         }
     }
     

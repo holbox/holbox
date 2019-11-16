@@ -52,19 +52,19 @@ final class Main: Window.Full {
     }
     
     func project(_ project: Int) {
-        app.project = project
-        bar.project()
-        switch app.mode {
-        case .todo: base?.show(Todo())
-        case .shopping: base?.show(Shopping())
-        default: base?.show(Kanban())
-        }
-        
+//        app.project = project
+//        bar.project()
+//        switch app.mode {
+//        case .todo: base?.show(Todo())
+//        case .shopping: base?.show(Shopping())
+//        default: base?.show(Kanban())
+//        }
+//
     }
     
     func detail() {
         base.show(Detail())
-        bar.detail()
+//        bar.detail()
     }
     
     func refresh() {
