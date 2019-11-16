@@ -77,45 +77,52 @@ final class Bar: NSView, NSTextViewDelegate {
     }
     
     func refresh() {
-        if let name = self.name {
-//            name.string = app.session.name(app.project)
+        if app.project == nil {
+            if app.session.projects.isEmpty {
+                empty()
+            } else {
+                detail()
+            }
+        } else {
+            project()
         }
     }
     
     private func project() {
-//        border.alphaValue = 1
-//        resize(51, nil)
-//        
-//        let name = Text(.Both(300, 51), Block())
-//        name.wantsLayer = true
-//        name.alphaValue = 0
-//        name.setAccessibilityLabel(.key("Project"))
-//        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .bold), .white),
-//                                                .emoji: (NSFont(name: "Times New Roman", size: 20)!, .white),
-//                                                .bold: (.systemFont(ofSize: 16, weight: .heavy), .white)]
-//        name.textContainer!.maximumNumberOfLines = 1
-//        name.string = app.session.name(app.project)
-//        addSubview(name)
-//        
-//        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
-//        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-//        _add.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
-//        name.didChangeText()
-//        name.delegate = self
-//        
-//        button.constant = 30
-//        NSAnimationContext.runAnimationGroup ({
-//            $0.duration = 0.4
-//            $0.allowsImplicitAnimation = true
-//            layoutSubtreeIfNeeded()
-//            name.alphaValue = 1
-//            title?.alphaValue = 0
-//            self.name?.alphaValue = 0
-//        }) {
-//            self.title?.removeFromSuperview()
-//            self.name?.removeFromSuperview()
-//            self.name = name
-//        }
+        border.alphaValue = 1
+        resize(51, nil)
+        
+        let name = Text(.Both(300, 51), Block())
+        name.wantsLayer = true
+        name.alphaValue = 0
+        name.setAccessibilityLabel(.key("Project"))
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .bold), .white),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 20)!, .white),
+                                                .bold: (.systemFont(ofSize: 16, weight: .heavy), .white),
+                                                .tag: (.systemFont(ofSize: 14, weight: .regular), .white)]
+        name.textContainer!.maximumNumberOfLines = 1
+        name.string = app.session.name(app.project!)
+        addSubview(name)
+        
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 350).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        _add.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
+        name.didChangeText()
+        name.delegate = self
+        
+        button.constant = 30
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            layoutSubtreeIfNeeded()
+            name.alphaValue = 1
+            title?.alphaValue = 0
+            self.name?.alphaValue = 0
+        }) {
+            self.title?.removeFromSuperview()
+            self.name?.removeFromSuperview()
+            self.name = name
+        }
     }
     
     private func detail() {
@@ -127,7 +134,7 @@ final class Bar: NSView, NSTextViewDelegate {
         title.alphaValue = 0
         addSubview(title)
         
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 105).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
      
         button.constant = 30
@@ -145,25 +152,18 @@ final class Bar: NSView, NSTextViewDelegate {
         }
     }
     
-    @objc private func home() {
-//        app.mode = .off
+    private func empty() {
         title?.removeFromSuperview()
         name?.removeFromSuperview()
         resize(nil) {
             self.border.alphaValue = 0
-            app.main.clear()
         }
-        
         button.constant = 100
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             layoutSubtreeIfNeeded()
         }
-    }
-    
-    @objc private func add() {
-        app.runModal(for: Add())
     }
     
     private func resize(_ amount: CGFloat?, _ completion: (() -> Void)?) {
@@ -177,5 +177,13 @@ final class Bar: NSView, NSTextViewDelegate {
             $0.allowsImplicitAnimation = true
             superview!.layoutSubtreeIfNeeded()
         }, completionHandler: completion)
+    }
+    
+    @objc private func home() {
+        app.project = nil
+    }
+    
+    @objc private func add() {
+        app.runModal(for: Add())
     }
 }

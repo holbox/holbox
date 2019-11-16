@@ -49,71 +49,14 @@ final class Main: Window.Full {
         base.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
-    }
-    
-    func project(_ project: Int) {
-//        app.project = project
-//        bar.project()
-//        switch app.mode {
-//        case .todo: base?.show(Todo())
-//        case .shopping: base?.show(Shopping())
-//        default: base?.show(Kanban())
-//        }
-//
-    }
-    
-    func detail() {
-        base.show(Detail())
-//        bar.detail()
+        
+        refresh()
     }
     
     func refresh() {
         base.refresh()
         bar.refresh()
     }
-    
-    func clear() {
-        base.clear()
-    }
-    /*
-    @objc func kanban() {
-        app.refresh()
-        app.mode = .kanban
-        bar?._kanban.selected = true
-        bar?._todo.selected = false
-        bar?._shopping.selected = false
-        bar?._shop.selected = false
-        base?.show(Detail())
-    }
-    
-    @objc func todo() {
-        app.refresh()
-        app.mode = .todo
-        bar?._kanban.selected = false
-        bar?._todo.selected = true
-        bar?._shopping.selected = false
-        bar?._shop.selected = false
-        base?.show(Detail())
-    }
-    
-    @objc func shopping() {
-        app.refresh()
-        app.mode = .shopping
-        bar?._kanban.selected = false
-        bar?._todo.selected = false
-        bar?._shopping.selected = true
-        bar?._shop.selected = false
-        base?.show(Detail())
-    }
-    
-    @objc func shop() {
-        app.mode = .off
-        bar?._kanban.selected = false
-        bar?._todo.selected = false
-        bar?._shopping.selected = false
-        bar?._shop.selected = true
-        base?.show(Shop())
-    }*/
     
     @objc func shop() {
         app.runModal(for: Shop())

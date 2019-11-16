@@ -4,7 +4,7 @@ final class Detail: Base.View {
     private weak var scroll: Scroll!
     
     required init?(coder: NSCoder) { nil }
-    override init() {
+    required init() {
         super.init()
         let scroll = Scroll()
         addSubview(scroll)

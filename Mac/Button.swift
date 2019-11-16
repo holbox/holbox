@@ -1,6 +1,7 @@
 import AppKit
 
 final class Button: NSView {
+    private(set) weak var icon: Image!
     private weak var target: AnyObject!
     private let action: Selector
     override var mouseDownCanMoveWindow: Bool { false }
@@ -17,6 +18,7 @@ final class Button: NSView {
         let icon = Image(image)
         icon.imageScaling = .scaleProportionallyDown
         addSubview(icon)
+        self.icon = icon
         
         icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -36,7 +38,7 @@ final class Button: NSView {
     override func mouseUp(with: NSEvent) {
         window!.makeFirstResponder(nil)
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            _ = target.perform(action, with: nil)
+            _ = target.perform(action, with: self)
         }
         alphaValue = 1
         super.mouseUp(with: with)

@@ -5,7 +5,7 @@ final class Base: NSView {
         fileprivate weak var top: NSLayoutConstraint! { didSet { top.isActive = true }  }
         
         required init?(coder: NSCoder) { nil }
-        init() {
+        required init() {
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
             wantsLayer = true
@@ -31,7 +31,34 @@ final class Base: NSView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func show(_ view: View) {
+    func refresh() {
+        if app.project == nil {
+            if app.session.projects.isEmpty {
+                clear()
+            } else {
+                validate(Detail.self)
+            }
+        } else {
+            switch app.session.mode(app.project!) {
+            case .kanban: validate(Kanban.self)
+            case .todo: validate(Todo.self)
+            case .shopping: validate(Shopping.self)
+            case .notes: validate(Kanban.self)
+            default: app.project = nil
+            }
+        }
+    }
+    
+    private func validate<T>(_ type: T.Type) where T: View {
+        if let view = subviews.first as? T {
+            view.refresh()
+        } else {
+            clear()
+            show(T())
+        }
+    }
+    
+    private func show(_ view: View) {
         let previous = subviews.first as? View
         addSubview(view)
         
@@ -54,11 +81,7 @@ final class Base: NSView {
         }
     }
     
-    func clear() {
+    private func clear() {
         subviews.forEach { $0.removeFromSuperview() }
-    }
-    
-    func refresh() {
-        (subviews.first as? View)?.refresh()
     }
 }

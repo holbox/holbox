@@ -8,7 +8,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
     private weak var name: Text!
     
     required init?(coder: NSCoder) { nil }
-    override init() {
+    required init() {
         super.init()
         let scroll = Scroll()
         addSubview(scroll)

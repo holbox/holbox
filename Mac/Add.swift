@@ -1,6 +1,18 @@
+import holbox
 import AppKit
 
 final class Add: Window.Modal {
+    private weak var name: Label!
+    private weak var selected: Button? {
+        didSet {
+            oldValue?.icon.alphaValue = 0.4
+            oldValue?.layer!.backgroundColor = .clear
+            selected!.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            selected!.icon.alphaValue = 1
+        }
+    }
+    private var mode = Mode.off
+    
     init() {
         super.init(420, 560)
         let icon = Image("new")
@@ -47,26 +59,53 @@ final class Add: Window.Modal {
         cancel.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         
         if app.session.available > 0 {
-            let _kanban = Control(.key("Add.kanban"), self, #selector(kanban), NSColor(named: "haze")!.cgColor, .black)
-            let _todo = Control(.key("Add.todo"), self, #selector(todo), NSColor(named: "haze")!.cgColor, .black)
-            let _shopping = Control(.key("Add.shopping"), self, #selector(shopping), NSColor(named: "haze")!.cgColor, .black)
-            let _notes = Control(.key("Add.notes"), self, #selector(notes), NSColor(named: "haze")!.cgColor, .black)
+            let _kanban = Button("kanban", target: self, action: #selector(kanban(_:)))
+            _kanban.setAccessibilityLabel(.key("Add.kanban"))
             
-            var top: NSLayoutYAxisAnchor?
+            let _todo = Button("todo", target: self, action: #selector(todo(_:)))
+            _kanban.setAccessibilityLabel(.key("Add.todo"))
+            
+            let _shopping = Button("shopping", target: self, action: #selector(shopping(_:)))
+            _kanban.setAccessibilityLabel(.key("Add.shopping"))
+            
+            let _notes = Button("notes", target: self, action: #selector(notes(_:)))
+            _kanban.setAccessibilityLabel(.key("Add.notes"))
+            
+            let name = Label("", 16, .bold, NSColor(named: "haze")!)
+            contentView!.addSubview(name)
+            self.name = name
+            
+            let _confirm = Control(.key("Add.confirm"), self, #selector(add), NSColor(named: "haze")!.cgColor, .black)
+            contentView!.addSubview(_confirm)
+            
+            var left: NSLayoutXAxisAnchor?
             [_kanban, _todo, _shopping, _notes].forEach {
+                $0.icon.alphaValue = 0.4
+                $0.wantsLayer = true
+                $0.layer!.cornerRadius = 4
                 contentView!.addSubview($0)
                 
-                $0.widthAnchor.constraint(equalToConstant: 160).isActive = true
-                $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+                $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+                $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+                $0.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 60).isActive = true
                 
-                if top == nil {
-                    $0.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 60).isActive = true
+                if left == nil {
+                    $0.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 100).isActive = true
                 } else {
-                    $0.topAnchor.constraint(equalTo: top!, constant: 20).isActive = true
+                    $0.leftAnchor.constraint(equalTo: left!, constant: 20).isActive = true
                 }
                 
-                top = $0.bottomAnchor
+                left = $0.rightAnchor
             }
+            
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 125).isActive = true
+            name.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+            
+            _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
+            _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 220).isActive = true
+            
+            kanban(_kanban)
         } else {
             let info = Label(.key("Add.info"), 16, .regular, .white)
             contentView!.addSubview(info)
@@ -84,30 +123,33 @@ final class Add: Window.Modal {
         }
     }
     
-    private func add() {
-//        app.session.add(app.mode)
-        app.main.project(0)
+    @objc private func add() {
+        app.project = app.session.add(mode)
         close()
     }
     
-    @objc private func kanban() {
-//        app.mode = .kanban
-        add()
+    @objc private func kanban(_ button: Button) {
+        mode = .kanban
+        name.stringValue = .key("Add.kanban")
+        selected = button
     }
     
-    @objc private func todo() {
-//        app.mode = .todo
-        add()
+    @objc private func todo(_ button: Button) {
+        mode = .todo
+        name.stringValue = .key("Add.todo")
+        selected = button
     }
     
-    @objc private func shopping() {
-//        app.mode = .shopping
-        add()
+    @objc private func shopping(_ button: Button) {
+        mode = .shopping
+        name.stringValue = .key("Add.shopping")
+        selected = button
     }
     
-    @objc private func notes() {
-//        app.mode = .notes
-        add()
+    @objc private func notes(_ button: Button) {
+        mode = .notes
+        name.stringValue = .key("Add.notes")
+        selected = button
     }
     
     @objc private func purchases() {
