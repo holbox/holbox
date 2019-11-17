@@ -63,8 +63,8 @@ final class Main: Window.Full {
         app.runModal(for: Shop())
     }
     
-    @objc func more() {
-        app.runModal(for: More.Main())
+    @objc func settings() {
+        app.runModal(for: Settings())
     }
     
     @objc func about() {

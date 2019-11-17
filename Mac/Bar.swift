@@ -17,6 +17,7 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(unmove)
         
         let border = Border()
+        border.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         border.alphaValue = 0
         addSubview(border)
         self.border = border
@@ -33,11 +34,11 @@ final class Bar: NSView, NSTextViewDelegate {
         let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
         
-        let _more = Button("more", target: app.main, action: #selector(app.main.more))
-        _more.setAccessibilityLabel(.key("Bar.more"))
+        let _settings = Button("more", target: app.main, action: #selector(app.main.settings))
+        _settings.setAccessibilityLabel(.key("Bar.settings"))
         
         var left: NSLayoutXAxisAnchor?
-        [_add, _shop, _more].forEach {
+        [_add, _shop, _settings].forEach {
             addSubview($0)
             
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true

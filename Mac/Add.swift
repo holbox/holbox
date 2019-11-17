@@ -6,8 +6,8 @@ final class Add: Window.Modal {
     private weak var selected: Button? {
         didSet {
             oldValue?.icon.alphaValue = 0.4
-            oldValue?.layer!.backgroundColor = .clear
-            selected!.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            oldValue?.layer!.borderColor = .clear
+            selected!.layer!.borderColor = NSColor(named: "haze")!.cgColor
             selected!.icon.alphaValue = 1
         }
     }
@@ -18,23 +18,23 @@ final class Add: Window.Modal {
         let icon = Image("new")
         contentView!.addSubview(icon)
         
-        let title = Label([(.key("Add.title") + "\n", 25, .bold, .white),
-                           (.key("Add.subtitle"), 14, .light, .init(white: 1, alpha: 0.6))])
+        let title = Label([(.key("Add.title") + "\n", 25, .bold, NSColor(named: "haze")!),
+                           (.key("Add.subtitle"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.6))])
         contentView!.addSubview(title)
         
-        let available = Label([(.key("Add.available") + "\n", 20, .light, .init(white: 1, alpha: 0.4)),
+        let available = Label([(.key("Add.available") + "\n", 20, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
                               ("\(app.session.available)", 40, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(available)
         
-        let projects = Label([(.key("Add.projects"), 14, .light, .init(white: 1, alpha: 0.4)),
+        let projects = Label([(.key("Add.projects"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
                               ("\n\(app.session.count)", 22, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(projects)
         
-        let capacity = Label([(.key("Add.capacity"), 14, .light, .init(white: 1, alpha: 0.4)),
+        let capacity = Label([(.key("Add.capacity"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
                               ("\n\(app.session.capacity)", 22, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(capacity)
         
-        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!.withAlphaComponent(0.8))
+        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
@@ -71,7 +71,7 @@ final class Add: Window.Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _kanban.setAccessibilityLabel(.key("Add.notes"))
             
-            let name = Label("", 16, .bold, NSColor(named: "haze")!)
+            let name = Label("", 18, .bold, NSColor(named: "haze")!)
             contentView!.addSubview(name)
             self.name = name
             
@@ -83,6 +83,8 @@ final class Add: Window.Modal {
                 $0.icon.alphaValue = 0.4
                 $0.wantsLayer = true
                 $0.layer!.cornerRadius = 4
+                $0.layer!.borderWidth = 1
+                $0.layer!.borderColor = .clear
                 contentView!.addSubview($0)
                 
                 $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -98,7 +100,7 @@ final class Add: Window.Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 125).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 130).isActive = true
             name.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true

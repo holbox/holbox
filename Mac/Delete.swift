@@ -8,11 +8,11 @@ class Delete: Window.Modal {
             self.index = index
             super.init()
             
-            let title = Label([(.key("Delete.title") + "\n", 18, .bold, NSColor(named: "haze")!),
+            let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
                                (app.session.name(index), 16, .regular, NSColor(named: "haze")!)])
             contentView!.addSubview(title)
             
-            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 30).isActive = true
+            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
             title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
             title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
         }
@@ -66,10 +66,10 @@ class Delete: Window.Modal {
     }
     
     private init() {
-        super.init(280, 200)
+        super.init(280, 260)
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
-        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.7))
+        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
         
         [_confirm, _cancel].forEach {
             contentView!.addSubview($0)
@@ -77,7 +77,7 @@ class Delete: Window.Modal {
             $0.widthAnchor.constraint(equalToConstant: 140).isActive = true
         }
         
-        _confirm.bottomAnchor.constraint(equalTo: _cancel.topAnchor, constant: -10).isActive = true
+        _confirm.bottomAnchor.constraint(equalTo: _cancel.topAnchor, constant: -20).isActive = true
         _cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
     }
     

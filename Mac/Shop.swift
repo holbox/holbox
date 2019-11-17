@@ -21,18 +21,18 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
             addSubview(image)
             
             let title = Label([
-                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .white),
-                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.8))])
+                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, NSColor(named: "haze")!),
+                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, NSColor(named: "haze")!.withAlphaComponent(0.9))])
             addSubview(title)
             
-            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, .init(white: 1, alpha: 0.6))
+            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))
             addSubview(label)
             
             shop.formatter.locale = product.priceLocale
             let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
             addSubview(price)
             
-            let purchased = Label(.key("Shop.purchased"), 16, .medium, NSColor(named: "haze")!)
+            let purchased = Label(.key("Shop.purchased"), 18, .bold, NSColor(named: "haze")!)
             addSubview(purchased)
             
             let control = Control(.key("Shop.purchase"), self, #selector(purchase), NSColor(named: "haze")!.cgColor, .black)
@@ -66,9 +66,10 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
             
             control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
             control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-            control.widthAnchor.constraint(equalToConstant: 130).isActive = true
+            control.widthAnchor.constraint(equalToConstant: 140).isActive = true
             
             if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
+                price.isHidden = true
                 control.isHidden = true
             } else {
                 purchased.isHidden = true
@@ -119,12 +120,12 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .white)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "haze")!.cgColor, .black)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
         
-        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.8))
+        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
         scroll.add(_cancel)
         
         scroll.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 1).isActive = true
@@ -151,11 +152,11 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
         
         _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor, constant: -20).isActive = true
-        _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        _restore.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         loading()
         
