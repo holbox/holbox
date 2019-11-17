@@ -1,20 +1,25 @@
 import AppKit
 
 class Delete: Window.Modal {
-    final class Board: Delete {
-        override init() {
+    final class Project: Delete {
+        private let index: Int
+        
+        init(_ index: Int) {
+            self.index = index
             super.init()
-//            heading.stringValue = .key("Delete.title.\(app.mode.rawValue)")
+            
+            let title = Label([(.key("Delete.title") + "\n", 18, .bold, NSColor(named: "haze")!),
+                               (app.session.name(index), 16, .regular, NSColor(named: "haze")!)])
+            contentView!.addSubview(title)
+            
+            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 30).isActive = true
+            title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
+            title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
         }
         
         override func confirm() {
-//            app.session.delete(app.project)
-//            switch app.mode {
-//            case .todo: app.main.todo()
-//            case .shopping: app.main.shopping()
-//            default: app.main.kanban()
-//            }
-//            app.alert(.key("Delete.deleted.\(app.mode.rawValue)"), message: app.session.name(app.project))
+            app.alert(.key("Delete.done"), message: app.session.name(index))
+            app.session.delete(index)
             super.confirm()
         }
     }
@@ -60,32 +65,24 @@ class Delete: Window.Modal {
         }
     }
     
-    private weak var heading: Label!
-    
     private init() {
-        super.init(260, 200)
+        super.init(280, 200)
         
-        let heading = Label("", 18, .bold, .init(white: 1, alpha: 0.8))
-        self.heading = heading
+        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
+        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.7))
         
-        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .black, .white)
-        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
-        
-        [heading, _confirm, _cancel].forEach {
+        [_confirm, _cancel].forEach {
             contentView!.addSubview($0)
             $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+            $0.widthAnchor.constraint(equalToConstant: 140).isActive = true
         }
         
-        heading.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        
-        _confirm.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 25).isActive = true
-        _confirm.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        
-        _cancel.topAnchor.constraint(equalTo: _confirm.bottomAnchor, constant: 10).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        _confirm.bottomAnchor.constraint(equalTo: _cancel.topAnchor, constant: -10).isActive = true
+        _cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
     }
     
     @objc private func confirm() {
         close()
+        app.main.refresh()
     }
 }

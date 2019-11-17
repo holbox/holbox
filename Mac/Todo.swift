@@ -22,7 +22,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         scroll.add(name)
         self.name = name
         
-        let _more = Button("more", target: self, action: #selector(more))
+        let _more = Button("more", target: self, action: #selector(add))
         scroll.add(_more)
         
         let new = Text(.Vertical(500), Active())

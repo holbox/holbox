@@ -12,25 +12,19 @@ final class Kanban: Base.View {
         self.scroll = scroll
         
         let _card = Button("plus", target: self, action: #selector(card))
-        let _more = Button("more", target: self, action: #selector(more))
-        
-        [_card, _more].forEach {
-            scroll.add($0)
-            $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            $0.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        }
+        scroll.add(_card)
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: _more.rightAnchor, constant: 40).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         
         _card.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        _more.leftAnchor.constraint(equalTo: _card.rightAnchor, constant: 20).isActive = true
+        _card.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        _card.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        _card.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
 
         refresh()
     }

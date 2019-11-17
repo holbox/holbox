@@ -17,10 +17,6 @@ final class Base: NSView {
             super.mouseDown(with: with)
             window!.makeFirstResponder(self)
         }
-        
-        @objc final func more() {
-            app.runModal(for: More.Project())
-        }
     }
     
     override var mouseDownCanMoveWindow: Bool { false }

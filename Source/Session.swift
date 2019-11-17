@@ -9,7 +9,10 @@ public final class Session {
     var refreshed = Date().timeIntervalSince1970
 
     public var projects: [Int] {
-        items.filter { $1.mode != .off }.sorted { $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending }.map { $0.0 }
+        items.filter { $1.mode != .off }.sorted {
+            $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending ||
+                ($0.1.name.caseInsensitiveCompare($1.1.name) == .orderedSame && $0.1.time > $1.1.time)
+        }.map { $0.0 }
     }
     
     public var rate: Bool {

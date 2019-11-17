@@ -199,4 +199,21 @@ final class TestSession: XCTestCase {
         session.items = [0: project0, 1: project1, 2: project2]
         XCTAssertEqual([2, 0, 1], session.projects)
     }
+    
+    func testSortedSameName() {
+        var project0 = Project()
+        var project1 = Project()
+        var project2 = Project()
+        project0.mode = .kanban
+        project1.mode = .kanban
+        project2.mode = .kanban
+        project0.name = "a"
+        project0.time = .init(timeIntervalSince1970: 2)
+        project1.name = "a"
+        project1.time = .init(timeIntervalSince1970: 3)
+        project2.name = "a"
+        project2.time = .init(timeIntervalSince1970: 1)
+        session.items = [0: project0, 1: project1, 2: project2]
+        XCTAssertEqual([1, 0, 2], session.projects)
+    }
 }

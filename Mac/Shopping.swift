@@ -30,7 +30,7 @@ final class Shopping: Base.View, NSTextViewDelegate {
         scroll.add(name)
         self.name = name
         
-        let _more = Button("more", target: self, action: #selector(more))
+        let _more = Button("more", target: self, action: #selector(add))
         scroll.add(_more)
         
         let _add = Button("plusbig", target: self, action: #selector(add))

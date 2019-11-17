@@ -21,7 +21,7 @@ final class Project: NSView {
                 let y: CGFloat
                 if total > 0 && card.1 > 0 {
                     shape.lineCap = .round
-                    y = .init(card.1) / total * 50
+                    y = .init(card.1) / total * 60
                 } else {
                     y = 2
                 }
@@ -32,7 +32,7 @@ final class Project: NSView {
                 } (CGMutablePath())
                 layer!.addSublayer(shape)
             }
-            heightAnchor.constraint(equalToConstant: 65).isActive = true
+            heightAnchor.constraint(equalToConstant: 75).isActive = true
             widthAnchor.constraint(equalToConstant: 20 * .init(cards.count)).isActive = true
         }
     }
@@ -40,6 +40,7 @@ final class Project: NSView {
     weak var top: NSLayoutConstraint! { didSet { top.isActive = true } }
     weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
     let order: Int
+    private weak var _delete: Image!
     private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -126,6 +127,11 @@ final class Project: NSView {
         let chart = Chart(index)
         addSubview(chart)
         
+        let _delete = Image("delete")
+        _delete.alphaValue = 0
+        addSubview(_delete)
+        self._delete = _delete
+        
         widthAnchor.constraint(equalToConstant: 200).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
         
@@ -136,7 +142,7 @@ final class Project: NSView {
         
         label.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -25).isActive = true
         
         info.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         info.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
@@ -145,6 +151,11 @@ final class Project: NSView {
         chart.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -10).isActive = true
         chart.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 12).isActive = true
         
+        _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
@@ -152,22 +163,36 @@ final class Project: NSView {
     
     override func mouseEntered(with: NSEvent) {
         super.mouseEntered(with: with)
-        layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            _delete.alphaValue = 1
+        }
     }
     
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
-        layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.5
+            $0.allowsImplicitAnimation = true
+            _delete.alphaValue = 0
+            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        }
     }
     
     override func mouseDown(with: NSEvent) {
-        alphaValue = 0.5
+        alphaValue = 0.4
         super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            app.project = index
+            if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
+                app.runModal(for: Delete.Project(index))
+            } else {
+                app.project = index
+            }
         }
         alphaValue = 1
         super.mouseUp(with: with)
