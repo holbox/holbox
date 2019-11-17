@@ -7,7 +7,7 @@ final class Project: NSView {
             super.init(frame: .zero)
             translatesAutoresizingMaskIntoConstraints = false
             wantsLayer = true
-            
+
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
@@ -21,7 +21,7 @@ final class Project: NSView {
                 let y: CGFloat
                 if total > 0 && card.1 > 0 {
                     shape.lineCap = .round
-                    y = .init(card.1) / total * 30
+                    y = .init(card.1) / total * 50
                 } else {
                     y = 2
                 }
@@ -32,7 +32,7 @@ final class Project: NSView {
                 } (CGMutablePath())
                 layer!.addSublayer(shape)
             }
-            heightAnchor.constraint(equalToConstant: 45).isActive = true
+            heightAnchor.constraint(equalToConstant: 65).isActive = true
             widthAnchor.constraint(equalToConstant: 20 * .init(cards.count)).isActive = true
         }
     }
@@ -45,15 +45,37 @@ final class Project: NSView {
     
     private var detail: String {
         switch app.session.mode(index) {
-        case .kanban:
-            return "\(app.session.lists(index)) " + .key("Project.columns") + "\n" +
-                "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.cards") + "\n"
-        case .todo:
-            return "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.tasks") + "\n"
-        case .shopping:
-            return "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.products") + "\n"
+        case .kanban: return detailKanban
+        case .todo: return detailTodo
+        case .shopping: return detailShopping
+        case .notes: return detailNotes
         default: return ""
         }
+    }
+    
+    private var detailKanban: String {
+        "\(app.session.lists(index)) " + .key("Project.columns") + "\n" +
+        "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.cards") + "\n"
+    }
+    
+    private var detailTodo: String {
+        let waiting = app.session.cards(index, list: 0)
+        let done = app.session.cards(index, list: 1)
+        return "\(waiting + done) " + .key("Project.tasks") + "\n"
+            + "\(waiting) " + .key("Project.waiting") + "\n"
+            + "\(done) " + .key("Project.done") + "\n"
+    }
+    
+    private var detailShopping: String {
+        let needed = app.session.cards(index, list: 0)
+        let purchased = app.session.cards(index, list: 1)
+        return "\(needed + purchased) " + .key("Project.products") + "\n"
+            + "\(needed) " + .key("Project.needed") + "\n"
+            + "\(purchased) " + .key("Project.purchased") + "\n"
+    }
+    
+    private var detailNotes: String {
+        "\(app.session.lists(index)) " + .key("Project.notes") + "\n"
     }
     
     required init?(coder: NSCoder) { nil }
@@ -93,22 +115,22 @@ final class Project: NSView {
             modified = formatter.string(from: app.session.time(index))
         }
         
-        let label = Label(app.session.name(index), 16, .medium, NSColor(named: "haze")!)
+        let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let info = Label(detail + modified, 13, .light, NSColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + modified, 13, .light, NSColor(named: "haze")!)
         info.setAccessibilityElement(false)
         addSubview(info)
         
         let chart = Chart(index)
         addSubview(chart)
         
-        widthAnchor.constraint(equalToConstant: 160).isActive = true
-        heightAnchor.constraint(equalToConstant: 170).isActive = true
+        widthAnchor.constraint(equalToConstant: 200).isActive = true
+        heightAnchor.constraint(equalToConstant: 220).isActive = true
         
-        icon.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
-        icon.leftAnchor.constraint(equalTo: label.leftAnchor, constant: 3).isActive = true
+        icon.bottomAnchor.constraint(equalTo: chart.bottomAnchor).isActive = true
+        icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 16).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 16).isActive = true
         
@@ -116,12 +138,12 @@ final class Project: NSView {
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
         
-        info.topAnchor.constraint(equalTo: icon.topAnchor).isActive = true
-        info.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 15).isActive = true
+        info.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+        info.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
         info.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
         
-        chart.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
-        chart.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        chart.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -10).isActive = true
+        chart.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 12).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
@@ -139,7 +161,7 @@ final class Project: NSView {
     }
     
     override func mouseDown(with: NSEvent) {
-        alphaValue = 0.3
+        alphaValue = 0.5
         super.mouseDown(with: with)
     }
     

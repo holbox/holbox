@@ -44,9 +44,9 @@ final class Detail: Base.View {
     }
     
     func order() {
-        let size = app.main.frame.width + 4
-        let count = Int(size) / 164
-        let margin = (size - (.init(count) * 164)) / 2
+        let size = app.main.frame.width + 20
+        let count = Int(size) / 220
+        let margin = (size - (.init(count) * 220)) / 2
         var top = CGFloat(20)
         var left = margin
         var counter = 0
@@ -54,14 +54,14 @@ final class Detail: Base.View {
             if counter >= count {
                 counter = 0
                 left = margin
-                top += 174
+                top += 240
             }
             $0.top.constant = top
             $0.left.constant = left
-            left += 164
+            left += 220
             counter += 1
         }
-        height.constant = top + 200
+        height.constant = top + 250
     }
     
     @objc private func add() {
