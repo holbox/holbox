@@ -9,7 +9,7 @@ final class Card: NSView, NSTextViewDelegate {
     let column: Int
     private weak var content: Text!
     private weak var _delete: Button!
-    private weak var kanban: Kanban!
+    private weak var kanban: Kanban?
     private var dragging = false
     private var deltaX = CGFloat(0)
     private var deltaY = CGFloat(0)
@@ -26,13 +26,14 @@ final class Card: NSView, NSTextViewDelegate {
         layer!.cornerRadius = 8
         layer!.borderColor = NSColor(named: "haze")!.cgColor
         
-        let content = Text(.Both(320, 10000), Block())
+        let content = Text(.Both(280, 10000), Block())
         content.setAccessibilityLabel(.key("Card"))
-        (content.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
-                                                   .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
-                                                   .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
-                                                   .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
-//        content.string = app.session.content(app.project, list: column, card: index)
+        (content.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: 16, weight: .medium), .white),
+            .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
+            .bold: (.systemFont(ofSize: 20, weight: .bold), .white),
+            .tag: (.systemFont(ofSize: 16, weight: .medium), NSColor(named: "haze")!)]
+        content.string = app.session.content(app.project!, list: column, card: index)
         content.tab = true
         content.intro = true
         addSubview(content)
@@ -43,21 +44,20 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(_delete)
         self._delete = _delete
         
-        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 5).isActive = true
-        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 5).isActive = true
+        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
+        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        content.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         content.didChangeText()
         content.delegate = self
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
-        update()
     }
     
     override func resetCursorRects() {
@@ -70,10 +70,10 @@ final class Card: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         layer!.borderWidth = 0
-//        if content.string != app.session.content(app.project, list: column, card: index) {
-//            app.session.content(app.project, list: column, card: index, content: content.string)
-//            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.string)
-//        }
+        if content.string != app.session.content(app.project!, list: column, card: index) {
+            app.session.content(app.project!, list: column, card: index, content: content.string)
+            app.alert(.key("Card"), message: content.string)
+        }
         update()
     }
     
@@ -95,8 +95,6 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete.isHidden = true
                 top.constant += deltaY
                 left.constant += deltaX
-                layer!.backgroundColor = NSColor(named: "haze")!.cgColor
-                content.textColor = .black
                 
                 layer!.removeFromSuperlayer()
                 superview!.layer!.addSublayer(layer!)
@@ -120,13 +118,9 @@ final class Card: NSView, NSTextViewDelegate {
     func stop(_ x: CGFloat, _ y: CGFloat) {
         if dragging {
             let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
-//            app.session.move(app.project, list: column, card: index, destination: destination, index:
-//                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
-            NSAnimationContext.runAnimationGroup ({
-                $0.duration = 0.4
-                $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            }) { [weak self] in self?.kanban.refresh() }
+            app.session.move(app.project!, list: column, card: index, destination: destination, index:
+                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
+            kanban?.refresh()
         }
         dragging = false
         deltaX = 0
@@ -149,24 +143,29 @@ final class Card: NSView, NSTextViewDelegate {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             _delete.alphaValue = 0
-//            if !app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//                layer!.backgroundColor = .clear
-//            }
+            if !app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                layer!.backgroundColor = .clear
+            }
         }
     }
     
-    private func update() {
-//        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//            layer!.backgroundColor = NSColor(named: "background")!.cgColor
-//        }
+    func update() {
+        if app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            left.constant = 20
+        } else {
+            layer!.backgroundColor = .clear
+            left.constant = 0
+        }
     }
     
     @objc private func delete() {
         window!.makeFirstResponder(content)
         if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//            app.session.delete(app.project, list: column, card: index)
-            kanban.refresh()
+            app.session.delete(app.project!, list: column, card: index)
+            kanban?.refresh()
         } else {
+            guard let kanban = self.kanban else { return }
             _delete.alphaValue = 0
             app.runModal(for: Delete.Card(kanban, index: index, list: column))
         }

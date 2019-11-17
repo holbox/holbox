@@ -89,7 +89,7 @@ final class Project: NSView {
         setAccessibilityRole(.button)
         setAccessibilityLabel(app.session.name(index))
         wantsLayer = true
-        layer!.cornerRadius = 6
+        layer!.cornerRadius = 8
         layer!.backgroundColor = NSColor(named: "background")!.cgColor
         
         let icon = Image({

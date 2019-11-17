@@ -9,8 +9,8 @@
 	<key>DerivedDataLocationStyle</key>
 	<string>Default</string>
 	<key>IssueFilterStyle</key>
-	<string>ShowAll</string>
+	<string>ShowActiveSchemeOnly</string>
 	<key>LiveSourceIssuesEnabled</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

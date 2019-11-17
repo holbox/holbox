@@ -47,7 +47,7 @@ final class Detail: Base.View {
         let size = app.main.frame.width + 20
         let count = Int(size) / 220
         let margin = (size - (.init(count) * 220)) / 2
-        var top = CGFloat(20)
+        var top = CGFloat(30)
         var left = margin
         var counter = 0
         scroll.views.map { $0 as! Project }.sorted { $0.order < $1.order }.forEach {
@@ -61,7 +61,7 @@ final class Detail: Base.View {
             left += 220
             counter += 1
         }
-        height.constant = top + 250
+        height.constant = top + 260
     }
     
     @objc private func add() {
