@@ -216,7 +216,7 @@ public final class Session {
         store.save(self)
     }
     
-    public func tags(_ project: Int, result: @escaping ([String : Int]) -> Void) {
+    public func tags(_ project: Int, result: @escaping ([(String, Int)]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let tags = self.items[project]!.cards.reduce([String : Int]()) {
                 $1.1.reduce($0) { list, string in
@@ -225,17 +225,24 @@ public final class Session {
                             if string[$1] != "#" && String(string[$1]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
                                 $0.1!.append(string[$1])
                                 if $1 == string.index(before: string.endIndex) {
-                                    $0.0[$0.1!] = ($0.0[$0.1!] ?? 0) + 1
+                                    $0.0[$0.1!.lowercased()] = ($0.0[$0.1!.lowercased()] ?? 0) + 1
                                 }
                             } else if !$0.1!.isEmpty {
-                                $0.0[$0.1!] = ($0.0[$0.1!] ?? 0) + 1
+                                $0.0[$0.1!.lowercased()] = ($0.0[$0.1!.lowercased()] ?? 0) + 1
                                 $0.1 = string[$1] == "#" ? "" : nil
+                            } else {
+                                $0.1 = nil
                             }
                         } else if string[$1] == "#" {
                             $0.1 = ""
                         }
                     }.0
                 }
+            }.sorted {
+                if $0.1 == $1.1 {
+                    return $0.0 < $1.0
+                }
+                return $0.1 > $1.1
             }
             DispatchQueue.main.async {
                 result(tags)

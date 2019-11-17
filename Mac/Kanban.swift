@@ -1,6 +1,7 @@
 import AppKit
 
 final class Kanban: Base.View {
+    private(set) weak var tags: Tags?
     private weak var drag: Card?
     private weak var scroll: Scroll!
     
@@ -43,12 +44,11 @@ final class Kanban: Base.View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
+        let tags = Tags()
+        scroll.add(tags)
+        
         let add = Button("plus", target: self, action: #selector(card))
         scroll.add(add)
-        
-        add.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        add.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: add.bottomAnchor, constant: 20).isActive = true
         
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project!)).forEach { list in
@@ -84,7 +84,7 @@ final class Kanban: Base.View {
             }
 
             if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
+                column.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
             } else {
                 column.leftAnchor.constraint(equalTo: left!, constant: 50).isActive = true
             }
@@ -97,6 +97,17 @@ final class Kanban: Base.View {
         if left != nil {
             scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 60).isActive = true
         }
+        
+        scroll.bottom.constraint(greaterThanOrEqualTo: add.bottomAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        
+        add.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        add.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        
+        tags.refresh()
     }
     
     private func end(_ event: NSEvent) {

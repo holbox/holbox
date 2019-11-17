@@ -29,7 +29,8 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["#hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
-            XCTAssertEqual(1, $0["hello"])
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -40,7 +41,8 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["hello #world"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
-            XCTAssertEqual(1, $0["world"])
+            XCTAssertEqual("world", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -51,7 +53,8 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["hello #world lorem"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
-            XCTAssertEqual(1, $0["world"])
+            XCTAssertEqual("world", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -62,8 +65,10 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["#hello #world"])]
         session.tags(0) {
             XCTAssertEqual(2, $0.count)
-            XCTAssertEqual(1, $0["hello"])
-            XCTAssertEqual(1, $0["world"])
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
+            XCTAssertEqual("world", $0[1].0)
+            XCTAssertEqual(1, $0[1].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -74,7 +79,8 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["#hello #hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
-            XCTAssertEqual(2, $0["hello"])
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(2, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -85,7 +91,8 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["#hello", "#hello"]), ("", ["#hello #hello"])]
         session.tags(0) {
             XCTAssertEqual(1, $0.count)
-            XCTAssertEqual(4, $0["hello"])
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(4, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -96,8 +103,62 @@ final class TestProjectTags: XCTestCase {
         session.items[0]!.cards = [("", ["#hello#world"])]
         session.tags(0) {
             XCTAssertEqual(2, $0.count)
-            XCTAssertEqual(1, $0["hello"])
-            XCTAssertEqual(1, $0["world"])
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
+            XCTAssertEqual("world", $0[1].0)
+            XCTAssertEqual(1, $0[1].1)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testSortedByCount() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("", ["#hello#world#world"])]
+        session.tags(0) {
+            XCTAssertEqual(2, $0.count)
+            XCTAssertEqual("world", $0[0].0)
+            XCTAssertEqual(2, $0[0].1)
+            XCTAssertEqual("hello", $0[1].0)
+            XCTAssertEqual(1, $0[1].1)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testSortedByNameIfCoundSame() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("", ["#world#world#Hello#Hello"])]
+        session.tags(0) {
+            XCTAssertEqual(2, $0.count)
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(2, $0[0].1)
+            XCTAssertEqual("world", $0[1].0)
+            XCTAssertEqual(2, $0[1].1)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testMakeLowerCased() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("", ["#hello", "#Hello"]), ("", ["#Hello #hello"])]
+        session.tags(0) {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual("hello", $0[0].0)
+            XCTAssertEqual(4, $0[0].1)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testOneTagAndBold() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("", ["# hello #world"])]
+        session.tags(0) {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual("world", $0[0].0)
+            XCTAssertEqual(1, $0[0].1)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
