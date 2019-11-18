@@ -14,8 +14,8 @@ final class StubStore: Store {
         self.project(session, id, project)
     }
     
-    override func refresh(_ session: Session, done: @escaping () -> Void) {
+    override func refresh(_ session: Session, done: @escaping ([Int]) -> Void) {
         self.refresh(session)
-        done()
+        done([])
     }
 }

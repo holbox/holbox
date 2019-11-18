@@ -30,6 +30,7 @@ final class TestStoreRefresh: XCTestCase {
         let expect = expectation(description: "")
         DispatchQueue.global(qos: .background).async {
             self.session.refresh {
+                XCTAssertTrue($0.isEmpty)
                 XCTAssertEqual(Thread.main, Thread.current)
                 expect.fulfill()
             }
@@ -53,8 +54,10 @@ final class TestStoreRefresh: XCTestCase {
         }
         self.session.store = store
         self.session.refresh {
+            XCTAssertTrue($0.isEmpty)
             DispatchQueue.global(qos: .background).async {
                 self.session.refresh {
+                    XCTAssertTrue($0.isEmpty)
                     expectAll.fulfill()
                 }
             }
@@ -65,6 +68,7 @@ final class TestStoreRefresh: XCTestCase {
     func testNoSession() {
         let expect = expectation(description: "")
         store.refresh(session) {
+            XCTAssertTrue($0.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -75,6 +79,7 @@ final class TestStoreRefresh: XCTestCase {
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         store.refresh(session) {
+            XCTAssertTrue($0.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -91,6 +96,7 @@ final class TestStoreRefresh: XCTestCase {
             }
         }
         store.refresh(session) {
+            XCTAssertTrue($0.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -109,6 +115,7 @@ final class TestStoreRefresh: XCTestCase {
             }
         }
         store.refresh(session) {
+            XCTAssertTrue($0.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -123,6 +130,7 @@ final class TestStoreRefresh: XCTestCase {
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(online).write(to: shared.url["session"]!)
         store.refresh(session) {
+            XCTAssertTrue($0.isEmpty)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -139,6 +147,8 @@ final class TestStoreRefresh: XCTestCase {
         try! coder.global(online).write(to: shared.url["session"]!)
         try! coder.project(project).write(to: shared.url["99"]!)
         store.refresh(session) {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual(99, $0.first)
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
@@ -163,12 +173,33 @@ final class TestStoreRefresh: XCTestCase {
         session.items[0]!.time = .init(timeIntervalSince1970: 10)
         session.items[0]!.name = "ipsum"
         store.refresh(session) {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual(0, $0.first)
             let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
             let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("0")))
             XCTAssertEqual("lorem", self.session.items.first?.1.name)
             XCTAssertEqual("lorem", stored.name)
             XCTAssertEqual(1, session.items.count)
             XCTAssertEqual(1, self.session.items.count)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testReturnsProjects() {
+        let expect = expectation(description: "")
+        session.items = [33: .init(), 41: .init()]
+        shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
+        shared.url["33"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        shared.url["41"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project")
+        try! coder.global(session).write(to: shared.url["session"]!)
+        try! coder.project(.init()).write(to: shared.url["33"]!)
+        try! coder.project(.init()).write(to: shared.url["41"]!)
+        session.items = [:]
+        store.refresh(session) {
+            XCTAssertEqual(2, $0.count)
+            XCTAssertTrue($0.contains(33))
+            XCTAssertTrue($0.contains(41))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

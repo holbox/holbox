@@ -90,19 +90,19 @@ class Store {
         }
     }
     
-    func refresh(_ session: Session, done: @escaping () -> Void) {
+    func refresh(_ session: Session, done: @escaping ([Int]) -> Void) {
         Store.queue.async {
             self.shared.load(["session"], error: {
-                DispatchQueue.main.async { done() }
+                DispatchQueue.main.async { done([]) }
             }) {
                 let download = try! Store.coder.global(.init(contentsOf: $0.first!)).filter {
                     session.items[$0.0] == nil || session.items[$0.0]!.time < $0.1
                 }.map { $0.0 }
                 if download.isEmpty {
-                    DispatchQueue.main.async { done() }
+                    DispatchQueue.main.async { done([]) }
                 } else {
                     self.shared.load(download.map(String.init(_:)), error: {
-                        DispatchQueue.main.async { done() }
+                        DispatchQueue.main.async { done([]) }
                     }) { urls in
                         download.enumerated().forEach {
                             let project = try! Store.coder.project(.init(contentsOf: urls[$0.0]))
@@ -110,7 +110,7 @@ class Store {
                             self.write($0.1, project: project)
                             self.write(session)
                         }
-                        DispatchQueue.main.async { done() }
+                        DispatchQueue.main.async { done(download) }
                     }
                 }
             }

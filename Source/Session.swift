@@ -51,13 +51,13 @@ public final class Session {
         Store().load(result)
     }
     
-    public func refresh(done: @escaping () -> Void) {
+    public func refresh(done: @escaping ([Int]) -> Void) {
         if refreshable {
             refreshed = Date().timeIntervalSince1970
             store.refresh(self, done: done)
         } else {
             DispatchQueue.main.async {
-                done()
+                done([])
             }
         }
     }
