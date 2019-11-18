@@ -13,31 +13,37 @@ struct Project {
         case .kanban: factory = Kanban()
         case .todo: factory = Todo()
         case .shopping: factory = Shopping()
+        case .notes: factory = Notes()
         default: fatalError()
         }
         project.mode = mode
         project.name = factory.name
-        project.cards = factory.lists.map { ($0, []) }
+        project.cards = factory.lists
         return project
     }
 }
 
 private protocol Factory {
     var name: String { get }
-    var lists: [String] { get }
+    var lists: [(String, [String])] { get }
 }
 
 private struct Kanban: Factory {
     let name = "New Board"
-    let lists = ["Waiting", "Doing", "Done"]
+    let lists: [(String, [String])] = [("Waiting", []), ("Doing", []), ("Done", [])]
 }
 
 private struct Todo: Factory {
     let name = "New List"
-    let lists = ["", ""]
+    let lists: [(String, [String])] = [("", []), ("", [])]
 }
 
 private struct Shopping: Factory {
     let name = "Groceries"
-    let lists = ["", ""]
+    let lists: [(String, [String])] = [("", []), ("", [])]
+}
+
+private struct Notes: Factory {
+    let name = "Note"
+    let lists = [("\(Int(Date().timeIntervalSince1970))", [""])]
 }

@@ -39,7 +39,7 @@ final class Base: NSView {
             case .kanban: validate(Kanban.self)
             case .todo: validate(Todo.self)
             case .shopping: validate(Shopping.self)
-            case .notes: validate(Kanban.self)
+            case .notes: validate(Notes.self)
             default: app.project = nil
             }
         }

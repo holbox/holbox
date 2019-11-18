@@ -44,11 +44,6 @@ final class Todo: Base.View, NSTextViewDelegate {
         refresh()
     }
     
-    override func layout() {
-        super.layout()
-        new.needsLayout = true
-    }
-    
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
         case 36: add()
@@ -64,7 +59,6 @@ final class Todo: Base.View, NSTextViewDelegate {
           app.alert(.key("Task"), message: string)
             refresh()
         }
-        new.needsLayout = true
     }
     
     override func refresh() {

@@ -2,6 +2,8 @@ import AppKit
 
 class Resize {
     final class Both: Resize {
+        private weak var w: NSLayoutConstraint!
+        private weak var h: NSLayoutConstraint!
         private let width: CGFloat
         private let height: CGFloat
         
@@ -12,7 +14,10 @@ class Resize {
         }
         
         override func configure(_ text: Text) {
+            h = text.heightAnchor.constraint(equalToConstant: 0)
             w = text.widthAnchor.constraint(equalToConstant: 0)
+            h.isActive = true
+            w.isActive = true
             text.textContainer!.size.width = width
             text.textContainer!.size.height = height
             super.configure(text)
@@ -26,6 +31,8 @@ class Resize {
     }
     
     final class Vertical: Resize {
+        private weak var w: NSLayoutConstraint!
+        private weak var h: NSLayoutConstraint!
         private let width: CGFloat
         
         init(_ width: CGFloat) {
@@ -34,9 +41,11 @@ class Resize {
         }
         
         override func configure(_ text: Text) {
+            h = text.heightAnchor.constraint(equalToConstant: 0)
             w = text.widthAnchor.constraint(lessThanOrEqualToConstant: 0)
+            h.isActive = true
+            w.isActive = true
             text.textContainer!.size.height = 10000
-            super.configure(text)
         }
         
         override func update(_ text: Text) {
@@ -51,17 +60,32 @@ class Resize {
         }
     }
     
-    private weak var w: NSLayoutConstraint!
-    private weak var h: NSLayoutConstraint!
-    
-    private init() { }
-    
-    func configure(_ text: Text) {
-        h = text.heightAnchor.constraint(equalToConstant: 0)
-        h.isActive = true
-        w.isActive = true
+    final class Fixed: Resize {
+        private weak var h: NSLayoutConstraint!
+        
+        override init() {
+            super.init()
+        }
+        
+        override func configure(_ text: Text) {
+            h = text.heightAnchor.constraint(greaterThanOrEqualToConstant: 0)
+            h.isActive = true
+            text.textContainer!.widthTracksTextView = true
+            text.textContainer!.size.height = 100000
+        }
+        
+        override func update(_ text: Text) {
+            text.needsLayout = true
+        }
+        
+        override func layout(_ text: Text) {
+            text.layoutManager!.ensureLayout(for: text.textContainer!)
+            h.constant = text.layoutManager!.usedRect(for: text.textContainer!).size.height + 20
+        }
     }
     
+    private init() { }
+    func configure(_ text: Text) { }
     func update(_ text: Text) { }
     func layout(_ text: Text) { }
 }

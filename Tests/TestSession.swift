@@ -156,6 +156,16 @@ final class TestSession: XCTestCase {
         XCTAssertTrue(session.items[0]!.cards[1].0.isEmpty)
     }
     
+    func testAddNotes() {
+        let date = Date(timeIntervalSinceNow: -1)
+        _ = session.add(.notes)
+        XCTAssertFalse(session.items[0]!.name.isEmpty)
+        XCTAssertEqual(1, session.items[0]!.cards.count)
+        XCTAssertEqual(1, session.items[0]!.cards[0].1.count)
+        XCTAssertTrue(session.items[0]!.cards[0].1[0].isEmpty)
+        XCTAssertGreaterThan(.init(timeIntervalSince1970: TimeInterval(session.items[0]!.cards[0].0)!), date)
+    }
+    
     func testDelete() {
         let expect = expectation(description: "")
         let time = Date()
