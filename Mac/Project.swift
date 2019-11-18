@@ -76,7 +76,9 @@ final class Project: NSView {
     }
     
     private var detailNotes: String {
-        "\(app.session.lists(index)) " + .key("Project.notes") + "\n"
+        "\(app.session.content(index, list: 0, card: 0).components(separatedBy: .newlines).count) " + .key("Project.lines") + "\n"
+            + "\(app.session.content(index, list: 0, card: 0).components(separatedBy: .whitespacesAndNewlines).count) " + .key("Project.words") + "\n"
+            + .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!)) + "\n"
     }
     
     required init?(coder: NSCoder) { nil }
@@ -103,24 +105,11 @@ final class Project: NSView {
         } ())
         addSubview(icon)
         
-        let modified: String
-        
-        if #available(OSX 10.15, *) {
-            let formatter = RelativeDateTimeFormatter()
-            formatter.unitsStyle = .full
-            modified = formatter.localizedString(for: app.session.time(index), relativeTo: .init())
-        } else {
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            formatter.dateStyle = Calendar.current.dateComponents([.day], from: app.session.time(index), to: .init()).day! == 0 ? .none : .short
-            modified = formatter.string(from: app.session.time(index))
-        }
-        
         let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + modified, 13, .light, NSColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 13, .light, NSColor(named: "haze")!)
         info.setAccessibilityElement(false)
         addSubview(info)
         
@@ -196,5 +185,15 @@ final class Project: NSView {
         }
         alphaValue = 1
         super.mouseUp(with: with)
+    }
+    
+    private func interval(_ date: Date) -> String {
+        if #available(OSX 10.15, *) {
+            return RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
+        }
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
+        return formatter.string(from: date)
     }
 }

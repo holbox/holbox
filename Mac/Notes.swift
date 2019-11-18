@@ -11,11 +11,11 @@ final class Notes: Base.View, NSTextViewDelegate {
         
         let text = Text(.Fixed(), Active())
         text.setAccessibilityLabel(.key("Note"))
-        text.font = .systemFont(ofSize: 22, weight: .medium)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .regular), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 35)!, .white),
-                                               .bold: (.systemFont(ofSize: 32, weight: .bold), NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: 18, weight: .medium), NSColor(named: "haze")!)]
+        text.font = NSFont(name: "Times New Roman", size: 18)
+        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 18, weight: .regular), .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 40)!, .white),
+                                               .bold: (.systemFont(ofSize: 28, weight: .bold), NSColor(named: "haze")!),
+                                               .tag: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!)]
         text.tab = true
         text.intro = true
         text.delegate = self
@@ -30,7 +30,7 @@ final class Notes: Base.View, NSTextViewDelegate {
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 30).isActive = true
         
-        text.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+        text.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
         text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 30).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -30).isActive = true
         text.widthAnchor.constraint(lessThanOrEqualToConstant: 900).isActive = true
