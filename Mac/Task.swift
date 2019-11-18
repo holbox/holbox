@@ -1,7 +1,6 @@
 import AppKit
 
 final class Task: NSView {
-    private weak var todo: Todo?
     private weak var label: Label!
     private weak var icon: Image!
     private weak var _delete: Button!
@@ -14,89 +13,88 @@ final class Task: NSView {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int, list: Int, _ todo: Todo) {
+    init(_ index: Int, list: Int) {
         self.index = index
         self.list = list
-        self.todo = todo
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         wantsLayer = true
         
-//        let content = app.session.content(app.project, list: list, card: index)
-//        setAccessibilityLabel(content)
-//        
-//        let base = NSView()
-//        base.translatesAutoresizingMaskIntoConstraints = false
-//        base.wantsLayer = true
-//        base.alphaValue = 0
-//        base.layer!.cornerRadius = 10
-//        base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
-//        addSubview(base)
-//        self.base = base
-//        
-//        let _delete = Button("delete", target: self, action: #selector(delete))
-//        _delete.alphaValue = 0
-//        addSubview(_delete)
-//        self._delete = _delete
-//        
-//        let circle = NSView()
-//        circle.translatesAutoresizingMaskIntoConstraints = false
-//        circle.wantsLayer = true
-//        circle.layer!.cornerRadius = 15
-//        addSubview(circle)
-//        self.circle = circle
-//        
-//        let icon = Image("check")
-//        addSubview(icon)
-//        self.icon = icon
-//        
-//        let label = Label(content.mark {
-//            switch $0 {
-//            case .plain: return (.init(content[$1]), list == 1 ? 16 : 20, .medium, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-//            case .emoji: return (.init(content[$1]), list == 1 ? 36 : 42, .regular, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-//            case .bold: return (.init(content[$1]), list == 1 ? 28 : 35, .bold, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-//            case .tag: fatalError()
-//            }
-//        })
-//        label.setAccessibilityElement(false)
-//        addSubview(label)
-//        self.label = label
-//        
-//        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-//        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
-//        
-//        let width = widthAnchor.constraint(equalToConstant: 500)
-//        width.priority = .defaultLow
-//        width.isActive = true
-//        
-//        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-//        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-//        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -32).isActive = true
-//        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-//        
-//        _delete.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 2).isActive = true
-//        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//        _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        
-//        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-//        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        
-//        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
-//        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
-//        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
-//        
-//        label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
-//        label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
-//        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-//        
-//        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
-//        update()
+        let content = app.session.content(app.project!, list: list, card: index)
+        setAccessibilityLabel(content)
+        
+        let base = NSView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.wantsLayer = true
+        base.alphaValue = 0
+        base.layer!.cornerRadius = 6
+        base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        addSubview(base)
+        self.base = base
+        
+        let _delete = Button("delete", target: self, action: #selector(delete))
+        _delete.alphaValue = 0
+        addSubview(_delete)
+        self._delete = _delete
+        
+        let circle = NSView()
+        circle.translatesAutoresizingMaskIntoConstraints = false
+        circle.wantsLayer = true
+        circle.layer!.cornerRadius = 15
+        addSubview(circle)
+        self.circle = circle
+        
+        let icon = Image("check")
+        addSubview(icon)
+        self.icon = icon
+        
+        let label = Label(content.mark {
+            switch $0 {
+            case .plain: return (.init(content[$1]), list == 1 ? 14 : 16, .medium, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+            case .emoji: return (.init(content[$1]), list == 1 ? 20 : 22, .regular, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+            case .bold: return (.init(content[$1]), list == 1 ? 16 : 18, .bold, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+            case .tag: return (.init(content[$1]), list == 1 ? 12 : 14, .medium, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!)
+            }
+        })
+        label.setAccessibilityElement(false)
+        addSubview(label)
+        self.label = label
+        
+        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
+        
+        let width = widthAnchor.constraint(equalToConstant: 500)
+        width.priority = .defaultLow
+        width.isActive = true
+        
+        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -32).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        _delete.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 2).isActive = true
+        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
+        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
+        
+        label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
+        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        update()
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
@@ -131,12 +129,12 @@ final class Task: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-//        if base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-//            app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
-//            app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
-//            todo?.refresh()
-//        }
-//        highlighted = false
+        if base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project!, list: list, card: index))
+            app.session.move(app.project!, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
+            app.main.refresh()
+        }
+        highlighted = false
         super.mouseUp(with: with)
     }
     
@@ -147,8 +145,7 @@ final class Task: NSView {
     
     @objc private func delete() {
         window!.makeFirstResponder(self)
-        guard let todo = self.todo else { return }
         _delete.alphaValue = 0
-        app.runModal(for: Delete.Card(todo, index: index, list: list))
+        app.runModal(for: Delete.Card(index, list: list))
     }
 }

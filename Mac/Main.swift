@@ -54,7 +54,6 @@ final class Main: Window.Full {
     }
     
     func refresh() {
-        
         bar.refresh()
         base.refresh()
     }

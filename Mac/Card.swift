@@ -161,14 +161,12 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     @objc private func delete() {
-        window!.makeFirstResponder(content)
         if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.session.delete(app.project!, list: column, card: index)
             kanban?.refresh()
         } else {
-            guard let kanban = self.kanban else { return }
             _delete.alphaValue = 0
-            app.runModal(for: Delete.Card(kanban, index: index, list: column))
+            app.runModal(for: Delete.Card(index, list: column))
         }
     }
 }

@@ -25,43 +25,56 @@ class Delete: Window.Modal {
     }
     
     final class Card: Delete {
-        private weak var base: Base.View?
         private let index: Int
         private let list: Int
         
-        init(_ base: Base.View, index: Int, list: Int) {
+        init(_ index: Int, list: Int) {
             self.index = index
             self.list = list
-            self.base = base
             super.init()
-//            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
+            
+            let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
+                               (app.session.content(app.project!, list: list, card: index), 16, .regular, NSColor(named: "haze")!)])
+            title.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+            contentView!.addSubview(title)
+            
+            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
+            title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
+            title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
+            title.bottomAnchor.constraint(lessThanOrEqualTo: contentView!.bottomAnchor, constant: -120).isActive = true
         }
         
         override func confirm() {
-//            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
-//            app.session.delete(app.project, list: list, card: index)
-            base?.refresh()
+            app.alert(.key("Delete.done"), message: app.session.content(app.project!, list: list, card: index))
+            app.session.delete(app.project!, list: list, card: index)
             super.confirm()
         }
     }
     
     final class Product: Delete {
-        private weak var shopping: Shopping?
         private let index: Int
         
-        init(_ shopping: Shopping, index: Int) {
+        init(_ index: Int) {
             self.index = index
-            self.shopping = shopping
             super.init()
-//            heading.stringValue = .key("Delete.title.card.\(app.mode.rawValue)")
+            
+            let product = app.session.product(app.project!, index: index)
+            let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
+                               (product.0 + " " + product.1, 16, .regular, NSColor(named: "haze")!)])
+            title.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+            contentView!.addSubview(title)
+            
+            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
+            title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
+            title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
+            title.bottomAnchor.constraint(lessThanOrEqualTo: contentView!.bottomAnchor, constant: -120).isActive = true
         }
         
         override func confirm() {
-//            let product = app.session.product(app.project, index: index)
-//            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
-//            app.session.delete(app.project, product: index)
-//            shopping?.refresh()
-//            super.confirm()
+            let product = app.session.product(app.project!, index: index)
+            app.alert(.key("Delete.done"), message: product.0 + " " + product.1)
+            app.session.delete(app.project!, product: index)
+            super.confirm()
         }
     }
     
