@@ -21,16 +21,16 @@ final class Tags: NSView {
     private func tags(_ tags: [(String, Int)]) {
         var top = topAnchor
         tags.forEach {
-            let label = Label("#" + $0.0 + " (\($0.1))", 16, .medium, NSColor(named: "haze")!)
+            let label = Label([("\($0.1)", 14, .light, NSColor(named: "haze")!),
+                               (" #" + $0.0, 16, .bold, NSColor(named: "haze")!)])
             label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
             addSubview(label)
             
-            rightAnchor.constraint(greaterThanOrEqualTo: label.rightAnchor, constant: 40).isActive = true
-            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
+            rightAnchor.constraint(greaterThanOrEqualTo: label.rightAnchor, constant: 50).isActive = true
+            label.leftAnchor.constraint(equalTo: leftAnchor, constant: 60).isActive = true
             label.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
             top = label.bottomAnchor
         }
-        
         bottomAnchor.constraint(equalTo: top, constant: 20).isActive = true
     }
 }
