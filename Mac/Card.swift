@@ -73,6 +73,7 @@ final class Card: NSView, NSTextViewDelegate {
         if content.string != app.session.content(app.project!, list: column, card: index) {
             app.session.content(app.project!, list: column, card: index, content: content.string)
             app.alert(.key("Card"), message: content.string)
+            kanban?.tags.refresh()
         }
         update()
     }

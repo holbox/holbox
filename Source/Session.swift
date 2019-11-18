@@ -216,7 +216,7 @@ public final class Session {
         store.save(self)
     }
     
-    public func tags(_ project: Int, result: @escaping ([(String, Int)]) -> Void) {
+    public func tags(_ project: Int, compare: [(String, Int)], same: @escaping () -> Void, update: @escaping ([(String, Int)]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let tags = self.items[project]!.cards.reduce([String : Int]()) {
                 $1.1.reduce($0) { list, string in
@@ -244,8 +244,18 @@ public final class Session {
                 }
                 return $0.1 > $1.1
             }
+            var index = 0
+            var similar = compare.count == tags.count
+            while similar && index < compare.count {
+                similar = compare[index].0 == tags[index].0 && compare[index].1 == tags[index].1
+                index += 1
+            }
             DispatchQueue.main.async {
-                result(tags)
+                if similar {
+                    same()
+                } else {
+                    update(tags)
+                }
             }
         }
     }

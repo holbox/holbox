@@ -1,7 +1,7 @@
 import AppKit
 
 final class Kanban: Base.View {
-    private(set) weak var tags: Tags?
+    private(set) weak var tags: Tags!
     private weak var drag: Card?
     private weak var scroll: Scroll!
     
@@ -11,6 +11,10 @@ final class Kanban: Base.View {
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
+        
+        let tags = Tags()
+        scroll.add(tags)
+        self.tags = tags
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
@@ -18,6 +22,10 @@ final class Kanban: Base.View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        
+        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
 
         refresh()
     }
@@ -42,10 +50,7 @@ final class Kanban: Base.View {
     }
     
     override func refresh() {
-        scroll.views.forEach { $0.removeFromSuperview() }
-        
-        let tags = Tags()
-        scroll.add(tags)
+        scroll.views.filter { !($0 is Tags) }.forEach { $0.removeFromSuperview() }
         
         let add = Button("plus", target: self, action: #selector(card))
         scroll.add(add)
@@ -99,13 +104,9 @@ final class Kanban: Base.View {
         }
         
         scroll.bottom.constraint(greaterThanOrEqualTo: add.bottomAnchor, constant: 20).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
         add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         add.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
-        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
         tags.refresh()
     }
