@@ -147,6 +147,7 @@ final class Settings: Window.Modal {
             contentView!.addSubview(item)
             
             let border = Border()
+            border.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
             contentView!.addSubview(border)
             
             item.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true

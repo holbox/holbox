@@ -15,6 +15,7 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
             self.shop = shop
             
             let border = Border()
+            border.alphaValue = 0.5
             addSubview(border)
             
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")

@@ -17,7 +17,6 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(unmove)
         
         let border = Border()
-        border.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         border.alphaValue = 0
         addSubview(border)
         self.border = border

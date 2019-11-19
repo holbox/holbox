@@ -2,8 +2,10 @@ import AppKit
 
 final class Kanban: View {
     private(set) weak var tags: Tags!
+    private(set) weak var find: Find!
     private weak var drag: Card?
     private weak var scroll: Scroll!
+    private weak var _add: Button!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -11,22 +13,38 @@ final class Kanban: View {
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
+
+        let find = Find()
+        scroll.add(find)
+        self.find = find
         
         let tags = Tags()
         scroll.add(tags)
         self.tags = tags
+        
+        let _add = Button("plus", target: self, action: #selector(add))
+        scroll.add(_add)
+        self._add = _add
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: find.rightAnchor, constant: 20).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
         
-        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+        find.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        find.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        
+        tags.topAnchor.constraint(equalTo: find.bottomAnchor, constant: 10).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-
+        
+        _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         refresh()
     }
     
@@ -50,10 +68,7 @@ final class Kanban: View {
     }
     
     override func refresh() {
-        scroll.views.filter { !($0 is Tags) }.forEach { $0.removeFromSuperview() }
-        
-        let _add = Button("plus", target: self, action: #selector(add))
-        scroll.add(_add)
+        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project!)).forEach { list in
@@ -94,7 +109,7 @@ final class Kanban: View {
                 column.leftAnchor.constraint(equalTo: left!, constant: 50).isActive = true
             }
 
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+            column.topAnchor.constraint(equalTo: find.bottomAnchor, constant: 10).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 90).isActive = true
             left = column.rightAnchor
         }
@@ -103,9 +118,6 @@ final class Kanban: View {
             scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 60).isActive = true
         }
         
-        scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
-        _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tags.refresh()
     }
     

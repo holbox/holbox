@@ -28,11 +28,12 @@ final class Card: NSView, NSTextViewDelegate {
         
         let content = Text(.Both(280, 10000), Block())
         content.setAccessibilityLabel(.key("Card"))
+        content.font = NSFont(name: "Times New Roman", size: 16)
         (content.textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: 16, weight: .medium), .white),
             .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
             .bold: (.systemFont(ofSize: 20, weight: .bold), .white),
-            .tag: (.systemFont(ofSize: 16, weight: .medium), NSColor(named: "haze")!)]
+            .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
         content.string = app.session.content(app.project!, list: column, card: index)
         content.tab = true
         content.intro = true

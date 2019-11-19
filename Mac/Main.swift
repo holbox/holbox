@@ -6,9 +6,9 @@ final class Main: Window.Full {
     private weak var logo: Logo?
 
     init() {
-        super.init(800, 700)
+        super.init(1200, 900)
         minSize = .init(width: 100, height: 100)
-        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 400, y: NSScreen.main!.frame.midY - 200))
+        setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 600, y: NSScreen.main!.frame.midY - 450))
         
         let logo = Logo()
         logo.start()

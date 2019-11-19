@@ -102,6 +102,7 @@ Stock.delete="Delete";
 Stock.add.emoji="🍏";
 Stock.add.label="Apples";
 Note="Note";
+Search="Search";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";
