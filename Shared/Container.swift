@@ -31,6 +31,11 @@ private final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
         return true
     }
     
+    override func fillBackgroundRectArray(_ rectArray: UnsafePointer<NSRect>, count: Int, forCharacterRange: NSRange, color: NSColor) {
+        NSColor(named: "haze")!.withAlphaComponent(0.7).setFill()
+        super.fillBackgroundRectArray(rectArray, count: count, forCharacterRange: forCharacterRange, color: color)
+    }
+    
     override func setExtraLineFragmentRect(_ rect: CGRect, usedRect: CGRect, textContainer: NSTextContainer) {
         var rect = rect
         var used = usedRect
