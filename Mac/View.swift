@@ -17,6 +17,10 @@ class View: NSView {
         window!.makeFirstResponder(self)
     }
     
+    func found(_ ranges: [(Int, Int, Range<String.Index>)]) {
+        
+    }
+    
     @objc func add() {
         
     }

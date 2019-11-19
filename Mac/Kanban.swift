@@ -14,7 +14,7 @@ final class Kanban: View {
         addSubview(scroll)
         self.scroll = scroll
 
-        let find = Find()
+        let find = Find(self)
         scroll.add(find)
         self.find = find
         
@@ -125,6 +125,24 @@ final class Kanban: View {
         app.session.add(app.project!, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+    }
+    
+    override func search() {
+        find.start()
+    }
+    
+    override func found(_ ranges: [(Int, Int, Range<String.Index>)]) {
+        scroll.views.compactMap { $0 as? Card }.forEach { card in
+            card.content.layoutSubtreeIfNeeded()
+            let ranges = ranges.filter { $0.0 == card.column && $0.1 == card.index }.map {
+                NSRange($0.2, in: app.session.content(app.project!, list: $0.0, card: $0.1)) as NSValue
+            }
+            if ranges.isEmpty {
+                card.content.setSelectedRange(.init())
+            } else {
+                card.content.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+            }
+        }
     }
     
     private func end(_ event: NSEvent) {

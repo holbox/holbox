@@ -1,13 +1,15 @@
 import AppKit
 
 final class Find: NSView, NSTextViewDelegate {
+    private weak var view: View?
     private weak var text: Text!
     private weak var base: NSView!
     
     required init?(coder: NSCoder) { nil }
-    init() {
+    init(_ view: View) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        self.view = view
         
         let icon = Image("magnifier")
         addSubview(icon)
@@ -57,5 +59,15 @@ final class Find: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         base.layer!.borderWidth = 0
+    }
+    
+    func textDidChange(_: Notification) {
+        app.session.search(app.project!, string: text.string) { [weak self] in
+            self?.view?.found($0)
+        }
+    }
+    
+    func start() {
+        window!.makeFirstResponder(text)
     }
 }

@@ -104,4 +104,18 @@ final class TestProjectSearch: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
+    
+    func testWithEmoji() {
+        let expect = expectation(description: "")
+        let text = "🙆🏻‍♀️ hello"
+        session.items[0]!.cards = [("", [text])]
+        session.search(0, string: "hello") {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual(0, $0.first?.0)
+            XCTAssertEqual(0, $0.first?.1)
+            XCTAssertEqual(text.index(text.startIndex, offsetBy: 2) ..< text.endIndex, $0.first?.2)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
 }

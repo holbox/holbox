@@ -29,6 +29,7 @@ final class Text: NSTextView {
         isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = NSColor(named: "haze")!
         selectedTextAttributes = [.backgroundColor: NSColor(named: "haze")!, .foregroundColor: NSColor.black]
+        
         resize.configure(self)
     }
     

@@ -7,7 +7,7 @@ final class Card: NSView, NSTextViewDelegate {
     weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
-    private weak var content: Text!
+    private(set) weak var content: Text!
     private weak var _delete: Button!
     private weak var kanban: Kanban?
     private var dragging = false
