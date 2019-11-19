@@ -2,7 +2,6 @@ import AppKit
 
 final class Kanban: View {
     private(set) weak var tags: Tags!
-    private(set) weak var find: Find!
     private weak var drag: Card?
     private weak var scroll: Scroll!
     private weak var _add: Button!
@@ -13,10 +12,6 @@ final class Kanban: View {
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
-
-        let find = Find(self)
-        scroll.add(find)
-        self.find = find
         
         let tags = Tags()
         scroll.add(tags)
@@ -31,15 +26,11 @@ final class Kanban: View {
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: find.rightAnchor, constant: 20).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
         
-        find.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        find.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        
-        tags.topAnchor.constraint(equalTo: find.bottomAnchor, constant: 10).isActive = true
+        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -109,7 +100,7 @@ final class Kanban: View {
                 column.leftAnchor.constraint(equalTo: left!, constant: 50).isActive = true
             }
 
-            column.topAnchor.constraint(equalTo: find.bottomAnchor, constant: 10).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 90).isActive = true
             left = column.rightAnchor
         }
@@ -125,10 +116,6 @@ final class Kanban: View {
         app.session.add(app.project!, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
-    }
-    
-    override func search() {
-        find.start()
     }
     
     override func found(_ ranges: [(Int, Int, Range<String.Index>)]) {

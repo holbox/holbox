@@ -1,12 +1,12 @@
 import AppKit
 
 final class Bar: NSView, NSTextViewDelegate {
-    private weak var height: NSLayoutConstraint?
+    private(set) weak var find: Find!
     private weak var title: Label?
     private weak var name: Text?
     private weak var border: Border!
-    private weak var _add: Button!
     private weak var button: NSLayoutConstraint!
+    private weak var height: NSLayoutConstraint?
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -28,13 +28,16 @@ final class Bar: NSView, NSTextViewDelegate {
         let _add = Button("add", target: self, action: #selector(add))
         _add.setAccessibilityLabel(.key("Bar.add"))
         addSubview(_add)
-        self._add = _add
         
         let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
         
         let _settings = Button("more", target: app.main, action: #selector(app.main.settings))
         _settings.setAccessibilityLabel(.key("Bar.settings"))
+        
+        let find = Find()
+        addSubview(find)
+        self.find = find
         
         var left: NSLayoutXAxisAnchor?
         [_add, _shop, _settings].forEach {
@@ -43,7 +46,9 @@ final class Bar: NSView, NSTextViewDelegate {
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
             $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            if left != nil {
+            if left == nil {
+                $0.leftAnchor.constraint(equalTo: find.rightAnchor).isActive = true
+            } else {
                 $0.leftAnchor.constraint(equalTo: left!, constant: 20).isActive = true
             }
             left = $0.rightAnchor
@@ -61,8 +66,10 @@ final class Bar: NSView, NSTextViewDelegate {
         button = _home.widthAnchor.constraint(equalToConstant: 100)
         button.isActive = true
         
-        _add.leftAnchor.constraint(greaterThanOrEqualTo: _home.rightAnchor, constant: 20).isActive = true
-        let right = _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -120)
+        find.leftAnchor.constraint(greaterThanOrEqualTo: _home.rightAnchor).isActive = true
+        find.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        let right = find.rightAnchor.constraint(equalTo: rightAnchor, constant: -170)
         right.priority = .defaultLow
         right.isActive = true
         
@@ -106,9 +113,11 @@ final class Bar: NSView, NSTextViewDelegate {
         
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
         name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        _add.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
         name.didChangeText()
         name.delegate = self
+        
+        find.clear()
+        find.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor).isActive = true
         
         button.constant = 30
         NSAnimationContext.runAnimationGroup ({
@@ -118,6 +127,7 @@ final class Bar: NSView, NSTextViewDelegate {
             name.alphaValue = 1
             title?.alphaValue = 0
             self.name?.alphaValue = 0
+            self.find.alphaValue = 1
         }) {
             self.title?.removeFromSuperview()
             self.name?.removeFromSuperview()
@@ -145,6 +155,7 @@ final class Bar: NSView, NSTextViewDelegate {
             title.alphaValue = 1
             self.title?.alphaValue = 0
             name?.alphaValue = 0
+            find.alphaValue = 0
         }) {
             self.name?.removeFromSuperview()
             self.title?.removeFromSuperview()
@@ -162,6 +173,7 @@ final class Bar: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
+            find.alphaValue = 0
             layoutSubtreeIfNeeded()
         }
     }

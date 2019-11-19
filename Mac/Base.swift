@@ -55,6 +55,7 @@ final class Base: NSView {
             layoutSubtreeIfNeeded()
         }) {
             previous?.removeFromSuperview()
+            app.main.bar.find?.view = view
         }
     }
     

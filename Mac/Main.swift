@@ -1,8 +1,8 @@
 import AppKit
 
 final class Main: Window.Full {
+    private(set) weak var bar: Bar!
     private weak var base: Base!
-    private weak var bar: Bar!
     private weak var logo: Logo?
 
     init() {
@@ -29,9 +29,8 @@ final class Main: Window.Full {
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
         case 3:
-            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
-                let view = base.subviews.first as? View {
-                view.search()
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command, base.subviews.first is View {
+                bar.find.start()
             } else {
                 super.keyDown(with: with)
             }

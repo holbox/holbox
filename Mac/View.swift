@@ -24,8 +24,4 @@ class View: NSView {
     @objc func add() {
         
     }
-    
-    @objc func search() {
-        
-    }
 }
