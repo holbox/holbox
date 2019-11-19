@@ -1,6 +1,6 @@
 import AppKit
 
-final class Todo: Base.View, NSTextViewDelegate {
+final class Todo: View, NSTextViewDelegate {
     private weak var scroll: Scroll!
     private weak var new: Text!
     
@@ -13,6 +13,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         
         let new = Text(.Vertical(500), Active())
         new.setAccessibilityLabel(.key("Task"))
+        new.font = .systemFont(ofSize: 22, weight: .medium)
         (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .medium), .white),
                                                .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
                                                .bold: (.systemFont(ofSize: 24, weight: .bold), .white),
@@ -89,7 +90,7 @@ final class Todo: Base.View, NSTextViewDelegate {
         }
     }
     
-    @objc private func add() {
+    override func add() {
         if new.string.isEmpty {
             if new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 new.string = ""

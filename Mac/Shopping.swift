@@ -1,6 +1,6 @@
 import AppKit
 
-final class Shopping: Base.View {
+final class Shopping: View {
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
     
@@ -91,6 +91,10 @@ final class Shopping: Base.View {
         }
     }
     
+    override func add() {
+        app.runModal(for: Stock.New(self))
+    }
+    
     func stockLast() {
         stock.documentView!.layoutSubtreeIfNeeded()
         NSAnimationContext.runAnimationGroup {
@@ -109,9 +113,5 @@ final class Shopping: Base.View {
                 scroll.contentView.scroll(to: .init(x: 0, y: scroll.documentView!.bounds.height - scroll.bounds.height))
             }
         }
-    }
-    
-    @objc private func add() {
-        app.runModal(for: Stock.New(self))
     }
 }

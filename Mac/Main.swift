@@ -26,6 +26,26 @@ final class Main: Window.Full {
         super.zoom(sender)
     }
     
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 3:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
+                let view = base.subviews.first as? View {
+                view.search()
+            } else {
+                super.keyDown(with: with)
+            }
+        case 45:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
+                let view = base.subviews.first as? View {
+                view.add()
+            } else {
+                super.keyDown(with: with)
+            }
+        default: super.keyDown(with: with)
+        }
+    }
+    
     func loaded() {
         logo!.stop()
         logo!.removeFromSuperview()

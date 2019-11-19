@@ -1,6 +1,6 @@
 import AppKit
 
-final class Kanban: Base.View {
+final class Kanban: View {
     private(set) weak var tags: Tags!
     private weak var drag: Card?
     private weak var scroll: Scroll!
@@ -52,8 +52,8 @@ final class Kanban: Base.View {
     override func refresh() {
         scroll.views.filter { !($0 is Tags) }.forEach { $0.removeFromSuperview() }
         
-        let add = Button("plus", target: self, action: #selector(card))
-        scroll.add(add)
+        let _add = Button("plus", target: self, action: #selector(add))
+        scroll.add(_add)
         
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.lists(app.project!)).forEach { list in
@@ -61,8 +61,8 @@ final class Kanban: Base.View {
             scroll.add(column)
             
             if list == 0 {
-                add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 25).isActive = true
-                add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40).isActive = true
+                _add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 25).isActive = true
+                _add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40).isActive = true
             }
             
             var top: Card?
@@ -72,7 +72,7 @@ final class Kanban: Base.View {
 
                 if top == nil {
                     if list == 0 {
-                        card.top = card.topAnchor.constraint(equalTo: add.bottomAnchor, constant: 40)
+                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
                     } else {
                         card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
                     }
@@ -103,22 +103,20 @@ final class Kanban: Base.View {
             scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 60).isActive = true
         }
         
-        scroll.bottom.constraint(greaterThanOrEqualTo: add.bottomAnchor, constant: 20).isActive = true
-        
-        add.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        add.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
+        scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
+        _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tags.refresh()
+    }
+    
+    override func add() {
+        app.session.add(app.project!, list: 0)
+        refresh()
+        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
     
     private func end(_ event: NSEvent) {
         drag?.stop(event.locationInWindow.x + scroll.documentVisibleRect.origin.x, scroll.documentVisibleRect.height - event.locationInWindow.y + scroll.documentVisibleRect.origin.y)
         drag = nil
-    }
-    
-    @objc private func card() {
-        app.session.add(app.project!, list: 0)
-        refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
     }
 }

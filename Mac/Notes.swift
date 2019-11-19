@@ -1,6 +1,6 @@
 import AppKit
 
-final class Notes: Base.View, NSTextViewDelegate {
+final class Notes: View, NSTextViewDelegate {
     private weak var text: Text!
     
     required init?(coder: NSCoder) { nil }

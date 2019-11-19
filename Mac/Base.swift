@@ -1,24 +1,6 @@
 import AppKit
 
 final class Base: NSView {
-    class View: NSView {
-        fileprivate weak var top: NSLayoutConstraint! { didSet { top.isActive = true }  }
-        
-        required init?(coder: NSCoder) { nil }
-        required init() {
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            wantsLayer = true
-        }
-        
-        func refresh() { }
-        
-        override func mouseDown(with: NSEvent) {
-            super.mouseDown(with: with)
-            window!.makeFirstResponder(self)
-        }
-    }
-    
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }

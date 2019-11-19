@@ -1,6 +1,6 @@
 import AppKit
 
-final class Detail: Base.View {
+final class Detail: View {
     private weak var scroll: Scroll!
     private weak var height: NSLayoutConstraint!
     
@@ -43,6 +43,10 @@ final class Detail: Base.View {
         }
     }
     
+    override func add() {
+        app.runModal(for: Add())
+    }
+    
     func order() {
         let size = app.main.frame.width + 20
         let count = Int(size) / 220
@@ -62,9 +66,5 @@ final class Detail: Base.View {
             counter += 1
         }
         height.constant = top + 260
-    }
-    
-    @objc private func add() {
-        app.runModal(for: Add())
     }
 }

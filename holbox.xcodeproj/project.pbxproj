@@ -177,6 +177,7 @@
 		DAF7E389237DCABC00C2F648 /* TestProjectTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */; };
 		DAF8991B237D831100E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991A237D831100E1B76F /* Storager.swift */; };
 		DAF8991D237D836300E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991C237D836300E1B76F /* Storager.swift */; };
+		DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03232383D6CE00BCC8F0 /* View.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -416,6 +417,7 @@
 		DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectTags.swift; sourceTree = "<group>"; };
 		DAF8991A237D831100E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 		DAF8991C237D836300E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
+		DAFE03232383D6CE00BCC8F0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -612,6 +614,7 @@
 				DAD5E6ED2364336200EE4AD9 /* Tool.swift */,
 				DA4AB0A9237C0667008725EB /* Unmove.swift */,
 				DA43701A234D2B2000CCB34D /* Window.swift */,
+				DAFE03232383D6CE00BCC8F0 /* View.swift */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -1086,6 +1089,7 @@
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
 				DA3E746D237AD14F00566D3A /* Settings.swift in Sources */,
+				DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */,
 				DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */,
 				DA647E552375B5CD0030CB5E /* Stock.swift in Sources */,
 				DA7420D12351FB6C005A8726 /* Text.swift in Sources */,
