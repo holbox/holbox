@@ -179,6 +179,10 @@
 		DAF8991D237D836300E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991C237D836300E1B76F /* Storager.swift */; };
 		DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03232383D6CE00BCC8F0 /* View.swift */; };
 		DAFE03262383E22D00BCC8F0 /* Find.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03252383E22D00BCC8F0 /* Find.swift */; };
+		DAFE03282383F37500BCC8F0 /* TestProjectSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */; };
+		DAFE032A2384065900BCC8F0 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03292384065900BCC8F0 /* Search.swift */; };
+		DAFE032B2384065900BCC8F0 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03292384065900BCC8F0 /* Search.swift */; };
+		DAFE032C2384065900BCC8F0 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03292384065900BCC8F0 /* Search.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -420,6 +424,8 @@
 		DAF8991C237D836300E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 		DAFE03232383D6CE00BCC8F0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DAFE03252383E22D00BCC8F0 /* Find.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Find.swift; sourceTree = "<group>"; };
+		DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectSearch.swift; sourceTree = "<group>"; };
+		DAFE03292384065900BCC8F0 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -543,6 +549,7 @@
 				DA8B960523573E81007E82F7 /* TestPerks.swift */,
 				DA813BAD2376B8E400A3393C /* TestProduct.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
+				DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */,
 				DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
 				DA40C94D2356255B00F9E1C2 /* TestSettings.swift */,
@@ -564,6 +571,7 @@
 				DA2BBEB5234B45AC00C17268 /* Mode.swift */,
 				DA75C7BF234F11A500FD61DC /* Perk.swift */,
 				DAF68E702347646E0060895A /* Project.swift */,
+				DAFE03292384065900BCC8F0 /* Search.swift */,
 				DABC363723487F55002011C8 /* Session.swift */,
 				DA40C9492356174000F9E1C2 /* Settings.swift */,
 				DABC36452348C3F0002011C8 /* Shared.swift */,
@@ -1005,6 +1013,7 @@
 				DABC36462348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363823487F55002011C8 /* Session.swift in Sources */,
 				DAD8ECBE236ACE0800245778 /* Mark.swift in Sources */,
+				DAFE032A2384065900BCC8F0 /* Search.swift in Sources */,
 				DA75C7C0234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB6234B45AC00C17268 /* Mode.swift in Sources */,
 			);
@@ -1023,6 +1032,7 @@
 				DABC36472348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363923487F55002011C8 /* Session.swift in Sources */,
 				DAD8ECBF236ACE0800245778 /* Mark.swift in Sources */,
+				DAFE032B2384065900BCC8F0 /* Search.swift in Sources */,
 				DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */,
 			);
@@ -1041,6 +1051,7 @@
 				DABC36482348C3F0002011C8 /* Shared.swift in Sources */,
 				DABC363A23487F55002011C8 /* Session.swift in Sources */,
 				DAD8ECC0236ACE0800245778 /* Mark.swift in Sources */,
+				DAFE032C2384065900BCC8F0 /* Search.swift in Sources */,
 				DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */,
 				DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */,
 			);
@@ -1065,6 +1076,7 @@
 				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
 				DABC364023489A0C002011C8 /* TestStoreSession.swift in Sources */,
 				DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */,
+				DAFE03282383F37500BCC8F0 /* TestProjectSearch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

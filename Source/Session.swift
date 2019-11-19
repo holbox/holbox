@@ -7,6 +7,8 @@ public final class Session {
     var perks = [Perk]()
     var settings = Settings()
     var refreshed = Date().timeIntervalSince1970
+    private var search: Search?
+    private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
 
     public var projects: [Int] {
         items.filter { $1.mode != .off }.sorted {
@@ -217,7 +219,7 @@ public final class Session {
     }
     
     public func tags(_ project: Int, compare: [(String, Int)], same: @escaping () -> Void, update: @escaping ([(String, Int)]) -> Void) {
-        DispatchQueue.global(qos: .background).async {
+        queue.async {
             let tags = self.items[project]!.cards.reduce([String : Int]()) {
                 $1.1.reduce($0) { list, string in
                     string.indices.reduce(into: (list, nil) as ([String : Int], String?)) {
@@ -258,6 +260,10 @@ public final class Session {
                 }
             }
         }
+    }
+    
+    public func search(_ project: Int, string: String, result: @escaping ([(Int, Int, Range<String.Index>)]) -> Void) {
+        search = .init(items[project]!, string: string, result: result)
     }
     
     private func product(_ emoji: String, description: String) -> String? {
