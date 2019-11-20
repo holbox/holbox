@@ -6,5 +6,10 @@ public enum Mode: UInt8 {
     kanban,
     todo,
     shopping,
-    notes
+    notes,
+    daily,
+    journey,
+    gantt,
+    eisenhower,
+    journal
 }
