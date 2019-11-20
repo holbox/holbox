@@ -70,11 +70,11 @@ final class Card: UIView {
             scroll.addSubview(total)
             self.total = total
             
-            let _plus = Button("plus.circle.fill", UIColor(named: "haze")!, target: self, action: #selector(plus))
+            let _plus = Button("plus", target: self, action: #selector(plus))
             scroll.addSubview(_plus)
             self._plus = _plus
             
-            let _minus = Button("minus.circle.fill", UIColor(named: "haze")!, target: self, action: #selector(minus))
+            let _minus = Button("minus", target: self, action: #selector(minus))
             scroll.addSubview(_minus)
             self._minus = _minus
             

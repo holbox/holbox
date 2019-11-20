@@ -8,12 +8,4 @@ final class Image: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = true
     }
-    
-    @available(iOS 13.0, *) init(_ system: String, _ tint: UIColor) {
-        super.init(image: UIImage(systemName: system)!.withRenderingMode(.alwaysTemplate))
-        tintColor = tint
-        contentMode = .scaleAspectFit
-        translatesAutoresizingMaskIntoConstraints = false
-        clipsToBounds = true
-    }
 }

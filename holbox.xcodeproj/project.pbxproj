@@ -169,7 +169,6 @@
 		DAF68E98234765820060895A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68E94234765820060895A /* App.swift */; };
 		DAF68E9E234766040060895A /* Watch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAF68E9D234766040060895A /* Watch.storyboard */; };
 		DAF68EA4234766300060895A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA12347662F0060895A /* App.swift */; };
-		DAF68EA5234766300060895A /* WatchExtension.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68EA2234766300060895A /* WatchExtension.xcassets */; };
 		DAF68EA72347664E0060895A /* Watch.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68EA62347664E0060895A /* Watch.xcassets */; };
 		DAF716E923746A8000938E20 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716E823746A8000938E20 /* Todo.swift */; };
 		DAF716ED2374766900938E20 /* Footer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF716EC2374766900938E20 /* Footer.swift */; };
@@ -407,7 +406,6 @@
 		DAF68E94234765820060895A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		DAF68E9D234766040060895A /* Watch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Watch.storyboard; sourceTree = "<group>"; };
 		DAF68EA12347662F0060895A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		DAF68EA2234766300060895A /* WatchExtension.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WatchExtension.xcassets; sourceTree = "<group>"; };
 		DAF68EA62347664E0060895A /* Watch.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Watch.xcassets; sourceTree = "<group>"; };
 		DAF68EA8234766B40060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EAA234766C30060895A /* holbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = holbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -526,7 +524,6 @@
 				DAF68E92234765820060895A /* iOS.xcassets */,
 				DAF68E7B234764A60060895A /* Mac.xcassets */,
 				DAF68EA62347664E0060895A /* Watch.xcassets */,
-				DAF68EA2234766300060895A /* WatchExtension.xcassets */,
 				DAF68E722347646E0060895A /* Tests.xctest */,
 				DAC73A2E234773A000EF8832 /* Frameworks */,
 				DAF68E93234765820060895A /* iOS */,
@@ -993,7 +990,6 @@
 			files = (
 				DAF68E90234765650060895A /* Assets.xcassets in Resources */,
 				DAF267C8236B29390099E40E /* Localizable.strings in Resources */,
-				DAF68EA5234766300060895A /* WatchExtension.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

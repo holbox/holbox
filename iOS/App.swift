@@ -86,7 +86,7 @@ private(set) weak var app: App!
             win.endEditing(true)
             dismiss(animated: false)
             DispatchQueue.main.async {
-                self.session?.refresh {
+                self.session?.refresh { _ in
                     self.main.base?.refresh()
                 }
             }

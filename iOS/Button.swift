@@ -22,23 +22,6 @@ final class Button: UIView {
         icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
-    @available(iOS 13.0, *) init(_ system: String, _ tint: UIColor, target: AnyObject, action: Selector) {
-        self.target = target
-        self.action = action
-        super.init(frame: .zero)
-
-        let icon = Image(system, tint)
-        translatesAutoresizingMaskIntoConstraints = false
-        isAccessibilityElement = true
-        accessibilityTraits = .button
-        addSubview(icon)
-        
-        icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        icon.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
-        icon.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        icon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         alpha = 0.3
         super.touchesBegan(touches, with: with)

@@ -87,8 +87,7 @@ final class Add: Modal {
     
     @objc private func confirm() {
         _confirm.target = nil
-        app.session.add(app.mode)
-        app.main.project(0)
+        app.main.project(app.session.add(app.mode))
         close()
     }
     

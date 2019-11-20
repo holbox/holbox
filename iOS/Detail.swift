@@ -41,7 +41,7 @@ final class Detail: Base.View {
         let border = Border()
         scroll.add(border)
         
-        if app.session.projects(app.mode).isEmpty {
+        if app.session.projects.filter({ app.session.mode($0) == app.mode }).isEmpty {
             let empty = Label(.key("Detail.empty.\(app.mode.rawValue)"), 15, .medium, UIColor(named: "haze")!)
             scroll.add(empty)
             
@@ -51,7 +51,7 @@ final class Detail: Base.View {
             scroll.bottom.constraint(greaterThanOrEqualTo: empty.bottomAnchor, constant: 40).isActive = true
         } else {
             var top: NSLayoutYAxisAnchor?
-            app.session.projects(app.mode).forEach {
+            app.session.projects.filter({ app.session.mode($0) == app.mode }).forEach {
                 let item = Item(app.session.name($0), index: $0, .bold, 20, UIColor(named: "haze")!, self, #selector(project(_:)))
                 scroll.add(item)
                 
