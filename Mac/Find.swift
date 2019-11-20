@@ -33,7 +33,7 @@ final class Find: NSView, NSTextViewDelegate {
                                                .tag: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!)]
         text.textContainer!.maximumNumberOfLines = 1
         text.delegate = self
-        addSubview(text)
+        base.addSubview(text)
         self.text = text
         
         icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -48,7 +48,7 @@ final class Find: NSView, NSTextViewDelegate {
         left.isActive = true
         
         text.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
-        text.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: -10).isActive = true
+        text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 18).isActive = true
         width = text.widthAnchor.constraint(equalToConstant: 20)
         width.isActive = true
         
@@ -86,23 +86,22 @@ final class Find: NSView, NSTextViewDelegate {
     }
     
     private func show() {
+        window!.makeFirstResponder(text)
         base.layer!.borderWidth = 2
-        animate(160, 0) {
-            self.window!.makeFirstResponder(self.text)
-        }
+        animate(160, 0)
     }
     
     private func hide() {
-        animate(20, 190) { }
+        animate(20, 190)
     }
     
-    private func animate(_ _width: CGFloat, _ _left: CGFloat, completion: @escaping () -> Void) {
-        width.constant = _width
+    private func animate(_ _width: CGFloat, _ _left: CGFloat) {
         left.constant = _left
-        NSAnimationContext.runAnimationGroup ({
+        width.constant = _width
+        NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             layoutSubtreeIfNeeded()
-        }, completionHandler: completion)
+        }
     }
 }
