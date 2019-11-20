@@ -36,6 +36,7 @@ final class Bar: NSView, NSTextViewDelegate {
         _settings.setAccessibilityLabel(.key("Bar.settings"))
         
         let find = Find()
+        find.alphaValue = 0
         addSubview(find)
         self.find = find
         
@@ -123,6 +124,7 @@ final class Bar: NSView, NSTextViewDelegate {
             name.alphaValue = 1
             title?.alphaValue = 0
             self.name?.alphaValue = 0
+            find.alphaValue = 1
         }) {
             self.title?.removeFromSuperview()
             self.name?.removeFromSuperview()
@@ -152,6 +154,7 @@ final class Bar: NSView, NSTextViewDelegate {
             title.alphaValue = 1
             self.title?.alphaValue = 0
             name?.alphaValue = 0
+            find.alphaValue = 1
         }) {
             self.name?.removeFromSuperview()
             self.title?.removeFromSuperview()
@@ -172,6 +175,7 @@ final class Bar: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
+            find.alphaValue = 0
             layoutSubtreeIfNeeded()
         }
     }

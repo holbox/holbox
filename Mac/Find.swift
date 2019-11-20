@@ -110,8 +110,10 @@ final class Find: NSView, NSTextViewDelegate {
         let location = convert(with.locationInWindow, from: nil)
         if with.clickCount == 1 && bounds.contains(location) {
             if cancel.frame.contains(location) {
-                text.string = ""
-                update()
+                if text.string != "" {
+                    text.string = ""
+                    update()
+                }
             } else if _next.frame.contains(location) {
                 next()
             } else if _prev.frame.contains(location) {

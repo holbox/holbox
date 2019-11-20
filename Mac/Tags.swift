@@ -36,7 +36,7 @@ final class Tags: NSView {
         if !tags.isEmpty {
             var top = topAnchor
             tags.forEach {
-                let label = Label([("\($0.1)", 13, .light, NSColor(named: "haze")!),
+                let label = Label([("\($0.1)", 13, .medium, NSColor(named: "haze")!),
                                    (" #" + $0.0, 14, .bold, NSColor(named: "haze")!)])
                 label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
                 addSubview(label)
