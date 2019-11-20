@@ -141,6 +141,12 @@ final class Find: NSView, NSTextViewDelegate {
         show()
     }
     
+    func search(_ string: String) {
+        show()
+        text.string = string
+        update()
+    }
+    
     func next() {
         if index < ranges.count - 1 {
             index += 1

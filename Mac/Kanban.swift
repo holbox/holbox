@@ -100,7 +100,7 @@ final class Kanban: View {
                 column.leftAnchor.constraint(equalTo: left!, constant: 50).isActive = true
             }
 
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 90).isActive = true
             left = column.rightAnchor
         }
