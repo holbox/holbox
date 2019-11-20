@@ -1,15 +1,15 @@
 import AppKit
 
-final class Task: NSView {
-    private weak var label: Label!
+final class Task: NSView, NSTextViewDelegate {
+    let index: Int
+    let list: Int
+    private(set) weak var text: Text!
     private weak var icon: Image!
     private weak var _delete: Button!
     private weak var circle: NSView!
     private weak var base: NSView!
     private var highlighted = false { didSet { update() } }
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
-    private let index: Int
-    private let list: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
@@ -29,7 +29,7 @@ final class Task: NSView {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
         base.alphaValue = 0
-        base.layer!.cornerRadius = 6
+        base.layer!.cornerRadius = 10
         base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
         addSubview(base)
         self.base = base
@@ -42,7 +42,7 @@ final class Task: NSView {
         let circle = NSView()
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.wantsLayer = true
-        circle.layer!.cornerRadius = 15
+        circle.layer!.cornerRadius = 13
         addSubview(circle)
         self.circle = circle
         
@@ -50,20 +50,22 @@ final class Task: NSView {
         addSubview(icon)
         self.icon = icon
         
-        let label = Label(content.mark {
-            switch $0 {
-            case .plain: return (.init(content[$1]), list == 1 ? 14 : 16, .medium, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-            case .emoji: return (.init(content[$1]), list == 1 ? 20 : 22, .regular, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-            case .bold: return (.init(content[$1]), list == 1 ? 16 : 18, .bold, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-            case .tag: return (.init(content[$1]), list == 1 ? 12 : 14, .medium, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!)
-            }
-        })
-        label.setAccessibilityElement(false)
-        addSubview(label)
-        self.label = label
+        let text = Text(.Fixed(), Block())
+        text.setAccessibilityElement(false)
+        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: list == 1 ? 14 : 16, weight: .medium), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: list == 1 ? 20 : 22)!, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white),
+                                               .bold: (.systemFont(ofSize: list == 1 ? 16 : 18, weight: .bold), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!),
+                                               .tag: (.systemFont(ofSize: list == 1 ? 14 : 16, weight: .medium), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!)]
+        (text.layoutManager as! Layout).owns = true
+        text.intro = true
+        text.string = content
+        text.delegate = self
+        base.addSubview(text)
+        addSubview(text)
+        self.text = text
         
         widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        bottomAnchor.constraint(greaterThanOrEqualTo: label.bottomAnchor, constant: 20).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
@@ -81,17 +83,17 @@ final class Task: NSView {
         
         circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         circle.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        circle.widthAnchor.constraint(equalToConstant: 26).isActive = true
+        circle.heightAnchor.constraint(equalToConstant: 26).isActive = true
         
-        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 14).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 14).isActive = true
         icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
-        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
+        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
         
-        label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        text.leftAnchor.constraint(equalTo: circle.rightAnchor).isActive = true
+        text.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -5).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         update()
@@ -100,10 +102,10 @@ final class Task: NSView {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseDown(with: NSEvent) {
-        if base.bounds.contains(convert(with.locationInWindow, from: nil)) {
+        if window!.firstResponder != text && base.bounds.contains(convert(with.locationInWindow, from: nil)) {
             highlighted = true
+            super.mouseDown(with: with)
         }
-        super.mouseDown(with: with)
     }
     
     override func mouseEntered(with: NSEvent) {
@@ -129,13 +131,21 @@ final class Task: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        if base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if window!.firstResponder != text && base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project!, list: list, card: index))
             app.session.move(app.project!, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
             app.main.refresh()
         }
         highlighted = false
         super.mouseUp(with: with)
+    }
+    
+    override func rightMouseUp(with: NSEvent) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            text.edit.click()
+            window!.makeFirstResponder(text)
+        }
+        super.rightMouseUp(with: with)
     }
     
     private func update() {

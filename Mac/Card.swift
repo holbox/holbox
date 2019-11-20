@@ -37,6 +37,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.string = app.session.content(app.project!, list: column, card: index)
         content.tab = true
         content.intro = true
+        (content.layoutManager as! Layout).owns = true
         addSubview(content)
         self.content = content
 

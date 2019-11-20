@@ -49,6 +49,7 @@ final class Find: NSView, NSTextViewDelegate {
                                                .bold: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!),
                                                .tag: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!)]
         text.textContainer!.maximumNumberOfLines = 1
+        (text.layoutManager as! Layout).padding = 1
         text.clear = true
         text.delegate = self
         base.addSubview(text)

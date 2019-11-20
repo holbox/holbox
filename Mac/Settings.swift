@@ -40,8 +40,8 @@ final class Settings: Window.Modal {
             let circle = NSView()
             circle.translatesAutoresizingMaskIntoConstraints = false
             circle.wantsLayer = true
-            circle.layer!.cornerRadius = 12
-            circle.layer!.borderWidth = 1
+            circle.layer!.cornerRadius = 11
+            circle.layer!.borderWidth = 2
             circle.layer!.borderColor = NSColor(named: "haze")!.cgColor
             addSubview(circle)
             self.circle = circle
@@ -50,13 +50,13 @@ final class Settings: Window.Modal {
             addSubview(check)
             self.check = check
             
-            circle.widthAnchor.constraint(equalToConstant: 24).isActive = true
-            circle.heightAnchor.constraint(equalToConstant: 24).isActive = true
+            circle.widthAnchor.constraint(equalToConstant: 22).isActive = true
+            circle.heightAnchor.constraint(equalToConstant: 22).isActive = true
             circle.centerYAnchor.constraint(lessThanOrEqualTo: centerYAnchor).isActive = true
             circle.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
             
-            check.widthAnchor.constraint(equalToConstant: 24).isActive = true
-            check.heightAnchor.constraint(equalToConstant: 24).isActive = true
+            check.widthAnchor.constraint(equalToConstant: 14).isActive = true
+            check.heightAnchor.constraint(equalToConstant: 14).isActive = true
             check.centerYAnchor.constraint(lessThanOrEqualTo: circle.centerYAnchor, constant: 1).isActive = true
             check.centerXAnchor.constraint(lessThanOrEqualTo: circle.centerXAnchor).isActive = true
         }
