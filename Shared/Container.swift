@@ -22,6 +22,10 @@ final class Container: NSTextContainer {
 private final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
     private let padding = CGFloat(4)
     
+    override func layoutManagerOwnsFirstResponder(in: NSWindow) -> Bool {
+        true
+    }
+    
     func layoutManager(_: NSLayoutManager, shouldSetLineFragmentRect: UnsafeMutablePointer<CGRect>,
                        lineFragmentUsedRect: UnsafeMutablePointer<CGRect>, baselineOffset: UnsafeMutablePointer<CGFloat>,
                        in: NSTextContainer, forGlyphRange: NSRange) -> Bool {
@@ -30,11 +34,6 @@ private final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
         lineFragmentUsedRect.pointee.size.height += padding + padding
         return true
     }
-    
-//    override func fillBackgroundRectArray(_ rectArray: UnsafePointer<CGRect>, count: Int, forCharacterRange: NSRange, color: NSColor) {
-//        NSColor(named: "haze")!.withAlphaComponent(0.7).setFill()
-//        super.fillBackgroundRectArray(rectArray, count: count, forCharacterRange: forCharacterRange, color: color)
-//    }
     
     override func setExtraLineFragmentRect(_ rect: CGRect, usedRect: CGRect, textContainer: NSTextContainer) {
         var rect = rect
