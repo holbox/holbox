@@ -39,18 +39,14 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(find)
         self.find = find
         
-        var left: NSLayoutXAxisAnchor?
+        var left = find.rightAnchor
         [_add, _shop, _settings].forEach {
             addSubview($0)
             
             $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
             $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            if left == nil {
-                $0.leftAnchor.constraint(equalTo: find.rightAnchor).isActive = true
-            } else {
-                $0.leftAnchor.constraint(equalTo: left!, constant: 20).isActive = true
-            }
+            $0.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
             left = $0.rightAnchor
         }
         
@@ -60,14 +56,14 @@ final class Bar: NSView, NSTextViewDelegate {
         unmove.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         unmove.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
         _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _home.heightAnchor.constraint(equalTo: _home.widthAnchor).isActive = true
         button = _home.widthAnchor.constraint(equalToConstant: 100)
         button.isActive = true
         
-        find.leftAnchor.constraint(greaterThanOrEqualTo: _home.rightAnchor).isActive = true
-        find.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        find.leftAnchor.constraint(greaterThanOrEqualTo: _home.rightAnchor, constant: 20).isActive = true
+        find.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         
         let right = find.rightAnchor.constraint(equalTo: rightAnchor, constant: -170)
         right.priority = .defaultLow
@@ -112,7 +108,7 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(name)
         
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
-        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
         name.didChangeText()
         name.delegate = self
         

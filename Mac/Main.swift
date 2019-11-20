@@ -29,8 +29,14 @@ final class Main: Window.Full {
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
         case 3:
-            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command, base.subviews.first is View {
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
                 bar.find.start()
+            } else {
+                super.keyDown(with: with)
+            }
+        case 5:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                bar.find.next()
             } else {
                 super.keyDown(with: with)
             }

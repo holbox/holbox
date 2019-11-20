@@ -3,6 +3,7 @@ import AppKit
 final class Text: NSTextView {
     var tab = false
     var intro = false
+    var clear = false
     let edit: Edit
     private let resize: Resize
     override var acceptsFirstResponder: Bool { edit.active }
@@ -65,13 +66,24 @@ final class Text: NSTextView {
     
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
+        case 3, 5, 45:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                window!.keyDown(with: with)
+            } else {
+                super.keyUp(with: with)
+            }
         case 12:
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
                 app.terminate(nil)
             } else {
                 super.keyDown(with: with)
             }
-        case 53: window!.makeFirstResponder(superview!)
+        case 53:
+            if clear {
+                string = ""
+                delegate?.textDidChange?(.init(name: .init("")))
+            }
+            window!.makeFirstResponder(superview!)
         case 48:
             if tab {
                 super.keyDown(with: with)

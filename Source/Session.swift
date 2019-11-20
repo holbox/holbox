@@ -265,7 +265,7 @@ public final class Session {
         }
     }
     
-    public func search(_ project: Int, string: String, result: @escaping ([(Int, Int, Range<String.Index>)]) -> Void) {
+    public func search(_ project: Int, string: String, result: @escaping ([(Int, Int, NSRange)]) -> Void) {
         search = .init(items[project]!, string: string, result: result)
     }
     

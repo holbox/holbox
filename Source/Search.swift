@@ -1,22 +1,23 @@
 import Foundation
 
 final class Search {
+    private var ranges = [(Int, Int, NSRange)]()
     private let project: Project
     private let string: String
     
-    init(_ project: Project, string: String, result: @escaping ([(Int, Int, Range<String.Index>)]) -> Void) {
+    init(_ project: Project, string: String, result: @escaping ([(Int, Int, NSRange)]) -> Void) {
         self.project = project
-        self.string = string
+        self.string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let ranges = self?.search() else { return }
+            self?.search()
             DispatchQueue.main.async { [weak self] in
-                self?.done(ranges, result: result)
+                guard let ranges = self?.ranges else { return }
+                result(ranges)
             }
         }
     }
     
-    private func search() -> [(Int, Int, Range<String.Index>)] {
-        var ranges = [(Int, Int, Range<String.Index>)]()
+    private func search() {
         if !string.isEmpty {
             (0 ..< project.cards.count).forEach { list in
                 (0 ..< project.cards[list].1.count).forEach { card in
@@ -24,16 +25,11 @@ final class Search {
                     var index = item.startIndex
                     while index < item.endIndex,
                         let range = item.range(of: string, options: .caseInsensitive, range: index ..< item.endIndex) {
-                            ranges.append((list, card, range))
+                            ranges.append((list, card, .init(range, in: item)))
                             index = range.upperBound
                     }
                 }
             }
         }
-        return ranges
-    }
-    
-    private func done(_ ranges: [(Int, Int, Range<String.Index>)], result: @escaping ([(Int, Int, Range<String.Index>)]) -> Void) {
-        result(ranges)
     }
 }

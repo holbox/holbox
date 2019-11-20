@@ -50,7 +50,7 @@ final class TestProjectSearch: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(0, $0.first?.0)
             XCTAssertEqual(0, $0.first?.1)
-            XCTAssertEqual("hello".range(of: "hello"), $0.first?.2)
+            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -63,7 +63,20 @@ final class TestProjectSearch: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(0, $0.first?.0)
             XCTAssertEqual(0, $0.first?.1)
-            XCTAssertEqual("hello".range(of: "hello"), $0.first?.2)
+            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testOneMatchEmptySpace() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("", ["hello"])]
+        session.search(0, string: "hello \n") {
+            XCTAssertEqual(1, $0.count)
+            XCTAssertEqual(0, $0.first?.0)
+            XCTAssertEqual(0, $0.first?.1)
+            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -76,11 +89,10 @@ final class TestProjectSearch: XCTestCase {
             XCTAssertEqual(2, $0.count)
             XCTAssertEqual(0, $0.first?.0)
             XCTAssertEqual(1, $0.first?.1)
-            XCTAssertEqual("hello world hello".range(of: "hello"), $0.first?.2)
+            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
             XCTAssertEqual(0, $0.last?.0)
             XCTAssertEqual(1, $0.last?.1)
-            XCTAssertEqual("hello world hello".range(of: "hello", options: .caseInsensitive,
-                                         range: "hello world hello".index("hello world hello".startIndex, offsetBy: 5) ..< "hello world hello".endIndex, locale: nil), $0.last?.2)
+            XCTAssertEqual(.init(location: 12, length: 5), $0.last?.2)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -99,7 +111,7 @@ final class TestProjectSearch: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(2, $0.first?.0)
             XCTAssertEqual(0, $0.first?.1)
-            XCTAssertEqual("lorem ipsum".range(of: "lorem"), $0.first?.2)
+            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -113,7 +125,7 @@ final class TestProjectSearch: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(0, $0.first?.0)
             XCTAssertEqual(0, $0.first?.1)
-            XCTAssertEqual(text.index(text.startIndex, offsetBy: 2) ..< text.endIndex, $0.first?.2)
+            XCTAssertEqual(.init(location: 8, length: 5), $0.first?.2)
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)

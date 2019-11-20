@@ -103,6 +103,7 @@ Stock.add.emoji="🍏";
 Stock.add.label="Apples";
 Note="Note";
 Search="Search";
+Find.matches="matches";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";

@@ -7,7 +7,17 @@ final class Find: NSView, NSTextViewDelegate {
     private weak var cancel: Image!
     private weak var base: NSView!
     private weak var width: NSLayoutConstraint!
-    private weak var left: NSLayoutConstraint!
+    private weak var baseWidth: NSLayoutConstraint!
+    private weak var _counter: Label!
+    private weak var _next: Image!
+    private weak var _prev: Image!
+    private var index = 0
+    private var ranges = [(Int, Int, NSRange)]() {
+        didSet {
+            index = 0
+            _counter.stringValue = "\(ranges.count) " + .key("Find.matches")
+        }
+    }
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -18,7 +28,7 @@ final class Find: NSView, NSTextViewDelegate {
         addSubview(icon)
         
         let cancel = Image("clear")
-        cancel.isHidden = true
+        cancel.alphaValue = 0
         addSubview(cancel)
         self.cancel = cancel
         
@@ -39,9 +49,28 @@ final class Find: NSView, NSTextViewDelegate {
                                                .bold: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!),
                                                .tag: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!)]
         text.textContainer!.maximumNumberOfLines = 1
+        text.clear = true
         text.delegate = self
         base.addSubview(text)
         self.text = text
+        
+        let _counter = Label("", 12, .light, NSColor(named: "haze")!)
+        addSubview(_counter)
+        self._counter = _counter
+        
+        let _next = Image("next")
+        _next.alphaValue = 0
+        addSubview(_next)
+        self._next = _next
+        
+        let _prev = Image("prev")
+        _prev.alphaValue = 0
+        addSubview(_prev)
+        self._prev = _prev
+        
+        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        width = widthAnchor.constraint(equalToConstant: 40)
+        width.isActive = true
         
         icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         icon.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
@@ -49,30 +78,44 @@ final class Find: NSView, NSTextViewDelegate {
         icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         cancel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        cancel.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -8).isActive = true
-        cancel.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        cancel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        cancel.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -5).isActive = true
+        cancel.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        cancel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        base.rightAnchor.constraint(equalTo: text.rightAnchor, constant: 14).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         base.heightAnchor.constraint(equalToConstant: 32).isActive = true
         base.centerYAnchor.constraint(equalTo: text.centerYAnchor).isActive = true
-        left = base.leftAnchor.constraint(equalTo: leftAnchor, constant: 160)
-        left.isActive = true
+        baseWidth = base.widthAnchor.constraint(equalToConstant: 40)
+        baseWidth.isActive = true
         
         text.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
-        width = text.widthAnchor.constraint(equalToConstant: 20)
-        width.isActive = true
+        text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -10).isActive = true
         
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
-        widthAnchor.constraint(equalToConstant: 240).isActive = true
+        _counter.rightAnchor.constraint(equalTo: rightAnchor, constant: -265).isActive = true
+        _counter.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        _next.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _next.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        _next.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        _next.leftAnchor.constraint(equalTo: _prev.rightAnchor).isActive = true
+        
+        _prev.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _prev.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        _prev.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        _prev.leftAnchor.constraint(equalTo: _counter.rightAnchor, constant: 5).isActive = true
     }
     
     override func mouseUp(with: NSEvent) {
-        if with.clickCount == 1 && bounds.contains(convert(with.locationInWindow, from: nil)) {
-            if cancel.frame.contains(convert(with.locationInWindow, from: nil)) {
+        let location = convert(with.locationInWindow, from: nil)
+        if with.clickCount == 1 && bounds.contains(location) {
+            if cancel.frame.contains(location) {
                 text.string = ""
                 update()
+            } else if _next.frame.contains(location) {
+                next()
+            } else if _prev.frame.contains(location) {
+                prev()
             }
             if window?.firstResponder != text {
                 show()
@@ -96,6 +139,38 @@ final class Find: NSView, NSTextViewDelegate {
         show()
     }
     
+    func next() {
+        if index < ranges.count - 1 {
+            index += 1
+        } else {
+            index = 0
+        }
+        send()
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.2
+            $0.allowsImplicitAnimation = true
+            _next.alphaValue = 0
+        }) { [weak self] in
+            self?._next.alphaValue = 1
+        }
+    }
+    
+    func prev() {
+        if index > 0 {
+            index -= 1
+        } else {
+            index = ranges.count - 1
+        }
+        send()
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.2
+            $0.allowsImplicitAnimation = true
+            _prev.alphaValue = 0
+        }) { [weak self] in
+            self?._prev.alphaValue = 1
+        }
+    }
+    
     func clear() {
         text.string = ""
         hide()
@@ -106,21 +181,34 @@ final class Find: NSView, NSTextViewDelegate {
         window!.makeFirstResponder(text)
         text.setSelectedRange(.init(location: 0, length: text.string.count))
         base.layer!.borderWidth = 2
-        animate(150, 0)
-        cancel.isHidden = false
-    }
-    
-    private func hide() {
-        cancel.isHidden = true
-        animate(20, 190)
-    }
-    
-    private func animate(_ _width: CGFloat, _ _left: CGFloat) {
-        left.constant = _left
-        width.constant = _width
+        width.constant = app.project == nil ? 204 : 345
+        baseWidth.constant = 200
+        if text.string.isEmpty {
+            _counter.stringValue = ""
+        }
+        _counter.alphaValue = 1
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
+            cancel.alphaValue = 1
+            _next.alphaValue = 1
+            _prev.alphaValue = 1
+            layoutSubtreeIfNeeded()
+        }
+    }
+    
+    private func hide() {
+        width.constant = 40
+        baseWidth.constant = 40
+        _counter.stringValue = ""
+        _counter.alphaValue = 0
+        ranges = []
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            cancel.alphaValue = 0
+            _next.alphaValue = 0
+            _prev.alphaValue = 0
             layoutSubtreeIfNeeded()
         }
     }
@@ -128,12 +216,19 @@ final class Find: NSView, NSTextViewDelegate {
     private func update() {
         if let project = app.project {
             app.session.search(project, string: text.string) { [weak self] in
+                self?.ranges = $0
                 self?.view?.found($0)
+                self?.send()
             }
         } else {
             DispatchQueue.main.async { [weak self] in
                 self?.view?.refresh()
             }
         }
+    }
+    
+    private func send() {
+        guard !ranges.isEmpty else { return }
+        view?.select(ranges[index].0, ranges[index].1, ranges[index].2)
     }
 }

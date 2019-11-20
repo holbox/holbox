@@ -17,7 +17,11 @@ class View: NSView {
         window!.makeFirstResponder(self)
     }
     
-    func found(_ ranges: [(Int, Int, Range<String.Index>)]) {
+    func found(_ ranges: [(Int, Int, NSRange)]) {
+        
+    }
+    
+    func select(_ list: Int, _ card: Int, _ range: NSRange) {
         
     }
     
