@@ -9,13 +9,6 @@ public final class Session {
     var refreshed = Date().timeIntervalSince1970
     private var search: Search?
     private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
-
-    public var projects: [Int] {
-        items.filter { $1.mode != .off }.sorted {
-            $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending ||
-                ($0.1.name.caseInsensitiveCompare($1.1.name) == .orderedSame && $0.1.time > $1.1.time)
-        }.map { $0.0 }
-    }
     
     public var rate: Bool {
         Date() >= rating
@@ -67,6 +60,16 @@ public final class Session {
     public func rated() {
         rating = Calendar.current.date(byAdding: .month, value: 3, to: .init())!
         store.save(self)
+    }
+    
+    public func projects(_ filter: String = "") -> [Int] {
+        items
+            .filter { $1.mode != .off }
+            .filter { filter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || $1.name.localizedCaseInsensitiveContains(filter.trimmingCharacters(in: .whitespacesAndNewlines)) }
+            .sorted { $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending
+                || ($0.1.name.caseInsensitiveCompare($1.1.name) == .orderedSame && $0.1.time > $1.1.time) }
+            .map { $0.0 }
     }
     
     public func lists(_ project: Int) -> Int {

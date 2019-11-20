@@ -24,7 +24,7 @@ final class Detail: View {
     
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
-        app.session.projects.enumerated().forEach {
+        app.session.projects(app.main.bar.find.filter).enumerated().forEach {
             let item = Project($0.1, order: $0.0)
             scroll.add(item)
             item.top = item.topAnchor.constraint(equalTo: scroll.top)

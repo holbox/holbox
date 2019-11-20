@@ -11,7 +11,7 @@ final class Base: NSView {
     
     func refresh() {
         if app.project == nil {
-            if app.session.projects.isEmpty {
+            if app.session.projects().isEmpty {
                 clear()
             } else {
                 validate(Detail.self)

@@ -79,7 +79,7 @@ private(set) weak var app: App!
             main.makeFirstResponder(nil)
             DispatchQueue.main.async {
                 self.session?.refresh {
-                    if self.project == nil || $0.contains(self.project!) {
+                    if (self.project == nil && !$0.isEmpty) || (self.project != nil && $0.contains(self.project!)) {
                         self.main.refresh()
                     }
                 }

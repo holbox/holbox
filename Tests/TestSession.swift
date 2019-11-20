@@ -117,7 +117,7 @@ final class TestSession: XCTestCase {
         project.mode = .todo
         session.items[0] = project
         store.project = {
-            XCTAssertEqual(2, $0.projects.count)
+            XCTAssertEqual(2, $0.projects().count)
             XCTAssertEqual(.todo, $0.mode(0))
             XCTAssertEqual(.kanban, $0.mode(1))
             XCTAssertNotNil($0.items[1])
@@ -192,8 +192,8 @@ final class TestSession: XCTestCase {
         project1.name = "c"
         project2.name = "a"
         session.items = [0: project0, 33: project1, 2: project2]
-        XCTAssertEqual(1, session.projects.count)
-        XCTAssertEqual(33, session.projects.first)
+        XCTAssertEqual(1, session.projects().count)
+        XCTAssertEqual(33, session.projects().first)
     }
     
     func testSorted() {
@@ -207,7 +207,7 @@ final class TestSession: XCTestCase {
         project1.name = "c"
         project2.name = "a"
         session.items = [0: project0, 1: project1, 2: project2]
-        XCTAssertEqual([2, 0, 1], session.projects)
+        XCTAssertEqual([2, 0, 1], session.projects())
     }
     
     func testSortedSameName() {
@@ -224,6 +224,20 @@ final class TestSession: XCTestCase {
         project2.name = "a"
         project2.time = .init(timeIntervalSince1970: 1)
         session.items = [0: project0, 1: project1, 2: project2]
-        XCTAssertEqual([1, 0, 2], session.projects)
+        XCTAssertEqual([1, 0, 2], session.projects())
+    }
+    
+    func testFilter() {
+        var project0 = Project()
+        var project1 = Project()
+        var project2 = Project()
+        project0.mode = .kanban
+        project1.mode = .kanban
+        project2.mode = .kanban
+        project0.name = "hello"
+        project1.name = "world"
+        project2.name = "halLo"
+        session.items = [0: project0, 1: project1, 2: project2]
+        XCTAssertEqual([2, 0], session.projects("ll"))
     }
 }

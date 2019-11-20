@@ -85,7 +85,7 @@ final class Bar: NSView, NSTextViewDelegate {
     
     func refresh() {
         if app.project == nil {
-            if app.session.projects.isEmpty {
+            if app.session.projects().isEmpty {
                 empty()
             } else {
                 detail()
@@ -127,7 +127,6 @@ final class Bar: NSView, NSTextViewDelegate {
             name.alphaValue = 1
             title?.alphaValue = 0
             self.name?.alphaValue = 0
-            self.find.alphaValue = 1
         }) {
             self.title?.removeFromSuperview()
             self.name?.removeFromSuperview()
@@ -146,8 +145,10 @@ final class Bar: NSView, NSTextViewDelegate {
         
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 104).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
-     
+        
         button.constant = 30
+        
+        find.clear()
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
@@ -155,7 +156,6 @@ final class Bar: NSView, NSTextViewDelegate {
             title.alphaValue = 1
             self.title?.alphaValue = 0
             name?.alphaValue = 0
-            find.alphaValue = 0
         }) {
             self.name?.removeFromSuperview()
             self.title?.removeFromSuperview()
@@ -169,11 +169,13 @@ final class Bar: NSView, NSTextViewDelegate {
         resize(nil) {
             self.border.alphaValue = 0
         }
+        
         button.constant = 100
+        
+        find.clear()
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            find.alphaValue = 0
             layoutSubtreeIfNeeded()
         }
     }

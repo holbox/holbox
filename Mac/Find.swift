@@ -2,7 +2,9 @@ import AppKit
 
 final class Find: NSView, NSTextViewDelegate {
     weak var view: View?
+    var filter: String { text.string }
     private weak var text: Text!
+    private weak var cancel: Image!
     private weak var base: NSView!
     private weak var width: NSLayoutConstraint!
     private weak var left: NSLayoutConstraint!
@@ -15,6 +17,11 @@ final class Find: NSView, NSTextViewDelegate {
         let icon = Image("magnifier")
         addSubview(icon)
         
+        let cancel = Image("clear")
+        cancel.isHidden = true
+        addSubview(cancel)
+        self.cancel = cancel
+        
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
@@ -24,7 +31,7 @@ final class Find: NSView, NSTextViewDelegate {
         addSubview(base)
         self.base = base
         
-        let text = Text(.Fixed(), Active())
+        let text = Text(.Fixed(), Block())
         text.setAccessibilityLabel(.key("Search"))
         text.font = NSFont(name: "Times New Roman", size: 14)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .light), .white),
@@ -41,14 +48,19 @@ final class Find: NSView, NSTextViewDelegate {
         icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        base.rightAnchor.constraint(equalTo: text.rightAnchor, constant: 2).isActive = true
+        cancel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        cancel.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -8).isActive = true
+        cancel.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        cancel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        base.rightAnchor.constraint(equalTo: text.rightAnchor, constant: 14).isActive = true
         base.heightAnchor.constraint(equalToConstant: 32).isActive = true
         base.centerYAnchor.constraint(equalTo: text.centerYAnchor).isActive = true
         left = base.leftAnchor.constraint(equalTo: leftAnchor, constant: 160)
         left.isActive = true
         
         text.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
-        text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 18).isActive = true
+        text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
         width = text.widthAnchor.constraint(equalToConstant: 20)
         width.isActive = true
         
@@ -57,8 +69,14 @@ final class Find: NSView, NSTextViewDelegate {
     }
     
     override func mouseUp(with: NSEvent) {
-        if window?.firstResponder != text && bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            show()
+        if with.clickCount == 1 && bounds.contains(convert(with.locationInWindow, from: nil)) {
+            if cancel.frame.contains(convert(with.locationInWindow, from: nil)) {
+                text.string = ""
+                update()
+            }
+            if window?.firstResponder != text {
+                show()
+            }
         }
         super.mouseUp(with: with)
     }
@@ -71,9 +89,7 @@ final class Find: NSView, NSTextViewDelegate {
     }
     
     func textDidChange(_: Notification) {
-        app.session.search(app.project!, string: text.string) { [weak self] in
-            self?.view?.found($0)
-        }
+        update()
     }
     
     func start() {
@@ -86,12 +102,16 @@ final class Find: NSView, NSTextViewDelegate {
     }
     
     private func show() {
+        text.edit.click()
         window!.makeFirstResponder(text)
+        text.setSelectedRange(.init(location: 0, length: text.string.count))
         base.layer!.borderWidth = 2
-        animate(160, 0)
+        animate(150, 0)
+        cancel.isHidden = false
     }
     
     private func hide() {
+        cancel.isHidden = true
         animate(20, 190)
     }
     
@@ -102,6 +122,18 @@ final class Find: NSView, NSTextViewDelegate {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
             layoutSubtreeIfNeeded()
+        }
+    }
+    
+    private func update() {
+        if let project = app.project {
+            app.session.search(project, string: text.string) { [weak self] in
+                self?.view?.found($0)
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.refresh()
+            }
         }
     }
 }
