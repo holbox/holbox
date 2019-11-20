@@ -2,12 +2,14 @@ import AppKit
 
 final class Notes: View, NSTextViewDelegate {
     private weak var text: Text!
+    private weak var scroll: Scroll!
     
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()
         let scroll = Scroll()
         addSubview(scroll)
+        self.scroll = scroll
         
         let text = Text(.Fixed(), Active())
         text.setAccessibilityLabel(.key("Note"))
@@ -18,6 +20,7 @@ final class Notes: View, NSTextViewDelegate {
                                                .tag: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!)]
         text.tab = true
         text.intro = true
+        (text.layoutManager as! Layout).owns = true
         text.delegate = self
         scroll.add(text)
         self.text = text
@@ -62,5 +65,27 @@ final class Notes: View, NSTextViewDelegate {
     
     override func refresh() {
         text.string = app.session.content(app.project!, list: 0, card: 0)
+    }
+    
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        if ranges.isEmpty {
+            text.setSelectedRange(.init())
+        } else {
+            text.setSelectedRanges(ranges.map { $0.2 as NSValue }, affinity: .downstream, stillSelecting: true)
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        var frame = scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
+        frame.origin.x -= (bounds.width - frame.size.width) / 2
+        frame.origin.y -= (bounds.height / 2) - frame.size.height
+        frame.size.width = bounds.width
+        frame.size.height = bounds.height
+        text.showFindIndicator(for: range)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            scroll.contentView.scrollToVisible(frame)
+        }
     }
 }
