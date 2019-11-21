@@ -106,7 +106,7 @@ public final class Session {
     
     public func product(_ project: Int, index: Int) -> (String, String) {
         {
-            ($0[0], $0[1])
+            ($0[0], $0.dropFirst().joined(separator: "\n"))
         } (items[project]!.cards[0].1[index].components(separatedBy: "\n"))
     }
     

@@ -30,7 +30,7 @@ class Window: NSWindow {
         init(_ width: CGFloat, _ height: CGFloat) {
             super.init(width, height, mask: [])
             contentView!.layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            contentView!.layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            contentView!.layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
             contentView!.layer!.borderWidth = 1
         }
         

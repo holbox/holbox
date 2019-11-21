@@ -32,24 +32,27 @@ final class Grocery: NSView {
                                                .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
                                                .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
         (text.layoutManager as! Layout).owns = true
+        (text.layoutManager as! Layout).padding = 0
         text.string = product.1
-        addSubview(text)
         addSubview(text)
         self.text = text
 
         widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 2).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: emoji.bottomAnchor, constant: 10).isActive = true
 
         let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
         width.isActive = true
 
-        emoji.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        emoji.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10).isActive = true
+        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
 
-        text.leftAnchor.constraint(equalTo: emoji.rightAnchor).isActive = true
+        text.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -7).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -5).isActive = true
-        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 2).isActive = true
 
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }

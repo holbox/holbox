@@ -15,31 +15,38 @@ final class Shopping: View {
         addSubview(stock)
         self.stock = stock
         
-        let border = Border()
-        addSubview(border)
+        let left = Border()
+        addSubview(left)
+        
+        let right = Border()
+        addSubview(right)
         
         let _add = Button("plus", target: self, action: #selector(add))
         addSubview(_add)
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: left.topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
 
-        stock.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        stock.heightAnchor.constraint(equalToConstant: 150).isActive = true
         stock.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         stock.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         stock.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         stock.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         stock.bottom.constraint(equalTo: stock.bottomAnchor).isActive = true
         
-        border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        border.rightAnchor.constraint(equalTo: _add.leftAnchor, constant: 16).isActive = true
-        border.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
+        left.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        left.rightAnchor.constraint(equalTo: centerXAnchor, constant: -13).isActive = true
+        left.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
         
-        _add.centerYAnchor.constraint(equalTo: border.centerYAnchor).isActive = true
-        _add.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
+        right.leftAnchor.constraint(equalTo: centerXAnchor, constant: 13).isActive = true
+        right.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
+        right.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
+        
+        _add.centerYAnchor.constraint(equalTo: left.centerYAnchor).isActive = true
+        _add.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -57,12 +64,12 @@ final class Shopping: View {
             scroll.add(grocery)
             
             if top == nil {
-                grocery.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+                grocery.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
             } else {
                 grocery.topAnchor.constraint(equalTo: top!).isActive = true
             }
-            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
-            grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
+            grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
             grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
             
             let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
@@ -71,7 +78,7 @@ final class Shopping: View {
             top = grocery.bottomAnchor
         }
         if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 30).isActive = true
         }
         var left: NSLayoutXAxisAnchor?
         (0 ..< app.session.cards(app.project!, list: 0)).forEach {
@@ -79,15 +86,15 @@ final class Shopping: View {
             stock.add(product)
 
             if left == nil {
-                product.leftAnchor.constraint(equalTo: stock.left, constant: 15).isActive = true
+                product.leftAnchor.constraint(equalTo: stock.left, constant: 30).isActive = true
             } else {
                 product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
             }
-            product.topAnchor.constraint(equalTo: stock.top, constant: 10).isActive = true
+            product.topAnchor.constraint(equalTo: stock.top, constant: 20).isActive = true
             left = product.rightAnchor
         }
         if left != nil {
-            stock.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
+            stock.right.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
         }
     }
     

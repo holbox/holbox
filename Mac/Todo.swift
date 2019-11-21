@@ -19,6 +19,7 @@ final class Todo: View, NSTextViewDelegate {
                                                .bold: (.systemFont(ofSize: 24, weight: .bold), .white),
                                                .tag: (.systemFont(ofSize: 20, weight: .medium), NSColor(named: "haze")!)]
         new.intro = true
+        new.tab = true
         new.delegate = self
         scroll.add(new)
         self.new = new
@@ -77,8 +78,8 @@ final class Todo: View, NSTextViewDelegate {
                 } else {
                     task.topAnchor.constraint(equalTo: top!).isActive = true
                 }
-                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
-                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
+                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
                 task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
                 
                 let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)

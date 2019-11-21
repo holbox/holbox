@@ -49,6 +49,13 @@ final class TestProduct: XCTestCase {
         XCTAssertEqual("piggy", session.product(0, index: 0).1)
     }
     
+    func testAddWithNewLines() {
+        session.add(0, emoji: "🐷", description: "hello \nworld\n")
+        XCTAssertEqual(1, session.cards(0, list: 0))
+        XCTAssertEqual("🐷", session.product(0, index: 0).0)
+        XCTAssertEqual("hello \nworld", session.product(0, index: 0).1)
+    }
+    
     func testAddSecond() {
         session.add(0, emoji: "🐷", description: "piggy")
         session.add(0, emoji: "🦊", description: "fox")

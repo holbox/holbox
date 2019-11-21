@@ -21,6 +21,7 @@ final class Notes: View, NSTextViewDelegate {
         text.tab = true
         text.intro = true
         (text.layoutManager as! Layout).owns = true
+        (text.layoutManager as! Layout).padding = 5
         text.delegate = self
         scroll.add(text)
         self.text = text

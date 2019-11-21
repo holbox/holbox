@@ -6,7 +6,7 @@
 #endif
 
 final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
-    var padding = CGFloat(4)
+    var padding = CGFloat()
     var owns = false
     
     override func layoutManagerOwnsFirstResponder(in window: NSWindow) -> Bool {

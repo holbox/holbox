@@ -105,6 +105,7 @@ final class Bar: NSView, NSTextViewDelegate {
                                                 .bold: (.systemFont(ofSize: 16, weight: .heavy), .white),
                                                 .tag: (.systemFont(ofSize: 14, weight: .regular), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
+        (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project!)
         addSubview(name)
         

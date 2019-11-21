@@ -38,6 +38,7 @@ final class Card: NSView, NSTextViewDelegate {
         content.tab = true
         content.intro = true
         (content.layoutManager as! Layout).owns = true
+        (content.layoutManager as! Layout).padding = 2
         addSubview(content)
         self.content = content
 

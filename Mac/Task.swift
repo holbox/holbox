@@ -57,7 +57,9 @@ final class Task: NSView, NSTextViewDelegate {
                                                .bold: (.systemFont(ofSize: list == 1 ? 16 : 18, weight: .bold), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!),
                                                .tag: (.systemFont(ofSize: list == 1 ? 14 : 16, weight: .medium), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!)]
         (text.layoutManager as! Layout).owns = true
+        (text.layoutManager as! Layout).padding = 1
         text.intro = true
+        text.tab = true
         text.string = content
         text.delegate = self
         base.addSubview(text)
@@ -65,7 +67,7 @@ final class Task: NSView, NSTextViewDelegate {
         self.text = text
         
         widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 2).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
@@ -93,7 +95,7 @@ final class Task: NSView, NSTextViewDelegate {
         
         text.leftAnchor.constraint(equalTo: circle.rightAnchor).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -5).isActive = true
-        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         update()

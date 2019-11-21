@@ -86,23 +86,28 @@ class Stock: Window.Modal, NSTextViewDelegate {
         contentView!.addSubview(_title)
         
         let emoji = Text(.Both(320, 150), Active())
+        emoji.font = NSFont(name: "Times New Roman", size: 70)
         emoji.setAccessibilityLabel(.key("Product.emoji"))
-        (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 80)!, .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 80)!, .white),
-                                               .bold: (NSFont(name: "Times New Roman", size: 80)!, .white),
-                                               .tag: (NSFont(name: "Times New Roman", size: 80)!, .white)]
+        (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 70)!, .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 70)!, .white),
+                                               .bold: (NSFont(name: "Times New Roman", size: 70)!, .white),
+                                               .tag: (NSFont(name: "Times New Roman", size: 70)!, .white)]
         emoji.textContainer!.maximumNumberOfLines = 1
+        (emoji.layoutManager as! Layout).padding = 2
         emoji.delegate = self
         contentView!.addSubview(emoji)
         self.emoji = emoji
         
         let label = Text(.Vertical(320), Active())
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.setAccessibilityLabel(.key("Product.description"))
-        (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 25, weight: .medium), .white),
-                                                 .emoji: (.systemFont(ofSize: 25, weight: .medium), .white),
-                                                 .bold: (.systemFont(ofSize: 25, weight: .medium), .white),
-                                                 .tag: (.systemFont(ofSize: 25, weight: .medium), NSColor(named: "haze")!)]
-        label.textContainer!.maximumNumberOfLines = 2
+        (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
+                                                 .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
+                                                 .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
+                                                 .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
+        label.textContainer!.maximumNumberOfLines = 4
+        label.intro = true
+        (label.layoutManager as! Layout).padding = 2
         label.delegate = self
         contentView!.addSubview(label)
         self.label = label
@@ -110,7 +115,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
         let _done = Control(button, self, #selector(done), NSColor(named: "haze")!.cgColor, .black)
         contentView!.addSubview(_done)
         
-        _title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
+        _title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 30).isActive = true
         _title.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         
         emoji.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
@@ -124,6 +129,8 @@ class Stock: Window.Modal, NSTextViewDelegate {
         _done.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -82).isActive = true
         _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        
+        app.orderFrontCharacterPalette(nil)
     }
     
     func textView(_ text: NSTextView, shouldChangeTextIn: NSRange, replacementString: String?) -> Bool {
@@ -150,14 +157,8 @@ class Stock: Window.Modal, NSTextViewDelegate {
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
         case 36:
-            if firstResponder == emoji {
-                DispatchQueue.main.async { [weak self] in
-                    self?.relabel()
-                }
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.done()
-                }
+            DispatchQueue.main.async { [weak self] in
+                self?.relabel()
             }
         case 48:
             if firstResponder == emoji {
@@ -166,7 +167,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.makeFirstResponder(self?.emoji)
+                    self?.reemoji()
                 }
             }
         default: super.keyDown(with: with)
@@ -176,5 +177,10 @@ class Stock: Window.Modal, NSTextViewDelegate {
     private func relabel() {
         makeFirstResponder(label)
         label.setSelectedRange(.init(location: 0, length: label.string.count))
+    }
+    
+    private func reemoji() {
+        makeFirstResponder(emoji)
+        emoji.setSelectedRange(.init(location: 0, length: emoji.string.count))
     }
 }
