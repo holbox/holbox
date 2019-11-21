@@ -98,6 +98,32 @@ final class Shopping: View {
         }
     }
     
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        stock.views.compactMap { $0 as? Product }.forEach { product in
+            let ranges = ranges.filter { $0.0 == 0 && $0.1 == product.index }.map { $0.2 as NSValue }
+            if ranges.isEmpty {
+                product.text.setSelectedRange(.init())
+            } else {
+                product.text.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+            }
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        let text = stock.views.compactMap { $0 as? Product }.first { $0.index == card }!.text!
+        var frame = stock.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
+        frame.origin.x -= (stock.bounds.width - frame.size.width) / 2
+        frame.origin.y -= (stock.bounds.height / 2) - frame.size.height
+        frame.size.width = stock.bounds.width
+        frame.size.height = stock.bounds.height
+        text.showFindIndicator(for: range)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            stock.contentView.scrollToVisible(frame)
+        }
+    }
+    
     override func add() {
         app.runModal(for: Stock.New(self))
     }

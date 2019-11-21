@@ -1,10 +1,10 @@
 import AppKit
 
 final class Product: NSView {
+    let index: Int
+    private(set) weak var text: Text!
     private weak var shopping: Shopping?
-    private weak var text: Text!
     private var active = true
-    private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }

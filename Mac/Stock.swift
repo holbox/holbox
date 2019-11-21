@@ -81,7 +81,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
     private weak var label: Text!
     
     private init(_ title: String, _ button: String) {
-        super.init(400, 440)
+        super.init(400, 400)
         let _title = Label(title, 18, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(_title)
         
@@ -105,7 +105,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
                                                  .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
                                                  .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
                                                  .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
-        label.textContainer!.maximumNumberOfLines = 4
+        label.textContainer!.maximumNumberOfLines = 10
         label.intro = true
         (label.layoutManager as! Layout).padding = 2
         label.delegate = self
@@ -126,6 +126,7 @@ class Stock: Window.Modal, NSTextViewDelegate {
         label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor).isActive = true
         label.topAnchor.constraint(equalTo: emoji.bottomAnchor).isActive = true
         
+        _done.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
         _done.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -82).isActive = true
         _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
