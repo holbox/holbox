@@ -1,9 +1,9 @@
 import AppKit
 
 final class Grocery: NSView {
+    let index: Int
+    private(set) weak var text: Text!
     private weak var emoji: Label!
-    private weak var label: Label!
-    private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
@@ -14,36 +14,42 @@ final class Grocery: NSView {
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
         wantsLayer = true
-        layer!.cornerRadius = 6
+        layer!.cornerRadius = 10
 
         let product = app.session.reference(app.project!, index: index)
         setAccessibilityLabel(product.1)
 
-        let emoji = Label(product.0, 50, .regular, .white)
+        let emoji = Label(product.0, 35, .regular, .white)
         emoji.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         emoji.setAccessibilityElement(false)
         addSubview(emoji)
         self.emoji = emoji
-
-        let label = Label(product.1, 16, .semibold, NSColor(named: "haze")!)
-        label.setAccessibilityElement(false)
-        label.maximumNumberOfLines = 3
-        addSubview(label)
-        self.label = label
+        
+        let text = Text(.Fixed(), Off())
+        text.setAccessibilityElement(false)
+        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
+                                               .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
+                                               .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
+        (text.layoutManager as! Layout).owns = true
+        text.string = product.1
+        addSubview(text)
+        addSubview(text)
+        self.text = text
 
         widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        heightAnchor.constraint(equalToConstant: 76).isActive = true
+        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
 
         let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
         width.isActive = true
 
-        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        emoji.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
 
-        label.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 10).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        text.leftAnchor.constraint(equalTo: emoji.rightAnchor).isActive = true
+        text.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -5).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
 
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }

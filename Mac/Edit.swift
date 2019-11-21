@@ -31,3 +31,11 @@ final class Active: Edit {
     func resign() { }
     func click() { }
 }
+
+final class Off: Edit {
+    let active = false
+    
+    func activate() { }
+    func resign() { }
+    func click() { }
+}
