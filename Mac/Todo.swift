@@ -74,15 +74,15 @@ final class Todo: View, NSTextViewDelegate {
                 scroll.add(task)
 
                 if top == nil {
-                    task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 35).isActive = true
+                    task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 40).isActive = true
                 } else {
                     task.topAnchor.constraint(equalTo: top!).isActive = true
                 }
                 task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
                 task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
-                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
+                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -170).isActive = true
                 
-                let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
+                let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -170)
                 left.priority = .defaultLow
                 left.isActive = true
                 top = task.bottomAnchor
@@ -128,6 +128,11 @@ final class Todo: View, NSTextViewDelegate {
             window!.makeFirstResponder(new)
         } else {
             window!.makeFirstResponder(self)
+        }
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            scroll.contentView.scroll(to: .zero)
         }
     }
 }

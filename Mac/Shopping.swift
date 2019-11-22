@@ -70,9 +70,9 @@ final class Shopping: View {
             }
             grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
             grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
-            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -250).isActive = true
+            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -140).isActive = true
             
-            let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -250)
+            let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -140)
             left.priority = .defaultLow
             left.isActive = true
             top = grocery.bottomAnchor
@@ -90,7 +90,7 @@ final class Shopping: View {
             } else {
                 product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
             }
-            product.topAnchor.constraint(equalTo: stock.top, constant: 20).isActive = true
+            product.topAnchor.constraint(equalTo: stock.top, constant: 25).isActive = true
             left = product.rightAnchor
         }
         if left != nil {
@@ -99,6 +99,14 @@ final class Shopping: View {
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
+        scroll.views.compactMap { $0 as? Grocery }.forEach { grocery in
+            let ranges = ranges.filter { $0.0 == 0 && $0.1 == grocery.reference }.map { $0.2 as NSValue }
+            if ranges.isEmpty {
+                grocery.text.setSelectedRange(.init())
+            } else {
+                grocery.text.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+            }
+        }
         stock.views.compactMap { $0 as? Product }.forEach { product in
             let ranges = ranges.filter { $0.0 == 0 && $0.1 == product.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {

@@ -1,14 +1,16 @@
 import AppKit
 
 final class Grocery: NSView {
-    let index: Int
+    let reference: Int
     private(set) weak var text: Text!
     private weak var emoji: Label!
+    private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
         self.index = index
+        reference = Int(app.session.content(app.project!, list: 1, card: index))!
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
@@ -37,22 +39,22 @@ final class Grocery: NSView {
         addSubview(text)
         self.text = text
 
-        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 2).isActive = true
+        widthAnchor.constraint(lessThanOrEqualToConstant: 280).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 3).isActive = true
         bottomAnchor.constraint(greaterThanOrEqualTo: emoji.bottomAnchor, constant: 10).isActive = true
 
-        let width = widthAnchor.constraint(equalToConstant: 500)
+        let width = widthAnchor.constraint(equalToConstant: 280)
         width.priority = .defaultLow
         width.isActive = true
 
         emoji.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10).isActive = true
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
 
         text.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        text.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -7).isActive = true
+        text.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -9).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -5).isActive = true
-        text.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 2).isActive = true
+        text.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 3).isActive = true
 
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }

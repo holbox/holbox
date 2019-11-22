@@ -101,8 +101,8 @@ final class Bar: NSView, NSTextViewDelegate {
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
         (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .bold), .white),
-                                                .emoji: (NSFont(name: "Times New Roman", size: 20)!, .white),
-                                                .bold: (.systemFont(ofSize: 16, weight: .heavy), .white),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
+                                                .bold: (.systemFont(ofSize: 14, weight: .heavy), .white),
                                                 .tag: (.systemFont(ofSize: 14, weight: .regular), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
@@ -110,7 +110,7 @@ final class Bar: NSView, NSTextViewDelegate {
         addSubview(name)
         
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
-        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         name.didChangeText()
         name.delegate = self
         

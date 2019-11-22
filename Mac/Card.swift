@@ -8,7 +8,7 @@ final class Card: NSView, NSTextViewDelegate {
     let index: Int
     let column: Int
     private(set) weak var content: Text!
-    private weak var _delete: Button!
+    private weak var _delete: Image!
     private weak var kanban: Kanban?
     private var dragging = false
     private var deltaX = CGFloat(0)
@@ -42,7 +42,7 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(content)
         self.content = content
 
-        let _delete = Button("delete", target: self, action: #selector(delete))
+        let _delete = Image("delete")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
@@ -78,7 +78,7 @@ final class Card: NSView, NSTextViewDelegate {
             app.alert(.key("Card"), message: content.string)
             kanban?.tags.refresh()
         }
-        update()
+        update(true)
     }
     
     func edit() {
@@ -153,23 +153,38 @@ final class Card: NSView, NSTextViewDelegate {
         }
     }
     
-    func update() {
-        if app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            left.constant = 20
-        } else {
-            layer!.backgroundColor = .clear
-            left.constant = 0
+    override func mouseUp(with: NSEvent) {
+        if _delete.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            window!.makeFirstResponder(superview!)
+            if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.delete(app.project!, list: column, card: index)
+                kanban?.refresh()
+            } else {
+                _delete.alphaValue = 0
+                app.runModal(for: Delete.Card(index, list: column))
+            }
         }
+        super.mouseUp(with: with)
     }
     
-    @objc private func delete() {
-        if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            app.session.delete(app.project!, list: column, card: index)
-            kanban?.refresh()
+    func update(_ animate: Bool) {
+        let color: CGColor
+        if app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            color = NSColor(named: "background")!.cgColor
+            left.constant = 20
         } else {
-            _delete.alphaValue = 0
-            app.runModal(for: Delete.Card(index, list: column))
+            color = .clear
+            left.constant = 0
+        }
+        if animate {
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.4
+                $0.allowsImplicitAnimation = true
+                layer!.backgroundColor = color
+                superview!.layoutSubtreeIfNeeded()
+            }
+        } else {
+            layer!.backgroundColor = color
         }
     }
 }

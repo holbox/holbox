@@ -103,15 +103,32 @@ final class Text: NSTextView {
     }
     
     override func mouseDown(with: NSEvent) {
-        if !edit.active && with.clickCount == 2 {
-            edit.click()
-            window!.makeFirstResponder(self)
+        if edit.active {
+            super.mouseDown(with: with)
+        } else if with.clickCount == 2 {
+            click()
+        } else {
+            superview!.mouseDown(with: with)
         }
-        super.mouseDown(with: with)
+    }
+    
+    override func rightMouseUp(with: NSEvent) {
+        if edit.active {
+            super.rightMouseUp(with: with)
+        } else if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            click()
+        }
     }
     
     override func layout() {
         super.layout()
         resize.layout(self)
+    }
+    
+    private func click() {
+        edit.click()
+        if edit.active {
+            window!.makeFirstResponder(self)
+        }
     }
 }

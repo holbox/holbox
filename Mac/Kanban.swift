@@ -90,7 +90,7 @@ final class Kanban: View {
                 scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
                 card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
                 card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
-                card.update()
+                card.update(false)
                 top = card
             }
 
@@ -116,6 +116,11 @@ final class Kanban: View {
         app.session.add(app.project!, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            scroll.contentView.scroll(to: .zero)
+        }
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {

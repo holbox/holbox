@@ -55,7 +55,7 @@ final class Find: NSView, NSTextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", 12, .light, NSColor(named: "haze")!)
+        let _counter = Label("", 13, .regular, NSColor(named: "haze")!)
         addSubview(_counter)
         self._counter = _counter
         
@@ -89,19 +89,19 @@ final class Find: NSView, NSTextViewDelegate {
         baseWidth = base.widthAnchor.constraint(equalToConstant: 40)
         baseWidth.isActive = true
         
-        text.centerYAnchor.constraint(equalTo: icon.centerYAnchor, constant: 2).isActive = true
+        text.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
         text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -10).isActive = true
         
         _counter.rightAnchor.constraint(equalTo: rightAnchor, constant: -265).isActive = true
-        _counter.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _counter.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
         
-        _next.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _next.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
         _next.widthAnchor.constraint(equalToConstant: 25).isActive = true
         _next.heightAnchor.constraint(equalToConstant: 35).isActive = true
         _next.leftAnchor.constraint(equalTo: _prev.rightAnchor).isActive = true
         
-        _prev.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _prev.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
         _prev.widthAnchor.constraint(equalToConstant: 25).isActive = true
         _prev.heightAnchor.constraint(equalToConstant: 35).isActive = true
         _prev.leftAnchor.constraint(equalTo: _counter.rightAnchor, constant: 5).isActive = true

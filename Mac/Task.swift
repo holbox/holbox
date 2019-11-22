@@ -5,11 +5,9 @@ final class Task: NSView, NSTextViewDelegate {
     let list: Int
     private(set) weak var text: Text!
     private weak var icon: Image!
-    private weak var _delete: Button!
+    private weak var _delete: Image!
     private weak var circle: NSView!
     private weak var base: NSView!
-    private var highlighted = false { didSet { update() } }
-    private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
@@ -34,7 +32,7 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(base)
         self.base = base
         
-        let _delete = Button("delete", target: self, action: #selector(delete))
+        let _delete = Image("delete")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
@@ -43,33 +41,44 @@ final class Task: NSView, NSTextViewDelegate {
         circle.translatesAutoresizingMaskIntoConstraints = false
         circle.wantsLayer = true
         circle.layer!.cornerRadius = 13
+        circle.layer!.backgroundColor = list == 1 ? NSColor(named: "haze")!.cgColor : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
         addSubview(circle)
         self.circle = circle
         
         let icon = Image("check")
+        icon.alphaValue = list == 1 ? 1 : 0
         addSubview(icon)
         self.icon = icon
         
         let text = Text(.Fixed(), Block())
         text.setAccessibilityElement(false)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: list == 1 ? 14 : 16, weight: .medium), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: list == 1 ? 20 : 22)!, list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : .white),
-                                               .bold: (.systemFont(ofSize: list == 1 ? 16 : 18, weight: .bold), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: list == 1 ? 14 : 16, weight: .medium), list == 1 ? NSColor(named: "haze")!.withAlphaComponent(0.8) : NSColor(named: "haze")!)]
+        if list == 1 {
+            (text.textStorage as! Storage).fonts = [
+                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.8)),
+                .emoji: (NSFont(name: "Times New Roman", size: 16)!, .white),
+                .bold: (.systemFont(ofSize: 14 , weight: .bold), NSColor(named: "haze")!.withAlphaComponent(0.8)),
+                .tag: (.systemFont(ofSize: 12, weight: .medium), NSColor(named: "haze")!.withAlphaComponent(0.8))]
+            text.alphaValue = 0.7
+        } else {
+            (text.textStorage as! Storage).fonts = [
+                .plain: (.systemFont(ofSize: 16, weight: .medium), .white),
+                .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
+                .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
+                .tag: (.systemFont(ofSize: 16, weight: .medium), NSColor(named: "haze")!)]
+        }
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 1
         text.intro = true
         text.tab = true
         text.string = content
         text.delegate = self
-        base.addSubview(text)
         addSubview(text)
         self.text = text
         
-        widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
-        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 2).isActive = true
+        widthAnchor.constraint(lessThanOrEqualToConstant: 340).isActive = true
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 3).isActive = true
         
-        let width = widthAnchor.constraint(equalToConstant: 500)
+        let width = widthAnchor.constraint(equalToConstant: 340)
         width.priority = .defaultLow
         width.isActive = true
         
@@ -93,22 +102,18 @@ final class Task: NSView, NSTextViewDelegate {
         icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
         icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
         
-        text.leftAnchor.constraint(equalTo: circle.rightAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: -5).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -5).isActive = true
-        text.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
-        update()
+    }
+    
+    func textDidEndEditing(_: Notification) {
+        app.session.content(app.project!, list: list, card: index, content: text.string)
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
-    
-    override func mouseDown(with: NSEvent) {
-        if window!.firstResponder != text && base.bounds.contains(convert(with.locationInWindow, from: nil)) {
-            highlighted = true
-            super.mouseDown(with: with)
-        }
-    }
     
     override func mouseEntered(with: NSEvent) {
         super.mouseEntered(with: with)
@@ -122,42 +127,28 @@ final class Task: NSView, NSTextViewDelegate {
     
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
-        NSAnimationContext.runAnimationGroup({
+        NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             base.alphaValue = 0
             _delete.alphaValue = 0
-        }) { [weak self] in
-            self?.highlighted = false
         }
     }
     
     override func mouseUp(with: NSEvent) {
-        if window!.firstResponder != text && base.bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project!, list: list, card: index))
-            app.session.move(app.project!, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
-            app.main.refresh()
+        if with.clickCount == 1 {
+            if base.frame.contains(convert(with.locationInWindow, from: nil)) {
+                if window!.firstResponder != text {
+                    app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project!, list: list, card: index))
+                    app.session.move(app.project!, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
+                    app.main.refresh()
+                }
+            } else if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
+                window!.makeFirstResponder(superview!)
+                _delete.alphaValue = 0
+                app.runModal(for: Delete.Card(index, list: list))
+            }
         }
-        highlighted = false
         super.mouseUp(with: with)
-    }
-    
-    override func rightMouseUp(with: NSEvent) {
-        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            text.edit.click()
-            window!.makeFirstResponder(text)
-        }
-        super.rightMouseUp(with: with)
-    }
-    
-    private func update() {
-        icon.alphaValue = active ? 1 : 0
-        circle.layer!.backgroundColor = active ? NSColor(named: "haze")!.cgColor : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
-    }
-    
-    @objc private func delete() {
-        window!.makeFirstResponder(self)
-        _delete.alphaValue = 0
-        app.runModal(for: Delete.Card(index, list: list))
     }
 }
