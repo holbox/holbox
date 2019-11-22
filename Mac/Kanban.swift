@@ -40,11 +40,19 @@ final class Kanban: View {
     }
     
     override func mouseDragged(with: NSEvent) {
-        super.mouseDragged(with: with)
         if let drag = self.drag {
             drag.drag(with.deltaX, with.deltaY)
         } else if let view = hitTest(with.locationInWindow) {
-            drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card
+            if let drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card {
+                drag.layer!.removeFromSuperlayer()
+                scroll.documentView!.layer!.addSublayer(drag.layer!)
+                scroll.views.compactMap { $0 as? Card }.forEach { card in
+                    card.trackingAreas.forEach(card.removeTrackingArea(_:))
+                }
+                self.drag = drag
+            }
+        } else {
+            end(with)
         }
     }
     
@@ -59,9 +67,9 @@ final class Kanban: View {
     }
     
     override func refresh() {
-        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Card || $0 is Column || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
-        var left: NSLayoutXAxisAnchor?
+        var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project!)).forEach { list in
             let column = Column(list)
             scroll.add(column)
@@ -93,22 +101,24 @@ final class Kanban: View {
                 card.update(false)
                 top = card
             }
-
-            if left == nil {
-                column.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
-            } else {
-                column.leftAnchor.constraint(equalTo: left!, constant: 50).isActive = true
-            }
-
+            
+            column.leftAnchor.constraint(equalTo: left, constant: 60).isActive = true
             column.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
             scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 90).isActive = true
             left = column.rightAnchor
         }
 
-        if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 60).isActive = true
-        }
+        let chart = Chart.Kanban(app.project!)
+        chart.width = 30
+        chart.space = 15
+        scroll.add(chart)
         
+        chart.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
+        chart.leftAnchor.constraint(equalTo: left, constant: 50).isActive = true
+        chart.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        chart.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        scroll.right.constraint(greaterThanOrEqualTo: chart.rightAnchor).isActive = true
         tags.refresh()
     }
     

@@ -96,15 +96,8 @@ final class Card: NSView, NSTextViewDelegate {
             if abs(deltaX) + abs(deltaY) > 15 {
                 dragging = true
                 right.isActive = false
-                _delete.isHidden = true
                 top.constant += deltaY
                 left.constant += deltaX
-                
-                layer!.removeFromSuperlayer()
-                superview!.layer!.addSublayer(layer!)
-                superview!.subviews.compactMap { $0 as? Card }.forEach { card in
-                    card.trackingAreas.forEach(card.removeTrackingArea(_:))
-                }
                 
                 if let child = self.child {
                     child.top = child.topAnchor.constraint(equalTo: top.secondAnchor as! NSLayoutAnchor<NSLayoutYAxisAnchor>, constant: 20)
@@ -125,42 +118,46 @@ final class Card: NSView, NSTextViewDelegate {
             app.session.move(app.project!, list: column, card: index, destination: destination, index:
                 superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
             kanban?.refresh()
+        } else {
+            deltaX = 0
+            deltaY = 0
         }
-        dragging = false
-        deltaX = 0
-        deltaY = 0
     }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
-            $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
-            _delete.alphaValue = 1
+        if !dragging {
+            super.mouseEntered(with: with)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.5
+                $0.allowsImplicitAnimation = true
+                layer!.backgroundColor = NSColor(named: "background")!.cgColor
+                _delete.alphaValue = 1
+            }
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
-            $0.allowsImplicitAnimation = true
-            _delete.alphaValue = 0
-            if !app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                layer!.backgroundColor = .clear
+        if !dragging {
+            super.mouseExited(with: with)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.5
+                $0.allowsImplicitAnimation = true
+                _delete.alphaValue = 0
+                if !app.session.content(app.project!, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    layer!.backgroundColor = .clear
+                }
             }
         }
     }
     
     override func mouseUp(with: NSEvent) {
-        if _delete.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if !dragging && _delete != nil && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
             if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project!, list: column, card: index)
                 kanban?.refresh()
             } else {
-                _delete.alphaValue = 0
+                _delete!.alphaValue = 0
                 app.runModal(for: Delete.Card(index, list: column))
             }
         }

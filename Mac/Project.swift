@@ -132,8 +132,8 @@ final class Project: NSView {
             
             chart!.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
             chart!.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -10).isActive = true
-            chart!.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
-            chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+            chart!.rightAnchor.constraint(equalTo: rightAnchor, constant: -23).isActive = true
+            chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
         }
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
