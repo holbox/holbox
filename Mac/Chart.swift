@@ -6,6 +6,8 @@ class Chart: NSView {
         var space = CGFloat()
         
         override func draw(_ rect: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+            let rect = bounds
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
@@ -36,6 +38,8 @@ class Chart: NSView {
     
     final class Todo: Chart {
         override func draw(_ rect: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+            let rect = bounds
             let waiting = CGFloat(app.session.cards(index, list: 0))
             let done = CGFloat(app.session.cards(index, list: 1))
             let total = waiting + done
@@ -50,7 +54,7 @@ class Chart: NSView {
             on.lineWidth = 0
             on.path = {
                 $0.move(to: center)
-                $0.addArc(center: center, radius: radius - 3, startAngle: start, endAngle: first, clockwise: false)
+                $0.addArc(center: center, radius: radius, startAngle: start, endAngle: first, clockwise: false)
                 $0.move(to: center)
                 return $0
             } (CGMutablePath())
@@ -61,7 +65,7 @@ class Chart: NSView {
             off.lineWidth = 0
             off.path = {
                 $0.move(to: center)
-                $0.addArc(center: center, radius: radius - 3, startAngle: first, endAngle: second, clockwise: false)
+                $0.addArc(center: center, radius: radius, startAngle: first, endAngle: second, clockwise: false)
                 $0.move(to: center)
                 return $0
             } (CGMutablePath())
@@ -73,6 +77,8 @@ class Chart: NSView {
         var width = CGFloat()
         
         override func draw(_ rect: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+            let rect = bounds
             let products = CGFloat(app.session.cards(index, list: 0))
             let needed = CGFloat(app.session.cards(index, list: 1))
             let size = rect.width - width
@@ -109,6 +115,67 @@ class Chart: NSView {
                 } (CGMutablePath())
                 layer!.addSublayer(on)
             }
+        }
+    }
+    
+    final class Spider: Chart {
+        override func draw(_ rect: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+            let rect = bounds
+            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(index, list: $1))
+            }
+            let total = CGFloat(cards.reduce(0, +))
+            let circ = (.pi * 2) / CGFloat(cards.count)
+            let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
+            let radius = min(rect.width, rect.height) / 2
+            
+            let inner = CAShapeLayer()
+            inner.fillColor = .clear
+            inner.lineWidth = 1
+            inner.lineCap = .round
+            inner.strokeColor = .black
+            
+            let cross = CAShapeLayer()
+            cross.fillColor = .clear
+            cross.lineWidth = 2
+            cross.lineCap = .round
+            cross.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+            
+            let shape = CAShapeLayer()
+            shape.fillColor = NSColor(named: "haze")!.cgColor
+            shape.lineWidth = 0
+            
+            let _shape = CGMutablePath(), _cross = CGMutablePath(), _inner = CGMutablePath()
+            
+            _cross.addArc(center: center, radius: radius - 2, startAngle: 0, endAngle: .pi * 2, clockwise: false)
+            
+            cards.enumerated().forEach { card in
+                let size = max(.init(card.1) / total * radius, 10)
+                let dummy = CGMutablePath()
+                dummy.addArc(center: center, radius: size, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                if card.0 == 0 {
+                    _shape.move(to: dummy.currentPoint)
+                } else {
+                    _shape.addLine(to: dummy.currentPoint)
+                }
+                dummy.addArc(center: center, radius: radius - 2, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                
+                _cross.move(to: center)
+                _cross.addLine(to: dummy.currentPoint)
+                
+                dummy.addArc(center: center, radius: (size * 0.8), startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                
+                _inner.move(to: center)
+                _inner.addLine(to: dummy.currentPoint)
+            }
+            
+            shape.path = _shape
+            cross.path = _cross
+            inner.path = _inner
+            layer!.addSublayer(shape)
+            layer!.addSublayer(cross)
+            layer!.addSublayer(inner)
         }
     }
     
