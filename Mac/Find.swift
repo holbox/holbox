@@ -69,7 +69,7 @@ final class Find: NSView, NSTextViewDelegate {
         addSubview(_prev)
         self._prev = _prev
         
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        heightAnchor.constraint(equalToConstant: 51).isActive = true
         width = widthAnchor.constraint(equalToConstant: 40)
         width.isActive = true
         
@@ -89,7 +89,7 @@ final class Find: NSView, NSTextViewDelegate {
         baseWidth = base.widthAnchor.constraint(equalToConstant: 40)
         baseWidth.isActive = true
         
-        text.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
+        text.centerYAnchor.constraint(equalTo: icon.centerYAnchor, constant: 2).isActive = true
         text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
         text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -10).isActive = true
         

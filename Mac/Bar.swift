@@ -57,7 +57,7 @@ final class Bar: NSView, NSTextViewDelegate {
         unmove.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         unmove.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -2).isActive = true
+        _home.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         _home.leftAnchor.constraint(equalTo: leftAnchor, constant: 100).isActive = true
         _home.heightAnchor.constraint(equalTo: _home.widthAnchor).isActive = true
         button = _home.widthAnchor.constraint(equalToConstant: 100)
