@@ -70,6 +70,7 @@
 		DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAD2376B8E400A3393C /* TestProduct.swift */; };
 		DA813BB02376CF7400A3393C /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAF2376CF7400A3393C /* Grocery.swift */; };
 		DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA82CDA6235DAB5E00CBB15D /* Capsule.swift */; };
+		DA82FE422387DE3600F56434 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA82FE412387DE3600F56434 /* Chart.swift */; };
 		DA896A2E23857DCA00A26B8D /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA896A2D23857DCA00A26B8D /* Layout.swift */; };
 		DA896A2F23857DCA00A26B8D /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA896A2D23857DCA00A26B8D /* Layout.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
@@ -318,6 +319,7 @@
 		DA813BAD2376B8E400A3393C /* TestProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProduct.swift; sourceTree = "<group>"; };
 		DA813BAF2376CF7400A3393C /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
 		DA82CDA6235DAB5E00CBB15D /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
+		DA82FE412387DE3600F56434 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		DA896A2D23857DCA00A26B8D /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
@@ -593,6 +595,7 @@
 				DAA463FD235886E600A5E990 /* Border.swift */,
 				DAD8F19F234E160F00835E3E /* Button.swift */,
 				DAC22D242354D1BC0004FBFD /* Card.swift */,
+				DA82FE412387DE3600F56434 /* Chart.swift */,
 				DAC22D262354D1F90004FBFD /* Column.swift */,
 				DAD8F1A3234E3F1B00835E3E /* Control.swift */,
 				DA4BC3F92354780700C023D6 /* Delete.swift */,
@@ -1128,6 +1131,7 @@
 				DAD8F19E234DD3F400835E3E /* Bar.swift in Sources */,
 				DAF0963F235B077C00BCC800 /* Container.swift in Sources */,
 				DAEA6A592382CC6B008EF8B4 /* Notes.swift in Sources */,
+				DA82FE422387DE3600F56434 /* Chart.swift in Sources */,
 				DAD8F19A234DBB9700835E3E /* Label.swift in Sources */,
 				DAD8F193234DBAB900835E3E /* Menu.swift in Sources */,
 			);

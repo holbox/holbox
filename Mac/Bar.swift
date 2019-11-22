@@ -100,10 +100,10 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .bold), .white),
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!),
                                                 .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
-                                                .bold: (.systemFont(ofSize: 14, weight: .heavy), .white),
-                                                .tag: (.systemFont(ofSize: 14, weight: .regular), NSColor(named: "haze")!)]
+                                                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
+                                                .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project!)
