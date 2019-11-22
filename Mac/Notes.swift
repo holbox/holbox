@@ -48,7 +48,7 @@ final class Notes: View, NSTextViewDelegate {
         refresh()
         
         DispatchQueue.main.async { [weak self] in
-            guard let self = self, self.text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+            guard let self = self else { return }
             self.window?.makeFirstResponder(self.text)
         }
     }

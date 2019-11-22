@@ -1,4 +1,5 @@
 import AppKit
+import NaturalLanguage
 
 final class Project: NSView {
     weak var top: NSLayoutConstraint! { didSet { top.isActive = true } }
@@ -10,20 +11,20 @@ final class Project: NSView {
     
     private var detail: String {
         switch app.session.mode(index) {
-        case .kanban: return detailKanban
-        case .todo: return detailTodo
-        case .shopping: return detailShopping
-        case .notes: return detailNotes
+        case .kanban: return _kanban
+        case .todo: return _todo
+        case .shopping: return _shopping
+        case .notes: return _notes
         default: return ""
         }
     }
     
-    private var detailKanban: String {
+    private var _kanban: String {
         "\(app.session.lists(index)) " + .key("Project.columns") + "\n" +
         "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.cards") + "\n"
     }
     
-    private var detailTodo: String {
+    private var _todo: String {
         let waiting = app.session.cards(index, list: 0)
         let done = app.session.cards(index, list: 1)
         return "\(waiting + done) " + .key("Project.tasks") + "\n"
@@ -31,15 +32,42 @@ final class Project: NSView {
             + "\(done) " + .key("Project.done") + "\n"
     }
     
-    private var detailShopping: String {
-        return "\(app.session.cards(index, list: 0)) " + .key("Project.products") + "\n" +
+    private var _shopping: String {
+        "\(app.session.cards(index, list: 0)) " + .key("Project.products") + "\n" +
             "\(app.session.cards(index, list: 1)) " + .key("Project.needed") + "\n"
     }
     
-    private var detailNotes: String {
-        "\(app.session.content(index, list: 0, card: 0).components(separatedBy: .newlines).count) " + .key("Project.lines") + "\n"
-            + "\(app.session.content(index, list: 0, card: 0).components(separatedBy: .whitespacesAndNewlines).count) " + .key("Project.words") + "\n"
-            + .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!)) + "\n"
+    private var _notes: String {
+        let content = app.session.content(index, list: 0, card: 0)
+        var paragraphs = 0, sentences = 0
+        content.enumerateSubstrings(in: content.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
+        content.enumerateSubstrings(in: content.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
+        var string = ""
+        if #available(OSX 10.15, *) {
+            let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
+            tagger.string = content
+            switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
+            case "en":
+                string += .key("Project.english") + "\n"
+            case "de":
+                string += .key("Project.german") + "\n"
+            default: break
+            }
+            let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
+            if score == 0 {
+                string += .key("Project.neutral") + "\n"
+            } else if score > 0 {
+                string += .key("Project.positive") + "\n"
+            } else {
+                string += .key("Project.negative") + "\n"
+            }
+        }
+        string += "\(paragraphs) " + .key("Project.paragraphs") + "\n"
+        string += "\(sentences) " + .key("Project.sentences") + "\n"
+        string += "\(content.components(separatedBy: .newlines).count) " + .key("Project.lines") + "\n"
+        string += "\(content.components(separatedBy: .whitespacesAndNewlines).count) " + .key("Project.words") + "\n"
+        string += .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!))
+        return string + "\n"
     }
     
     required init?(coder: NSCoder) { nil }
