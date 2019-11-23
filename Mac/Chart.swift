@@ -5,14 +5,12 @@ class Chart: NSView {
         var width = CGFloat()
         var space = CGFloat()
         
-        override func draw(_ rect: NSRect) {
-            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-            let rect = bounds
+        override func draw() {
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
             let total = CGFloat(cards.reduce(0, +))
-            let height = rect.height - (width / 2)
+            let height = bounds.height - (width / 2)
             cards.enumerated().forEach { card in
                 let shape = CAShapeLayer()
                 shape.strokeColor = NSColor(named: "haze")!.cgColor
@@ -37,9 +35,7 @@ class Chart: NSView {
     }
     
     final class Todo: Chart {
-        override func draw(_ rect: NSRect) {
-            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-            let rect = bounds
+        override func draw() {
             let waiting = CGFloat(app.session.cards(index, list: 0))
             let done = CGFloat(app.session.cards(index, list: 1))
             let total = waiting + done
@@ -47,8 +43,8 @@ class Chart: NSView {
             let first = start + (.pi * 2) * (done / total)
             let second = first + (.pi * 2) * (waiting / total)
             
-            let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
-            let radius = min(rect.width, rect.height) / 2
+            let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+            let radius = min(bounds.width, bounds.height) / 2
             let on = CAShapeLayer()
             on.fillColor = NSColor(named: "haze")!.cgColor
             on.lineWidth = 0
@@ -76,17 +72,15 @@ class Chart: NSView {
     final class Shopping: Chart {
         var width = CGFloat()
         
-        override func draw(_ rect: NSRect) {
-            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-            let rect = bounds
+        override func draw() {
             let products = CGFloat(app.session.cards(index, list: 0))
             let needed = CGFloat(app.session.cards(index, list: 1))
-            let size = rect.width - width
+            let size = bounds.width - width
             let start = width / 2
             let first = start + (((products - needed) / products) * size)
             let second = first + ((needed / products) * size)
-            let yFirst = rect.midY + (width / 5)
-            let ySecond = rect.midY - (width / 5)
+            let yFirst = bounds.midY + (width / 5)
+            let ySecond = bounds.midY - (width / 5)
             
             if needed > 0 {
                 let off = CAShapeLayer()
@@ -119,20 +113,18 @@ class Chart: NSView {
     }
     
     final class Spider: Chart {
-        override func draw(_ rect: NSRect) {
-            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-            let rect = bounds
+        override func draw() {
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
-            let total = CGFloat(cards.reduce(0, +))
+            let total = CGFloat(cards.max() ?? 1)
             let circ = (.pi * 2) / CGFloat(cards.count)
-            let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
-            let radius = min(rect.width, rect.height) / 2
+            let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+            let radius = bounds.width / 5
             
             let inner = CAShapeLayer()
             inner.fillColor = .clear
-            inner.lineWidth = 1
+            inner.lineWidth = 2
             inner.lineCap = .round
             inner.strokeColor = .black
             
@@ -140,7 +132,7 @@ class Chart: NSView {
             cross.fillColor = .clear
             cross.lineWidth = 2
             cross.lineCap = .round
-            cross.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+            cross.strokeColor = NSColor(named: "haze")!.cgColor
             
             let shape = CAShapeLayer()
             shape.fillColor = NSColor(named: "haze")!.cgColor
@@ -148,10 +140,8 @@ class Chart: NSView {
             
             let _shape = CGMutablePath(), _cross = CGMutablePath(), _inner = CGMutablePath()
             
-            _cross.addArc(center: center, radius: radius - 2, startAngle: 0, endAngle: .pi * 2, clockwise: false)
-            
             cards.enumerated().forEach { card in
-                let size = max(.init(card.1) / total * radius, 10)
+                let size = max(.init(card.1) / total * (radius - 1), 10)
                 let dummy = CGMutablePath()
                 dummy.addArc(center: center, radius: size, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
                 if card.0 == 0 {
@@ -159,15 +149,32 @@ class Chart: NSView {
                 } else {
                     _shape.addLine(to: dummy.currentPoint)
                 }
-                dummy.addArc(center: center, radius: radius - 2, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                dummy.addArc(center: center, radius: radius, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
                 
                 _cross.move(to: center)
                 _cross.addLine(to: dummy.currentPoint)
                 
-                dummy.addArc(center: center, radius: (size * 0.8), startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                dummy.addArc(center: center, radius: (size * 0.9), startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
                 
                 _inner.move(to: center)
                 _inner.addLine(to: dummy.currentPoint)
+                
+                dummy.addArc(center: center, radius: radius, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
+                
+                let label = Label(app.session.name(index, list: card.0), 14, .bold, NSColor(named: "haze")!)
+                addSubview(label)
+                
+                if dummy.currentPoint.y == center.y {
+                    label.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(dummy.currentPoint.y + 2)).isActive = true
+                    label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
+                    label.leftAnchor.constraint(equalTo: leftAnchor, constant: dummy.currentPoint.x + 5).isActive = true
+                } else if dummy.currentPoint.y > center.y {
+                    label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(dummy.currentPoint.y + 10)).isActive = true
+                    label.leftAnchor.constraint(equalTo: leftAnchor, constant: dummy.currentPoint.x).isActive = true
+                } else {
+                    label.topAnchor.constraint(equalTo: bottomAnchor, constant: -(dummy.currentPoint.y - 10)).isActive = true
+                    label.leftAnchor.constraint(equalTo: leftAnchor, constant: dummy.currentPoint.x).isActive = true
+                }
             }
             
             shape.path = _shape
@@ -188,5 +195,15 @@ class Chart: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
+    }
+    
+    override func draw(_: NSRect) {
+        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        subviews.forEach { $0.removeFromSuperview() }
+        draw()
+    }
+    
+    private func draw() {
+        
     }
 }
