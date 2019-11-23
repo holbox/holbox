@@ -3,7 +3,7 @@ import AppKit
 final class Grocery: NSView {
     let reference: Int
     private(set) weak var text: Text!
-    private weak var emoji: Label!
+    private(set) weak var emoji: Label!
     private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     

@@ -100,7 +100,9 @@ final class Shopping: View {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Grocery }.forEach { grocery in
-            let ranges = ranges.filter { $0.0 == 0 && $0.1 == grocery.reference }.map { $0.2 as NSValue }
+            let ranges = ranges.filter { $0.0 == 0 && $0.1 == grocery.reference }.map {
+                NSValue(range: .init(location: $0.2.lowerBound - (grocery.emoji.stringValue.utf16.count + 1), length: $0.2.length))
+            }
             if ranges.isEmpty {
                 grocery.text.setSelectedRange(.init())
             } else {
