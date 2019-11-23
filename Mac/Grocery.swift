@@ -1,16 +1,14 @@
 import AppKit
 
 final class Grocery: NSView {
-    let reference: Int
+    let index: Int
     private(set) weak var text: Text!
     private(set) weak var emoji: Label!
-    private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
         self.index = index
-        reference = Int(app.session.content(app.project!, list: 1, card: index))!
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)

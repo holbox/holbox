@@ -100,9 +100,7 @@ final class Shopping: View {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Grocery }.forEach { grocery in
-            let ranges = ranges.filter { $0.0 == 0 && $0.1 == grocery.reference }.map {
-                NSValue(range: .init(location: $0.2.lowerBound - (grocery.emoji.stringValue.utf16.count + 1), length: $0.2.length))
-            }
+            let ranges = ranges.filter { $0.0 == 1 && $0.1 == grocery.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
                 grocery.text.setSelectedRange(.init())
             } else {
@@ -120,17 +118,32 @@ final class Shopping: View {
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        let text = stock.views.compactMap { $0 as? Product }.first { $0.index == card }!.text!
-        var frame = stock.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
-        frame.origin.x -= (stock.bounds.width - frame.size.width) / 2
-        frame.origin.y -= (stock.bounds.height / 2) - frame.size.height
-        frame.size.width = stock.bounds.width
-        frame.size.height = stock.bounds.height
-        text.showFindIndicator(for: range)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
-            $0.allowsImplicitAnimation = true
-            stock.contentView.scrollToVisible(frame)
+        if list == 0 {
+            let text = stock.views.compactMap { $0 as? Product }.first { $0.index == card }!.text!
+            var frame = stock.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
+            frame.origin.x -= (stock.bounds.width - frame.size.width) / 2
+            frame.origin.y -= (stock.bounds.height / 2) - frame.size.height
+            frame.size.width = stock.bounds.width
+            frame.size.height = stock.bounds.height
+            text.showFindIndicator(for: range)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.4
+                $0.allowsImplicitAnimation = true
+                stock.contentView.scrollToVisible(frame)
+            }
+        } else {
+            let text = scroll.views.compactMap { $0 as? Grocery }.first { $0.index == card }!.text!
+            var frame = scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
+            frame.origin.x -= (scroll.bounds.width - frame.size.width) / 2
+            frame.origin.y -= (scroll.bounds.height / 2) - frame.size.height
+            frame.size.width = scroll.bounds.width
+            frame.size.height = scroll.bounds.height
+            text.showFindIndicator(for: range)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.4
+                $0.allowsImplicitAnimation = true
+                scroll.contentView.scrollToVisible(frame)
+            }
         }
     }
     
