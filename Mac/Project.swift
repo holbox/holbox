@@ -116,9 +116,9 @@ final class Project: NSView {
         
         switch app.session.mode(index) {
         case .kanban:
-            chart = .Kanban(index)
-            (chart as! Chart.Kanban).width = 15
-            (chart as! Chart.Kanban).space = 5
+            chart = .Lines(index)
+            (chart as! Chart.Lines).width = 8
+            (chart as! Chart.Lines).space = 18
         case .todo:
             chart = .Todo(index)
         case .shopping:

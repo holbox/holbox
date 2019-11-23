@@ -1,7 +1,7 @@
 import AppKit
 
 class Chart: NSView {
-    final class Kanban: Chart {
+    final class Lines: Chart {
         var width = CGFloat()
         var space = CGFloat()
         
@@ -183,6 +183,80 @@ class Chart: NSView {
             layer!.addSublayer(shape)
             layer!.addSublayer(cross)
             layer!.addSublayer(inner)
+        }
+    }
+    
+    final class Kanban: Chart {
+        private let height = CGFloat(200)
+        private let width = CGFloat(15)
+        private let space = CGFloat(30)
+        
+        required init?(coder: NSCoder) { nil }
+        override init(_ index: Int) {
+            super.init(index)
+            widthAnchor.constraint(equalToConstant: (.init(app.session.lists(index)) * (width + space)) + 150).isActive = true
+            heightAnchor.constraint(equalToConstant: height + 100).isActive = true
+        }
+        
+        override func draw() {
+            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(index, list: $1))
+            }
+            let total = CGFloat(cards.reduce(0, +))
+            let top = CGFloat(cards.max() ?? 1)
+            var topper = topAnchor
+            cards.enumerated().forEach { card in
+                let shape = CAShapeLayer()
+                shape.strokeColor = NSColor(named: "haze")!.cgColor
+                shape.lineWidth = width
+                shape.fillColor = .clear
+                let x = (.init(card.0) * (width + space)) + (width / 2) + 100
+                let y: CGFloat
+                if total > 0 && card.1 > 0 {
+                    shape.lineCap = .round
+                    y = .init(card.1) / top * height
+                } else {
+                    y = 2
+                }
+                shape.path = {
+                    $0.move(to: .init(x: x, y: -width))
+                    $0.addLine(to: .init(x: x, y: y))
+                    return $0
+                } (CGMutablePath())
+                layer!.addSublayer(shape)
+                
+                if total > 0 && card.1 > 0 {
+                    let line = CAShapeLayer()
+                    line.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+                    line.lineWidth = 2
+                    line.lineCap = .round
+                    line.fillColor = .clear
+                    line.path = {
+                        $0.move(to: .init(x: 0, y: y))
+                        $0.addLine(to: .init(x: x, y: y))
+                        return $0
+                    } (CGMutablePath())
+                    layer!.addSublayer(line)
+                    
+                    let name = Label(app.session.name(index, list: card.0), 14, .bold, NSColor(named: "haze")!)
+                    addSubview(name)
+                    
+                    name.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+                    name.topAnchor.constraint(greaterThanOrEqualTo: topper, constant: 20).isActive = true
+                    
+                    let bottom = name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(y + width))
+                    bottom.priority = .defaultLow
+                    bottom.isActive = true
+                    
+                    topper = name.bottomAnchor
+                }
+                
+                let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
+                addSubview(counter)
+                
+                counter.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(y + width)).isActive = true
+                counter.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
+            }
         }
     }
     

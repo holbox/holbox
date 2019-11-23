@@ -112,21 +112,18 @@ final class Kanban: View {
         scroll.add(spider)
 
         let kanban = Chart.Kanban(app.project!)
-        kanban.width = 30
-        kanban.space = 15
         scroll.add(kanban)
         
         spider.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        spider.leftAnchor.constraint(equalTo: left, constant: 40).isActive = true
+        spider.leftAnchor.constraint(equalTo: left, constant: 50).isActive = true
         spider.widthAnchor.constraint(equalToConstant: 300).isActive = true
         spider.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
-        kanban.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 30).isActive = true
-        kanban.centerXAnchor.constraint(equalTo: spider.centerXAnchor).isActive = true
-        kanban.widthAnchor.constraint(equalToConstant: CGFloat(45 * app.session.lists(app.project!))).isActive = true
-        kanban.heightAnchor.constraint(equalToConstant: 250).isActive = true
+        kanban.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 80).isActive = true
+        kanban.leftAnchor.constraint(equalTo: left, constant: 120).isActive = true
         
         scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 60).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: kanban.rightAnchor, constant: 60).isActive = true
         tags.refresh()
     }
     
