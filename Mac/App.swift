@@ -76,7 +76,9 @@ private(set) weak var app: App!
     
     func refresh() {
         if session?.refreshable == true {
-            main.makeFirstResponder(nil)
+            if let text = main.firstResponder as? Text {
+                main.makeFirstResponder(text.superview!)
+            }
             DispatchQueue.main.async {
                 self.session?.refresh {
                     if (self.project == nil && !$0.isEmpty) || (self.project != nil && $0.contains(self.project!)) {

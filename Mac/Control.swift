@@ -26,6 +26,8 @@ final class Control: NSView {
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     override func resetCursorRects() {
@@ -35,6 +37,11 @@ final class Control: NSView {
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
         super.mouseDown(with: with)
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        super.mouseExited(with: with)
+        alphaValue = 1
     }
     
     override func mouseUp(with: NSEvent) {

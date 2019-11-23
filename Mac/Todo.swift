@@ -49,19 +49,17 @@ final class Todo: View, NSTextViewDelegate {
     
     override func keyDown(with: NSEvent) {
         switch with.keyCode {
-        case 36: add()
+        case 36:
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                add()
+            } else {
+                window!.makeFirstResponder(new)
+                new.setSelectedRange(.init(location: new.string.count, length: 0))
+            }
+        case 48:
+            window!.makeFirstResponder(new)
+            new.setSelectedRange(.init(location: 0, length: new.string.count))
         default: super.keyDown(with: with)
-        }
-    }
-    
-    func textDidEndEditing(_: Notification) {
-        let string = new.string
-        new.string = ""
-        new.needsLayout = true
-        if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            app.session.add(app.project!, list: 0, content: string)
-            app.alert(.key("Task"), message: string)
-            refresh()
         }
     }
     
@@ -128,6 +126,14 @@ final class Todo: View, NSTextViewDelegate {
             window!.makeFirstResponder(new)
         } else {
             window!.makeFirstResponder(self)
+            let string = new.string
+            new.string = ""
+            new.needsLayout = true
+            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project!, list: 0, content: string)
+                app.alert(.key("Task"), message: string)
+                refresh()
+            }
         }
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4

@@ -24,6 +24,8 @@ final class Button: NSView {
         icon.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
         icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     override func resetCursorRects() {
@@ -33,6 +35,11 @@ final class Button: NSView {
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
         super.mouseDown(with: with)
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        super.mouseExited(with: with)
+        alphaValue = 1
     }
     
     override func mouseUp(with: NSEvent) {

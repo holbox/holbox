@@ -92,11 +92,14 @@ final class Text: NSTextView {
                 window!.makeFirstResponder(superview!)
             }
         case 36:
-            if intro {
+            if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+                window!.makeFirstResponder(superview!)
+                superview!.keyDown(with: with)
+            } else if intro {
                 super.keyDown(with: with)
             } else {
                 window!.keyDown(with: with)
-                window!.makeFirstResponder(superview!)
+                window!.makeFirstResponder(superview!.superview!)
             }
         default: super.keyDown(with: with)
         }
