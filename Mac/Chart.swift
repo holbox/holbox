@@ -195,7 +195,7 @@ class Chart: NSView {
         override init(_ index: Int) {
             super.init(index)
             widthAnchor.constraint(equalToConstant: (.init(app.session.lists(index)) * (width + space)) + 150).isActive = true
-            heightAnchor.constraint(equalToConstant: height + 100).isActive = true
+            heightAnchor.constraint(equalToConstant: height + 60 + width).isActive = true
         }
         
         override func draw() {
@@ -204,7 +204,12 @@ class Chart: NSView {
             }
             let total = CGFloat(cards.reduce(0, +))
             let top = CGFloat(cards.max() ?? 1)
-            var topper = topAnchor
+            
+            let mask = CALayer()
+            mask.masksToBounds = true
+            mask.frame = .init(x: 0, y: 60, width: bounds.width, height: bounds.height - 60)
+            layer!.addSublayer(mask)
+            
             cards.enumerated().forEach { card in
                 let shape = CAShapeLayer()
                 shape.strokeColor = NSColor(named: "haze")!.cgColor
@@ -223,7 +228,7 @@ class Chart: NSView {
                     $0.addLine(to: .init(x: x, y: y))
                     return $0
                 } (CGMutablePath())
-                layer!.addSublayer(shape)
+                mask.addSublayer(shape)
                 
                 if total > 0 && card.1 > 0 {
                     let line = CAShapeLayer()
@@ -242,13 +247,10 @@ class Chart: NSView {
                     addSubview(name)
                     
                     name.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
-                    name.topAnchor.constraint(greaterThanOrEqualTo: topper, constant: 20).isActive = true
                     
                     let bottom = name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(y + width))
                     bottom.priority = .defaultLow
                     bottom.isActive = true
-                    
-                    topper = name.bottomAnchor
                 }
                 
                 let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
