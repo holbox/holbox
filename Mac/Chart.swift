@@ -113,6 +113,13 @@ class Chart: NSView {
     }
     
     final class Spider: Chart {
+        required init?(coder: NSCoder) { nil }
+        override init(_ index: Int) {
+            super.init(index)
+            widthAnchor.constraint(equalToConstant: 300).isActive = true
+            heightAnchor.constraint(equalToConstant: 250).isActive = true
+        }
+        
         override func draw() {
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
@@ -141,7 +148,7 @@ class Chart: NSView {
             let _shape = CGMutablePath(), _cross = CGMutablePath(), _inner = CGMutablePath()
             
             cards.enumerated().forEach { card in
-                let size = max(.init(card.1) / total * (radius - 1), 10)
+                let size = total > 0 ? max(.init(card.1) / total * (radius - 1), 10) : 20
                 let dummy = CGMutablePath()
                 dummy.addArc(center: center, radius: size, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
                 if card.0 == 0 {
@@ -195,7 +202,7 @@ class Chart: NSView {
         required init?(coder: NSCoder) { nil }
         override init(_ index: Int) {
             super.init(index)
-            widthAnchor.constraint(equalToConstant: (.init(app.session.lists(index)) * (width + space)) + 100).isActive = true
+            widthAnchor.constraint(equalToConstant: (.init(app.session.lists(index)) * (width + space)) + 70).isActive = true
             heightAnchor.constraint(equalToConstant: height + 60 + width).isActive = true
         }
         
@@ -203,7 +210,6 @@ class Chart: NSView {
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
-            let total = CGFloat(cards.reduce(0, +))
             let top = CGFloat(cards.max() ?? 1)
             
             let mask = CALayer()
@@ -216,11 +222,31 @@ class Chart: NSView {
                 shape.strokeColor = NSColor(named: "haze")!.cgColor
                 shape.lineWidth = width
                 shape.fillColor = .clear
-                let x = (.init(card.0) * (width + space)) + (width / 2) + 60
+                let x = (.init(card.0) * (width + space)) + (width / 2) + 80
                 let y: CGFloat
-                if total > 0 && card.1 > 0 {
+                if card.1 > 0 {
                     shape.lineCap = .round
                     y = .init(card.1) / top * height
+                    
+                    if !cards.enumerated().contains(where: { $0.0 < card.0 && $0.1 == card.1 }) {
+                        let line = CAShapeLayer()
+                        line.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+                        line.lineWidth = 2
+                        line.lineCap = .round
+                        line.fillColor = .clear
+                        line.path = {
+                            $0.move(to: .init(x: 60, y: y + 60))
+                            $0.addLine(to: .init(x: bounds.width - 20, y: y + 60))
+                            return $0
+                        } (CGMutablePath())
+                        layer!.addSublayer(line)
+                        
+                        let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
+                        addSubview(counter)
+                        
+                        counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y + 60)).isActive = true
+                        counter.rightAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
+                    }
                 } else {
                     y = 2
                 }
@@ -231,32 +257,79 @@ class Chart: NSView {
                 } (CGMutablePath())
                 mask.addSublayer(shape)
                 
-                if total > 0 && card.1 > 0 {
-                    let line = CAShapeLayer()
-                    line.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
-                    line.lineWidth = 2
-                    line.lineCap = .round
-                    line.fillColor = .clear
-                    line.path = {
-                        $0.move(to: .init(x: 0, y: y))
-                        $0.addLine(to: .init(x: x, y: y))
-                        return $0
-                    } (CGMutablePath())
-                    layer!.addSublayer(line)
-                    
-                    let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
-                    addSubview(counter)
-                    
-                    counter.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -(y + width)).isActive = true
-                    counter.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
-                }
-                
                 let name = Label(app.session.name(index, list: card.0), 12, .bold, NSColor(named: "haze")!)
                 addSubview(name)
                 
                 name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
                 name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
             }
+        }
+    }
+    
+    final class Ring: Chart {
+        required init?(coder: NSCoder) { nil }
+        override init(_ index: Int) {
+            super.init(index)
+            widthAnchor.constraint(equalToConstant: 350).isActive = true
+            heightAnchor.constraint(equalToConstant: 200).isActive = true
+        }
+        
+        override func draw() {
+            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(index, list: $1))
+            }
+            let total = CGFloat(cards.reduce(0, +))
+            let amount = .init(cards.last!) / total
+            guard total > 0 else { return }
+        
+            let center = CGPoint(x: 120, y: bounds.height / 2)
+            let off = CAShapeLayer()
+            off.fillColor = .clear
+            off.lineWidth = 8
+            off.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+            off.path = {
+                $0.addArc(center: center, radius: 60, startAngle: 0, endAngle: .pi * 2, clockwise: false)
+                return $0
+            } (CGMutablePath())
+            layer!.addSublayer(off)
+            
+            let on = CAShapeLayer()
+            on.fillColor = .clear
+            on.lineWidth = 16
+            on.lineCap = .round
+            on.strokeColor = NSColor(named: "haze")!.cgColor
+            on.path = {
+                $0.addArc(center: center, radius: 60, startAngle: 0, endAngle: (.pi * -2) * amount, clockwise: true)
+                return $0
+            } (CGMutablePath())
+            layer!.addSublayer(on)
+            
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .percent
+            
+            let percent = Label(formatter.string(from: NSNumber(value: Double(.init(cards.last!) / total)))!, 16, .bold, NSColor(named: "haze")!)
+            addSubview(percent)
+            
+            let done = Label([
+                (app.session.name(index, list: app.session.lists(index) - 1) + "\n", 14, .regular, NSColor(named: "haze")!),
+                ("\(cards.last!)", 14, .bold, NSColor(named: "haze")!)
+                ], align: .center)
+            addSubview(done)
+            
+            let _total = Label([
+                (.key("Chart.total") + "\n", 14, .regular, NSColor(named: "haze")!),
+                ("\(Int(total))", 14, .bold, NSColor(named: "haze")!)
+                ], align: .center)
+            addSubview(_total)
+            
+            percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: center.x).isActive = true
+            
+            done.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            done.leftAnchor.constraint(equalTo: leftAnchor, constant: 220).isActive = true
+            
+            _total.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            _total.leftAnchor.constraint(equalTo: done.rightAnchor, constant: 20).isActive = true
         }
     }
     
