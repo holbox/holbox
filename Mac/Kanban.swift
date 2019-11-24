@@ -120,10 +120,10 @@ final class Kanban: View {
         spider.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
         kanban.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 80).isActive = true
-        kanban.leftAnchor.constraint(equalTo: left, constant: 120).isActive = true
+        kanban.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 60).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: kanban.rightAnchor, constant: 60).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 40).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: kanban.rightAnchor, constant: 40).isActive = true
         tags.refresh()
     }
     

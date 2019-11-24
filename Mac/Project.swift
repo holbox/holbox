@@ -113,17 +113,10 @@ final class Project: NSView {
         _delete.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         var chart: Chart?
-        
         switch app.session.mode(index) {
-        case .kanban:
-            chart = .Lines(index)
-            (chart as! Chart.Lines).width = 8
-            (chart as! Chart.Lines).space = 18
-        case .todo:
-            chart = .Todo(index)
-        case .shopping:
-            chart = .Shopping(index)
-            (chart as! Chart.Shopping).width = 20
+        case .kanban: chart = .Lines(index)
+        case .todo: chart = .Todo(index)
+        case .shopping: chart = .Shopping(index)
         default: break
         }
         
