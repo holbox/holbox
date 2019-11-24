@@ -111,6 +111,7 @@ Note="Note";
 Search="Search";
 Find.matches="matches";
 Chart.total="Total";
+Chart.done="Done";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";

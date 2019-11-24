@@ -50,7 +50,7 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(icon)
         self.icon = icon
         
-        let text = Text(.Fixed(), Block())
+        let text = Text(.Fix(), Block())
         text.setAccessibilityElement(false)
         if list == 1 {
             (text.textStorage as! Storage).fonts = [

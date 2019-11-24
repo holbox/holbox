@@ -1,6 +1,7 @@
 import AppKit
 
 final class Todo: View, NSTextViewDelegate {
+    private(set) weak var tags: Tags!
     private weak var scroll: Scroll!
     private weak var new: Text!
     
@@ -11,7 +12,11 @@ final class Todo: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let new = Text(.Vertical(500), Active())
+        let tags = Tags()
+        scroll.add(tags)
+        self.tags = tags
+        
+        let new = Text(.Fix(), Active())
         new.setAccessibilityLabel(.key("Task"))
         new.font = .systemFont(ofSize: 22, weight: .medium)
         (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .medium), .white),
@@ -31,16 +36,23 @@ final class Todo: View, NSTextViewDelegate {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
+        scroll.right.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 40).isActive = true
         
+        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        
         new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        new.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
-        new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
+        new.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
+        new.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
+        new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
         new.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
         
+        let width = new.widthAnchor.constraint(equalToConstant: 400)
+        width.priority = .defaultLow
+        width.isActive = true
+        
         _add.topAnchor.constraint(equalTo: new.bottomAnchor, constant: -15).isActive = true
-        _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+        _add.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -64,7 +76,11 @@ final class Todo: View, NSTextViewDelegate {
     }
     
     override func refresh() {
-        scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        
+        let ring = Chart.Ring(app.project!)
+        scroll.add(ring)
+        
         var top: NSLayoutYAxisAnchor?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project!, list: list)).forEach {
@@ -76,19 +92,21 @@ final class Todo: View, NSTextViewDelegate {
                 } else {
                     task.topAnchor.constraint(equalTo: top!).isActive = true
                 }
-                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
+                task.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
                 task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
-                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -170).isActive = true
-                
-                let left = task.leftAnchor.constraint(equalTo: scroll.centerX, constant: -170)
-                left.priority = .defaultLow
-                left.isActive = true
                 top = task.bottomAnchor
             }
         }
         if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
         }
+        
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: -20).isActive = true
+        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: ring.bottomAnchor, constant: 20).isActive = true
+        tags.refresh()
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {

@@ -26,7 +26,7 @@ final class Card: NSView, NSTextViewDelegate {
         layer!.cornerRadius = 8
         layer!.borderColor = NSColor(named: "haze")!.cgColor
         
-        let content = Text(.Both(280, 10000), Block())
+        let content = Text(.Expand(280, 10000), Block())
         content.setAccessibilityLabel(.key("Card"))
         content.font = NSFont(name: "Times New Roman", size: 16)
         (content.textStorage as! Storage).fonts = [

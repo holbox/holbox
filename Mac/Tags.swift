@@ -52,6 +52,7 @@ final class Tags: NSView {
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
         width.isActive = true

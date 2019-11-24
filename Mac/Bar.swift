@@ -96,7 +96,7 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(51, nil)
         
-        let name = Text(.Both(350, 51), Block())
+        let name = Text(.Expand(350, 51), Block())
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))

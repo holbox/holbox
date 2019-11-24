@@ -279,8 +279,7 @@ class Chart: NSView {
                 $0.append(app.session.cards(index, list: $1))
             }
             let total = CGFloat(cards.reduce(0, +))
-            let amount = .init(cards.last!) / total
-            guard total > 0 else { return }
+            let amount = .init(cards.last!) / (total > 0 ? total : 1)
         
             let center = CGPoint(x: 120, y: bounds.height / 2)
             let off = CAShapeLayer()
@@ -307,11 +306,11 @@ class Chart: NSView {
             let formatter = NumberFormatter()
             formatter.numberStyle = .percent
             
-            let percent = Label(formatter.string(from: NSNumber(value: Double(.init(cards.last!) / total)))!, 16, .bold, NSColor(named: "haze")!)
+            let percent = Label(formatter.string(from: NSNumber(value: Double(amount)))!, 20, .bold, NSColor(named: "haze")!)
             addSubview(percent)
             
             let done = Label([
-                (app.session.name(index, list: app.session.lists(index) - 1) + "\n", 14, .regular, NSColor(named: "haze")!),
+                ((app.session.name(index, list: app.session.lists(index) - 1).isEmpty ? .key("Chart.done") : app.session.name(index, list: app.session.lists(index) - 1)) + "\n", 14, .regular, NSColor(named: "haze")!),
                 ("\(cards.last!)", 14, .bold, NSColor(named: "haze")!)
                 ], align: .center)
             addSubview(done)

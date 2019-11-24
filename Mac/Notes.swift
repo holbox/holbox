@@ -11,7 +11,7 @@ final class Notes: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let text = Text(.Fixed(), Active())
+        let text = Text(.Fix(), Active())
         text.setAccessibilityLabel(.key("Note"))
         text.font = NSFont(name: "Times New Roman", size: 18)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 18, weight: .regular), .white),
