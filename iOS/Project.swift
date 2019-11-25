@@ -93,7 +93,7 @@ final class Project: UIView {
         addSubview(_delete)
         self._delete = _delete
         
-        widthAnchor.constraint(equalToConstant: 200).isActive = true
+        widthAnchor.constraint(equalToConstant: 175).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
         
         label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true

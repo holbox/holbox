@@ -1,7 +1,7 @@
 import UIKit
 
 final class Find: UIView, UITextViewDelegate {
-//    weak var view: View?
+    weak var view: View?
     var filter: String { ""/*text.string*/ }/*
     private weak var text: Text!
     private weak var cancel: Image!

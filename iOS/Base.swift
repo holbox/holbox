@@ -1,8 +1,6 @@
 import UIKit
 
 final class Base: UIView {
-    private weak var top: NSLayoutConstraint?
-    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
@@ -10,54 +8,54 @@ final class Base: UIView {
         clipsToBounds = true
     }
     
-    func show(_ view: View) {
-        if let previous = subviews.last {
-            view.backgroundColor = .black
-            view.layer.cornerRadius = 20
-            addSubview(view)
-            
-            view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-            view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            let top = view.topAnchor.constraint(equalTo: topAnchor, constant: bounds.height)
-            top.isActive = true
-            let previousTop = self.top
-            layoutIfNeeded()
-            backgroundColor = UIColor(named: "background")!
-            previousTop?.constant = 220
-            top.constant = 230
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.layoutIfNeeded()
-            }) { _ in
-                top.constant = 0
-                previousTop?.constant = 230
-                
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.layoutIfNeeded()
-                }) { _ in
-                    previous.removeFromSuperview()
-                    view.backgroundColor = .clear
-                    view.layer.cornerRadius = 0
-                    self.backgroundColor = .clear
-                    self.top = top
-                }
+    func refresh() {
+        if app.project == nil {
+            if app.session.projects().isEmpty {
+                clear()
+            } else {
+                validate(Detail.self)
             }
         } else {
-            view.alpha = 0
-            addSubview(view)
-            
-            view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-            view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            top = view.topAnchor.constraint(equalTo: topAnchor)
-            top!.isActive = true
-            
-            UIView.animate(withDuration: 1) { [weak view] in view?.alpha = 1 }
+            switch app.session.mode(app.project!) {
+            case .kanban: validate(Kanban.self)
+            case .todo: validate(Todo.self)
+            case .shopping: validate(Shopping.self)
+//            case .notes: validate(Notes.self)
+            default: app.project = nil
+            }
         }
     }
     
-    func refresh() {
-        (subviews.first as? View)?.refresh()
+    private func validate<T>(_ type: T.Type) where T: View {
+        if let view = subviews.first as? T {
+            view.refresh()
+        } else {
+            show(T())
+        }
+    }
+    
+    private func show(_ view: View) {
+        let previous = subviews.first as? View
+        addSubview(view)
+        
+        view.top = view.topAnchor.constraint(equalTo: topAnchor, constant: -bounds.height)
+        view.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+        view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        layoutIfNeeded()
+        
+        view.top.constant = 0
+        previous?.top.constant = bounds.height
+        
+        UIView.animate(withDuration: 0.35, animations: {
+            self.layoutIfNeeded()
+        }) { _ in
+            previous?.removeFromSuperview()
+            app.main.bar.find?.view = view
+        }
+    }
+    
+    private func clear() {
+        subviews.forEach { $0.removeFromSuperview() }
     }
 }

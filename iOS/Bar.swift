@@ -2,6 +2,8 @@ import UIKit
 
 final class Bar: UIView {
     private(set) weak var find: Find!
+    private weak var title: Label?
+    private weak var name: Label?
     private weak var _home: Button!
     private weak var border: Border!
     private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
@@ -77,12 +79,29 @@ final class Bar: UIView {
     }
     
     private func detail() {
+        let title = Label(.key("Detail.title"), 18, .bold, UIColor(named: "haze")!)
+        title.alpha = 0
+        addSubview(title)
+        
+        title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
+        
+//        find.clear()
+        
         bottom = bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 120)
         addRight.constant = -240
-        UIView.animate(withDuration: 0.35) {
+        UIView.animate(withDuration: 0.35, animations: {
+            title.alpha = 1
+            self.title?.alpha = 0
             self._home.alpha = 0
             self.border.alpha = 1
+            self.name?.alpha = 0
+            self.find.alpha = 1
             self.layoutIfNeeded()
+        }) { _ in
+            self.name?.removeFromSuperview()
+            self.title?.removeFromSuperview()
+            self.title = title
         }
     }
     
