@@ -38,6 +38,7 @@ final class Todo: View, NSTextViewDelegate {
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 40).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
@@ -55,6 +56,10 @@ final class Todo: View, NSTextViewDelegate {
         _add.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        let top = _add.topAnchor.constraint(equalTo: scroll.top)
+        top.priority = .defaultLow
+        top.isActive = true
         
         refresh()
     }
@@ -84,7 +89,7 @@ final class Todo: View, NSTextViewDelegate {
         var top: NSLayoutYAxisAnchor?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project!, list: list)).forEach {
-                let task = Task($0, list: list)
+                let task = Task($0, list: list, todo: self)
                 scroll.add(task)
 
                 if top == nil {
@@ -105,7 +110,6 @@ final class Todo: View, NSTextViewDelegate {
         ring.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: -20).isActive = true
         tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: ring.bottomAnchor, constant: 20).isActive = true
         tags.refresh()
     }
     

@@ -4,6 +4,7 @@ final class Task: NSView, NSTextViewDelegate {
     let index: Int
     let list: Int
     private(set) weak var text: Text!
+    private weak var todo: Todo?
     private weak var icon: Image!
     private weak var _delete: Image!
     private weak var circle: NSView!
@@ -11,9 +12,10 @@ final class Task: NSView, NSTextViewDelegate {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int, list: Int) {
+    init(_ index: Int, list: Int, todo: Todo) {
         self.index = index
         self.list = list
+        self.todo = todo
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
@@ -82,6 +84,10 @@ final class Task: NSView, NSTextViewDelegate {
         width.priority = .defaultLow
         width.isActive = true
         
+        let height = heightAnchor.constraint(equalToConstant: 30)
+        height.priority = .defaultLow
+        height.isActive = true
+        
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor, constant: -32).isActive = true
@@ -111,6 +117,7 @@ final class Task: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         app.session.content(app.project!, list: list, card: index, content: text.string)
+        todo?.tags.refresh()
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }

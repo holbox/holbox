@@ -1,6 +1,7 @@
 import AppKit
 
 final class Shopping: View {
+    private(set) weak var tags: Tags!
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
     
