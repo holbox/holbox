@@ -18,7 +18,7 @@ final class Todo: View, NSTextViewDelegate {
         
         let new = Text(.Fix(), Active())
         new.setAccessibilityLabel(.key("Task"))
-        new.font = .systemFont(ofSize: 22, weight: .medium)
+        new.font = NSFont(name: "Times New Roman", size: 22)
         (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .medium), .white),
                                                .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
                                                .bold: (.systemFont(ofSize: 24, weight: .bold), .white),
@@ -42,7 +42,6 @@ final class Todo: View, NSTextViewDelegate {
         
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
-        new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         new.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
         new.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
@@ -52,7 +51,7 @@ final class Todo: View, NSTextViewDelegate {
         width.priority = .defaultLow
         width.isActive = true
         
-        _add.topAnchor.constraint(equalTo: new.bottomAnchor, constant: -15).isActive = true
+        _add.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
         _add.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -93,7 +92,7 @@ final class Todo: View, NSTextViewDelegate {
                 scroll.add(task)
 
                 if top == nil {
-                    task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 40).isActive = true
+                    task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 60).isActive = true
                 } else {
                     task.topAnchor.constraint(equalTo: top!).isActive = true
                 }
