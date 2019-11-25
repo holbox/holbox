@@ -1,10 +1,11 @@
 import UIKit
 
 final class Bar: UIView {
-    private(set) weak var _kanban: Tab!
-    private(set) weak var _todo: Tab!
-    private(set) weak var _shopping: Tab!
-    private(set) weak var _shop: Tab!
+    private(set) weak var find: Find!
+    private weak var _home: Button!
+    private weak var border: Border!
+    private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
+    private weak var addRight: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -12,48 +13,95 @@ final class Bar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         let border = Border()
+        border.alpha = 0
         addSubview(border)
+        self.border = border
         
-        let _kanban = Tab("kanban", target: app.main, action: #selector(app.main.kanban))
-        _kanban.accessibilityLabel = .key("Bar.kanban")
-        addSubview(_kanban)
-        self._kanban = _kanban
+        let _home = Button("logo", target: self, action: #selector(home), padding: 15)
+        _home.accessibilityLabel = .key("Bar.home")
+        _home.icon.contentMode = .scaleAspectFit
+        _home.alpha = 0
+        self._home = _home
         
-        let _todo = Tab("todo", target: app.main, action: #selector(app.main.todo))
-        _todo.accessibilityLabel = .key("Bar.todo")
-        addSubview(_todo)
-        self._todo = _todo
+        let _add = Button("add", target: self, action: #selector(add))
+        _add.accessibilityLabel = .key("Bar.add")
         
-        let _shopping = Tab("shopping", target: app.main, action: #selector(app.main.shopping))
-        _shopping.accessibilityLabel = .key("Bar.shopping")
-        addSubview(_shopping)
-        self._shopping = _shopping
-        
-        let _shop = Tab("cart", target: app.main, action: #selector(app.main.shop))
+        let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
         _shop.accessibilityLabel = .key("Bar.shop")
-        addSubview(_shop)
-        self._shop = _shop
         
-        let _more = Button("more", target: app.main, action: #selector(app.main.more))
+        let _settings = Button("more", target: app.main, action: #selector(app.main.settings))
+        _settings.accessibilityLabel = .key("Bar.settings")
         
-        [_kanban, _todo, _shopping, _shop, _more].forEach {
+        let find = Find()
+        find.alpha = 0
+        addSubview(find)
+        self.find = find
+        
+        [_home, _add, _shop, _settings].forEach {
             addSubview($0)
-            $0.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+            
+            $0.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            
+            $0.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 60).isActive = true
         }
         
-        topAnchor.constraint(equalTo: _kanban.topAnchor).isActive = true
+        addRight = _add.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -240)
+        addRight.isActive = true
         
-        _kanban.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
-        _todo.leftAnchor.constraint(equalTo: _kanban.rightAnchor, constant: 5).isActive = true
-        _shopping.leftAnchor.constraint(equalTo: _todo.rightAnchor, constant: 5).isActive = true
-        _shop.leftAnchor.constraint(equalTo: _shopping.rightAnchor, constant: 5).isActive = true
+        _home.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         
-        _more.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
-        _more.widthAnchor.constraint(equalToConstant: 65).isActive = true
-        _more.heightAnchor.constraint(equalToConstant: 65).isActive = true
+        _shop.leftAnchor.constraint(equalTo: _add.rightAnchor, constant: 20).isActive = true
         
-        border.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        _settings.leftAnchor.constraint(equalTo: _shop.rightAnchor, constant: 20).isActive = true
+        
+        border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+    }
+    
+    func refresh() {
+        if app.project == nil {
+            if app.session.projects().isEmpty {
+                empty()
+            } else {
+                detail()
+            }
+        } else {
+            project()
+        }
+    }
+    
+    private func project() {
+        
+    }
+    
+    private func detail() {
+        bottom = bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 120)
+        addRight.constant = -240
+        UIView.animate(withDuration: 0.35) {
+            self._home.alpha = 0
+            self.border.alpha = 1
+            self.layoutIfNeeded()
+        }
+    }
+    
+    private func empty() {
+        bottom = bottomAnchor.constraint(equalTo: superview!.bottomAnchor)
+        addRight.constant = ((min(app.main.bounds.width, app.main.bounds.height) - 260) / -2) - 240
+        UIView.animate(withDuration: 0.35) {
+            self._home.alpha = 0
+            self.border.alpha = 0
+            self.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func home() {
+        app.window!.endEditing(true)
+        app.project = nil
+    }
+    
+    @objc private func add() {
+//        app.runModal(for: Add())
     }
 }

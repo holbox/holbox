@@ -4,22 +4,26 @@ import StoreKit
 
 private(set) weak var app: App!
 @UIApplicationMain final class App: UIViewController, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    var project = 0
-    var mode = Mode.off
+    var window: UIWindow?
     private(set) weak var main: Main!
-    private(set) var session: Session!
-    private(set) var win: UIWindow!
+    let session = Session()
+    var project: Int? {
+        didSet {
+            main.refresh()
+        }
+    }
     
     func application(_: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         app = self
         
-        win = UIWindow()
+        let window = UIWindow()
         if #available(iOS 13.0, *) {
-            win.overrideUserInterfaceStyle = .dark
+            window.overrideUserInterfaceStyle = .dark
         }
-        win.rootViewController = self
-        win.backgroundColor = .black
-        win.makeKeyAndVisible()
+        window.rootViewController = self
+        window.backgroundColor = .black
+        window.makeKeyAndVisible()
+        self.window = window
         return true
     }
     
@@ -40,7 +44,6 @@ private(set) weak var app: App!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().getNotificationSettings {
             if $0.authorizationStatus != .authorized {
@@ -50,8 +53,7 @@ private(set) weak var app: App!
             }
         }
         
-        Session.load {
-            self.session = $0
+        session.load {
             if self.session.rate {
                 SKStoreReviewController.requestReview()
                 self.session.rated()
@@ -82,12 +84,14 @@ private(set) weak var app: App!
     }
     
     func refresh() {
-        if session?.refreshable == true {
-            win.endEditing(true)
+        if session.refreshable {
+            window!.endEditing(true)
             dismiss(animated: false)
             DispatchQueue.main.async {
-                self.session?.refresh { _ in
-                    self.main.base?.refresh()
+                self.session.refresh {
+                    if (self.project == nil && !$0.isEmpty) || (self.project != nil && $0.contains(self.project!)) {
+                        self.main.refresh()
+                    }
                 }
             }
         }

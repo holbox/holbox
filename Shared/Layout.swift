@@ -9,9 +9,11 @@ final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
     var padding = CGFloat()
     var owns = false
     
+#if os(macOS)
     override func layoutManagerOwnsFirstResponder(in window: NSWindow) -> Bool {
         owns ? owns : super.layoutManagerOwnsFirstResponder(in: window)
     }
+#endif
     
     func layoutManager(_: NSLayoutManager, shouldSetLineFragmentRect: UnsafeMutablePointer<CGRect>,
                        lineFragmentUsedRect: UnsafeMutablePointer<CGRect>, baselineOffset: UnsafeMutablePointer<CGFloat>,

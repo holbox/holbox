@@ -75,12 +75,14 @@
 		DA896A2F23857DCA00A26B8D /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA896A2D23857DCA00A26B8D /* Layout.swift */; };
 		DA8B96042356FA60007E82F7 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B96032356FA60007E82F7 /* Shop.swift */; };
 		DA8B960623573E81007E82F7 /* TestPerks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8B960523573E81007E82F7 /* TestPerks.swift */; };
+		DA8BCEDD238C05990099F775 /* Find.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEDC238C05990099F775 /* Find.swift */; };
+		DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEDE238C14CC0099F775 /* Project.swift */; };
+		DA8BCEE1238C184A0099F775 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEE0238C184A0099F775 /* View.swift */; };
 		DAA463F423586E0400A5E990 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F323586E0400A5E990 /* Logo.swift */; };
 		DAA463F623586F3600A5E990 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F523586F3600A5E990 /* Main.swift */; };
 		DAA463FC2358868100A5E990 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463FB2358868100A5E990 /* Bar.swift */; };
 		DAA463FE235886E600A5E990 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463FD235886E600A5E990 /* Border.swift */; };
 		DAA4640023588A8900A5E990 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463FF23588A8900A5E990 /* Border.swift */; };
-		DAA4640223588AE600A5E990 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA4640123588AE600A5E990 /* Tab.swift */; };
 		DAA4640423588DFD00A5E990 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA4640323588DFD00A5E990 /* Button.swift */; };
 		DAA4640623589A4000A5E990 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA4640523589A4000A5E990 /* Kanban.swift */; };
 		DAA464082358A29800A5E990 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA464072358A29800A5E990 /* Detail.swift */; };
@@ -323,12 +325,14 @@
 		DA896A2D23857DCA00A26B8D /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		DA8B96032356FA60007E82F7 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA8B960523573E81007E82F7 /* TestPerks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPerks.swift; sourceTree = "<group>"; };
+		DA8BCEDC238C05990099F775 /* Find.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Find.swift; sourceTree = "<group>"; };
+		DA8BCEDE238C14CC0099F775 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		DA8BCEE0238C184A0099F775 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DAA463F323586E0400A5E990 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DAA463F523586F3600A5E990 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DAA463FB2358868100A5E990 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		DAA463FD235886E600A5E990 /* Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
 		DAA463FF23588A8900A5E990 /* Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
-		DAA4640123588AE600A5E990 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		DAA4640323588DFD00A5E990 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		DAA4640523589A4000A5E990 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DAA464072358A29800A5E990 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
@@ -663,6 +667,7 @@
 				DAA464072358A29800A5E990 /* Detail.swift */,
 				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
 				DAF267C9236B2BBF0099E40E /* Extensions.swift */,
+				DA8BCEDC238C05990099F775 /* Find.swift */,
 				DA6B0281237831830084AB0A /* Grocery.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DA4C6513235E00AD00B5F6EE /* Item.swift */,
@@ -674,15 +679,16 @@
 				DAEAE3D5237174A1001F24BE /* More.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DA6B0283237831900084AB0A /* Product.swift */,
+				DA8BCEDE238C14CC0099F775 /* Project.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 				DA6B0285237854710084AB0A /* Stock.swift */,
 				DAF8991A237D831100E1B76F /* Storager.swift */,
-				DAA4640123588AE600A5E990 /* Tab.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
 				DAEAE3D323717066001F24BE /* Todo.swift */,
+				DA8BCEE0238C184A0099F775 /* View.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1148,12 +1154,12 @@
 				DA1FD278235F38B4003718A5 /* Shop.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
+				DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
 				DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
 				DAF8991B237D831100E1B76F /* Storager.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
-				DAA4640223588AE600A5E990 /* Tab.swift in Sources */,
 				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
@@ -1167,11 +1173,13 @@
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAF267CA236B2BBF0099E40E /* Extensions.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
+				DA8BCEE1238C184A0099F775 /* View.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
 				DAA4640623589A4000A5E990 /* Kanban.swift in Sources */,
 				DA6B0284237831900084AB0A /* Product.swift in Sources */,
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
+				DA8BCEDD238C05990099F775 /* Find.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,
 				DAA464082358A29800A5E990 /* Detail.swift in Sources */,
 				DAEAE3D423717066001F24BE /* Todo.swift in Sources */,

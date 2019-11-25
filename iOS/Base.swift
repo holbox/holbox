@@ -1,23 +1,6 @@
 import UIKit
 
 final class Base: UIView {
-    class View: UIView {
-        required init?(coder: NSCoder) { nil }
-        init() {
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
-        
-        func refresh() {
-            isUserInteractionEnabled = false
-        }
-        
-        @objc final func more() {
-            app.present(More(self), animated: true)
-        }
-    }
-    
     private weak var top: NSLayoutConstraint?
     
     required init?(coder: NSCoder) { nil }

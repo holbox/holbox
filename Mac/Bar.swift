@@ -22,7 +22,7 @@ final class Bar: NSView, NSTextViewDelegate {
         self.border = border
         
         let _home = Button("logo", target: self, action: #selector(home))
-        _home.setAccessibilityLabel(.key("Bar.more"))
+        _home.setAccessibilityLabel(.key("Bar.home"))
         addSubview(_home)
         
         let _add = Button("add", target: self, action: #selector(add))

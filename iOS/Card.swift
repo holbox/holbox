@@ -13,7 +13,7 @@ final class Card: UIView {
         
         required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
-            super.init(nibName: nil, bundle: nil)
+            super.init()
             index = card.index
             list = card.column
             self.card = card
@@ -34,30 +34,30 @@ final class Card: UIView {
             scroll.add(_column)
             
             var top: NSLayoutYAxisAnchor?
-            (0 ..< app.session.lists(app.project)).forEach {
-                let item = Item(app.session.name(app.project, list: $0), index: $0, .bold, 18, .init(white: 1, alpha: 0.5), self, #selector(column))
-                item.selected = card.column == $0
-                scroll.add(item)
-                
-                item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-                item.widthAnchor.constraint(equalToConstant: 200).isActive = true
-                
-                if top == nil {
-                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 15).isActive = true
-                } else {
-                    let border = Border()
-                    border.backgroundColor = .init(white: 0, alpha: 0.5)
-                    scroll.add(border)
-                    
-                    border.leftAnchor.constraint(equalTo: item.leftAnchor, constant: 20).isActive = true
-                    border.rightAnchor.constraint(equalTo: item.rightAnchor, constant: -20).isActive = true
-                    border.topAnchor.constraint(equalTo: top!).isActive = true
-                    
-                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-                }
-                
-                top = item.bottomAnchor
-            }
+//            (0 ..< app.session.lists(app.project)).forEach {
+//                let item = Item(app.session.name(app.project, list: $0), index: $0, .bold, 18, .init(white: 1, alpha: 0.5), self, #selector(column))
+//                item.selected = card.column == $0
+//                scroll.add(item)
+//                
+//                item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+//                item.widthAnchor.constraint(equalToConstant: 200).isActive = true
+//                
+//                if top == nil {
+//                    item.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 15).isActive = true
+//                } else {
+//                    let border = Border()
+//                    border.backgroundColor = .init(white: 0, alpha: 0.5)
+//                    scroll.add(border)
+//                    
+//                    border.leftAnchor.constraint(equalTo: item.leftAnchor, constant: 20).isActive = true
+//                    border.rightAnchor.constraint(equalTo: item.rightAnchor, constant: -20).isActive = true
+//                    border.topAnchor.constraint(equalTo: top!).isActive = true
+//                    
+//                    item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+//                }
+//                
+//                top = item.bottomAnchor
+//            }
             
             let _position = Label(.key("Card.move.position"), 22, .bold, .init(white: 1, alpha: 0.2))
             scroll.add(_position)
@@ -125,17 +125,17 @@ final class Card: UIView {
         }
         
         private func update() {
-            guard let card = self.card else { return }
-            let limit = app.session.cards(app.project, list: list) + (list == card.column ? 0 : 1)
-            if index >= limit {
-                index = limit - 1
-            }
-            _minus.isUserInteractionEnabled = index > 0
-            _plus.isUserInteractionEnabled = index < limit - 1
-            _minus.alpha = index < 1 ? 0.3 : 1
-            _plus.alpha = index < limit - 1 ? 1 : 0.3
-            position.text = "\(index + 1)"
-            total.text = "/\(limit)"
+//            guard let card = self.card else { return }
+//            let limit = app.session.cards(app.project, list: list) + (list == card.column ? 0 : 1)
+//            if index >= limit {
+//                index = limit - 1
+//            }
+//            _minus.isUserInteractionEnabled = index > 0
+//            _plus.isUserInteractionEnabled = index < limit - 1
+//            _minus.alpha = index < 1 ? 0.3 : 1
+//            _plus.alpha = index < limit - 1 ? 1 : 0.3
+//            position.text = "\(index + 1)"
+//            total.text = "/\(limit)"
         }
         
         @objc private func column(_ item: Item) {
@@ -171,20 +171,20 @@ final class Card: UIView {
         override func viewDidLoad() {
             super.viewDidLoad()
             guard let card = self.card else { return }
-            text.text = app.session.content(app.project, list: card.column, card: card.index)
-            
-            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
-            view.addSubview(_delete)
-            self._delete = _delete
-            
-            let _move = Capsule(.key("Card.move"), self, #selector(move), UIColor(named: "background")!, UIColor(named: "haze")!)
-            view.addSubview(_move)
-            
-            _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
-            
-            _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
-            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor).isActive = true
+//            text.text = app.session.content(app.project, list: card.column, card: card.index)
+//
+//            let _delete = Capsule(.key("Card.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
+//            view.addSubview(_delete)
+//            self._delete = _delete
+//
+//            let _move = Capsule(.key("Card.move"), self, #selector(move), UIColor(named: "background")!, UIColor(named: "haze")!)
+//            view.addSubview(_move)
+//
+//            _delete.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
+//            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 15).isActive = true
+//
+//            _move.topAnchor.constraint(equalTo: done.topAnchor).isActive = true
+//            _move.leftAnchor.constraint(equalTo: _delete.rightAnchor).isActive = true
         }
         
         override func viewDidDisappear(_ animated: Bool) {
@@ -197,28 +197,28 @@ final class Card: UIView {
         }
         
         @objc private func move() {
-            app.win.endEditing(true)
-            guard let card = self.card else { return }
-            present(Move(card), animated: true)
+//            app.win.endEditing(true)
+//            guard let card = self.card else { return }
+//            present(Move(card), animated: true)
         }
         
         @objc private func remove() {
-            app.win.endEditing(true)
-            if text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                presentingViewController!.dismiss(animated: true) { [weak self] in
-                    self?.card?.delete()
-                }
-            } else {
-                let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
-                alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
-                    self?.presentingViewController!.dismiss(animated: true) { [weak self] in
-                        self?.card?.delete()
-                    }
-                })
-                alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-                alert.popoverPresentationController?.sourceView = _delete
-                present(alert, animated: true)
-            }
+//            app.win.endEditing(true)
+//            if text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                presentingViewController!.dismiss(animated: true) { [weak self] in
+//                    self?.card?.delete()
+//                }
+//            } else {
+//                let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
+//                alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
+//                    self?.presentingViewController!.dismiss(animated: true) { [weak self] in
+//                        self?.card?.delete()
+//                    }
+//                })
+//                alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
+//                alert.popoverPresentationController?.sourceView = _delete
+//                present(alert, animated: true)
+//            }
         }
     }
     
@@ -281,12 +281,12 @@ final class Card: UIView {
     }
     
     private func update(_ text: String) {
-        if text != app.session.content(app.project, list: column, card: index) {
-            app.session.content(app.project, list: column, card: index, content: text)
-            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
-            update()
-            update(true)
-        }
+//        if text != app.session.content(app.project, list: column, card: index) {
+//            app.session.content(app.project, list: column, card: index, content: text)
+//            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
+//            update()
+//            update(true)
+//        }
     }
     
     private func update(_ active: Bool) {
@@ -295,55 +295,55 @@ final class Card: UIView {
     }
     
     private func update() {
-        content?.removeFromSuperview()
-        empty?.removeFromSuperview()
-        let string = app.session.content(app.project, list: column, card: index)
-        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            let empty = Image("empty")
-            addSubview(empty)
-            self.empty = empty
-            
-            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
-            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
-            
-            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
-            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-        } else {
-            let content = Label(string.mark {
-                switch $0 {
-                case .plain: return (.init(string[$1]), 16, .medium, .white)
-                case .emoji: return (.init(string[$1]), 32, .regular, .white)
-                case .bold: return (.init(string[$1]), 20, .bold, .white)
-                    case .tag: fatalError()
-                }
-            })
-            content.accessibilityLabel = .key("Card")
-            content.accessibilityValue = string
-            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-            addSubview(content)
-            self.content = content
-            
-            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
-            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
-            
-            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
-            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        }
+//        content?.removeFromSuperview()
+//        empty?.removeFromSuperview()
+//        let string = app.session.content(app.project, list: column, card: index)
+//        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//            let empty = Image("empty")
+//            addSubview(empty)
+//            self.empty = empty
+//
+//            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
+//            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
+//
+//            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
+//            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
+//            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
+//            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+//        } else {
+//            let content = Label(string.mark {
+//                switch $0 {
+//                case .plain: return (.init(string[$1]), 16, .medium, .white)
+//                case .emoji: return (.init(string[$1]), 32, .regular, .white)
+//                case .bold: return (.init(string[$1]), 20, .bold, .white)
+//                    case .tag: fatalError()
+//                }
+//            })
+//            content.accessibilityLabel = .key("Card")
+//            content.accessibilityValue = string
+//            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+//            addSubview(content)
+//            self.content = content
+//
+//            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
+//            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
+//
+//            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+//            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+//            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+//            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+//            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+//        }
     }
     
     private func move(_ destination: Int, position: Int) {
-        app.session.move(app.project, list: column, card: index, destination: destination, index: position)
-        kanban.refresh()
+//        app.session.move(app.project, list: column, card: index, destination: destination, index: position)
+//        kanban.refresh()
     }
     
     @objc private func delete() {
-        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: column, card: index))
-        app.session.delete(app.project, list: column, card: index)
-        kanban.refresh()
+//        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: column, card: index))
+//        app.session.delete(app.project, list: column, card: index)
+//        kanban.refresh()
     }
 }

@@ -2,39 +2,39 @@ import UIKit
 
 class Stock: Modal, UITextViewDelegate {
     final class New: Stock {
-        required init?(coder: NSCoder) { nil }
-        override init(_ shopping: Shopping) {
-            super.init(shopping)
-            title = .key("Stock.add.title")
-            button = .key("Stock.add.done")
-        }
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            emoji.text = .key("Stock.add.emoji")
-            label.text = .key("Stock.add.label")
-            
-            let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.8))
-            view.addSubview(cancel)
-
-            cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
-            cancel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
-            cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        }
-        
-        override func done() {
-            super.done()
-            let count = app.session.cards(app.project, list: 0)
-            app.session.add(app.project, emoji: emoji.text, description: label.text)
-            if app.session.cards(app.project, list: 0) > count {
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
-                    $0.0 + " " + $0.1
-                } (app.session.product(app.project, index: count)))
-                shopping?.refresh()
-                shopping?.stockLast()
-            }
-            close()
-        }
+//        required init?(coder: NSCoder) { nil }
+//        override init(_ shopping: Shopping) {
+//            super.init(shopping)
+//            title = .key("Stock.add.title")
+//            button = .key("Stock.add.done")
+//        }
+//
+//        override func viewDidLoad() {
+//            super.viewDidLoad()
+//            emoji.text = .key("Stock.add.emoji")
+//            label.text = .key("Stock.add.label")
+//
+//            let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.8))
+//            view.addSubview(cancel)
+//
+//            cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
+//            cancel.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
+//            cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        }
+//
+//        override func done() {
+//            super.done()
+//            let count = app.session.cards(app.project, list: 0)
+//            app.session.add(app.project, emoji: emoji.text, description: label.text)
+//            if app.session.cards(app.project, list: 0) > count {
+//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: {
+//                    $0.0 + " " + $0.1
+//                } (app.session.product(app.project, index: count)))
+//                shopping?.refresh()
+//                shopping?.stockLast()
+//            }
+//            close()
+//        }
     }
     
     final class Edit: Stock {
@@ -51,49 +51,49 @@ class Stock: Modal, UITextViewDelegate {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            let content = app.session.product(app.project, index: index)
-            emoji.text = content.0
-            label.text = content.1
-            
-            let _delete = Control(.key("Stock.delete"), self, #selector(remove), UIColor(named: "haze")!.withAlphaComponent(0.3), .init(white: 1, alpha: 0.8))
-            view.addSubview(_delete)
-            self._delete = _delete
-            
-            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
-            _delete.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
-            _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//            let content = app.session.product(app.project, index: index)
+//            emoji.text = content.0
+//            label.text = content.1
+//
+//            let _delete = Control(.key("Stock.delete"), self, #selector(remove), UIColor(named: "haze")!.withAlphaComponent(0.3), .init(white: 1, alpha: 0.8))
+//            view.addSubview(_delete)
+//            self._delete = _delete
+//
+//            _delete.widthAnchor.constraint(equalToConstant: 140).isActive = true
+//            _delete.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
+//            _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         }
         
         override func done() {
             super.done()
-            let old = app.session.product(app.project, index: index)
-            app.session.product(app.project, index: index, emoji: emoji.text, description: label.text)
-            let content = app.session.product(app.project, index: index)
-            if old != content {
-                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.0 + " " + content.1)
-                shopping?.refresh()
-            }
-            close()
+//            let old = app.session.product(app.project, index: index)
+//            app.session.product(app.project, index: index, emoji: emoji.text, description: label.text)
+//            let content = app.session.product(app.project, index: index)
+//            if old != content {
+//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: content.0 + " " + content.1)
+//                shopping?.refresh()
+//            }
+//            close()
         }
         
         @objc private func remove() {
-            app.win.endEditing(true)
-            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
-            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
-                self?.presentingViewController!.dismiss(animated: true) { [weak self] in
-                    self?.confirm()
-                }
-            })
-            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
-            alert.popoverPresentationController?.sourceView = _delete
-            present(alert, animated: true)
+//            app.win.endEditing(true)
+//            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: nil, preferredStyle: .actionSheet)
+//            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
+//                self?.presentingViewController!.dismiss(animated: true) { [weak self] in
+//                    self?.confirm()
+//                }
+//            })
+//            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel))
+//            alert.popoverPresentationController?.sourceView = _delete
+//            present(alert, animated: true)
         }
         
         private func confirm() {
-            let product = app.session.product(app.project, index: index)
-            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
-            app.session.delete(app.project, product: index)
-            shopping?.refresh()
+//            let product = app.session.product(app.project, index: index)
+//            app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: product.0 + " " + product.1)
+//            app.session.delete(app.project, product: index)
+//            shopping?.refresh()
         }
     }
     
@@ -104,7 +104,7 @@ class Stock: Modal, UITextViewDelegate {
     
     required init?(coder: NSCoder) { nil }
     private init(_ shopping: Shopping) {
-        super.init(nibName: nil, bundle: nil)
+        super.init()
         self.shopping = shopping
     }
     
@@ -199,6 +199,6 @@ class Stock: Modal, UITextViewDelegate {
     }
     
     @objc func done() {
-        app.win.endEditing(true)
+//        app.win.endEditing(true)
     }
 }

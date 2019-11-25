@@ -63,11 +63,11 @@ class Edit: UIViewController, UITextViewDelegate {
     
     override func willTransition(to: UITraitCollection, with: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: to, with: with)
-        app.win.endEditing(true)
+//        app.win.endEditing(true)
     }
     
     @objc final func close() {
-        app.win.endEditing(true)
+//        app.win.endEditing(true)
         presentingViewController!.dismiss(animated: true)
     }
     

@@ -26,102 +26,102 @@ final class Task: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         
-        let content = app.session.content(app.project, list: list, card: index)
-        accessibilityLabel = content
-        
-        let base = UIView()
-        base.isUserInteractionEnabled = false
-        base.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(base)
-        self.base = base
-        
-        let _delete = UIView()
-        _delete.isUserInteractionEnabled = false
-        _delete.translatesAutoresizingMaskIntoConstraints = false
-        _delete.layer.cornerRadius = 8
-        _delete.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        _delete.backgroundColor = UIColor(named: "background")!
-        addSubview(_delete)
-        self._delete = _delete
-        
-        let _swipe = UIView()
-        _swipe.isUserInteractionEnabled = false
-        _swipe.translatesAutoresizingMaskIntoConstraints = false
-        _swipe.layer.cornerRadius = 8
-        _swipe.alpha = 0
-        _swipe.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "background")!
-        addSubview(_swipe)
-        self._swipe = _swipe
-        
-        let _deleteTitle = Label(.key("Todo.delete"), 14, .bold, UIColor(named: "haze")!)
-        addSubview(_deleteTitle)
-        
-        let circle = UIView()
-        circle.isUserInteractionEnabled = false
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.layer.cornerRadius = 15
-        addSubview(circle)
-        self.circle = circle
-        
-        let icon = Image("check")
-        addSubview(icon)
-        self.icon = icon
-        
-        let label = Label(content.mark {
-            switch $0 {
-            case .plain: return (.init(content[$1]), list == 1 ? 16 : 20, .medium, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-            case .emoji: return (.init(content[$1]), list == 1 ? 36 : 42, .regular, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-            case .bold: return (.init(content[$1]), list == 1 ? 28 : 35, .bold, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
-                case .tag: fatalError()
-            }
-        })
-        addSubview(label)
-        self.label = label
-        
-        heightAnchor.constraint(greaterThanOrEqualTo: label.heightAnchor, constant: 2).isActive = true
-        heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
-        
-        let height = heightAnchor.constraint(equalToConstant: 0)
-        height.priority = .defaultLow
-        height.isActive = true
-        
-        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        base.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        
-        _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _delete.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        _deleteLeft = _delete.leftAnchor.constraint(equalTo: rightAnchor)
-        _deleteLeft.isActive = true
-        
-        _swipe.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        _swipe.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _swipe.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        _swipeRight = _swipe.rightAnchor.constraint(equalTo: leftAnchor)
-        _swipeRight.isActive = true
-        
-        _deleteTitle.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
-        _deleteTitle.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
-        
-        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        circle.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
-        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
-        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
-        
-        label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
-        label.widthAnchor.constraint(lessThanOrEqualToConstant: 450).isActive = true
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-
-        update()
+//        let content = app.session.content(app.project, list: list, card: index)
+//        accessibilityLabel = content
+//        
+//        let base = UIView()
+//        base.isUserInteractionEnabled = false
+//        base.translatesAutoresizingMaskIntoConstraints = false
+//        addSubview(base)
+//        self.base = base
+//        
+//        let _delete = UIView()
+//        _delete.isUserInteractionEnabled = false
+//        _delete.translatesAutoresizingMaskIntoConstraints = false
+//        _delete.layer.cornerRadius = 8
+//        _delete.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+//        _delete.backgroundColor = UIColor(named: "background")!
+//        addSubview(_delete)
+//        self._delete = _delete
+//        
+//        let _swipe = UIView()
+//        _swipe.isUserInteractionEnabled = false
+//        _swipe.translatesAutoresizingMaskIntoConstraints = false
+//        _swipe.layer.cornerRadius = 8
+//        _swipe.alpha = 0
+//        _swipe.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//        _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "background")!
+//        addSubview(_swipe)
+//        self._swipe = _swipe
+//        
+//        let _deleteTitle = Label(.key("Todo.delete"), 14, .bold, UIColor(named: "haze")!)
+//        addSubview(_deleteTitle)
+//        
+//        let circle = UIView()
+//        circle.isUserInteractionEnabled = false
+//        circle.translatesAutoresizingMaskIntoConstraints = false
+//        circle.layer.cornerRadius = 15
+//        addSubview(circle)
+//        self.circle = circle
+//        
+//        let icon = Image("check")
+//        addSubview(icon)
+//        self.icon = icon
+//        
+//        let label = Label(content.mark {
+//            switch $0 {
+//            case .plain: return (.init(content[$1]), list == 1 ? 16 : 20, .medium, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+//            case .emoji: return (.init(content[$1]), list == 1 ? 36 : 42, .regular, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+//            case .bold: return (.init(content[$1]), list == 1 ? 28 : 35, .bold, list == 1 ? UIColor(named: "haze")!.withAlphaComponent(0.8) : .white)
+//                case .tag: fatalError()
+//            }
+//        })
+//        addSubview(label)
+//        self.label = label
+//        
+//        heightAnchor.constraint(greaterThanOrEqualTo: label.heightAnchor, constant: 2).isActive = true
+//        heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+//        
+//        let height = heightAnchor.constraint(equalToConstant: 0)
+//        height.priority = .defaultLow
+//        height.isActive = true
+//        
+//        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
+//        base.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
+//        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        base.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+//        
+//        _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
+//        _delete.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+//        _deleteLeft = _delete.leftAnchor.constraint(equalTo: rightAnchor)
+//        _deleteLeft.isActive = true
+//        
+//        _swipe.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+//        _swipe.topAnchor.constraint(equalTo: topAnchor).isActive = true
+//        _swipe.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        _swipeRight = _swipe.rightAnchor.constraint(equalTo: leftAnchor)
+//        _swipeRight.isActive = true
+//        
+//        _deleteTitle.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
+//        _deleteTitle.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
+//        
+//        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//        circle.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
+//        circle.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        circle.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        
+//        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
+//        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor, constant: 1).isActive = true
+//        
+//        label.leftAnchor.constraint(equalTo: circle.rightAnchor, constant: 10).isActive = true
+//        label.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -20).isActive = true
+//        label.widthAnchor.constraint(lessThanOrEqualToConstant: 450).isActive = true
+//        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+//
+//        update()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -135,43 +135,43 @@ final class Task: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        highlighted = false
-        if bounds.contains(touches.first!.location(in: self)) {
-            todo?.isUserInteractionEnabled = false
-            app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
-            app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
-            _swipeRight.constant = app.main.bounds.width
-            UIView.animate(withDuration: 0.35, animations: { [weak self] in
-                self?.layoutIfNeeded()
-                self?._swipe.alpha = 0.9
-            }) { [weak self] _ in self?.todo?.refresh() }
-        }
-        super.touchesEnded(touches, with: with)
+//        highlighted = false
+//        if bounds.contains(touches.first!.location(in: self)) {
+//            todo?.isUserInteractionEnabled = false
+//            app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
+//            app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
+//            _swipeRight.constant = app.main.bounds.width
+//            UIView.animate(withDuration: 0.35, animations: { [weak self] in
+//                self?.layoutIfNeeded()
+//                self?._swipe.alpha = 0.9
+//            }) { [weak self] _ in self?.todo?.refresh() }
+//        }
+//        super.touchesEnded(touches, with: with)
     }
     
     func delete(_ delta: CGFloat) {
-        _deleteLeft.constant = min(0, delta - self.delta)
-        if _deleteLeft.constant < -100 {
-            isUserInteractionEnabled = false
-            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index), preferredStyle: .actionSheet)
-            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
-                self?._deleteLeft.constant = -app.main.bounds.width - 100
-                UIView.animate(withDuration: 0.4, animations: { [weak self] in
-                    self?.layoutIfNeeded()
-                    self?.alpha = 0.4
-                }) { [weak self] _ in self?.confirm() }
-            })
-            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel) { [weak self] _ in
-                self?.isUserInteractionEnabled = true
-                self?.undelete()
-            })
-            alert.popoverPresentationController?.sourceView = self
-            app.present(alert, animated: true)
-        } else {
-            UIView.animate(withDuration: 0.35) { [weak self] in
-                self?.layoutIfNeeded()
-            }
-        }
+//        _deleteLeft.constant = min(0, delta - self.delta)
+//        if _deleteLeft.constant < -100 {
+//            isUserInteractionEnabled = false
+//            let alert = UIAlertController(title: .key("Delete.title.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index), preferredStyle: .actionSheet)
+//            alert.addAction(.init(title: .key("Delete.confirm"), style: .destructive) { [weak self] _ in
+//                self?._deleteLeft.constant = -app.main.bounds.width - 100
+//                UIView.animate(withDuration: 0.4, animations: { [weak self] in
+//                    self?.layoutIfNeeded()
+//                    self?.alpha = 0.4
+//                }) { [weak self] _ in self?.confirm() }
+//            })
+//            alert.addAction(.init(title: .key("Delete.cancel"), style: .cancel) { [weak self] _ in
+//                self?.isUserInteractionEnabled = true
+//                self?.undelete()
+//            })
+//            alert.popoverPresentationController?.sourceView = self
+//            app.present(alert, animated: true)
+//        } else {
+//            UIView.animate(withDuration: 0.35) { [weak self] in
+//                self?.layoutIfNeeded()
+//            }
+//        }
     }
     
     func undelete() {
@@ -191,8 +191,8 @@ final class Task: UIView {
     }
     
     private func confirm() {
-        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
-        app.session.delete(app.project, list: list, card: index)
-        todo?.refresh()
+//        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: list, card: index))
+//        app.session.delete(app.project, list: list, card: index)
+//        todo?.refresh()
     }
 }

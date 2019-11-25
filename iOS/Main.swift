@@ -1,14 +1,13 @@
 import UIKit
 
 final class Main: UIView {
-    private(set) weak var base: Base?
-    private weak var bar: Bar?
+    private(set) weak var bar: Bar!
+    private weak var base: Base!
     private weak var logo: Logo?
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
-        
         let logo = Logo()
         logo.start()
         addSubview(logo)
@@ -30,71 +29,28 @@ final class Main: UIView {
         addSubview(base)
         self.base = base
         
-        bar.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        bar.topAnchor.constraint(equalTo: topAnchor).isActive = true
         bar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         bar.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        base.bottomAnchor.constraint(equalTo: bar.topAnchor).isActive = true
+        base.topAnchor.constraint(equalTo: bar.bottomAnchor).isActive = true
+        base.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        kanban()
+        refresh()
     }
     
-    func project(_ project: Int) {
-        app.project = project
-        bar?._kanban.selected = false
-        bar?._todo.selected = false
-        bar?._shopping.selected = false
-        bar?._shop.selected = false
-        switch app.mode {
-        case .todo: base?.show(Todo())
-        case .shopping: base?.show(Shopping())
-        default: base?.show(Kanban())
-        }
-    }
-    
-    @objc func kanban() {
-        app.refresh()
-        app.mode = .kanban
-        bar?._kanban.selected = true
-        bar?._todo.selected = false
-        bar?._shopping.selected = false
-        bar?._shop.selected = false
-        base?.show(Detail())
-    }
-    
-    @objc func todo() {
-        app.refresh()
-        app.mode = .todo
-        bar?._kanban.selected = false
-        bar?._todo.selected = true
-        bar?._shopping.selected = false
-        bar?._shop.selected = false
-        base?.show(Detail())
-    }
-    
-    @objc func shopping() {
-        app.refresh()
-        app.mode = .shopping
-        bar?._kanban.selected = false
-        bar?._todo.selected = false
-        bar?._shopping.selected = true
-        bar?._shop.selected = false
-        base?.show(Detail())
+    func refresh() {
+        bar.refresh()
+        base.refresh()
     }
     
     @objc func shop() {
-        app.mode = .off
-        bar?._kanban.selected = false
-        bar?._todo.selected = false
-        bar?._shopping.selected = false
-        bar?._shop.selected = true
-        base?.show(Shop())
+//        app.runModal(for: Shop())
     }
     
-    @objc func more() {
-        app.present(About(), animated: true)
+    @objc func settings() {
+//        app.runModal(for: Settings())
     }
 }
