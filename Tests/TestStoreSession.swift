@@ -5,6 +5,7 @@ final class TestStoreSession: XCTestCase {
     private var store: Store!
     private var shared: StubShared!
     private var coder: Coder!
+    private var session: Session!
     
     override func setUp() {
         try? FileManager.default.removeItem(at: Store.url)
@@ -12,6 +13,7 @@ final class TestStoreSession: XCTestCase {
         coder = .init()
         shared = .init()
         store = .init()
+        session = .init()
         store.shared = shared
         store.time = 0
     }
@@ -31,13 +33,14 @@ final class TestStoreSession: XCTestCase {
             expectLoad.fulfill()
         }
         shared.saved = {
-            let global = try! self.coder.global(Data(contentsOf: $0["session"]!))
+            let global = try! self.coder.global(.init(contentsOf: $0["session"]!))
             XCTAssertTrue(global.isEmpty)
             expectSave.fulfill()
         }
-        store.loadSession {
-            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
-            XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
+        store.load(session: session) {
+            let session = Session()
+            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
+            XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             XCTAssertTrue(session.items.isEmpty)
             expectReady.fulfill()
         }
@@ -57,12 +60,14 @@ final class TestStoreSession: XCTestCase {
             expectLoad.fulfill()
         }
         shared.saved = {
-            XCTAssertNotNil(try? self.coder.global(Data(contentsOf: $0["session"]!)))
+            XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
             expectSave.fulfill()
         }
-        store.loadSession {
-            XCTAssertEqual(Int(try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))).rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
-            XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
+        store.load(session: session) {
+            let session = Session()
+            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
+            XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
+            XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -79,9 +84,9 @@ final class TestStoreSession: XCTestCase {
             XCTAssertEqual("session", $0.first)
             expectLoad.fulfill()
         }
-        store.loadSession {
-            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
-            XCTAssertTrue($0.items.isEmpty)
+        store.load(session: session) {
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: Store.url.appendingPathComponent("session"))))
+            XCTAssertTrue(self.session.items.isEmpty)
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -100,8 +105,8 @@ final class TestStoreSession: XCTestCase {
             XCTAssertEqual("session", $0.first)
             expectLoad.fulfill()
         }
-        store.loadSession {
-            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int($0.rating.timeIntervalSince1970))
+        store.load(session: session) {
+            XCTAssertEqual(.init(Date(timeIntervalSince1970: 10).timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             expectReady.fulfill()
         }
         waitForExpectations(timeout: 1)

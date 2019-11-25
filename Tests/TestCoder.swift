@@ -23,7 +23,8 @@ final class TestCoder: XCTestCase {
         session.items = [88: project1, 32: project2]
         session.perks = [.hundred, .two]
         session.settings.spell = false
-        let decoded = coder.session(coder.session(session))
+        let decoded = Session()
+        coder.session(decoded, data: coder.session(session))
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(2, decoded.items.count)
         XCTAssertEqual(.off, decoded.items[88]?.mode)

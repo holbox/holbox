@@ -149,8 +149,9 @@ final class TestStoreRefresh: XCTestCase {
         store.refresh(session) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(99, $0.first)
-            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("99")))
+            let session = Session()
+            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
             XCTAssertEqual(.off, session.items.first?.1.mode)
             XCTAssertNotNil(self.session.items[99])
@@ -175,8 +176,9 @@ final class TestStoreRefresh: XCTestCase {
         store.refresh(session) {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(0, $0.first)
-            let session = try! self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("0")))
+            let session = Session()
+            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("0")))
             XCTAssertEqual("lorem", self.session.items.first?.1.name)
             XCTAssertEqual("lorem", stored.name)
             XCTAssertEqual(1, session.items.count)

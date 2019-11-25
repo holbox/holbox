@@ -36,19 +36,17 @@ final class Coder {
         return compress(result)
     }
     
-    func session(_ data: Data) -> Session {
+    func session(_ session: Session, data: Data) {
         var data = data
-        let result = Session()
-        result.settings = settings(&data)
-        result.rating = data.date()
-        result.perks = (0 ..< data.byte()).map { _ in data.perk() }
+        session.settings = settings(&data)
+        session.rating = data.date()
+        session.perks = (0 ..< data.byte()).map { _ in data.perk() }
         let shared = global(data)
-        result.items = shared.reduce(into: [:]) {
+        session.items = shared.reduce(into: [:]) {
             var project = Project()
             project.time = $1.1
             $0[$1.0] = project
         }
-        return result
     }
     
     func global(_ data: Data) -> [(Int, Date)] {

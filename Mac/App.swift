@@ -11,8 +11,8 @@ private(set) weak var app: App!
         }
     }
     
-    private(set) var session: Session!
     private(set) weak var main: Main!
+    let session = Session()
     
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool { true }
     
@@ -50,8 +50,7 @@ private(set) weak var app: App!
             }
         }
         
-        Session.load {
-            self.session = $0
+        session.load {
             if self.session.rate {
                 SKStoreReviewController.requestReview()
                 self.session.rated()
@@ -75,12 +74,12 @@ private(set) weak var app: App!
     }
     
     func refresh() {
-        if session?.refreshable == true {
+        if session.refreshable {
             if let text = main.firstResponder as? Text {
                 main.makeFirstResponder(text.superview!)
             }
             DispatchQueue.main.async {
-                self.session?.refresh {
+                self.session.refresh {
                     if (self.project == nil && !$0.isEmpty) || (self.project != nil && $0.contains(self.project!)) {
                         self.main.refresh()
                     }

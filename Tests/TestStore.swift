@@ -27,7 +27,7 @@ final class TestStore: XCTestCase {
     func testLoad() {
         let expect = expectation(description: "")
         DispatchQueue.global(qos: .background).async {
-            self.store.load { _ in
+            self.store.load(.init()) {
                 XCTAssertEqual(Thread.main, Thread.current)
                 expect.fulfill()
             }
@@ -40,7 +40,7 @@ final class TestStore: XCTestCase {
         shared.saved = { _ in XCTFail() }
         store.save(Session())
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.01) {
-            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: Store.url.appendingPathComponent("session"))))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -49,8 +49,8 @@ final class TestStore: XCTestCase {
     func testSaveProject() {
         let expect = expectation(description: "")
         shared.saved = {
-            XCTAssertNotNil(try? self.coder.session(Data(contentsOf: Store.url.appendingPathComponent("session"))))
-            XCTAssertNotNil(try? self.coder.project(Data(contentsOf: Store.url.appendingPathComponent("56"))))
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: Store.url.appendingPathComponent("session"))))
+            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("56"))))
             XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
             XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["56"]!)))
             expect.fulfill()

@@ -5,6 +5,11 @@ struct Update {
     var share = false
     var upload = [Int]()
     var download = [Int]()
-    var session = Session()
-    var result: (Session) -> Void
+    let session: Session
+    let result: () -> Void
+    
+    init(_ session: Session, result: @escaping () -> Void) {
+        self.session = session
+        self.result = result
+    }
 }

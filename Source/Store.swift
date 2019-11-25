@@ -13,12 +13,12 @@ class Store {
     private static let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private static let coder = Coder()
     
-    func load(_ result: @escaping (Session) -> Void) {
+    func load(_ session: Session, result: @escaping () -> Void) {
         Store.queue.async {
             self.prepare()
-            self.loadSession { session in
+            self.load(session: session) {
                 DispatchQueue.main.async {
-                    result(session)
+                    result()
                 }
             }
         }
@@ -38,21 +38,20 @@ class Store {
         }
     }
     
-    func loadSession(_ result: @escaping (Session) -> Void) {
-        if let session = try? Store.coder.session(.init(contentsOf: Store.url.appendingPathComponent("session"))) {
+    func load(session: Session, result: @escaping () -> Void) {
+        do {
+            try Store.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
             shared.load(["session"], error: {
-                var update = Update(result: result)
+                var update = Update(session, result: result)
                 session.items = session.items.keys.reduce(into: [:]) {
                     update.upload.append($1)
                     $0[$1] = try! Store.coder.project(.init(contentsOf: Store.url.appendingPathComponent("\($1)")))
                 }
-                update.session = session
                 update.share = true
                 self.merge(update)
             }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
-                var update = Update(result: result)
-                update.session = session
+                var update = Update(session, result: result)
                 update.session.items = session.items.reduce(into: [:]) { map, stub in
                     if let shared = global.first(where: { $0.0 == stub.0 }) {
                         if shared.1 < stub.1.time {
@@ -74,15 +73,14 @@ class Store {
                 }
                 self.merge(update)
             }
-        } else {
+        } catch {
             shared.load(["session"], error: {
-                let session = Session()
                 self.write(session)
                 self.save(["session": self.url(session)])
-                result(session)
+                result()
             }) {
                 let global = try! Store.coder.global(.init(contentsOf: $0.first!))
-                var update = Update(result: result)
+                var update = Update(session, result: result)
                 update.write = true
                 update.download = global.map { $0.0 }
                 self.merge(update)
@@ -171,7 +169,7 @@ class Store {
             if update.write {
                 write(update.session)
             }
-            update.result(update.session)
+            update.result()
         }
     }
     
