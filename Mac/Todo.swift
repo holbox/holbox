@@ -83,7 +83,7 @@ final class Todo: View, NSTextViewDelegate {
     override func refresh() {
         scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
-        let ring = Chart.Ring(app.project!)
+        let ring = Chart.Ring(.key("Chart.done"))
         scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?

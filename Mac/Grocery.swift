@@ -44,6 +44,10 @@ final class Grocery: NSView {
         let width = widthAnchor.constraint(equalToConstant: 280)
         width.priority = .defaultLow
         width.isActive = true
+        
+        let height = heightAnchor.constraint(equalToConstant: 30)
+        height.priority = .defaultLow
+        height.isActive = true
 
         emoji.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: 10).isActive = true
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

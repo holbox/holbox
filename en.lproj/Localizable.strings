@@ -112,6 +112,7 @@ Search="Search";
 Find.matches="matches";
 Chart.total="Total";
 Chart.done="Done";
+Chart.need="Need";
 Menu.holbox="holbox";
 Menu.about="About";
 Menu.hide="Hide";

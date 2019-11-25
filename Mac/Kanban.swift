@@ -108,13 +108,13 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let spider = Chart.Spider(app.project!)
+        let spider = Chart.Spider()
         scroll.add(spider)
         
-        let ring = Chart.Ring(app.project!)
+        let ring = Chart.Ring(app.session.name(app.project!, list: app.session.lists(app.project!) - 1))
         scroll.add(ring)
 
-        let kanban = Chart.Kanban(app.project!)
+        let kanban = Chart.Kanban()
         scroll.add(kanban)
         
         spider.topAnchor.constraint(equalTo: scroll.top).isActive = true

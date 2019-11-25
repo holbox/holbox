@@ -2,10 +2,18 @@ import AppKit
 
 class Chart: NSView {
     final class Lines: Chart {
+        private let index: Int
         private let width = CGFloat(6)
         private let space = CGFloat(20)
         
-        override func draw() {
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+        }
+        
+        override func draw(_: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
             let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
                 $0.append(app.session.cards(index, list: $1))
             }
@@ -35,7 +43,16 @@ class Chart: NSView {
     }
     
     final class Todo: Chart {
-        override func draw() {
+        private let index: Int
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+        }
+        
+        override func draw(_: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
             let waiting = CGFloat(app.session.cards(index, list: 0))
             let done = CGFloat(app.session.cards(index, list: 1))
             let total = waiting + done
@@ -70,9 +87,17 @@ class Chart: NSView {
     }
     
     final class Shopping: Chart {
+        private let index: Int
         private let width = CGFloat(12)
         
-        override func draw() {
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+        }
+        
+        override func draw(_: NSRect) {
+            layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
             let products = CGFloat(app.session.cards(index, list: 0))
             let needed = CGFloat(app.session.cards(index, list: 1))
             let size = bounds.width - width
@@ -113,21 +138,20 @@ class Chart: NSView {
     }
     
     final class Spider: Chart {
-        required init?(coder: NSCoder) { nil }
-        override init(_ index: Int) {
-            super.init(index)
-            widthAnchor.constraint(equalToConstant: 300).isActive = true
-            heightAnchor.constraint(equalToConstant: 250).isActive = true
-        }
+        private let width = CGFloat(300)
+        private let height = CGFloat(250)
         
-        override func draw() {
-            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
-                $0.append(app.session.cards(index, list: $1))
+        required init?(coder: NSCoder) { nil }
+        override init() {
+            super.init()
+            
+            let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(app.project!, list: $1))
             }
             let total = CGFloat(cards.max() ?? 1)
             let circ = (.pi * 2) / CGFloat(cards.count)
-            let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-            let radius = bounds.width / 5
+            let center = CGPoint(x: width / 2, y: height / 2)
+            let radius = width / 5
             
             let inner = CAShapeLayer()
             inner.fillColor = .clear
@@ -168,7 +192,7 @@ class Chart: NSView {
                 
                 dummy.addArc(center: center, radius: radius, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
                 
-                let label = Label(app.session.name(index, list: card.0), 12, .bold, NSColor(named: "haze")!)
+                let label = Label(app.session.name(app.project!, list: card.0), 12, .bold, NSColor(named: "haze")!)
                 addSubview(label)
                 
                 if dummy.currentPoint.y == center.y {
@@ -191,30 +215,33 @@ class Chart: NSView {
             layer!.addSublayer(shape)
             layer!.addSublayer(cross)
             layer!.addSublayer(inner)
+            
+            widthAnchor.constraint(equalToConstant: width).isActive = true
+            heightAnchor.constraint(equalToConstant: height).isActive = true
         }
     }
     
     final class Kanban: Chart {
+        private var totalWidth = CGFloat()
+        private var totalHeight = CGFloat()
         private let height = CGFloat(200)
         private let width = CGFloat(15)
         private let space = CGFloat(55)
         
         required init?(coder: NSCoder) { nil }
-        override init(_ index: Int) {
-            super.init(index)
-            widthAnchor.constraint(equalToConstant: (.init(app.session.lists(index)) * (width + space)) + 70).isActive = true
-            heightAnchor.constraint(equalToConstant: height + 60 + width).isActive = true
-        }
-        
-        override func draw() {
-            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
-                $0.append(app.session.cards(index, list: $1))
+        override init() {
+            super.init()
+            totalWidth = (.init(app.session.lists(app.project!)) * (width + space)) + 70
+            totalHeight = height + 60 + width
+            
+            let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(app.project!, list: $1))
             }
             let top = CGFloat(cards.max() ?? 1)
             
             let mask = CALayer()
             mask.masksToBounds = true
-            mask.frame = .init(x: 0, y: 60, width: bounds.width, height: bounds.height - 60)
+            mask.frame = .init(x: 0, y: 60, width: totalWidth, height: totalHeight - 60)
             layer!.addSublayer(mask)
             
             cards.enumerated().forEach { card in
@@ -236,7 +263,7 @@ class Chart: NSView {
                         line.fillColor = .clear
                         line.path = {
                             $0.move(to: .init(x: 60, y: y + 60))
-                            $0.addLine(to: .init(x: bounds.width - 20, y: y + 60))
+                            $0.addLine(to: .init(x: totalWidth - 20, y: y + 60))
                             return $0
                         } (CGMutablePath())
                         layer!.addSublayer(line)
@@ -257,31 +284,33 @@ class Chart: NSView {
                 } (CGMutablePath())
                 mask.addSublayer(shape)
                 
-                let name = Label(app.session.name(index, list: card.0), 12, .bold, NSColor(named: "haze")!)
+                let name = Label(app.session.name(app.project!, list: card.0), 12, .bold, NSColor(named: "haze")!)
                 addSubview(name)
                 
                 name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
                 name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
+                
+                widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
+                heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
             }
         }
     }
     
     final class Ring: Chart {
-        required init?(coder: NSCoder) { nil }
-        override init(_ index: Int) {
-            super.init(index)
-            widthAnchor.constraint(equalToConstant: 350).isActive = true
-            heightAnchor.constraint(equalToConstant: 200).isActive = true
-        }
+        private let width = CGFloat(350)
+        private let height = CGFloat(200)
         
-        override func draw() {
-            let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
-                $0.append(app.session.cards(index, list: $1))
+        required init?(coder: NSCoder) { nil }
+        init(_ title: String) {
+            super.init()
+            
+            let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(app.project!, list: $1))
             }
             let total = CGFloat(cards.reduce(0, +))
             let amount = .init(cards.last!) / (total > 0 ? total : 1)
         
-            let center = CGPoint(x: 120, y: bounds.height / 2)
+            let center = CGPoint(x: 120, y: height / 2)
             let off = CAShapeLayer()
             off.fillColor = .clear
             off.lineWidth = 8
@@ -310,7 +339,7 @@ class Chart: NSView {
             addSubview(percent)
             
             let done = Label([
-                ((app.session.name(index, list: app.session.lists(index) - 1).isEmpty ? .key("Chart.done") : app.session.name(index, list: app.session.lists(index) - 1)) + "\n", 14, .regular, NSColor(named: "haze")!),
+                (title + "\n", 14, .regular, NSColor(named: "haze")!),
                 ("\(cards.last!)", 14, .bold, NSColor(named: "haze")!)
                 ], align: .center)
             addSubview(done)
@@ -329,27 +358,18 @@ class Chart: NSView {
             
             _total.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
             _total.leftAnchor.constraint(equalTo: done.rightAnchor, constant: 20).isActive = true
+            
+            widthAnchor.constraint(equalToConstant: width).isActive = true
+            heightAnchor.constraint(equalToConstant: height).isActive = true
         }
     }
     
-    private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int) {
-        self.index = index
+    private init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-    }
-    
-    override func draw(_: NSRect) {
-        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-        subviews.forEach { $0.removeFromSuperview() }
-        draw()
-    }
-    
-    private func draw() {
-        
     }
 }

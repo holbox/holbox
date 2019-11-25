@@ -1,7 +1,7 @@
 import AppKit
 
 final class Shopping: View {
-    private(set) weak var tags: Tags!
+    private weak var tags: Tags!
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
     
@@ -11,6 +11,10 @@ final class Shopping: View {
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
+        
+        let tags = Tags()
+        scroll.add(tags)
+        self.tags = tags
         
         let stock = Scroll()
         addSubview(stock)
@@ -30,6 +34,7 @@ final class Shopping: View {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
 
         stock.heightAnchor.constraint(equalToConstant: 150).isActive = true
         stock.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -37,6 +42,8 @@ final class Shopping: View {
         stock.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         stock.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         stock.bottom.constraint(equalTo: stock.bottomAnchor).isActive = true
+        
+        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
         left.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         left.rightAnchor.constraint(equalTo: centerXAnchor, constant: -13).isActive = true
@@ -56,8 +63,11 @@ final class Shopping: View {
     
     override func refresh() {
         (app.modalWindow as? Stock)?.close()
-        scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
+        
+        let ring = Chart.Ring(.key("Chart.need"))
+        scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?
         (0 ..< app.session.cards(app.project!, list: 1)).forEach {
@@ -69,13 +79,8 @@ final class Shopping: View {
             } else {
                 grocery.topAnchor.constraint(equalTo: top!).isActive = true
             }
-            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 10).isActive = true
+            grocery.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
             grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
-            grocery.leftAnchor.constraint(greaterThanOrEqualTo: scroll.centerX, constant: -140).isActive = true
-            
-            let left = grocery.leftAnchor.constraint(equalTo: scroll.centerX, constant: -140)
-            left.priority = .defaultLow
-            left.isActive = true
             top = grocery.bottomAnchor
         }
         if top != nil {
@@ -97,6 +102,12 @@ final class Shopping: View {
         if left != nil {
             stock.right.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
         }
+        
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: -20).isActive = true
+        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
+        tags.refresh()
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
