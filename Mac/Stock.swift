@@ -81,11 +81,11 @@ class Stock: Window.Modal, NSTextViewDelegate {
     private weak var label: Text!
     
     private init(_ title: String, _ button: String) {
-        super.init(400, 400)
+        super.init(400, 320)
         let _title = Label(title, 18, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(_title)
         
-        let emoji = Text(.Expand(320, 150), Active())
+        let emoji = Text(.Expand(150, 150), Active())
         emoji.font = NSFont(name: "Times New Roman", size: 70)
         emoji.setAccessibilityLabel(.key("Product.emoji"))
         (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 70)!, .white),
@@ -118,15 +118,14 @@ class Stock: Window.Modal, NSTextViewDelegate {
         _title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 30).isActive = true
         _title.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         
-        emoji.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        emoji.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
         emoji.topAnchor.constraint(equalTo: _title.bottomAnchor, constant: 20).isActive = true
         
-        label.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-        label.leftAnchor.constraint(greaterThanOrEqualTo: contentView!.leftAnchor).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: emoji.bottomAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 10).isActive = true
+        label.rightAnchor.constraint(equalTo: contentView!.rightAnchor, constant: -40).isActive = true
+        label.topAnchor.constraint(equalTo: emoji.topAnchor, constant: 20).isActive = true
         
-        _done.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
+        _done.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 40).isActive = true
         _done.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -82).isActive = true
         _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
