@@ -7,19 +7,19 @@ final class TestStore: XCTestCase {
     private var coder: Coder!
     
     override func setUp() {
-        try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         coder = .init()
         shared = .init()
         store = .init()
+        try? FileManager.default.removeItem(at: store.url)
         store.shared = shared
         store.prepare()
         store.time = 0
     }
     
     override func tearDown() {
-        try? FileManager.default.removeItem(at: Store.url)
+        try? FileManager.default.removeItem(at: store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
     }
@@ -40,7 +40,7 @@ final class TestStore: XCTestCase {
         shared.saved = { _ in XCTFail() }
         store.save(Session())
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 0.01) {
-            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: Store.url.appendingPathComponent("session"))))
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: self.store.url.appendingPathComponent("session"))))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -49,8 +49,8 @@ final class TestStore: XCTestCase {
     func testSaveProject() {
         let expect = expectation(description: "")
         shared.saved = {
-            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: Store.url.appendingPathComponent("session"))))
-            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("56"))))
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: self.store.url.appendingPathComponent("session"))))
+            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("56"))))
             XCTAssertNotNil(try? self.coder.global(.init(contentsOf: $0["session"]!)))
             XCTAssertNotNil(try? self.coder.project(.init(contentsOf: $0["56"]!)))
             expect.fulfill()

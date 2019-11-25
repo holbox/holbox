@@ -8,7 +8,6 @@ final class TestStoreProject: XCTestCase {
     private var session: Session!
     
     override func setUp() {
-        try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2"))
@@ -16,12 +15,13 @@ final class TestStoreProject: XCTestCase {
         shared = .init()
         store = .init()
         session = .init()
+        try? FileManager.default.removeItem(at: store.url)
         store.shared = shared
         store.time = 0
     }
     
     override func tearDown() {
-        try? FileManager.default.removeItem(at: Store.url)
+        try? FileManager.default.removeItem(at: store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project2"))
@@ -30,7 +30,7 @@ final class TestStoreProject: XCTestCase {
     func testSharedNotLocal() {
         let expect = expectation(description: "")
         store.prepare()
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
         var project = Project()
         project.mode = .kanban
         session.items[99] = project
@@ -40,8 +40,8 @@ final class TestStoreProject: XCTestCase {
         try! coder.project(project).write(to: shared.url["99"]!)
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
             XCTAssertEqual(.off, session.items[99]?.mode)
             XCTAssertNotNil(self.session.items[99])
@@ -55,7 +55,7 @@ final class TestStoreProject: XCTestCase {
     func testSharedMultipleNotLocal() {
         let expect = expectation(description: "")
         store.prepare()
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
         var projectA = Project()
         projectA.name = "hello"
         projectA.mode = .kanban
@@ -70,8 +70,8 @@ final class TestStoreProject: XCTestCase {
         try! coder.project(projectA).write(to: shared.url["99"]!)
         try! coder.project(projectB).write(to: shared.url["101"]!)
         store.load(session: session) {
-            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99"))))
-            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("101"))))
+            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99"))))
+            XCTAssertNotNil(try? self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("101"))))
             XCTAssertNotNil(self.session.items[99])
             XCTAssertNotNil(self.session.items[101])
             expect.fulfill()
@@ -82,13 +82,13 @@ final class TestStoreProject: XCTestCase {
     func testSharedNotLocalFailed() {
         let expect = expectation(description: "")
         store.prepare()
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
         session.items[99] = .init()
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
             XCTAssertTrue(session.items.isEmpty)
             XCTAssertTrue(self.session.items.isEmpty)
             expect.fulfill()
@@ -104,8 +104,8 @@ final class TestStoreProject: XCTestCase {
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 10)
         session.items[99] = project
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 100)
         project.name = "ipsum"
         session.items[99] = project
@@ -115,8 +115,8 @@ final class TestStoreProject: XCTestCase {
         try! coder.project(project).write(to: shared.url["99"]!)
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertEqual(1, session.items.count)
             XCTAssertEqual(1, self.session.items.count)
             XCTAssertNotNil(session.items[99])
@@ -139,16 +139,16 @@ final class TestStoreProject: XCTestCase {
         project.time = .init(timeIntervalSince1970: 10)
         project.name = "lorem"
         session.items[99] = project
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 100)
         session.items[99] = project
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertEqual(1, session.items.count)
             XCTAssertEqual(1, self.session.items.count)
             XCTAssertEqual(.kanban, self.session.items[99]?.mode)
@@ -171,8 +171,8 @@ final class TestStoreProject: XCTestCase {
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 200)
         session.items[99] = project
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: store.url.appendingPathComponent("99"))
         session.items = [:]
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session")
         try! coder.global(session).write(to: shared.url["session"]!)
@@ -191,8 +191,8 @@ final class TestStoreProject: XCTestCase {
         }
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
             XCTAssertNotNil(self.session.items[99])
             XCTAssertEqual("lorem", self.session.items[99]?.name)
@@ -216,9 +216,9 @@ final class TestStoreProject: XCTestCase {
         var projectB = Project()
         projectB.name = "ipsum"
         session.items = [99: projectA, 101: projectB]
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(projectA).write(to: Store.url.appendingPathComponent("99"))
-        try! coder.project(projectB).write(to: Store.url.appendingPathComponent("101"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(projectA).write(to: store.url.appendingPathComponent("99"))
+        try! coder.project(projectB).write(to: store.url.appendingPathComponent("101"))
         shared.saved = {
             if $0["99"] != nil && $0["101"] != nil {
                 let a = try! self.coder.project(.init(contentsOf: $0["99"]!))
@@ -244,8 +244,8 @@ final class TestStoreProject: XCTestCase {
         project.name = "lorem"
         project.time = .init(timeIntervalSince1970: 200)
         session.items[99] = project
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(project).write(to: Store.url.appendingPathComponent("99"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: store.url.appendingPathComponent("99"))
         project.time = .init(timeIntervalSince1970: 50)
         project.name = "ipsum"
         session.items[99] = project
@@ -266,8 +266,8 @@ final class TestStoreProject: XCTestCase {
         }
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
             XCTAssertNotNil(self.session.items[99])
             XCTAssertEqual("lorem", self.session.items[99]?.name)
@@ -336,8 +336,8 @@ final class TestStoreProject: XCTestCase {
         project.mode = .kanban
         project.name = "lorem"
         session.items[33] = project
-        try! coder.session(session).write(to: Store.url.appendingPathComponent("session"))
-        try! coder.project(project).write(to: Store.url.appendingPathComponent("33"))
+        try! coder.session(session).write(to: store.url.appendingPathComponent("session"))
+        try! coder.project(project).write(to: store.url.appendingPathComponent("33"))
         store.load(session: session) {
             XCTAssertNotNil(self.session.items[33])
             XCTAssertEqual("lorem", self.session.items[33]?.name)

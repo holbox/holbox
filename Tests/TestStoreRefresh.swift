@@ -8,20 +8,20 @@ final class TestStoreRefresh: XCTestCase {
     private var session: Session!
     
     override func setUp() {
-        try? FileManager.default.removeItem(at: Store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
         coder = .init()
         shared = .init()
         session = .init()
         store = .init()
+        try? FileManager.default.removeItem(at: store.url)
         store.shared = shared
         store.prepare()
         session.store = store
     }
     
     override func tearDown() {
-        try? FileManager.default.removeItem(at: Store.url)
+        try? FileManager.default.removeItem(at: store.url)
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_session"))
         try? FileManager.default.removeItem(at: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp_project"))
     }
@@ -150,8 +150,8 @@ final class TestStoreRefresh: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(99, $0.first)
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("99")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("99")))
             XCTAssertNotNil(session.items[99])
             XCTAssertEqual(.off, session.items.first?.1.mode)
             XCTAssertNotNil(self.session.items[99])
@@ -177,8 +177,8 @@ final class TestStoreRefresh: XCTestCase {
             XCTAssertEqual(1, $0.count)
             XCTAssertEqual(0, $0.first)
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: Store.url.appendingPathComponent("session")))
-            let stored = try! self.coder.project(.init(contentsOf: Store.url.appendingPathComponent("0")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            let stored = try! self.coder.project(.init(contentsOf: self.store.url.appendingPathComponent("0")))
             XCTAssertEqual("lorem", self.session.items.first?.1.name)
             XCTAssertEqual("lorem", stored.name)
             XCTAssertEqual(1, session.items.count)
