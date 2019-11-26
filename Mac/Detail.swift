@@ -47,7 +47,7 @@ final class Detail: View {
         app.runModal(for: Add())
     }
     
-    func order() {
+    private func order() {
         let size = app.main.frame.width + 20
         let count = Int(size) / 220
         let margin = (size - (.init(count) * 220)) / 2

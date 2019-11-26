@@ -5,7 +5,6 @@ final class Detail: View {
     private weak var height: NSLayoutConstraint!
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
         print("gone")
     }
     required init?(coder: NSCoder) { nil }
@@ -26,11 +25,11 @@ final class Detail: View {
         DispatchQueue.main.async { [weak self] in
             self?.refresh()
         }
-        
-        NotificationCenter.default.addObserver(forName: UIDevice.orientationDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.order()
-            self?.scroll.contentOffset.y = 0
-        }
+    }
+    
+    override func rotate() {
+        order()
+        scroll.contentOffset.y = 0
     }
     
     override func refresh() {
@@ -44,17 +43,7 @@ final class Detail: View {
         order()
     }
     
-//    override func viewDidEndLiveResize() {
-//        super.viewDidEndLiveResize()
-//        order()
-//        NSAnimationContext.runAnimationGroup {
-//            $0.duration = 0.4
-//            $0.allowsImplicitAnimation = true
-//            scroll.documentView!.layoutSubtreeIfNeeded()
-//        }
-//    }
-    
-    func order() {
+    private func order() {
         let size = superview!.safeAreaLayoutGuide.layoutFrame.width + 5
         let count = Int(size) / 180
         let margin = (size - (.init(count) * 180)) / 2

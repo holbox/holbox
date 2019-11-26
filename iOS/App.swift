@@ -62,6 +62,13 @@ private(set) weak var app: App!
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: with)
+        with.animate(alongsideTransition: { _ in
+            self.main.rotate()
+        }, completion: nil)
+    }
+    
     func alert(_ title: String, message: String) {
         UNUserNotificationCenter.current().getNotificationSettings {
             if $0.authorizationStatus == .authorized {

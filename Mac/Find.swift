@@ -5,12 +5,12 @@ final class Find: NSView, NSTextViewDelegate {
     var filter: String { text.string }
     private weak var text: Text!
     private weak var cancel: Image!
-    private weak var base: NSView!
-    private weak var width: NSLayoutConstraint!
-    private weak var baseWidth: NSLayoutConstraint!
     private weak var _counter: Label!
     private weak var _next: Image!
     private weak var _prev: Image!
+    private weak var base: NSView!
+    private weak var width: NSLayoutConstraint!
+    private weak var baseWidth: NSLayoutConstraint!
     private var index = 0
     private var ranges = [(Int, Int, NSRange)]() {
         didSet {
@@ -128,7 +128,6 @@ final class Find: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        base.layer!.borderWidth = 0
         if text.string.isEmpty {
             hide()
         }
@@ -136,10 +135,6 @@ final class Find: NSView, NSTextViewDelegate {
     
     func textDidChange(_: Notification) {
         update()
-    }
-    
-    func start() {
-        show()
     }
     
     func search(_ string: String) {
@@ -185,12 +180,12 @@ final class Find: NSView, NSTextViewDelegate {
         hide()
     }
     
-    private func show() {
+    func show() {
         text.edit.click()
         window!.makeFirstResponder(text)
         text.setSelectedRange(.init(location: 0, length: text.string.count))
-        base.layer!.borderWidth = 2
-        width.constant = app.project == nil ? 204 : 345
+        base.layer!.borderWidth = 1
+        width.constant = app.project == nil ? 202 : 345
         baseWidth.constant = 200
         if text.string.isEmpty {
             _counter.stringValue = ""
@@ -209,6 +204,7 @@ final class Find: NSView, NSTextViewDelegate {
     private func hide() {
         width.constant = 40
         baseWidth.constant = 40
+        base.layer!.borderWidth = 0
         _counter.stringValue = ""
         _counter.alphaValue = 0
         ranges = []

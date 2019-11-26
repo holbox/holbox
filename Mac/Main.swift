@@ -30,7 +30,7 @@ final class Main: Window.Full {
         switch with.keyCode {
         case 3:
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
-                bar.find.start()
+                bar.find.show()
             } else {
                 super.keyDown(with: with)
             }

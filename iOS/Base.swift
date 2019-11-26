@@ -8,6 +8,10 @@ final class Base: UIView {
         clipsToBounds = true
     }
     
+    func rotate() {
+        (subviews.first as? View)?.rotate()
+    }
+    
     func refresh() {
         if app.project == nil {
             if app.session.projects().isEmpty {

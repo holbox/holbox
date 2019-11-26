@@ -8,6 +8,7 @@ final class Bar: UIView {
     private weak var border: Border!
     private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
     private weak var addRight: NSLayoutConstraint!
+    private weak var addY: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -42,20 +43,26 @@ final class Bar: UIView {
         [_home, _add, _shop, _settings].forEach {
             addSubview($0)
             
-            $0.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            
             $0.widthAnchor.constraint(equalToConstant: 60).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 60).isActive = true
         }
         
         addRight = _add.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -240)
         addRight.isActive = true
+        addY = _add.centerYAnchor.constraint(equalTo: centerYAnchor)
+        addY.isActive = true
         
         _home.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        _home.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
         
         _shop.leftAnchor.constraint(equalTo: _add.rightAnchor, constant: 20).isActive = true
+        _shop.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
         
         _settings.leftAnchor.constraint(equalTo: _shop.rightAnchor, constant: 20).isActive = true
+        _settings.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
+     
+        find.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
+        find.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -84,12 +91,13 @@ final class Bar: UIView {
         addSubview(title)
         
         title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
+        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -20).isActive = true
         
-//        find.clear()
+        find.clear()
         
         bottom = bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 120)
         addRight.constant = -240
+        addY.constant = -20
         UIView.animate(withDuration: 0.35, animations: {
             title.alpha = 1
             self.title?.alpha = 0
@@ -108,6 +116,7 @@ final class Bar: UIView {
     private func empty() {
         bottom = bottomAnchor.constraint(equalTo: superview!.bottomAnchor)
         addRight.constant = ((min(app.main.bounds.width, app.main.bounds.height) - 260) / -2) - 240
+        addY.constant = 0
         UIView.animate(withDuration: 0.35) {
             self._home.alpha = 0
             self.border.alpha = 0

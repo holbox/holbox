@@ -46,6 +46,10 @@ final class Main: UIView {
         base.refresh()
     }
     
+    func rotate() {
+        base.rotate()
+    }
+    
     @objc func shop() {
 //        app.runModal(for: Shop())
     }

@@ -10,6 +10,7 @@ class View: UIView {
     }
     
     func refresh() { }
+    func rotate() { }
     func found(_ ranges: [(Int, Int, NSRange)]) { }
     func select(_ list: Int, _ card: Int, _ range: NSRange) { }
 }
