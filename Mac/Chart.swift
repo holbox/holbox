@@ -301,15 +301,9 @@ class Chart: NSView {
         private let height = CGFloat(200)
         
         required init?(coder: NSCoder) { nil }
-        init(_ title: String) {
+        init(_ current: (String, CGFloat), total: (String, CGFloat)) {
             super.init()
-            
-            let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
-                $0.append(app.session.cards(app.project!, list: $1))
-            }
-            let total = CGFloat(cards.reduce(0, +))
-            let amount = .init(cards.last!) / (total > 0 ? total : 1)
-        
+            let amount = current.1 / (total.1 > 0 ? total.1 : 1)
             let center = CGPoint(x: 120, y: height / 2)
             let off = CAShapeLayer()
             off.fillColor = .clear
@@ -339,14 +333,14 @@ class Chart: NSView {
             addSubview(percent)
             
             let done = Label([
-                (title + "\n", 14, .regular, NSColor(named: "haze")!),
-                ("\(cards.last!)", 14, .bold, NSColor(named: "haze")!)
+                (current.0 + "\n", 14, .regular, NSColor(named: "haze")!),
+                ("\(Int(current.1))", 14, .bold, NSColor(named: "haze")!)
                 ], align: .center)
             addSubview(done)
             
             let _total = Label([
-                (.key("Chart.total") + "\n", 14, .regular, NSColor(named: "haze")!),
-                ("\(Int(total))", 14, .bold, NSColor(named: "haze")!)
+                (total.0 + "\n", 14, .regular, NSColor(named: "haze")!),
+                ("\(Int(total.1))", 14, .bold, NSColor(named: "haze")!)
                 ], align: .center)
             addSubview(_total)
             

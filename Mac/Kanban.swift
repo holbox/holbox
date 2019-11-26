@@ -111,7 +111,10 @@ final class Kanban: View {
         let spider = Chart.Spider()
         scroll.add(spider)
         
-        let ring = Chart.Ring(app.session.name(app.project!, list: app.session.lists(app.project!) - 1))
+        let ring = Chart.Ring((app.session.name(app.project!, list: app.session.lists(app.project!) - 1), .init(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1))),
+                              total: (.key("Chart.cards"), .init((0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                                $0.append(app.session.cards(app.project!, list: $1))
+                              }.reduce(0, +))))
         scroll.add(ring)
 
         let kanban = Chart.Kanban()

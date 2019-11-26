@@ -66,7 +66,7 @@ final class Shopping: View {
         scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
         
-        let ring = Chart.Ring(.key("Chart.need"))
+        let ring = Chart.Ring((.key("Chart.got"), .init(app.session.cards(app.project!, list: 0) - app.session.cards(app.project!, list: 1))), total: (.key("Chart.products"), .init(app.session.cards(app.project!, list: 0))))
         scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?

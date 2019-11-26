@@ -85,7 +85,7 @@ final class Project: UIView {
         label.isAccessibilityElement = false
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 13, .regular, UIColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 14, .regular, UIColor(named: "haze")!)
         info.isAccessibilityElement = false
         addSubview(info)
         
@@ -93,12 +93,12 @@ final class Project: UIView {
         addSubview(_delete)
         self._delete = _delete
         
-        widthAnchor.constraint(equalToConstant: 175).isActive = true
+        widthAnchor.constraint(equalToConstant: 180).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
         
         label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -30).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -45).isActive = true
         
         info.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
         info.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -106,8 +106,8 @@ final class Project: UIView {
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 55).isActive = true
         
 //        var chart: Chart?
 //        switch app.session.mode(index) {
@@ -126,6 +126,40 @@ final class Project: UIView {
 //            chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
 //        }
 //
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
+        }
+        super.touchesBegan(touches, with: with)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.backgroundColor = UIColor(named: "background")!
+        }
+        super.touchesCancelled(touches, with: with)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.backgroundColor = UIColor(named: "background")!
+        }
+        let location = touches.first!.location(in: self)
+        if bounds.contains(location) {
+            if _delete.frame.contains(location) {
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    self?._delete.alpha = 0
+                }) { [weak self] _ in
+                    self?._delete.alpha = 1
+                }
+                app.delete(index)
+            } else {
+                app.project = index
+            }
+        }
+        super.touchesEnded(touches, with: with)
     }
     
     private func interval(_ date: Date) -> String {

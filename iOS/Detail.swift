@@ -45,9 +45,9 @@ final class Detail: View {
     
     private func order() {
         let size = superview!.safeAreaLayoutGuide.layoutFrame.width + 5
-        let count = Int(size) / 180
-        let margin = (size - (.init(count) * 180)) / 2
-        var top = CGFloat(10)
+        let count = Int(size) / 185
+        let margin = (size - (.init(count) * 185)) / 2
+        var top = CGFloat(15)
         var left = margin
         var counter = 0
         scroll.views.map { $0 as! Project }.sorted { $0.order < $1.order }.forEach {
@@ -58,9 +58,9 @@ final class Detail: View {
             }
             $0.top.constant = top
             $0.left.constant = left
-            left += 180
+            left += 185
             counter += 1
         }
-        height.constant = top + 230
+        height.constant = top + 235
     }
 }
