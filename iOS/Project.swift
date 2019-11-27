@@ -154,7 +154,7 @@ final class Project: UIView {
                 }) { [weak self] _ in
                     self?._delete.alpha = 1
                 }
-                app.delete(index)
+                app.present(Delete.Project(index), animated: true)
             } else {
                 app.project = index
             }

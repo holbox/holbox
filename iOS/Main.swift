@@ -51,7 +51,7 @@ final class Main: UIView {
     }
     
     @objc func shop() {
-//        app.runModal(for: Shop())
+        app.present(Shop(), animated: true)
     }
     
     @objc func settings() {

@@ -1,7 +1,7 @@
 import UIKit
 
 final class Card: UIView {
-    private final class Move: Modal {
+    private final class Move: UIViewController {
         private weak var card: Card?
         private weak var scroll: Scroll!
         private weak var position: Label!
@@ -13,7 +13,7 @@ final class Card: UIView {
         
         required init?(coder: NSCoder) { nil }
         init(_ card: Card) {
-            super.init()
+            super.init(nibName: nil, bundle: nil)
             index = card.index
             list = card.column
             self.card = card
@@ -150,6 +150,10 @@ final class Card: UIView {
         @objc private func plus() {
             index += 1
             update()
+        }
+        
+        @objc private func close() {
+            
         }
         
         @objc private func minus() {

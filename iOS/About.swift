@@ -1,7 +1,7 @@
 import UIKit
 import MessageUI
 
-final class About: Modal, MFMailComposeViewControllerDelegate {
+final class About: UIViewController, MFMailComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -104,5 +104,9 @@ final class About: Modal, MFMailComposeViewControllerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak item] in
             item?.selected = false
         }
+    }
+    
+    @objc private func close() {
+        
     }
 }

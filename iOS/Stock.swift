@@ -1,6 +1,6 @@
 import UIKit
 
-class Stock: Modal, UITextViewDelegate {
+class Stock: UIViewController, UITextViewDelegate {
     final class New: Stock {
 //        required init?(coder: NSCoder) { nil }
 //        override init(_ shopping: Shopping) {
@@ -104,7 +104,7 @@ class Stock: Modal, UITextViewDelegate {
     
     required init?(coder: NSCoder) { nil }
     private init(_ shopping: Shopping) {
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         self.shopping = shopping
     }
     

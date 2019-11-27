@@ -103,10 +103,4 @@ private(set) weak var app: App!
             }
         }
     }
-    
-    func delete(_ project: Int) {
-        let delete = Delete.Project(project)
-        delete.popoverPresentationController?.sourceView = view
-        present(delete, animated: true)
-    }
 }

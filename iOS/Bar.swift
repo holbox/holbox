@@ -130,6 +130,6 @@ final class Bar: UIView {
     }
     
     @objc private func add() {
-//        app.runModal(for: Add())
+        app.present(Add(), animated: true)
     }
 }

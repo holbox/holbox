@@ -63,13 +63,13 @@ final class Add: Window.Modal {
             _kanban.setAccessibilityLabel(.key("Add.kanban"))
             
             let _todo = Button("todo", target: self, action: #selector(todo(_:)))
-            _kanban.setAccessibilityLabel(.key("Add.todo"))
+            _todo.setAccessibilityLabel(.key("Add.todo"))
             
             let _shopping = Button("shopping", target: self, action: #selector(shopping(_:)))
-            _kanban.setAccessibilityLabel(.key("Add.shopping"))
+            _shopping.setAccessibilityLabel(.key("Add.shopping"))
             
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
-            _kanban.setAccessibilityLabel(.key("Add.notes"))
+            _notes.setAccessibilityLabel(.key("Add.notes"))
             
             let name = Label("", 18, .bold, NSColor(named: "haze")!)
             contentView!.addSubview(name)

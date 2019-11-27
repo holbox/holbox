@@ -49,7 +49,7 @@ class Delete: UIViewController {
         let title = Label(.key("Delete.title"), 18, .bold, UIColor(named: "haze")!)
         view.addSubview(title)
         
-        let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.5))
+        let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, UIColor(named: "haze")!.withAlphaComponent(0.7))
         view.addSubview(cancel)
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), UIColor(named: "haze")!, .black)

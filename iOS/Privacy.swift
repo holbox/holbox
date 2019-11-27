@@ -1,6 +1,6 @@
 import UIKit
 
-final class Privacy: Modal {
+final class Privacy: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let scroll = Scroll()
@@ -28,5 +28,9 @@ final class Privacy: Modal {
         done.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
         done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         done.widthAnchor.constraint(equalToConstant: 140).isActive = true
+    }
+    
+    @objc private func close() {
+        
     }
 }

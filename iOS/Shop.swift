@@ -2,7 +2,7 @@ import holbox
 import UIKit
 import StoreKit
 
-final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     private final class Item: UIView {
         private weak var shop: Shop!
         private let product: SKProduct
@@ -94,9 +94,8 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     
     deinit { SKPaymentQueue.default().remove(self) }
     
-    required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()

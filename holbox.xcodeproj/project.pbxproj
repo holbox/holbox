@@ -94,7 +94,6 @@
 		DAB979522359B74100631280 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979512359B74100631280 /* Alert.swift */; };
 		DAB979542359CF8200631280 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979532359CF8200631280 /* Add.swift */; };
 		DAB979562359D63C00631280 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979552359D63C00631280 /* Control.swift */; };
-		DAB979582359D64C00631280 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979572359D64C00631280 /* Modal.swift */; };
 		DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0F9235EFFB600BD3179 /* Check.swift */; };
 		DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FB235F060D00BD3179 /* Privacy.swift */; };
 		DABAD0FE235F267E00BD3179 /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FD235F267E00BD3179 /* About.swift */; };
@@ -344,7 +343,6 @@
 		DAB979512359B74100631280 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		DAB979532359CF8200631280 /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DAB979552359D63C00631280 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
-		DAB979572359D64C00631280 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DABAD0F9235EFFB600BD3179 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DABAD0FB235F060D00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
 		DABAD0FD235F267E00BD3179 /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
@@ -678,7 +676,6 @@
 				DAA4640B2358A43F00A5E990 /* Label.swift */,
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
-				DAB979572359D64C00631280 /* Modal.swift */,
 				DAEAE3D5237174A1001F24BE /* More.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DA6B0283237831900084AB0A /* Product.swift */,
@@ -1167,7 +1164,6 @@
 				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
-				DAB979582359D64C00631280 /* Modal.swift in Sources */,
 				DA6B02802378234C0084AB0A /* Shopping.swift in Sources */,
 				DAE0C7AD235EE8AD00402E4B /* About.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
