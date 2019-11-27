@@ -15,30 +15,31 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
             self.shop = shop
 
             let border = Border()
+            border.alpha = 0.5
             addSubview(border)
 
             let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
             addSubview(image)
 
             let title = Label([
-                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, .init(white: 1, alpha: 0.9)),
-                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, .init(white: 1, alpha: 0.9))])
+                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, UIColor(named: "haze")!),
+                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, UIColor(named: "haze")!.withAlphaComponent(0.9))])
             addSubview(title)
 
-            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, .init(white: 1, alpha: 0.6))
+            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, UIColor(named: "haze")!.withAlphaComponent(0.9))
             addSubview(label)
 
             shop.formatter.locale = product.priceLocale
             let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
             addSubview(price)
 
-            let purchased = Label(.key("Shop.purchased"), 16, .medium, UIColor(named: "haze")!)
+            let purchased = Label(.key("Shop.purchased"), 18, .bold, UIColor(named: "haze")!)
             addSubview(purchased)
 
             let control = Control(.key("Shop.purchase"), self, #selector(purchase), UIColor(named: "haze")!, .black)
             addSubview(control)
 
-            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 20).isActive = true
+            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 10).isActive = true
 
             border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -96,13 +97,14 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "background")!
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
         view.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 30, .bold, UIColor(named: "haze")!.withAlphaComponent(0.7))
+        let title = Label(.key("Shop.title"), 20, .bold, UIColor(named: "haze")!)
         scroll.add(title)
         
         let logo = Logo()
@@ -114,15 +116,18 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
         scroll.add(image)
         self.image = image
         
-        let message = Label("", 16, .light, .init(white: 1, alpha: 0.8))
+        let message = Label("", 16, .regular, .init(white: 1, alpha: 0.8))
         message.isHidden = true
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), UIColor(named: "background")!, .white)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), UIColor(named: "haze")!, .black)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore
+        
+        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, UIColor(named: "haze")!)
+        scroll.add(_cancel)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -131,24 +136,28 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
         scroll.width.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        title.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
         title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 80).isActive = true
+        logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
         
         image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
-        image.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        image.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
         image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         image.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         message.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
-        message.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        message.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
         message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
+        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        
+        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
+        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -10).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
         loading()
         SKPaymentQueue.default().add(self)
@@ -200,13 +209,13 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
             scroll.add(item)
             
             if top == nil {
-                item.topAnchor.constraint(equalTo: scroll.top, constant: 100).isActive = true
+                item.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
             } else {
                 item.topAnchor.constraint(equalTo: top!).isActive = true
             }
             
-            item.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-            item.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
+            item.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+            item.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
             top = item.bottomAnchor
         }
         if top != nil {
@@ -242,5 +251,9 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     @objc private func restore() {
         SKPaymentQueue.default().restoreCompletedTransactions()
         loading()
+    }
+    
+    @objc private func close() {
+        presentingViewController!.dismiss(animated: true)
     }
 }
