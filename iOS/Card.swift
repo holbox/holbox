@@ -230,7 +230,7 @@ final class Card: UIView {
     let column: Int
     private weak var empty: Image?
     private weak var content: Label?
-    private weak var kanban: Kanban!
+    private weak var kanban: Kanban?
     private weak var base: UIView!
     
     required init?(coder: NSCoder) { nil }
@@ -244,7 +244,7 @@ final class Card: UIView {
         let base = UIView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.isUserInteractionEnabled = false
-        base.layer.cornerRadius = 12
+        base.layer.cornerRadius = 8
         addSubview(base)
         self.base = base
         
@@ -285,12 +285,12 @@ final class Card: UIView {
     }
     
     private func update(_ text: String) {
-//        if text != app.session.content(app.project, list: column, card: index) {
-//            app.session.content(app.project, list: column, card: index, content: text)
-//            app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text)
-//            update()
-//            update(true)
-//        }
+        if text != app.session.content(app.project!, list: column, card: index) {
+            app.session.content(app.project!, list: column, card: index, content: text)
+            app.alert(.key("Card"), message: text)
+            update()
+            update(true)
+        }
     }
     
     private func update(_ active: Bool) {
@@ -299,45 +299,45 @@ final class Card: UIView {
     }
     
     private func update() {
-//        content?.removeFromSuperview()
-//        empty?.removeFromSuperview()
-//        let string = app.session.content(app.project, list: column, card: index)
-//        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//            let empty = Image("empty")
-//            addSubview(empty)
-//            self.empty = empty
-//
-//            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
-//            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
-//
-//            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
-//            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
-//            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
-//            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-//        } else {
-//            let content = Label(string.mark {
-//                switch $0 {
-//                case .plain: return (.init(string[$1]), 16, .medium, .white)
-//                case .emoji: return (.init(string[$1]), 32, .regular, .white)
-//                case .bold: return (.init(string[$1]), 20, .bold, .white)
-//                    case .tag: fatalError()
-//                }
-//            })
-//            content.accessibilityLabel = .key("Card")
-//            content.accessibilityValue = string
-//            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-//            addSubview(content)
-//            self.content = content
-//
-//            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
-//            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
-//
-//            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-//            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-//            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
-//            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-//            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-//        }
+        content?.removeFromSuperview()
+        empty?.removeFromSuperview()
+        let string = app.session.content(app.project!, list: column, card: index)
+        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let empty = Image("empty")
+            addSubview(empty)
+            self.empty = empty
+
+            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
+            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
+
+            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
+            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
+            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        } else {
+            let content = Label(string.mark {
+                switch $0 {
+                case .plain: return (.init(string[$1]), 16, .medium, .white)
+                case .emoji: return (.init(string[$1]), 32, .regular, .white)
+                case .bold: return (.init(string[$1]), 20, .bold, .white)
+                case .tag: return (.init(string[$1]), 16, .medium, .white)
+                }
+            })
+            content.accessibilityLabel = .key("Card")
+            content.accessibilityValue = string
+            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            addSubview(content)
+            self.content = content
+
+            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
+            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
+
+            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        }
     }
     
     private func move(_ destination: Int, position: Int) {

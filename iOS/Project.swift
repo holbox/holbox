@@ -154,8 +154,10 @@ final class Project: UIView {
                 }) { [weak self] _ in
                     self?._delete.alpha = 1
                 }
+                app.window!.endEditing(true)
                 app.present(Delete.Project(index), animated: true)
             } else {
+                app.window!.endEditing(true)
                 app.project = index
             }
         }

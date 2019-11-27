@@ -13,50 +13,41 @@ final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
         logo.contentMode = .scaleAspectFit
         scroll.add(logo)
         
-        let title = Label([(.key("About.title"), 16, .bold, .white),
-        (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
+        let title = Label([(.key("About.title") + "\n", 16, .bold, .white),
+                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
         scroll.add(title)
         
-        let settings = Label(.key("More.title"), 22, .bold, .init(white: 1, alpha: 0.2))
-        scroll.add(settings)
+        let _done = Control(.key("Settings.done"), self, #selector(close), .clear, UIColor(named: "haze")!)
+        scroll.add(_done)
         
-        let _spell = Check(.key("More.spell"), target: self, action: #selector(spell(_:)))
+        let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
         scroll.add(_spell)
         
-        var top: NSLayoutYAxisAnchor?
+        var top = _spell.bottomAnchor
         (0 ..< 5).forEach {
-            let item = Item(.key("About.options.\($0)"), index: $0, .medium, 16, .init(white: 0.8, alpha: 1), self, #selector(option(_:)))
+            let item = Option.Item($0, settings: self)
             scroll.add(item)
             
-            item.leftAnchor.constraint(equalTo: scroll.left, constant: 23).isActive = true
-            item.widthAnchor.constraint(equalTo: scroll.width, constant: -46).isActive = true
+            let border = Border()
+            border.alpha = 0.3
+            scroll.add(border)
             
-            if top == nil {
-                item.topAnchor.constraint(equalTo: _spell.bottomAnchor, constant: 10).isActive = true
-            } else {
-                let border = Border()
-                border.backgroundColor = .init(white: 0, alpha: 0.5)
-                scroll.add(border)
-                
-                border.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
-                border.rightAnchor.constraint(equalTo: scroll.right, constant: -43).isActive = true
-                border.topAnchor.constraint(equalTo: top!).isActive = true
-                
-                item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-            }
+            item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+            item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
             
+            border.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+            border.widthAnchor.constraint(equalToConstant: 270).isActive = true
+            border.topAnchor.constraint(equalTo: top, constant: 5).isActive = true
             top = item.bottomAnchor
         }
-        
-        let done = Control(.key("More.done"), self, #selector(close), UIColor(named: "haze")!, .black)
-        scroll.add(done)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scroll.bottom.constraint(equalTo: done.bottomAnchor, constant: 30).isActive = true
+        scroll.right.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        scroll.bottom.constraint(equalTo: _done.bottomAnchor, constant: 30).isActive = true
         
         logo.widthAnchor.constraint(equalToConstant: 70).isActive = true
         logo.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -66,27 +57,24 @@ final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: logo.rightAnchor).isActive = true
         
-        settings.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 50).isActive = true
-        settings.leftAnchor.constraint(equalTo: scroll.left, constant: 43).isActive = true
-        
-        _spell.topAnchor.constraint(equalTo: settings.bottomAnchor, constant: 10).isActive = true
+        _spell.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        done.topAnchor.constraint(equalTo: top!, constant: 30).isActive = true
-        done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        done.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        _done.topAnchor.constraint(equalTo: top, constant: 30).isActive = true
+        _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        _done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
     }
     
-    func mailComposeController(_: MFMailComposeViewController, didFinishWith: MFMailComposeResult, error: Error?) { dismiss(animated: true) }
-    
-    @objc private func spell(_ check: Check) {
-        app.session.spell(check.on)
+    func mailComposeController(_: MFMailComposeViewController, didFinishWith: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true)
     }
     
-    @objc private func option(_ item: Item) {
-        switch item.index {
-        case 0: present(Privacy(), animated: true)
-        case 1: UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+    func option(_ index: Int) {
+        switch index {
+        case 0:
+            present(Privacy(), animated: true)
+        case 1:
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
         case 2:
             if MFMailComposeViewController.canSendMail() {
                 let mail = MFMailComposeViewController()
@@ -98,16 +86,21 @@ final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
             } else {
                 app.alert(.key("Error"), message: .key("Error.email"))
             }
-        case 3: UIApplication.shared.open(URL(string: "https://twitter.com/holboxapp")!)
-        case 4: UIApplication.shared.open(URL(string: "itms-apps://itunes.apple.com/\(Locale.current.regionCode!.lowercased())/app/holbox/id1484470903")!)
+        case 3:
+            UIApplication.shared.open(URL(string: "https://twitter.com/holboxapp")!)
+        case 4:
+            UIApplication.shared.open(URL(string: "itms-apps://itunes.apple.com/\(Locale.current.regionCode!.lowercased())/app/holbox/id1484470903")!)
         default: break
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak item] in
-            item?.selected = false
         }
     }
     
+    @objc func check(_ check: Option.Check) {
+        check.on.toggle()
+        app.session.spell(check.on)
+        app.main.refresh()
+    }
+    
     @objc private func close() {
-        
+        presentingViewController!.dismiss(animated: true)
     }
 }

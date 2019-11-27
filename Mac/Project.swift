@@ -114,9 +114,9 @@ final class Project: NSView {
         
         var chart: Chart?
         switch app.session.mode(index) {
-        case .kanban: chart = .Lines(index)
-        case .todo: chart = .Todo(index)
-        case .shopping: chart = .Shopping(index)
+        case .kanban: chart = Lines(index)
+        case .todo: chart = Progress(index)
+        case .shopping: chart = Cart(index)
         default: break
         }
         

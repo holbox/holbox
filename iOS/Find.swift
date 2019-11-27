@@ -58,7 +58,7 @@ final class Find: UIView, UITextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", 13, .regular, UIColor(named: "haze")!)
+        let _counter = Label("", 12, .light, UIColor(named: "haze")!)
         addSubview(_counter)
         self._counter = _counter
         
@@ -73,7 +73,7 @@ final class Find: UIView, UITextViewDelegate {
         self._prev = _prev
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
-        width = widthAnchor.constraint(equalToConstant: 70)
+        width = widthAnchor.constraint(equalToConstant: 60)
         width.isActive = true
         
         icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -86,7 +86,7 @@ final class Find: UIView, UITextViewDelegate {
         cancel.widthAnchor.constraint(equalToConstant: 60).isActive = true
         cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         base.heightAnchor.constraint(equalToConstant: 34).isActive = true
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         baseWidth = base.widthAnchor.constraint(equalToConstant: 60)
@@ -97,18 +97,18 @@ final class Find: UIView, UITextViewDelegate {
         text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
         text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -30).isActive = true
         
-        _counter.rightAnchor.constraint(equalTo: rightAnchor, constant: -265).isActive = true
-        _counter.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
+        _counter.centerXAnchor.constraint(equalTo: _prev.rightAnchor).isActive = true
+        _counter.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         
-        _next.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
-        _next.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        _next.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        _next.leftAnchor.constraint(equalTo: _prev.rightAnchor).isActive = true
+        _next.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _next.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _next.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        _next.rightAnchor.constraint(equalTo: rightAnchor, constant: -170).isActive = true
         
-        _prev.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
-        _prev.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        _prev.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        _prev.leftAnchor.constraint(equalTo: _counter.rightAnchor, constant: 5).isActive = true
+        _prev.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _prev.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _prev.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        _prev.rightAnchor.constraint(equalTo: _next.leftAnchor).isActive = true
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -196,7 +196,7 @@ final class Find: UIView, UITextViewDelegate {
         text.selectedRange = .init(location: 0, length: text.text.count)
         base.layer.borderWidth = 1
         text.becomeFirstResponder()
-        width.constant = app.project == nil ? 182 : 325
+        width.constant = app.project == nil ? 170 : 300
         baseWidth.constant = 170
         if text.text.isEmpty {
             _counter.text = ""
@@ -206,7 +206,7 @@ final class Find: UIView, UITextViewDelegate {
             self.cancel.alpha = 1
             self._next.alpha = 1
             self._prev.alpha = 1
-            self.layoutIfNeeded()
+            self.superview!.layoutIfNeeded()
         }
     }
     
@@ -221,7 +221,7 @@ final class Find: UIView, UITextViewDelegate {
             self.cancel.alpha = 0
             self._next.alpha = 0
             self._prev.alpha = 0
-            self.layoutIfNeeded()
+            self.superview!.layoutIfNeeded()
         }
     }
     

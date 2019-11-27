@@ -3,84 +3,10 @@ import UIKit
 import StoreKit
 
 final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    private final class Item: UIView {
-        private weak var shop: Shop!
-        private let product: SKProduct
-
-        required init?(coder: NSCoder) { nil }
-        init(_ product: SKProduct, shop: Shop) {
-            self.product = product
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            self.shop = shop
-
-            let border = Border()
-            border.alpha = 0.5
-            addSubview(border)
-
-            let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")
-            addSubview(image)
-
-            let title = Label([
-                (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, UIColor(named: "haze")!),
-                (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, UIColor(named: "haze")!.withAlphaComponent(0.9))])
-            addSubview(title)
-
-            let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, UIColor(named: "haze")!.withAlphaComponent(0.9))
-            addSubview(label)
-
-            shop.formatter.locale = product.priceLocale
-            let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
-            addSubview(price)
-
-            let purchased = Label(.key("Shop.purchased"), 18, .bold, UIColor(named: "haze")!)
-            addSubview(purchased)
-
-            let control = Control(.key("Shop.purchase"), self, #selector(purchase), UIColor(named: "haze")!, .black)
-            addSubview(control)
-
-            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 10).isActive = true
-
-            border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-            border.topAnchor.constraint(equalTo: topAnchor).isActive = true
-
-            image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
-            image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            image.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            image.heightAnchor.constraint(equalToConstant: 80).isActive = true
-
-            title.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -10).isActive = true
-            title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
-            title.rightAnchor.constraint(lessThanOrEqualTo: label.rightAnchor).isActive = true
-
-            label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
-            label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
-            label.widthAnchor.constraint(lessThanOrEqualToConstant: 450).isActive = true
-
-            price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30).isActive = true
-            price.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-
-            purchased.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-            purchased.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 5).isActive = true
-
-            control.topAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
-            control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-            control.widthAnchor.constraint(equalToConstant: 130).isActive = true
-
-            if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
-                control.isHidden = true
-            } else {
-                purchased.isHidden = true
-            }
-        }
-
-        @objc private func purchase() {
-            shop.purchase(product)
-        }
-    }
-    
+    let formatter = NumberFormatter()
+    let map = [Perk.two: "holbox.ios.two",
+               Perk.ten: "holbox.ios.ten",
+               Perk.hundred: "holbox.ios.hundred"]
     private weak var request: SKProductsRequest?
     private weak var logo: Logo!
     private weak var image: Image!
@@ -88,10 +14,6 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     private weak var scroll: Scroll!
     private weak var _restore: Control!
     private var products = [SKProduct]() { didSet { DispatchQueue.main.async { [weak self] in self?.refresh() } } }
-    private let formatter = NumberFormatter()
-    private let map = [Perk.two: "holbox.ios.two",
-                       Perk.ten: "holbox.ios.ten",
-                       Perk.hundred: "holbox.ios.hundred"]
     
     deinit { SKPaymentQueue.default().remove(self) }
     
@@ -175,6 +97,11 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     func request(_: SKRequest, didFailWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(didFailWithError.localizedDescription) } }
     func paymentQueue(_: SKPaymentQueue, restoreCompletedTransactionsFailedWithError: Error) { DispatchQueue.main.async { [weak self] in self?.error(restoreCompletedTransactionsFailedWithError.localizedDescription) } }
     
+    func purchase(_ product: SKProduct) {
+        loading()
+        SKPaymentQueue.default().add(.init(product: product))
+    }
+    
     private func update(_ transactions: [SKPaymentTransaction]) {
         guard transactions.first(where: { $0.transactionState == .purchasing }) == nil else { return }
         transactions.forEach { transaction in
@@ -200,23 +127,23 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
         message.isHidden = true
         message.text = ""
         logo.stop()
-        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
         var top: NSLayoutYAxisAnchor?
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
         }.forEach {
-            let item = Item($0, shop: self)
-            scroll.add(item)
+            let purchase = Purchase($0, shop: self)
+            scroll.add(purchase)
             
             if top == nil {
-                item.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
+                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
             } else {
-                item.topAnchor.constraint(equalTo: top!).isActive = true
+                purchase.topAnchor.constraint(equalTo: top!).isActive = true
             }
             
-            item.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-            item.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
-            top = item.bottomAnchor
+            purchase.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+            purchase.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
+            top = purchase.bottomAnchor
         }
         if top != nil {
             scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
@@ -226,7 +153,7 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     
     private func loading() {
         logo.start()
-        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = true
         message.isHidden = true
@@ -236,16 +163,11 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     private func error(_ error: String) {
         app.alert(.key("Error"), message: error)
         logo.stop()
-        scroll.views.filter { $0 is Item }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = false
         message.isHidden = false
         message.text = error
-    }
-    
-    private func purchase(_ product: SKProduct) {
-        loading()
-        SKPaymentQueue.default().add(.init(product: product))
     }
     
     @objc private func restore() {

@@ -4,9 +4,6 @@ final class Detail: View {
     private weak var scroll: Scroll!
     private weak var height: NSLayoutConstraint!
     
-    deinit {
-        print("gone")
-    }
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()

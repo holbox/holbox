@@ -82,7 +82,7 @@ final class Todo: View, NSTextViewDelegate {
     override func refresh() {
         scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
-        let ring = Chart.Ring((.key("Chart.done"), .init(app.session.cards(app.project!, list: 1))),
+        let ring = Ring((.key("Chart.done"), .init(app.session.cards(app.project!, list: 1))),
                               total: (.key("Chart.tasks"), .init(app.session.cards(app.project!, list: 0) + app.session.cards(app.project!, list: 1))))
         scroll.add(ring)
         

@@ -110,18 +110,20 @@ final class Find: NSView, NSTextViewDelegate {
     override func mouseUp(with: NSEvent) {
         let location = convert(with.locationInWindow, from: nil)
         if with.clickCount == 1 && bounds.contains(location) {
+            if window!.firstResponder != text {
+                show()
+            }
             if cancel.frame.contains(location) {
                 if text.string != "" {
                     text.string = ""
                     update()
+                } else if window!.firstResponder == text {
+                    window!.makeFirstResponder(self)
                 }
             } else if _next.frame.contains(location) {
                 next()
             } else if _prev.frame.contains(location) {
                 prev()
-            }
-            if window?.firstResponder != text {
-                show()
             }
         }
         super.mouseUp(with: with)

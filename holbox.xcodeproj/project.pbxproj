@@ -60,6 +60,17 @@
 		DA6B0282237831830084AB0A /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0281237831830084AB0A /* Grocery.swift */; };
 		DA6B0284237831900084AB0A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0283237831900084AB0A /* Product.swift */; };
 		DA6B0286237854710084AB0A /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0285237854710084AB0A /* Stock.swift */; };
+		DA6F04E7238E8091006996DD /* Purchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04E6238E8091006996DD /* Purchase.swift */; };
+		DA6F04E9238E80F2006996DD /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04E8238E80F2006996DD /* Option.swift */; };
+		DA6F04EB238E9F0E006996DD /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04EA238E9F0E006996DD /* Tags.swift */; };
+		DA6F04ED238EA0E9006996DD /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04EC238EA0E9006996DD /* Tag.swift */; };
+		DA6F04EF238EA10A006996DD /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04EE238EA10A006996DD /* Tag.swift */; };
+		DA6F04F1238EA18E006996DD /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F0238EA18E006996DD /* Ring.swift */; };
+		DA6F04F3238EA1C5006996DD /* Bars.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F2238EA1C5006996DD /* Bars.swift */; };
+		DA6F04F5238EA1F2006996DD /* Spider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F4238EA1F2006996DD /* Spider.swift */; };
+		DA6F04F7238EA21A006996DD /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F6238EA21A006996DD /* Cart.swift */; };
+		DA6F04F9238EA240006996DD /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F8238EA240006996DD /* Progress.swift */; };
+		DA6F04FB238EA26B006996DD /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04FA238EA26B006996DD /* Lines.swift */; };
 		DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420CC2351F1C8005A8726 /* Kanban.swift */; };
 		DA7420D12351FB6C005A8726 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7420D02351FB6C005A8726 /* Text.swift */; };
 		DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA748D792375D35D00CED0E4 /* Product.swift */; };
@@ -313,6 +324,17 @@
 		DA6B0281237831830084AB0A /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
 		DA6B0283237831900084AB0A /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA6B0285237854710084AB0A /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		DA6F04E6238E8091006996DD /* Purchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchase.swift; sourceTree = "<group>"; };
+		DA6F04E8238E80F2006996DD /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
+		DA6F04EA238E9F0E006996DD /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
+		DA6F04EC238EA0E9006996DD /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		DA6F04EE238EA10A006996DD /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		DA6F04F0238EA18E006996DD /* Ring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		DA6F04F2238EA1C5006996DD /* Bars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bars.swift; sourceTree = "<group>"; };
+		DA6F04F4238EA1F2006996DD /* Spider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spider.swift; sourceTree = "<group>"; };
+		DA6F04F6238EA21A006996DD /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
+		DA6F04F8238EA240006996DD /* Progress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
+		DA6F04FA238EA26B006996DD /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
 		DA7420CC2351F1C8005A8726 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA7420D02351FB6C005A8726 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -595,10 +617,12 @@
 				DAD8F194234DBAC600835E3E /* Alert.swift */,
 				DAF68E77234764A60060895A /* App.swift */,
 				DAD8F19D234DD3F400835E3E /* Bar.swift */,
+				DA6F04F2238EA1C5006996DD /* Bars.swift */,
 				DAF09643235B280E00BCC800 /* Base.swift */,
 				DAA463FD235886E600A5E990 /* Border.swift */,
 				DAD8F19F234E160F00835E3E /* Button.swift */,
 				DAC22D242354D1BC0004FBFD /* Card.swift */,
+				DA6F04F6238EA21A006996DD /* Cart.swift */,
 				DA82FE412387DE3600F56434 /* Chart.swift */,
 				DAC22D262354D1F90004FBFD /* Column.swift */,
 				DAD8F1A3234E3F1B00835E3E /* Control.swift */,
@@ -611,6 +635,7 @@
 				DAD8F1A5234E415D00835E3E /* Image.swift */,
 				DA7420CC2351F1C8005A8726 /* Kanban.swift */,
 				DAD8F199234DBB9700835E3E /* Label.swift */,
+				DA6F04FA238EA26B006996DD /* Lines.swift */,
 				DA1A4D3923508FD1008D110A /* Logo.swift */,
 				DA43701C234D2B5300CCB34D /* Main.swift */,
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
@@ -618,15 +643,19 @@
 				DAC67BFE238E7CF8001E784B /* Option.swift */,
 				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
 				DA748D792375D35D00CED0E4 /* Product.swift */,
+				DA6F04F8238EA240006996DD /* Progress.swift */,
 				DA1A1420237EC06F00028352 /* Project.swift */,
 				DAC67BFC238E7C66001E784B /* Purchase.swift */,
 				DA16F18E2370189100F3A1FE /* Resize.swift */,
+				DA6F04F0238EA18E006996DD /* Ring.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA3E746C237AD14F00566D3A /* Settings.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DA647E5223759AB90030CB5E /* Shopping.swift */,
+				DA6F04F4238EA1F2006996DD /* Spider.swift */,
 				DA647E542375B5CD0030CB5E /* Stock.swift */,
 				DAF8991C237D836300E1B76F /* Storager.swift */,
+				DA6F04EE238EA10A006996DD /* Tag.swift */,
 				DAD1835923817A3800199FE7 /* Tags.swift */,
 				DA16F18C2370020600F3A1FE /* Task.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
@@ -676,15 +705,19 @@
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
 				DAEAE3D5237174A1001F24BE /* More.swift */,
+				DA6F04E8238E80F2006996DD /* Option.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DA6B0283237831900084AB0A /* Product.swift */,
 				DA8BCEDE238C14CC0099F775 /* Project.swift */,
+				DA6F04E6238E8091006996DD /* Purchase.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
 				DAE0C7AC235EE8AD00402E4B /* Settings.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 				DA6B0285237854710084AB0A /* Stock.swift */,
 				DAF8991A237D831100E1B76F /* Storager.swift */,
+				DA6F04EC238EA0E9006996DD /* Tag.swift */,
+				DA6F04EA238E9F0E006996DD /* Tags.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
 				DAEAE3D323717066001F24BE /* Todo.swift */,
@@ -1097,9 +1130,12 @@
 				DA647E5323759AB90030CB5E /* Shopping.swift in Sources */,
 				DAD1835A23817A3800199FE7 /* Tags.swift in Sources */,
 				DAD8F196234DBB5500835E3E /* String.swift in Sources */,
+				DA6F04F1238EA18E006996DD /* Ring.swift in Sources */,
 				DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */,
+				DA6F04F9238EA240006996DD /* Progress.swift in Sources */,
 				DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */,
 				DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */,
+				DA6F04FB238EA26B006996DD /* Lines.swift in Sources */,
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
 				DA1A1421237EC06F00028352 /* Project.swift in Sources */,
 				DAC22D272354D1F90004FBFD /* Column.swift in Sources */,
@@ -1113,6 +1149,7 @@
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
 				DA3E746D237AD14F00566D3A /* Settings.swift in Sources */,
+				DA6F04F3238EA1C5006996DD /* Bars.swift in Sources */,
 				DAC67BFD238E7C66001E784B /* Purchase.swift in Sources */,
 				DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */,
 				DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */,
@@ -1125,10 +1162,13 @@
 				DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */,
 				DA75C7C4234F465600FD61DC /* Detail.swift in Sources */,
 				DAD8F1A6234E415D00835E3E /* Image.swift in Sources */,
+				DA6F04EF238EA10A006996DD /* Tag.swift in Sources */,
 				DAF68E7F234764A70060895A /* App.swift in Sources */,
 				DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */,
+				DA6F04F7238EA21A006996DD /* Cart.swift in Sources */,
 				DA896A2E23857DCA00A26B8D /* Layout.swift in Sources */,
 				DA61F30123699DB2006DD924 /* Todo.swift in Sources */,
+				DA6F04F5238EA1F2006996DD /* Spider.swift in Sources */,
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
 				DAC22D252354D1BC0004FBFD /* Card.swift in Sources */,
@@ -1152,6 +1192,7 @@
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
 				DA6B0286237854710084AB0A /* Stock.swift in Sources */,
 				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
+				DA6F04E7238E8091006996DD /* Purchase.swift in Sources */,
 				DA230A32238D38C20008834D /* Delete.swift in Sources */,
 				DA1FD278235F38B4003718A5 /* Shop.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
@@ -1164,6 +1205,7 @@
 				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
+				DA6F04E9238E80F2006996DD /* Option.swift in Sources */,
 				DA6B02802378234C0084AB0A /* Shopping.swift in Sources */,
 				DAE0C7AD235EE8AD00402E4B /* Settings.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
@@ -1175,9 +1217,11 @@
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DA8BCEE1238C184A0099F775 /* View.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
+				DA6F04ED238EA0E9006996DD /* Tag.swift in Sources */,
 				DAA4640423588DFD00A5E990 /* Button.swift in Sources */,
 				DAA4640623589A4000A5E990 /* Kanban.swift in Sources */,
 				DA6B0284237831900084AB0A /* Product.swift in Sources */,
+				DA6F04EB238E9F0E006996DD /* Tags.swift in Sources */,
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
 				DA8BCEDD238C05990099F775 /* Find.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,

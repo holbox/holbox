@@ -38,6 +38,7 @@ final class Main: UIView {
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
+        layoutIfNeeded()
         refresh()
     }
     

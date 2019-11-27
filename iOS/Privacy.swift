@@ -3,14 +3,16 @@ import UIKit
 final class Privacy: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "background")!
+        
         let scroll = Scroll()
         view.addSubview(scroll)
         
-        let label = Label([(.key("Privacy.title"), 26, .bold, .init(white: 1, alpha: 0.4)),
-                           (.key("Privacy.label"), 16, .regular, .white)])
+        let label = Label([(.key("Privacy.title") + "\n\n", 24, .bold, UIColor(named: "haze")!),
+                           (.key("Privacy.label"), 14, .regular, .white)])
         scroll.add(label)
         
-        let done = Control(.key("Privacy.done"), self, #selector(close), UIColor(named: "haze")!, .black)
+        let done = Control(.key("Privacy.done"), self, #selector(close), .clear, UIColor(named: "haze")!)
         scroll.add(done)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
@@ -31,6 +33,6 @@ final class Privacy: UIViewController {
     }
     
     @objc private func close() {
-        
+        presentingViewController!.dismiss(animated: true)
     }
 }

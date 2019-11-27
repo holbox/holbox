@@ -3,12 +3,12 @@ import UIKit
 final class Bar: UIView {
     private(set) weak var find: Find!
     private weak var title: Label?
-    private weak var name: Label?
     private weak var _home: Button!
     private weak var border: Border!
     private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
     private weak var addRight: NSLayoutConstraint!
     private weak var addY: NSLayoutConstraint!
+    private weak var findRight: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -52,8 +52,8 @@ final class Bar: UIView {
         addY = _add.centerYAnchor.constraint(equalTo: centerYAnchor)
         addY.isActive = true
         
-        _home.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-        _home.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
+        _home.leftAnchor.constraint(equalTo: find.rightAnchor).isActive = true
+        _home.centerYAnchor.constraint(equalTo: find.centerYAnchor).isActive = true
         
         _shop.leftAnchor.constraint(equalTo: _add.rightAnchor, constant: 20).isActive = true
         _shop.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
@@ -62,7 +62,8 @@ final class Bar: UIView {
         _settings.centerYAnchor.constraint(equalTo: _add.centerYAnchor).isActive = true
      
         find.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
-        find.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        findRight = find.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10)
+        findRight.isActive = true
         
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -82,15 +83,45 @@ final class Bar: UIView {
     }
     
     @objc func shop() {
+        app.window!.endEditing(true)
         app.present(Shop(), animated: true)
     }
         
     @objc func settings() {
+        app.window!.endEditing(true)
         app.present(Settings(), animated: true)
     }
     
     private func project() {
+        let title = Label(app.session.name(app.project!), 18, .bold, UIColor(named: "haze")!)
+        title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        title.alpha = 0
+        addSubview(title)
         
+        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -20).isActive = true
+        title.rightAnchor.constraint(lessThanOrEqualTo: find.leftAnchor).isActive = true
+        let left = title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20)
+        left.priority = .defaultLow
+        left.isActive = true
+        layoutIfNeeded()
+        
+        find.clear()
+        
+        bottom = bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 60)
+        addRight.constant = 0
+        addY.constant = 0
+        findRight.constant = -70
+        UIView.animate(withDuration: 0.35, animations: {
+            title.alpha = 1
+            self.title?.alpha = 0
+            self._home.alpha = 1
+            self.border.alpha = 1
+            self.find.alpha = 1
+            self.superview!.layoutIfNeeded()
+        }) { _ in
+            self.title?.removeFromSuperview()
+            self.title = title
+        }
     }
     
     private func detail() {
@@ -100,35 +131,41 @@ final class Bar: UIView {
         
         title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -20).isActive = true
+        layoutIfNeeded()
         
         find.clear()
         
         bottom = bottomAnchor.constraint(equalTo: superview!.safeAreaLayoutGuide.topAnchor, constant: 120)
         addRight.constant = -240
         addY.constant = -20
+        findRight.constant = -10
         UIView.animate(withDuration: 0.35, animations: {
             title.alpha = 1
             self.title?.alpha = 0
             self._home.alpha = 0
             self.border.alpha = 1
-            self.name?.alpha = 0
             self.find.alpha = 1
-            self.layoutIfNeeded()
+            self.superview!.layoutIfNeeded()
         }) { _ in
-            self.name?.removeFromSuperview()
             self.title?.removeFromSuperview()
             self.title = title
         }
     }
     
     private func empty() {
+        title?.removeFromSuperview()
         bottom = bottomAnchor.constraint(equalTo: superview!.bottomAnchor)
         addRight.constant = ((min(app.main.bounds.width, app.main.bounds.height) - 260) / -2) - 240
         addY.constant = 0
-        UIView.animate(withDuration: 0.35) {
+        findRight.constant = -10
+        UIView.animate(withDuration: 0.35, animations: {
             self._home.alpha = 0
             self.border.alpha = 0
-            self.layoutIfNeeded()
+            self.find.alpha = 0
+            self.title?.alpha = 0
+            self.superview!.layoutIfNeeded()
+        }) { _ in
+            self.title?.removeFromSuperview()
         }
     }
     
@@ -138,6 +175,7 @@ final class Bar: UIView {
     }
     
     @objc private func add() {
+        app.window!.endEditing(true)
         app.present(Add(), animated: true)
     }
 }

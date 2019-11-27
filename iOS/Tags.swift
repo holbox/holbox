@@ -1,7 +1,6 @@
-import AppKit
+import UIKit
 
-final class Tags: NSView {
-    override var mouseDownCanMoveWindow: Bool { false }
+final class Tags: UIView {
     private var animate = false
     private var tags = [(String, Int)]()
     
@@ -21,18 +20,16 @@ final class Tags: NSView {
         }) { [weak self] in
             guard let self = self else { return }
             self.tags = $0
-            NSAnimationContext.runAnimationGroup({
-                $0.duration = 0.3
-                $0.allowsImplicitAnimation = self.animate
-                self.alphaValue = 0
-            }) { [weak self] in
+            UIView.animate(withDuration: 0.35, animations: { [weak self] in
+                self?.alpha = 0
+            }) { [weak self] _ in
                 self?.render()
             }
         }
     }
     
     private func render() {
-        alphaValue = 1
+        alpha = 1
         subviews.forEach { $0.removeFromSuperview() }
         if !tags.isEmpty {
             var top = topAnchor
@@ -47,11 +44,10 @@ final class Tags: NSView {
             }
             bottomAnchor.constraint(equalTo: top, constant: 20).isActive = true
         }
-        NSAnimationContext.runAnimationGroup ({
-            $0.duration = 0.6
-            $0.allowsImplicitAnimation = animate
-            superview!.layoutSubtreeIfNeeded()
-        }) { [weak self] in
+        UIView.animate(withDuration: 0.45, animations: { [weak self] in
+            self?.alpha = 1
+            self?.superview!.layoutIfNeeded()
+        }) { [weak self] _ in
             self?.animate = true
         }
     }
