@@ -29,10 +29,10 @@ final class Bar: NSView, NSTextViewDelegate {
         _add.setAccessibilityLabel(.key("Bar.add"))
         addSubview(_add)
         
-        let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
+        let _shop = Button("cart", target: self, action: #selector(shop))
         _shop.setAccessibilityLabel(.key("Bar.shop"))
         
-        let _settings = Button("more", target: app.main, action: #selector(app.main.settings))
+        let _settings = Button("more", target: self, action: #selector(settings))
         _settings.setAccessibilityLabel(.key("Bar.settings"))
         
         let find = Find()
@@ -90,6 +90,14 @@ final class Bar: NSView, NSTextViewDelegate {
         } else {
             project()
         }
+    }
+    
+    @objc func shop() {
+        app.runModal(for: Shop())
+    }
+    
+    @objc func settings() {
+        app.runModal(for: Settings())
     }
     
     private func project() {

@@ -1,9 +1,10 @@
 import UIKit
 import MessageUI
 
-final class About: UIViewController, MFMailComposeViewControllerDelegate {
+final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "background")!
         
         let scroll = Scroll()
         view.addSubview(scroll)

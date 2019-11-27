@@ -138,14 +138,14 @@ final class Card: UIView {
 //            total.text = "/\(limit)"
         }
         
-        @objc private func column(_ item: Item) {
-            scroll.views.compactMap { $0 as? Item }.forEach {
-                $0.selected = $0 === item
-                $0.highlighted = false
-            }
-            list = item.index
-            update()
-        }
+//        @objc private func column(_ item: Item) {
+//            scroll.views.compactMap { $0 as? Item }.forEach {
+//                $0.selected = $0 === item
+//                $0.highlighted = false
+//            }
+//            list = item.index
+//            update()
+//        }
         
         @objc private func plus() {
             index += 1

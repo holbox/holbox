@@ -49,12 +49,4 @@ final class Main: UIView {
     func rotate() {
         base.rotate()
     }
-    
-    @objc func shop() {
-        app.present(Shop(), animated: true)
-    }
-    
-    @objc func settings() {
-//        app.runModal(for: Settings())
-    }
 }

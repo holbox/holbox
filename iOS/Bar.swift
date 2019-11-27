@@ -29,10 +29,10 @@ final class Bar: UIView {
         let _add = Button("add", target: self, action: #selector(add))
         _add.accessibilityLabel = .key("Bar.add")
         
-        let _shop = Button("cart", target: app.main, action: #selector(app.main.shop))
+        let _shop = Button("cart", target: self, action: #selector(shop))
         _shop.accessibilityLabel = .key("Bar.shop")
         
-        let _settings = Button("more", target: app.main, action: #selector(app.main.settings))
+        let _settings = Button("more", target: self, action: #selector(settings))
         _settings.accessibilityLabel = .key("Bar.settings")
         
         let find = Find()
@@ -79,6 +79,14 @@ final class Bar: UIView {
         } else {
             project()
         }
+    }
+    
+    @objc func shop() {
+        app.present(Shop(), animated: true)
+    }
+        
+    @objc func settings() {
+        app.present(Settings(), animated: true)
     }
     
     private func project() {

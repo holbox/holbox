@@ -171,7 +171,7 @@ final class Add: UIViewController {
     
     @objc private func purchases() {
         close()
-        app.main.shop()
+        app.main.bar.shop()
     }
     
     @objc private func close() {

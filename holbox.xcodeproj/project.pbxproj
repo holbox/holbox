@@ -43,7 +43,6 @@
 		DA43701D234D2B5300CCB34D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701C234D2B5300CCB34D /* Main.swift */; };
 		DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AB0A9237C0667008725EB /* Unmove.swift */; };
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
-		DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4C6513235E00AD00B5F6EE /* Item.swift */; };
 		DA50B85B23740D5A0042EE72 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA50B85A23740D5A0042EE72 /* Index.swift */; };
 		DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9D2372D33E002B5E51 /* Logo.swift */; };
 		DA561EA023730191002B5E51 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9F23730191002B5E51 /* Kanban.swift */; };
@@ -94,7 +93,6 @@
 		DAB979522359B74100631280 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979512359B74100631280 /* Alert.swift */; };
 		DAB979542359CF8200631280 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979532359CF8200631280 /* Add.swift */; };
 		DAB979562359D63C00631280 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979552359D63C00631280 /* Control.swift */; };
-		DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0F9235EFFB600BD3179 /* Check.swift */; };
 		DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FB235F060D00BD3179 /* Privacy.swift */; };
 		DABAD0FE235F267E00BD3179 /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FD235F267E00BD3179 /* About.swift */; };
 		DABAD100235F330F00BD3179 /* Privacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABAD0FF235F330F00BD3179 /* Privacy.swift */; };
@@ -114,6 +112,8 @@
 		DAC22D252354D1BC0004FBFD /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC22D242354D1BC0004FBFD /* Card.swift */; };
 		DAC22D272354D1F90004FBFD /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC22D262354D1F90004FBFD /* Column.swift */; };
 		DAC52F422350DB2B003A72CA /* Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC52F412350DB2B003A72CA /* Scroll.swift */; };
+		DAC67BFD238E7C66001E784B /* Purchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC67BFC238E7C66001E784B /* Purchase.swift */; };
+		DAC67BFF238E7CF8001E784B /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC67BFE238E7CF8001E784B /* Option.swift */; };
 		DAC73A30234773A000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A2F234773A000EF8832 /* CloudKit.framework */; };
 		DAC73A32234773E300EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A31234773E300EF8832 /* CloudKit.framework */; };
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
@@ -142,7 +142,7 @@
 		DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A1234E2E6300835E3E /* Add.swift */; };
 		DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A3234E3F1B00835E3E /* Control.swift */; };
 		DAD8F1A6234E415D00835E3E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A5234E415D00835E3E /* Image.swift */; };
-		DAE0C7AD235EE8AD00402E4B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AC235EE8AD00402E4B /* About.swift */; };
+		DAE0C7AD235EE8AD00402E4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AC235EE8AD00402E4B /* Settings.swift */; };
 		DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AE235EE92B00402E4B /* Edit.swift */; };
 		DAEA6A592382CC6B008EF8B4 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA6A582382CC6B008EF8B4 /* Notes.swift */; };
 		DAEAE3D423717066001F24BE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D323717066001F24BE /* Todo.swift */; };
@@ -300,7 +300,6 @@
 		DA43701C234D2B5300CCB34D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA4AB0A9237C0667008725EB /* Unmove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unmove.swift; sourceTree = "<group>"; };
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
-		DA4C6513235E00AD00B5F6EE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA50B85A23740D5A0042EE72 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		DA561E9D2372D33E002B5E51 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA561E9F23730191002B5E51 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
@@ -343,7 +342,6 @@
 		DAB979512359B74100631280 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		DAB979532359CF8200631280 /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DAB979552359D63C00631280 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
-		DABAD0F9235EFFB600BD3179 /* Check.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Check.swift; sourceTree = "<group>"; };
 		DABAD0FB235F060D00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
 		DABAD0FD235F267E00BD3179 /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DABAD0FF235F330F00BD3179 /* Privacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Privacy.swift; sourceTree = "<group>"; };
@@ -357,6 +355,8 @@
 		DAC22D242354D1BC0004FBFD /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAC22D262354D1F90004FBFD /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		DAC52F412350DB2B003A72CA /* Scroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scroll.swift; sourceTree = "<group>"; };
+		DAC67BFC238E7C66001E784B /* Purchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchase.swift; sourceTree = "<group>"; };
+		DAC67BFE238E7CF8001E784B /* Option.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
 		DAC73A2F234773A000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DAC73A31234773E300EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -379,7 +379,7 @@
 		DAD8F1A1234E2E6300835E3E /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		DAD8F1A3234E3F1B00835E3E /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		DAD8F1A5234E415D00835E3E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		DAE0C7AC235EE8AD00402E4B /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
+		DAE0C7AC235EE8AD00402E4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DAE0C7AE235EE92B00402E4B /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DAEA6A582382CC6B008EF8B4 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		DAEAE3D323717066001F24BE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
@@ -615,9 +615,11 @@
 				DA43701C234D2B5300CCB34D /* Main.swift */,
 				DAD8F192234DBAB900835E3E /* Menu.swift */,
 				DAEA6A582382CC6B008EF8B4 /* Notes.swift */,
+				DAC67BFE238E7CF8001E784B /* Option.swift */,
 				DABAD0FF235F330F00BD3179 /* Privacy.swift */,
 				DA748D792375D35D00CED0E4 /* Product.swift */,
 				DA1A1420237EC06F00028352 /* Project.swift */,
+				DAC67BFC238E7C66001E784B /* Purchase.swift */,
 				DA16F18E2370189100F3A1FE /* Resize.swift */,
 				DAC52F412350DB2B003A72CA /* Scroll.swift */,
 				DA3E746C237AD14F00566D3A /* Settings.swift */,
@@ -651,7 +653,6 @@
 		DAF68E93234765820060895A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				DAE0C7AC235EE8AD00402E4B /* About.swift */,
 				DAB979532359CF8200631280 /* Add.swift */,
 				DAB979512359B74100631280 /* Alert.swift */,
 				DAF68E94234765820060895A /* App.swift */,
@@ -661,7 +662,6 @@
 				DAA4640323588DFD00A5E990 /* Button.swift */,
 				DA82CDA6235DAB5E00CBB15D /* Capsule.swift */,
 				DAF09638235B03F400BCC800 /* Card.swift */,
-				DABAD0F9235EFFB600BD3179 /* Check.swift */,
 				DAF0963A235B041900BCC800 /* Column.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
 				DA230A31238D38C20008834D /* Delete.swift */,
@@ -671,7 +671,6 @@
 				DA8BCEDC238C05990099F775 /* Find.swift */,
 				DA6B0281237831830084AB0A /* Grocery.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
-				DA4C6513235E00AD00B5F6EE /* Item.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
 				DAA4640B2358A43F00A5E990 /* Label.swift */,
 				DAA463F323586E0400A5E990 /* Logo.swift */,
@@ -681,6 +680,7 @@
 				DA6B0283237831900084AB0A /* Product.swift */,
 				DA8BCEDE238C14CC0099F775 /* Project.swift */,
 				DAA464092358A2CA00A5E990 /* Scroll.swift */,
+				DAE0C7AC235EE8AD00402E4B /* Settings.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
 				DA6B0285237854710084AB0A /* Stock.swift */,
@@ -1113,6 +1113,7 @@
 				DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */,
 				DAA463FE235886E600A5E990 /* Border.swift in Sources */,
 				DA3E746D237AD14F00566D3A /* Settings.swift in Sources */,
+				DAC67BFD238E7C66001E784B /* Purchase.swift in Sources */,
 				DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */,
 				DA748D7A2375D35D00CED0E4 /* Product.swift in Sources */,
 				DA647E552375B5CD0030CB5E /* Stock.swift in Sources */,
@@ -1131,6 +1132,7 @@
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
 				DAC22D252354D1BC0004FBFD /* Card.swift in Sources */,
+				DAC67BFF238E7CF8001E784B /* Option.swift in Sources */,
 				DABAD0FE235F267E00BD3179 /* About.swift in Sources */,
 				DA8B96042356FA60007E82F7 /* Shop.swift in Sources */,
 				DA7420CD2351F1C8005A8726 /* Kanban.swift in Sources */,
@@ -1147,7 +1149,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DABAD0FA235EFFB600BD3179 /* Check.swift in Sources */,
 				DAA463F623586F3600A5E990 /* Main.swift in Sources */,
 				DA6B0286237854710084AB0A /* Stock.swift in Sources */,
 				DAF0963B235B041900BCC800 /* Column.swift in Sources */,
@@ -1157,7 +1158,6 @@
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
 				DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
-				DA4C6514235E00AD00B5F6EE /* Item.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
 				DAF8991B237D831100E1B76F /* Storager.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
@@ -1165,7 +1165,7 @@
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
 				DA6B02802378234C0084AB0A /* Shopping.swift in Sources */,
-				DAE0C7AD235EE8AD00402E4B /* About.swift in Sources */,
+				DAE0C7AD235EE8AD00402E4B /* Settings.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
 				DAEAE3D6237174A1001F24BE /* More.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,

@@ -156,6 +156,6 @@ final class Add: Window.Modal {
     
     @objc private func purchases() {
         close()
-        app.main.shop()
+        app.main.bar.shop()
     }
 }
