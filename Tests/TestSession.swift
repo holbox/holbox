@@ -31,6 +31,16 @@ final class TestSession: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testSaveOnUser() {
+        let expect = expectation(description: "")
+        store.session = {
+            XCTAssertEqual("hello world", $0.user)
+            expect.fulfill()
+        }
+        session.update("hello world")
+        waitForExpectations(timeout: 1)
+    }
+    
     func testNoPerks() {
         XCTAssertEqual(1, session.available)
         XCTAssertEqual(1, session.capacity)

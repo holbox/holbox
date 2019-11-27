@@ -4,6 +4,7 @@ import Compression
 final class Coder {
     func session(_ session: Session) -> Data {
         var result = Data()
+        result.add(session.user)
         result += settings(session.settings)
         result.add(session.rating)
         result.add(session.perks.count)
@@ -38,6 +39,7 @@ final class Coder {
     
     func session(_ session: Session, data: Data) {
         var data = data
+        session.user = data.string()
         session.settings = settings(&data)
         session.rating = data.date()
         session.perks = (0 ..< data.byte()).map { _ in data.perk() }
@@ -71,15 +73,16 @@ final class Coder {
     }
     
     private func settings(_ settings: Settings) -> Data {
-        var result = Array(repeating: UInt8(), count: Settings.size)
-        result[0] = settings.spell ? 1 : 0
+        var result = Array(repeating: UInt8(), count: 2)
+        result[0] = UInt8(2)
+        result[1] = settings.spell ? 1 : 0
         return .init(result)
     }
     
     private func settings(_ data: inout Data) -> Settings {
         var settings = Settings()
-        settings.spell = data[0] == 1
-        data.move(Settings.size)
+        settings.spell = data[1] == 1
+        data.move(.init(data[0]))
         return settings
     }
     

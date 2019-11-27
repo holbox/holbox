@@ -24,9 +24,9 @@ final class TestSave: XCTestCase {
             expect.fulfill()
         }
         store.time = 0.1
-        store.save(["b": b])
-        store.save(["a": a])
-        store.save(["c": c])
+        store.save(["b": b], session: .init())
+        store.save(["a": a], session: .init())
+        store.save(["c": c], session: .init())
         waitForExpectations(timeout: 1)
     }
     
@@ -38,7 +38,7 @@ final class TestSave: XCTestCase {
         shared.saved = {
             if $0["a"] != nil {
                 XCTAssertNil($0["b"])
-                self.store.save(["b": b])
+                self.store.save(["b": b], session: .init())
                 expectA.fulfill()
             } else {
                 XCTAssertNotNil($0["b"])
@@ -47,7 +47,7 @@ final class TestSave: XCTestCase {
             }
         }
         store.time = 0
-        store.save(["a": a])
+        store.save(["a": a], session: .init())
         waitForExpectations(timeout: 1)
     }
 }

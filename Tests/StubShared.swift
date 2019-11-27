@@ -6,7 +6,7 @@ final class StubShared: Shared {
     var load: ([String]) -> Void = { _ in }
     var saved: ([String: URL]) -> Void = { _ in }
     
-    override func load(_ ids: [String], error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
+    override func load(_ ids: [String], session: Session, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let results = ids.compactMap { url[$0] }
         if results.count == ids.count {
             result(results)
@@ -16,7 +16,7 @@ final class StubShared: Shared {
         load(ids)
     }
     
-    override func save(_ ids: [String : URL]) {
+    override func save(_ ids: [String : URL], session: Session) {
         saved(ids)
     }
 }

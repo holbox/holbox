@@ -1,6 +1,7 @@
 import Foundation
 
 public final class Session {
+    var user = ""
     var store = Store()
     var rating = Calendar.current.date(byAdding: .day, value: 1, to: .init())!
     var items = [Int : Project]()
@@ -269,6 +270,11 @@ public final class Session {
     
     public func search(_ project: Int, string: String, result: @escaping ([(Int, Int, NSRange)]) -> Void) {
         search = .init(items[project]!, string: string, result: result)
+    }
+    
+    func update(_ user: String) {
+        self.user = user
+        store.save(self)
     }
     
     private func product(_ emoji: String, description: String) -> String? {

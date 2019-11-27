@@ -19,12 +19,16 @@ final class TestCoder: XCTestCase {
         project2.mode = .todo
         project2.time = time2
         let session = Session()
+        session.store = StubStore()
+        session.user = "hello world"
         session.rating = date
         session.items = [88: project1, 32: project2]
         session.perks = [.hundred, .two]
         session.settings.spell = false
         let decoded = Session()
+        decoded.store = StubStore()
         coder.session(decoded, data: coder.session(session))
+        XCTAssertEqual("hello world", decoded.user)
         XCTAssertEqual(date, decoded.rating)
         XCTAssertEqual(2, decoded.items.count)
         XCTAssertEqual(.off, decoded.items[88]?.mode)

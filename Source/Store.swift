@@ -34,21 +34,21 @@ class Store {
         queue.async {
             self.write(session)
             self.write(id, project: project)
-            self.save(["session": self.url(session), "\(id)": self.url.appendingPathComponent("\(id)")])
+            self.save(["session": self.url(session), "\(id)": self.url.appendingPathComponent("\(id)")], session: session)
         }
     }
     
     func load(session: Session, result: @escaping () -> Void) {
         do {
             try coder.session(session, data: .init(contentsOf: url.appendingPathComponent("session.holbox")))
-            shared.load(["session"], error: {
+            shared.load(["session"], session: session, error: {
                 var update = Update(session, result: result)
                 session.items = session.items.keys.reduce(into: [:]) {
                     update.upload.append($1)
                     $0[$1] = try! self.coder.project(.init(contentsOf: self.url.appendingPathComponent("\($1)")))
                 }
                 update.share = true
-                self.merge(update)
+                self.merge(update, session: session)
             }) {
                 let global = try! self.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(session, result: result)
@@ -71,26 +71,26 @@ class Store {
                         update.download.append($0.0)
                     }
                 }
-                self.merge(update)
+                self.merge(update, session: session)
             }
         } catch {
-            shared.load(["session"], error: {
+            shared.load(["session"], session: session, error: {
                 self.write(session)
-                self.save(["session": self.url(session)])
+                self.save(["session": self.url(session)], session: session)
                 result()
             }) {
                 let global = try! self.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(session, result: result)
                 update.write = true
                 update.download = global.map { $0.0 }
-                self.merge(update)
+                self.merge(update, session: session)
             }
         }
     }
     
     func refresh(_ session: Session, done: @escaping ([Int]) -> Void) {
         queue.async {
-            self.shared.load(["session"], error: {
+            self.shared.load(["session"], session: session, error: {
                 DispatchQueue.main.async { done([]) }
             }) {
                 let download = try! self.coder.global(.init(contentsOf: $0.first!)).filter {
@@ -99,7 +99,7 @@ class Store {
                 if download.isEmpty {
                     DispatchQueue.main.async { done([]) }
                 } else {
-                    self.shared.load(download.map(String.init(_:)), error: {
+                    self.shared.load(download.map(String.init(_:)), session: session, error: {
                         DispatchQueue.main.async { done([]) }
                     }) { urls in
                         download.enumerated().forEach {
@@ -123,7 +123,7 @@ class Store {
         try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
     }
     
-    func save(_ ids: [String : URL]) {
+    func save(_ ids: [String : URL], session: Session) {
         timer?.schedule(deadline: .distantFuture)
         balancing.merge(ids) { $1 }
         if timer == nil {
@@ -133,18 +133,18 @@ class Store {
                 self.timer!.schedule(deadline: .distantFuture)
                 let balancing = self.balancing
                 self.balancing = [:]
-                self.shared.save(balancing)
+                self.shared.save(balancing, session: session)
             }
         }
         timer!.schedule(deadline: .now() + time)
     }
     
-    private func merge(_ update: Update) {
+    private func merge(_ update: Update, session: Session) {
         var update = update
         if !update.download.isEmpty {
-            shared.load(update.download.map(String.init(_:)), error: {
+            shared.load(update.download.map(String.init(_:)), session: session, error: {
                 update.download = []
-                self.merge(update)
+                self.merge(update, session: session)
             }) { urls in
                 update.download.enumerated().forEach {
                     let project = try! self.coder.project(.init(contentsOf: urls[$0.0]))
@@ -153,17 +153,17 @@ class Store {
                 }
                 update.download = []
                 update.write = true
-                self.merge(update)
+                self.merge(update, session: session)
             }
         } else if !update.upload.isEmpty {
-            save(update.upload.reduce(into: [:]) { $0["\($1)"] = url.appendingPathComponent("\($1)") })
+            save(update.upload.reduce(into: [:]) { $0["\($1)"] = url.appendingPathComponent("\($1)") }, session: session)
             update.share = true
             update.upload = []
-            self.merge(update)
+            self.merge(update, session: session)
         } else if update.share {
-            save(["session": url(update.session)])
+            save(["session": url(update.session)], session: session)
             update.share = false
-            self.merge(update)
+            self.merge(update, session: session)
         } else {
             if update.write {
                 write(update.session)
