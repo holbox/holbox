@@ -39,7 +39,7 @@ final class TestStoreSession: XCTestCase {
         }
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session.holbox")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             XCTAssertTrue(session.items.isEmpty)
             expectReady.fulfill()
@@ -54,7 +54,7 @@ final class TestStoreSession: XCTestCase {
         store.prepare()
         let saved = Session()
         saved.rating = .init(timeIntervalSince1970: 10)
-        try! coder.session(saved).write(to: store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: store.url.appendingPathComponent("session.holbox"))
         shared.load = {
             XCTAssertEqual("session", $0.first)
             expectLoad.fulfill()
@@ -65,7 +65,7 @@ final class TestStoreSession: XCTestCase {
         }
         store.load(session: session) {
             let session = Session()
-            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session")))
+            try! self.coder.session(session, data: .init(contentsOf: self.store.url.appendingPathComponent("session.holbox")))
             XCTAssertEqual(Int(session.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             XCTAssertEqual(Int(saved.rating.timeIntervalSince1970), Int(self.session.rating.timeIntervalSince1970))
             expectReady.fulfill()
@@ -85,7 +85,7 @@ final class TestStoreSession: XCTestCase {
             expectLoad.fulfill()
         }
         store.load(session: session) {
-            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: self.store.url.appendingPathComponent("session"))))
+            try! XCTAssertNoThrow(self.coder.session(.init(), data: .init(contentsOf: self.store.url.appendingPathComponent("session.holbox"))))
             XCTAssertTrue(self.session.items.isEmpty)
             expectReady.fulfill()
         }
@@ -98,7 +98,7 @@ final class TestStoreSession: XCTestCase {
         store.prepare()
         let saved = Session()
         saved.rating = .init(timeIntervalSince1970: 10)
-        try! coder.session(saved).write(to: store.url.appendingPathComponent("session"))
+        try! coder.session(saved).write(to: store.url.appendingPathComponent("session.holbox"))
         shared.url["session"] = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tmp")
         try! coder.global(saved).write(to: shared.url["session"]!)
         shared.load = {

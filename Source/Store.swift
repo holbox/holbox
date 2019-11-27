@@ -40,7 +40,7 @@ class Store {
     
     func load(session: Session, result: @escaping () -> Void) {
         do {
-            try coder.session(session, data: .init(contentsOf: url.appendingPathComponent("session")))
+            try coder.session(session, data: .init(contentsOf: url.appendingPathComponent("session.holbox")))
             shared.load(["session"], error: {
                 var update = Update(session, result: result)
                 session.items = session.items.keys.reduce(into: [:]) {
@@ -173,7 +173,7 @@ class Store {
     }
     
     private func write(_ session: Session) {
-        try! coder.session(session).write(to: url.appendingPathComponent("session"), options: .atomic)
+        try! coder.session(session).write(to: url.appendingPathComponent("session.holbox"), options: .atomic)
     }
     
     private func write(_ id: Int, project: Project) {
@@ -181,7 +181,7 @@ class Store {
     }
     
     private func url(_ session: Session) -> URL {
-        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session")
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("session.holbox")
         try! coder.global(session).write(to: url, options: .atomic)
         return url
     }
