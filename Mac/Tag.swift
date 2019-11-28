@@ -10,18 +10,38 @@ final class Tag: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
         setAccessibilityRole(.button)
+        setAccessibilityLabel("\(count) #" + name)
         
-        let label = Label([("\(count)", 13, .medium, NSColor(named: "haze")!),
-                           (" #" + name, 14, .bold, NSColor(named: "haze")!)])
+        let base = NSView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.wantsLayer = true
+        base.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        base.layer!.cornerRadius = 4
+        addSubview(base)
+        
+        let label = Label("#" + name, 14, .bold, .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        setAccessibilityLabel(label.stringValue)
+        label.setAccessibilityElement(false)
         addSubview(label)
         
-        heightAnchor.constraint(equalToConstant: 34).isActive = true
+        let _count = Label("\(count)", 14, .medium, NSColor(named: "haze")!)
+        _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        _count.setAccessibilityElement(false)
+        addSubview(_count)
+        
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
         rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
         
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        base.topAnchor.constraint(equalTo: label.topAnchor, constant: -5).isActive = true
+        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
+        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -7).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
+        
+        label.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        
+        _count.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
+        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
     }
     
     override func resetCursorRects() {

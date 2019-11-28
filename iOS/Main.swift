@@ -48,6 +48,6 @@ final class Main: UIView {
     }
     
     func rotate() {
-        base.rotate()
+        base?.rotate()
     }
 }

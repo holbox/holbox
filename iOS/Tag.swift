@@ -10,32 +10,57 @@ final class Tag: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
         accessibilityTraits = .button
+        accessibilityLabel = "\(count) #" + name
         
-        let label = Label([("\(count)", 13, .medium, UIColor(named: "haze")!),
-                           (" #" + name, 14, .bold, UIColor(named: "haze")!)])
+        let base = UIView()
+        base.isUserInteractionEnabled = false
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.backgroundColor = UIColor(named: "haze")!
+        base.layer.cornerRadius = 4
+        addSubview(base)
+        
+        let label = Label("#" + name, 14, .bold, .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        accessibilityLabel = label.text
+        label.isAccessibilityElement = false
         addSubview(label)
         
-        heightAnchor.constraint(equalToConstant: 34).isActive = true
-        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
+        let _count = Label("\(count)", 14, .medium, UIColor(named: "haze")!)
+        _count.isAccessibilityElement = false
+        addSubview(_count)
         
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 20).isActive = true
+        
+        base.topAnchor.constraint(equalTo: label.topAnchor, constant: -5).isActive = true
+        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
+        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -7).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
+        
+        label.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        
+        _count.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
+        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-        alpha = 0.3
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 0.3
+        }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        alpha = 1
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 1
+        }
         super.touchesCancelled(touches, with: with)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        alpha = 1
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 1
+        }
         if bounds.contains(touches.first!.location(in: self)) {
             app.main.bar.find.search("#"+name)
         }

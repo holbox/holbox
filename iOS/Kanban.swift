@@ -26,14 +26,14 @@ final class Kanban: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.width.constraint(greaterThanOrEqualTo: widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: tags.rightAnchor).isActive = true
-
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        
+        tags.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        tags.topAnchor.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 50).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
+
         refresh()
     }
     
@@ -41,7 +41,7 @@ final class Kanban: View {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
-        var left: NSLayoutXAxisAnchor?
+        var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project!)).forEach { list in
             let column = Column(list)
             scroll.add(column)
@@ -67,26 +67,19 @@ final class Kanban: View {
                 }
                 
                 if $0 == app.session.cards(app.project!, list: list) - 1 {
-                    tags.topAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
+                    tags.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 }
                 column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
                 card.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
                 top = card
             }
             
-            if left == nil {
-                column.leftAnchor.constraint(equalTo: scroll.left, constant: 5).isActive = true
-            } else {
-                column.leftAnchor.constraint(equalTo: left!).isActive = true
-            }
-            
+            column.leftAnchor.constraint(equalTo: left).isActive = true
             column.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
             left = column.rightAnchor
         }
         
-        if left != nil {
-            scroll.right.constraint(greaterThanOrEqualTo: left!, constant: 20).isActive = true
-        }
+        scroll.right.constraint(greaterThanOrEqualTo: left, constant: 20).isActive = true
         tags.refresh()
         isUserInteractionEnabled = true
     }

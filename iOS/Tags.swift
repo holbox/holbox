@@ -20,7 +20,7 @@ final class Tags: UIView {
         }) { [weak self] in
             guard let self = self else { return }
             self.tags = $0
-            UIView.animate(withDuration: 0.35, animations: { [weak self] in
+            UIView.animate(withDuration: self.animate ? 0.3 : 0, animations: { [weak self] in
                 self?.alpha = 0
             }) { [weak self] _ in
                 self?.render()
@@ -29,7 +29,6 @@ final class Tags: UIView {
     }
     
     private func render() {
-        alpha = 1
         subviews.forEach { $0.removeFromSuperview() }
         if !tags.isEmpty {
             var top = topAnchor
@@ -37,14 +36,15 @@ final class Tags: UIView {
                 let tag = Tag($0.0, count: $0.1)
                 addSubview(tag)
                 
-                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 10).isActive = true
-                tag.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+                tag.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
                 tag.topAnchor.constraint(equalTo: top).isActive = true
                 top = tag.bottomAnchor
+                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 20).isActive = true
             }
-            bottomAnchor.constraint(equalTo: top, constant: 20).isActive = true
+            bottomAnchor.constraint(greaterThanOrEqualTo: top).isActive = true
         }
-        UIView.animate(withDuration: 0.45, animations: { [weak self] in
+        layoutIfNeeded()
+        UIView.animate(withDuration: animate ? 0.35 : 0, animations: { [weak self] in
             self?.alpha = 1
             self?.superview!.layoutIfNeeded()
         }) { [weak self] _ in

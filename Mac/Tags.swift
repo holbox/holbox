@@ -32,7 +32,6 @@ final class Tags: NSView {
     }
     
     private func render() {
-        alphaValue = 1
         subviews.forEach { $0.removeFromSuperview() }
         if !tags.isEmpty {
             var top = topAnchor
@@ -50,6 +49,7 @@ final class Tags: NSView {
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.6
             $0.allowsImplicitAnimation = animate
+            alphaValue = 1
             superview!.layoutSubtreeIfNeeded()
         }) { [weak self] in
             self?.animate = true

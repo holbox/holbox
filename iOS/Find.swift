@@ -16,7 +16,7 @@ final class Find: UIView, UITextViewDelegate {
     private var ranges = [(Int, Int, NSRange)]() {
         didSet {
             index = 0
-            _counter.text = "\(ranges.count) " + .key("Find.matches")
+            _counter.text = text.text.isEmpty ? "" : "\(ranges.count) " + .key("Find.matches")
         }
     }
     
@@ -196,7 +196,7 @@ final class Find: UIView, UITextViewDelegate {
         text.selectedRange = .init(location: 0, length: text.text.count)
         base.layer.borderWidth = 1
         text.becomeFirstResponder()
-        width.constant = app.project == nil ? 170 : 300
+        width.constant = app.project == nil ? 170 : min(app.main.bounds.width, app.main.bounds.height) - 70
         baseWidth.constant = 170
         if text.text.isEmpty {
             _counter.text = ""

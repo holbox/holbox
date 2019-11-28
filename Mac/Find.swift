@@ -15,7 +15,7 @@ final class Find: NSView, NSTextViewDelegate {
     private var ranges = [(Int, Int, NSRange)]() {
         didSet {
             index = 0
-            _counter.stringValue = "\(ranges.count) " + .key("Find.matches")
+            _counter.stringValue = text.string.isEmpty ? "" : "\(ranges.count) " + .key("Find.matches")
         }
     }
     
