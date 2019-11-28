@@ -63,18 +63,18 @@ final class Kanban: View {
                         card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20).isActive = true
                     }
                 } else {
-                    card.topAnchor.constraint(equalTo: top!.bottomAnchor).isActive = true
+                    card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10).isActive = true
                 }
                 
                 if $0 == app.session.cards(app.project!, list: list) - 1 {
                     tags.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 }
                 column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
-                card.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
+                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
                 top = card
             }
             
-            column.leftAnchor.constraint(equalTo: left).isActive = true
+            column.leftAnchor.constraint(equalTo: left, constant: 10).isActive = true
             column.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
             left = column.rightAnchor
         }
@@ -94,18 +94,41 @@ final class Kanban: View {
         spider.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
         spider.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
         
-        ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 20).isActive = true
+        ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 30).isActive = true
         ring.leftAnchor.constraint(equalTo: left, constant: 40).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 60).isActive = true
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 70).isActive = true
         bars.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 10).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 10).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 10).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor, constant: 20).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor).isActive = true
         tags.refresh()
         isUserInteractionEnabled = true
+    }
+    
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        scroll.views.compactMap { $0 as? Card }.forEach {
+            $0.content.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.content.text.count))
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        scroll.views.compactMap { $0 as? Card }.forEach {
+            $0.content.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.content.text.utf16.count))
+            if $0.column == list && $0.index == card {
+                var frame = scroll.content.convert($0.content.layoutManager.boundingRect(forGlyphRange: range, in: $0.content.textContainer), from: $0.content)
+                frame.origin.x -= (bounds.width - frame.size.width) / 2
+                frame.origin.y -= (bounds.height / 2) - frame.size.height
+                frame.size.width = bounds.width
+                frame.size.height = bounds.height
+                $0.content.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                UIView.animate(withDuration: 0.4) { [weak self] in
+                    self?.scroll.scrollRectToVisible(frame, animated: true)
+                }
+            }
+        }
     }
     
     @objc private func add() {

@@ -11,7 +11,6 @@ final class Find: UIView, UITextViewDelegate {
     private weak var _prev: Image!
     private weak var base: UIView!
     private weak var width: NSLayoutConstraint!
-    private weak var baseWidth: NSLayoutConstraint!
     private var index = 0
     private var ranges = [(Int, Int, NSRange)]() {
         didSet {
@@ -44,6 +43,7 @@ final class Find: UIView, UITextViewDelegate {
         self.base = base
         
         let text = Text()
+        text.textContainerInset = .init(top: 15, left: 0, bottom: 15, right: 0)
         text.isUserInteractionEnabled = false
         text.accessibilityLabel = .key("Search")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
@@ -87,15 +87,14 @@ final class Find: UIView, UITextViewDelegate {
         cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: text.rightAnchor, constant: 30).isActive = true
+        base.leftAnchor.constraint(equalTo: text.leftAnchor, constant: -30).isActive = true
         base.heightAnchor.constraint(equalToConstant: 34).isActive = true
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        baseWidth = base.widthAnchor.constraint(equalToConstant: 60)
-        baseWidth.isActive = true
         
-        text.topAnchor.constraint(equalTo: base.topAnchor, constant: 1).isActive = true
-        text.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
-        text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -30).isActive = true
+        text.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
+        text.height = text.heightAnchor.constraint(equalToConstant: ceil(text.layoutManager.usedRect(for: text.textContainer).size.height) + 30)
+        text.width = text.widthAnchor.constraint(equalToConstant: 0)
         
         _counter.centerXAnchor.constraint(equalTo: _prev.rightAnchor).isActive = true
         _counter.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
@@ -197,7 +196,7 @@ final class Find: UIView, UITextViewDelegate {
         base.layer.borderWidth = 1
         text.becomeFirstResponder()
         width.constant = app.project == nil ? 170 : min(app.main.bounds.width, app.main.bounds.height) - 70
-        baseWidth.constant = 170
+        text.width.constant = 110
         if text.text.isEmpty {
             _counter.text = ""
         }
@@ -213,7 +212,7 @@ final class Find: UIView, UITextViewDelegate {
     private func hide() {
         base.layer.borderWidth = 0
         width.constant = 60
-        baseWidth.constant = 60
+        text.width.constant = 0
         _counter.text = ""
         _counter.alpha = 0
         ranges = []

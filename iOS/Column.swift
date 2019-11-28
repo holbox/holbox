@@ -28,9 +28,9 @@ final class Column: UIView {
         width.priority = .defaultLow
         width.isActive = true
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 20).isActive = true
+        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 10).isActive = true
         bottomAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         name.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         name.widthAnchor.constraint(lessThanOrEqualToConstant: 350).isActive = true
     }

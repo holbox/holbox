@@ -1,30 +1,28 @@
 import UIKit
 
 final class Text: UITextView {
+    weak var width: NSLayoutConstraint! { didSet { oldValue?.isActive = false; width.isActive = true } }
+    weak var height: NSLayoutConstraint! { didSet { oldValue?.isActive = false; height.isActive = true } }
     override var accessibilityValue: String? { get { text } set { } }
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
-//        textContainerInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+        textContainerInset = .zero
+        textContainer.widthTracksTextView = false
+        textContainer.heightTracksTextView = false
         isAccessibilityElement = true
         translatesAutoresizingMaskIntoConstraints = false
         indicatorStyle = .white
-        verticalScrollIndicatorInsets.top = 20
         textColor = .white
         backgroundColor = .clear
         bounces = false
         tintColor = UIColor(named: "haze")!
-//        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 25), weight: .medium)
         keyboardAppearance = .dark
         keyboardDismissMode = .interactive
         spellCheckingType = app.session.spell ? .yes : .no
         autocorrectionType = app.session.spell ? .yes : .no
         autocapitalizationType = app.session.spell ? .sentences : .none
-        
-//        (textStorage as! Storage).fonts = [.plain: font!,
-//                                           .emoji: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 50), weight: .regular),
-//                                           .bold: .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .bold)]
     }
     
     override func caretRect(for position: UITextPosition) -> CGRect {

@@ -193,7 +193,9 @@ final class Card: UIView {
         
         override func viewDidDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
-            card?.update(false)
+//            UIView.animate(withDuration: 0.3) { [weak self] in
+//                self?.backgroundColor = .clear
+//            }
         }
         
         override func textViewDidEndEditing(_: UITextView) {
@@ -228,10 +230,13 @@ final class Card: UIView {
     
     let index: Int
     let column: Int
-    private weak var empty: Image?
-    private weak var content: Label?
+    weak var left: NSLayoutConstraint! {
+        didSet {
+            left.constant = content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 10 : 0
+            left.isActive = true
+    } }
+    private(set) weak var content: Text!
     private weak var kanban: Kanban?
-    private weak var base: UIView!
     
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int, column: Int) {
@@ -240,29 +245,43 @@ final class Card: UIView {
         self.kanban = kanban
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = 8
         
-        let base = UIView()
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.isUserInteractionEnabled = false
-        base.layer.cornerRadius = 8
-        addSubview(base)
-        self.base = base
+        let content = Text()
+        content.isUserInteractionEnabled = false
+        content.accessibilityLabel = .key("Card")
+        (content.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium), .white),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
+            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), .white),
+            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+        content.textContainer.size.width = 200
+        addSubview(content)
+        self.content = content
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 1).isActive = true
-        base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
+        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
+        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
 
+        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        content.width = content.widthAnchor.constraint(equalToConstant: 0)
+        content.height = content.heightAnchor.constraint(equalToConstant: 0)
+        
         update()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-        update(true)
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.backgroundColor = UIColor(named: "background")!
+        }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        update(false)
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.backgroundColor = self.content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? UIColor(named: "background")! : .clear
+        }
         super.touchesCancelled(touches, with: with)
     }
     
@@ -270,14 +289,17 @@ final class Card: UIView {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.present(Detail(self), animated: true)
         } else {
-            update(false)
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                guard let self = self else { return }
+                self.backgroundColor = self.content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? UIColor(named: "background")! : .clear
+            }
         }
         super.touchesEnded(touches, with: with)
     }
     
     func edit() {
         UIView.animate(withDuration: 0.35, animations: { [weak self] in
-            self?.update(true)
+            self?.backgroundColor = UIColor(named: "background")!
         }) { [weak self] _ in
             guard let self = self else { return }
             app.present(Detail(self), animated: true)
@@ -289,54 +311,27 @@ final class Card: UIView {
             app.session.content(app.project!, list: column, card: index, content: text)
             app.alert(.key("Card"), message: text)
             update()
-            update(true)
         }
     }
     
-    private func update(_ active: Bool) {
-        base.backgroundColor = active ? UIColor(named: "haze")! : .clear
-        content?.textColor = active ? .black : .white
-    }
-    
     private func update() {
-        content?.removeFromSuperview()
-        empty?.removeFromSuperview()
-        let string = app.session.content(app.project!, list: column, card: index)
-        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            let empty = Image("empty")
-            addSubview(empty)
-            self.empty = empty
-
-            rightAnchor.constraint(equalTo: empty.rightAnchor, constant: 16).isActive = true
-            bottomAnchor.constraint(equalTo: empty.bottomAnchor, constant: 16).isActive = true
-
-            empty.widthAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.heightAnchor.constraint(equalToConstant: 34).isActive = true
-            empty.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
-            empty.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        let color: UIColor
+        content.text = app.session.content(app.project!, list: column, card: index)
+        if content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            content.width.constant = 60
+            content.height.constant = 60
+            color = UIColor(named: "background")!
+            left?.constant = 10
         } else {
-            let content = Label(string.mark {
-                switch $0 {
-                case .plain: return (.init(string[$1]), 16, .medium, .white)
-                case .emoji: return (.init(string[$1]), 32, .regular, .white)
-                case .bold: return (.init(string[$1]), 20, .bold, .white)
-                case .tag: return (.init(string[$1]), 16, .medium, .white)
-                }
-            })
-            content.accessibilityLabel = .key("Card")
-            content.accessibilityValue = string
-            content.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-            addSubview(content)
-            self.content = content
-
-            rightAnchor.constraint(equalTo: content.rightAnchor, constant: 20).isActive = true
-            bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 20).isActive = true
-
-            content.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-            content.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-            content.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
-            content.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-            content.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+            content.layoutManager.ensureLayout(for: content.textContainer)
+            content.width.constant = max(ceil(content.layoutManager.usedRect(for: content.textContainer).size.width), 40)
+            content.height.constant = max(ceil(content.layoutManager.usedRect(for: content.textContainer).size.height), 40)
+            color = .clear
+            left?.constant = 0
+        }
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            self?.superview?.layoutIfNeeded()
+            self?.backgroundColor = color
         }
     }
     

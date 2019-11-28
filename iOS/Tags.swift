@@ -39,7 +39,7 @@ final class Tags: UIView {
                 tag.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
                 tag.topAnchor.constraint(equalTo: top).isActive = true
                 top = tag.bottomAnchor
-                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 20).isActive = true
+                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 10).isActive = true
             }
             bottomAnchor.constraint(greaterThanOrEqualTo: top).isActive = true
         }

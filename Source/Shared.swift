@@ -28,8 +28,8 @@ class Shared {
     private func load(_ ids: [String], user: String, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let ids = ids.map { $0 + user }
         let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-        operation.configuration.timeoutIntervalForResource = 9
-        operation.configuration.timeoutIntervalForRequest = 9
+        operation.configuration.timeoutIntervalForResource = 8
+        operation.configuration.timeoutIntervalForRequest = 8
         operation.fetchRecordsCompletionBlock = {
             guard let records = $0, $1 == nil else { return error() }
             result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
@@ -43,7 +43,8 @@ class Shared {
             record["asset"] = CKAsset(fileURL: $0.1)
             return record
         })
-        operation.configuration.timeoutIntervalForResource = 20
+        operation.configuration.timeoutIntervalForRequest = 12
+        operation.configuration.timeoutIntervalForResource = 12
         operation.savePolicy = .allKeys
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
     }
