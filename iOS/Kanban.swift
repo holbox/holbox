@@ -31,15 +31,15 @@ final class Kanban: View {
         tags.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
-        _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
         refresh()
     }
     
     override func refresh() {
         isUserInteractionEnabled = false
-        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Card || $0 is Column || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project!)).forEach { list in
@@ -47,8 +47,8 @@ final class Kanban: View {
             scroll.add(column)
             
             if list == 0 {
-                _add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 25).isActive = true
-                _add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40).isActive = true
+                _add.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
+                _add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10).isActive = true
             }
             
             var top: Card?
@@ -58,7 +58,7 @@ final class Kanban: View {
                 
                 if top == nil {
                     if list == 0 {
-                        card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40).isActive = true
+                        card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10).isActive = true
                     } else {
                         card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20).isActive = true
                     }
@@ -75,11 +75,35 @@ final class Kanban: View {
             }
             
             column.leftAnchor.constraint(equalTo: left).isActive = true
-            column.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+            column.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
             left = column.rightAnchor
         }
         
-        scroll.right.constraint(greaterThanOrEqualTo: left, constant: 20).isActive = true
+        let spider = Spider()
+        scroll.add(spider)
+        
+        let ring = Ring((app.session.name(app.project!, list: app.session.lists(app.project!) - 1), .init(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1))),
+                              total: (.key("Chart.cards"), .init((0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                                $0.append(app.session.cards(app.project!, list: $1))
+                              }.reduce(0, +))))
+        scroll.add(ring)
+
+        let bars = Bars()
+        scroll.add(bars)
+        
+        spider.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+        spider.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
+        
+        ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 20).isActive = true
+        ring.leftAnchor.constraint(equalTo: left, constant: 40).isActive = true
+        
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 60).isActive = true
+        bars.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
+        
+        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 10).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 10).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 10).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor, constant: 20).isActive = true
         tags.refresh()
         isUserInteractionEnabled = true
     }

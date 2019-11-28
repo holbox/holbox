@@ -1,4 +1,4 @@
-import AppKit
+import UIKit
 
 final class Lines: Chart {
     private let index: Int
@@ -12,7 +12,7 @@ final class Lines: Chart {
     }
     
     override func draw(_: CGRect) {
-        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
             $0.append(app.session.cards(index, list: $1))
         }
@@ -20,9 +20,9 @@ final class Lines: Chart {
         let height = bounds.height - (width / 2) - width - space
         cards.enumerated().forEach { card in
             let shape = CAShapeLayer()
-            shape.strokeColor = NSColor(named: "haze")!.cgColor
+            shape.strokeColor = UIColor(named: "haze")!.cgColor
             shape.lineWidth = width
-            shape.fillColor = .clear
+            shape.fillColor = UIColor.clear.cgColor
             let x = (.init(card.0) * (width + space)) + (width / 2)
             let y: CGFloat
             if total > 0 && card.1 > 0 {
@@ -32,11 +32,11 @@ final class Lines: Chart {
                 y = 2
             }
             shape.path = {
-                $0.move(to: .init(x: x, y: -width))
-                $0.addLine(to: .init(x: x, y: y))
+                $0.move(to: .init(x: x, y: bounds.height + width))
+                $0.addLine(to: .init(x: x, y: bounds.height - y))
                 return $0
             } (CGMutablePath())
-            layer!.addSublayer(shape)
+            layer.addSublayer(shape)
         }
     }
 }

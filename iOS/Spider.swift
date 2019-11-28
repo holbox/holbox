@@ -1,4 +1,4 @@
-import AppKit
+import UIKit
 
 final class Spider: Chart {
     private let width = CGFloat(200)
@@ -16,19 +16,19 @@ final class Spider: Chart {
         let radius = width / 6
         
         let inner = CAShapeLayer()
-        inner.fillColor = .clear
+        inner.fillColor = UIColor.clear.cgColor
         inner.lineWidth = 2
         inner.lineCap = .round
-        inner.strokeColor = .black
+        inner.strokeColor = UIColor.black.cgColor
         
         let cross = CAShapeLayer()
-        cross.fillColor = .clear
+        cross.fillColor = UIColor.clear.cgColor
         cross.lineWidth = 2
         cross.lineCap = .round
-        cross.strokeColor = NSColor(named: "haze")!.cgColor
+        cross.strokeColor = UIColor(named: "haze")!.cgColor
         
         let shape = CAShapeLayer()
-        shape.fillColor = NSColor(named: "haze")!.cgColor
+        shape.fillColor = UIColor(named: "haze")!.cgColor
         shape.lineWidth = 0
         
         let _shape = CGMutablePath(), _cross = CGMutablePath(), _inner = CGMutablePath()
@@ -54,7 +54,7 @@ final class Spider: Chart {
             
             dummy.addArc(center: center, radius: radius, startAngle: circ * .init(card.0), endAngle: circ * .init(card.0), clockwise: false)
             
-            let label = Label(app.session.name(app.project!, list: card.0), 12, .bold, NSColor(named: "haze")!)
+            let label = Label(app.session.name(app.project!, list: card.0), 12, .bold, UIColor(named: "haze")!)
             addSubview(label)
             
             if dummy.currentPoint.y == center.y {
@@ -74,9 +74,9 @@ final class Spider: Chart {
         shape.path = _shape
         cross.path = _cross
         inner.path = _inner
-        layer!.addSublayer(shape)
-        layer!.addSublayer(cross)
-        layer!.addSublayer(inner)
+        layer.addSublayer(shape)
+        layer.addSublayer(cross)
+        layer.addSublayer(inner)
         
         widthAnchor.constraint(equalToConstant: width).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true

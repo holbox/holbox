@@ -78,7 +78,7 @@ final class Project: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         accessibilityLabel = app.session.name(index)
-        layer.cornerRadius = 10
+        layer.cornerRadius = 8
         backgroundColor = UIColor(named: "background")!
         
         let label = Label(app.session.name(index), 18, .bold, UIColor(named: "haze")!)
@@ -96,36 +96,35 @@ final class Project: UIView {
         widthAnchor.constraint(equalToConstant: 180).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
         
-        label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -45).isActive = true
+        label.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -40).isActive = true
         
-        info.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
-        info.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        info.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
+        info.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
+        info.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+        info.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -15).isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 55).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-//        var chart: Chart?
-//        switch app.session.mode(index) {
-//        case .kanban: chart = .Lines(index)
-//        case .todo: chart = .Todo(index)
-//        case .shopping: chart = .Shopping(index)
-//        default: break
-//        }
-//
-//        if chart != nil {
-//            addSubview(chart!)
-//
-//            chart!.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
-//            chart!.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -10).isActive = true
-//            chart!.rightAnchor.constraint(equalTo: rightAnchor, constant: -23).isActive = true
-//            chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
-//        }
-//
+        var chart: Chart?
+        switch app.session.mode(index) {
+        case .kanban: chart = Lines(index)
+        case .todo: chart = Progress(index)
+        case .shopping: chart = Cart(index)
+        default: break
+        }
+
+        if chart != nil {
+            addSubview(chart!)
+
+            chart!.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
+            chart!.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -20).isActive = true
+            chart!.rightAnchor.constraint(equalTo: rightAnchor, constant: -18).isActive = true
+            chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {

@@ -123,8 +123,8 @@ final class Project: NSView {
         if chart != nil {
             addSubview(chart!)
             
-            chart!.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
-            chart!.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -10).isActive = true
+            chart!.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
+            chart!.bottomAnchor.constraint(equalTo: info.topAnchor, constant: -20).isActive = true
             chart!.rightAnchor.constraint(equalTo: rightAnchor, constant: -23).isActive = true
             chart!.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
         }

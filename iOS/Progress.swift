@@ -1,4 +1,4 @@
-import AppKit
+import UIKit
 
 final class Progress: Chart {
     private let index: Int
@@ -10,7 +10,7 @@ final class Progress: Chart {
     }
     
     override func draw(_: CGRect) {
-        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         let waiting = CGFloat(app.session.cards(index, list: 0))
         let done = CGFloat(app.session.cards(index, list: 1))
         let total = waiting + done
@@ -21,7 +21,7 @@ final class Progress: Chart {
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         let radius = min(bounds.width, bounds.height) / 2
         let on = CAShapeLayer()
-        on.fillColor = NSColor(named: "haze")!.cgColor
+        on.fillColor = UIColor(named: "haze")!.cgColor
         on.lineWidth = 0
         on.path = {
             $0.move(to: center)
@@ -29,10 +29,10 @@ final class Progress: Chart {
             $0.move(to: center)
             return $0
         } (CGMutablePath())
-        layer!.addSublayer(on)
+        layer.addSublayer(on)
         
         let off = CAShapeLayer()
-        off.fillColor = NSColor(named: "haze")!.withAlphaComponent(0.1).cgColor
+        off.fillColor = UIColor(named: "haze")!.withAlphaComponent(0.1).cgColor
         off.lineWidth = 0
         off.path = {
             $0.move(to: center)
@@ -40,6 +40,6 @@ final class Progress: Chart {
             $0.move(to: center)
             return $0
         } (CGMutablePath())
-        layer!.addSublayer(off)
+        layer.addSublayer(off)
     }
 }

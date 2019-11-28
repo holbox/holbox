@@ -1,4 +1,4 @@
-import AppKit
+import UIKit
 
 final class Bars: Chart {
     private var totalWidth = CGFloat()
@@ -20,14 +20,14 @@ final class Bars: Chart {
         
         let mask = CALayer()
         mask.masksToBounds = true
-        mask.frame = .init(x: 0, y: 60, width: totalWidth, height: totalHeight - 60)
-        layer!.addSublayer(mask)
+        mask.frame = .init(x: 0, y: 0, width: totalWidth, height: totalHeight - 60)
+        layer.addSublayer(mask)
         
         cards.enumerated().forEach { card in
             let shape = CAShapeLayer()
-            shape.strokeColor = NSColor(named: "haze")!.cgColor
+            shape.strokeColor = UIColor(named: "haze")!.cgColor
             shape.lineWidth = width
-            shape.fillColor = .clear
+            shape.fillColor = UIColor.clear.cgColor
             let x = (.init(card.0) * (width + space)) + (width / 2) + 80
             let y: CGFloat
             if card.1 > 0 {
@@ -36,18 +36,18 @@ final class Bars: Chart {
                 
                 if !cards.enumerated().contains(where: { $0.0 < card.0 && $0.1 == card.1 }) {
                     let line = CAShapeLayer()
-                    line.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+                    line.strokeColor = UIColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                     line.lineWidth = 2
                     line.lineCap = .round
-                    line.fillColor = .clear
+                    line.fillColor = UIColor.clear.cgColor
                     line.path = {
-                        $0.move(to: .init(x: 60, y: y + 60))
-                        $0.addLine(to: .init(x: totalWidth - 15, y: y + 60))
+                        $0.move(to: .init(x: 60, y: (totalHeight - 60) - y))
+                        $0.addLine(to: .init(x: totalWidth - 15, y: (totalHeight - 60) - y))
                         return $0
                     } (CGMutablePath())
-                    layer!.addSublayer(line)
+                    layer.addSublayer(line)
                     
-                    let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
+                    let counter = Label("\(card.1)", 14, .bold, UIColor(named: "haze")!)
                     addSubview(counter)
                     
                     counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y + 60)).isActive = true
@@ -57,13 +57,13 @@ final class Bars: Chart {
                 y = 2
             }
             shape.path = {
-                $0.move(to: .init(x: x, y: -width))
-                $0.addLine(to: .init(x: x, y: y))
+                $0.move(to: .init(x: x, y: (totalHeight - 60) + width))
+                $0.addLine(to: .init(x: x, y: (totalHeight - 60) - y))
                 return $0
             } (CGMutablePath())
             mask.addSublayer(shape)
             
-            let name = Label(app.session.name(app.project!, list: card.0), 12, .bold, NSColor(named: "haze")!)
+            let name = Label(app.session.name(app.project!, list: card.0), 12, .bold, UIColor(named: "haze")!)
             addSubview(name)
             
             name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true

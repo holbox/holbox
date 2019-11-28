@@ -92,7 +92,7 @@ final class Find: UIView, UITextViewDelegate {
         baseWidth = base.widthAnchor.constraint(equalToConstant: 60)
         baseWidth.isActive = true
         
-        text.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
+        text.topAnchor.constraint(equalTo: base.topAnchor, constant: 1).isActive = true
         text.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
         text.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -30).isActive = true

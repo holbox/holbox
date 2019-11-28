@@ -121,18 +121,18 @@ final class Kanban: View {
         let bars = Bars()
         scroll.add(bars)
         
-        spider.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        spider.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
+        spider.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+        spider.leftAnchor.constraint(equalTo: left, constant: 80).isActive = true
         
         ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 30).isActive = true
         ring.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 100).isActive = true
-        bars.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 60).isActive = true
+        bars.leftAnchor.constraint(equalTo: left, constant: 80).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 40).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 40).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 40).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 60).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 60).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 60).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor, constant: 40).isActive = true
         tags.refresh()
     }
