@@ -66,7 +66,7 @@ final class Shopping: View {
         scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
         
-        let ring = Ring((.key("Chart.got"), .init(app.session.cards(app.project!, list: 0) - app.session.cards(app.project!, list: 1))), total: (.key("Chart.products"), .init(app.session.cards(app.project!, list: 0))))
+        let ring = Ring(app.session.cards(app.project!, list: 0) - app.session.cards(app.project!, list: 1), total: app.session.cards(app.project!, list: 0))
         scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?
@@ -79,7 +79,7 @@ final class Shopping: View {
             } else {
                 grocery.topAnchor.constraint(equalTo: top!).isActive = true
             }
-            grocery.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
+            grocery.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 20).isActive = true
             grocery.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
             top = grocery.bottomAnchor
         }
@@ -105,8 +105,8 @@ final class Shopping: View {
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
         ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
-        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
+        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         tags.refresh()
     }
     

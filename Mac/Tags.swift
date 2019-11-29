@@ -40,7 +40,7 @@ final class Tags: NSView {
                 addSubview(tag)
                 
                 rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 10).isActive = true
-                tag.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+                tag.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
                 tag.topAnchor.constraint(equalTo: top).isActive = true
                 top = tag.bottomAnchor
             }

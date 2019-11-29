@@ -5,12 +5,12 @@ final class Bars: Chart {
     private var totalHeight = CGFloat()
     private let height = CGFloat(120)
     private let width = CGFloat(12)
-    private let space = CGFloat(45)
+    private let space = CGFloat(40)
     
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        totalWidth = (.init(app.session.lists(app.project!)) * (width + space)) + 70
+        totalWidth = (.init(app.session.lists(app.project!)) * (width + space)) + 35
         totalHeight = height + 60 + width
         
         let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
@@ -29,7 +29,7 @@ final class Bars: Chart {
             shape.strokeColor = UIColor(named: "haze")!.cgColor
             shape.lineWidth = width
             shape.fillColor = UIColor.clear.cgColor
-            let x = (.init(card.0) * (width + space)) + (width / 2) + 80
+            let x = (.init(card.0) * (width + space)) + (width / 2) + 50
             if card.1 > 0 {
                 shape.lineCap = .round
                 y.append(.init(card.1) / top * height)
@@ -42,8 +42,8 @@ final class Bars: Chart {
                     line.lineCap = .round
                     line.fillColor = UIColor.clear.cgColor
                     line.path = {
-                        $0.move(to: .init(x: 60, y: (totalHeight - 60) - y.last!))
-                        $0.addLine(to: .init(x: totalWidth - 15, y: (totalHeight - 60) - y.last!))
+                        $0.move(to: .init(x: 45, y: (totalHeight - 60) - y.last!))
+                        $0.addLine(to: .init(x: totalWidth - 20, y: (totalHeight - 60) - y.last!))
                         return $0
                     } (CGMutablePath())
                     layer.addSublayer(line)
@@ -52,7 +52,7 @@ final class Bars: Chart {
                     addSubview(counter)
                     
                     counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y.last! + 60)).isActive = true
-                    counter.rightAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
+                    counter.rightAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
                 }
             } else {
                 y.append(2)

@@ -1,13 +1,13 @@
 import AppKit
 
 final class Ring: Chart {
-    private let width = CGFloat(260)
+    private let width = CGFloat(190)
     private let height = CGFloat(140)
     
     required init?(coder: NSCoder) { nil }
-    init(_ current: (String, CGFloat), total: (String, CGFloat)) {
+    init(_ current: Int, total: Int) {
         super.init()
-        let amount = current.1 / (total.1 > 0 ? total.1 : 1)
+        let amount = CGFloat(current) / .init(total > 0 ? total : 1)
         let center = CGPoint(x: 60, y: height / 2)
         let off = CAShapeLayer()
         off.fillColor = .clear
@@ -36,26 +36,15 @@ final class Ring: Chart {
         let percent = Label(formatter.string(from: NSNumber(value: Double(amount)))!, 18, .bold, NSColor(named: "haze")!)
         addSubview(percent)
         
-        let done = Label([
-            (current.0 + "\n", 14, .regular, NSColor(named: "haze")!),
-            ("\(Int(current.1))", 14, .bold, NSColor(named: "haze")!)
-            ], align: .center)
-        addSubview(done)
-        
-        let _total = Label([
-            (total.0 + "\n", 14, .regular, NSColor(named: "haze")!),
-            ("\(Int(total.1))", 14, .bold, NSColor(named: "haze")!)
-            ], align: .center)
-        addSubview(_total)
+        let label = Label([("\(current)\n", 18, .bold, NSColor(named: "haze")!),
+                           ("\(total)", 14, .regular, NSColor(named: "haze")!)])
+        addSubview(label)
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: center.x).isActive = true
         
-        done.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        done.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
-        
-        _total.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _total.leftAnchor.constraint(equalTo: done.rightAnchor, constant: 20).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
         
         widthAnchor.constraint(equalToConstant: width).isActive = true
         heightAnchor.constraint(equalToConstant: height).isActive = true

@@ -33,14 +33,14 @@ final class Tag: UIView {
         
         base.topAnchor.constraint(equalTo: label.topAnchor, constant: -5).isActive = true
         base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
-        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -7).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
+        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
         
         label.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
         
         _count.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
-        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
+        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {

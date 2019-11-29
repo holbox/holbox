@@ -29,7 +29,6 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
-        tags.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -109,24 +108,26 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let ring = Ring((app.session.name(app.project!, list: app.session.lists(app.project!) - 1), .init(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1))),
-                              total: (.key("Chart.cards"), .init((0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
-                                $0.append(app.session.cards(app.project!, list: $1))
-                              }.reduce(0, +))))
+        let ring = Ring(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1), total:
+            (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(app.project!, list: $1))
+            }.reduce(0, +))
         scroll.add(ring)
 
         let bars = Bars()
         scroll.add(bars)
         
-        ring.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
-        ring.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 60).isActive = true
-        bars.leftAnchor.constraint(equalTo: left, constant: 80).isActive = true
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 40).isActive = true
+        bars.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 60).isActive = true
-        scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 60).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor, constant: 40).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor).isActive = true
+        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
+        
+        scroll.right.constraint(greaterThanOrEqualTo: left, constant: 40).isActive = true
         tags.refresh()
     }
     
