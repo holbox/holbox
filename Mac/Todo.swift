@@ -147,7 +147,6 @@ final class Todo: View, NSTextViewDelegate {
             }
             window!.makeFirstResponder(new)
         } else {
-            window!.makeFirstResponder(self)
             let string = new.string
             new.string = ""
             new.needsLayout = true

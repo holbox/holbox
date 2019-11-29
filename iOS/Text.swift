@@ -1,6 +1,6 @@
 import UIKit
 
-final class Text: UITextView {
+class Text: UITextView {
     weak var width: NSLayoutConstraint! { didSet { oldValue?.isActive = false; width.isActive = true } }
     weak var height: NSLayoutConstraint! { didSet { oldValue?.isActive = false; height.isActive = true } }
     override var accessibilityValue: String? { get { text } set { } }

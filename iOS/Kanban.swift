@@ -79,9 +79,6 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let spider = Spider()
-        scroll.add(spider)
-        
         let ring = Ring((app.session.name(app.project!, list: app.session.lists(app.project!) - 1), .init(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1))),
                               total: (.key("Chart.cards"), .init((0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
                                 $0.append(app.session.cards(app.project!, list: $1))
@@ -91,16 +88,12 @@ final class Kanban: View {
         let bars = Bars()
         scroll.add(bars)
         
-        spider.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
-        spider.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
-        
-        ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 30).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
         ring.leftAnchor.constraint(equalTo: left, constant: 40).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 70).isActive = true
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 40).isActive = true
         bars.leftAnchor.constraint(equalTo: left, constant: 20).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor).isActive = true
@@ -110,20 +103,20 @@ final class Kanban: View {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Card }.forEach {
-            $0.content.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.content.text.count))
+            $0.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.count))
         }
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         scroll.views.compactMap { $0 as? Card }.forEach {
-            $0.content.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.content.text.utf16.count))
+            $0.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.utf16.count))
             if $0.column == list && $0.index == card {
-                var frame = scroll.content.convert($0.content.layoutManager.boundingRect(forGlyphRange: range, in: $0.content.textContainer), from: $0.content)
+                var frame = scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0)
                 frame.origin.x -= (bounds.width - frame.size.width) / 2
                 frame.origin.y -= (bounds.height / 2) - frame.size.height
                 frame.size.width = bounds.width
                 frame.size.height = bounds.height
-                $0.content.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                $0.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
                 UIView.animate(withDuration: 0.4) { [weak self] in
                     self?.scroll.scrollRectToVisible(frame, animated: true)
                 }

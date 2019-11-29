@@ -68,7 +68,6 @@
 		DA6F04EF238EA10A006996DD /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04EE238EA10A006996DD /* Tag.swift */; };
 		DA6F04F1238EA18E006996DD /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F0238EA18E006996DD /* Ring.swift */; };
 		DA6F04F3238EA1C5006996DD /* Bars.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F2238EA1C5006996DD /* Bars.swift */; };
-		DA6F04F5238EA1F2006996DD /* Spider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F4238EA1F2006996DD /* Spider.swift */; };
 		DA6F04F7238EA21A006996DD /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F6238EA21A006996DD /* Cart.swift */; };
 		DA6F04F9238EA240006996DD /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04F8238EA240006996DD /* Progress.swift */; };
 		DA6F04FB238EA26B006996DD /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F04FA238EA26B006996DD /* Lines.swift */; };
@@ -167,7 +166,6 @@
 		DAEFAF13238FD1A500CBD450 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF12238FD1A500CBD450 /* Cart.swift */; };
 		DAEFAF15238FDB0000CBD450 /* Bars.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF14238FDB0000CBD450 /* Bars.swift */; };
 		DAEFAF17238FDB5800CBD450 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF16238FDB5800CBD450 /* Ring.swift */; };
-		DAEFAF19238FDB6300CBD450 /* Spider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF18238FDB6300CBD450 /* Spider.swift */; };
 		DAF09639235B03F400BCC800 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF09638235B03F400BCC800 /* Card.swift */; };
 		DAF0963B235B041900BCC800 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963A235B041900BCC800 /* Column.swift */; };
 		DAF0963D235B045000BCC800 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0963C235B045000BCC800 /* Text.swift */; };
@@ -341,7 +339,6 @@
 		DA6F04EE238EA10A006996DD /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		DA6F04F0238EA18E006996DD /* Ring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
 		DA6F04F2238EA1C5006996DD /* Bars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bars.swift; sourceTree = "<group>"; };
-		DA6F04F4238EA1F2006996DD /* Spider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spider.swift; sourceTree = "<group>"; };
 		DA6F04F6238EA21A006996DD /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		DA6F04F8238EA240006996DD /* Progress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 		DA6F04FA238EA26B006996DD /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
@@ -424,7 +421,6 @@
 		DAEFAF12238FD1A500CBD450 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		DAEFAF14238FDB0000CBD450 /* Bars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bars.swift; sourceTree = "<group>"; };
 		DAEFAF16238FDB5800CBD450 /* Ring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
-		DAEFAF18238FDB6300CBD450 /* Spider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spider.swift; sourceTree = "<group>"; };
 		DAF09638235B03F400BCC800 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAF0963A235B041900BCC800 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		DAF0963C235B045000BCC800 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
@@ -670,7 +666,6 @@
 				DA3E746C237AD14F00566D3A /* Settings.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DA647E5223759AB90030CB5E /* Shopping.swift */,
-				DA6F04F4238EA1F2006996DD /* Spider.swift */,
 				DA647E542375B5CD0030CB5E /* Stock.swift */,
 				DAF8991C237D836300E1B76F /* Storager.swift */,
 				DA6F04EE238EA10A006996DD /* Tag.swift */,
@@ -740,7 +735,6 @@
 				DAE0C7AC235EE8AD00402E4B /* Settings.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
-				DAEFAF18238FDB6300CBD450 /* Spider.swift */,
 				DA6B0285237854710084AB0A /* Stock.swift */,
 				DAF8991A237D831100E1B76F /* Storager.swift */,
 				DA6F04EC238EA0E9006996DD /* Tag.swift */,
@@ -1195,7 +1189,6 @@
 				DA6F04F7238EA21A006996DD /* Cart.swift in Sources */,
 				DA896A2E23857DCA00A26B8D /* Layout.swift in Sources */,
 				DA61F30123699DB2006DD924 /* Todo.swift in Sources */,
-				DA6F04F5238EA1F2006996DD /* Spider.swift in Sources */,
 				DAD8F1A0234E160F00835E3E /* Button.swift in Sources */,
 				DA43701B234D2B2000CCB34D /* Window.swift in Sources */,
 				DAC22D252354D1BC0004FBFD /* Card.swift in Sources */,
@@ -1249,7 +1242,6 @@
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,
 				DA8BCEE1238C184A0099F775 /* View.swift in Sources */,
 				DAEFAF11238FD03600CBD450 /* Progress.swift in Sources */,
-				DAEFAF19238FDB6300CBD450 /* Spider.swift in Sources */,
 				DAA463F423586E0400A5E990 /* Logo.swift in Sources */,
 				DAEFAF13238FD1A500CBD450 /* Cart.swift in Sources */,
 				DA6F04ED238EA0E9006996DD /* Tag.swift in Sources */,

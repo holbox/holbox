@@ -109,9 +109,6 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let spider = Spider()
-        scroll.add(spider)
-        
         let ring = Ring((app.session.name(app.project!, list: app.session.lists(app.project!) - 1), .init(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1))),
                               total: (.key("Chart.cards"), .init((0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
                                 $0.append(app.session.cards(app.project!, list: $1))
@@ -121,16 +118,12 @@ final class Kanban: View {
         let bars = Bars()
         scroll.add(bars)
         
-        spider.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        spider.leftAnchor.constraint(equalTo: left, constant: 80).isActive = true
-        
-        ring.topAnchor.constraint(equalTo: spider.bottomAnchor, constant: 30).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
         ring.leftAnchor.constraint(equalTo: left, constant: 100).isActive = true
         
         bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 60).isActive = true
         bars.leftAnchor.constraint(equalTo: left, constant: 80).isActive = true
         
-        scroll.right.constraint(greaterThanOrEqualTo: spider.rightAnchor, constant: 60).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: ring.rightAnchor, constant: 60).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: bars.rightAnchor, constant: 60).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bars.bottomAnchor, constant: 40).isActive = true

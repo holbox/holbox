@@ -43,6 +43,7 @@ final class Main: Window.Full {
         case 45:
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command,
                 let view = base.subviews.first as? View {
+                makeFirstResponder(view)
                 view.add()
             } else {
                 super.keyDown(with: with)
