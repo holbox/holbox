@@ -23,7 +23,7 @@ final class Cart: Chart {
                 let x = (width / 2) + ((width + space) * .init($0))
                 let shape = CAShapeLayer()
                 shape.strokeColor = $0 < counter ? NSColor(named: "haze")!.cgColor
-                    : NSColor(named: "haze")!.withAlphaComponent(0.1).cgColor
+                    : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                 shape.lineWidth = width
                 shape.lineCap = .round
                 shape.fillColor = .clear

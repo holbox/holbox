@@ -32,7 +32,7 @@ final class Progress: Chart {
         layer!.addSublayer(on)
         
         let off = CAShapeLayer()
-        off.fillColor = NSColor(named: "haze")!.withAlphaComponent(0.1).cgColor
+        off.fillColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
         off.lineWidth = 0
         off.path = {
             $0.move(to: center)

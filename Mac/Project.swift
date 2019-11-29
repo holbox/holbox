@@ -80,8 +80,9 @@ final class Project: NSView {
         setAccessibilityRole(.button)
         setAccessibilityLabel(app.session.name(index))
         wantsLayer = true
-        layer!.cornerRadius = 10
-        layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        layer!.cornerRadius = 8
+        layer!.borderWidth = 1
+        layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         
         let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
@@ -139,7 +140,7 @@ final class Project: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+            layer!.borderColor = NSColor(named: "haze")!.cgColor
             _delete.alphaValue = 1
         }
     }
@@ -150,7 +151,7 @@ final class Project: NSView {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             _delete.alphaValue = 0
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         }
     }
     

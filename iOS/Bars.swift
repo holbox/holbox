@@ -23,26 +23,27 @@ final class Bars: Chart {
         mask.frame = .init(x: 0, y: 0, width: totalWidth, height: totalHeight - 60)
         layer.addSublayer(mask)
         
+        var y = [CGFloat]()
         cards.enumerated().forEach { card in
             let shape = CAShapeLayer()
             shape.strokeColor = UIColor(named: "haze")!.cgColor
             shape.lineWidth = width
             shape.fillColor = UIColor.clear.cgColor
             let x = (.init(card.0) * (width + space)) + (width / 2) + 80
-            let y: CGFloat
             if card.1 > 0 {
                 shape.lineCap = .round
-                y = .init(card.1) / top * height
+                y.append(.init(card.1) / top * height)
                 
-                if !cards.enumerated().contains(where: { $0.0 < card.0 && $0.1 == card.1 }) {
+                if y.dropLast().first(where: { abs($0 - y.last!) < 18 }) == nil
+                    && !cards.enumerated().contains(where: { $0.0 < card.0 && $0.1 == card.1 }) {
                     let line = CAShapeLayer()
                     line.strokeColor = UIColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                     line.lineWidth = 2
                     line.lineCap = .round
                     line.fillColor = UIColor.clear.cgColor
                     line.path = {
-                        $0.move(to: .init(x: 60, y: (totalHeight - 60) - y))
-                        $0.addLine(to: .init(x: totalWidth - 15, y: (totalHeight - 60) - y))
+                        $0.move(to: .init(x: 60, y: (totalHeight - 60) - y.last!))
+                        $0.addLine(to: .init(x: totalWidth - 15, y: (totalHeight - 60) - y.last!))
                         return $0
                     } (CGMutablePath())
                     layer.addSublayer(line)
@@ -50,15 +51,15 @@ final class Bars: Chart {
                     let counter = Label("\(card.1)", 14, .bold, UIColor(named: "haze")!)
                     addSubview(counter)
                     
-                    counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y + 60)).isActive = true
+                    counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y.last! + 60)).isActive = true
                     counter.rightAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
                 }
             } else {
-                y = 2
+                y.append(2)
             }
             shape.path = {
                 $0.move(to: .init(x: x, y: (totalHeight - 60) + width))
-                $0.addLine(to: .init(x: x, y: (totalHeight - 60) - y))
+                $0.addLine(to: .init(x: x, y: (totalHeight - 60) - y.last!))
                 return $0
             } (CGMutablePath())
             mask.addSublayer(shape)

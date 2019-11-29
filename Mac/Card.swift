@@ -25,6 +25,7 @@ final class Card: NSView, NSTextViewDelegate {
         wantsLayer = true
         layer!.cornerRadius = 8
         layer!.borderColor = NSColor(named: "haze")!.cgColor
+        layer!.borderWidth = 0
         
         let content = Text(.Expand(280, 10000), Block())
         content.setAccessibilityLabel(.key("Card"))
@@ -69,6 +70,7 @@ final class Card: NSView, NSTextViewDelegate {
     
     func textDidBeginEditing(_: Notification) {
         layer!.borderWidth = 2
+        layer!.backgroundColor = .clear
     }
     
     func textDidEndEditing(_: Notification) {
@@ -130,7 +132,7 @@ final class Card: NSView, NSTextViewDelegate {
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = NSColor(named: "background")!.cgColor
+                layer!.backgroundColor = window!.firstResponder == content ? .clear : NSColor(named: "background")!.cgColor
                 _delete.alphaValue = 1
             }
         }

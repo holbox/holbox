@@ -1,6 +1,6 @@
 import UIKit
 
-final class Scroll: UIScrollView {
+final class Scroll: UIScrollView, UIScrollViewDelegate {
     var views: [UIView] { content.subviews }
     var top: NSLayoutYAxisAnchor { content.topAnchor }
     var bottom: NSLayoutYAxisAnchor { content.bottomAnchor }
@@ -21,6 +21,7 @@ final class Scroll: UIScrollView {
         keyboardDismissMode = .interactive
         alwaysBounceVertical = true
         clipsToBounds = true
+        delegate = self
         
         let content = UIView()
         content.translatesAutoresizingMaskIntoConstraints = false
@@ -37,4 +38,8 @@ final class Scroll: UIScrollView {
     }
     
     func add(_ view: UIView) { content.addSubview(view) }
+    
+    func scrollViewWillBeginDragging(_: UIScrollView) {
+        app.window!.endEditing(true)
+    }
 }

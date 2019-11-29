@@ -246,6 +246,8 @@ final class Card: UIView, UITextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 8
+        layer.borderColor = UIColor(named: "haze")!.cgColor
+        layer.borderWidth = 0
         
         let content = Text()
         content.isScrollEnabled = false
@@ -274,17 +276,15 @@ final class Card: UIView, UITextViewDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "background")!
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            self?.alpha = 0.3
         }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self = self else { return }
-            self.backgroundColor = self.content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                ? UIColor(named: "haze")!.withAlphaComponent(0.2) : .clear
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            self?.alpha = 1
         }
         super.touchesCancelled(touches, with: with)
     }
@@ -292,12 +292,9 @@ final class Card: UIView, UITextViewDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.present(Move(self), animated: true)
-        } else {
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                guard let self = self else { return }
-                self.backgroundColor = self.content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                    ? UIColor(named: "haze")!.withAlphaComponent(0.2) : .clear
-            }
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 1
         }
         super.touchesEnded(touches, with: with)
     }
@@ -318,7 +315,8 @@ final class Card: UIView, UITextViewDelegate {
     func edit() {
         content.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.backgroundColor = UIColor(named: "background")!
+            self?.layer.borderWidth = 2
+            self?.backgroundColor = .clear
         }) { [weak self] _ in
             self?.content.becomeFirstResponder()
         }
@@ -328,9 +326,9 @@ final class Card: UIView, UITextViewDelegate {
         let color: UIColor
         content.text = app.session.content(app.project!, list: column, card: index)
         if content.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            content.width.constant = 60
-            content.height.constant = 60
-            color = UIColor(named: "haze")!.withAlphaComponent(0.2)
+            content.width.constant = 40
+            content.height.constant = 20
+            color = UIColor(named: "background")!
             left?.constant = 10
         } else {
             resize()
@@ -340,15 +338,16 @@ final class Card: UIView, UITextViewDelegate {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.superview?.layoutIfNeeded()
             self?.backgroundColor = color
+            self?.layer.borderWidth = 0
         }
     }
     
     private func resize() {
         content.textContainer.size.width = 200
-        content.textContainer.size.height = 200000
+        content.textContainer.size.height = 10_000
         content.layoutManager.ensureLayout(for: content.textContainer)
         content.width.constant = max(ceil(content.layoutManager.usedRect(for: content.textContainer).size.width), 40)
-        content.height.constant = max(ceil(content.layoutManager.usedRect(for: content.textContainer).size.height), 40)
+        content.height.constant = max(ceil(content.layoutManager.usedRect(for: content.textContainer).size.height), 20)
     }
     
     private func move(_ destination: Int, position: Int) {

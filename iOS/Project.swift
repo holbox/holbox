@@ -79,7 +79,8 @@ final class Project: UIView {
         accessibilityTraits = .button
         accessibilityLabel = app.session.name(index)
         layer.cornerRadius = 8
-        backgroundColor = UIColor(named: "background")!
+        layer.borderWidth = 1
+        layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         
         let label = Label(app.session.name(index), 18, .bold, UIColor(named: "haze")!)
         label.isAccessibilityElement = false
@@ -129,22 +130,18 @@ final class Project: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
+            self?.layer.borderColor = UIColor(named: "haze")!.cgColor
         }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "background")!
-        }
+        layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         super.touchesCancelled(touches, with: with)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "background")!
-        }
+        app.window!.endEditing(true)
         let location = touches.first!.location(in: self)
         if bounds.contains(location) {
             if _delete.frame.contains(location) {
@@ -153,12 +150,14 @@ final class Project: UIView {
                 }) { [weak self] _ in
                     self?._delete.alpha = 1
                 }
-                app.window!.endEditing(true)
+                layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
                 app.present(Delete.Project(index), animated: true)
             } else {
-                app.window!.endEditing(true)
+                layer.borderColor = UIColor(named: "haze")!.cgColor
                 app.project = index
             }
+        } else {
+            layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         }
         super.touchesEnded(touches, with: with)
     }
