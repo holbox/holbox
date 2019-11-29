@@ -8,11 +8,9 @@ final class Text: UITextView {
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero, textContainer: Container())
-        textContainerInset = .zero
-        textContainer.widthTracksTextView = false
-        textContainer.heightTracksTextView = false
-        isAccessibilityElement = true
         translatesAutoresizingMaskIntoConstraints = false
+        textContainerInset = .zero
+        isAccessibilityElement = true
         indicatorStyle = .white
         textColor = .white
         backgroundColor = .clear

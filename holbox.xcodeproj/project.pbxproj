@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */; };
+		DA0DFE47239102A900F555FE /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0DFE46239102A900F555FE /* Move.swift */; };
 		DA16F18D2370020600F3A1FE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18C2370020600F3A1FE /* Task.swift */; };
 		DA16F18F2370189100F3A1FE /* Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18E2370189100F3A1FE /* Resize.swift */; };
 		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
@@ -290,6 +291,7 @@
 
 /* Begin PBXFileReference section */
 		DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreSave.swift; sourceTree = "<group>"; };
+		DA0DFE46239102A900F555FE /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		DA16F18C2370020600F3A1FE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DA16F18E2370189100F3A1FE /* Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resize.swift; sourceTree = "<group>"; };
 		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
@@ -723,6 +725,7 @@
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
 				DAEAE3D5237174A1001F24BE /* More.swift */,
+				DA0DFE46239102A900F555FE /* Move.swift */,
 				DA6F04E8238E80F2006996DD /* Option.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
 				DA6B0283237831900084AB0A /* Product.swift */,
@@ -1226,6 +1229,7 @@
 				DAF8991B237D831100E1B76F /* Storager.swift in Sources */,
 				DAA463FC2358868100A5E990 /* Bar.swift in Sources */,
 				DA6B0282237831830084AB0A /* Grocery.swift in Sources */,
+				DA0DFE47239102A900F555FE /* Move.swift in Sources */,
 				DAA4640C2358A43F00A5E990 /* Label.swift in Sources */,
 				DAEFAF17238FDB5800CBD450 /* Ring.swift in Sources */,
 				DAF09640235B077C00BCC800 /* Container.swift in Sources */,
