@@ -42,6 +42,8 @@ final class Find: NSView, NSTextViewDelegate {
         self.base = base
         
         let text = Text(.Fix(), Block())
+        text.textContainerInset.width = 10
+        text.textContainerInset.height = 10
         text.setAccessibilityLabel(.key("Search"))
         text.font = NSFont(name: "Times New Roman", size: 14)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .light), .white),

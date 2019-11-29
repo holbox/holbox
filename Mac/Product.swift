@@ -25,6 +25,8 @@ final class Product: NSView {
         setAccessibilityLabel(product.1)
         
         let text = Text(.Fix(), Off())
+        text.textContainerInset.width = 10
+        text.textContainerInset.height = 10
         text.setAccessibilityElement(false)
         if active {
             (text.textStorage as! Storage).fonts = [

@@ -1,13 +1,12 @@
 import AppKit
 
-final class Card: NSView, NSTextViewDelegate {
+final class Card: Text, NSTextViewDelegate {
     weak var child: Card?
     weak var top: NSLayoutConstraint! { willSet { top?.isActive = false } didSet { top.isActive = true } }
     weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
     weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
     let index: Int
     let column: Int
-    private(set) weak var content: Text!
     private weak var _delete: Image!
     private weak var kanban: Kanban?
     private var dragging = false
@@ -20,46 +19,37 @@ final class Card: NSView, NSTextViewDelegate {
         self.index = index
         self.column = column
         self.kanban = kanban
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
+        super.init(.Expand(280, 10000), Block())
         wantsLayer = true
         layer!.cornerRadius = 8
         layer!.borderColor = NSColor(named: "haze")!.cgColor
         layer!.borderWidth = 0
-        
-        let content = Text(.Expand(280, 10000), Block())
-        content.setAccessibilityLabel(.key("Card"))
-        content.font = NSFont(name: "Times New Roman", size: 16)
-        (content.textStorage as! Storage).fonts = [
+        setAccessibilityLabel(.key("Card"))
+        textContainerInset.height = 20
+        textContainerInset.width = 20
+        font = NSFont(name: "Times New Roman", size: 16)
+        (textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: 16, weight: .medium), .white),
             .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
             .bold: (.systemFont(ofSize: 20, weight: .bold), .white),
             .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
-        content.string = app.session.content(app.project!, list: column, card: index)
-        content.tab = true
-        content.intro = true
-        (content.layoutManager as! Layout).owns = true
-        (content.layoutManager as! Layout).padding = 2
-        addSubview(content)
-        self.content = content
+        string = app.session.content(app.project!, list: column, card: index)
+        tab = true
+        intro = true
+        (layoutManager as! Layout).owns = true
+        (layoutManager as! Layout).padding = 2
+        didChangeText()
+        delegate = self
 
         let _delete = Image("delete")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
         
-        rightAnchor.constraint(equalTo: content.rightAnchor, constant: 10).isActive = true
-        bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
-        
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        content.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        content.didChangeText()
-        content.delegate = self
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
@@ -75,17 +65,18 @@ final class Card: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         layer!.borderWidth = 0
-        if content.string != app.session.content(app.project!, list: column, card: index) {
-            app.session.content(app.project!, list: column, card: index, content: content.string)
-            app.alert(.key("Card"), message: content.string)
+        if string != app.session.content(app.project!, list: column, card: index) {
+            app.session.content(app.project!, list: column, card: index, content: string)
+            app.alert(.key("Card"), message: string)
             kanban?.tags.refresh()
         }
         update(true)
     }
     
     func edit() {
-        content.edit.activate()
-        window!.makeFirstResponder(content)
+        edit.activate()
+        _delete.alphaValue = 0
+        window!.makeFirstResponder(self)
     }
     
     func drag(_ x: CGFloat, _ y: CGFloat) {
@@ -127,19 +118,19 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     override func mouseEntered(with: NSEvent) {
-        if !dragging {
+        if !dragging && window!.firstResponder != self {
             super.mouseEntered(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = window!.firstResponder == content ? .clear : NSColor(named: "background")!.cgColor
+                layer!.backgroundColor = window!.firstResponder == self ? .clear : NSColor(named: "background")!.cgColor
                 _delete.alphaValue = 1
             }
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        if !dragging {
+        if !dragging && window!.firstResponder != self {
             super.mouseExited(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
@@ -153,9 +144,10 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     override func mouseUp(with: NSEvent) {
-        if !dragging && _delete != nil && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if !dragging && window!.firstResponder != self && _delete != nil
+            && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
-            if content.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project!, list: column, card: index)
                 kanban?.refresh()
             } else {

@@ -86,6 +86,8 @@ class Stock: Window.Modal, NSTextViewDelegate {
         contentView!.addSubview(_title)
         
         let emoji = Text(.Expand(150, 150), Active())
+        emoji.textContainerInset.width = 10
+        emoji.textContainerInset.height = 10
         emoji.font = NSFont(name: "Times New Roman", size: 70)
         emoji.setAccessibilityLabel(.key("Product.emoji"))
         (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 70)!, .white),
@@ -99,6 +101,8 @@ class Stock: Window.Modal, NSTextViewDelegate {
         self.emoji = emoji
         
         let label = Text(.Fix(), Active())
+        label.textContainerInset.width = 10
+        label.textContainerInset.height = 10
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.setAccessibilityLabel(.key("Product.description"))
         (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),

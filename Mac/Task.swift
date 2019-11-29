@@ -53,6 +53,8 @@ final class Task: NSView, NSTextViewDelegate {
         self.icon = icon
         
         let text = Text(.Fix(), Block())
+        text.textContainerInset.width = 10
+        text.textContainerInset.height = 10
         text.setAccessibilityElement(false)
         if list == 1 {
             (text.textStorage as! Storage).fonts = [

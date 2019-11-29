@@ -1,6 +1,6 @@
 import AppKit
 
-final class Text: NSTextView {
+class Text: NSTextView {
     var tab = false
     var intro = false
     var clear = false
@@ -9,7 +9,6 @@ final class Text: NSTextView {
     override var acceptsFirstResponder: Bool { edit.active }
     override var mouseDownCanMoveWindow: Bool { !edit.active }
     override var canBecomeKeyView: Bool { edit.active }
-    override var isEditable: Bool { get { edit.active } set { } }
     override var isSelectable: Bool { get { edit.active } set { } }
     override func accessibilityValue() -> String? { string }
     
@@ -18,8 +17,6 @@ final class Text: NSTextView {
         self.resize = resize
         self.edit = edit
         super.init(frame: .zero, textContainer: Container())
-        textContainerInset.height = 10
-        textContainerInset.width = 10
         setAccessibilityElement(true)
         setAccessibilityRole(.textField)
         translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +27,6 @@ final class Text: NSTextView {
         isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = NSColor(named: "haze")!
         selectedTextAttributes = [.backgroundColor: NSColor(named: "haze")!, .foregroundColor: NSColor.black]
-        
         resize.configure(self)
     }
     
@@ -83,7 +79,7 @@ final class Text: NSTextView {
                 string = ""
                 delegate?.textDidChange?(.init(name: .init("")))
             }
-            window!.makeFirstResponder(superview!)
+            window!.makeFirstResponder(nil)
         case 48:
             if tab {
                 super.keyDown(with: with)
@@ -107,6 +103,7 @@ final class Text: NSTextView {
     
     override func mouseDown(with: NSEvent) {
         if edit.active {
+            isEditable = true
             super.mouseDown(with: with)
         } else if with.clickCount == 2 {
             click()

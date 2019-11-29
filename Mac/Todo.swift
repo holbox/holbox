@@ -17,6 +17,8 @@ final class Todo: View, NSTextViewDelegate {
         self.tags = tags
         
         let new = Text(.Fix(), Active())
+        new.textContainerInset.width = 10
+        new.textContainerInset.height = 10
         new.setAccessibilityLabel(.key("Task"))
         new.font = NSFont(name: "Times New Roman", size: 22)
         (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .medium), .white),

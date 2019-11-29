@@ -26,6 +26,8 @@ final class Grocery: NSView {
         self.emoji = emoji
         
         let text = Text(.Fix(), Off())
+        text.textContainerInset.width = 10
+        text.textContainerInset.height = 10
         text.setAccessibilityElement(false)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), .white),
                                                .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),

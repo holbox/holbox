@@ -12,6 +12,8 @@ final class Notes: View, NSTextViewDelegate {
         self.scroll = scroll
         
         let text = Text(.Fix(), Active())
+        text.textContainerInset.width = 40
+        text.textContainerInset.height = 30
         text.setAccessibilityLabel(.key("Note"))
         text.font = NSFont(name: "Times New Roman", size: 18)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 18, weight: .regular), .white),
@@ -32,11 +34,11 @@ final class Notes: View, NSTextViewDelegate {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 30).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 10).isActive = true
         
-        text.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 30).isActive = true
-        text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -30).isActive = true
+        text.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
+        text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
         text.widthAnchor.constraint(lessThanOrEqualToConstant: 900).isActive = true
         text.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         text.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
@@ -49,19 +51,13 @@ final class Notes: View, NSTextViewDelegate {
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.window?.makeFirstResponder(self.text)
+            self.window!.makeFirstResponder(self.text)
         }
     }
     
     func textDidEndEditing(_: Notification) {
+        text.isEditable = false
         app.session.content(app.project!, list: 0, card: 0, content: text.string)
-    }
-    
-    override func mouseUp(with: NSEvent) {
-        if window!.firstResponder != text && !text.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            window?.makeFirstResponder(text)
-        }
-        super.mouseUp(with: with)
     }
     
     override func refresh() {

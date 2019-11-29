@@ -145,15 +145,15 @@ final class Kanban: View {
         scroll.views.compactMap { $0 as? Card }.forEach { card in
             let ranges = ranges.filter { $0.0 == card.column && $0.1 == card.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
-                card.content.setSelectedRange(.init())
+                card.setSelectedRange(.init())
             } else {
-                card.content.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+                card.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
             }
         }
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column == list && $0.index == card }!.content!
+        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column == list && $0.index == card }!
         var frame = scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
         frame.origin.x -= (bounds.width - frame.size.width) / 2
         frame.origin.y -= (bounds.height / 2) - frame.size.height
