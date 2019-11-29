@@ -1,7 +1,7 @@
 import holbox
 import UIKit
 
-final class Add: UIViewController {
+final class Add: Modal {
     private weak var name: Label!
     private weak var selected: Button? {
         didSet {
@@ -15,8 +15,6 @@ final class Add: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")!
-        
         let scroll = Scroll()
         view.addSubview(scroll)
         
@@ -172,9 +170,5 @@ final class Add: UIViewController {
     @objc private func purchases() {
         close()
         app.main.bar.shop()
-    }
-    
-    @objc private func close() {
-        presentingViewController!.dismiss(animated: true)
     }
 }

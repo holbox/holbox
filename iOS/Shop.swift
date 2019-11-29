@@ -2,7 +2,7 @@ import holbox
 import UIKit
 import StoreKit
 
-final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     let formatter = NumberFormatter()
     let map = [Perk.two: "holbox.ios.two",
                Perk.ten: "holbox.ios.ten",
@@ -19,7 +19,6 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")!
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
@@ -48,7 +47,7 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
         scroll.add(_restore)
         self._restore = _restore
         
-        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, UIColor(named: "haze")!)
+        let _cancel = Button("delete", target: self, action: #selector(close))
         scroll.add(_cancel)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
@@ -79,7 +78,8 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
         
         _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -10).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         loading()
         SKPaymentQueue.default().add(self)
@@ -173,9 +173,5 @@ final class Shop: UIViewController, SKRequestDelegate, SKProductsRequestDelegate
     @objc private func restore() {
         SKPaymentQueue.default().restoreCompletedTransactions()
         loading()
-    }
-    
-    @objc private func close() {
-        presentingViewController!.dismiss(animated: true)
     }
 }

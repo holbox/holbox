@@ -31,7 +31,6 @@ Shop.title="Purchases";
 Shop.purchased="Purchased";
 Shop.purchase="Purchase";
 Shop.restore="Restore";
-Shop.cancel="Close";
 Shop.short.two="+2";
 Shop.title.two="\nIncrease your available space for projects by 2.";
 Shop.descr.ios.two="The total amount of projects you can have will be increased permanently.\n\nThis purchase is Non-Consumable, meaning once you have it you can create and delete projects without loosing this purchase.\n\nThis purchase will increase the total amount of projects you can create on iPhone, iPad and iPod, you will be able to share those projects with your Mac and Apple Watch, but you will still be limited to create additional projects there.";

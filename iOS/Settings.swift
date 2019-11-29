@@ -1,11 +1,9 @@
 import UIKit
 import MessageUI
 
-final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
+final class Settings: Modal, MFMailComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")!
-        
         let scroll = Scroll()
         view.addSubview(scroll)
         
@@ -98,9 +96,5 @@ final class Settings: UIViewController, MFMailComposeViewControllerDelegate {
         check.on.toggle()
         app.session.spell(check.on)
         app.main.refresh()
-    }
-    
-    @objc private func close() {
-        presentingViewController!.dismiss(animated: true)
     }
 }

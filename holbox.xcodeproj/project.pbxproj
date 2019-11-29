@@ -79,6 +79,8 @@
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
+		DA8081AF23913CA800C3709F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8081AE23913CA800C3709F /* Gradient.swift */; };
+		DA8081B323914E6C00C3709F /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8081B223914E6C00C3709F /* Modal.swift */; };
 		DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAD2376B8E400A3393C /* TestProduct.swift */; };
 		DA813BB02376CF7400A3393C /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAF2376CF7400A3393C /* Grocery.swift */; };
 		DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA82CDA6235DAB5E00CBB15D /* Capsule.swift */; };
@@ -158,7 +160,6 @@
 		DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AE235EE92B00402E4B /* Edit.swift */; };
 		DAEA6A592382CC6B008EF8B4 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA6A582382CC6B008EF8B4 /* Notes.swift */; };
 		DAEAE3D423717066001F24BE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D323717066001F24BE /* Todo.swift */; };
-		DAEAE3D6237174A1001F24BE /* More.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D5237174A1001F24BE /* More.swift */; };
 		DAEAE3D823717755001F24BE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D723717755001F24BE /* Task.swift */; };
 		DAEFAF0D238FCD9700CBD450 /* Chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF0C238FCD9700CBD450 /* Chart.swift */; };
 		DAEFAF0F238FCDE600CBD450 /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEFAF0E238FCDE600CBD450 /* Lines.swift */; };
@@ -349,6 +350,8 @@
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		DA8081AE23913CA800C3709F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
+		DA8081B223914E6C00C3709F /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DA813BAD2376B8E400A3393C /* TestProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProduct.swift; sourceTree = "<group>"; };
 		DA813BAF2376CF7400A3393C /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
 		DA82CDA6235DAB5E00CBB15D /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
@@ -414,7 +417,6 @@
 		DAE0C7AE235EE92B00402E4B /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DAEA6A582382CC6B008EF8B4 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		DAEAE3D323717066001F24BE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
-		DAEAE3D5237174A1001F24BE /* More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = More.swift; sourceTree = "<group>"; };
 		DAEAE3D723717755001F24BE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DAEFAF0C238FCD9700CBD450 /* Chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chart.swift; sourceTree = "<group>"; };
 		DAEFAF0E238FCDE600CBD450 /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
 				DAF267C9236B2BBF0099E40E /* Extensions.swift */,
 				DA8BCEDC238C05990099F775 /* Find.swift */,
+				DA8081AE23913CA800C3709F /* Gradient.swift */,
 				DA6B0281237831830084AB0A /* Grocery.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
 				DAA4640523589A4000A5E990 /* Kanban.swift */,
@@ -724,7 +727,7 @@
 				DAEFAF0E238FCDE600CBD450 /* Lines.swift */,
 				DAA463F323586E0400A5E990 /* Logo.swift */,
 				DAA463F523586F3600A5E990 /* Main.swift */,
-				DAEAE3D5237174A1001F24BE /* More.swift */,
+				DA8081B223914E6C00C3709F /* Modal.swift */,
 				DA0DFE46239102A900F555FE /* Move.swift */,
 				DA6F04E8238E80F2006996DD /* Option.swift */,
 				DABAD0FB235F060D00BD3179 /* Privacy.swift */,
@@ -1224,6 +1227,7 @@
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
 				DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */,
+				DA8081AF23913CA800C3709F /* Gradient.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,
 				DAF8991B237D831100E1B76F /* Storager.swift in Sources */,
@@ -1237,7 +1241,6 @@
 				DA6B02802378234C0084AB0A /* Shopping.swift in Sources */,
 				DAE0C7AD235EE8AD00402E4B /* Settings.swift in Sources */,
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
-				DAEAE3D6237174A1001F24BE /* More.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
 				DA82CDA7235DAB5E00CBB15D /* Capsule.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
@@ -1257,6 +1260,7 @@
 				DAF09642235B27EB00BCC800 /* Base.swift in Sources */,
 				DA8BCEDD238C05990099F775 /* Find.swift in Sources */,
 				DAB979542359CF8200631280 /* Add.swift in Sources */,
+				DA8081B323914E6C00C3709F /* Modal.swift in Sources */,
 				DAA464082358A29800A5E990 /* Detail.swift in Sources */,
 				DAEAE3D423717066001F24BE /* Todo.swift in Sources */,
 				DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */,

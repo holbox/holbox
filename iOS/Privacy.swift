@@ -1,10 +1,8 @@
 import UIKit
 
-final class Privacy: UIViewController {
+final class Privacy: Modal {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")!
-        
         let scroll = Scroll()
         view.addSubview(scroll)
         
@@ -30,9 +28,5 @@ final class Privacy: UIViewController {
         done.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20).isActive = true
         done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         done.widthAnchor.constraint(equalToConstant: 140).isActive = true
-    }
-    
-    @objc private func close() {
-        presentingViewController!.dismiss(animated: true)
     }
 }
