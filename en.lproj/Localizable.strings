@@ -1,6 +1,6 @@
-Window.close="Close";
-Window.minimise="Minimise";
-Window.zoom="Zoom";
+Main.close="Close";
+Main.minimise="Minimise";
+Main.zoom="Zoom";
 Bar.kanban="Kanban";
 Bar.todo="To-Do";
 Bar.shopping="Shopping";

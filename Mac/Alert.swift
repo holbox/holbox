@@ -1,6 +1,6 @@
 import AppKit
 
-final class Alert: Window.Modal {
+final class Alert: Modal {
     init(_ title: String, message: String) {
         super.init(400, 80)
         contentView!.alphaValue = 0.7

@@ -1,6 +1,6 @@
 import AppKit
 
-final class Privacy: Window.Modal {
+final class Privacy: Modal {
     init() {
         super.init(500, 480)
         let label = Label([(.key("Privacy.title") + "\n\n", 24, .bold, NSColor(named: "haze")!),

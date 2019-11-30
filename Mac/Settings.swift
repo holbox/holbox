@@ -1,6 +1,6 @@
 import AppKit
 
-final class Settings: Window.Modal {
+final class Settings: Modal {
     init() {
         super.init(440, 500)
         let title = Label(.key("Settings.title"), 20, .bold, NSColor(named: "haze")!)
@@ -19,7 +19,7 @@ final class Settings: Window.Modal {
             contentView!.addSubview(item)
             
             let border = Border()
-            border.alphaValue = 0.3
+            border.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
             contentView!.addSubview(border)
             
             item.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true

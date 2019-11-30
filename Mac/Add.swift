@@ -1,7 +1,7 @@
 import holbox
 import AppKit
 
-final class Add: Window.Modal {
+final class Add: Modal {
     private weak var name: Label!
     private weak var selected: Button? {
         didSet {

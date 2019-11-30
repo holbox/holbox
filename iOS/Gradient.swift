@@ -1,8 +1,9 @@
 import UIKit
 
 final class Gradient: UIView {
-    override class var layerClass: AnyClass { return CAGradientLayer.self }
+    override class var layerClass: AnyClass { CAGradientLayer.self }
     
+    required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -12,6 +13,4 @@ final class Gradient: UIView {
         (layer as! CAGradientLayer).locations = [0, 1]
         (layer as! CAGradientLayer).colors = [UIColor(named: "background")!.cgColor, UIColor.black.cgColor]
     }
-    
-    required init?(coder: NSCoder) { return nil }
 }

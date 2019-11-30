@@ -1,6 +1,6 @@
 import AppKit
 
-class Stock: Window.Modal, NSTextViewDelegate {
+class Stock: Modal, NSTextViewDelegate {
     final class New: Stock {
         private weak var shopping: Shopping?
         

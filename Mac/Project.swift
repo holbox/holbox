@@ -6,6 +6,7 @@ final class Project: NSView {
     weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
     let order: Int
     private weak var _delete: Image!
+    private weak var gradient: Gradient!
     private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -81,8 +82,13 @@ final class Project: NSView {
         setAccessibilityLabel(app.session.name(index))
         wantsLayer = true
         layer!.cornerRadius = 8
-        layer!.borderWidth = 1
-        layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+        layer!.borderColor = NSColor(named: "background")!.cgColor
+        layer!.borderWidth = 0
+        
+        let gradient = Gradient()
+        gradient.alphaValue = 0.6
+        addSubview(gradient)
+        self.gradient = gradient
         
         let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
@@ -99,6 +105,11 @@ final class Project: NSView {
         
         widthAnchor.constraint(equalToConstant: 200).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
+        
+        gradient.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        gradient.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        gradient.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        gradient.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         label.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -138,9 +149,10 @@ final class Project: NSView {
     override func mouseEntered(with: NSEvent) {
         super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
+            $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.borderColor = NSColor(named: "haze")!.cgColor
+            layer!.borderWidth = 2
+            gradient.alphaValue = 1
             _delete.alphaValue = 1
         }
     }
@@ -148,10 +160,11 @@ final class Project: NSView {
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
+            $0.duration = 0.4
             $0.allowsImplicitAnimation = true
+            layer!.borderWidth = 0
+            gradient.alphaValue = 0.6
             _delete.alphaValue = 0
-            layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         }
     }
     

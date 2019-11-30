@@ -8,7 +8,6 @@ class Delete: UIViewController {
         init(_ index: Int) {
             self.index = index
             super.init()
-            
             let name = Label(app.session.name(index), 18, .regular, UIColor(named: "haze")!)
             name.numberOfLines = 3
             view.addSubview(name)

@@ -2,7 +2,7 @@ import holbox
 import AppKit
 import StoreKit
 
-final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     let formatter = NumberFormatter()
     let map = [Perk.two: "holbox.mac.two",
                Perk.ten: "holbox.mac.ten",

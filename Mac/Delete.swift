@@ -1,20 +1,19 @@
 import AppKit
 
-class Delete: Window.Modal {
+class Delete: Modal {
     final class Project: Delete {
         private let index: Int
         
         init(_ index: Int) {
             self.index = index
             super.init()
+            let name = Label(app.session.name(index), 18, .regular, NSColor(named: "haze")!)
+            name.maximumNumberOfLines = 3
+            contentView!.addSubview(name)
             
-            let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
-                               (app.session.name(index), 16, .regular, NSColor(named: "haze")!)])
-            contentView!.addSubview(title)
-            
-            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
-            title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
-            title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
+            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
         }
         
         override func confirm() {
@@ -79,19 +78,34 @@ class Delete: Window.Modal {
     }
     
     private init() {
-        super.init(280, 260)
+        super.init(260, 260)
+        let icon = Image("trash")
+        contentView!.addSubview(icon)
+        
+        let title = Label(.key("Delete.title"), 18, .bold, NSColor(named: "haze")!)
+        contentView!.addSubview(title)
+        
+        let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!.withAlphaComponent(0.7))
+        contentView!.addSubview(cancel)
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
-        let _cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
+        contentView!.addSubview(_confirm)
         
-        [_confirm, _cancel].forEach {
-            contentView!.addSubview($0)
-            $0.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            $0.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        }
+        icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+        icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
         
-        _confirm.bottomAnchor.constraint(equalTo: _cancel.topAnchor, constant: -20).isActive = true
-        _cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -20).isActive = true
+        title.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
+        title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 2).isActive = true
+        
+        cancel.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        cancel.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -30).isActive = true
+        cancel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -10).isActive = true
+        _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
     @objc private func confirm() {
