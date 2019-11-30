@@ -9,7 +9,7 @@ final class Move: UIViewController, UIScrollViewDelegate {
     private var column: Int
     private var index: Int
     private let height = CGFloat(250)
-    private let inner = CGFloat(40)
+    private let inner = CGFloat(26)
     
     required init?(coder: NSCoder) { nil }
     init(_ card: Card) {
@@ -25,10 +25,15 @@ final class Move: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         view.backgroundColor = .init(white: 0, alpha: 0.4)
         
-        let gradient = Gradient()
-        gradient.layer.cornerRadius = 8
-        gradient.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.addSubview(gradient)
+        let base = UIView()
+        base.isUserInteractionEnabled = false
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.backgroundColor = .black
+        base.layer.cornerRadius = 8
+        base.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        base.layer.borderWidth = 1
+        view.addSubview(base)
         
         let columns = Scroll()
         columns.delegate = self
@@ -38,12 +43,13 @@ final class Move: UIViewController, UIScrollViewDelegate {
         
         let indexes = Scroll()
         indexes.delegate = self
+        indexes.insetsLayoutMarginsFromSafeArea = false
         indexes.contentInsetAdjustmentBehavior = .never
         view.addSubview(indexes)
         self.indexes = indexes
         
         (0 ..< app.session.lists(app.project!)).forEach {
-            let name = Label(app.session.name(app.project!, list: $0), 16, .medium, UIColor(named: "haze")!)
+            let name = Label(app.session.name(app.project!, list: $0), 18, .bold, UIColor(named: "haze")!)
             name.tag = $0
             name.alpha = $0 == column ? 1 : 0.3
             columns.add(name)
@@ -52,24 +58,24 @@ final class Move: UIViewController, UIScrollViewDelegate {
             name.centerYAnchor.constraint(equalTo: columns.top, constant: (height / 2) + (.init($0) * inner)).isActive = true
         }
         
-        gradient.heightAnchor.constraint(equalToConstant: height).isActive = true
-        gradient.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bottom = gradient.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: height)
+        base.heightAnchor.constraint(equalToConstant: height).isActive = true
+        base.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        base.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        bottom = base.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: height)
         bottom.isActive = true
         
-        columns.bottomAnchor.constraint(equalTo: gradient.bottomAnchor).isActive = true
+        columns.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
         columns.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        columns.widthAnchor.constraint(equalToConstant: 150).isActive = true
         columns.heightAnchor.constraint(equalToConstant: height).isActive = true
-        columns.width.constraint(equalToConstant: 150).isActive = true
+        columns.rightAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        columns.right.constraint(equalTo: view.centerXAnchor).isActive = true
         columns.height.constraint(equalToConstant: height + (.init(app.session.lists(app.project!) - 1) * inner)).isActive = true
         
-        indexes.bottomAnchor.constraint(equalTo: gradient.bottomAnchor).isActive = true
-        indexes.leftAnchor.constraint(equalTo: columns.rightAnchor).isActive = true
-        indexes.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        indexes.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        indexes.leftAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indexes.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         indexes.heightAnchor.constraint(equalToConstant: height).isActive = true
-        indexes.width.constraint(equalToConstant: 100).isActive = true
+        indexes.right.constraint(equalTo: view.rightAnchor).isActive = true
         _height = indexes.height.constraint(equalToConstant: 0)
         _height.isActive = true
         
@@ -78,9 +84,9 @@ final class Move: UIViewController, UIScrollViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        bottom.constant = 0
+        bottom.constant = 1
         columns.contentOffset.y = .init(column) * inner
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.35) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
@@ -103,18 +109,27 @@ final class Move: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scroll: UIScrollView) {
         guard let card = self.card else { return }
+        var change = false
         var tag = max(Int((scroll.contentOffset.y + (inner / 2)) / inner), 0)
         if scroll === indexes {
             tag = min(tag, app.session.cards(app.project!, list: column) - (column == card.column ? 1 : 0))
-            index = tag
+            if tag != index {
+                change = true
+                index = tag
+            }
         } else {
             tag = min(tag, app.session.lists(app.project!) - 1)
-            column = tag
-            index = 0
-            reindex()
+            if column != tag {
+                change = true
+                column = tag
+                index = 0
+                reindex()
+            }
         }
-        (scroll as! Scroll).views.forEach {
-            $0.alpha = $0.tag == tag ? 1 : 0.3
+        if change {
+            (scroll as! Scroll).views.forEach {
+                $0.alpha = $0.tag == tag ? 1 : 0.3
+            }
         }
     }
     
@@ -124,7 +139,7 @@ final class Move: UIViewController, UIScrollViewDelegate {
         let inner = self.inner
         indexes.views.forEach { $0.removeFromSuperview() }
         (0 ..< app.session.cards(app.project!, list: column) + (column == card.column ? 0 : 1)).forEach {
-            let name = Label("\($0 + 1)", 16, .medium, UIColor(named: "haze")!)
+            let name = Label("\($0 + 1)", 18, .bold, UIColor(named: "haze")!)
             name.tag = $0
             name.alpha = $0 == index ? 1 : 0.3
             indexes.add(name)
@@ -133,6 +148,7 @@ final class Move: UIViewController, UIScrollViewDelegate {
             name.centerYAnchor.constraint(equalTo: indexes.top, constant: (height / 2) + (.init($0) * inner)).isActive = true
         }
         _height.constant = height + (.init(app.session.cards(app.project!, list: column) - (column == card.column ? 1 : 0)) * inner)
+        indexes.layoutIfNeeded()
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.indexes.contentOffset.y = .init(index) * inner
         }
