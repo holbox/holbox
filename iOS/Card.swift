@@ -52,6 +52,10 @@ final class Card: Text, UITextViewDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.4)
+            }
+            kanban!.center(frame)
             app.present(Move(self), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in

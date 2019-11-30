@@ -6,7 +6,6 @@ final class Project: NSView {
     weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
     let order: Int
     private weak var _delete: Image!
-    private weak var gradient: Gradient!
     private let index: Int
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -82,13 +81,10 @@ final class Project: NSView {
         setAccessibilityLabel(app.session.name(index))
         wantsLayer = true
         layer!.cornerRadius = 8
-        layer!.borderColor = NSColor(named: "background")!.cgColor
-        layer!.borderWidth = 0
         
         let gradient = Gradient()
         gradient.alphaValue = 0.6
         addSubview(gradient)
-        self.gradient = gradient
         
         let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
@@ -151,8 +147,7 @@ final class Project: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.borderWidth = 2
-            gradient.alphaValue = 1
+            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
             _delete.alphaValue = 1
         }
     }
@@ -162,8 +157,7 @@ final class Project: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
-            layer!.borderWidth = 0
-            gradient.alphaValue = 0.6
+            layer!.backgroundColor = .clear
             _delete.alphaValue = 0
         }
     }

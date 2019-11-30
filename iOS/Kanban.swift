@@ -112,16 +112,20 @@ final class Kanban: View {
         scroll.views.compactMap { $0 as? Card }.forEach {
             $0.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.utf16.count))
             if $0.column == list && $0.index == card {
-                var frame = scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0)
-                frame.origin.x -= (bounds.width - frame.size.width) / 2
-                frame.origin.y -= (bounds.height / 2) - frame.size.height
-                frame.size.width = bounds.width
-                frame.size.height = bounds.height
                 $0.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
-                UIView.animate(withDuration: 0.4) { [weak self] in
-                    self?.scroll.scrollRectToVisible(frame, animated: true)
-                }
+                center(scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0))
             }
+        }
+    }
+    
+    func center(_ frame: CGRect) {
+        var frame = frame
+        frame.origin.x -= (bounds.width - frame.size.width) / 2
+        frame.origin.y -= (bounds.height - frame.size.height) / 2
+        frame.size.width = bounds.width
+        frame.size.height = bounds.height
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.scroll.scrollRectToVisible(frame, animated: true)
         }
     }
     
