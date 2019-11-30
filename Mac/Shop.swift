@@ -47,7 +47,7 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
         scroll.add(_restore)
         self._restore = _restore
         
-        let _cancel = Control(.key("Shop.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
+        let _cancel = Button("delete", target: self, action: #selector(close))
         scroll.add(_cancel)
         
         scroll.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 1).isActive = true
@@ -72,13 +72,14 @@ final class Shop: Window.Modal, SKRequestDelegate, SKProductsRequestDelegate, SK
         message.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
         message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -50).isActive = true
         
-        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor, constant: -20).isActive = true
-        _restore.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor).isActive = true
+        _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        
+        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
+        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -40).isActive = true
+        _cancel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         loading()
         
