@@ -56,7 +56,7 @@ final class Card: Text, UITextViewDelegate {
                 self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.4)
             }
             kanban!.center(frame)
-            app.present(Move(self), animated: true)
+            app.present(Move(self, kanban: kanban!), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.alpha = 1

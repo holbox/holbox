@@ -2,7 +2,7 @@ import UIKit
 
 class Edit: UIViewController, UITextViewDelegate {
     private(set) weak var text: Text!
-    private(set) weak var done: Capsule!
+//    private(set) weak var done: Capsule!
     private weak var bottom: NSLayoutConstraint!
     private weak var _bold: Button!
     
@@ -26,9 +26,9 @@ class Edit: UIViewController, UITextViewDelegate {
         border.backgroundColor = UIColor(named: "background")!
         view.addSubview(border)
         
-        let done = Capsule(.key("Card.done"), self, #selector(close), UIColor(named: "haze")!, .black)
-        view.addSubview(done)
-        self.done = done
+//        let done = Capsule(.key("Card.done"), self, #selector(close), UIColor(named: "haze")!, .black)
+//        view.addSubview(done)
+//        self.done = done
         
         let _bold = Button("hash", target: self, action: #selector(bold))
         _bold.alpha = 0
@@ -44,14 +44,14 @@ class Edit: UIViewController, UITextViewDelegate {
         border.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         bottom = border.bottomAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70)
         bottom.isActive = true
+//
+//        done.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
+//        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
         
-        done.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
-        done.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -15).isActive = true
-        
-        _bold.centerYAnchor.constraint(equalTo: done.centerYAnchor).isActive = true
-        _bold.rightAnchor.constraint(equalTo: done.leftAnchor).isActive = true
-        _bold.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        _bold.heightAnchor.constraint(equalToConstant: 70).isActive = true
+//        _bold.centerYAnchor.constraint(equalTo: done.centerYAnchor).isActive = true
+//        _bold.rightAnchor.constraint(equalTo: done.leftAnchor).isActive = true
+//        _bold.widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        _bold.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(show(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hide), name: UIResponder.keyboardWillHideNotification, object: nil)

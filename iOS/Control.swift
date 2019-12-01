@@ -2,6 +2,7 @@ import UIKit
 
 final class Control: UIView {
     weak var target: AnyObject?
+    private(set) weak var base: UIView!
     private let action: Selector
     
     required init?(coder: NSCoder) { nil }
@@ -20,6 +21,7 @@ final class Control: UIView {
         base.backgroundColor = background
         base.layer.cornerRadius = 8
         addSubview(base)
+        self.base = base
         
         let label = Label(title, 14, .bold, text)
         label.isAccessibilityElement = false

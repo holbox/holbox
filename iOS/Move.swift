@@ -1,161 +1,135 @@
 import UIKit
 
-final class Move: UIViewController, UIScrollViewDelegate {
+final class Move: UIViewController {
     private weak var card: Card?
-    private weak var columns: Scroll!
-    private weak var indexes: Scroll!
-    private weak var _height: NSLayoutConstraint!
-    private weak var bottom: NSLayoutConstraint!
-    private var column: Int
-    private var index: Int
-    private let height = CGFloat(150)
-    private let inner = CGFloat(26)
+    private weak var kanban: Kanban?
+    private weak var _left: NSLayoutConstraint!
+    private weak var _right: NSLayoutConstraint!
+    private weak var _up: NSLayoutConstraint!
+    private weak var _down: NSLayoutConstraint!
+    private weak var _done: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
-    init(_ card: Card) {
-        column = card.column
-        index = card.index
+    init(_ card: Card, kanban: Kanban) {
         super.init(nibName: nil, bundle: nil)
         self.card = card
+        self.kanban = kanban
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .init(white: 0, alpha: 0.4)
+        view.backgroundColor = .init(white: 0, alpha: 0.7)
         
-        let base = UIView()
-        base.isUserInteractionEnabled = false
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.backgroundColor = UIColor(named: "background")!
-        base.layer.cornerRadius = 8
-        base.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.addSubview(base)
+        let _up = Button("arrow", target: self, action: #selector(up))
         
-        let indexes = Scroll()
-        indexes.delegate = self
-        indexes.contentInsetAdjustmentBehavior = .never
-        view.addSubview(indexes)
-        self.indexes = indexes
+        let _down = Button("arrow", target: self, action: #selector(down))
+        _down.icon.transform = .init(rotationAngle: .pi)
         
-        let columns = Scroll()
-        columns.delegate = self
-        columns.contentInsetAdjustmentBehavior = .never
-        view.addSubview(columns)
-        self.columns = columns
+        let _left = Button("arrow", target: self, action: #selector(left))
+        _left.icon.transform = .init(rotationAngle: .pi / -2)
         
-        let title = Label(.key("Move.title"), 14, .regular, UIColor(named: "haze")!)
-        view.addSubview(title)
+        let _right = Button("arrow", target: self, action: #selector(right))
+        _right.icon.transform = .init(rotationAngle: .pi / 2)
         
-        (0 ..< app.session.lists(app.project!)).forEach {
-            let name = Label(app.session.name(app.project!, list: $0), 18, .bold, UIColor(named: "haze")!)
-            name.tag = $0
-            name.alpha = $0 == column ? 1 : 0.3
-            columns.add(name)
-            
-            name.rightAnchor.constraint(equalTo: columns.right, constant: -40).isActive = true
-            name.centerYAnchor.constraint(equalTo: columns.top, constant: (height / 2) + (.init($0) * inner)).isActive = true
+        let _done = Control(.key("Move.done"), self, #selector(close), .clear, UIColor(named: "haze")!)
+        _done.base.layer.borderWidth = 1
+        _done.base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        view.addSubview(_done)
+        
+        let _delete = Control(.key("Move.delete"), self, #selector(close), UIColor(named: "background")!, UIColor(named: "haze")!)
+        _delete.base.layer.borderWidth = 1
+        _delete.base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        view.addSubview(_delete)
+        
+        let _edit = Control(.key("Move.edit"), self, #selector(close), UIColor(named: "haze")!, .black)
+        view.addSubview(_edit)
+        
+        [_right, _left, _down, _up].forEach {
+            view.addSubview($0)
+            $0.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 60).isActive = true
         }
         
-        base.heightAnchor.constraint(equalToConstant: height).isActive = true
-        base.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bottom = base.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: height)
-        bottom.isActive = true
+        _up.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self._up = _up.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        self._up.isActive = true
         
-        columns.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        columns.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        columns.heightAnchor.constraint(equalToConstant: height).isActive = true
-        columns.rightAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        columns.right.constraint(equalTo: view.centerXAnchor).isActive = true
-        columns.height.constraint(equalToConstant: height + (.init(app.session.lists(app.project!) - 1) * inner)).isActive = true
+        _down.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self._down = _down.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        self._down.isActive = true
         
-        indexes.alwaysBounceHorizontal = false
-        indexes.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        indexes.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        indexes.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        indexes.heightAnchor.constraint(equalToConstant: height).isActive = true
-        indexes.right.constraint(equalTo: view.rightAnchor).isActive = true
-        _height = indexes.height.constraint(equalToConstant: 0)
-        _height.isActive = true
+        _left.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self._left = _left.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        self._left.isActive = true
         
-        title.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
-        title.leftAnchor.constraint(equalTo: base.centerXAnchor, constant: 100).isActive = true
+        _right.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self._right = _right.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        self._right.isActive = true
         
-        reindex()
+        _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _edit.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _edit.bottomAnchor.constraint(equalTo: _delete.topAnchor).isActive = true
+        _edit.topAnchor.constraint(greaterThanOrEqualTo: _down.bottomAnchor).isActive = true
+        
+        _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _delete.bottomAnchor.constraint(equalTo: _done.topAnchor).isActive = true
+        
+        _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _done.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 250)
+        self._done.isActive = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.layoutIfNeeded()
+        _up.constant = -40
+        _down.constant = 40
+        _left.constant = -40
+        _right.constant = 40
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        bottom.constant = 1
-        columns.contentOffset.y = .init(column) * inner
-        UIView.animate(withDuration: 0.35) { [weak self] in
+        _done.constant = -100
+        UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        bottom.constant = height
+        _up.constant = -40
+        _down.constant = 40
+        _left.constant = -40
+        _right.constant = 40
+        _done.constant = 250
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.card?.backgroundColor = .clear
             self?.view.layoutIfNeeded()
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-        if touches.first!.location(in: view).y < view.bounds.height - height {
-            close()
-        }
-        super.touchesEnded(touches, with: with)
+    @objc private func up() {
+        
     }
     
-    func scrollViewDidScroll(_ scroll: UIScrollView) {
-        guard let card = self.card else { return }
-        var change = false
-        var tag = max(Int((scroll.contentOffset.y + (inner / 2)) / inner), 0)
-        if scroll === indexes {
-            tag = min(tag, app.session.cards(app.project!, list: column) - (column == card.column ? 1 : 0))
-            if tag != index {
-                change = true
-                index = tag
-            }
-        } else {
-            tag = min(tag, app.session.lists(app.project!) - 1)
-            if column != tag {
-                change = true
-                column = tag
-                index = min(index, app.session.cards(app.project!, list: column) - (column == card.column ? 1 : 0))
-                reindex()
-            }
-        }
-        if change {
-            (scroll as! Scroll).views.forEach {
-                $0.alpha = $0.tag == tag ? 1 : 0.3
-            }
-        }
+    @objc private func down() {
+        
     }
     
-    private func reindex() {
-        guard let card = self.card else { return }
-        let index = self.index
-        let inner = self.inner
-        indexes.views.forEach { $0.removeFromSuperview() }
-        (0 ..< app.session.cards(app.project!, list: column) + (column == card.column ? 0 : 1)).forEach {
-            let name = Label("\($0 + 1)", 18, .bold, UIColor(named: "haze")!)
-            name.tag = $0
-            name.alpha = $0 == index ? 1 : 0.3
-            indexes.add(name)
-            
-            name.leftAnchor.constraint(equalTo: indexes.centerX).isActive = true
-            name.centerYAnchor.constraint(equalTo: indexes.top, constant: (height / 2) + (.init($0) * inner)).isActive = true
-        }
-        _height.constant = height + (.init(app.session.cards(app.project!, list: column) - (column == card.column ? 1 : 0)) * inner)
-        indexes.layoutIfNeeded()
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.indexes.contentOffset.y = .init(index) * inner
-        }
+    @objc private func right() {
+        
+    }
+    
+    @objc private func left() {
+        
     }
     
     @objc private func close() {
