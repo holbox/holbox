@@ -1,17 +1,35 @@
 import UIKit
 
 final class Card: Text, UITextViewDelegate {
-    let index: Int
-    let column: Int
+    weak var child: Card?
+    weak var column: Column?
+    weak var top: NSLayoutConstraint! {
+        didSet {
+            oldValue?.isActive = false
+            top.isActive = true
+        }
+    }
+    
     weak var left: NSLayoutConstraint! {
         didSet {
+            oldValue?.isActive = false
             left.constant = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 10 : 0
             left.isActive = true
-    } }
+        }
+    }
+    
+    weak var right: NSLayoutConstraint! {
+        didSet {
+            oldValue?.isActive = false
+            right.isActive = true
+        }
+    }
+    
+    var index: Int
     private weak var kanban: Kanban?
     
     required init?(coder: NSCoder) { nil }
-    init(_ kanban: Kanban, index: Int, column: Int) {
+    init(_ kanban: Kanban, column: Column, index: Int) {
         self.index = index
         self.column = column
         self.kanban = kanban
@@ -69,12 +87,12 @@ final class Card: Text, UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-        isEditable = false
-        if text != app.session.content(app.project!, list: column, card: index) {
-            app.session.content(app.project!, list: column, card: index, content: text)
-            app.alert(.key("Card"), message: text)
-        }
-        update()
+//        isEditable = false
+//        if text != app.session.content(app.project!, list: column, card: index) {
+//            app.session.content(app.project!, list: column, card: index, content: text)
+//            app.alert(.key("Card"), message: text)
+//        }
+//        update()
     }
     
     func edit() {
@@ -88,8 +106,9 @@ final class Card: Text, UITextViewDelegate {
     }
     
     private func update() {
+        guard let column = self.column else { return }
         let color: UIColor
-        text = app.session.content(app.project!, list: column, card: index)
+        text = app.session.content(app.project!, list: column.index, card: index)
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             width.constant = 60
             height.constant = 40

@@ -3,11 +3,11 @@ import UIKit
 final class Move: UIViewController {
     private weak var card: Card?
     private weak var kanban: Kanban?
-    private weak var _left: NSLayoutConstraint!
-    private weak var _right: NSLayoutConstraint!
-    private weak var _up: NSLayoutConstraint!
-    private weak var _down: NSLayoutConstraint!
     private weak var _done: NSLayoutConstraint!
+    private var _left: (Button, NSLayoutConstraint)!
+    private var _right: (Button, NSLayoutConstraint)!
+    private var _up: (Button, NSLayoutConstraint)!
+    private var _down: (Button, NSLayoutConstraint)!
     
     required init?(coder: NSCoder) { nil }
     init(_ card: Card, kanban: Kanban) {
@@ -53,20 +53,20 @@ final class Move: UIViewController {
         }
         
         _up.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        self._up = _up.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        self._up.isActive = true
+        self._up = (_up, _up.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+        self._up.1.isActive = true
         
         _down.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        self._down = _down.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        self._down.isActive = true
+        self._down = (_down, _down.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+        self._down.1.isActive = true
         
         _left.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        self._left = _left.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        self._left.isActive = true
+        self._left = (_left, _left.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        self._left.1.isActive = true
         
         _right.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        self._right = _right.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        self._right.isActive = true
+        self._right = (_right, _right.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        self._right.1.isActive = true
         
         _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _edit.widthAnchor.constraint(equalToConstant: 120).isActive = true
@@ -86,10 +86,10 @@ final class Move: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
-        _up.constant = -40
-        _down.constant = 40
-        _left.constant = -40
-        _right.constant = 40
+        _up.1.constant = -40
+        _down.1.constant = 40
+        _left.1.constant = -40
+        _right.1.constant = 40
         UIView.animate(withDuration: 0.4) { [weak self] in
             self?.view.layoutIfNeeded()
         }
@@ -105,10 +105,10 @@ final class Move: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        _up.constant = -40
-        _down.constant = 40
-        _left.constant = -40
-        _right.constant = 40
+        _up.1.constant = -40
+        _down.1.constant = 40
+        _left.1.constant = -40
+        _right.1.constant = 40
         _done.constant = 250
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.card?.backgroundColor = .clear
@@ -116,12 +116,31 @@ final class Move: UIViewController {
         }
     }
     
+    private func translate() {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.card?.superview!.layoutIfNeeded()
+        }
+    }
+    
+    private func update() {
+        
+    }
+    
     @objc private func up() {
         
     }
     
     @objc private func down() {
-        
+        card!.index += 1
+        let constant = card!.child!.top.constant
+        card!.child!.top = card!.child!.topAnchor.constraint(equalTo: (card!.top.secondItem as! UIView).bottomAnchor, constant: card!.top.constant)
+        card!.top = card!.topAnchor.constraint(equalTo: card!.child!.bottomAnchor, constant: constant)
+        if let grandchild = card!.child!.child {
+            grandchild.top = grandchild.topAnchor.constraint(equalTo: card!.bottomAnchor, constant: constant)
+        }
+        card!.superview!.subviews.compactMap { $0 as? Card }.first { $0.child === card }?.child = card!.child
+        card!.child = card!.child!.child
+        translate()
     }
     
     @objc private func right() {

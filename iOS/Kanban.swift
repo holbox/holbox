@@ -52,23 +52,25 @@ final class Kanban: View {
             
             var top: Card?
             (0 ..< app.session.cards(app.project!, list: list)).forEach {
-                let card = Card(self, index: $0, column: list)
+                let card = Card(self, column: column, index: $0)
                 scroll.add(card)
                 
                 if top == nil {
                     if list == 0 {
-                        card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10).isActive = true
+                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10)
                     } else {
-                        card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20).isActive = true
+                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
                     }
                 } else {
-                    card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10).isActive = true
+                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10)
+                    top!.child = card
                 }
                 
                 if $0 == app.session.cards(app.project!, list: list) - 1 {
                     tags.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 }
-                column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor).isActive = true
+                
+                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
                 card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
                 top = card
             }
@@ -111,7 +113,7 @@ final class Kanban: View {
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         scroll.views.compactMap { $0 as? Card }.forEach {
             $0.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.utf16.count))
-            if $0.column == list && $0.index == card {
+            if $0.column?.index == list && $0.index == card {
                 $0.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
                 center(scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0))
             }
@@ -133,7 +135,7 @@ final class Kanban: View {
         app.window!.endEditing(true)
         app.session.add(app.project!, list: 0)
         refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column!.index == 0 }!.edit()
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.scroll.contentOffset.x = 0
             self?.scroll.contentOffset.y = 0

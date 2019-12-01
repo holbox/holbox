@@ -1,7 +1,7 @@
 import UIKit
 
 final class Column: UIView {
-    private let index: Int
+    let index: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
