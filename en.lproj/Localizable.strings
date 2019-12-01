@@ -53,6 +53,7 @@ Card.move.position="Position";
 Card.move.title="Column";
 Card.delete="Delete";
 Card.move.done="Done";
+Move.title="Position";
 Column="Column";
 Project="Project";
 Project.columns="columns";
