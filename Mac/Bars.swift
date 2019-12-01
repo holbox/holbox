@@ -10,11 +10,11 @@ final class Bars: Chart {
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        totalWidth = (.init(app.session.lists(app.project!)) * (width + space)) + 35
+        totalWidth = (.init(app.session.lists(app.project)) * (width + space)) + 35
         totalHeight = height + 60 + width
         
-        let cards = (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
-            $0.append(app.session.cards(app.project!, list: $1))
+        let cards = (0 ..< app.session.lists(app.project)).reduce(into: [Int]()) {
+            $0.append(app.session.cards(app.project, list: $1))
         }
         let top = CGFloat(cards.max() ?? 1)
         
@@ -64,7 +64,7 @@ final class Bars: Chart {
             } (CGMutablePath())
             mask.addSublayer(shape)
             
-            let name = Label(app.session.name(app.project!, list: card.0), 12, .bold, NSColor(named: "haze")!)
+            let name = Label(app.session.name(app.project, list: card.0), 12, .bold, NSColor(named: "haze")!)
             addSubview(name)
             
             name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true

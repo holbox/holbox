@@ -24,12 +24,12 @@ class Stock: Modal, NSTextViewDelegate {
         
         override func done() {
             super.done()
-            let count = app.session.cards(app.project!, list: 0)
-            app.session.add(app.project!, emoji: emoji.string, description: label.string)
-            if app.session.cards(app.project!, list: 0) > count {
+            let count = app.session.cards(app.project, list: 0)
+            app.session.add(app.project, emoji: emoji.string, description: label.string)
+            if app.session.cards(app.project, list: 0) > count {
                 app.alert(.key("Product"), message: {
                     $0.0 + " " + $0.1
-                } (app.session.product(app.project!, index: count)))
+                } (app.session.product(app.project, index: count)))
                 app.main.refresh()
                 shopping?.stockLast()
             }
@@ -43,7 +43,7 @@ class Stock: Modal, NSTextViewDelegate {
         init(_ index: Int) {
             self.index = index
             super.init(.key("Stock.edit.title"), .key("Stock.edit.done"))
-            let content = app.session.product(app.project!, index: index)
+            let content = app.session.product(app.project, index: index)
             emoji.string = content.0
             label.string = content.1
 
@@ -60,9 +60,9 @@ class Stock: Modal, NSTextViewDelegate {
         
         override func done() {
             super.done()
-            let old = app.session.product(app.project!, index: index)
-            app.session.product(app.project!, index: index, emoji: emoji.string, description: label.string)
-            let content = app.session.product(app.project!, index: index)
+            let old = app.session.product(app.project, index: index)
+            app.session.product(app.project, index: index, emoji: emoji.string, description: label.string)
+            let content = app.session.product(app.project, index: index)
             if old != content {
                 app.alert(.key("Product"), message: content.0 + " " + content.1)
                 app.main.refresh()

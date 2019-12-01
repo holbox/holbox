@@ -116,7 +116,7 @@ final class Bar: NSView, NSTextViewDelegate {
                                                 .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
-        name.string = app.session.name(app.project!)
+        name.string = app.session.name(app.project)
         addSubview(name)
         
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true

@@ -1,8 +1,8 @@
 import UIKit
 
 final class Move: UIViewController {
-    private weak var card: Card?
-    private weak var kanban: Kanban?
+    private weak var card: Card!
+    private weak var kanban: Kanban!
     private weak var _done: NSLayoutConstraint!
     private var _left: (Button, NSLayoutConstraint)!
     private var _right: (Button, NSLayoutConstraint)!
@@ -20,7 +20,7 @@ final class Move: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .init(white: 0, alpha: 0.7)
+        view.backgroundColor = .init(white: 0, alpha: 0.6)
         
         let _up = Button("arrow", target: self, action: #selector(up))
         
@@ -81,6 +81,7 @@ final class Move: UIViewController {
         _done.widthAnchor.constraint(equalToConstant: 120).isActive = true
         self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 250)
         self._done.isActive = true
+        update()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,36 +112,86 @@ final class Move: UIViewController {
         _right.1.constant = 40
         _done.constant = 250
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.card?.backgroundColor = .clear
+            self?.card.backgroundColor = .clear
             self?.view.layoutIfNeeded()
         }
     }
     
     private func translate() {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.card?.superview!.layoutIfNeeded()
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+            self?.card.superview!.layoutIfNeeded()
+        }) { [weak self] _ in
+            guard let self = self else { return }
+            self.kanban?.center(self.card.frame)
         }
     }
     
     private func update() {
+        if card.index > 0 {
+            _up.0.isUserInteractionEnabled = true
+            _up.0.alpha = 1
+        } else {
+            _up.0.isUserInteractionEnabled = false
+            _up.0.alpha = 0.3
+        }
         
+        if card.index < app.session.cards(app.project, list: card.column.index) - 1 {
+            _down.0.isUserInteractionEnabled = true
+            _down.0.alpha = 1
+        } else {
+            _down.0.isUserInteractionEnabled = false
+            _down.0.alpha = 0.3
+        }
+        
+        if card.column.index > 0 {
+            _left.0.isUserInteractionEnabled = true
+            _left.0.alpha = 1
+        } else {
+            _left.0.isUserInteractionEnabled = false
+            _left.0.alpha = 0.3
+        }
+        
+        if card.column.index < app.session.lists(app.project) - 1 {
+            _right.0.isUserInteractionEnabled = true
+            _right.0.alpha = 1
+        } else {
+            _right.0.isUserInteractionEnabled = false
+            _right.0.alpha = 0.3
+        }
     }
     
     @objc private func up() {
-        
+        app.session.move(app.project, list: card.column.index, card: card.index, destination: card.column.index, index: card.index - 1)
+        card.index -= 1
+        let parent = card.superview!.subviews.compactMap { $0 as? Card }.first { $0.child === card }!
+        let constant = parent.top.constant
+        card.top = card.topAnchor.constraint(equalTo: (parent.top.secondItem as! UIView).bottomAnchor, constant: parent.top.constant)
+        parent.top = parent.topAnchor.constraint(equalTo: card.bottomAnchor, constant: constant)
+        if let child = card.child {
+            child.top = child.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: constant)
+        }
+        card.superview!.subviews.compactMap { $0 as? Card }.first { $0.child === parent }?.child = card
+        parent.child = card.child
+        card.child = parent
+        translate()
+        update()
     }
     
     @objc private func down() {
-        card!.index += 1
-        let constant = card!.child!.top.constant
-        card!.child!.top = card!.child!.topAnchor.constraint(equalTo: (card!.top.secondItem as! UIView).bottomAnchor, constant: card!.top.constant)
-        card!.top = card!.topAnchor.constraint(equalTo: card!.child!.bottomAnchor, constant: constant)
-        if let grandchild = card!.child!.child {
-            grandchild.top = grandchild.topAnchor.constraint(equalTo: card!.bottomAnchor, constant: constant)
+        app.session.move(app.project, list: card.column.index, card: card.index, destination: card.column.index, index: card.index + 1)
+        card.index += 1
+        let child = card.child!
+        let constant = child.top.constant
+        child.top = child.topAnchor.constraint(equalTo: (card.top.secondItem as! UIView).bottomAnchor, constant: card.top.constant)
+        card.top = card.topAnchor.constraint(equalTo: child.bottomAnchor, constant: constant)
+        if let grandchild = child.child {
+            grandchild.top = grandchild.topAnchor.constraint(equalTo: card.bottomAnchor, constant: constant)
         }
-        card!.superview!.subviews.compactMap { $0 as? Card }.first { $0.child === card }?.child = card!.child
-        card!.child = card!.child!.child
+        card.superview!.subviews.compactMap { $0 as? Card }.first { $0.child === card }?.child = child
+        card.child = child.child
+        child.child = card
         translate()
+        update()
     }
     
     @objc private func right() {

@@ -1,8 +1,8 @@
 import UIKit
 
 final class Card: Text, UITextViewDelegate {
-    weak var child: Card?
-    weak var column: Column?
+    weak var child: Card!
+    weak var column: Column!
     weak var top: NSLayoutConstraint! {
         didSet {
             oldValue?.isActive = false
@@ -26,7 +26,7 @@ final class Card: Text, UITextViewDelegate {
     }
     
     var index: Int
-    private weak var kanban: Kanban?
+    private weak var kanban: Kanban!
     
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, column: Column, index: Int) {
@@ -73,8 +73,8 @@ final class Card: Text, UITextViewDelegate {
             UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.4)
             }
-            kanban!.center(frame)
-            app.present(Move(self, kanban: kanban!), animated: true)
+            kanban.center(frame)
+            app.present(Move(self, kanban: kanban), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.alpha = 1
@@ -108,7 +108,7 @@ final class Card: Text, UITextViewDelegate {
     private func update() {
         guard let column = self.column else { return }
         let color: UIColor
-        text = app.session.content(app.project!, list: column.index, card: index)
+        text = app.session.content(app.project, list: column.index, card: index)
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             width.constant = 60
             height.constant = 40

@@ -68,7 +68,7 @@ final class Kanban: View {
         scroll.views.filter { $0 is Card || $0 is Column || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
-        (0 ..< app.session.lists(app.project!)).forEach { list in
+        (0 ..< app.session.lists(app.project)).forEach { list in
             let column = Column(list)
             scroll.add(column)
             
@@ -78,7 +78,7 @@ final class Kanban: View {
             }
             
             var top: Card?
-            (0 ..< app.session.cards(app.project!, list: list)).forEach {
+            (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let card = Card(self, index: $0, column: list)
                 scroll.add(card)
 
@@ -93,7 +93,7 @@ final class Kanban: View {
                     top!.child = card
                 }
 
-                if $0 == app.session.cards(app.project!, list: list) - 1 {
+                if $0 == app.session.cards(app.project, list: list) - 1 {
                     scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
                 }
                 
@@ -108,9 +108,9 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let ring = Ring(app.session.cards(app.project!, list: app.session.lists(app.project!) - 1), total:
-            (0 ..< app.session.lists(app.project!)).reduce(into: [Int]()) {
-                $0.append(app.session.cards(app.project!, list: $1))
+        let ring = Ring(app.session.cards(app.project, list: app.session.lists(app.project) - 1), total:
+            (0 ..< app.session.lists(app.project)).reduce(into: [Int]()) {
+                $0.append(app.session.cards(app.project, list: $1))
             }.reduce(0, +))
         scroll.add(ring)
 
@@ -132,7 +132,7 @@ final class Kanban: View {
     }
     
     override func add() {
-        app.session.add(app.project!, list: 0)
+        app.session.add(app.project, list: 0)
         refresh()
         scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
         NSAnimationContext.runAnimationGroup {

@@ -57,11 +57,11 @@ final class Notes: View, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         text.isEditable = false
-        app.session.content(app.project!, list: 0, card: 0, content: text.string)
+        app.session.content(app.project, list: 0, card: 0, content: text.string)
     }
     
     override func refresh() {
-        text.string = app.session.content(app.project!, list: 0, card: 0)
+        text.string = app.session.content(app.project, list: 0, card: 0)
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {

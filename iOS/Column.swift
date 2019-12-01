@@ -9,7 +9,7 @@ final class Column: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let string = app.session.name(app.project!, list: index)
+        let string = app.session.name(app.project, list: index)
         let name = Label(string.mark {
             switch $0 {
             case .plain: return (.init(string[$1]), 20, .bold, UIColor(named: "haze")!)

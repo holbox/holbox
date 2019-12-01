@@ -33,7 +33,7 @@ class Delete: Modal {
             super.init()
             
             let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
-                               (app.session.content(app.project!, list: list, card: index), 16, .regular, NSColor(named: "haze")!)])
+                               (app.session.content(app.project, list: list, card: index), 16, .regular, NSColor(named: "haze")!)])
             title.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
             contentView!.addSubview(title)
             
@@ -44,8 +44,8 @@ class Delete: Modal {
         }
         
         override func confirm() {
-            app.alert(.key("Delete.done"), message: app.session.content(app.project!, list: list, card: index))
-            app.session.delete(app.project!, list: list, card: index)
+            app.alert(.key("Delete.done"), message: app.session.content(app.project, list: list, card: index))
+            app.session.delete(app.project, list: list, card: index)
             super.confirm()
         }
     }
@@ -57,7 +57,7 @@ class Delete: Modal {
             self.index = index
             super.init()
             
-            let product = app.session.product(app.project!, index: index)
+            let product = app.session.product(app.project, index: index)
             let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
                                (product.0 + " " + product.1, 16, .regular, NSColor(named: "haze")!)])
             title.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -70,9 +70,9 @@ class Delete: Modal {
         }
         
         override func confirm() {
-            let product = app.session.product(app.project!, index: index)
+            let product = app.session.product(app.project, index: index)
             app.alert(.key("Delete.done"), message: product.0 + " " + product.1)
-            app.session.delete(app.project!, product: index)
+            app.session.delete(app.project, product: index)
             super.confirm()
         }
     }

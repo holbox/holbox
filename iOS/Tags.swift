@@ -15,7 +15,7 @@ final class Tags: UIView {
     }
     
     func refresh() {
-        app.session.tags(app.project!, compare: tags, same: { [weak self] in
+        app.session.tags(app.project, compare: tags, same: { [weak self] in
             self?.animate = true
         }) { [weak self] in
             guard let self = self else { return }

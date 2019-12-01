@@ -66,11 +66,11 @@ final class Shopping: View {
         scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
         
-        let ring = Ring(app.session.cards(app.project!, list: 0) - app.session.cards(app.project!, list: 1), total: app.session.cards(app.project!, list: 0))
+        let ring = Ring(app.session.cards(app.project, list: 0) - app.session.cards(app.project, list: 1), total: app.session.cards(app.project, list: 0))
         scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?
-        (0 ..< app.session.cards(app.project!, list: 1)).forEach {
+        (0 ..< app.session.cards(app.project, list: 1)).forEach {
             let grocery = Grocery($0)
             scroll.add(grocery)
             
@@ -87,7 +87,7 @@ final class Shopping: View {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 30).isActive = true
         }
         var left: NSLayoutXAxisAnchor?
-        (0 ..< app.session.cards(app.project!, list: 0)).forEach {
+        (0 ..< app.session.cards(app.project, list: 0)).forEach {
             let product = Product($0, self)
             stock.add(product)
 

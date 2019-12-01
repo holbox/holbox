@@ -17,7 +17,7 @@ final class Base: NSView {
                 validate(Detail.self)
             }
         } else {
-            switch app.session.mode(app.project!) {
+            switch app.session.mode(app.project) {
             case .kanban: validate(Kanban.self)
             case .todo: validate(Todo.self)
             case .shopping: validate(Shopping.self)

@@ -93,7 +93,7 @@ final class Bar: UIView {
     }
     
     private func project() {
-        let title = Label(app.session.name(app.project!), 18, .bold, UIColor(named: "haze")!)
+        let title = Label(app.session.name(app.project), 18, .bold, UIColor(named: "haze")!)
         title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         title.alpha = 0
         addSubview(title)

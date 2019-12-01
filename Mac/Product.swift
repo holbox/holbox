@@ -11,7 +11,7 @@ final class Product: NSView {
     init(_ index: Int, _ shopping: Shopping) {
         self.index = index
         self.shopping = shopping
-        active = !app.session.contains(app.project!, reference: index)
+        active = !app.session.contains(app.project, reference: index)
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setAccessibilityElement(true)
@@ -21,7 +21,7 @@ final class Product: NSView {
         layer!.borderColor = NSColor(named: "haze")!.cgColor
         layer!.borderWidth = 0
         
-        let product = app.session.product(app.project!, index: index)
+        let product = app.session.product(app.project, index: index)
         setAccessibilityLabel(product.1)
         
         let text = Text(.Fix(), Off())
@@ -94,9 +94,9 @@ final class Product: NSView {
     override func mouseUp(with: NSEvent) {
         if active {
             if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-                let product = app.session.product(app.project!, index: index)
+                let product = app.session.product(app.project, index: index)
                 app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
-                app.session.add(app.project!, reference: index)
+                app.session.add(app.project, reference: index)
                 shopping?.refresh()
                 shopping?.groceryLast()
             }

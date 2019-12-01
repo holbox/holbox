@@ -84,13 +84,13 @@ final class Todo: View, NSTextViewDelegate {
     override func refresh() {
         scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
         
-        let ring = Ring(app.session.cards(app.project!, list: 1),
-                        total: app.session.cards(app.project!, list: 0) + app.session.cards(app.project!, list: 1))
+        let ring = Ring(app.session.cards(app.project, list: 1),
+                        total: app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?
         [0, 1].forEach { list in
-            (0 ..< app.session.cards(app.project!, list: list)).forEach {
+            (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let task = Task($0, list: list, todo: self)
                 scroll.add(task)
 
@@ -153,7 +153,7 @@ final class Todo: View, NSTextViewDelegate {
             new.string = ""
             new.needsLayout = true
             if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project!, list: 0, content: string)
+                app.session.add(app.project, list: 0, content: string)
                 app.alert(.key("Task"), message: string)
                 refresh()
             }

@@ -19,7 +19,7 @@ final class Column: NSView, NSTextViewDelegate {
             .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
             .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!),
             .tag: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!)]
-        name.string = app.session.name(app.project!, list: index)
+        name.string = app.session.name(app.project, list: index)
         name.textContainer!.maximumNumberOfLines = 1
         addSubview(name)
         self.name = name
@@ -37,6 +37,6 @@ final class Column: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.name(app.project!, list: index, name: name.string)
+        app.session.name(app.project, list: index, name: name.string)
     }
 }

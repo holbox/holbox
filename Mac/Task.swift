@@ -22,7 +22,7 @@ final class Task: NSView, NSTextViewDelegate {
         setAccessibilityRole(.button)
         wantsLayer = true
         
-        let content = app.session.content(app.project!, list: list, card: index)
+        let content = app.session.content(app.project, list: list, card: index)
         setAccessibilityLabel(content)
         
         let base = NSView()
@@ -118,7 +118,7 @@ final class Task: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.content(app.project!, list: list, card: index, content: text.string)
+        app.session.content(app.project, list: list, card: index, content: text.string)
         todo?.tags.refresh()
     }
     
@@ -148,8 +148,8 @@ final class Task: NSView, NSTextViewDelegate {
         if with.clickCount == 1 {
             if base.frame.contains(convert(with.locationInWindow, from: nil)) {
                 if window!.firstResponder != text {
-                    app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project!, list: list, card: index))
-                    app.session.move(app.project!, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
+                    app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
+                    app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
                     app.main.refresh()
                 }
             } else if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {

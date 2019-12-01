@@ -7,7 +7,7 @@ private(set) weak var app: App!
 @NSApplicationMain final class App: NSApplication, NSApplicationDelegate, UNUserNotificationCenterDelegate, NSTouchBarDelegate {
     private(set) weak var main: Main!
     let session = Session()
-    var project: Int? {
+    var project: Int! {
         didSet {
             main.refresh()
         }

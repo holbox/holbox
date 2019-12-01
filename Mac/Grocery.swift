@@ -16,7 +16,7 @@ final class Grocery: NSView {
         wantsLayer = true
         layer!.cornerRadius = 10
 
-        let product = app.session.reference(app.project!, index: index)
+        let product = app.session.reference(app.project, index: index)
         setAccessibilityLabel(product.1)
 
         let emoji = Label(product.0, 35, .regular, .white)
@@ -90,9 +90,9 @@ final class Grocery: NSView {
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            let product = app.session.reference(app.project!, index: index)
+            let product = app.session.reference(app.project, index: index)
             app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
-            app.session.delete(app.project!, list: 1, card: index)
+            app.session.delete(app.project, list: 1, card: index)
             app.main.refresh()
         }
         alphaValue = 1
