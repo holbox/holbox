@@ -1,8 +1,7 @@
 import UIKit
 
 final class Card: Text, UITextViewDelegate {
-    weak var child: Card!
-    weak var column: Column!
+    var index: Int
     weak var top: NSLayoutConstraint! {
         didSet {
             oldValue?.isActive = false
@@ -10,28 +9,32 @@ final class Card: Text, UITextViewDelegate {
         }
     }
     
-    weak var left: NSLayoutConstraint! {
+    weak var child: Card! {
         didSet {
-            oldValue?.isActive = false
-            left.constant = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 15 : 0
+            child?.top = child?.topAnchor.constraint(equalTo: bottomAnchor, constant: 10)
+        }
+    }
+    
+    weak var column: Column! {
+        didSet {
+            right?.isActive = false
+            left?.isActive = false
+            
+            right = column.rightAnchor.constraint(greaterThanOrEqualTo: rightAnchor)
+            right.isActive = true
+            
+            left = leftAnchor.constraint(equalTo: column.leftAnchor)
             left.isActive = true
         }
     }
     
-    weak var right: NSLayoutConstraint! {
-        didSet {
-            oldValue?.isActive = false
-            right.isActive = true
-        }
-    }
-    
-    var index: Int
-    private weak var kanban: Kanban!
+    private(set) weak var kanban: Kanban!
+    private weak var left: NSLayoutConstraint!
+    private weak var right: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
-    init(_ kanban: Kanban, column: Column, index: Int) {
+    init(_ kanban: Kanban, index: Int) {
         self.index = index
-        self.column = column
         self.kanban = kanban
         super.init()
         isScrollEnabled = false
@@ -52,7 +55,6 @@ final class Card: Text, UITextViewDelegate {
         layer.borderWidth = 0
         width = widthAnchor.constraint(equalToConstant: 0)
         height = heightAnchor.constraint(equalToConstant: 0)
-        update()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -72,10 +74,10 @@ final class Card: Text, UITextViewDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.4)
+                self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
             }
             kanban.center(frame)
-            app.present(Move(self, kanban: kanban), animated: true)
+            app.present(Move(self), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.alpha = 1
@@ -95,7 +97,7 @@ final class Card: Text, UITextViewDelegate {
             app.session.content(app.project, list: column, card: index, content: text)
             app.alert(.key("Card"), message: text)
         }
-        update()
+        update(true)
     }
     
     func edit() {
@@ -109,7 +111,7 @@ final class Card: Text, UITextViewDelegate {
         }
     }
     
-    func update() {
+    func update(_ animate: Bool) {
         guard let column = self.column else { return }
         let color: UIColor
         text = app.session.content(app.project, list: column.index, card: index)
@@ -117,16 +119,21 @@ final class Card: Text, UITextViewDelegate {
             width.constant = 60
             height.constant = 40
             color = UIColor(named: "background")!
-            left?.constant = 15
+            left.constant = 15
         } else {
             resize()
             color = .clear
-            left?.constant = 0
+            left.constant = 0
         }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.superview?.layoutIfNeeded()
-            self?.backgroundColor = color
-            self?.layer.borderWidth = 0
+        if animate {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.superview?.layoutIfNeeded()
+                self?.backgroundColor = color
+                self?.layer.borderWidth = 0
+            }
+        } else {
+            backgroundColor = color
+            layer.borderWidth = 0
         }
     }
     

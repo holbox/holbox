@@ -2,7 +2,7 @@ import UIKit
 
 final class Kanban: View {
     private weak var scroll: Scroll!
-    private weak var _add: Button!
+    private(set) weak var _add: Button!
     private(set) weak var tags: Tags!
     
     required init?(coder: NSCoder) { nil }
@@ -52,7 +52,7 @@ final class Kanban: View {
             
             var top: Card?
             (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card(self, column: column, index: $0)
+                let card = Card(self, index: $0)
                 scroll.add(card)
                 
                 if top == nil {
@@ -62,7 +62,6 @@ final class Kanban: View {
                         card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
                     }
                 } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10)
                     top!.child = card
                 }
                 
@@ -70,8 +69,8 @@ final class Kanban: View {
                     tags.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 }
                 
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
+                card.column = column
+                card.update(false)
                 top = card
             }
             
