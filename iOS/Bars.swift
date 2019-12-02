@@ -5,7 +5,7 @@ final class Bars: Chart {
     private var totalHeight = CGFloat()
     private let height = CGFloat(120)
     private let width = CGFloat(12)
-    private let space = CGFloat(40)
+    private let space = CGFloat(45)
     
     required init?(coder: NSCoder) { nil }
     override init() {
@@ -65,8 +65,11 @@ final class Bars: Chart {
             mask.addSublayer(shape)
             
             let name = Label(app.session.name(app.project, list: card.0), 12, .bold, UIColor(named: "haze")!)
+            name.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            name.numberOfLines = 1
             addSubview(name)
             
+            name.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
             name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
             name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
             

@@ -141,8 +141,8 @@ final class Card: Text, UITextViewDelegate {
         textContainer.size.width = 200
         textContainer.size.height = 10_000
         layoutManager.ensureLayout(for: textContainer)
-        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 40) + 30
-        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 20) + 30
+        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30
+        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 10) + 30
     }
     
     private func move(_ destination: Int, position: Int) {

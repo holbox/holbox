@@ -46,6 +46,7 @@ final class Tags: NSView {
             }
             bottomAnchor.constraint(equalTo: top, constant: 20).isActive = true
         }
+        layoutSubtreeIfNeeded()
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.6
             $0.allowsImplicitAnimation = animate
