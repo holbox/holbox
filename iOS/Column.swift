@@ -70,7 +70,7 @@ final class Column: Text, UITextViewDelegate {
             isSelectable = true
             layer.borderWidth = 2
             becomeFirstResponder()
-            selectedRange = .init(location: 0, length: text.count)
+            selectedRange = .init(location: 0, length: text.utf16.count)
         }
     }
 }

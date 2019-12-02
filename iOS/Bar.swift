@@ -11,38 +11,6 @@ final class Bar: UIView, UITextViewDelegate {
     private weak var addY: NSLayoutConstraint!
     private weak var findRight: NSLayoutConstraint!
     
-    private var text: Text {
-        let text = Text()
-        text.isScrollEnabled = false
-        text.isEditable = false
-        text.isSelectable = false
-        text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
-        text.accessibilityLabel = .key("Project")
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!)]
-        text.delegate = self
-        text.textContainer.maximumNumberOfLines = 1
-        (text.layoutManager as! Layout).padding = 2
-        text.width = text.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
-        text.height = text.heightAnchor.constraint(equalToConstant: 57)
-        text.alpha = 0
-        addSubview(text)
-        
-        
-        text.rightAnchor.constraint(lessThanOrEqualTo: find.leftAnchor).isActive = true
-        text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
-        
-        let left = text.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5)
-        left.priority = .defaultLow
-        left.isActive = true
-        
-        return text
-    }
-    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
@@ -117,8 +85,7 @@ final class Bar: UIView, UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-        title.isEditable = false
-        title.isSelectable = false
+        title.isUserInteractionEnabled = false
         if title.text != app.session.name(app.project) {
             app.session.name(app.project, name: title.text)
             app.alert(.key("Project"), message: title.text)
@@ -218,12 +185,40 @@ final class Bar: UIView, UITextViewDelegate {
         }
     }
     
+    private var text: Text {
+        let text = Text()
+        text.isScrollEnabled = false
+        text.isUserInteractionEnabled = false
+        text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
+        text.accessibilityLabel = .key("Project")
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!),
+            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!)]
+        text.delegate = self
+        text.textContainer.maximumNumberOfLines = 1
+        (text.layoutManager as! Layout).padding = 2
+        text.width = text.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
+        text.height = text.heightAnchor.constraint(equalToConstant: 57)
+        text.alpha = 0
+        addSubview(text)
+        
+        text.rightAnchor.constraint(lessThanOrEqualTo: find.leftAnchor).isActive = true
+        text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
+        let left = text.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5)
+        left.priority = .defaultLow
+        left.isActive = true
+        
+        return text
+    }
+    
     @objc private func gesture() {
         if title.frame.contains(press.location(in: self)) && press.state == .began {
-            title.isEditable = true
-            title.isSelectable = true
+            title.isUserInteractionEnabled = false
             title.becomeFirstResponder()
-            title.selectedRange = .init(location: 0, length: title.text.count)
+            title.selectedRange = .init(location: 0, length: title.text.utf16.count)
         }
     }
     
