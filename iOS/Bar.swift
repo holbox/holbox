@@ -1,14 +1,47 @@
 import UIKit
 
-final class Bar: UIView {
+final class Bar: UIView, UITextViewDelegate {
     private(set) weak var find: Find!
-    private weak var title: Label?
+    private weak var title: Text!
     private weak var _home: Button!
     private weak var border: Border!
+    private weak var press: UILongPressGestureRecognizer!
     private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
     private weak var addRight: NSLayoutConstraint!
     private weak var addY: NSLayoutConstraint!
     private weak var findRight: NSLayoutConstraint!
+    
+    private var text: Text {
+        let text = Text()
+        text.isScrollEnabled = false
+        text.isEditable = false
+        text.isSelectable = false
+        text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
+        text.accessibilityLabel = .key("Project")
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!),
+            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!)]
+        text.delegate = self
+        text.textContainer.maximumNumberOfLines = 1
+        (text.layoutManager as! Layout).padding = 2
+        text.width = text.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
+        text.height = text.heightAnchor.constraint(equalToConstant: 57)
+        text.alpha = 0
+        addSubview(text)
+        
+        
+        text.rightAnchor.constraint(lessThanOrEqualTo: find.leftAnchor).isActive = true
+        text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
+        
+        let left = text.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 5)
+        left.priority = .defaultLow
+        left.isActive = true
+        
+        return text
+    }
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -68,6 +101,28 @@ final class Bar: UIView {
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
+        let press = UILongPressGestureRecognizer(target: self, action: #selector(gesture))
+        press.isEnabled = false
+        addGestureRecognizer(press)
+        self.press = press
+    }
+    
+    func textView(_: UITextView, shouldChangeTextIn: NSRange, replacementText: String) -> Bool {
+        if replacementText == "\n" {
+            title.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textViewDidEndEditing(_: UITextView) {
+        title.isEditable = false
+        title.isSelectable = false
+        if title.text != app.session.name(app.project) {
+            app.session.name(app.project, name: title.text)
+            app.alert(.key("Project"), message: title.text)
+        }
     }
     
     func refresh() {
@@ -93,16 +148,10 @@ final class Bar: UIView {
     }
     
     private func project() {
-        let title = Label(app.session.name(app.project), 18, .bold, UIColor(named: "haze")!)
-        title.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        title.alpha = 0
-        addSubview(title)
+        press.isEnabled = true
         
-        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -20).isActive = true
-        title.rightAnchor.constraint(lessThanOrEqualTo: find.leftAnchor).isActive = true
-        let left = title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20)
-        left.priority = .defaultLow
-        left.isActive = true
+        let title = text
+        title.text = app.session.name(app.project)
         layoutIfNeeded()
         
         find.clear()
@@ -125,12 +174,10 @@ final class Bar: UIView {
     }
     
     private func detail() {
-        let title = Label(.key("Detail.title"), 18, .bold, UIColor(named: "haze")!)
-        title.alpha = 0
-        addSubview(title)
+        press.isEnabled = false
         
-        title.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-        title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -20).isActive = true
+        let title = text
+        title.text = .key("Detail.title")
         layoutIfNeeded()
         
         find.clear()
@@ -153,6 +200,8 @@ final class Bar: UIView {
     }
     
     private func empty() {
+        press.isEnabled = false
+        
         title?.removeFromSuperview()
         bottom = bottomAnchor.constraint(equalTo: superview!.bottomAnchor)
         addRight.constant = ((min(app.main.bounds.width, app.main.bounds.height) - 260) / -2) - 240
@@ -166,6 +215,15 @@ final class Bar: UIView {
             self.superview!.layoutIfNeeded()
         }) { _ in
             self.title?.removeFromSuperview()
+        }
+    }
+    
+    @objc private func gesture() {
+        if title.frame.contains(press.location(in: self)) && press.state == .began {
+            title.isEditable = true
+            title.isSelectable = true
+            title.becomeFirstResponder()
+            title.selectedRange = .init(location: 0, length: title.text.count)
         }
     }
     

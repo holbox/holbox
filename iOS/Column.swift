@@ -37,6 +37,14 @@ final class Column: Text, UITextViewDelegate {
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(gesture(_:))))
     }
     
+    func textView(_: UITextView, shouldChangeTextIn: NSRange, replacementText: String) -> Bool {
+        if replacementText == "\n" {
+            resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
     func textViewDidChange(_: UITextView) {
         resize()
     }
@@ -52,8 +60,6 @@ final class Column: Text, UITextViewDelegate {
     }
     
     private func resize() {
-        textContainer.size.width = 220
-        textContainer.size.height = 30
         layoutManager.ensureLayout(for: textContainer)
         width.constant = min(max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30, 250)
     }
