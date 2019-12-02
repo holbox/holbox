@@ -33,17 +33,15 @@ final class Move: UIViewController {
         let _right = Button("arrow", target: self, action: #selector(right))
         _right.icon.transform = .init(rotationAngle: .pi / 2)
         
-        let _done = Control(.key("Move.done"), self, #selector(close), .clear, UIColor(named: "haze")!)
-        _done.base.layer.borderWidth = 1
-        _done.base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        let _done = Circle(.key("Move.done"), self, #selector(close), UIColor(named: "haze")!, .black)
         view.addSubview(_done)
         
-        let _delete = Control(.key("Move.delete"), self, #selector(close), UIColor(named: "background")!, UIColor(named: "haze")!)
-        _delete.base.layer.borderWidth = 1
-        _delete.base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        let _delete = Circle(image: "trash", self, #selector(remove), UIColor(named: "haze")!, .black)
+        _delete.accessibilityLabel = .key("Move.delete")
         view.addSubview(_delete)
         
-        let _edit = Control(.key("Move.edit"), self, #selector(close), UIColor(named: "haze")!, .black)
+        let _edit = Circle(image: "write", self, #selector(close), UIColor(named: "haze")!, .black)
+        _edit.accessibilityLabel = .key("Move.edit")
         view.addSubview(_edit)
         
         [_right, _left, _down, _up].forEach {
@@ -68,18 +66,14 @@ final class Move: UIViewController {
         self._right = (_right, _right.centerXAnchor.constraint(equalTo: view.centerXAnchor))
         self._right.1.isActive = true
         
-        _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        _edit.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        _edit.bottomAnchor.constraint(equalTo: _delete.topAnchor).isActive = true
-        _edit.topAnchor.constraint(greaterThanOrEqualTo: _down.bottomAnchor).isActive = true
+        _edit.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 50).isActive = true
+        _edit.bottomAnchor.constraint(equalTo: _done.topAnchor, constant: 15).isActive = true
         
-        _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        _delete.bottomAnchor.constraint(equalTo: _done.topAnchor).isActive = true
+        _delete.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -50).isActive = true
+        _delete.bottomAnchor.constraint(equalTo: _done.topAnchor, constant: 15).isActive = true
         
         _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        _done.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 250)
+        self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 200)
         self._done.isActive = true
         update()
     }
@@ -98,7 +92,7 @@ final class Move: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _done.constant = -100
+        _done.constant = -80
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.view.layoutIfNeeded()
         }
@@ -110,7 +104,7 @@ final class Move: UIViewController {
         _down.1.constant = 40
         _left.1.constant = -40
         _right.1.constant = 40
-        _done.constant = 250
+        _done.constant = 200
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.card.backgroundColor = .clear
             self?.view.layoutIfNeeded()
@@ -204,5 +198,12 @@ final class Move: UIViewController {
     
     @objc private func close() {
         presentingViewController!.dismiss(animated: true)
+    }
+    
+    @objc private func remove() {
+        presentingViewController!.dismiss(animated: true) { [weak self] in
+            guard let card = self?.card else { return }
+            app.present(Delete.Card(card.index, list: card.column.index), animated: true)
+        }
     }
 }

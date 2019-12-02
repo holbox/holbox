@@ -1,39 +1,40 @@
 import UIKit
 
-final class Control: UIView {
+final class Circle: UIView {
     weak var target: AnyObject!
     private let action: Selector
     
     required init?(coder: NSCoder) { nil }
+    
     init(_ title: String, _ target: AnyObject, _ action: Selector, _ background: UIColor, _ text: UIColor) {
         self.target = target
         self.action = action
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        isAccessibilityElement = true
-        accessibilityTraits = .button
+        configure(background)
         accessibilityLabel = title
-        
-        let base = UIView()
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.isUserInteractionEnabled = false
-        base.backgroundColor = background
-        base.layer.cornerRadius = 8
-        addSubview(base)
         
         let label = Label(title, 14, .bold, text)
         label.isAccessibilityElement = false
         addSubview(label)
         
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 32).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    }
+    
+    init(image: String, _ target: AnyObject, _ action: Selector, _ background: UIColor, _ tint: UIColor) {
+        self.target = target
+        self.action = action
+        super.init(frame: .zero)
+        configure(background)
+        
+        let image = Image(image, template: true)
+        image.tintColor = tint
+        addSubview(image)
+        
+        image.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        image.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        image.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -52,5 +53,16 @@ final class Control: UIView {
             _ = target.perform(action)
         }
         super.touchesEnded(touches, with: with)
+    }
+    
+    private func configure(_ background: UIColor) {
+        translatesAutoresizingMaskIntoConstraints = false
+        isAccessibilityElement = true
+        accessibilityTraits = .button
+        backgroundColor = background
+        layer.cornerRadius = 30
+        
+        widthAnchor.constraint(equalToConstant: 60).isActive = true
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 }

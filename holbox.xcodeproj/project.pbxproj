@@ -29,6 +29,7 @@
 		DA2BBEB7234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA2BBEB8234B45AC00C17268 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2BBEB5234B45AC00C17268 /* Mode.swift */; };
 		DA32A735236769710018D6AE /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA32A734236769710018D6AE /* Content.swift */; };
+		DA351C89239413FA00978966 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA351C88239413FA00978966 /* Circle.swift */; };
 		DA38B683236834D000C6203F /* Back.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38B682236834D000C6203F /* Back.swift */; };
 		DA3E746D237AD14F00566D3A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3E746C237AD14F00566D3A /* Settings.swift */; };
 		DA40C94A2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
@@ -309,6 +310,7 @@
 		DA230A31238D38C20008834D /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		DA32A734236769710018D6AE /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		DA351C88239413FA00978966 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		DA38B682236834D000C6203F /* Back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Back.swift; sourceTree = "<group>"; };
 		DA3E746C237AD14F00566D3A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -710,6 +712,7 @@
 				DAF09638235B03F400BCC800 /* Card.swift */,
 				DAEFAF12238FD1A500CBD450 /* Cart.swift */,
 				DAEFAF0C238FCD9700CBD450 /* Chart.swift */,
+				DA351C88239413FA00978966 /* Circle.swift */,
 				DAF0963A235B041900BCC800 /* Column.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
 				DA230A31238D38C20008834D /* Delete.swift */,
@@ -1223,6 +1226,7 @@
 				DAEFAF0D238FCD9700CBD450 /* Chart.swift in Sources */,
 				DA1FD278235F38B4003718A5 /* Shop.swift in Sources */,
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
+				DA351C89239413FA00978966 /* Circle.swift in Sources */,
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
 				DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */,
 				DA8081AF23913CA800C3709F /* Gradient.swift in Sources */,

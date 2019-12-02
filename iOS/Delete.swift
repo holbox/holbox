@@ -24,6 +24,31 @@ class Delete: UIViewController {
         }
     }
     
+    final class Card: Delete {
+        private let index: Int
+        private let list: Int
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int, list: Int) {
+            self.index = index
+            self.list = list
+            super.init()
+            let name = Label(app.session.content(app.project, list: list, card: index), 18, .regular, UIColor(named: "haze")!)
+            name.numberOfLines = 3
+            view.addSubview(name)
+            
+            name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
+            name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
+            name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
+        }
+        
+        override func confirm() {
+            app.alert(.key("Delete.done"), message: app.session.content(app.project, list: list, card: index))
+            app.session.delete(app.project, list: list, card: index)
+            super.confirm()
+        }
+    }
+    
     private weak var base: UIView!
     
     required init?(coder: NSCoder) { nil }
@@ -42,6 +67,9 @@ class Delete: UIViewController {
         view.addSubview(base)
         self.base = base
         
+        let gradient = Gradient()
+        base.addSubview(gradient)
+        
         let icon = Image("trash")
         view.addSubview(icon)
         
@@ -53,6 +81,11 @@ class Delete: UIViewController {
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), UIColor(named: "haze")!, .black)
         view.addSubview(_confirm)
+        
+        gradient.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
+        gradient.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        gradient.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
+        gradient.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
         
         icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
