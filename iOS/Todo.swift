@@ -1,23 +1,23 @@
 import UIKit
 
 final class Todo: View {
-    private final class Detail: Edit {
-        private weak var todo: Todo?
-        
-        required init?(coder: NSCoder) { nil }
-        init(_ todo: Todo) {
-            super.init()
-            self.todo = todo
-        }
-        
-        override func textViewDidEndEditing(_: UITextView) {
-            if !text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-//                app.session.add(app.project, list: 0, content: text.text)
-//                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text.text)
-                todo?.refresh()
-            }
-        }
-    }
+//    private final class Detail: Edit {
+//        private weak var todo: Todo?
+//
+//        required init?(coder: NSCoder) { nil }
+//        init(_ todo: Todo) {
+//            super.init()
+//            self.todo = todo
+//        }
+//
+//        override func textViewDidEndEditing(_: UITextView) {
+//            if !text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+////                app.session.add(app.project, list: 0, content: text.text)
+////                app.alert(.key("Add.card.\(app.mode.rawValue)"), message: text.text)
+//                todo?.refresh()
+//            }
+//        }
+//    }
     
     private weak var deleting: Task?
     private weak var empty: Label?
@@ -125,7 +125,7 @@ final class Todo: View {
     }
     
     @objc private func add() {
-        app.present(Detail(self), animated: true)
+//        app.present(Detail(self), animated: true)
     }
     
     @objc private func panning(_ gesture: UIPanGestureRecognizer) {

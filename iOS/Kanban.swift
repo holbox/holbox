@@ -59,7 +59,7 @@ final class Kanban: View {
                     if list == 0 {
                         card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10)
                     } else {
-                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
+                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
                     }
                 } else {
                     card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 10)
@@ -123,7 +123,7 @@ final class Kanban: View {
     func center(_ frame: CGRect) {
         var frame = frame
         frame.origin.x -= (bounds.width - frame.size.width) / 2
-        frame.origin.y -= (bounds.height - frame.size.height) / 2
+        frame.origin.y -= ((bounds.height - frame.size.height) / 2) - 45
         frame.size.width = bounds.width
         frame.size.height = bounds.height
         UIView.animate(withDuration: 0.3) { [weak self] in

@@ -13,7 +13,7 @@ final class Card: Text, UITextViewDelegate {
     weak var left: NSLayoutConstraint! {
         didSet {
             oldValue?.isActive = false
-            left.constant = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 10 : 0
+            left.constant = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 15 : 0
             left.isActive = true
         }
     }
@@ -35,8 +35,9 @@ final class Card: Text, UITextViewDelegate {
         self.kanban = kanban
         super.init()
         isScrollEnabled = false
-        textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         isEditable = false
+        isSelectable = false
         accessibilityLabel = .key("Card")
         font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
         (textStorage as! Storage).fonts = [
@@ -87,16 +88,19 @@ final class Card: Text, UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-//        isEditable = false
-//        if text != app.session.content(app.project!, list: column, card: index) {
-//            app.session.content(app.project!, list: column, card: index, content: text)
-//            app.alert(.key("Card"), message: text)
-//        }
-//        update()
+        guard let column = column?.index else { return }
+        isEditable = false
+        isSelectable = false
+        if text != app.session.content(app.project, list: column, card: index) {
+            app.session.content(app.project, list: column, card: index, content: text)
+            app.alert(.key("Card"), message: text)
+        }
+        update()
     }
     
     func edit() {
         isEditable = true
+        isSelectable = true
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.layer.borderWidth = 2
             self?.backgroundColor = .clear
@@ -105,7 +109,7 @@ final class Card: Text, UITextViewDelegate {
         }
     }
     
-    private func update() {
+    func update() {
         guard let column = self.column else { return }
         let color: UIColor
         text = app.session.content(app.project, list: column.index, card: index)
@@ -113,7 +117,7 @@ final class Card: Text, UITextViewDelegate {
             width.constant = 60
             height.constant = 40
             color = UIColor(named: "background")!
-            left?.constant = 10
+            left?.constant = 15
         } else {
             resize()
             color = .clear
@@ -130,8 +134,8 @@ final class Card: Text, UITextViewDelegate {
         textContainer.size.width = 200
         textContainer.size.height = 10_000
         layoutManager.ensureLayout(for: textContainer)
-        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 40) + 20
-        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 20) + 20
+        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 40) + 30
+        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 20) + 30
     }
     
     private func move(_ destination: Int, position: Int) {

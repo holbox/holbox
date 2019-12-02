@@ -158,7 +158,6 @@
 		DAD8F1A4234E3F1B00835E3E /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A3234E3F1B00835E3E /* Control.swift */; };
 		DAD8F1A6234E415D00835E3E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8F1A5234E415D00835E3E /* Image.swift */; };
 		DAE0C7AD235EE8AD00402E4B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AC235EE8AD00402E4B /* Settings.swift */; };
-		DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE0C7AE235EE92B00402E4B /* Edit.swift */; };
 		DAEA6A592382CC6B008EF8B4 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA6A582382CC6B008EF8B4 /* Notes.swift */; };
 		DAEAE3D423717066001F24BE /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D323717066001F24BE /* Todo.swift */; };
 		DAEAE3D823717755001F24BE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEAE3D723717755001F24BE /* Task.swift */; };
@@ -415,7 +414,6 @@
 		DAD8F1A3234E3F1B00835E3E /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		DAD8F1A5234E415D00835E3E /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		DAE0C7AC235EE8AD00402E4B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		DAE0C7AE235EE92B00402E4B /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DAEA6A582382CC6B008EF8B4 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		DAEAE3D323717066001F24BE /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		DAEAE3D723717755001F24BE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -717,7 +715,6 @@
 				DAB979552359D63C00631280 /* Control.swift */,
 				DA230A31238D38C20008834D /* Delete.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
-				DAE0C7AE235EE92B00402E4B /* Edit.swift */,
 				DAF267C9236B2BBF0099E40E /* Extensions.swift */,
 				DA8BCEDC238C05990099F775 /* Find.swift */,
 				DA8081AE23913CA800C3709F /* Gradient.swift */,
@@ -1265,7 +1262,6 @@
 				DAEAE3D423717066001F24BE /* Todo.swift in Sources */,
 				DABAD0FC235F060D00BD3179 /* Privacy.swift in Sources */,
 				DAF68E98234765820060895A /* App.swift in Sources */,
-				DAE0C7AF235EE92B00402E4B /* Edit.swift in Sources */,
 				DA896A2F23857DCA00A26B8D /* Layout.swift in Sources */,
 				DAEAE3D823717755001F24BE /* Task.swift in Sources */,
 				DAD8ECBA236ACCF800245778 /* Storage.swift in Sources */,

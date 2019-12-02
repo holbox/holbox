@@ -40,7 +40,7 @@ final class Move: UIViewController {
         _delete.accessibilityLabel = .key("Move.delete")
         view.addSubview(_delete)
         
-        let _edit = Circle(image: "write", self, #selector(close), UIColor(named: "haze")!, .black)
+        let _edit = Circle(image: "write", self, #selector(edit), UIColor(named: "haze")!, .black)
         _edit.accessibilityLabel = .key("Move.edit")
         view.addSubview(_edit)
         
@@ -105,8 +105,8 @@ final class Move: UIViewController {
         _left.1.constant = -40
         _right.1.constant = 40
         _done.constant = 200
+        card?.update()
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.card.backgroundColor = .clear
             self?.view.layoutIfNeeded()
         }
     }
@@ -204,6 +204,12 @@ final class Move: UIViewController {
         presentingViewController!.dismiss(animated: true) { [weak self] in
             guard let card = self?.card else { return }
             app.present(Delete.Card(card.index, list: card.column.index), animated: true)
+        }
+    }
+    
+    @objc private func edit() {
+        presentingViewController!.dismiss(animated: true) { [weak self] in
+            self?.card?.edit()
         }
     }
 }

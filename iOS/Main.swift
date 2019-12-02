@@ -41,6 +41,7 @@ final class Main: UIView {
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         bottom = base.bottomAnchor.constraint(equalTo: bottomAnchor)
+        bottom!.priority = .defaultLow
         bottom!.isActive = true
         
         layoutIfNeeded()

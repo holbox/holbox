@@ -46,6 +46,7 @@ Shop.descr.mac.hundred="The total amount of projects you can have will be increa
 Error="Error";
 Error.email="Email not configured.";
 Logo="Loading";
+Done="Done";
 Card="Card";
 Card.done="Done";
 Card.move="Move";
