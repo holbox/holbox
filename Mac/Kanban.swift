@@ -155,17 +155,8 @@ final class Kanban: View {
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         let text = scroll.views.compactMap { $0 as? Card }.first { $0.column == list && $0.index == card }!
-        var frame = scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text)
-        frame.origin.x -= (bounds.width - frame.size.width) / 2
-        frame.origin.y -= (bounds.height / 2) - frame.size.height
-        frame.size.width = bounds.width
-        frame.size.height = bounds.height
         text.showFindIndicator(for: range)
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
-            $0.allowsImplicitAnimation = true
-            scroll.contentView.scrollToVisible(frame)
-        }
+        scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
     }
     
     private func end(_ event: NSEvent) {

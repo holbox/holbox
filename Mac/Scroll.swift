@@ -26,6 +26,19 @@ final class Scroll: NSScrollView {
     }
     
     func add(_ view: NSView) { documentView!.addSubview(view) }
+    
+    func center(_ frame: CGRect) {
+        var frame = frame
+        frame.origin.x -= (bounds.width - frame.size.width) / 2
+        frame.origin.y -= (bounds.height / 2) - frame.size.height
+        frame.size.width = bounds.width
+        frame.size.height = bounds.height
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            contentView.scrollToVisible(frame)
+        }
+    }
 }
 
 private final class Flipped: NSView { override var isFlipped: Bool { true } }
