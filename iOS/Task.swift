@@ -71,7 +71,7 @@ final class Task: UIView, UITextViewDelegate {
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 10, left: 15, bottom: 10, right: 15)
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular)
         if list == 0 {
             (text.textStorage as! Storage).fonts = [
                 .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),

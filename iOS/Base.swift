@@ -24,7 +24,7 @@ final class Base: UIView {
             case .kanban: validate(Kanban.self)
             case .todo: validate(Todo.self)
             case .shopping: validate(Shopping.self)
-//            case .notes: validate(Notes.self)
+            case .notes: validate(Notes.self)
             default: app.project = nil
             }
         }

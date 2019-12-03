@@ -3,8 +3,8 @@ import UIKit
 final class Main: UIView {
     private(set) weak var bar: Bar!
     private weak var base: Base!
-    private weak var logo: Logo?
-    private weak var bottom: NSLayoutConstraint?
+    private weak var logo: Logo!
+    private weak var bottom: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -22,8 +22,8 @@ final class Main: UIView {
     }
     
     func loaded() {
-        logo!.stop()
-        logo!.removeFromSuperview()
+        logo.stop()
+        logo.removeFromSuperview()
         
         let bar = Bar()
         addSubview(bar)
@@ -41,8 +41,8 @@ final class Main: UIView {
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         bottom = base.bottomAnchor.constraint(equalTo: bottomAnchor)
-        bottom!.priority = .defaultLow
-        bottom!.isActive = true
+        bottom.priority = .defaultLow
+        bottom.isActive = true
         
         layoutIfNeeded()
         refresh()

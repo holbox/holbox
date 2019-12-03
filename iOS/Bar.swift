@@ -191,7 +191,7 @@ final class Bar: UIView, UITextViewDelegate {
         text.isUserInteractionEnabled = false
         text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         text.accessibilityLabel = .key("Project")
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular)
         (text.textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
             .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!),

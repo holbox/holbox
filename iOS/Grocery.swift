@@ -28,7 +28,7 @@ final class Grocery: UIView {
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 15, left: 10, bottom: 15, right: 20)
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .medium)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
         (text.textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), .white),
             .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),

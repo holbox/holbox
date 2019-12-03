@@ -25,7 +25,7 @@ final class Product: UIView {
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .medium)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .regular)
         if active {
             (text.textStorage as! Storage).fonts = [
                 .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), .white),

@@ -117,7 +117,7 @@ class Stock: Modal, UITextViewDelegate {
         
         let label = Text()
         label.accessibilityLabel = .key("Product.description")
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         (label.textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
             .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .regular), .white),
