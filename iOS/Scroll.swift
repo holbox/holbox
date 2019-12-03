@@ -42,4 +42,15 @@ final class Scroll: UIScrollView, UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_: UIScrollView) {
         app.window!.endEditing(true)
     }
+    
+    func center(_ frame: CGRect) {
+        var frame = frame
+        frame.origin.x -= (bounds.width - frame.size.width) / 2
+        frame.origin.y -= ((bounds.height - frame.size.height) / 2) - 45
+        frame.size.width = bounds.width
+        frame.size.height = bounds.height
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.scrollRectToVisible(frame, animated: true)
+        }
+    }
 }

@@ -76,7 +76,7 @@ final class Card: Text, UITextViewDelegate {
             UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
             }
-            kanban.center(frame)
+            kanban.scroll.center(frame)
             app.present(Move(self), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in

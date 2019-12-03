@@ -1,7 +1,7 @@
 import UIKit
 
 final class Kanban: View {
-    private weak var scroll: Scroll!
+    private(set) weak var scroll: Scroll!
     private(set) weak var _add: Button!
     private(set) weak var tags: Tags!
     
@@ -112,21 +112,10 @@ final class Kanban: View {
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         scroll.views.compactMap { $0 as? Card }.forEach {
             $0.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.utf16.count))
-            if $0.column?.index == list && $0.index == card {
+            if $0.column.index == list && $0.index == card {
                 $0.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
-                center(scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0))
+                scroll.center(scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0))
             }
-        }
-    }
-    
-    func center(_ frame: CGRect) {
-        var frame = frame
-        frame.origin.x -= (bounds.width - frame.size.width) / 2
-        frame.origin.y -= ((bounds.height - frame.size.height) / 2) - 45
-        frame.size.width = bounds.width
-        frame.size.height = bounds.height
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.scroll.scrollRectToVisible(frame, animated: true)
         }
     }
     

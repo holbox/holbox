@@ -15,7 +15,7 @@ final class Todo: View, UITextViewDelegate {
         
         let new = Text()
         new.isScrollEnabled = false
-        new.textContainerInset = .init(top: 20, left: 20, bottom: 20, right: 20)
+        new.textContainerInset = .init(top: 20, left: 30, bottom: 20, right: 30)
         new.accessibilityLabel = .key("Project")
         new.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
         (new.textStorage as! Storage).fonts = [
@@ -39,7 +39,6 @@ final class Todo: View, UITextViewDelegate {
         scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
-        new.topAnchor.constraint(equalTo: scroll.top).isActive = true
         new.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         new.rightAnchor.constraint(equalTo: scroll.right).isActive = true
         
@@ -56,6 +55,11 @@ final class Todo: View, UITextViewDelegate {
     override func refresh() {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        
+        let ring = Ring(app.session.cards(app.project, list: 1),
+                        total: app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
+        scroll.add(ring)
+        
         var top: NSLayoutYAxisAnchor?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project, list: list)).forEach {
@@ -75,8 +79,30 @@ final class Todo: View, UITextViewDelegate {
         if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
+        
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        
+        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: -20).isActive = true
+        
         scroll.content.layoutIfNeeded()
         isUserInteractionEnabled = true
+    }
+    
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        scroll.views.compactMap { $0 as? Task }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.count))
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        scroll.views.compactMap { $0 as? Task }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.utf16.count))
+            if $0.list == list && $0.index == card {
+                $0.text.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                scroll.center(scroll.content.convert($0.text.layoutManager.boundingRect(forGlyphRange: range, in: $0.text.textContainer), from: $0))
+            }
+        }
     }
     
     @objc private func add() {

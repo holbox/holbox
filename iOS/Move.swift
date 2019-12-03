@@ -114,7 +114,7 @@ final class Move: UIViewController {
             self?.card.superview!.layoutIfNeeded()
         }) { [weak self] _ in
             guard let self = self else { return }
-            self.card.kanban?.center(self.card.frame)
+            self.card.kanban?.scroll.center(self.card.frame)
         }
     }
     

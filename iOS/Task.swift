@@ -2,8 +2,10 @@ import UIKit
 
 final class Task: UIView, UITextViewDelegate {
     var delta = CGFloat()
+    let index: Int
+    let list: Int
+    private(set) weak var text: Text!
     private weak var todo: Todo!
-    private weak var text: Text!
     private weak var icon: Image!
     private weak var circle: UIView!
     private weak var base: UIView!
@@ -13,8 +15,6 @@ final class Task: UIView, UITextViewDelegate {
     private weak var _deleteLeft: NSLayoutConstraint!
     private var highlighted = false { didSet { update() } }
     private var active: Bool { (list == 1 && !highlighted) || (list == 0 && highlighted) }
-    private let index: Int
-    private let list: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, list: Int, _ todo: Todo) {
@@ -133,6 +133,8 @@ final class Task: UIView, UITextViewDelegate {
         text.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
 
         update()
+        
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(gesture(_:))))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
@@ -162,9 +164,17 @@ final class Task: UIView, UITextViewDelegate {
         super.touchesEnded(touches, with: with)
     }
     
+    func textViewDidEndEditing(_: UITextView) {
+        text.isUserInteractionEnabled = false
+        if text.text != app.session.content(app.project, list: list, card: index) {
+            app.session.content(app.project, list: list, card: index, content: text.text)
+            app.alert(.key("Task"), message: text.text)
+        }
+    }
+    
     func delete(_ delta: CGFloat) {
         _deleteLeft.constant = min(0, delta - self.delta)
-        if _deleteLeft.constant < -160 {
+        if _deleteLeft.constant < -120 {
             app.present(Delete.Card(index, list: list), animated: true) { [weak self] in
                 self?.undelete()
             }
@@ -189,5 +199,13 @@ final class Task: UIView, UITextViewDelegate {
         icon.isHidden = !active
         circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.1)
         base.backgroundColor = highlighted ? UIColor(named: "background") : .clear
+    }
+    
+    @objc private func gesture(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            text.isUserInteractionEnabled = true
+            text.becomeFirstResponder()
+            text.selectedRange = .init(location: 0, length: text.text.utf16.count)
+        }
     }
 }
