@@ -53,17 +53,14 @@ class Delete: Modal {
         init(_ index: Int) {
             self.index = index
             super.init()
-            
             let product = app.session.product(app.project, index: index)
-            let title = Label([(.key("Delete.title") + "\n\n", 18, .bold, NSColor(named: "haze")!),
-                               (product.0 + " " + product.1, 16, .regular, NSColor(named: "haze")!)])
-            title.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-            contentView!.addSubview(title)
+            let name = Label(product.0 + " " + product.1, 18, .regular, NSColor(named: "haze")!)
+            name.maximumNumberOfLines = 3
+            contentView!.addSubview(name)
             
-            title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 40).isActive = true
-            title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 70).isActive = true
-            title.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -70).isActive = true
-            title.bottomAnchor.constraint(lessThanOrEqualTo: contentView!.bottomAnchor, constant: -120).isActive = true
+            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
         }
         
         override func confirm() {

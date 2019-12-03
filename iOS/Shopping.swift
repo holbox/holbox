@@ -1,149 +1,136 @@
 import UIKit
 
 final class Shopping: View {
-    private weak var name: Label?
-    private weak var emptyGrocery: Label?
-    private weak var emptyProducts: Label?
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
-    private weak var _more: Button!
     
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()
-//        let scroll = Scroll()
-//        addSubview(scroll)
-//        self.scroll = scroll
-//        
-//        let stock = Scroll()
-//        stock.alwaysBounceVertical = false
-//        addSubview(stock)
-//        self.stock = stock
-//        
-//        let border = Border()
-//        addSubview(border)
-//        
-//        let _more = Button("more", target: self, action: #selector(more))
-//        scroll.add(_more)
-//        self._more = _more
-//        
-//        let _add = Button("plusbig", target: self, action: #selector(add))
-//        addSubview(_add)
-//        
-//        scroll.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-//        scroll.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
-//        scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
-//        scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-//        scroll.right.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-//        scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
-//        scroll.height.constraint(greaterThanOrEqualTo: scroll.heightAnchor).isActive = true
-//        
-//        stock.heightAnchor.constraint(equalToConstant: 100).isActive = true
-//        stock.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
-//        stock.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
-//        stock.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-//        stock.width.constraint(greaterThanOrEqualTo: stock.widthAnchor).isActive = true
-//        stock.height.constraint(equalToConstant: 100).isActive = true
-//        
-//        _more.widthAnchor.constraint(equalToConstant: 60).isActive = true
-//        _more.heightAnchor.constraint(equalToConstant: 60).isActive = true
-//        _more.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-//        
-//        _add.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
-//        _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
-//        _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
-//        _add.centerYAnchor.constraint(equalTo: border.centerYAnchor).isActive = true
-//        
-//        border.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
-//        border.rightAnchor.constraint(equalTo: _add.leftAnchor, constant: 15).isActive = true
-//        border.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
-//        
-//        stock.content.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(edit(_:))))
-//        
-//        refresh()
+        let scroll = Scroll()
+        addSubview(scroll)
+        self.scroll = scroll
+        
+        let stock = Scroll()
+        stock.alwaysBounceVertical = false
+        addSubview(stock)
+        self.stock = stock
+        
+        let left = Border()
+        addSubview(left)
+        
+        let right = Border()
+        addSubview(right)
+        
+        let _add = Button("plus", target: self, action: #selector(add))
+        addSubview(_add)
+        
+        scroll.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: left.topAnchor).isActive = true
+        scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
+        scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
+        scroll.height.constraint(greaterThanOrEqualTo: scroll.heightAnchor).isActive = true
+        
+        stock.heightAnchor.constraint(equalToConstant: 115).isActive = true
+        stock.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+        stock.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
+        stock.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
+        stock.width.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.widthAnchor).isActive = true
+        stock.height.constraint(equalToConstant: 115).isActive = true
+        
+        left.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 1).isActive = true
+        left.rightAnchor.constraint(equalTo: centerXAnchor, constant: -13).isActive = true
+        left.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
+        
+        right.leftAnchor.constraint(equalTo: centerXAnchor, constant: 13).isActive = true
+        right.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -1).isActive = true
+        right.bottomAnchor.constraint(equalTo: stock.topAnchor).isActive = true
+        
+        _add.centerYAnchor.constraint(equalTo: left.centerYAnchor).isActive = true
+        _add.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        refresh()
     }
     
     override func refresh() {
-        super.refresh()
-//        scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
-//        stock.views.forEach { $0.removeFromSuperview() }
-//        rename()
-//        emptyGrocery?.removeFromSuperview()
-//        emptyProducts?.removeFromSuperview()
-//        if app.session.cards(app.project, list: 1) == 0 {
-//            let emptyGrocery = Label(.key("Shopping.empty.grocery"), 15, .medium, UIColor(named: "haze")!)
-//            scroll.add(emptyGrocery)
-//            self.emptyGrocery = emptyGrocery
-//
-//            emptyGrocery.topAnchor.constraint(equalTo: name!.bottomAnchor, constant: 50).isActive = true
-//            emptyGrocery.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-//            scroll.bottom.constraint(greaterThanOrEqualTo: emptyGrocery.bottomAnchor, constant: 40).isActive = true
-//        } else {
-//            var top: NSLayoutYAxisAnchor?
-//            (0 ..< app.session.cards(app.project, list: 1)).forEach {
-//                let grocery = Grocery($0, self)
-//                scroll.add(grocery)
-//
-//                if top == nil {
-//                    grocery.topAnchor.constraint(equalTo: name!.bottomAnchor, constant: 20).isActive = true
-//                } else {
-//                    grocery.topAnchor.constraint(equalTo: top!).isActive = true
-//                }
-//                grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-//                grocery.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-//                top = grocery.bottomAnchor
-//            }
-//            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
-//        }
-//        if app.session.cards(app.project, list: 0) == 0 {
-//            let emptyProducts = Label(.key("Shopping.empty.products"), 15, .medium, UIColor(named: "haze")!)
-//            stock.add(emptyProducts)
-//            self.emptyProducts = emptyProducts
-//
-//            emptyProducts.leftAnchor.constraint(equalTo: stock.left, constant: 20).isActive = true
-//            emptyProducts.centerYAnchor.constraint(equalTo: stock.centerY).isActive = true
-//            stock.right.constraint(greaterThanOrEqualTo: emptyProducts.rightAnchor, constant: 40).isActive = true
-//        } else {
-//            var left: NSLayoutXAxisAnchor?
-//            (0 ..< app.session.cards(app.project, list: 0)).forEach {
-//                let product = Product($0, self)
-//                stock.add(product)
-//
-//                if left == nil {
-//                    product.leftAnchor.constraint(equalTo: stock.left, constant: 10).isActive = true
-//                } else {
-//                    product.leftAnchor.constraint(equalTo: left!, constant: 5).isActive = true
-//                }
-//                product.topAnchor.constraint(equalTo: stock.top, constant: 10).isActive = true
-//                left = product.rightAnchor
-//            }
-//            stock.right.constraint(greaterThanOrEqualTo: left!, constant: 10).isActive = true
-//        }
-//        isUserInteractionEnabled = true
+        isUserInteractionEnabled = false
+        scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        stock.views.forEach { $0.removeFromSuperview() }
+        
+        let ring = Ring(app.session.cards(app.project, list: 1),
+                        total: app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
+        scroll.add(ring)
+        
+        var top: NSLayoutYAxisAnchor?
+        (0 ..< app.session.cards(app.project, list: 1)).forEach {
+            let grocery = Grocery($0, self)
+            scroll.add(grocery)
+
+            if top == nil {
+                grocery.topAnchor.constraint(equalTo: ring.bottomAnchor).isActive = true
+            } else {
+                grocery.topAnchor.constraint(equalTo: top!).isActive = true
+            }
+            grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+            grocery.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+            top = grocery.bottomAnchor
+        }
+        
+        if top != nil {
+            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
+        }
+        
+        var left: NSLayoutXAxisAnchor?
+        (0 ..< app.session.cards(app.project, list: 0)).forEach {
+            let product = Product($0, self)
+            stock.add(product)
+
+            if left == nil {
+                product.leftAnchor.constraint(equalTo: stock.left, constant: 5).isActive = true
+            } else {
+                product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
+            }
+            product.topAnchor.constraint(equalTo: stock.top, constant: 10).isActive = true
+            left = product.rightAnchor
+        }
+        
+        if left != nil {
+            stock.right.constraint(greaterThanOrEqualTo: left!, constant: 10).isActive = true
+        }
+        
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        
+        isUserInteractionEnabled = true
     }
     
-    private func rename() {
-//        self.name?.removeFromSuperview()
-//        let string = app.session.name(app.project)
-//        let name = Label(string.mark {
-//            switch $0 {
-//            case .plain: return (.init(string[$1]), 26, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
-//            case .emoji: return (.init(string[$1]), 40, .regular, UIColor(named: "haze")!.withAlphaComponent(0.7))
-//            case .bold: return (.init(string[$1]), 30, .heavy, UIColor(named: "haze")!.withAlphaComponent(0.7))
-//                case .tag: fatalError()
-//            }
-//        })
-//        name.accessibilityLabel = .key("Project")
-//        name.accessibilityValue = string
-//        addSubview(name)
-//        self.name = name
-//        
-//        name.topAnchor.constraint(equalTo: scroll.top, constant: 25).isActive = true
-//        name.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
-//        name.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
-//        
-//        _more.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 20).isActive = true
-//        _more.centerYAnchor.constraint(equalTo: name.centerYAnchor).isActive = true
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        scroll.views.compactMap { $0 as? Grocery }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.count))
+        }
+        stock.views.compactMap { $0 as? Product }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.count))
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        stock.views.compactMap { $0 as? Product }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.utf16.count))
+            if list == 0 && $0.index == card {
+                $0.text.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                stock.center(stock.content.convert($0.text.layoutManager.boundingRect(forGlyphRange: range, in: $0.text.textContainer), from: $0))
+            }
+        }
+        scroll.views.compactMap { $0 as? Grocery }.forEach {
+            $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.utf16.count))
+            if list == 1 && $0.index == card {
+                $0.text.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                scroll.center(scroll.content.convert($0.text.layoutManager.boundingRect(forGlyphRange: range, in: $0.text.textContainer), from: $0))
+            }
+        }
     }
     
     func stockLast() {
@@ -167,13 +154,6 @@ final class Shopping: View {
     }
     
     @objc private func add() {
-//        app.present(Stock.New(self), animated: true)
-    }
-    
-    @objc private func edit(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state == .began {
-            guard let product = stock.content.hitTest(gesture.location(in: stock.content), with: nil) as? Product else { return }
-            app.present(Stock.Edit(self, index: product.index), animated: true)
-        }
+        app.present(Stock.New(self), animated: true)
     }
 }

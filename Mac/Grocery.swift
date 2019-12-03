@@ -88,6 +88,13 @@ final class Grocery: NSView {
         }
     }
     
+    override func rightMouseUp(with: NSEvent) {
+        if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            app.runModal(for: Stock.Edit(Int(app.session.content(app.project, list: 1, card: index))!))
+        }
+        super.rightMouseUp(with: with)
+    }
+    
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             let product = app.session.reference(app.project, index: index)

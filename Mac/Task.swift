@@ -58,10 +58,10 @@ final class Task: NSView, NSTextViewDelegate {
         text.setAccessibilityElement(false)
         if list == 1 {
             (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.8)),
+                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.7)),
                 .emoji: (NSFont(name: "Times New Roman", size: 16)!, .white),
-                .bold: (.systemFont(ofSize: 14 , weight: .bold), NSColor(named: "haze")!.withAlphaComponent(0.8)),
-                .tag: (.systemFont(ofSize: 12, weight: .medium), NSColor(named: "haze")!.withAlphaComponent(0.8))]
+                .bold: (.systemFont(ofSize: 14 , weight: .bold), NSColor(named: "haze")!.withAlphaComponent(0.5)),
+                .tag: (.systemFont(ofSize: 12, weight: .medium), NSColor(named: "haze")!.withAlphaComponent(0.5))]
             text.alphaValue = 0.7
         } else {
             (text.textStorage as! Storage).fonts = [

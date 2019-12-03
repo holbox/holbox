@@ -49,6 +49,31 @@ class Delete: UIViewController {
         }
     }
     
+    final class Product: Delete {
+        private let index: Int
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+            let product = app.session.product(app.project, index: index)
+            let name = Label(product.0 + " " + product.1, 18, .regular, UIColor(named: "haze")!)
+            name.numberOfLines = 3
+            view.addSubview(name)
+            
+            name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
+            name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
+            name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
+        }
+        
+        override func confirm() {
+            let product = app.session.product(app.project, index: index)
+            app.alert(.key("Delete.done"), message: product.0 + " " + product.1)
+            app.session.delete(app.project, product: index)
+            super.confirm()
+        }
+    }
+    
     private weak var base: UIView!
     
     required init?(coder: NSCoder) { nil }

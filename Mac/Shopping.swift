@@ -96,7 +96,7 @@ final class Shopping: View {
             } else {
                 product.leftAnchor.constraint(equalTo: left!, constant: 10).isActive = true
             }
-            product.topAnchor.constraint(equalTo: stock.top, constant: 25).isActive = true
+            product.topAnchor.constraint(equalTo: stock.top, constant: 10).isActive = true
             left = product.rightAnchor
         }
         if left != nil {

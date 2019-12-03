@@ -3,7 +3,7 @@ import AppKit
 final class Product: NSView {
     let index: Int
     private(set) weak var text: Text!
-    private weak var shopping: Shopping?
+    private weak var shopping: Shopping!
     private let active: Bool
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -18,15 +18,13 @@ final class Product: NSView {
         setAccessibilityRole(.button)
         wantsLayer = true
         layer!.cornerRadius = 10
-        layer!.borderColor = NSColor(named: "haze")!.cgColor
-        layer!.borderWidth = 0
         
         let product = app.session.product(app.project, index: index)
         setAccessibilityLabel(product.1)
         
         let text = Text(.Fix(), Off())
-        text.textContainerInset.width = 10
-        text.textContainerInset.height = 10
+        text.textContainerInset.width = 20
+        text.textContainerInset.height = 20
         text.setAccessibilityElement(false)
         if active {
             (text.textStorage as! Storage).fonts = [
@@ -36,10 +34,10 @@ final class Product: NSView {
                 .tag: (.systemFont(ofSize: 12, weight: .bold), NSColor(named: "haze")!)]
         } else {
             (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.6)),
+                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.7)),
                 .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
-                .bold: (.systemFont(ofSize: 14, weight: .bold), .init(white: 1, alpha: 0.6)),
-                .tag: (.systemFont(ofSize: 12, weight: .bold), .init(white: 1, alpha: 0.6))]
+                .bold: (.systemFont(ofSize: 14, weight: .bold), .init(white: 1, alpha: 0.5)),
+                .tag: (.systemFont(ofSize: 12, weight: .bold), .init(white: 1, alpha: 0.5))]
         }
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 0
@@ -48,15 +46,34 @@ final class Product: NSView {
         addSubview(text)
         self.text = text
         
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
-        widthAnchor.constraint(equalToConstant: 110).isActive = true
+        heightAnchor.constraint(equalToConstant: 120).isActive = true
+        widthAnchor.constraint(equalToConstant: 130).isActive = true
         
-        text.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        text.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        text.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
         if active {
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            let circle = NSView()
+            circle.translatesAutoresizingMaskIntoConstraints = false
+            circle.wantsLayer = true
+            circle.layer!.cornerRadius = 11
+            circle.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+            addSubview(circle)
+            
+            let icon = Image("check")
+            addSubview(icon)
+            
+            circle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
+            circle.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            circle.widthAnchor.constraint(equalToConstant: 22).isActive = true
+            circle.heightAnchor.constraint(equalToConstant: 22).isActive = true
+            
+            icon.widthAnchor.constraint(equalToConstant: 14).isActive = true
+            icon.heightAnchor.constraint(equalToConstant: 14).isActive = true
+            icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
+            icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
+            
             addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         } else {
             alphaValue = 0.6
@@ -64,17 +81,19 @@ final class Product: NSView {
     }
     
     override func resetCursorRects() {
-        addCursorRect(bounds, cursor: .pointingHand)
+        if active {
+            addCursorRect(bounds, cursor: .pointingHand)
+        }
     }
     
     override func mouseEntered(with: NSEvent) {
         super.mouseEntered(with: with)
-        layer!.borderWidth = 2
+        layer!.backgroundColor = NSColor(named: "background")!.cgColor
     }
     
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
-        layer!.borderWidth = 0
+        layer!.backgroundColor = .clear
     }
     
     override func mouseDown(with: NSEvent) {
@@ -97,8 +116,8 @@ final class Product: NSView {
                 let product = app.session.product(app.project, index: index)
                 app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
                 app.session.add(app.project, reference: index)
-                shopping?.refresh()
-                shopping?.groceryLast()
+                shopping.refresh()
+                shopping.groceryLast()
             }
             alphaValue = 1
         }

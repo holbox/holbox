@@ -1,10 +1,10 @@
 import UIKit
 
 final class Grocery: UIView {
-    private weak var shopping: Shopping?
+    let index: Int
+    private(set) weak var text: Text!
+    private weak var shopping: Shopping!
     private weak var emoji: Label!
-    private weak var label: Label!
-    private let index: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, _ shopping: Shopping) {
@@ -15,51 +15,80 @@ final class Grocery: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
         
-//        let product = app.session.reference(app.project, index: index)
-//        accessibilityLabel = product.1
-//
-//        let emoji = Label(product.0, 50, .regular, .white)
-//        emoji.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-//        emoji.isAccessibilityElement = false
-//        addSubview(emoji)
-//        self.emoji = emoji
-//
-//        let label = Label(product.1, 16, .semibold, UIColor(named: "haze")!)
-//        label.isAccessibilityElement = false
-//        label.numberOfLines = 3
-//        addSubview(label)
-//        self.label = label
-//
-//        heightAnchor.constraint(equalToConstant: 80).isActive = true
-//
-//        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 24).isActive = true
-//
-//        label.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 15).isActive = true
-//        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
-//        label.widthAnchor.constraint(lessThanOrEqualToConstant: 350).isActive = true
-//        label.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        let product = app.session.reference(app.project, index: index)
+        accessibilityLabel = product.1
+
+        let emoji = Label(product.0, 35, .regular, .white)
+        emoji.isAccessibilityElement = false
+        addSubview(emoji)
+        self.emoji = emoji
+
+        let text = Text()
+        text.isScrollEnabled = false
+        text.isUserInteractionEnabled = false
+        text.isAccessibilityElement = false
+        text.textContainerInset = .init(top: 15, left: 10, bottom: 15, right: 20)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .medium)
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), .white),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
+            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+        text.text = product.1
+        addSubview(text)
+        self.text = text
+
+        bottomAnchor.constraint(greaterThanOrEqualTo: text.bottomAnchor).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        
+        let height = heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
+
+        emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        emoji.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -15).isActive = true
+        text.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(gesture(_:))))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
-        backgroundColor = UIColor(named: "background")!
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.3)
+        }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
-        backgroundColor = .clear
+        UIView.animate(withDuration: 0.35) { [weak self] in
+            self?.backgroundColor = .clear
+        }
         super.touchesCancelled(touches, with: with)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
-//        backgroundColor = .clear
-//        if bounds.contains(touches.first!.location(in: self)) {
-//            shopping?.isUserInteractionEnabled = false
-//            let product = app.session.reference(app.project, index: index)
-//            app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
-//            app.session.delete(app.project, list: 1, card: index)
-//            shopping?.refresh()
-//        }
-//        super.touchesEnded(touches, with: with)
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+            self?.backgroundColor = .clear
+        }) { [weak self] _ in
+            guard let self = self else { return }
+            if self.bounds.contains(touches.first!.location(in: self)) {
+                self.shopping?.isUserInteractionEnabled = false
+                let product = app.session.reference(app.project, index: self.index)
+                app.alert(.key("Shopping.got"), message: product.0 + " " + product.1)
+                app.session.delete(app.project, list: 1, card: self.index)
+                self.shopping?.refresh()
+            }
+        }
+        super.touchesEnded(touches, with: with)
+    }
+    
+    @objc private func gesture(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            app.present(Stock.Edit(shopping, index: Int(app.session.content(app.project, list: 1, card: index))!), animated: true)
+        }
     }
 }

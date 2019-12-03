@@ -113,10 +113,13 @@ final class Find: UIView, UITextViewDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         let location = touches.first!.location(in: self)
         if bounds.contains(location) {
-            if !text.isFirstResponder {
+            if !text.isUserInteractionEnabled {
                 show()
             }
             if cancel.frame.contains(location) {
+                if !text.isFirstResponder {
+                    text.becomeFirstResponder()
+                }
                 if text.text != "" {
                     text.text = ""
                     update()
@@ -141,7 +144,6 @@ final class Find: UIView, UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-        text.isUserInteractionEnabled = false
         if text.text.isEmpty {
             hide()
         }
@@ -193,8 +195,8 @@ final class Find: UIView, UITextViewDelegate {
     private func show() {
         text.isUserInteractionEnabled = true
         text.selectedRange = .init(location: 0, length: text.text.count)
-        base.layer.borderWidth = 1
         text.becomeFirstResponder()
+        base.layer.borderWidth = 1
         width.constant = app.project == nil ? 170 : min(app.main.bounds.width, app.main.bounds.height) - 70
         text.width.constant = 110
         if text.text.isEmpty {
@@ -210,6 +212,7 @@ final class Find: UIView, UITextViewDelegate {
     }
     
     private func hide() {
+        text.isUserInteractionEnabled = false
         base.layer.borderWidth = 0
         width.constant = 60
         text.width.constant = 0

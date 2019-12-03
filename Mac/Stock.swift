@@ -47,7 +47,7 @@ class Stock: Modal, NSTextViewDelegate {
             emoji.string = content.0
             label.string = content.1
 
-            let _delete = Control(.key("Stock.delete"), self, #selector(delete), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, .init(white: 1, alpha: 0.8))
+            let _delete = Control(.key("Stock.delete"), self, #selector(delete), .clear, .init(white: 1, alpha: 0.7))
             contentView!.addSubview(_delete)
 
             _delete.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true
