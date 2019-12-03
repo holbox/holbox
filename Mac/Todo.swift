@@ -143,20 +143,15 @@ final class Todo: View, NSTextViewDelegate {
     
     override func add() {
         if new.string.isEmpty {
-            if new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                new.string = ""
-                new.needsLayout = true
-            }
             window!.makeFirstResponder(new)
         } else {
-            let string = new.string
-            new.string = ""
-            new.needsLayout = true
-            if !string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project, list: 0, content: string)
-                app.alert(.key("Task"), message: string)
+            if !new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0, content: new.string)
+                app.alert(.key("Task"), message: new.string)
                 refresh()
             }
+            new.string = ""
+            new.needsLayout = true
         }
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4

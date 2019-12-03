@@ -47,15 +47,13 @@ final class Task: UIView, UITextViewDelegate {
         let _swipe = UIView()
         _swipe.isUserInteractionEnabled = false
         _swipe.translatesAutoresizingMaskIntoConstraints = false
-        _swipe.layer.cornerRadius = 8
         _swipe.alpha = 0
-        _swipe.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "background")!
+        _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.4)
         addSubview(_swipe)
         self._swipe = _swipe
         
-        let _deleteTitle = Label(.key("Todo.delete"), 14, .bold, UIColor(named: "haze")!)
-        addSubview(_deleteTitle)
+        let trash = Image("trash")
+        addSubview(trash)
         
         let circle = UIView()
         circle.isUserInteractionEnabled = false
@@ -72,21 +70,20 @@ final class Task: UIView, UITextViewDelegate {
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
-        text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
+        text.textContainerInset = .init(top: 10, left: 15, bottom: 10, right: 15)
+        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
         if list == 0 {
-            text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
             (text.textStorage as! Storage).fonts = [
                 .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
                 .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), .white),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), .white)]
+                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
+                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
         } else {
-            text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .medium)
             (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7))]
+                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
+                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
         }
         text.delegate = self
         (text.layoutManager as! Layout).padding = 2
@@ -118,8 +115,8 @@ final class Task: UIView, UITextViewDelegate {
         _swipeRight = _swipe.rightAnchor.constraint(equalTo: leftAnchor)
         _swipeRight.isActive = true
         
-        _deleteTitle.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
-        _deleteTitle.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
+        trash.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
+        trash.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
         
         circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         circle.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
@@ -157,7 +154,7 @@ final class Task: UIView, UITextViewDelegate {
             _swipeRight.constant = app.main.bounds.width
             UIView.animate(withDuration: 0.35, animations: { [weak self] in
                 self?.layoutIfNeeded()
-                self?._swipe.alpha = 0.9
+                self?._swipe.alpha = 0.7
             }) { [weak self] _ in
                 self?.todo?.refresh()
             }
@@ -167,9 +164,10 @@ final class Task: UIView, UITextViewDelegate {
     
     func delete(_ delta: CGFloat) {
         _deleteLeft.constant = min(0, delta - self.delta)
-        if _deleteLeft.constant < -100 {
-            isUserInteractionEnabled = false
-            app.present(Delete.Card(index, list: list), animated: true)
+        if _deleteLeft.constant < -160 {
+            app.present(Delete.Card(index, list: list), animated: true) { [weak self] in
+                self?.undelete()
+            }
         } else {
             UIView.animate(withDuration: 0.35) { [weak self] in
                 self?.layoutIfNeeded()
@@ -189,7 +187,7 @@ final class Task: UIView, UITextViewDelegate {
     
     private func update() {
         icon.isHidden = !active
-        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.2)
+        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.1)
         base.backgroundColor = highlighted ? UIColor(named: "background") : .clear
     }
 }

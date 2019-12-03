@@ -98,7 +98,6 @@ Product.emoji="Emoji";
 Product.description="Description";
 Todo.restart="Re starting task";
 Todo.completed="Done!";
-Todo.delete="Delete";
 Shopping.add="Added";
 Shopping.got="Got";
 Shopping.products="Products";

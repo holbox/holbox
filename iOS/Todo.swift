@@ -19,8 +19,8 @@ final class Todo: View, UITextViewDelegate {
         new.accessibilityLabel = .key("Project")
         new.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
         (new.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .regular), UIColor(named: "haze")!),
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), .white),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .regular), .white),
             .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .bold), UIColor(named: "haze")!),
             .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
         new.delegate = self
@@ -36,7 +36,6 @@ final class Todo: View, UITextViewDelegate {
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
-        scroll.right.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
@@ -44,7 +43,7 @@ final class Todo: View, UITextViewDelegate {
         new.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         new.rightAnchor.constraint(equalTo: scroll.right).isActive = true
         
-        _add.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
+        _add.topAnchor.constraint(equalTo: new.bottomAnchor, constant: -20).isActive = true
         _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -76,11 +75,25 @@ final class Todo: View, UITextViewDelegate {
         if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
+        scroll.content.layoutIfNeeded()
         isUserInteractionEnabled = true
     }
     
     @objc private func add() {
-//        app.present(Detail(self), animated: true)
+        if new.text.isEmpty {
+            new.becomeFirstResponder()
+        } else {
+            if !new.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0, content: new.text)
+                app.alert(.key("Task"), message: new.text)
+                refresh()
+            }
+            new.text = ""
+            app.window!.endEditing(true)
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.scroll.contentOffset.y = 0
+        }
     }
     
     @objc private func panning(_ gesture: UIPanGestureRecognizer) {
