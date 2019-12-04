@@ -10,7 +10,7 @@ struct Ring: View {
     var body: some View {
         ZStack {
             Path {
-                $0.addArc(center: .init(x: 55, y: 55),
+                $0.addArc(center: .init(x: 50, y: 50),
                     radius: 40,
                     startAngle: .init(degrees: 0),
                     endAngle: .init(degrees: 360),
@@ -18,7 +18,7 @@ struct Ring: View {
             }.stroke(Color("haze"), lineWidth: 4)
                 .opacity(0.2)
             Path {
-                $0.addArc(center: .init(x: 55, y: 55),
+                $0.addArc(center: .init(x: 50, y: 50),
                     radius: 40,
                     startAngle: .init(degrees: -90),
                     endAngle: .init(degrees: (360 * self.amount) - 90),
@@ -27,7 +27,8 @@ struct Ring: View {
             Text(self.formatter.string(from: NSNumber(value: self.amount))!)
                 .foregroundColor(.init("haze"))
                 .bold()
-        }.frame(width: 110, height: 110)
+        }.frame(width: 100, height: 100)
+            .padding(.vertical, 25)
             .onAppear {
             self.formatter.numberStyle = .percent
             self.update()

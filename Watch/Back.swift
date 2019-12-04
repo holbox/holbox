@@ -5,7 +5,7 @@ struct Back: View {
     
     var body: some View {
         ZStack {
-            Text("sdasdasdaasasd asd asd asdas")
+            Text(title)
                 .font(.caption)
                 .foregroundColor(Color("haze"))
                 .padding(.init(top: 0, leading: 40, bottom: 0, trailing: 60))
