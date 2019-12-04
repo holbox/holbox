@@ -53,11 +53,18 @@ private struct Projects: View {
 
     var body: some View {
         ForEach(projects, id: \.self) { project in
-            NavigationLink(destination: Circle()) {
+            NavigationLink(destination: Projects.factory(project)) {
                 Project(project: project)
             }.listRowInsets(.none)
                 .background(Color.clear)
                 .accentColor(.clear)
+        }
+    }
+    
+    private static func factory(_ project: Int) -> AnyView {
+        switch app.session.mode(project) {
+        case .kanban: return .init(Kanban(project: project))
+        default: return .init(Circle())
         }
     }
 }

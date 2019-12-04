@@ -1,6 +1,22 @@
 import SwiftUI
 
 struct Kanban: View {
+    let project: Int
+    
+    var body: some View {
+        ScrollView {
+            Back(title: app.session.name(project))
+            Ring(current: app.session.cards(project, list: app.session.lists(project) - 1),
+                 total: (0 ..< app.session.lists(project)).reduce(into: [Int]()) {
+                    $0.append(app.session.cards(project, list: $1))
+            }.reduce(0, +))
+            Columns()
+        }.edgesIgnoringSafeArea(.all)
+            .navigationBarHidden(true)
+    }
+}
+
+private struct Columns: View {
     var body: some View {
         Circle()
     }

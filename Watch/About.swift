@@ -5,7 +5,7 @@ struct About: View {
         ScrollView {
             VStack {
                 HStack {
-                    Back()
+//                    Back()
                     Spacer()
                 }
                 Title()

@@ -6,7 +6,7 @@ struct Header: View {
     var body: some View {
         VStack {
             HStack {
-                Back()
+//                Back()
                 Spacer()
             }
             Text(name)
