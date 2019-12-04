@@ -27,6 +27,9 @@ private struct Columns: View {
             VStack {
                 Text(app.session.name(self.project, list: list))
                     .bold()
+                    .foregroundColor(Color("haze"))
+                    .padding(.bottom, 10)
+                    .opacity(0.6)
                 Column(project: self.project, list: list)
             }
         }
@@ -44,7 +47,8 @@ private struct Column: View {
                     HStack {
                         Rectangle()
                             .foregroundColor(.init("haze"))
-                            .frame(width: 30, height: 2)
+                            .frame(width: 30, height: 3)
+                            .padding(.vertical, 10)
                         Spacer()
                     }
                 } else {

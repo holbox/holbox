@@ -25,8 +25,8 @@ private struct Marked: View {
     var body: some View {
         Text(mark.0)
             .fixedSize(horizontal: false, vertical: true)
-            .lineLimit(100)
+            .lineLimit(300)
             .font(mark.1 == .emoji ? .title : mark.1 == .bold ? Font.caption.bold() : .caption)
-            .foregroundColor(mark.1 == .plain ? .white : Color("haze"))
+            .foregroundColor(mark.1 == .tag ? Color("haze") : .white)
     }
 }
