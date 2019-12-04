@@ -2,12 +2,11 @@ import SwiftUI
 
 struct Header: View {
     @Binding var name: String
-    let back: () -> Void
     
     var body: some View {
         VStack {
             HStack {
-                Back(action: back)
+                Back()
                 Spacer()
             }
             Text(name)

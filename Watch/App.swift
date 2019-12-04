@@ -1,10 +1,10 @@
+import holbox
 import WatchKit
-import SwiftUI
 
 private(set) weak var app: App!
 final class App: NSObject, WKExtensionDelegate {
     var awoke = false
-    let model = Model()
+    let session = Session()
     
     override init() {
         super.init()
@@ -12,7 +12,6 @@ final class App: NSObject, WKExtensionDelegate {
     }
     
     func applicationDidBecomeActive() {
-        model.load()
         refresh()
     }
     
@@ -23,11 +22,15 @@ final class App: NSObject, WKExtensionDelegate {
     func refresh() {
         if awoke {
             awoke = false
-            model.refresh()
+            if session.refreshable {
+                WKExtension.shared().rootInterfaceController!.dismissTextInputController()
+                session.refresh {
+                    if !$0.isEmpty {
+                        WKExtension.shared().rootInterfaceController!.dismiss()
+                        WKExtension.shared().rootInterfaceController!.popToRootController()
+                    }
+                }
+            }
         }
     }
-}
-
-final class Main: WKHostingController<AnyView> {
-    override var body: AnyView { .init(Content().environmentObject(app.model)) }
 }

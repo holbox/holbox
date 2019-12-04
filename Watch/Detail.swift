@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Detail: View {
     @EnvironmentObject var model: Model
@@ -100,3 +100,4 @@ private struct Project: View {
         }
     }
 }
+*/

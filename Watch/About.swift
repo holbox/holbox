@@ -1,15 +1,11 @@
 import SwiftUI
 
 struct About: View {
-    @Binding var more: Bool
-    
     var body: some View {
         ScrollView {
             VStack {
                 HStack {
-                    Back {
-                        self.more = false
-                    }
+                    Back()
                     Spacer()
                 }
                 Title()

@@ -13,12 +13,12 @@ class Store {
     private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private let coder = Coder()
     
-    func load(_ session: Session, result: @escaping () -> Void) {
+    func load(_ session: Session, completion: @escaping () -> Void) {
         queue.async {
             self.prepare()
             self.load(session: session) {
                 DispatchQueue.main.async {
-                    result()
+                    completion()
                 }
             }
         }

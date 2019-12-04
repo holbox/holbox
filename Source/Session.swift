@@ -45,8 +45,8 @@ public final class Session {
     
     public init() { }
     
-    public func load(result: @escaping () -> Void) {
-        store.load(self, result: result)
+    public func load(completion: @escaping () -> Void) {
+        store.load(self, completion: completion)
     }
     
     public func refresh(done: @escaping ([Int]) -> Void) {

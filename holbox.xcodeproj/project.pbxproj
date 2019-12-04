@@ -45,7 +45,6 @@
 		DA43701D234D2B5300CCB34D /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43701C234D2B5300CCB34D /* Main.swift */; };
 		DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AB0A9237C0667008725EB /* Unmove.swift */; };
 		DA4BC3FA2354780700C023D6 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4BC3F92354780700C023D6 /* Delete.swift */; };
-		DA50B85B23740D5A0042EE72 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA50B85A23740D5A0042EE72 /* Index.swift */; };
 		DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9D2372D33E002B5E51 /* Logo.swift */; };
 		DA561EA023730191002B5E51 /* Kanban.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA561E9F23730191002B5E51 /* Kanban.swift */; };
 		DA5AC042234A0B0C004D0803 /* Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC041234A0B0C004D0803 /* Coder.swift */; };
@@ -79,6 +78,7 @@
 		DA75C7C1234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
+		DA781F1A2397D51B0053374E /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA781F192397D51B0053374E /* Main.swift */; };
 		DA7B857D239246E00089EC81 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7B857C239246E00089EC81 /* Gradient.swift */; };
 		DA7B857F239247980089EC81 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7B857E239247980089EC81 /* Modal.swift */; };
 		DA8081AF23913CA800C3709F /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8081AE23913CA800C3709F /* Gradient.swift */; };
@@ -139,7 +139,6 @@
 		DAD1835A23817A3800199FE7 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD1835923817A3800199FE7 /* Tags.swift */; };
 		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
-		DAD3681723619C8D00643C9C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD3681623619C8D00643C9C /* Model.swift */; };
 		DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5E6ED2364336200EE4AD9 /* Tool.swift */; };
 		DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
 		DAD8ECBA236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
@@ -322,7 +321,6 @@
 		DA43701C234D2B5300CCB34D /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA4AB0A9237C0667008725EB /* Unmove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unmove.swift; sourceTree = "<group>"; };
 		DA4BC3F92354780700C023D6 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
-		DA50B85A23740D5A0042EE72 /* Index.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		DA561E9D2372D33E002B5E51 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA561E9F23730191002B5E51 /* Kanban.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kanban.swift; sourceTree = "<group>"; };
 		DA5AC041234A0B0C004D0803 /* Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coder.swift; sourceTree = "<group>"; };
@@ -350,6 +348,7 @@
 		DA748D792375D35D00CED0E4 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		DA781F192397D51B0053374E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DA7B857C239246E00089EC81 /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		DA7B857E239247980089EC81 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DA8081AE23913CA800C3709F /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -401,7 +400,6 @@
 		DAD1835923817A3800199FE7 /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		DAD3681623619C8D00643C9C /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DAD5E6ED2364336200EE4AD9 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		DAD8ECB8236ACCF800245778 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DAD8ECBB236ACDF400245778 /* TestMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMark.swift; sourceTree = "<group>"; };
@@ -766,11 +764,10 @@
 				DAF716EC2374766900938E20 /* Footer.swift */,
 				DAF716EE2374787400938E20 /* Header.swift */,
 				DA1792AD2379470A00DBA275 /* Icon.swift */,
-				DA50B85A23740D5A0042EE72 /* Index.swift */,
 				DA1DDA342375645B00BAB515 /* Item.swift */,
 				DA561E9F23730191002B5E51 /* Kanban.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
-				DAD3681623619C8D00643C9C /* Model.swift */,
+				DA781F192397D51B0053374E /* Main.swift */,
 				DA1792AB2379386100DBA275 /* Shopping.swift */,
 				DA1792AF23795B7500DBA275 /* Stock.swift */,
 				DA1DDA3223755C3000BAB515 /* Task.swift */,
@@ -1276,13 +1273,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA781F1A2397D51B0053374E /* Main.swift in Sources */,
 				DA38B683236834D000C6203F /* Back.swift in Sources */,
 				DA1DDA352375645B00BAB515 /* Item.swift in Sources */,
 				DA1792B023795B7500DBA275 /* Stock.swift in Sources */,
 				DA1792AC2379386100DBA275 /* Shopping.swift in Sources */,
 				DA21BDEF23608FD7000A46AA /* Detail.swift in Sources */,
 				DA21BDED23607E66000A46AA /* Add.swift in Sources */,
-				DA50B85B23740D5A0042EE72 /* Index.swift in Sources */,
 				DA21BDEB23607B0D000A46AA /* About.swift in Sources */,
 				DA561EA023730191002B5E51 /* Kanban.swift in Sources */,
 				DAF716E923746A8000938E20 /* Todo.swift in Sources */,
@@ -1292,7 +1289,6 @@
 				DA1792AE2379470A00DBA275 /* Icon.swift in Sources */,
 				DAF716EF2374787400938E20 /* Header.swift in Sources */,
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
-				DAD3681723619C8D00643C9C /* Model.swift in Sources */,
 				DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */,
 				DA32A735236769710018D6AE /* Content.swift in Sources */,
 			);
@@ -2144,7 +2140,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -2212,7 +2207,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

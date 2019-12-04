@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Card: View {
     @EnvironmentObject var model: Model
@@ -115,3 +115,4 @@ private struct Stepper: View {
         }
     }
 }
+*/

@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Stock: View {
     @EnvironmentObject var model: Model
@@ -142,3 +142,4 @@ private struct Delete: View {
             .padding(.horizontal, 20)
     }
 }
+*/

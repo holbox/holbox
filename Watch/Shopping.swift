@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Shopping: View {
     @EnvironmentObject var model: Model
@@ -144,3 +144,4 @@ private struct Product: View {
         }.padding(.vertical, 10)
     }
 }
+*/

@@ -1,9 +1,13 @@
 import SwiftUI
 
 struct Kanban: View {
-    @EnvironmentObject var model: Model
-    @State private var name = ""
-    
+    var body: some View {
+        Circle()
+    }
+}
+
+/*
+struct Kanban: View {
     var body: some View {
         ScrollView {
             Header(name: $name) {
@@ -88,3 +92,4 @@ private struct Items: View {
         }
     }
 }
+*/

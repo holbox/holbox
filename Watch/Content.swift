@@ -1,65 +1,79 @@
 import SwiftUI
 
 struct Content: View {
-    @EnvironmentObject var model: Model
+    @State private var projects = [Int]()
+    @State private var first = true
+    @State private var loading = true
     
     var body: some View {
-        GeometryReader {
-            if self.model.loading {
+        Group {
+            if loading {
                 Logo()
-                    .frame(width: $0.size.width, height: $0.size.height)
             } else {
-                Bar(width: $0.size.width, height: $0.size.height)
-                    .frame(width: $0.size.width, height: $0.size.height)
+                ScrollView {
+                    Bar()
+                    Projects(projects: $projects)
+                }
             }
-        }.edgesIgnoringSafeArea(.all)
+        }.edgesIgnoringSafeArea(.horizontal)
             .navigationBarHidden(true)
+            .onAppear {
+                if self.first {
+                    self.first = false
+                    app.session.load {
+                        self.loading = false
+                        self.projects = app.session.projects()
+                    }
+                } else {
+                    self.projects = app.session.projects()
+                }
+        }
     }
 }
 
 private struct Bar: View {
-    @EnvironmentObject var model: Model
-    @State private var more = false
-    let width: CGFloat
-    let height: CGFloat
-    
     var body: some View {
-        VStack {
-            HStack {
-                NavigationLink(destination:
-                    Detail()
-                        .environmentObject(model), tag: .kanban, selection: .init($model.mode)) {
-                    Image("kanban")
-                        .renderingMode(.original)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                    .frame(width: width / 2, height: height / 2)
-                NavigationLink(destination: About(more: $more), isActive: $more) {
-                    Image("more")
-                        .renderingMode(.original)
-                        .opacity(0.5)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                    .frame(width: width / 2, height: height / 2)
-            }
-            HStack {
-                NavigationLink(destination:
-                    Detail()
-                        .environmentObject(model), tag: .todo, selection: .init($model.mode)) {
-                    Image("todo")
-                        .renderingMode(.original)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                    .frame(width: width / 2, height: height / 2)
-                NavigationLink(destination:
-                    Detail()
-                        .environmentObject(model), tag: .shopping, selection: .init($model.mode)) {
-                    Image("shopping")
-                        .renderingMode(.original)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                    .frame(width: width / 2, height: height / 2)
-            }
+        HStack {
+            NavigationLink(destination: About()) {
+                Image("add")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+            NavigationLink(destination: About()) {
+                Image("more")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+        }
+    }
+}
+
+private struct Projects: View {
+    @Binding var projects: [Int]
+
+    var body: some View {
+        ForEach(projects, id: \.self) { project in
+            NavigationLink(destination: Circle()) {
+                Project(project: project)
+            }.listRowInsets(.none)
+                .background(Color.clear)
+                .accentColor(.clear)
+        }
+    }
+}
+
+private struct Project: View {
+    let project: Int
+
+    var body: some View {
+        HStack {
+            Rectangle()
+                .foregroundColor(.init("haze"))
+                .frame(width: 2, height: 30)
+            Text(app.session.name(project))
+                .foregroundColor(.init("haze"))
+                .bold()
+            Spacer()
         }
     }
 }

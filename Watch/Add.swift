@@ -1,4 +1,4 @@
-import SwiftUI
+/*import SwiftUI
 
 struct Add: View {
     @EnvironmentObject var model: Model
@@ -60,3 +60,4 @@ private struct Available: View {
         }
     }
 }
+*/
