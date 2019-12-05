@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct Kanban: View {
+    @State private var lists = 0
     let project: Int
     
     var body: some View {
@@ -11,25 +12,41 @@ struct Kanban: View {
                  total: (0 ..< app.session.lists(project)).reduce(into: [Int]()) {
                     $0.append(app.session.cards(project, list: $1))
             }.reduce(0, +))
-            Columns(project: project, lists: app.session.lists(project))
+            HStack {
+                Spacer()
+                Button(action: {
+                    app.session.add(self.project, list: 0)
+                    self.lists = app.session.lists(self.project)
+                }) {
+                    Image("plus")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                Spacer()
+            }
+            Columns(lists: $lists, project: project)
                 .padding(.vertical, 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
+            .onAppear {
+                self.lists = app.session.lists(self.project)
+        }
     }
 }
 
 private struct Columns: View {
+    @Binding var lists: Int
     let project: Int
-    let lists: Int
     
     var body: some View {
         ForEach(0 ..< lists) { list in
             VStack {
                 Text(app.session.name(self.project, list: list))
-                    .bold()
+                    .font(Font.caption.bold())
                     .foregroundColor(Color("haze"))
                     .padding(.bottom, 10)
-                    .opacity(0.6)
+                    .opacity(0.5)
                 Column(project: self.project, list: list)
             }
         }
@@ -52,7 +69,10 @@ private struct Column: View {
                         Spacer()
                     }
                 } else {
-                    Item(string: app.session.content(self.project, list: self.list, card: card))
+                    NavigationLink(destination: Circle()) {
+                        Item(string: app.session.content(self.project, list: self.list, card: card))
+                    }.background(Color.clear)
+                        .accentColor(.clear)
                 }
             }
         }
