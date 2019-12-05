@@ -1,52 +1,53 @@
 import SwiftUI
 
 struct Kanban: View {
-    @State private var lists = 0
+    @State private var creating = false
     let project: Int
     
     var body: some View {
         ScrollView {
-            Back(title: app.session.name(project))
-            Bars(project: project)
-            Ring(current: app.session.cards(project, list: app.session.lists(project) - 1),
-                 total: (0 ..< app.session.lists(project)).reduce(into: [Int]()) {
-                    $0.append(app.session.cards(project, list: $1))
-            }.reduce(0, +))
-            HStack {
-                Spacer()
-                Button(action: {
-                    app.session.add(self.project, list: 0)
-                    self.lists = app.session.lists(self.project)
-                }) {
-                    Image("plus")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                }.background(Color.clear)
-                    .accentColor(.clear)
-                Spacer()
+            if !creating {
+                Back(title: app.session.name(project))
+                Bars(project: project)
+                Ring(current: app.session.cards(project, list: app.session.lists(project) - 1),
+                     total: (0 ..< app.session.lists(project)).reduce(into: [Int]()) {
+                        $0.append(app.session.cards(project, list: $1))
+                }.reduce(0, +))
             }
-            Columns(lists: $lists, project: project)
-                .padding(.vertical, 20)
+            Button(action: {
+                app.session.add(self.project, list: 0)
+                withAnimation {
+                    self.creating.toggle()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                    withAnimation {
+                        self.creating.toggle()
+                    }
+                }
+            }) {
+                Image("plus")
+                    .renderingMode(.original)
+            }.background(Color.clear)
+                .accentColor(.clear)
+            if !creating {
+                Columns(project: project)
+            }
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
-            .onAppear {
-                self.lists = app.session.lists(self.project)
-        }
     }
 }
 
 private struct Columns: View {
-    @Binding var lists: Int
     let project: Int
     
     var body: some View {
-        ForEach(0 ..< lists) { list in
+        ForEach(0 ..< app.session.lists(project), id: \.self) { list in
             VStack {
                 Text(app.session.name(self.project, list: list))
                     .font(Font.caption.bold())
                     .foregroundColor(Color("haze"))
                     .padding(.bottom, 10)
-                    .opacity(0.5)
+                    .opacity(0.6)
                 Column(project: self.project, list: list)
             }
         }
@@ -58,23 +59,22 @@ private struct Column: View {
     let list: Int
     
     var body: some View {
-        ForEach(0 ..< app.session.cards(self.project, list: self.list)) { card in
-            VStack {
+        ForEach(0 ..< app.session.cards(self.project, list: self.list), id: \.self) { card in
+            NavigationLink(destination: Card(project: self.project, list: self.list, index: card)) {
                 if app.session.content(self.project, list: self.list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     HStack {
                         Rectangle()
                             .foregroundColor(.init("haze"))
-                            .frame(width: 30, height: 3)
-                            .padding(.vertical, 10)
+                            .frame(width: 50, height: 2)
                         Spacer()
                     }
                 } else {
-                    NavigationLink(destination: Circle()) {
+                    VStack {
                         Item(string: app.session.content(self.project, list: self.list, card: card))
-                    }.background(Color.clear)
-                        .accentColor(.clear)
+                    }
                 }
-            }
+            }.background(Color.clear)
+                .accentColor(.clear)
         }
     }
 }

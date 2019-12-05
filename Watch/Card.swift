@@ -1,31 +1,18 @@
-/*import SwiftUI
+import SwiftUI
 
 struct Card: View {
-    @EnvironmentObject var model: Model
-    @State var card: Index
-    @State private var content = ""
+    let project: Int
+    let list: Int
+    let index: Int
     
     var body: some View {
         ScrollView {
-            Header(name: $content) {
-                self.model.card = .null
-            }
-            Columns(card: $card)
-            Position(card: $card)
-            Stepper(card: $card)
-            Footer(name: $content, title: .init("Delete.title.card.\(self.model.mode.rawValue)"), placeholder: .init("Card"), delete: {
-                self.model.delete(self.card)
-            }) {
-                self.model.content(self.card, content: self.content)
-            }
+            Back(title: "")
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
-            .onAppear {
-                self.content = self.model.content(self.card)
-        }
     }
 }
-
+/*
 private struct Columns: View {
     @EnvironmentObject var model: Model
     @Binding var card: Index

@@ -4,7 +4,7 @@ struct Item: View {
     let string: String
     
     var body: some View {
-        ForEach(marks(), id: \.1) { mark in
+        ForEach(marks(), id: \.0) { mark in
             HStack {
                 Marked(mark: mark)
                 Spacer()
