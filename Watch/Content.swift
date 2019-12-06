@@ -11,7 +11,6 @@ struct Content: View {
                 Logo()
             } else {
                 ScrollView {
-                    Bar()
                     Projects(projects: $projects)
                 }
             }
@@ -27,23 +26,6 @@ struct Content: View {
                 } else {
                     self.projects = app.session.projects()
                 }
-        }
-    }
-}
-
-private struct Bar: View {
-    var body: some View {
-        HStack {
-            NavigationLink(destination: About()) {
-                Image("add")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            NavigationLink(destination: About()) {
-                Image("more")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
         }
     }
 }
