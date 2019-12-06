@@ -66,16 +66,7 @@ private struct Column: View {
     var body: some View {
         ForEach(0 ..< cards[list].count, id: \.self) { card in
             NavigationLink(destination: Card(card: card, list: self.list, project: self.project)) {
-                if self.cards[self.list][card].trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Circle()
-                        .foregroundColor(.init("haze"))
-                        .opacity(0.5)
-                        .frame(width: 15, height: 15)
-                } else {
-                    VStack {
-                        Item(string: self.cards[self.list][card])
-                    }
-                }
+                Item(string: self.cards[self.list][card])
             }.background(Color.clear)
                 .accentColor(.clear)
         }

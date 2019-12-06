@@ -4,10 +4,19 @@ struct Item: View {
     let string: String
     
     var body: some View {
-        ForEach(marks(), id: \.0) { mark in
-            HStack {
-                Marked(mark: mark)
-                Spacer()
+        VStack {
+            if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Circle()
+                    .foregroundColor(.init("haze"))
+                    .opacity(0.5)
+                    .frame(width: 20, height: 20)
+            } else {
+                ForEach(marks(), id: \.0) { mark in
+                    HStack {
+                        Marked(mark: mark)
+                        Spacer()
+                    }
+                }
             }
         }
     }

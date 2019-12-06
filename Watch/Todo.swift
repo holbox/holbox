@@ -20,7 +20,9 @@ struct Todo: View {
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            Tasks(waiting: $waiting, done: $done)
+            Tasks(waiting: $waiting, done: $done, project: project) {
+                self.refresh()
+            }.padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
             .onAppear {
@@ -35,7 +37,7 @@ struct Todo: View {
         done = (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) }
         let count = Double(waiting.count + done.count)
         withAnimation(.easeOut(duration: 1.5)) {
-            percent = count > 0 ? .init(waiting.count) / count : 0
+            percent = count > 0 ? .init(done.count) / count : 0
         }
     }
 }
@@ -43,35 +45,29 @@ struct Todo: View {
 private struct Tasks: View {
     @Binding var waiting: [String]
     @Binding var done: [String]
+    let project: Int
+    let refresh: () -> Void
     
     var body: some View {
         VStack {
             ForEach(0 ..< waiting.count, id: \.self) { index in
                 Button(action: {
-                    
+                    app.session.move(self.project, list: 0, card: index, destination: 1, index: 0)
+                    self.refresh()
                 }) {
-                    Waiting(task: self.waiting[index])
+                    Item(string: self.waiting[index])
                 }.background(Color.clear)
                     .accentColor(.clear)
             }
             ForEach(0 ..< done.count, id: \.self) { index in
                 Button(action: {
-                    
+                    app.session.move(self.project, list: 1, card: index, destination: 0, index: 0)
+                    self.refresh()
                 }) {
                     Done(task: self.done[index])
                 }.background(Color.clear)
                     .accentColor(.clear)
             }
-        }
-    }
-}
-
-private struct Waiting: View {
-    let task: String
-    
-    var body: some View {
-        VStack {
-            Item(string: task)
         }
     }
 }
@@ -82,9 +78,20 @@ private struct Done: View {
     var body: some View {
         HStack {
             Image("check")
-            Text(task)
-                .font(.caption)
-                .lineLimit(1)
+                .renderingMode(.template)
+                .foregroundColor(Color("haze"))
+            if task.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Circle()
+                    .foregroundColor(.init("haze"))
+                    .opacity(0.5)
+                    .frame(width: 10, height: 10)
+            } else {
+                Text(task)
+                    .font(.caption)
+                    .lineLimit(1)
+                    .foregroundColor(.white)
+                    .opacity(0.6)
+            }
             Spacer()
         }
     }
