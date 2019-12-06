@@ -20,8 +20,11 @@ struct Content: View {
                 if self.first {
                     self.first = false
                     app.session.load {
-                        self.loading = false
+                        if app.session.projects().isEmpty {
+                            _ = app.session.add(.kanban)
+                        }
                         self.projects = app.session.projects()
+                        self.loading = false
                     }
                 } else {
                     self.projects = app.session.projects()
