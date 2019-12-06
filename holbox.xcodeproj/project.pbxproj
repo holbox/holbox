@@ -25,6 +25,7 @@
 		DA32A735236769710018D6AE /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA32A734236769710018D6AE /* Content.swift */; };
 		DA351C89239413FA00978966 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA351C88239413FA00978966 /* Circle.swift */; };
 		DA357D55239A979800133891 /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA357D54239A979800133891 /* Shopping.swift */; };
+		DA357D57239AA0B500133891 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA357D56239AA0B500133891 /* Notes.swift */; };
 		DA38B683236834D000C6203F /* Back.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA38B682236834D000C6203F /* Back.swift */; };
 		DA3E746D237AD14F00566D3A /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3E746C237AD14F00566D3A /* Settings.swift */; };
 		DA40C94A2356174000F9E1C2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA40C9492356174000F9E1C2 /* Settings.swift */; };
@@ -298,6 +299,7 @@
 		DA32A734236769710018D6AE /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		DA351C88239413FA00978966 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		DA357D54239A979800133891 /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
+		DA357D56239AA0B500133891 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
 		DA38B682236834D000C6203F /* Back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Back.swift; sourceTree = "<group>"; };
 		DA3E746C237AD14F00566D3A /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DA40C9492356174000F9E1C2 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 				DA561E9F23730191002B5E51 /* Kanban.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
 				DA781F192397D51B0053374E /* Main.swift */,
+				DA357D56239AA0B500133891 /* Notes.swift */,
 				DA357D54239A979800133891 /* Shopping.swift */,
 				DA94D9BB239A79FA00548C77 /* Todo.swift */,
 			);
@@ -1263,6 +1266,7 @@
 				DAD368152361966A00643C9C /* Card.swift in Sources */,
 				DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */,
 				DA32A735236769710018D6AE /* Content.swift in Sources */,
+				DA357D57239AA0B500133891 /* Notes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

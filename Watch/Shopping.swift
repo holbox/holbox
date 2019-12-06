@@ -20,6 +20,7 @@ struct Shopping: View {
             }.background(Color.clear)
                 .accentColor(.clear)
             Products(products: $products, references: $references, project: project, refresh: refresh)
+                .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
             .onAppear {

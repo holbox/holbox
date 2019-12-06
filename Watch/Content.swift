@@ -60,7 +60,9 @@ private struct Projects: View {
                 products: (0 ..< app.session.cards(project, list: 0)).map { app.session.product(project, index: $0) },
                 references: (0 ..< app.session.cards(project, list: 1)).map { Int(app.session.content(project, list: 1, card: $0))! },
                 project: project))
-        default: return .init(Circle())
+        case .notes:
+            return .init(Notes(project: project))
+        default: return .init(Text(""))
         }
     }
 }
