@@ -10,16 +10,12 @@ struct Card: View {
     var body: some View {
         ScrollView {
             if !deleted {
-                Back(title: "")
-                Text(app.session.name(project, list: list))
-                    .bold()
-                    .foregroundColor(Color("haze"))
-                    .opacity(0.5)
+                Back(title: app.session.name(project, list: list))
                 if app.session.content(project, list: list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    Rectangle()
+                    Circle()
                         .foregroundColor(.init("haze"))
-                        .opacity(0.4)
-                        .frame(width: 50, height: 3)
+                        .opacity(0.5)
+                        .frame(width: 15, height: 15)
                 } else {
                     Text(app.session.content(project, list: list, card: card))
                         .lineLimit(1)
@@ -28,8 +24,8 @@ struct Card: View {
                 HStack {
                     Button(action: {
                         app.session.move(self.project, list: self.list, card: self.card, destination: self.list - 1, index: 0)
+                        self.card = 0
                         withAnimation {
-                            self.card = 0
                             self.list -= 1
                         }
                     }) {
@@ -42,8 +38,8 @@ struct Card: View {
                         .disabled(list < 1)
                     Button(action: {
                         app.session.move(self.project, list: self.list, card: self.card, destination: self.list + 1, index: 0)
+                        self.card = 0
                         withAnimation {
-                            self.card = 0
                             self.list += 1
                         }
                     }) {
@@ -54,7 +50,7 @@ struct Card: View {
                     }.background(Color.clear)
                         .accentColor(.clear)
                         .disabled(list >= app.session.lists(project) - 1)
-                }.padding(.vertical, 20)
+                }.padding(.vertical, 8)
                 Button(action: {
                     self.delete = true
                 }) {
