@@ -60,12 +60,13 @@ private struct Column: View {
     
     var body: some View {
         ForEach(0 ..< app.session.cards(self.project, list: self.list), id: \.self) { card in
-            NavigationLink(destination: Card(project: self.project, list: self.list, index: card)) {
+            NavigationLink(destination: Card(card: card, list: self.list, project: self.project)) {
                 if app.session.content(self.project, list: self.list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     HStack {
                         Rectangle()
                             .foregroundColor(.init("haze"))
-                            .frame(width: 50, height: 2)
+                            .opacity(0.4)
+                            .frame(width: 50, height: 3)
                         Spacer()
                     }
                 } else {

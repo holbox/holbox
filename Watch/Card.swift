@@ -1,105 +1,89 @@
 import SwiftUI
 
 struct Card: View {
+    @State var card: Int
+    @State var list: Int
     let project: Int
-    let list: Int
-    let index: Int
+    @State private var delete = false
+    @State private var deleted = false
     
     var body: some View {
         ScrollView {
-            Back(title: "")
-        }.edgesIgnoringSafeArea(.all)
+            if !deleted {
+                Back(title: "")
+                Text(app.session.name(project, list: list))
+                    .bold()
+                    .foregroundColor(Color("haze"))
+                    .opacity(0.5)
+                if app.session.content(project, list: list, card: card).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Rectangle()
+                        .foregroundColor(.init("haze"))
+                        .opacity(0.4)
+                        .frame(width: 50, height: 3)
+                } else {
+                    Text(app.session.content(project, list: list, card: card))
+                        .lineLimit(1)
+                        .padding(.horizontal, 20)
+                }
+                HStack {
+                    Button(action: {
+                        app.session.move(self.project, list: self.list, card: self.card, destination: self.list - 1, index: 0)
+                        withAnimation {
+                            self.card = 0
+                            self.list -= 1
+                        }
+                    }) {
+                        Image("arrow")
+                            .renderingMode(.original)
+                            .rotationEffect(.init(degrees: -90))
+                            .opacity(list < 1 ? 0.3 : 1)
+                    }.background(Color.clear)
+                        .accentColor(.clear)
+                        .disabled(list < 1)
+                    Button(action: {
+                        app.session.move(self.project, list: self.list, card: self.card, destination: self.list + 1, index: 0)
+                        withAnimation {
+                            self.card = 0
+                            self.list += 1
+                        }
+                    }) {
+                        Image("arrow")
+                            .renderingMode(.original)
+                            .rotationEffect(.init(degrees: 90))
+                            .opacity(list >= app.session.lists(project) - 1 ? 0.3 : 1)
+                    }.background(Color.clear)
+                        .accentColor(.clear)
+                        .disabled(list >= app.session.lists(project) - 1)
+                }.padding(.vertical, 20)
+                Button(action: {
+                    self.delete = true
+                }) {
+                    Image("trash")
+                        .renderingMode(.original)
+                }.background(Color.clear)
+                    .accentColor(.clear)
+                    .padding(.bottom, 20)
+            }
+        }.sheet(isPresented: $delete, content: {
+            Button(action: {
+                self.deleted = true
+                app.session.delete(self.project, list: self.list, card: self.card)
+                self.delete = false
+                WKExtension.shared().rootInterfaceController!.pop()
+            }) {
+                HStack {
+                    Spacer()
+                    Image("trash")
+                        .renderingMode(.original)
+                    Text(.init("Delete.confirm"))
+                        .foregroundColor(Color("haze"))
+                    Spacer()
+                }
+            }.background(Color.clear)
+                .accentColor(.clear)
+                .padding(.bottom, 20)
+            
+        }).edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
     }
 }
-/*
-private struct Columns: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    
-    var body: some View {
-        ForEach(0 ..< model.lists, id: \.self) {
-            Column(card: self.$card, index: $0)
-        }
-    }
-}
-
-private struct Column: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    let index: Int
-    
-    var body: some View {
-        Button(action: {
-            if self.index != self.card.list {
-                self.model.move(self.card, list: self.index)
-                self.card = .init(list: self.index, index: 0)
-            }
-        }) {
-            HStack {
-                Text(model.list(index))
-                    .foregroundColor(index == card.list ? .black : Color("haze"))
-                    .font(Font.subheadline
-                        .bold())
-                Spacer()
-                Icon(name: "checkmark", width: 10, height: 10, color: "background")
-                    .padding(.trailing, 4)
-                    .foregroundColor(.black)
-                    .opacity(index == card.list ? 1 : 0)
-            }
-        }.background(index == card.list ? Color("haze")
-            .cornerRadius(10) : Color("background")
-                .cornerRadius(10))
-            .accentColor(.clear)
-            .padding(.horizontal, 15)
-    }
-}
-
-private struct Position: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            Text("\(card.index + 1)")
-                .font(.title)
-                .bold()
-                .foregroundColor(Color("haze"))
-            Text("/\(model.cards(card.list))")
-                .font(.caption)
-                .foregroundColor(Color("haze"))
-            Spacer()
-        }.padding(.top, 20)
-    }
-}
-
-private struct Stepper: View {
-    @EnvironmentObject var model: Model
-    @Binding var card: Index
-    
-    var body: some View {
-        HStack {
-            Button(action: {
-                guard self.card.index > 0 else { return }
-                self.model.move(self.card, index: self.card.index - 1)
-                self.card = .init(list: self.card.list, index: self.card.index - 1)
-            }) {
-                Icon(name: "minus.circle.fill", width: 35, height: 35, color: card.index > 0 ? "haze" : "background")
-            }.background(Color.clear)
-                .accentColor(.clear)
-                .padding(.leading, 10)
-            Spacer()
-            Button(action: {
-                guard self.card.index < self.model.cards(self.card.list) - 1 else { return }
-                self.model.move(self.card, index: self.card.index + 1)
-                self.card = .init(list: self.card.list, index: self.card.index + 1)
-            }) {
-                Icon(name: "plus.circle.fill", width: 35, height: 35, color: card.index == model.cards(card.list) - 1 ? "background" : "haze")
-            }.background(Color.clear)
-                .accentColor(.clear)
-                .padding(.trailing, 10)
-        }
-    }
-}
-*/
