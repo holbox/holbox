@@ -13,9 +13,7 @@ final class Bars: Chart {
         totalWidth = (.init(app.session.lists(app.project)) * (width + space)) + 35
         totalHeight = height + 60 + width
         
-        let cards = (0 ..< app.session.lists(app.project)).reduce(into: [Int]()) {
-            $0.append(app.session.cards(app.project, list: $1))
-        }
+        let cards = (0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }
         let top = CGFloat(cards.max() ?? 1)
         
         let mask = CALayer()

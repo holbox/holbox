@@ -31,10 +31,8 @@ struct Kanban: View {
     }
     
     private func refresh() {
-        cards = (0 ..< app.session.lists(project)).reduce(into: [[String]]()) { outer, list in
-            outer.append((0 ..< app.session.cards(project, list: list)).reduce(into: [String]()) {
-                $0.append(app.session.content(project, list: list, card: $1))
-            })
+        cards = (0 ..< app.session.lists(project)).map { list in
+            (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
         }
         withAnimation(.easeOut(duration: 1.5)) {
             top = cards.map { $0.count }.max() ?? 0

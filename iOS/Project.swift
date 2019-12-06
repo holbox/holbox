@@ -20,7 +20,7 @@ final class Project: UIView {
     
     private var _kanban: String {
         "\(app.session.lists(index)) " + .key("Project.columns") + "\n" +
-        "\((0 ..< app.session.lists(index)).reduce(into: 0) { $0 += app.session.cards(index, list: $1) }) " + .key("Project.cards") + "\n"
+            "\((0 ..< app.session.lists(index)).map { app.session.cards(index, list: $0) }.reduce(0, +)) " + .key("Project.cards") + "\n"
     }
     
     private var _todo: String {

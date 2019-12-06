@@ -13,9 +13,7 @@ final class Lines: Chart {
     
     override func draw(_: CGRect) {
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        let cards = (0 ..< app.session.lists(index)).reduce(into: [Int]()) {
-            $0.append(app.session.cards(index, list: $1))
-        }
+        let cards = (0 ..< app.session.lists(index)).map { app.session.cards(index, list: $0) }
         let total = CGFloat(cards.max() ?? 1)
         let height = bounds.height - (width / 2) - width - space
         cards.enumerated().forEach { card in

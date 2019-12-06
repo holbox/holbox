@@ -14,7 +14,7 @@ struct Content: View {
                     Projects(projects: $projects)
                 }
             }
-        }.edgesIgnoringSafeArea(.horizontal)
+        }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
             .onAppear {
                 if self.first {
@@ -45,11 +45,15 @@ private struct Projects: View {
     
     private static func factory(_ project: Int) -> AnyView {
         switch app.session.mode(project) {
-        case .kanban: return .init(Kanban(cards: (0 ..< app.session.lists(project)).reduce(into: [[String]]()) { outer, list in
-            outer.append((0 ..< app.session.cards(project, list: list)).reduce(into: [String]()) {
-                $0.append(app.session.content(project, list: list, card: $1))
-            })
-        }, project: project))
+        case .kanban:
+            return .init(Kanban(cards: (0 ..< app.session.lists(project)).map { list in
+                (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
+            }, project: project))
+        case .todo:
+            return .init(Todo(
+                waiting: (0 ..< app.session.cards(project, list: 0)).map { app.session.content(project, list: 0, card: $0) },
+                done: (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) },
+                project: project))
         default: return .init(Circle())
         }
     }
