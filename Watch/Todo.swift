@@ -20,9 +20,8 @@ struct Todo: View {
                     .renderingMode(.original)
             }.background(Color.clear)
                 .accentColor(.clear)
-            Tasks(waiting: $waiting, done: $done, project: project) {
-                self.refresh()
-            }.padding(.bottom, 20)
+            Tasks(waiting: $waiting, done: $done, project: project, refresh: refresh)
+                .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
             .onAppear {

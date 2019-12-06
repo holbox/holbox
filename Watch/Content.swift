@@ -46,13 +46,19 @@ private struct Projects: View {
     private static func factory(_ project: Int) -> AnyView {
         switch app.session.mode(project) {
         case .kanban:
-            return .init(Kanban(cards: (0 ..< app.session.lists(project)).map { list in
-                (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
+            return .init(Kanban(
+                cards: (0 ..< app.session.lists(project)).map { list in
+                    (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
             }, project: project))
         case .todo:
             return .init(Todo(
                 waiting: (0 ..< app.session.cards(project, list: 0)).map { app.session.content(project, list: 0, card: $0) },
                 done: (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) },
+                project: project))
+        case .shopping:
+            return .init(Shopping(
+                products: (0 ..< app.session.cards(project, list: 0)).map { app.session.product(project, index: $0) },
+                references: (0 ..< app.session.cards(project, list: 1)).map { Int(app.session.content(project, list: 1, card: $0))! },
                 project: project))
         default: return .init(Circle())
         }
