@@ -2,9 +2,9 @@ import AppKit
 
 final class Kanban: View {
     private(set) weak var tags: Tags!
+    private(set) weak var _add: Button!
     private weak var drag: Card?
     private weak var scroll: Scroll!
-    private weak var _add: Button!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -44,9 +44,6 @@ final class Kanban: View {
             if let drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card {
                 drag.layer!.removeFromSuperlayer()
                 scroll.documentView!.layer!.addSublayer(drag.layer!)
-                scroll.views.compactMap { $0 as? Card }.forEach { card in
-                    card.trackingAreas.forEach(card.removeTrackingArea(_:))
-                }
                 self.drag = drag
             }
         } else {
@@ -156,7 +153,7 @@ final class Kanban: View {
     }
     
     private func end(_ event: NSEvent) {
-        drag?.stop(event.locationInWindow.x + scroll.documentVisibleRect.origin.x, scroll.documentVisibleRect.height - event.locationInWindow.y + scroll.documentVisibleRect.origin.y)
+        drag?.stop()
         drag = nil
     }
 }

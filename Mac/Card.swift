@@ -59,7 +59,6 @@ final class Card: Text, NSTextViewDelegate {
         intro = true
         (layoutManager as! Layout).owns = true
         (layoutManager as! Layout).padding = 2
-        didChangeText()
         delegate = self
 
         let _delete = Image("delete")
@@ -86,7 +85,6 @@ final class Card: Text, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         guard let column = column?.index else { return }
-        layer!.borderWidth = 0
         if string != app.session.content(app.project, list: column, card: index) {
             app.session.content(app.project, list: column, card: index, content: string)
             app.alert(.key("Card"), message: string)
@@ -113,26 +111,55 @@ final class Card: Text, NSTextViewDelegate {
                 right.isActive = false
                 top.constant += deltaY
                 left.constant += deltaX
-                
-                if let child = self.child {
-                    child.top = child.topAnchor.constraint(equalTo: top.secondAnchor as! NSLayoutAnchor<NSLayoutYAxisAnchor>, constant: 20)
-                    self.child = nil
-                    NSAnimationContext.runAnimationGroup {
-                        $0.duration = 0.3
-                        $0.allowsImplicitAnimation = true
-                        superview!.layoutSubtreeIfNeeded()
-                    }
+                if let parent = superview!.subviews.compactMap({ $0 as? Card }).first(where: { $0.child === self }) {
+                    parent.child = child
+                } else if column.index == 0 {
+                    child?.top = child?.topAnchor.constraint(equalTo: kanban._add.bottomAnchor, constant: 40)
+                } else {
+                    child?.top = child?.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
+                }
+                child = nil
+                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column === column && $0.index > index }.forEach {
+                    $0.index -= 1
+                }
+                NSAnimationContext.runAnimationGroup {
+                    $0.duration = 0.4
+                    $0.allowsImplicitAnimation = true
+                    layer!.backgroundColor = .black
+                    layer!.borderWidth = 5
+                    superview!.layoutSubtreeIfNeeded()
                 }
             }
         }
     }
     
-    func stop(_ x: CGFloat, _ y: CGFloat) {
+    func stop() {
         if dragging {
-            let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
-            app.session.move(app.project, list: column.index, card: index, destination: destination, index:
-                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column.index == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
-            kanban.refresh()
+            dragging = false
+            top.isActive = false
+            let columns = superview!.subviews.compactMap { $0 as? Column }.sorted { $0.index < $1.index }
+            let destination = columns.filter { $0.frame.minX < frame.midX }.last ?? columns.first!
+            let cards = superview!.subviews.compactMap { $0 as? Card }.filter { $0.column === destination }.filter { $0 !== self }
+            let new = cards.filter { $0.frame.midY < frame.minY }.count
+            app.session.move(app.project, list: column.index, card: index, destination: destination.index, index: new)
+            index = new
+            if index == 0 {
+                if destination.index == 0 {
+                    top = topAnchor.constraint(equalTo: kanban._add.bottomAnchor, constant: 40)
+                } else {
+                    top = topAnchor.constraint(equalTo: destination.bottomAnchor, constant: 20)
+                }
+                child = cards.first { $0.index == index }
+            } else {
+                let parent = cards.first { $0.index == index - 1 }!
+                child = parent.child
+                parent.child = self
+            }
+            cards.filter { $0.index >= index }.forEach {
+                $0.index += 1
+            }
+            column = destination
+            update(true)
         } else {
             deltaX = 0
             deltaY = 0
@@ -182,8 +209,7 @@ final class Card: Text, NSTextViewDelegate {
     
     func update(_ animate: Bool) {
         let color: CGColor
-        string = app.session.content(app.project, list: column.index, card: index)
-        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             color = NSColor(named: "background")!.cgColor
             left.constant = 20
         } else {
@@ -195,10 +221,13 @@ final class Card: Text, NSTextViewDelegate {
                 $0.duration = 0.4
                 $0.allowsImplicitAnimation = true
                 layer!.backgroundColor = color
+                layer!.borderWidth = 0
                 superview!.layoutSubtreeIfNeeded()
             }
         } else {
             layer!.backgroundColor = color
+            string = app.session.content(app.project, list: column.index, card: index)
+            didChangeText()
         }
     }
 }
