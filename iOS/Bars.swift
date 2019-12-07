@@ -70,9 +70,9 @@ final class Bars: Chart {
             name.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
             name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
             name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
-            
-            widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
-            heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
         }
+        
+        widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
+        heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
     }
 }

@@ -1,12 +1,24 @@
 import AppKit
 
 final class Ring: Chart {
+    var current = CGFloat()
+    var total = CGFloat()
     private let width = CGFloat(190)
     private let height = CGFloat(140)
+    private let formatter = NumberFormatter()
     
     required init?(coder: NSCoder) { nil }
-    init(_ current: Int, total: Int) {
+    override init() {
         super.init()
+        formatter.numberStyle = .percent
+        widthAnchor.constraint(equalToConstant: width).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func refresh() {
+        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        subviews.forEach { $0.removeFromSuperview() }
+        
         let amount = CGFloat(current) / .init(total > 0 ? total : 1)
         let center = CGPoint(x: 60, y: height / 2)
         let off = CAShapeLayer()
@@ -30,14 +42,11 @@ final class Ring: Chart {
         } (CGMutablePath())
         layer!.addSublayer(on)
         
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        
         let percent = Label(formatter.string(from: NSNumber(value: Double(amount)))!, 18, .bold, NSColor(named: "haze")!)
         addSubview(percent)
         
-        let label = Label([("\(current)\n", 18, .bold, NSColor(named: "haze")!),
-                           ("\(total)", 14, .regular, NSColor(named: "haze")!)])
+        let label = Label([("\(Int(current))\n", 20, .bold, NSColor(named: "haze")!),
+                           ("\(Int(total))", 14, .regular, NSColor(named: "haze")!)])
         addSubview(label)
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -45,8 +54,5 @@ final class Ring: Chart {
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
-        
-        widthAnchor.constraint(equalToConstant: width).isActive = true
-        heightAnchor.constraint(equalToConstant: height).isActive = true
     }
 }

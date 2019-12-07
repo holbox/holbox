@@ -3,6 +3,8 @@ import AppKit
 final class Kanban: View {
     private(set) weak var tags: Tags!
     private(set) weak var _add: Button!
+    private(set) weak var ring: Ring!
+    private(set) weak var bars: Bars!
     private weak var drag: Card?
     private weak var scroll: Scroll!
     
@@ -20,7 +22,15 @@ final class Kanban: View {
         let _add = Button("plus", target: self, action: #selector(add))
         scroll.add(_add)
         self._add = _add
+        
+        let ring = Ring()
+        scroll.add(ring)
+        self.ring = ring
 
+        let bars = Bars()
+        scroll.add(bars)
+        self.bars = bars
+        
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
@@ -30,9 +40,18 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor).isActive = true
+        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 40).isActive = true
+        bars.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         
         refresh()
     }
@@ -44,6 +63,7 @@ final class Kanban: View {
             if let drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card {
                 drag.layer!.removeFromSuperlayer()
                 scroll.documentView!.layer!.addSublayer(drag.layer!)
+                scroll.views.compactMap { $0 as? Card }.forEach { $0.untrack() }
                 self.drag = drag
             }
         } else {
@@ -62,7 +82,7 @@ final class Kanban: View {
     }
     
     override func refresh() {
-        scroll.views.filter { $0 is Card || $0 is Column || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project)).forEach { list in
@@ -103,25 +123,9 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let ring = Ring(app.session.cards(app.project, list: app.session.lists(app.project) - 1), total:
-            (0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
-        scroll.add(ring)
-
-        let bars = Bars()
-        scroll.add(bars)
-        
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 40).isActive = true
-        bars.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor).isActive = true
-        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
-        
         scroll.right.constraint(greaterThanOrEqualTo: left, constant: 40).isActive = true
         tags.refresh()
+        charts()
     }
     
     override func add() {
@@ -149,8 +153,9 @@ final class Kanban: View {
             $0.allowsImplicitAnimation = true
             scroll.documentView!.layoutSubtreeIfNeeded()
             scroll.contentView.scroll(to: .zero)
-        }) {
-            card.edit()
+        }) { [weak self, weak card] in
+            card?.edit()
+            self?.charts()
         }
     }
     
@@ -169,6 +174,13 @@ final class Kanban: View {
         let text = scroll.views.compactMap { $0 as? Card }.first { $0.column.index == list && $0.index == card }!
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+    }
+    
+    func charts() {
+        ring.current = .init(app.session.cards(app.project, list: app.session.lists(app.project) - 1))
+        ring.total = .init((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
+        ring.refresh()
+        bars.refresh()
     }
     
     private func end(_ event: NSEvent) {

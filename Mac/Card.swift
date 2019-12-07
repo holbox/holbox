@@ -71,7 +71,7 @@ final class Card: Text, NSTextViewDelegate {
         _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        track()
     }
     
     override func resetCursorRects() {
@@ -159,7 +159,9 @@ final class Card: Text, NSTextViewDelegate {
                 $0.index += 1
             }
             column = destination
+            kanban.charts()
             update(true)
+            superview!.subviews.compactMap { $0 as? Card }.forEach { $0.track() }
         } else {
             deltaX = 0
             deltaY = 0
@@ -229,5 +231,13 @@ final class Card: Text, NSTextViewDelegate {
             string = app.session.content(app.project, list: column.index, card: index)
             didChangeText()
         }
+    }
+    
+    func untrack() {
+        trackingAreas.forEach(removeTrackingArea(_:))
+    }
+    
+    private func track() {
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
 }

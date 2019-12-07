@@ -1,6 +1,7 @@
 import AppKit
 
 final class Shopping: View {
+    private weak var ring: Ring!
     private weak var tags: Tags!
     private weak var scroll: Scroll!
     private weak var stock: Scroll!
@@ -29,6 +30,10 @@ final class Shopping: View {
         let _add = Button("plus", target: self, action: #selector(add))
         addSubview(_add)
         
+        let ring = Ring()
+        scroll.add(ring)
+        self.ring = ring
+        
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: left.topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
@@ -43,7 +48,12 @@ final class Shopping: View {
         stock.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         stock.bottom.constraint(equalTo: stock.bottomAnchor).isActive = true
         
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        
         tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
+        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         
         left.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         left.rightAnchor.constraint(equalTo: centerXAnchor, constant: -13).isActive = true
@@ -63,11 +73,8 @@ final class Shopping: View {
     
     override func refresh() {
         (app.modalWindow as? Stock)?.close()
-        scroll.views.filter { $0 is Grocery || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
         stock.views.forEach { $0.removeFromSuperview() }
-        
-        let ring = Ring(app.session.cards(app.project, list: 0) - app.session.cards(app.project, list: 1), total: app.session.cards(app.project, list: 0))
-        scroll.add(ring)
         
         var top: NSLayoutYAxisAnchor?
         (0 ..< app.session.cards(app.project, list: 1)).forEach {
@@ -103,10 +110,9 @@ final class Shopping: View {
             stock.right.constraint(greaterThanOrEqualTo: left!, constant: 30).isActive = true
         }
         
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
-        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
+        ring.current = .init(app.session.cards(app.project, list: 0) - app.session.cards(app.project, list: 1))
+        ring.total = .init(app.session.cards(app.project, list: 0))
+        ring.refresh()
         tags.refresh()
     }
     

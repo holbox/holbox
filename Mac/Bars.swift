@@ -1,6 +1,8 @@
 import AppKit
 
 final class Bars: Chart {
+    private weak var _width: NSLayoutConstraint!
+    private weak var _height: NSLayoutConstraint!
     private var totalWidth = CGFloat()
     private var totalHeight = CGFloat()
     private let height = CGFloat(120)
@@ -10,6 +12,16 @@ final class Bars: Chart {
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
+        _width = widthAnchor.constraint(equalToConstant: 0)
+        _height = heightAnchor.constraint(equalToConstant: 0)
+        _width.isActive = true
+        _height.isActive = true
+    }
+    
+    func refresh() {
+        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        subviews.forEach { $0.removeFromSuperview() }
+        
         totalWidth = (.init(app.session.lists(app.project)) * (width + space)) + 35
         totalHeight = height + 60 + width
         
@@ -71,9 +83,9 @@ final class Bars: Chart {
             name.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
             name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
             name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
-            
-            widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
-            heightAnchor.constraint(equalToConstant: totalHeight).isActive = true
         }
+        
+        _width.constant = totalWidth
+        _height.constant = totalHeight
     }
 }
