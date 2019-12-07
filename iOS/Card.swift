@@ -96,6 +96,7 @@ final class Card: Text, UITextViewDelegate {
         if text != app.session.content(app.project, list: column, card: index) {
             app.session.content(app.project, list: column, card: index, content: text)
             app.alert(.key("Card"), message: text)
+            kanban.tags.refresh()
         }
         update(true)
     }
@@ -112,7 +113,6 @@ final class Card: Text, UITextViewDelegate {
     }
     
     func update(_ animate: Bool) {
-        guard let column = self.column else { return }
         let color: UIColor
         text = app.session.content(app.project, list: column.index, card: index)
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -143,16 +143,5 @@ final class Card: Text, UITextViewDelegate {
         layoutManager.ensureLayout(for: textContainer)
         width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30
         height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 10) + 30
-    }
-    
-    private func move(_ destination: Int, position: Int) {
-//        app.session.move(app.project, list: column, card: index, destination: destination, index: position)
-//        kanban.refresh()
-    }
-    
-    @objc private func delete() {
-//        app.alert(.key("Delete.deleted.card.\(app.mode.rawValue)"), message: app.session.content(app.project, list: column, card: index))
-//        app.session.delete(app.project, list: column, card: index)
-//        kanban.refresh()
     }
 }

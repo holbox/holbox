@@ -1,7 +1,7 @@
 import AppKit
 
 final class Column: NSView, NSTextViewDelegate {
-    private let index: Int
+    let index: Int
     private weak var name: Text!
     
     required init?(coder: NSCoder) { nil }

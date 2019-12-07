@@ -79,7 +79,7 @@ final class Kanban: View {
             
             var top: Card?
             (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card(self, index: $0, column: list)
+                let card = Card(self, index: $0)
                 scroll.add(card)
 
                 if top == nil {
@@ -89,7 +89,6 @@ final class Kanban: View {
                         card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
                     }
                 } else {
-                    card.top = card.topAnchor.constraint(equalTo: top!.bottomAnchor, constant: 20)
                     top!.child = card
                 }
 
@@ -97,8 +96,7 @@ final class Kanban: View {
                     scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
                 }
                 
-                card.right = column.rightAnchor.constraint(greaterThanOrEqualTo: card.rightAnchor)
-                card.left = card.leftAnchor.constraint(equalTo: column.leftAnchor)
+                card.column = column
                 card.update(false)
                 top = card
             }

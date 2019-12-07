@@ -11,7 +11,7 @@ class Option: UIView {
         }
         
         override func click() {
-            settings?.option(index)
+            settings.option(index)
         }
     }
 
@@ -55,11 +55,11 @@ class Option: UIView {
         }
         
         override func click() {
-            settings?.check(self)
+            settings.check(self)
         }
     }
     
-    private weak var settings: Settings?
+    private weak var settings: Settings!
     
     required init?(coder: NSCoder) { nil }
     init(_ settings: Settings, title: String) {

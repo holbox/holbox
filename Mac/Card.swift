@@ -1,23 +1,45 @@
 import AppKit
 
 final class Card: Text, NSTextViewDelegate {
-    weak var child: Card?
-    weak var top: NSLayoutConstraint! { willSet { top?.isActive = false } didSet { top.isActive = true } }
-    weak var left: NSLayoutConstraint! { didSet { left.isActive = true } }
-    weak var right: NSLayoutConstraint! { didSet { right.isActive = true } }
-    let index: Int
-    let column: Int
+    var index: Int
+    weak var top: NSLayoutConstraint! {
+        didSet {
+            oldValue?.isActive = false
+            top.isActive = true
+        }
+    }
+    
+    weak var child: Card! {
+        didSet {
+            child?.top = child?.topAnchor.constraint(equalTo: bottomAnchor, constant: 20)
+        }
+    }
+    
+    weak var column: Column! {
+        didSet {
+            right?.isActive = false
+            left?.isActive = false
+            
+            right = column.rightAnchor.constraint(greaterThanOrEqualTo: rightAnchor)
+            right.isActive = true
+            
+            left = leftAnchor.constraint(equalTo: column.leftAnchor)
+            left.isActive = true
+        }
+    }
+    
+    private(set) weak var kanban: Kanban!
+    private weak var left: NSLayoutConstraint!
+    private weak var right: NSLayoutConstraint!
     private weak var _delete: Image!
-    private weak var kanban: Kanban?
     private var dragging = false
     private var deltaX = CGFloat(0)
     private var deltaY = CGFloat(0)
     override var mouseDownCanMoveWindow: Bool { false }
 
     required init?(coder: NSCoder) { nil }
-    init(_ kanban: Kanban, index: Int, column: Int) {
+    init(_ kanban: Kanban, index: Int) {
         self.index = index
-        self.column = column
         self.kanban = kanban
         super.init(.Expand(280, 10000), Block())
         wantsLayer = true
@@ -33,7 +55,6 @@ final class Card: Text, NSTextViewDelegate {
             .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
             .bold: (.systemFont(ofSize: 20, weight: .bold), .white),
             .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
-        string = app.session.content(app.project, list: column, card: index)
         tab = true
         intro = true
         (layoutManager as! Layout).owns = true
@@ -64,11 +85,12 @@ final class Card: Text, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
+        guard let column = column?.index else { return }
         layer!.borderWidth = 0
         if string != app.session.content(app.project, list: column, card: index) {
             app.session.content(app.project, list: column, card: index, content: string)
             app.alert(.key("Card"), message: string)
-            kanban?.tags.refresh()
+            kanban.tags.refresh()
         }
         update(true)
     }
@@ -108,9 +130,9 @@ final class Card: Text, NSTextViewDelegate {
     func stop(_ x: CGFloat, _ y: CGFloat) {
         if dragging {
             let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
-            app.session.move(app.project, list: column, card: index, destination: destination, index:
+            app.session.move(app.project, list: column.index, card: index, destination: destination, index:
                 superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
-            kanban?.refresh()
+            kanban.refresh()
         } else {
             deltaX = 0
             deltaY = 0
@@ -149,7 +171,7 @@ final class Card: Text, NSTextViewDelegate {
             window!.makeFirstResponder(superview!)
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project, list: column, card: index)
-                kanban?.refresh()
+                kanban.refresh()
             } else {
                 _delete!.alphaValue = 0
                 app.runModal(for: Delete.Card(index, list: column))
@@ -160,7 +182,8 @@ final class Card: Text, NSTextViewDelegate {
     
     func update(_ animate: Bool) {
         let color: CGColor
-        if app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        string = app.session.content(app.project, list: column.index, card: index)
+        if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             color = NSColor(named: "background")!.cgColor
             left.constant = 20
         } else {

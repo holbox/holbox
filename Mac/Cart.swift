@@ -13,7 +13,7 @@ final class Cart: Chart {
     }
     
     override func draw(_: CGRect) {
-        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
+        layer!.sublayers!.forEach { $0.removeFromSuperlayer() }
         let products = app.session.cards(index, list: 0)
         if products > 0 {
             let needed = app.session.cards(index, list: 1)

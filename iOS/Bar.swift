@@ -6,7 +6,7 @@ final class Bar: UIView, UITextViewDelegate {
     private weak var _home: Button!
     private weak var border: Border!
     private weak var press: UILongPressGestureRecognizer!
-    private weak var bottom: NSLayoutConstraint? { didSet { oldValue?.isActive = false; bottom!.isActive = true } }
+    private weak var bottom: NSLayoutConstraint! { didSet { oldValue?.isActive = false; bottom.isActive = true } }
     private weak var addRight: NSLayoutConstraint!
     private weak var addY: NSLayoutConstraint!
     private weak var findRight: NSLayoutConstraint!

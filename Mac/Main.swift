@@ -3,7 +3,7 @@ import AppKit
 final class Main: Window {
     private(set) weak var bar: Bar!
     private weak var base: Base!
-    private weak var logo: Logo?
+    private weak var logo: Logo!
     
     init() {
         super.init(1200, 900, mask: [.miniaturizable, .resizable])
@@ -72,8 +72,8 @@ final class Main: Window {
     }
     
     func loaded() {
-        logo!.stop()
-        logo!.removeFromSuperview()
+        logo.stop()
+        logo.removeFromSuperview()
         
         let bar = Bar()
         contentView!.addSubview(bar, positioned: .below, relativeTo: nil)

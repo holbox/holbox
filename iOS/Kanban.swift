@@ -79,10 +79,8 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let ring = Ring(app.session.cards(app.project, list: app.session.lists(app.project) - 1),
-                        total: (0 ..< app.session.lists(app.project)).map {
-                            app.session.cards(app.project, list: $0)
-                        }.reduce(0, +))
+        let ring = Ring(app.session.cards(app.project, list: app.session.lists(app.project) - 1), total:
+            (0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
         scroll.add(ring)
 
         let bars = Bars()

@@ -3,12 +3,12 @@ import UIKit
 
 final class Add: Modal {
     private weak var name: Label!
-    private weak var selected: Button? {
+    private weak var selected: Button! {
         didSet {
             oldValue?.icon.alpha = 0.4
             oldValue?.layer.borderColor = UIColor.clear.cgColor
-            selected!.layer.borderColor = UIColor(named: "haze")!.cgColor
-            selected!.icon.alpha = 1
+            selected.layer.borderColor = UIColor(named: "haze")!.cgColor
+            selected.icon.alpha = 1
         }
     }
     private var mode = Mode.off
