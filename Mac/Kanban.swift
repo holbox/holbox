@@ -130,7 +130,7 @@ final class Kanban: View {
     override func add() {
         app.session.add(app.project, list: 0)
         refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column == 0 }!.edit()
+        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column.index == 0 }!.edit()
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
@@ -140,7 +140,7 @@ final class Kanban: View {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Card }.forEach { card in
-            let ranges = ranges.filter { $0.0 == card.column && $0.1 == card.index }.map { $0.2 as NSValue }
+            let ranges = ranges.filter { $0.0 == card.column.index && $0.1 == card.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
                 card.setSelectedRange(.init())
             } else {
@@ -150,7 +150,7 @@ final class Kanban: View {
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column == list && $0.index == card }!
+        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column.index == list && $0.index == card }!
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
     }

@@ -121,7 +121,7 @@ final class Kanban: View {
         app.window!.endEditing(true)
         app.session.add(app.project, list: 0)
         refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column!.index == 0 }!.edit()
+        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column.index == 0 }!.edit()
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.scroll.contentOffset.x = 0
             self?.scroll.contentOffset.y = 0

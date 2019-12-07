@@ -131,7 +131,7 @@ final class Card: Text, NSTextViewDelegate {
         if dragging {
             let destination = max(superview!.subviews.compactMap { $0 as? Column }.filter { $0.frame.minX < x }.count - 1, 0)
             app.session.move(app.project, list: column.index, card: index, destination: destination, index:
-                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
+                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column.index == destination && $0 !== self }.filter { $0.frame.midY < y }.count)
             kanban.refresh()
         } else {
             deltaX = 0
@@ -158,7 +158,7 @@ final class Card: Text, NSTextViewDelegate {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
                 _delete.alphaValue = 0
-                if !app.session.content(app.project, list: column, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if !app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     layer!.backgroundColor = .clear
                 }
             }
@@ -170,11 +170,11 @@ final class Card: Text, NSTextViewDelegate {
             && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.delete(app.project, list: column, card: index)
+                app.session.delete(app.project, list: column.index, card: index)
                 kanban.refresh()
             } else {
                 _delete!.alphaValue = 0
-                app.runModal(for: Delete.Card(index, list: column))
+                app.runModal(for: Delete.Card(index, list: column.index))
             }
         }
         super.mouseUp(with: with)

@@ -45,7 +45,7 @@ final class Logo: UIView {
     override func draw(_ rect: CGRect) {
         let side = min(rect.width, rect.height) * 0.95
         let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
-        rays.sublayers!.forEach { $0.removeFromSuperlayer() }
+        rays.sublayers?.forEach { $0.removeFromSuperlayer() }
         rays.path = {
             $0.addEllipse(in: .init(x: (rect.width - side) / 2, y: (rect.height - side) / 2, width: side, height: side))
             return $0

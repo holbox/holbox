@@ -10,7 +10,7 @@ final class Progress: Chart {
     }
     
     override func draw(_: CGRect) {
-        layer!.sublayers!.forEach { $0.removeFromSuperlayer() }
+        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
         let waiting = CGFloat(app.session.cards(index, list: 0))
         let done = CGFloat(app.session.cards(index, list: 1))
         let total = waiting + done
