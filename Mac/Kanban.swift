@@ -126,12 +126,31 @@ final class Kanban: View {
     
     override func add() {
         app.session.add(app.project, list: 0)
-        refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column.index == 0 }!.edit()
-        NSAnimationContext.runAnimationGroup {
+        let cards = scroll.views.compactMap { $0 as? Card }.filter { $0.column.index == 0 }
+        let card = Card(self, index: 0)
+        scroll.add(card)
+
+        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
+        card.child = cards.first { $0.index == 0 }
+        
+        if card.child == nil {
+            scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+        }
+        
+        cards.forEach {
+            $0.index += 1
+        }
+        
+        card.column = scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!
+        card.update(false)
+        
+        NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
+            scroll.documentView!.layoutSubtreeIfNeeded()
             scroll.contentView.scroll(to: .zero)
+        }) {
+            card.edit()
         }
     }
     
