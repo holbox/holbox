@@ -1,42 +1,55 @@
 import AppKit
 
-final class Column: NSView, NSTextViewDelegate {
+final class Column: Text, NSTextViewDelegate {
     let index: Int
-    private weak var name: Text!
+    private weak var kanban: Kanban!
+    private weak var width: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int) {
+    init(_ kanban: Kanban, index: Int) {
         self.index = index
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        let name = Text(.Expand(400, 100), Block())
-        name.textContainerInset.width = 10
-        name.textContainerInset.height = 10
-        name.setAccessibilityLabel(.key("Column"))
-        (name.textStorage as! Storage).fonts = [
+        self.kanban = kanban
+        super.init(.Fix(), Block())
+        textContainerInset.width = 10
+        textContainerInset.height = 10
+        setAccessibilityLabel(.key("Column"))
+        font = NSFont(name: "Times New Roman", size: 20)
+        (textStorage as! Storage).fonts = [
             .plain: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!),
             .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
             .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!),
             .tag: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!)]
-        name.string = app.session.name(app.project, list: index)
-        name.textContainer!.maximumNumberOfLines = 1
-        addSubview(name)
-        self.name = name
+        string = app.session.name(app.project, list: index)
+        textContainer!.maximumNumberOfLines = 1
+        textContainer!.widthTracksTextView = false
+        textContainer!.size.width = 300
         
-        let width = widthAnchor.constraint(equalToConstant: 0)
-        width.priority = .defaultLow
+        let min = widthAnchor.constraint(equalToConstant: 0)
+        min.priority = .defaultLow
+        min.isActive = true
+        
+        width = widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
         width.isActive = true
         
-        rightAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor, constant: 40).isActive = true
-        bottomAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        name.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        name.didChangeText()
-        name.delegate = self
+        let height = heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
+        
+        delegate = self
+        layoutManager!.ensureLayout(for: textContainer!)
+        resize()
+    }
+    
+    func textDidChange(_: Notification) {
+        resize()
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.name(app.project, list: index, name: name.string)
+        app.session.name(app.project, list: index, name: string)
+        kanban.charts()
+    }
+    
+    private func resize() {
+        width.constant = min(max(layoutManager!.usedRect(for: textContainer!).size.width + 20, 60), 320)
     }
 }

@@ -86,7 +86,7 @@ final class Kanban: View {
         
         var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(list)
+            let column = Column(self, index: list)
             scroll.add(column)
             
             if list == 0 {
