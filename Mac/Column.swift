@@ -10,8 +10,8 @@ final class Column: Text, NSTextViewDelegate {
         self.index = index
         self.kanban = kanban
         super.init(.Fix(), Block())
-        textContainerInset.width = 10
-        textContainerInset.height = 10
+        textContainerInset.width = 20
+        textContainerInset.height = 20
         setAccessibilityLabel(.key("Column"))
         font = NSFont(name: "Times New Roman", size: 20)
         (textStorage as! Storage).fonts = [
@@ -50,6 +50,6 @@ final class Column: Text, NSTextViewDelegate {
     }
     
     private func resize() {
-        width.constant = min(max(layoutManager!.usedRect(for: textContainer!).size.width + 20, 60), 320)
+        width.constant = min(max(layoutManager!.usedRect(for: textContainer!).size.width + 40, 60), 340)
     }
 }
