@@ -1,91 +1,91 @@
 import AppKit
 
 final class Bars: Chart {
-    private weak var _width: NSLayoutConstraint!
-    private weak var _height: NSLayoutConstraint!
-    private var totalWidth = CGFloat()
-    private var totalHeight = CGFloat()
-    private let height = CGFloat(120)
-    private let width = CGFloat(12)
-    private let space = CGFloat(45)
+    private weak var right: NSLayoutConstraint! {
+        didSet {
+            oldValue?.isActive = false
+            right.isActive = true
+        }
+    }
     
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        _width = widthAnchor.constraint(equalToConstant: 0)
-        _height = heightAnchor.constraint(equalToConstant: 0)
-        _width.isActive = true
-        _height.isActive = true
+        heightAnchor.constraint(equalToConstant: 140).isActive = true
     }
     
     func refresh() {
-        layer!.sublayers?.forEach { $0.removeFromSuperlayer() }
-        subviews.forEach { $0.removeFromSuperview() }
+        let cards = (0 ..< app.session.lists(app.project)).map { CGFloat(app.session.cards(app.project, list: $0)) }
+        let top = cards.max() ?? 1
         
-        totalWidth = (.init(app.session.lists(app.project)) * (width + space)) + 35
-        totalHeight = height + 60 + width
-        
-        let cards = (0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }
-        let top = CGFloat(cards.max() ?? 1)
-        
-        let mask = CALayer()
-        mask.masksToBounds = true
-        mask.frame = .init(x: 0, y: 60, width: totalWidth, height: totalHeight - 60)
-        layer!.addSublayer(mask)
-        
-        var y = [CGFloat]()
-        cards.enumerated().forEach { card in
-            let shape = CAShapeLayer()
-            shape.strokeColor = NSColor(named: "haze")!.cgColor
-            shape.lineWidth = width
-            shape.fillColor = .clear
-            let x = (.init(card.0) * (width + space)) + (width / 2) + 50
-            if card.1 > 0 {
-                shape.lineCap = .round
-                y.append(.init(card.1) / top * height)
-                
-                if y.dropLast().first(where: { abs($0 - y.last!) < 18 }) == nil
-                    && !cards.enumerated().contains(where: { $0.0 < card.0 && $0.1 == card.1 }) {
-                    let line = CAShapeLayer()
-                    line.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
-                    line.lineWidth = 2
-                    line.lineCap = .round
-                    line.fillColor = .clear
-                    line.path = {
-                        $0.move(to: .init(x: 45, y: y.last! + 60))
-                        $0.addLine(to: .init(x: totalWidth - 20, y: y.last! + 60))
-                        return $0
-                    } (CGMutablePath())
-                    layer!.addSublayer(line)
-                    
-                    let counter = Label("\(card.1)", 14, .bold, NSColor(named: "haze")!)
-                    addSubview(counter)
-                    
-                    counter.centerYAnchor.constraint(equalTo: bottomAnchor, constant: -(y.last! + 60)).isActive = true
-                    counter.rightAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
-                }
-            } else {
-                y.append(2)
+        if subviews.count > cards.count {
+            (cards.count ..< subviews.count).forEach {
+                subviews[$0].removeFromSuperview()
             }
-            shape.path = {
-                $0.move(to: .init(x: x, y: -width))
-                $0.addLine(to: .init(x: x, y: y.last!))
-                return $0
-            } (CGMutablePath())
-            mask.addSublayer(shape)
-            
-            let name = Label(app.session.name(app.project, list: card.0), 12, .bold, NSColor(named: "haze")!)
-            name.lineBreakMode = .byTruncatingTail
-            name.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-            name.maximumNumberOfLines = 1
-            addSubview(name)
-            
-            name.widthAnchor.constraint(lessThanOrEqualToConstant: 60).isActive = true
-            name.centerXAnchor.constraint(equalTo: leftAnchor, constant: x).isActive = true
-            name.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
+        } else {
+            (subviews.count ..< cards.count).forEach {
+                let line = Line()
+                addSubview(line)
+                
+                line.topAnchor.constraint(equalTo: topAnchor).isActive = true
+                line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 5).isActive = true
+                
+                if $0 == cards.count - 1 {
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 5)
+                }
+            }
         }
         
-        _width.constant = totalWidth
-        _height.constant = totalHeight
+        layoutSubtreeIfNeeded()
+
+        (subviews as! [Line]).enumerated().forEach {
+            $0.1.line.layer!.cornerRadius = cards[$0.0] == 0 ? 0 : 6
+            $0.1.shape.constant = max(cards[$0.0] / top, 0.1) * 80
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, NSColor(named: "haze")!),
+                                   (app.session.name(app.project, list: $0.0), 11, .regular, NSColor(named: "haze")!)],
+                                  align: .center)
+        }
+        
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 1.5
+            $0.allowsImplicitAnimation = true
+            layoutSubtreeIfNeeded()
+        }
+    }
+}
+
+private final class Line: NSView {
+    private(set) weak var shape: NSLayoutConstraint!
+    private(set) weak var line: NSView!
+    private(set) weak var label: Label!
+    
+    required init?(coder: NSCoder) { nil }
+    init() {
+        super.init(frame: .zero)
+        wantsLayer = true
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        let line = NSView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.wantsLayer = true
+        line.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        addSubview(line)
+        self.line = line
+        
+        let label = Label([])
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        addSubview(label)
+        self.label = label
+        
+        line.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        line.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -48).isActive = true
+        shape = line.heightAnchor.constraint(equalToConstant: 0)
+        shape.isActive = true
+        
+        rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
     }
 }

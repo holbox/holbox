@@ -78,7 +78,7 @@ final class Ring: Chart {
             percent.alphaValue = 0
         }) { [weak self] in
             guard let self = self else { return }
-            self.label.attributed([("\(Int(self.current))\n", 20, .bold, NSColor(named: "haze")!),
+            self.label.attributed([("\(Int(self.current))\n", 22, .bold, NSColor(named: "haze")!),
                                     ("\(Int(self.total))", 14, .regular, NSColor(named: "haze")!)])
             self.percent.stringValue = self.formatter.string(from: NSNumber(value: Double(amount)))!
 
