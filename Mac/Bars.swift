@@ -41,7 +41,7 @@ final class Bars: Chart {
 
         (subviews as! [Line]).enumerated().forEach {
             $0.1.line.layer!.cornerRadius = cards[$0.0] == 0 ? 0 : 6
-            $0.1.shape.constant = max(cards[$0.0] / top, 0.1) * 80
+            $0.1.shape.constant = max(cards[$0.0] / max(top, 1), 0.1) * 80
             $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, NSColor(named: "haze")!),
                                    (app.session.name(app.project, list: $0.0), 11, .regular, NSColor(named: "haze")!)],
                                   align: .center)

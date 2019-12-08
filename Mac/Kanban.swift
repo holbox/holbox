@@ -3,9 +3,9 @@ import AppKit
 final class Kanban: View {
     private(set) weak var tags: Tags!
     private(set) weak var _add: Button!
-    private(set) weak var ring: Ring!
-    private(set) weak var bars: Bars!
     private weak var drag: Card?
+    private weak var ring: Ring!
+    private weak var bars: Bars!
     private weak var scroll: Scroll!
     
     required init?(coder: NSCoder) { nil }

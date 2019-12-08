@@ -7,10 +7,8 @@ final class Ring: Chart {
     private weak var percent: Label!
     private weak var label: Label!
     private var last = CGFloat()
-    private let width = CGFloat(190)
-    private let height = CGFloat(140)
     private let formatter = NumberFormatter()
-    private let center = CGPoint(x: 60, y: 70)
+    private let middle = CGPoint(x: 60, y: 70)
     
     required init?(coder: NSCoder) { nil }
     override init() {
@@ -22,7 +20,7 @@ final class Ring: Chart {
         off.lineWidth = 4
         off.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
         off.path = {
-            $0.addArc(center: center, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
+            $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
         } (CGMutablePath())
         layer!.addSublayer(off)
@@ -33,7 +31,7 @@ final class Ring: Chart {
         on.lineCap = .round
         on.strokeColor = NSColor(named: "haze")!.cgColor
         on.path = {
-            $0.addArc(center: center, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+            $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: true)
             return $0
         } (CGMutablePath())
         on.strokeEnd = 0
@@ -48,11 +46,11 @@ final class Ring: Chart {
         addSubview(label)
         self.label = label
         
-        widthAnchor.constraint(equalToConstant: width).isActive = true
-        heightAnchor.constraint(equalToConstant: height).isActive = true
+        widthAnchor.constraint(equalToConstant: 190).isActive = true
+        heightAnchor.constraint(equalToConstant: 140).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: center.x).isActive = true
+        percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: middle.x).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true

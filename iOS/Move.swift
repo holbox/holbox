@@ -18,7 +18,7 @@ final class Move: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .init(white: 0, alpha: 0.6)
+        view.backgroundColor = .init(white: 0, alpha: 0.7)
         
         let _up = Button("arrow", target: self, action: #selector(up))
         
@@ -115,6 +115,7 @@ final class Move: UIViewController {
         }) { [weak self] _ in
             guard let self = self else { return }
             self.card.kanban?.scroll.center(self.card.frame)
+            self.card.kanban?.charts()
         }
     }
     

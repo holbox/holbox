@@ -5,6 +5,7 @@ final class Todo: View, UITextViewDelegate {
     private weak var new: Text!
     private weak var scroll: Scroll!
     private weak var _add: Button!
+    private weak var ring: Ring!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -32,6 +33,10 @@ final class Todo: View, UITextViewDelegate {
         scroll.add(_add)
         self._add = _add
         
+        let ring = Ring()
+        scroll.add(ring)
+        self.ring = ring
+        
         scroll.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
@@ -39,6 +44,10 @@ final class Todo: View, UITextViewDelegate {
         scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        
+        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: -20).isActive = true
         new.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         new.rightAnchor.constraint(equalTo: scroll.right).isActive = true
         
@@ -54,11 +63,7 @@ final class Todo: View, UITextViewDelegate {
     
     override func refresh() {
         isUserInteractionEnabled = false
-        scroll.views.filter { $0 is Task || $0 is Chart }.forEach { $0.removeFromSuperview() }
-        
-        let ring = Ring(app.session.cards(app.project, list: 1),
-                        total: app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
-        scroll.add(ring)
+        scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         
         var top: NSLayoutYAxisAnchor?
         [0, 1].forEach { list in
@@ -80,11 +85,9 @@ final class Todo: View, UITextViewDelegate {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
         }
         
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        
-        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: -20).isActive = true
-        
+        ring.current = .init(app.session.cards(app.project, list: 1))
+        ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
+        ring.refresh()
         scroll.content.layoutIfNeeded()
         isUserInteractionEnabled = true
     }

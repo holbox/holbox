@@ -4,6 +4,8 @@ final class Kanban: View {
     private(set) weak var scroll: Scroll!
     private(set) weak var _add: Button!
     private(set) weak var tags: Tags!
+    private weak var ring: Ring!
+    private weak var bars: Bars!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -19,6 +21,14 @@ final class Kanban: View {
         let _add = Button("plus", target: self, action: #selector(add))
         scroll.add(_add)
         self._add = _add
+        
+        let ring = Ring()
+        scroll.add(ring)
+        self.ring = ring
+
+        let bars = Bars()
+        scroll.add(bars)
+        self.bars = bars
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -28,7 +38,16 @@ final class Kanban: View {
         scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
 
-        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
+        bars.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 30).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 30).isActive = true
+        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -38,7 +57,7 @@ final class Kanban: View {
     
     override func refresh() {
         isUserInteractionEnabled = false
-        scroll.views.filter { $0 is Card || $0 is Column || $0 is Chart }.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project)).forEach { list in
@@ -79,25 +98,9 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        let ring = Ring(app.session.cards(app.project, list: app.session.lists(app.project) - 1), total:
-            (0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
-        scroll.add(ring)
-
-        let bars = Bars()
-        scroll.add(bars)
-        
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 40).isActive = true
-        bars.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 30).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 30).isActive = true
-        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
-        
         scroll.right.constraint(greaterThanOrEqualTo: left, constant: 20).isActive = true
         tags.refresh()
+        charts()
         isUserInteractionEnabled = true
     }
     
@@ -115,6 +118,13 @@ final class Kanban: View {
                 scroll.center(scroll.content.convert($0.layoutManager.boundingRect(forGlyphRange: range, in: $0.textContainer), from: $0))
             }
         }
+    }
+    
+    func charts() {
+        ring.current = .init(app.session.cards(app.project, list: app.session.lists(app.project) - 1))
+        ring.total = .init((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
+        ring.refresh()
+        bars.refresh()
     }
     
     @objc private func add() {
