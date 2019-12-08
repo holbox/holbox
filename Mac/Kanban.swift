@@ -3,10 +3,10 @@ import AppKit
 final class Kanban: View {
     private(set) weak var tags: Tags!
     private(set) weak var _add: Button!
+    private(set) weak var scroll: Scroll!
     private weak var drag: Card?
     private weak var ring: Ring!
     private weak var bars: Bars!
-    private weak var scroll: Scroll!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -110,7 +110,7 @@ final class Kanban: View {
                 }
 
                 if $0 == app.session.cards(app.project, list: list) - 1 {
-                    scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+                    card.bottom = scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30)
                 }
                 
                 card.column = column
