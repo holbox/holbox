@@ -43,10 +43,11 @@ final class Ring: Chart {
         self.percent = percent
         
         let label = Label([])
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(label)
         self.label = label
         
-        widthAnchor.constraint(equalToConstant: 190).isActive = true
+        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 5).isActive = true
         heightAnchor.constraint(equalToConstant: 140).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

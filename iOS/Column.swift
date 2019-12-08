@@ -2,10 +2,12 @@ import UIKit
 
 final class Column: Text, UITextViewDelegate {
     let index: Int
+    private weak var kanban: Kanban!
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int) {
+    init(_ kanban: Kanban, index: Int) {
         self.index = index
+        self.kanban = kanban
         super.init()
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         isScrollEnabled = false
@@ -56,6 +58,7 @@ final class Column: Text, UITextViewDelegate {
         if text != app.session.name(app.project, list: index) {
             app.session.name(app.project, list: index, name: text)
             app.alert(.key("Column"), message: text)
+            kanban.charts()
         }
     }
     

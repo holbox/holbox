@@ -110,7 +110,7 @@ final class Move: UIViewController {
     }
     
     private func translate() {
-        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
             self?.card.superview!.layoutIfNeeded()
         }) { [weak self] _ in
             guard let self = self else { return }

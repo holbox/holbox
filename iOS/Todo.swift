@@ -45,7 +45,7 @@ final class Todo: View, UITextViewDelegate {
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: -20).isActive = true
         new.leftAnchor.constraint(equalTo: scroll.left).isActive = true

@@ -39,13 +39,13 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
 
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         bars.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 30).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 30).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
@@ -61,7 +61,7 @@ final class Kanban: View {
         
         var left = tags.rightAnchor
         (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(list)
+            let column = Column(self, index: list)
             scroll.add(column)
             
             if list == 0 {
@@ -127,11 +127,28 @@ final class Kanban: View {
     @objc private func add() {
         app.window!.endEditing(true)
         app.session.add(app.project, list: 0)
-        refresh()
-        scroll.views.compactMap { $0 as? Card }.first { $0.index == 0 && $0.column.index == 0 }!.edit()
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        let cards = scroll.views.compactMap { $0 as? Card }.filter { $0.column.index == 0 }
+        let card = Card(self, index: 0)
+        scroll.add(card)
+        card.column = scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!
+        card.update(false)
+        scroll.content.layoutIfNeeded()
+        
+        scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
+        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10)
+        card.child = cards.first { $0.index == 0 }
+        
+        cards.forEach {
+            $0.index += 1
+        }
+        
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            self?.scroll.content.layoutIfNeeded()
             self?.scroll.contentOffset.x = 0
             self?.scroll.contentOffset.y = 0
+        }) { [weak self, weak card] _ in
+            card?.edit()
+            self?.charts()
         }
     }
 }

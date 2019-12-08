@@ -26,21 +26,22 @@ final class Tag: UIView {
         
         let _count = Label("\(count)", 14, .medium, UIColor(named: "haze")!)
         _count.isAccessibilityElement = false
+        _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(_count)
         
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
-        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 20).isActive = true
+        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 10).isActive = true
         
-        base.topAnchor.constraint(equalTo: label.topAnchor, constant: -5).isActive = true
-        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
-        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
+        base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 32).isActive = true
         base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
         
-        label.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
         
-        _count.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
-        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        _count.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {

@@ -48,11 +48,11 @@ final class Todo: View, NSTextViewDelegate {
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         new.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
         new.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true

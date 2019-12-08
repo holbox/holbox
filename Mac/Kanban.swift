@@ -40,15 +40,15 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 50).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         bars.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
@@ -131,12 +131,9 @@ final class Kanban: View {
         let card = Card(self, index: 0)
         scroll.add(card)
 
+        scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
         card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
         card.child = cards.first { $0.index == 0 }
-        
-        if card.child == nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
-        }
         
         cards.forEach {
             $0.index += 1

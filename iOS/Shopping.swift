@@ -58,7 +58,7 @@ final class Shopping: View {
         _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
         refresh()
     }
