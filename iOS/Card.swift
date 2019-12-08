@@ -9,13 +9,6 @@ final class Card: Text, UITextViewDelegate {
         }
     }
     
-    weak var bottom: NSLayoutConstraint! {
-        didSet {
-            oldValue?.isActive = false
-            bottom.isActive = true
-        }
-    }
-    
     weak var child: Card! {
         didSet {
             child?.top = child?.topAnchor.constraint(equalTo: bottomAnchor, constant: 10)

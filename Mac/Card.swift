@@ -9,13 +9,6 @@ final class Card: Text, NSTextViewDelegate {
         }
     }
     
-    weak var bottom: NSLayoutConstraint! {
-        didSet {
-            oldValue?.isActive = false
-            bottom.isActive = true
-        }
-    }
-    
     weak var child: Card! {
         didSet {
             child?.top = child?.topAnchor.constraint(equalTo: bottomAnchor, constant: 20)
@@ -166,9 +159,6 @@ final class Card: Text, NSTextViewDelegate {
                 $0.index += 1
             }
             column = destination
-            if index == app.session.cards(app.project, list: column.index) - 1 {
-                bottom = kanban.scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor, constant: 30)
-            }
             kanban.charts()
             update(true)
             superview!.subviews.compactMap { $0 as? Card }.forEach { $0.track() }

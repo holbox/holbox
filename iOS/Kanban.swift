@@ -84,10 +84,7 @@ final class Kanban: View {
                     top!.child = card
                 }
                 
-                if $0 == app.session.cards(app.project, list: list) - 1 {
-                    tags.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
-                }
-                
+                scroll.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
                 card.column = column
                 card.update(false)
                 top = card
