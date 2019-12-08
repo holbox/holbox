@@ -123,7 +123,7 @@ final class Card: Text, NSTextViewDelegate {
                     $0.index -= 1
                 }
                 NSAnimationContext.runAnimationGroup {
-                    $0.duration = 0.4
+                    $0.duration = 0.6
                     $0.allowsImplicitAnimation = true
                     layer!.backgroundColor = .black
                     layer!.borderWidth = 5
@@ -220,7 +220,7 @@ final class Card: Text, NSTextViewDelegate {
         }
         if animate {
             NSAnimationContext.runAnimationGroup {
-                $0.duration = 0.4
+                $0.duration = 0.6
                 $0.allowsImplicitAnimation = true
                 layer!.backgroundColor = color
                 layer!.borderWidth = 0

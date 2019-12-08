@@ -6,7 +6,7 @@ final class Label: NSTextField {
     override var mouseDownCanMoveWindow: Bool { true }
     override func acceptsFirstMouse(for: NSEvent?) -> Bool { false }
     required init?(coder: NSCoder) { nil }
-    
+
     init(_ string: String, _ size: CGFloat, _ weight: NSFont.Weight, _ color: NSColor) {
         super.init(frame: .zero)
         font = .systemFont(ofSize: size, weight: weight)
@@ -29,11 +29,15 @@ final class Label: NSTextField {
     
     init(_ strings: [(String, CGFloat, NSFont.Weight, NSColor)]) {
         super.init(frame: .zero)
+        attributed(strings)
+        configure()
+    }
+    
+    func attributed(_ strings: [(String, CGFloat, NSFont.Weight, NSColor)]) {
         attributedStringValue = strings.reduce(into: NSMutableAttributedString(), {
             $0.append(.init(string: $1.0, attributes: [.font: NSFont.systemFont(ofSize: $1.1, weight: $1.2), .foregroundColor: $1.3]))
         })
         setAccessibilityLabel(attributedStringValue.string)
-        configure()
     }
     
     private func configure() {
