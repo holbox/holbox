@@ -39,7 +39,7 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 50).isActive = true

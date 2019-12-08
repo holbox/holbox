@@ -49,9 +49,9 @@ final class Shopping: View {
         stock.bottom.constraint(equalTo: stock.bottomAnchor).isActive = true
         
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor).isActive = true
         tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
         

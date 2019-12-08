@@ -29,19 +29,19 @@ final class Tag: NSView {
         _count.setAccessibilityElement(false)
         addSubview(_count)
         
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
-        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 20).isActive = true
+        bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: 5).isActive = true
+        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 10).isActive = true
         
-        base.topAnchor.constraint(equalTo: label.topAnchor, constant: -5).isActive = true
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
         base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
-        base.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
         base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
         
-        label.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
+        label.topAnchor.constraint(equalTo: base.topAnchor, constant: 5).isActive = true
         
-        _count.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
-        _count.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        _count.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
+        _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true
     }
     
     override func resetCursorRects() {
