@@ -40,8 +40,9 @@ final class Bars: Chart {
         layoutIfNeeded()
 
         (subviews as! [Line]).enumerated().forEach {
-            $0.1.line.layer.cornerRadius = cards[$0.0] == 0 ? 0 : 6
-            $0.1.shape.constant = max(cards[$0.0] / max(top, 1), 0.1) * 80
+            let amount = max(cards[$0.0] / max(top, 1), 0.1)
+            $0.1.line.layer.cornerRadius = amount <= 0.2 ? 0 : 6
+            $0.1.shape.constant = amount * 80
             $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, UIColor(named: "haze")!),
                                    (app.session.name(app.project, list: $0.0), 11, .regular, UIColor(named: "haze")!)],
                                   align: .center)
