@@ -196,6 +196,11 @@ public final class Session {
         save(project)
     }
     
+    public func delete(_ project: Int, list: Int) {
+        items[project]!.cards.remove(at: list)
+        save(project)
+    }
+    
     public func delete(_ project: Int, list: Int, card: Int) {
         items[project]!.cards[list].1.remove(at: card)
         save(project)

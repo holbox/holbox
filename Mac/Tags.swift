@@ -13,6 +13,10 @@ final class Tags: NSView {
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
         width.isActive = true
+        
+        let height = heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
     }
     
     func refresh() {
@@ -44,7 +48,7 @@ final class Tags: NSView {
                 tag.topAnchor.constraint(equalTo: top).isActive = true
                 top = tag.bottomAnchor
             }
-            bottomAnchor.constraint(equalTo: top, constant: 20).isActive = true
+            bottomAnchor.constraint(equalTo: top).isActive = true
         }
         layoutSubtreeIfNeeded()
         NSAnimationContext.runAnimationGroup ({

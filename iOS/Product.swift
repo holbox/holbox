@@ -106,7 +106,7 @@ final class Product: UIView {
                     self.active = false
                     self.shopping?.isUserInteractionEnabled = false
                     let product = app.session.product(app.project, index: self.index)
-                    app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
+                    app.alert(.key("Shopping.added"), message: product.0 + " " + product.1)
                     app.session.add(app.project, reference: self.index)
                     self.shopping?.refresh()
                     self.shopping?.groceryLast()

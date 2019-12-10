@@ -114,7 +114,7 @@ final class Product: NSView {
         if active {
             if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
                 let product = app.session.product(app.project, index: index)
-                app.alert(.key("Shopping.add"), message: product.0 + " " + product.1)
+                app.alert(.key("Shopping.added"), message: product.0 + " " + product.1)
                 app.session.add(app.project, reference: index)
                 shopping.refresh()
                 shopping.groceryLast()

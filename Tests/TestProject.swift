@@ -104,6 +104,21 @@ final class TestProject: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
+    func testDeleteColumn() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.items[0]!.cards = [("hello", []), ("world", [])]
+        session.items[0]!.time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.items[0]!.time)
+            XCTAssertEqual(1, $2.cards.count)
+            XCTAssertEqual("hello", $2.cards[0].0)
+            expect.fulfill()
+        }
+        session.delete(0, list: 1)
+        waitForExpectations(timeout: 1)
+    }
+    
     func testContent() {
         let expect = expectation(description: "")
         let time = Date()

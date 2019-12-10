@@ -22,6 +22,9 @@ final class Bars: Chart {
             (cards.count ..< subviews.count).forEach {
                 subviews[$0].removeFromSuperview()
             }
+            if let last = subviews.last {
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 5)
+            }
         } else {
             (subviews.count ..< cards.count).forEach {
                 let line = Line()

@@ -24,6 +24,7 @@ final class Shopping: View {
         addSubview(right)
         
         let _add = Button("plus", target: self, action: #selector(add))
+        _add.accessibilityLabel = .key("Shopping.add")
         addSubview(_add)
         
         let ring = Ring()

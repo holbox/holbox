@@ -30,6 +30,7 @@ final class Todo: View, UITextViewDelegate {
         self.new = new
         
         let _add = Button("plus", target: self, action: #selector(add))
+        _add.accessibilityLabel = .key("Todo.add")
         scroll.add(_add)
         self._add = _add
         

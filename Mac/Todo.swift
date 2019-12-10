@@ -33,6 +33,7 @@ final class Todo: View, NSTextViewDelegate {
         self.new = new
         
         let _add = Button("plus", target: self, action: #selector(add))
+        _add.setAccessibilityLabel(.key("Todo.add"))
         scroll.add(_add)
         
         let ring = Ring()

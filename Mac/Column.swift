@@ -3,6 +3,7 @@ import AppKit
 final class Column: Text, NSTextViewDelegate {
     let index: Int
     private weak var kanban: Kanban!
+    private weak var _delete: Image!
     private weak var width: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
@@ -24,6 +25,11 @@ final class Column: Text, NSTextViewDelegate {
         textContainer!.widthTracksTextView = false
         textContainer!.size.width = 300
         
+        let _delete = Image("delete")
+        _delete.alphaValue = 0
+        addSubview(_delete)
+        self._delete = _delete
+        
         let min = widthAnchor.constraint(equalToConstant: 0)
         min.priority = .defaultLow
         min.isActive = true
@@ -35,9 +41,56 @@ final class Column: Text, NSTextViewDelegate {
         height.priority = .defaultLow
         height.isActive = true
         
+        _delete.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
         delegate = self
         layoutManager!.ensureLayout(for: textContainer!)
         resize()
+        
+        track()
+    }
+    
+    override func mouseEntered(with: NSEvent) {
+        if window!.firstResponder != self {
+            super.mouseEntered(with: with)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.5
+                $0.allowsImplicitAnimation = true
+                _delete.alphaValue = 1
+            }
+        }
+    }
+    
+    override func mouseExited(with: NSEvent) {
+        if window!.firstResponder != self {
+            super.mouseExited(with: with)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.5
+                $0.allowsImplicitAnimation = true
+                _delete.alphaValue = 0
+            }
+        }
+    }
+    
+    override func mouseUp(with: NSEvent) {
+        if window!.firstResponder != self && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            window!.makeFirstResponder(superview!)
+            if app.session.lists(app.project) > 1 {
+                if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    app.session.delete(app.project, list: index)
+                    kanban.refresh()
+                } else {
+                    _delete!.alphaValue = 0
+                    app.runModal(for: Delete.List(index))
+                }
+            } else {
+                app.alert(.key("Kanban.last"), message: .key("Kanban.need"))
+            }
+        }
+        super.mouseUp(with: with)
     }
     
     func textDidChange(_: Notification) {
@@ -47,6 +100,14 @@ final class Column: Text, NSTextViewDelegate {
     func textDidEndEditing(_: Notification) {
         app.session.name(app.project, list: index, name: string)
         kanban.charts()
+    }
+    
+    func untrack() {
+        trackingAreas.forEach(removeTrackingArea(_:))
+    }
+    
+    func track() {
+        addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
     }
     
     private func resize() {

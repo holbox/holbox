@@ -71,6 +71,28 @@ class Delete: Modal {
         }
     }
     
+    final class List: Delete {
+        private let index: Int
+        
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+            let name = Label(app.session.name(app.project, list: index), 18, .regular, NSColor(named: "haze")!)
+            name.maximumNumberOfLines = 3
+            contentView!.addSubview(name)
+            
+            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
+        }
+        
+        override func confirm() {
+            app.alert(.key("Delete.done"), message: app.session.name(app.project, list: index))
+            app.session.delete(app.project, list: index)
+            super.confirm()
+        }
+    }
+    
     private init() {
         super.init(260, 260)
         let icon = Image("trash")

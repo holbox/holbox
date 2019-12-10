@@ -19,6 +19,7 @@ final class Kanban: View {
         self.tags = tags
         
         let _add = Button("plus", target: self, action: #selector(add))
+        _add.accessibilityLabel = .key("Kanban.add")
         scroll.add(_add)
         self._add = _add
         

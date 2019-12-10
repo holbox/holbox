@@ -119,8 +119,12 @@ final class Card: Text, NSTextViewDelegate {
                     child?.top = child?.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
                 }
                 child = nil
-                superview!.subviews.compactMap { $0 as? Card }.filter { $0.column === column && $0.index > index }.forEach {
-                    $0.index -= 1
+                superview!.subviews.compactMap { $0 as? Column }.forEach { $0.untrack() }
+                superview!.subviews.compactMap { $0 as? Card }.forEach {
+                    $0.untrack()
+                    if $0.column === column && $0.index > index {
+                        $0.index -= 1
+                    }
                 }
                 NSAnimationContext.runAnimationGroup {
                     $0.duration = 0.6
@@ -162,6 +166,7 @@ final class Card: Text, NSTextViewDelegate {
             kanban.charts()
             update(true)
             superview!.subviews.compactMap { $0 as? Card }.forEach { $0.track() }
+            superview!.subviews.compactMap { $0 as? Column }.forEach { $0.track() }
         } else {
             deltaX = 0
             deltaY = 0
@@ -195,8 +200,7 @@ final class Card: Text, NSTextViewDelegate {
     }
     
     override func mouseUp(with: NSEvent) {
-        if !dragging && window!.firstResponder != self && _delete != nil
-            && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if !dragging && window!.firstResponder != self && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
             if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project, list: column.index, card: index)
@@ -233,11 +237,11 @@ final class Card: Text, NSTextViewDelegate {
         }
     }
     
-    func untrack() {
-        trackingAreas.forEach(removeTrackingArea(_:))
-    }
-    
     private func track() {
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+    }
+    
+    private func untrack() {
+        trackingAreas.forEach(removeTrackingArea(_:))
     }
 }

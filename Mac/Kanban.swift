@@ -20,6 +20,7 @@ final class Kanban: View {
         self.tags = tags
         
         let _add = Button("plus", target: self, action: #selector(add))
+        _add.setAccessibilityLabel(.key("Kanban.add"))
         scroll.add(_add)
         self._add = _add
         
@@ -31,18 +32,25 @@ final class Kanban: View {
         scroll.add(bars)
         self.bars = bars
         
+        let column = Control(.key("Kanban.column"), self, #selector(self.column), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
+        scroll.add(column)
+        
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 50).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 50).isActive = true
+        
+        column.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        column.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 40).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -63,7 +71,6 @@ final class Kanban: View {
             if let drag = view as? Card ?? view.superview as? Card ?? view.superview?.superview as? Card {
                 drag.layer!.removeFromSuperlayer()
                 scroll.documentView!.layer!.addSublayer(drag.layer!)
-                scroll.views.compactMap { $0 as? Card }.forEach { $0.untrack() }
                 self.drag = drag
             }
         } else {
@@ -180,5 +187,13 @@ final class Kanban: View {
     private func end(_ event: NSEvent) {
         drag?.stop()
         drag = nil
+    }
+    
+    @objc private func column() {
+        window!.makeFirstResponder(self)
+        app.session.add(app.project)
+        app.session.name(app.project, list: app.session.lists(app.project) - 1, name: .key("Kanban.new"))
+        refresh()
+        app.alert(app.session.name(app.project), message: .key("Kanban.added"))
     }
 }
