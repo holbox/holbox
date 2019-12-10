@@ -3,7 +3,6 @@ import AppKit
 final class Alert: Modal {
     init(_ title: String, message: String) {
         super.init(400, 80)
-        contentView!.alphaValue = 0.7
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 200, y: NSScreen.main!.frame.maxY - 150))
         
         let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .regular, .white)])

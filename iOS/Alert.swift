@@ -8,20 +8,20 @@ final class Alert: UIView {
         backgroundColor = UIColor(named: "background")!
         layer.cornerRadius = 8
         layer.borderWidth = 1
-        layer.borderColor = UIColor.black.cgColor
+        layer.borderColor = UIColor(named: "haze")!.cgColor
         isAccessibilityElement = true
         accessibilityTraits = .staticText
         accessibilityViewIsModal = true
         accessibilityLabel = title + ": " + message
         
-        let label = Label([(title + "\n", 14, .bold, .white), (message, 14, .light, .init(white: 1, alpha: 0.8))])
+        let label = Label([(title + "\n", 14, .bold, .white), (message, 14, .light, .white)])
         label.isAccessibilityElement = false
         addSubview(label)
         
         bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 15).isActive = true
         
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -20).isActive = true
+        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+        label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -30).isActive = true
         label.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in self?.close() }
