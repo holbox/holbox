@@ -18,7 +18,7 @@ final class Move: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .init(white: 0, alpha: 0.7)
+        view.backgroundColor = .init(white: 0, alpha: 0.8)
         
         let _up = Button("arrow", target: self, action: #selector(up))
         
@@ -79,11 +79,11 @@ final class Move: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
-        _up.1.constant = -60
-        _down.1.constant = 60
-        _left.1.constant = -60
-        _right.1.constant = 60
-        UIView.animate(withDuration: 0.4) { [weak self] in
+        _up.1.constant = -70
+        _down.1.constant = 70
+        _left.1.constant = -70
+        _right.1.constant = 70
+        UIView.animate(withDuration: 0.5) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
@@ -223,9 +223,15 @@ final class Move: UIViewController {
     }
     
     @objc private func remove() {
-        presentingViewController!.dismiss(animated: true) { [weak self] in
-            guard let card = self?.card else { return }
-            app.present(Delete.Card(card.index, list: card.column.index), animated: true)
+        if app.session.content(app.project, list: card.column.index, card: card.index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            app.session.delete(app.project, list: card.column.index, card: card.index)
+            card.kanban.refresh()
+            close()
+        } else {
+            presentingViewController!.dismiss(animated: true) { [weak self] in
+                guard let card = self?.card else { return }
+                app.present(Delete.Card(card.index, list: card.column.index), animated: true)
+            }
         }
     }
     

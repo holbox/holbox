@@ -11,7 +11,7 @@ final class Bars: Chart {
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        heightAnchor.constraint(equalToConstant: 140).isActive = true
+        heightAnchor.constraint(equalToConstant: 160).isActive = true
     }
     
     func refresh() {
@@ -21,6 +21,9 @@ final class Bars: Chart {
         if subviews.count > cards.count {
             (cards.count ..< subviews.count).forEach {
                 subviews[$0].removeFromSuperview()
+            }
+            if let last = subviews.last {
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 5)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -40,7 +43,7 @@ final class Bars: Chart {
         layoutIfNeeded()
 
         (subviews as! [Line]).enumerated().forEach {
-            let amount = max(cards[$0.0] / max(top, 1), 0.1)
+            let amount = max(cards[$0.0] / max(top, 1), 0.02)
             $0.1.line.layer.cornerRadius = amount <= 0.2 ? 0 : 6
             $0.1.shape.constant = amount * 80
             $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, UIColor(named: "haze")!),
@@ -72,17 +75,19 @@ private final class Line: UIView {
         
         let label = Label([])
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.numberOfLines = 4
         addSubview(label)
         self.label = label
         
         line.widthAnchor.constraint(equalToConstant: 12).isActive = true
         line.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -48).isActive = true
+        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -68).isActive = true
         shape = line.heightAnchor.constraint(equalToConstant: 0)
         shape.isActive = true
         
         rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
+        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
     }
 }

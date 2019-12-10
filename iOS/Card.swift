@@ -73,6 +73,7 @@ final class Card: Text, UITextViewDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
+            app.window!.endEditing(true)
             UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
             }
@@ -87,6 +88,7 @@ final class Card: Text, UITextViewDelegate {
     
     func textViewDidChange(_: UITextView) {
         resize()
+        kanban.scroll.center(frame)
     }
     
     func textViewDidEndEditing(_: UITextView) {

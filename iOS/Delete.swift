@@ -8,13 +8,11 @@ class Delete: UIViewController {
         init(_ index: Int) {
             self.index = index
             super.init()
-            let name = Label(app.session.name(index), 18, .regular, UIColor(named: "haze")!)
-            name.numberOfLines = 3
-            view.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
-            name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            name.text = app.session.name(index)
         }
         
         override func confirm() {
@@ -33,13 +31,11 @@ class Delete: UIViewController {
             self.index = index
             self.list = list
             super.init()
-            let name = Label(app.session.content(app.project, list: list, card: index), 18, .regular, UIColor(named: "haze")!)
-            name.numberOfLines = 3
-            view.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
-            name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            name.text = app.session.content(app.project, list: list, card: index)
         }
         
         override func confirm() {
@@ -56,14 +52,12 @@ class Delete: UIViewController {
         init(_ index: Int) {
             self.index = index
             super.init()
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
             let product = app.session.product(app.project, index: index)
-            let name = Label(product.0 + " " + product.1, 18, .regular, UIColor(named: "haze")!)
-            name.numberOfLines = 3
-            view.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
-            name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
+            name.text = product.0 + " " + product.1
         }
         
         override func confirm() {
@@ -74,7 +68,28 @@ class Delete: UIViewController {
         }
     }
     
-    private weak var base: UIView!
+    final class List: Delete {
+        private let index: Int
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int) {
+            self.index = index
+            super.init()
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            name.text = app.session.name(app.project, list: index)
+        }
+        
+        override func confirm() {
+            app.alert(.key("Delete.done"), message: app.session.name(app.project, list: index))
+            app.session.delete(app.project, list: index)
+            super.confirm()
+        }
+    }
+    
+    private weak var name: UILabel!
     
     required init?(coder: NSCoder) { nil }
     private init() {
@@ -90,7 +105,6 @@ class Delete: UIViewController {
         base.layer.borderWidth = 1
         base.layer.borderColor = UIColor(named: "haze")!.cgColor
         view.addSubview(base)
-        self.base = base
         
         let gradient = Gradient()
         base.addSubview(gradient)
@@ -106,6 +120,15 @@ class Delete: UIViewController {
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), UIColor(named: "haze")!, .black)
         view.addSubview(_confirm)
+        
+        let name = Label("", 18, .regular, UIColor(named: "haze")!)
+        name.numberOfLines = 3
+        view.addSubview(name)
+        self.name = name
+        
+        name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
+        name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
+        name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
         
         gradient.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
         gradient.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
@@ -132,6 +155,10 @@ class Delete: UIViewController {
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
+        name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
+        name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
     }
     
     @objc private func confirm() {

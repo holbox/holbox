@@ -30,6 +30,9 @@ final class Kanban: View {
         let bars = Bars()
         scroll.add(bars)
         self.bars = bars
+        
+        let column = Control(.key("Kanban.column"), self, #selector(self.column), UIColor(named: "haze")!.withAlphaComponent(0.2), UIColor(named: "haze")!)
+        scroll.add(column)
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -37,7 +40,7 @@ final class Kanban: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.width.constraint(greaterThanOrEqualTo: widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 20).isActive = true
 
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
         ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
@@ -47,8 +50,12 @@ final class Kanban: View {
         
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
-        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
+        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 30).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
+        
+        column.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 40).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -67,7 +74,7 @@ final class Kanban: View {
             
             if list == 0 {
                 _add.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
-                _add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10).isActive = true
+                _add.topAnchor.constraint(equalTo: column.bottomAnchor).isActive = true
             }
             
             var top: Card?
@@ -77,9 +84,9 @@ final class Kanban: View {
                 
                 if top == nil {
                     if list == 0 {
-                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10)
+                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 20)
                     } else {
-                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 10)
+                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor)
                     }
                 } else {
                     top!.child = card
@@ -151,5 +158,13 @@ final class Kanban: View {
             card?.edit()
             self?.charts()
         }
+    }
+    
+    @objc private func column() {
+        app.window!.endEditing(true)
+        app.session.add(app.project)
+        app.session.name(app.project, list: app.session.lists(app.project) - 1, name: .key("Kanban.new"))
+        refresh()
+        app.alert(app.session.name(app.project), message: .key("Kanban.added"))
     }
 }

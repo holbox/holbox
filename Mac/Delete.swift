@@ -7,13 +7,7 @@ class Delete: Modal {
         init(_ index: Int) {
             self.index = index
             super.init()
-            let name = Label(app.session.name(index), 18, .regular, NSColor(named: "haze")!)
-            name.maximumNumberOfLines = 3
-            contentView!.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
-            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
+            name.stringValue = app.session.name(index)
         }
         
         override func confirm() {
@@ -31,13 +25,7 @@ class Delete: Modal {
             self.index = index
             self.list = list
             super.init()
-            let name = Label(app.session.content(app.project, list: list, card: index), 18, .regular, NSColor(named: "haze")!)
-            name.maximumNumberOfLines = 3
-            contentView!.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
-            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
+            name.stringValue = app.session.content(app.project, list: list, card: index)
         }
         
         override func confirm() {
@@ -54,13 +42,7 @@ class Delete: Modal {
             self.index = index
             super.init()
             let product = app.session.product(app.project, index: index)
-            let name = Label(product.0 + " " + product.1, 18, .regular, NSColor(named: "haze")!)
-            name.maximumNumberOfLines = 3
-            contentView!.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
-            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
+            name.stringValue = product.0 + " " + product.1
         }
         
         override func confirm() {
@@ -77,13 +59,7 @@ class Delete: Modal {
         init(_ index: Int) {
             self.index = index
             super.init()
-            let name = Label(app.session.name(app.project, list: index), 18, .regular, NSColor(named: "haze")!)
-            name.maximumNumberOfLines = 3
-            contentView!.addSubview(name)
-            
-            name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
-            name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
-            name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
+            name.stringValue = app.session.name(app.project, list: index)
         }
         
         override func confirm() {
@@ -92,6 +68,8 @@ class Delete: Modal {
             super.confirm()
         }
     }
+    
+    private weak var name: Label!
     
     private init() {
         super.init(260, 260)
@@ -106,6 +84,15 @@ class Delete: Modal {
         
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
         contentView!.addSubview(_confirm)
+        
+        let name = Label("", 18, .regular, NSColor(named: "haze")!)
+        name.maximumNumberOfLines = 3
+        contentView!.addSubview(name)
+        self.name = name
+        
+        name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+        name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+        name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
         
         icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -122,6 +109,10 @@ class Delete: Modal {
         _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -10).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+        name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
+        name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
     }
     
     @objc private func confirm() {

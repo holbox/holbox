@@ -34,11 +34,11 @@ final class Tag: NSView {
         
         base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 5).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
+        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 3).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
         
-        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
-        label.topAnchor.constraint(equalTo: base.topAnchor, constant: 5).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 7).isActive = true
+        label.topAnchor.constraint(equalTo: base.topAnchor, constant: 3).isActive = true
         
         _count.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
         _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true

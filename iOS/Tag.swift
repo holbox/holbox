@@ -29,16 +29,16 @@ final class Tag: UIView {
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(_count)
         
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        heightAnchor.constraint(equalToConstant: 40).isActive = true
         rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 10).isActive = true
         
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 32).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 10).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 7).isActive = true
         
         _count.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true

@@ -35,8 +35,32 @@ final class Column: Text, UITextViewDelegate {
         maxWidth.priority = .defaultLow
         maxWidth.isActive = true
         resize()
-        
-        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(gesture(_:))))
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 0.3
+        }
+        super.touchesBegan(touches, with: with)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 1
+        }
+        super.touchesCancelled(touches, with: with)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
+        if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
+            app.window!.endEditing(true)
+            kanban.scroll.center(frame)
+            app.present(Columner(self), animated: true)
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.alpha = 1
+        }
+        super.touchesEnded(touches, with: with)
     }
     
     func textView(_: UITextView, shouldChangeTextIn: NSRange, replacementText: String) -> Bool {
@@ -49,6 +73,7 @@ final class Column: Text, UITextViewDelegate {
     
     func textViewDidChange(_: UITextView) {
         resize()
+        kanban.scroll.center(frame)
     }
     
     func textViewDidEndEditing(_: UITextView) {
@@ -62,18 +87,20 @@ final class Column: Text, UITextViewDelegate {
         }
     }
     
+    func edit() {
+        isEditable = true
+        isSelectable = true
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.layer.borderWidth = 2
+        }) { [weak self] _ in
+            guard let self = self else { return }
+            self.becomeFirstResponder()
+            self.selectedRange = .init(location: 0, length: self.text.utf16.count)
+        }
+    }
+    
     private func resize() {
         layoutManager.ensureLayout(for: textContainer)
         width.constant = min(max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30, 250)
-    }
-    
-    @objc private func gesture(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state == .began {
-            isEditable = true
-            isSelectable = true
-            layer.borderWidth = 2
-            becomeFirstResponder()
-            selectedRange = .init(location: 0, length: text.utf16.count)
-        }
     }
 }

@@ -12,6 +12,10 @@ final class Tags: UIView {
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
         width.isActive = true
+        
+        let height = heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
     }
     
     func refresh() {
