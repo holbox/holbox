@@ -11,6 +11,12 @@ final class Notes: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
+        let border = Border()
+        addSubview(border)
+        
+        let _pdf = Control("PDF", self, #selector(pdf), NSColor(named: "haze")!.cgColor, .black)
+        addSubview(_pdf)
+        
         let text = Text(.Fix(), Active())
         text.textContainerInset.width = 40
         text.textContainerInset.height = 30
@@ -31,16 +37,24 @@ final class Notes: View, NSTextViewDelegate {
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
         scroll.right.constraint(equalTo: rightAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: border.topAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 10).isActive = true
+        
+        border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
+        
+        _pdf.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
+        _pdf.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
+        _pdf.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         text.topAnchor.constraint(equalTo: scroll.top).isActive = true
         text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
         text.widthAnchor.constraint(lessThanOrEqualToConstant: 900).isActive = true
-        text.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
+        text.bottomAnchor.constraint(greaterThanOrEqualTo: border.topAnchor).isActive = true
         text.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
         let width = text.widthAnchor.constraint(equalToConstant: 900)
@@ -75,5 +89,51 @@ final class Notes: View, NSTextViewDelegate {
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+    }
+    
+    @objc private func pdf() {
+        let save = NSSavePanel()
+        save.nameFieldStringValue = app.session.name(app.project)
+        save.allowedFileTypes = ["pdf"]
+        save.beginSheetModal(for: window!) {
+            if $0 == .OK {
+                let view = NSView()
+                view.translatesAutoresizingMaskIntoConstraints = false
+                
+                let string = app.session.content(app.project, list: 0, card: 0)
+                let label = Label(string.mark {
+                    switch $0 {
+                    case .plain: return (.init(string[$1]), 12, .regular, .black)
+                    case .bold: return (.init(string[$1]), 20, .bold, .black)
+                    case .emoji: return (.init(string[$1]), 26, .regular, .black)
+                    case .tag: return (.init(string[$1]), 10, .medium, .black)
+                    }
+                })
+                view.addSubview(label)
+                
+                label.widthAnchor.constraint(equalToConstant: 470).isActive = true
+                label.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+                label.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                
+                view.rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
+                view.bottomAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+                
+                view.layoutSubtreeIfNeeded()
+                
+                let print = NSPrintOperation(view: view, printInfo: .init(dictionary: [.jobSavingURL: save.url!]))
+                print.printInfo.paperSize = .init(width: 612, height: 792)
+                print.printInfo.jobDisposition = .save
+                print.printInfo.topMargin = 71
+                print.printInfo.leftMargin = 71
+                print.printInfo.rightMargin = 71
+                print.printInfo.bottomMargin = 71
+                print.printInfo.isVerticallyCentered = false
+                print.printInfo.isHorizontallyCentered = false
+                print.printInfo.verticalPagination = .automatic
+                print.showsPrintPanel = false
+                print.showsProgressPanel = false
+                print.run()
+            }
+        }
     }
 }
