@@ -58,7 +58,7 @@ final class Main: UIView {
     }
     
     @objc private func show(_ notification: Notification) {
-        bottom?.constant = -((notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height - safeAreaInsets.bottom)
+        bottom?.constant = -(notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.layoutIfNeeded()
         }

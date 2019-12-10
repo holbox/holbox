@@ -2,14 +2,22 @@ import UIKit
 
 final class Notes: View, UITextViewDelegate {
     private weak var text: Text!
+    private weak var bottom: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()
+        
+        let border = Border()
+        addSubview(border)
+        
+        let _pdf = Control("PDF", self, #selector(pdf), UIColor(named: "haze")!, .black)
+        addSubview(_pdf)
+        
         let text = Text()
         text.bounces = true
         text.alwaysBounceVertical = true
-        text.textContainerInset = .init(top: 20, left: 20, bottom: 30, right: 20)
+        text.textContainerInset = .init(top: 60, left: 20, bottom: 30, right: 20)
         text.accessibilityLabel = .key("Note")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular)
         (text.textStorage as! Storage).fonts = [
@@ -22,17 +30,37 @@ final class Notes: View, UITextViewDelegate {
         text.caret = 4
         addSubview(text)
         self.text = text
-
+        
+        border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        bottom = border.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60)
+        bottom.isActive = true
+        
+        _pdf.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+        _pdf.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        _pdf.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
         text.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        text.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         text.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
 
         refresh()
     }
     
+    func textViewDidBeginEditing(_: UITextView) {
+        bottom.constant = 1
+        UIView.animate(withDuration: 1) { [weak self] in
+            self?.layoutIfNeeded()
+        }
+    }
+    
     func textViewDidEndEditing(_: UITextView) {
         app.session.content(app.project, list: 0, card: 0, content: text.text)
+        bottom.constant = -60
+        UIView.animate(withDuration: 1.5) { [weak self] in
+            self?.layoutIfNeeded()
+        }
     }
     
     override func refresh() {
@@ -54,5 +82,9 @@ final class Notes: View, UITextViewDelegate {
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.text.scrollRectToVisible(frame, animated: true)
         }
+    }
+    
+    @objc private func pdf() {
+        
     }
 }
