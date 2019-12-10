@@ -207,6 +207,7 @@ final class Bar: NSView, NSTextViewDelegate {
     @objc private func home() {
         window!.makeFirstResponder(app.main)
         app.project = nil
+        app.refresh()
     }
     
     @objc private func add() {

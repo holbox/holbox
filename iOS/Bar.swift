@@ -225,6 +225,7 @@ final class Bar: UIView, UITextViewDelegate {
     @objc private func home() {
         app.window!.endEditing(true)
         app.project = nil
+        app.refresh()
     }
     
     @objc private func add() {
