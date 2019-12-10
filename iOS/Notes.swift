@@ -11,13 +11,13 @@ final class Notes: View, UITextViewDelegate {
         let border = Border()
         addSubview(border)
         
-        let _pdf = Control("PDF", self, #selector(pdf), UIColor(named: "haze")!, .black)
+        let _pdf = Control("PDF", self, #selector(pdf(_:)), UIColor(named: "haze")!, .black)
         addSubview(_pdf)
         
         let text = Text()
         text.bounces = true
         text.alwaysBounceVertical = true
-        text.textContainerInset = .init(top: 60, left: 20, bottom: 30, right: 20)
+        text.textContainerInset = .init(top: 20, left: 20, bottom: 30, right: 20)
         text.accessibilityLabel = .key("Note")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular)
         (text.textStorage as! Storage).fonts = [
@@ -84,7 +84,43 @@ final class Notes: View, UITextViewDelegate {
         }
     }
     
-    @objc private func pdf() {
+    @objc private func pdf(_ control: Control) {
+        app.window!.endEditing(true)
         
+        let string = app.session.content(app.project, list: 0, card: 0)
+        let formatter = UISimpleTextPrintFormatter(attributedText: string.mark {
+            switch $0 {
+            case .plain: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .regular)])
+            case .bold: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold)])
+            case .emoji: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 26, weight: .regular)])
+            case .tag: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .medium)])
+            }
+        }.reduce(into: NSMutableAttributedString()) { $0.append($1) })
+        formatter.color = .black
+        let renderer = UIPrintPageRenderer()
+        renderer.addPrintFormatter(formatter, startingAtPageAt: 0)
+        let size = CGSize(width: 612, height: 792)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        renderer.setValue(NSValue(cgRect: rect), forKey: "paperRect")
+        renderer.setValue(NSValue(cgRect: .init(x: 71, y: 71, width: size.width - 142, height: size.height - 142)), forKey: "printableRect")
+        
+        let data = NSMutableData()
+        UIGraphicsBeginPDFContextToData(data, rect, nil)
+        renderer.prepare(forDrawingPages: .init(location: 0, length: renderer.numberOfPages))
+        (0 ..< renderer.numberOfPages).forEach {
+            UIGraphicsBeginPDFPage()
+            renderer.drawPage(at: $0, in: UIGraphicsGetPDFContextBounds())
+        }
+        UIGraphicsEndPDFContext()
+        
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(app.session.name(app.project) + ".pdf")
+        do {
+            try data.write(to: url, options: .atomic)
+            let activity = UIActivityViewController(activityItems:[url], applicationActivities:nil)
+            activity.popoverPresentationController?.sourceView = control
+            app.present(activity, animated: true)
+        } catch {
+            app.alert(.key("Error"), message: error.localizedDescription)
+        }
     }
 }
