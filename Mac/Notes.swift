@@ -1,8 +1,10 @@
+import NaturalLanguage
 import AppKit
 
 final class Notes: View, NSTextViewDelegate {
     private weak var text: Text!
     private weak var scroll: Scroll!
+    private weak var stats: Label!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -16,6 +18,12 @@ final class Notes: View, NSTextViewDelegate {
         
         let _pdf = Control("PDF", self, #selector(pdf), NSColor(named: "haze")!.cgColor, .black)
         addSubview(_pdf)
+        
+        let stats = Label("", 12, .regular, NSColor(named: "haze")!)
+        stats.maximumNumberOfLines = 2
+        stats.lineBreakMode = .byTruncatingHead
+        addSubview(stats)
+        self.stats = stats
         
         let text = Text(.Fix(), Active())
         text.textContainerInset.width = 40
@@ -50,6 +58,10 @@ final class Notes: View, NSTextViewDelegate {
         _pdf.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
         _pdf.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
+        stats.centerYAnchor.constraint(equalTo: _pdf.centerYAnchor).isActive = true
+        stats.rightAnchor.constraint(lessThanOrEqualTo: _pdf.leftAnchor, constant: -10).isActive = true
+        stats.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        
         text.topAnchor.constraint(equalTo: scroll.top).isActive = true
         text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
@@ -69,13 +81,18 @@ final class Notes: View, NSTextViewDelegate {
         }
     }
     
+    func textDidChange(_: Notification) {
+        app.session.content(app.project, list: 0, card: 0, content: text.string)
+        update()
+    }
+    
     func textDidEndEditing(_: Notification) {
         text.isEditable = false
-        app.session.content(app.project, list: 0, card: 0, content: text.string)
     }
     
     override func refresh() {
         text.string = app.session.content(app.project, list: 0, card: 0)
+        update()
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
@@ -89,6 +106,53 @@ final class Notes: View, NSTextViewDelegate {
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+    }
+    
+    private func update() {
+        DispatchQueue.global(qos: .background).async {
+            let text = app.session.content(app.project, list: 0, card: 0)
+            var paragraphs = 0, sentences = 0, lines = 0, words = 0
+            text.enumerateSubstrings(in: text.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .byLines) { _, _, _, _ in lines += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .byWords) { _, _, _, _ in words += 1 }
+            
+            var string = ""
+            if #available(OSX 10.15, *) {
+                let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
+                tagger.string = text
+                
+                switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
+                case "en":
+                    string += .key("Project.english") + ", "
+                case "de":
+                    string += .key("Project.german") + ", "
+                case "es":
+                    string += .key("Project.spanish") + ", "
+                case "fr":
+                    string += .key("Project.french") + ", "
+                default: break
+                }
+                
+                let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
+                if score == 0 {
+                    string += .key("Project.neutral") + ".\n"
+                } else if score > 0 {
+                    string += .key("Project.positive") + ".\n"
+                } else {
+                    string += .key("Project.negative") + ".\n"
+                }
+            }
+            
+            string += "\(paragraphs) " + .key("Project.paragraphs") + ", "
+            string += "\(sentences) " + .key("Project.sentences") + ", "
+            string += "\(lines) " + .key("Project.lines") + ", "
+            string += "\(words) " + .key("Project.words")
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.stats.stringValue = string
+            }
+        }
     }
     
     @objc private func pdf() {

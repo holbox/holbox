@@ -1,8 +1,10 @@
+import NaturalLanguage
 import UIKit
 
 final class Notes: View, UITextViewDelegate {
     private weak var text: Text!
     private weak var bottom: NSLayoutConstraint!
+    private weak var stats: Label!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -13,6 +15,12 @@ final class Notes: View, UITextViewDelegate {
         
         let _pdf = Control("PDF", self, #selector(pdf(_:)), UIColor(named: "haze")!, .black)
         addSubview(_pdf)
+        
+        let stats = Label("", 12, .regular, UIColor(named: "haze")!)
+        stats.numberOfLines = 2
+        stats.lineBreakMode = .byTruncatingHead
+        addSubview(stats)
+        self.stats = stats
         
         let text = Text()
         text.bounces = true
@@ -40,12 +48,20 @@ final class Notes: View, UITextViewDelegate {
         _pdf.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         _pdf.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
+        stats.centerYAnchor.constraint(equalTo: _pdf.centerYAnchor).isActive = true
+        stats.rightAnchor.constraint(lessThanOrEqualTo: _pdf.leftAnchor, constant: -10).isActive = true
+        stats.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        
         text.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
         text.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor).isActive = true
         text.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor).isActive = true
 
         refresh()
+    }
+    
+    func textViewDidChange(_: UITextView) {
+        app.session.content(app.project, list: 0, card: 0, content: text.text)
     }
     
     func textViewDidBeginEditing(_: UITextView) {
@@ -56,8 +72,8 @@ final class Notes: View, UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-        app.session.content(app.project, list: 0, card: 0, content: text.text)
         bottom.constant = -60
+        update()
         UIView.animate(withDuration: 1.5) { [weak self] in
             self?.layoutIfNeeded()
         }
@@ -65,6 +81,7 @@ final class Notes: View, UITextViewDelegate {
     
     override func refresh() {
         text.text = app.session.content(app.project, list: 0, card: 0)
+        update()
     }
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
@@ -81,6 +98,53 @@ final class Notes: View, UITextViewDelegate {
         frame.size.height = bounds.height
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.text.scrollRectToVisible(frame, animated: true)
+        }
+    }
+    
+    private func update() {
+        DispatchQueue.global(qos: .background).async {
+            let text = app.session.content(app.project, list: 0, card: 0)
+            var paragraphs = 0, sentences = 0, lines = 0, words = 0
+            text.enumerateSubstrings(in: text.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .byLines) { _, _, _, _ in lines += 1 }
+            text.enumerateSubstrings(in: text.startIndex..., options: .byWords) { _, _, _, _ in words += 1 }
+            
+            var string = ""
+            if #available(iOS 13.0, *) {
+                let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
+                tagger.string = text
+                
+                switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
+                case "en":
+                    string += .key("Project.english") + ", "
+                case "de":
+                    string += .key("Project.german") + ", "
+                case "es":
+                    string += .key("Project.spanish") + ", "
+                case "fr":
+                    string += .key("Project.french") + ", "
+                default: break
+                }
+                
+                let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
+                if score == 0 {
+                    string +=  .key("Project.neutral") + ".\n"
+                } else if score > 0 {
+                    string += .key("Project.positive") + ".\n"
+                } else {
+                    string += .key("Project.negative") + ".\n"
+                }
+            }
+            
+            string += "\(paragraphs) " + .key("Project.paragraphs") + ", "
+            string += "\(sentences) " + .key("Project.sentences") + ", "
+            string += "\(lines) " + .key("Project.lines") + ", "
+            string += "\(words) " + .key("Project.words")
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.stats.text = string
+            }
         }
     }
     
