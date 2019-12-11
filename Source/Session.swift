@@ -277,6 +277,27 @@ public final class Session {
         search = .init(items[project]!, string: string, result: result)
     }
     
+    public func csv(_ project: Int, result: @escaping (URL) -> Void) {
+        queue.async {
+            var string = ""
+            self.items[project]!.cards.forEach {
+                string += string.isEmpty ? $0.0 : "," + $0.0
+            }
+            (0 ..< (self.items[project]!.cards.map { $0.1 }.max { $0.count < $1.count }?.count ?? 0)).forEach { index in
+                string += "\n"
+                self.items[project]!.cards.enumerated().forEach {
+                    string += $0.0 > 0 ? "," : ""
+                    string += $0.1.1.count > index ? $0.1.1[index] : ""
+                }
+            }
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(self.items[project]!.name + ".csv")
+            try! Data(string.utf8).write(to: url, options: .atomic)
+            DispatchQueue.main.async {
+                result(url)
+            }
+        }
+    }
+    
     func update(_ user: String) {
         self.user = user
         store.save(self)

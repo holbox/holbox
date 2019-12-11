@@ -3,8 +3,8 @@ import UIKit
 
 final class Notes: View, UITextViewDelegate {
     private weak var text: Text!
-    private weak var bottom: NSLayoutConstraint!
     private weak var stats: Label!
+    private weak var bottom: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     required init() {

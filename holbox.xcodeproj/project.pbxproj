@@ -195,6 +195,7 @@
 		DAF7E389237DCABC00C2F648 /* TestProjectTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */; };
 		DAF8991B237D831100E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991A237D831100E1B76F /* Storager.swift */; };
 		DAF8991D237D836300E1B76F /* Storager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF8991C237D836300E1B76F /* Storager.swift */; };
+		DAFD582023A0FF7200C1A866 /* TestProjectCsv.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFD581F23A0FF7200C1A866 /* TestProjectCsv.swift */; };
 		DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03232383D6CE00BCC8F0 /* View.swift */; };
 		DAFE03262383E22D00BCC8F0 /* Find.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03252383E22D00BCC8F0 /* Find.swift */; };
 		DAFE03282383F37500BCC8F0 /* TestProjectSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */; };
@@ -457,6 +458,7 @@
 		DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectTags.swift; sourceTree = "<group>"; };
 		DAF8991A237D831100E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
 		DAF8991C237D836300E1B76F /* Storager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storager.swift; sourceTree = "<group>"; };
+		DAFD581F23A0FF7200C1A866 /* TestProjectCsv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectCsv.swift; sourceTree = "<group>"; };
 		DAFE03232383D6CE00BCC8F0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DAFE03252383E22D00BCC8F0 /* Find.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Find.swift; sourceTree = "<group>"; };
 		DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectSearch.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				DA8B960523573E81007E82F7 /* TestPerks.swift */,
 				DA813BAD2376B8E400A3393C /* TestProduct.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
+				DAFD581F23A0FF7200C1A866 /* TestProjectCsv.swift */,
 				DAFE03272383F37500BCC8F0 /* TestProjectSearch.swift */,
 				DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */,
 				DABC363B23488059002011C8 /* TestSession.swift */,
@@ -1122,6 +1125,7 @@
 				DAD8ECBC236ACDF400245778 /* TestMark.swift in Sources */,
 				DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */,
 				DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */,
+				DAFD582023A0FF7200C1A866 /* TestProjectCsv.swift in Sources */,
 				DA437019234D147F00CCB34D /* TestStore.swift in Sources */,
 				DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */,
 				DAF68E6E2347643A0060895A /* TestProject.swift in Sources */,
