@@ -24,6 +24,7 @@ Add.shopping="Shopping List";
 Add.notes="Notes";
 Kanban.add="New card";
 Kanban.column="Add column";
+Kanban.csv="Export CSV";
 Kanban.new="New";
 Kanban.added="New column";
 Kanban.last="Can't delete";

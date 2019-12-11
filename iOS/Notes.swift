@@ -180,7 +180,7 @@ final class Notes: View, UITextViewDelegate {
         let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(app.session.name(app.project) + ".pdf")
         do {
             try data.write(to: url, options: .atomic)
-            let activity = UIActivityViewController(activityItems:[url], applicationActivities:nil)
+            let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             activity.popoverPresentationController?.sourceView = control
             app.present(activity, animated: true)
         } catch {

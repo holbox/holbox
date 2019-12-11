@@ -160,7 +160,7 @@ final class Notes: View, NSTextViewDelegate {
         save.nameFieldStringValue = app.session.name(app.project)
         save.allowedFileTypes = ["pdf"]
         save.beginSheetModal(for: window!) {
-            if $0 == .OK {
+            if app.project != nil && $0 == .OK {
                 let view = NSView()
                 view.translatesAutoresizingMaskIntoConstraints = false
                 

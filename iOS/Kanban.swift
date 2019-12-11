@@ -31,8 +31,11 @@ final class Kanban: View {
         scroll.add(bars)
         self.bars = bars
         
-        let column = Control(.key("Kanban.column"), self, #selector(self.column), UIColor(named: "haze")!.withAlphaComponent(0.2), UIColor(named: "haze")!)
-        scroll.add(column)
+        let _column = Control(.key("Kanban.column"), self, #selector(column), UIColor(named: "haze")!.withAlphaComponent(0.2), UIColor(named: "haze")!)
+        scroll.add(_column)
+        
+        let _csv = Control(.key("Kanban.csv"), self, #selector(csv(_:)), UIColor(named: "haze")!.withAlphaComponent(0.2), UIColor(named: "haze")!)
+        scroll.add(_csv)
 
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -40,7 +43,7 @@ final class Kanban: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         scroll.width.constraint(greaterThanOrEqualTo: widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 20).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: _csv.bottomAnchor, constant: 20).isActive = true
 
         ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
         ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
@@ -53,9 +56,13 @@ final class Kanban: View {
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 30).isActive = true
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         
-        column.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-        column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 40).isActive = true
+        _column.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        _column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 40).isActive = true
+        
+        _csv.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        _csv.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -166,5 +173,21 @@ final class Kanban: View {
         app.session.name(app.project, list: app.session.lists(app.project) - 1, name: .key("Kanban.new"))
         refresh()
         app.alert(app.session.name(app.project), message: .key("Kanban.added"))
+    }
+    
+    @objc private func csv(_ control: Control) {
+        app.window!.endEditing(true)
+        app.session.csv(app.project) {
+            guard app.project != nil else { return }
+            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(app.session.name(app.project) + ".csv")
+            do {
+                try $0.write(to: url, options: .atomic)
+                let activity = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                activity.popoverPresentationController?.sourceView = control
+                app.present(activity, animated: true)
+            } catch {
+                app.alert(.key("Error"), message: error.localizedDescription)
+            }
+        }
     }
 }

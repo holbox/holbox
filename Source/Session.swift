@@ -277,23 +277,20 @@ public final class Session {
         search = .init(items[project]!, string: string, result: result)
     }
     
-    public func csv(_ project: Int, result: @escaping (URL) -> Void) {
+    public func csv(_ project: Int, result: @escaping (Data) -> Void) {
         queue.async {
-            var string = ""
-            self.items[project]!.cards.forEach {
-                string += string.isEmpty ? $0.0 : "," + $0.0
+            var string = self.items[project]!.cards.reduce(into: "") {
+                $0 += $0.isEmpty ? self.csv($1.0) : "," + self.csv($1.0)
             }
             (0 ..< (self.items[project]!.cards.map { $0.1 }.max { $0.count < $1.count }?.count ?? 0)).forEach { index in
                 string += "\n"
                 self.items[project]!.cards.enumerated().forEach {
                     string += $0.0 > 0 ? "," : ""
-                    string += $0.1.1.count > index ? $0.1.1[index] : ""
+                    string += $0.1.1.count > index ? self.csv($0.1.1[index]) : ""
                 }
             }
-            let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(self.items[project]!.name + ".csv")
-            try! Data(string.utf8).write(to: url, options: .atomic)
             DispatchQueue.main.async {
-                result(url)
+                result(Data(string.utf8))
             }
         }
     }
@@ -315,5 +312,9 @@ public final class Session {
     private func save(_ project: Int) {
         items[project]!.time = .init()
         store.save(self, id: project, project: items[project]!)
+    }
+    
+    private func csv(_ string: String) -> String {
+        "\"" + string.replacingOccurrences(of: "\"", with: "\"\"") + "\""
     }
 }

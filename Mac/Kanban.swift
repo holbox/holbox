@@ -32,8 +32,11 @@ final class Kanban: View {
         scroll.add(bars)
         self.bars = bars
         
-        let column = Control(.key("Kanban.column"), self, #selector(self.column), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
-        scroll.add(column)
+        let _column = Control(.key("Kanban.column"), self, #selector(column), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
+        scroll.add(_column)
+        
+        let _csv = Control(.key("Kanban.csv"), self, #selector(csv), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
+        scroll.add(_csv)
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
@@ -41,16 +44,20 @@ final class Kanban: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: column.bottomAnchor, constant: 50).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: _csv.bottomAnchor, constant: 50).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
         
-        column.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        column.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
-        column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 60).isActive = true
+        _column.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        _column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 60).isActive = true
+        
+        _csv.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        _csv.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 10).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -195,5 +202,18 @@ final class Kanban: View {
         app.session.name(app.project, list: app.session.lists(app.project) - 1, name: .key("Kanban.new"))
         refresh()
         app.alert(app.session.name(app.project), message: .key("Kanban.added"))
+    }
+    
+    @objc private func csv() {
+        let save = NSSavePanel()
+        save.nameFieldStringValue = app.session.name(app.project)
+        save.allowedFileTypes = ["csv"]
+        save.beginSheetModal(for: window!) {
+            if app.project != nil && $0 == .OK {
+                app.session.csv(app.project) {
+                    try? $0.write(to: save.url!, options: .atomic)
+                }
+            }
+        }
     }
 }

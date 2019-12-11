@@ -16,10 +16,8 @@ final class TestProjectCsv: XCTestCase {
         let expect = expectation(description: "")
         DispatchQueue.global(qos: .background).async {
             self.session.csv(0) {
-                let data = try? Data(contentsOf: $0)
                 XCTAssertEqual(.main, Thread.current)
-                XCTAssertNotNil(data)
-                XCTAssertEqual("", String(decoding: data!, as: UTF8.self))
+                XCTAssertEqual("", String(decoding: $0, as: UTF8.self))
                 expect.fulfill()
             }
         }
@@ -30,7 +28,7 @@ final class TestProjectCsv: XCTestCase {
         let expect = expectation(description: "")
         session.items[0]!.cards = [("Waiting", ["hello"])]
         session.csv(0) {
-            try! XCTAssertEqual("Waiting\nhello", String(decoding: Data(contentsOf: $0), as: UTF8.self))
+            XCTAssertEqual("\"Waiting\"\n\"hello\"", String(decoding: $0, as: UTF8.self))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -40,7 +38,7 @@ final class TestProjectCsv: XCTestCase {
         let expect = expectation(description: "")
         session.items[0]!.cards = [("Waiting", ["hello", "world"])]
         session.csv(0) {
-            try! XCTAssertEqual("Waiting\nhello\nworld", String(decoding: Data(contentsOf: $0), as: UTF8.self))
+            XCTAssertEqual("\"Waiting\"\n\"hello\"\n\"world\"", String(decoding: $0, as: UTF8.self))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -50,7 +48,7 @@ final class TestProjectCsv: XCTestCase {
         let expect = expectation(description: "")
         session.items[0]!.cards = [("Waiting", ["hello"]), ("Doing", ["world"])]
         session.csv(0) {
-            try! XCTAssertEqual("Waiting,Doing\nhello,world", String(decoding: Data(contentsOf: $0), as: UTF8.self))
+            XCTAssertEqual("\"Waiting\",\"Doing\"\n\"hello\",\"world\"", String(decoding: $0, as: UTF8.self))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
@@ -60,7 +58,20 @@ final class TestProjectCsv: XCTestCase {
         let expect = expectation(description: "")
         session.items[0]!.cards = [("Waiting", ["hello"]), ("Doing", ["world", "lorem", "ipsum"])]
         session.csv(0) {
-            try! XCTAssertEqual("Waiting,Doing\nhello,world\n,lorem\n,ipsum", String(decoding: Data(contentsOf: $0), as: UTF8.self))
+            XCTAssertEqual("\"Waiting\",\"Doing\"\n\"hello\",\"world\"\n,\"lorem\"\n,\"ipsum\"", String(decoding: $0, as: UTF8.self))
+            expect.fulfill()
+        }
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testEscape() {
+        let expect = expectation(description: "")
+        session.items[0]!.cards = [("Waiting \"here\" ", ["hello \"world\" "])]
+        session.csv(0) {
+            XCTAssertEqual("""
+"Waiting ""here"" "
+"hello ""world"" "
+""", String(decoding: $0, as: UTF8.self))
             expect.fulfill()
         }
         waitForExpectations(timeout: 1)
