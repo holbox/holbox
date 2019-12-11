@@ -91,7 +91,7 @@ final class Notes: View, UITextViewDelegate {
         let formatter = UISimpleTextPrintFormatter(attributedText: string.mark {
             switch $0 {
             case .plain: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 12, weight: .regular)])
-            case .bold: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold)])
+            case .bold: return .init(string: .init(string[$1].dropFirst(2)), attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .bold)])
             case .emoji: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 26, weight: .regular)])
             case .tag: return .init(string: .init(string[$1]), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .medium)])
             }
