@@ -97,6 +97,10 @@ final class Column: Text, NSTextViewDelegate {
         resize()
     }
     
+    func textDidBeginEditing(_: Notification) {
+        _delete.alphaValue = 0
+    }
+    
     func textDidEndEditing(_: Notification) {
         app.session.name(app.project, list: index, name: string)
         kanban.charts()

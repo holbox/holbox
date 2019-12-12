@@ -14,18 +14,28 @@ final class Progress: Chart {
         let waiting = CGFloat(app.session.cards(index, list: 0))
         let done = CGFloat(app.session.cards(index, list: 1))
         let total = waiting + done
-        let start = CGFloat()
-        let first = start + (.pi * 2) * (done / total)
+        let first = (.pi * 2) * (done / total)
         let second = first + (.pi * 2) * (waiting / total)
         
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
         let radius = min(bounds.width, bounds.height) / 2
+        
+        let border = CAShapeLayer()
+        border.fillColor = UIColor.clear.cgColor
+        border.lineWidth = 2
+        border.strokeColor = UIColor(named: "haze")!.cgColor
+        border.path = {
+            $0.addArc(center: center, radius: radius - 1, startAngle: 0, endAngle: .pi * 2, clockwise: false)
+            return $0
+        } (CGMutablePath())
+        layer.addSublayer(border)
+        
         let on = CAShapeLayer()
         on.fillColor = UIColor(named: "haze")!.cgColor
         on.lineWidth = 0
         on.path = {
             $0.move(to: center)
-            $0.addArc(center: center, radius: radius, startAngle: start, endAngle: first, clockwise: false)
+            $0.addArc(center: center, radius: radius - 6, startAngle: 0, endAngle: first, clockwise: false)
             $0.move(to: center)
             return $0
         } (CGMutablePath())
@@ -36,7 +46,7 @@ final class Progress: Chart {
         off.lineWidth = 0
         off.path = {
             $0.move(to: center)
-            $0.addArc(center: center, radius: radius, startAngle: first, endAngle: second, clockwise: false)
+            $0.addArc(center: center, radius: radius - 6, startAngle: first, endAngle: second, clockwise: false)
             $0.move(to: center)
             return $0
         } (CGMutablePath())

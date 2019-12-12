@@ -81,6 +81,7 @@ final class Card: Text, NSTextViewDelegate {
     func textDidBeginEditing(_: Notification) {
         layer!.borderWidth = 2
         layer!.backgroundColor = .clear
+        _delete.alphaValue = 0
     }
     
     func textDidEndEditing(_: Notification) {
