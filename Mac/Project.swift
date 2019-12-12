@@ -157,7 +157,7 @@ final class Project: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.5).cgColor
             _delete.alphaValue = 1
         }
     }

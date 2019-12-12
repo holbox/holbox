@@ -148,7 +148,7 @@ final class Project: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.4)
+            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
         }
         super.touchesBegan(touches, with: with)
     }

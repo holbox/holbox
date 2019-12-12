@@ -132,6 +132,7 @@ final class Card: Text, NSTextViewDelegate {
                     $0.allowsImplicitAnimation = true
                     layer!.backgroundColor = .black
                     layer!.borderWidth = 5
+                    _delete.alphaValue = 0
                     superview!.layoutSubtreeIfNeeded()
                 }
             }
@@ -180,7 +181,7 @@ final class Card: Text, NSTextViewDelegate {
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = window!.firstResponder == self ? .clear : NSColor(named: "background")!.cgColor
+                layer!.backgroundColor = window!.firstResponder == self ? .clear : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                 _delete.alphaValue = 1
             }
         }
