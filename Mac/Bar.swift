@@ -127,7 +127,7 @@ final class Bar: NSView, NSTextViewDelegate {
         find.clear()
         find.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor).isActive = true
         
-        button.constant = 30
+        button.constant = 25
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
@@ -152,10 +152,10 @@ final class Bar: NSView, NSTextViewDelegate {
         title.alphaValue = 0
         addSubview(title)
         
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 104).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 97).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
         
-        button.constant = 30
+        button.constant = 25
         
         find.clear()
         NSAnimationContext.runAnimationGroup ({
@@ -180,7 +180,7 @@ final class Bar: NSView, NSTextViewDelegate {
             self.border.alphaValue = 0
         }
         
-        button.constant = 100
+        button.constant = 50
         
         find.clear()
         NSAnimationContext.runAnimationGroup {

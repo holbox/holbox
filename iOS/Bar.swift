@@ -4,6 +4,7 @@ final class Bar: UIView, UITextViewDelegate {
     private(set) weak var find: Find!
     private weak var title: Text!
     private weak var _home: Button!
+    private weak var _add: Button!
     private weak var border: Border!
     private weak var press: UILongPressGestureRecognizer!
     private weak var bottom: NSLayoutConstraint! { didSet { oldValue?.isActive = false; bottom.isActive = true } }
@@ -29,6 +30,7 @@ final class Bar: UIView, UITextViewDelegate {
         
         let _add = Button("add", target: self, action: #selector(add))
         _add.accessibilityLabel = .key("Bar.add")
+        self._add = _add
         
         let _shop = Button("cart", target: self, action: #selector(shop))
         _shop.accessibilityLabel = .key("Bar.shop")
@@ -130,6 +132,7 @@ final class Bar: UIView, UITextViewDelegate {
         UIView.animate(withDuration: 0.35, animations: {
             title.alpha = 1
             self.title?.alpha = 0
+            self._add.alpha = 0
             self._home.alpha = 1
             self.border.alpha = 1
             self.find.alpha = 1
@@ -157,6 +160,7 @@ final class Bar: UIView, UITextViewDelegate {
             title.alpha = 1
             self.title?.alpha = 0
             self._home.alpha = 0
+            self._add.alpha = 1
             self.border.alpha = 1
             self.find.alpha = 1
             self.superview!.layoutIfNeeded()
@@ -175,6 +179,7 @@ final class Bar: UIView, UITextViewDelegate {
         addY.constant = 0
         findRight.constant = -10
         UIView.animate(withDuration: 0.35, animations: {
+            self._add.alpha = 1
             self._home.alpha = 0
             self.border.alpha = 0
             self.find.alpha = 0

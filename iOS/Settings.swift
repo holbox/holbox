@@ -47,13 +47,13 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         scroll.right.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottom.constraint(equalTo: _done.bottomAnchor, constant: 30).isActive = true
         
-        logo.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        logo.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: 60).isActive = true
         logo.topAnchor.constraint(equalTo: scroll.top, constant: 60).isActive = true
         logo.rightAnchor.constraint(equalTo: scroll.centerX, constant: 5).isActive = true
         
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
-        title.leftAnchor.constraint(equalTo: logo.rightAnchor).isActive = true
+        title.leftAnchor.constraint(equalTo: logo.rightAnchor, constant: 10).isActive = true
         
         _spell.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
