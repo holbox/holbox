@@ -31,7 +31,7 @@ final class Lines: Chart {
             }
             shape.path = {
                 $0.move(to: .init(x: x + (width / 2), y: width / 2))
-                $0.addLine(to: .init(x: x + (width / 2), y: y))
+                $0.addLine(to: .init(x: x + (width / 2), y: y + (width / 2)))
                 return $0
             } (CGMutablePath())
             layer!.addSublayer(shape)
