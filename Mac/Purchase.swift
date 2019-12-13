@@ -45,14 +45,14 @@ final class Purchase: NSView {
         
         image.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 20).isActive = true
         image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        image.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        image.heightAnchor.constraint(equalToConstant: 52).isActive = true
         
-        title.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -10).isActive = true
+        title.bottomAnchor.constraint(equalTo: image.topAnchor, constant: 2).isActive = true
         title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
-        title.rightAnchor.constraint(lessThanOrEqualTo: label.rightAnchor).isActive = true
+        title.widthAnchor.constraint(lessThanOrEqualToConstant: 180).isActive = true
         
-        label.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
+        label.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
         label.widthAnchor.constraint(lessThanOrEqualToConstant: 600).isActive = true

@@ -48,14 +48,14 @@ final class Add: Modal {
         scroll.bottom.constraint(equalTo: cancel.bottomAnchor, constant: 20).isActive = true
         
         icon.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
-        icon.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        icon.leftAnchor.constraint(equalTo: scroll.left, constant: 100).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
-        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 10).isActive = true
+        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 2).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 10).isActive = true
         
-        available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 10).isActive = true
+        available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 40).isActive = true
         available.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
         projects.centerYAnchor.constraint(equalTo: available.centerYAnchor).isActive = true

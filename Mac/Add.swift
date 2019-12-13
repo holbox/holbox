@@ -38,14 +38,14 @@ final class Add: Modal {
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 50).isActive = true
-        icon.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 110).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
-        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 10).isActive = true
+        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 2).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 10).isActive = true
         
-        available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 10).isActive = true
+        available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 40).isActive = true
         available.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         
         projects.centerYAnchor.constraint(equalTo: available.centerYAnchor).isActive = true
