@@ -12,6 +12,10 @@ final class Bars: Chart {
     override init() {
         super.init()
         heightAnchor.constraint(equalToConstant: 160).isActive = true
+        
+        let width = widthAnchor.constraint(equalToConstant: 0)
+        width.priority = .defaultLow
+        width.isActive = true
     }
     
     func refresh() {
