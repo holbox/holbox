@@ -2,12 +2,9 @@ import AppKit
 
 final class Settings: Modal {
     init() {
-        super.init(440, 500)
+        super.init(440, 450)
         let title = Label(.key("Settings.title"), 20, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(title)
-        
-        let _done = Control(.key("Settings.done"), self, #selector(close), .clear, NSColor(named: "haze")!)
-        contentView!.addSubview(_done)
         
         let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
@@ -37,9 +34,7 @@ final class Settings: Modal {
         _spell.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 40).isActive = true
         _spell.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         
-        _done.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -30).isActive = true
-        _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        _done.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
+        addClose()
     }
     
     func option(_ index: Int) {

@@ -13,7 +13,7 @@ final class Purchase: UIView {
         self.shop = shop
 
         let border = Border()
-        border.alpha = 0.3
+        border.alpha = 0.5
         addSubview(border)
 
         let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")

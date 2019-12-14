@@ -13,7 +13,7 @@ final class Purchase: NSView {
         self.shop = shop
         
         let border = Border()
-        border.alphaValue = 0.3
+        border.alphaValue = 0.5
         addSubview(border)
         
         let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")

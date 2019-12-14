@@ -27,4 +27,32 @@ class Window: NSWindow {
         hasShadow = false
         contentView!.subviews.forEach { $0.alphaValue = 0.4 }
     }
+    
+    final func addClose() {
+        let _close = Tool("close", action: #selector(close))
+        _close.setAccessibilityLabel(.key("Window.close"))
+        contentView!.addSubview(_close)
+        
+        _close.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
+        _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
+    }
+    
+    final func addMinimise() {
+        let _minimise = Tool("minimise", action: #selector(miniaturize(_:)))
+        _minimise.setAccessibilityLabel(.key("Window.minimise"))
+        contentView!.addSubview(_minimise)
+        
+        _minimise.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
+        _minimise.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 39).isActive = true
+        
+    }
+    
+    final func addZoom() {
+        let _zoom = Tool("zoom", action: #selector(zoom(_:)))
+        _zoom.setAccessibilityLabel(.key("Window.zoom"))
+        contentView!.addSubview(_zoom)
+
+        _zoom.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
+        _zoom.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 59).isActive = true
+    }
 }

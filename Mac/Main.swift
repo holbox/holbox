@@ -11,20 +11,6 @@ final class Main: Window {
         minSize = .init(width: 100, height: 100)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 600, y: NSScreen.main!.frame.midY - 450))
         
-        let _close = Tool("close", action: #selector(close))
-        _close.setAccessibilityLabel(.key("Main.close"))
-        
-        let _minimise = Tool("minimise", action: #selector(miniaturize(_:)))
-        _minimise.setAccessibilityLabel(.key("Main.minimise"))
-        
-        let _zoom = Tool("zoom", action: #selector(zoom(_:)))
-        _zoom.setAccessibilityLabel(.key("Main.zoom"))
-        
-        [_close, _minimise, _zoom].forEach {
-            contentView!.addSubview($0)
-            $0.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
-        }
-        
         let logo = Logo()
         logo.start()
         contentView!.addSubview(logo)
@@ -33,9 +19,9 @@ final class Main: Window {
         logo.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         logo.centerYAnchor.constraint(equalTo: contentView!.centerYAnchor).isActive = true
         
-        _close.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 19).isActive = true
-        _minimise.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 8).isActive = true
-        _zoom.leftAnchor.constraint(equalTo: _minimise.rightAnchor, constant: 8).isActive = true
+        addClose()
+        addMinimise()
+        addZoom()
     }
     
     override func close() { app.terminate(nil) }

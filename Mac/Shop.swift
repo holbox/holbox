@@ -47,9 +47,6 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.add(_restore)
         self._restore = _restore
         
-        let _cancel = Button("delete", target: self, action: #selector(close))
-        scroll.add(_cancel)
-        
         scroll.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
@@ -73,13 +70,10 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -50).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor).isActive = true
+        _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -50).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
-        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -40).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        addClose()
         
         loading()
         

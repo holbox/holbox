@@ -38,7 +38,7 @@ final class Add: Modal {
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 110).isActive = true
+        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 90).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
