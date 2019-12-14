@@ -7,7 +7,7 @@ class Store {
     let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("holbox")
 #endif
     var shared = Shared()
-    var time = TimeInterval(1.5)
+    var time = TimeInterval(1)
     private var timer: DispatchSourceTimer?
     private var balancing = [String: URL]()
     private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))

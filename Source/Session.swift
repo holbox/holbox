@@ -28,7 +28,7 @@ public final class Session {
     }
     
     public var refreshable: Bool {
-        Date().timeIntervalSince1970 > refreshed + 10
+        Date().timeIntervalSince1970 > refreshed + 5
     }
     
     public var capacity: Int {
