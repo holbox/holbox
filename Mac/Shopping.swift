@@ -21,10 +21,10 @@ final class Shopping: View {
         addSubview(stock)
         self.stock = stock
         
-        let left = Border()
+        let left = Border.horizontal()
         addSubview(left)
         
-        let right = Border()
+        let right = Border.horizontal()
         addSubview(right)
         
         let _add = Button("plus", target: self, action: #selector(add))

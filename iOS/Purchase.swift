@@ -12,8 +12,7 @@ final class Purchase: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         self.shop = shop
 
-        let border = Border()
-        border.alpha = 0.5
+        let border = Border.horizontal(0.2)
         addSubview(border)
 
         let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")

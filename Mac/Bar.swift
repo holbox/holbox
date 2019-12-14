@@ -16,7 +16,7 @@ final class Bar: NSView, NSTextViewDelegate {
         let unmove = Unmove()
         addSubview(unmove)
         
-        let border = Border()
+        let border = Border.horizontal()
         border.alphaValue = 0
         addSubview(border)
         self.border = border

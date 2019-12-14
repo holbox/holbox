@@ -13,7 +13,7 @@ final class Notes: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let border = Border()
+        let border = Border.horizontal()
         addSubview(border)
         
         let _pdf = Control("PDF", self, #selector(pdf), NSColor(named: "haze")!.cgColor, .black)

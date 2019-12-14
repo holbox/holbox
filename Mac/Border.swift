@@ -1,15 +1,25 @@
 import AppKit
 
 final class Border: NSView {
+    class func vertical(_ alpha: CGFloat = 0.4) -> Border {
+        let border = Border(alpha)
+        border.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        return border
+    }
+    
+    class func horizontal(_ alpha: CGFloat = 0.4) -> Border {
+        let border = Border(alpha)
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        return border
+    }
+    
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init() {
+    private init(_ alpha: CGFloat) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
-        
-        heightAnchor.constraint(equalToConstant: 1).isActive = true
+        layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(alpha).cgColor
     }
 }

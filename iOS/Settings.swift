@@ -24,8 +24,7 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
             let item = Option.Item($0, settings: self)
             scroll.add(item)
             
-            let border = Border()
-            border.alpha = 0.3
+            let border = Border.horizontal(0.2)
             scroll.add(border)
             
             item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true

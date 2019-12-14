@@ -10,7 +10,7 @@ final class Notes: View, UITextViewDelegate {
     required init() {
         super.init()
         
-        let border = Border()
+        let border = Border.horizontal()
         addSubview(border)
         
         let _pdf = Control("PDF", self, #selector(pdf(_:)), UIColor(named: "haze")!, .black)

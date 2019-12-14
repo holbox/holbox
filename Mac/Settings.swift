@@ -15,8 +15,7 @@ final class Settings: Modal {
             let item = Option.Item($0, settings: self)
             contentView!.addSubview(item)
             
-            let border = Border()
-            border.layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+            let border = Border.horizontal(0.2)
             contentView!.addSubview(border)
             
             item.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true

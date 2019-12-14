@@ -12,8 +12,7 @@ final class Purchase: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         self.shop = shop
         
-        let border = Border()
-        border.alphaValue = 0.5
+        let border = Border.horizontal(0.2)
         addSubview(border)
         
         let image = Image("shop.\(product.productIdentifier.components(separatedBy: ".").last!)")

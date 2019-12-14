@@ -35,7 +35,7 @@ private struct Kanban: Factory {
 
 private struct Todo: Factory {
     let name = "NEW LIST"
-    let lists: [(String, [String])] = [("", []), ("", [])]
+    let lists: [(String, [String])] = [("", []), ("", []), ("", [])]
 }
 
 private struct Shopping: Factory {

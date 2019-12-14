@@ -17,8 +17,7 @@ final class Bar: UIView, UITextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         
-        let border = Border()
-        border.alpha = 0
+        let border = Border.horizontal()
         addSubview(border)
         self.border = border
         

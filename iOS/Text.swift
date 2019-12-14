@@ -26,8 +26,7 @@ class Text: UITextView {
         let accessory = UIView(frame: .init(x: 0, y: 0, width: 0, height: 50))
         accessory.backgroundColor = .black
         
-        let border = Border()
-        border.backgroundColor = UIColor(named: "haze")!
+        let border = Border.horizontal(1)
         accessory.addSubview(border)
         
         let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .clear, UIColor(named: "haze")!)

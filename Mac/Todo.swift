@@ -13,6 +13,9 @@ final class Todo: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
+        let border = Border.vertical()
+        scroll.add(border)
+        
         let tags = Tags()
         scroll.add(tags)
         self.tags = tags
@@ -47,6 +50,9 @@ final class Todo: View, NSTextViewDelegate {
         scroll.right.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 40).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
+        
+        border.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        border.bottomAnchor.constraint(equalTo: scroll.bottom).isActive = true
         
         tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true

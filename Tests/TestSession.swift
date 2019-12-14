@@ -152,7 +152,7 @@ final class TestSession: XCTestCase {
     
     func testAddTodo() {
         _ = session.add(.todo)
-        XCTAssertEqual(2, session.items[0]!.cards.count)
+        XCTAssertEqual(3, session.items[0]!.cards.count)
         XCTAssertFalse(session.items[0]!.name.isEmpty)
         XCTAssertTrue(session.items[0]!.cards[0].0.isEmpty)
         XCTAssertTrue(session.items[0]!.cards[1].0.isEmpty)
