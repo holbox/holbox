@@ -19,7 +19,7 @@ final class Add: Modal {
         contentView!.addSubview(icon)
         
         let title = Label([(.key("Add.title") + "\n", 25, .bold, NSColor(named: "haze")!),
-                           (.key("Add.subtitle"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.6))])
+                           (.key("Add.subtitle"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))])
         contentView!.addSubview(title)
         
         let available = Label([(.key("Add.available") + "\n", 20, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
@@ -105,7 +105,7 @@ final class Add: Modal {
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
             _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 220).isActive = true
+            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 240).isActive = true
             
             kanban(_kanban)
         } else {

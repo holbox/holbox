@@ -110,16 +110,16 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!),
-                                                .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
-                                                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
-                                                .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 15, weight: .medium), NSColor(named: "haze")!),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 15)!, .white),
+                                                .bold: (.systemFont(ofSize: 15, weight: .bold), NSColor(named: "haze")!),
+                                                .tag: (.systemFont(ofSize: 15, weight: .medium), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project)
         addSubview(name)
         
-        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 130).isActive = true
+        name.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
         name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         name.didChangeText()
         name.delegate = self
@@ -127,7 +127,7 @@ final class Bar: NSView, NSTextViewDelegate {
         find.clear()
         find.leftAnchor.constraint(greaterThanOrEqualTo: name.rightAnchor).isActive = true
         
-        button.constant = 25
+        button.constant = 20
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
@@ -155,7 +155,7 @@ final class Bar: NSView, NSTextViewDelegate {
         title.leftAnchor.constraint(equalTo: leftAnchor, constant: 97).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
         
-        button.constant = 25
+        button.constant = 30
         
         find.clear()
         NSAnimationContext.runAnimationGroup ({

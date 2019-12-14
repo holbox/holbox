@@ -31,7 +31,7 @@ final class Purchase: UIView {
         let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
         addSubview(price)
 
-        let purchased = Label(.key("Shop.purchased"), 18, .bold, UIColor(named: "haze")!)
+        let purchased = Label(.key("Shop.purchased"), 14, .regular, UIColor(named: "haze")!)
         addSubview(purchased)
 
         let control = Control(.key("Shop.purchase"), self, #selector(purchase), UIColor(named: "haze")!, .black)

@@ -141,7 +141,7 @@ class Delete: UIViewController {
         base.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -20).isActive = true
+        cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -10).isActive = true
         cancel.widthAnchor.constraint(equalToConstant: 120).isActive = true
         
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

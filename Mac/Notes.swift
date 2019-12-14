@@ -54,7 +54,7 @@ final class Notes: View, NSTextViewDelegate {
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
         
-        _pdf.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 10).isActive = true
+        _pdf.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 14).isActive = true
         _pdf.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
         _pdf.widthAnchor.constraint(equalToConstant: 60).isActive = true
         

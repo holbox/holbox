@@ -29,21 +29,21 @@ private protocol Factory {
 }
 
 private struct Kanban: Factory {
-    let name = "New Board"
-    let lists: [(String, [String])] = [("Waiting", []), ("Doing", []), ("Done", [])]
+    let name = "NEW BOARD"
+    let lists: [(String, [String])] = [("TODO", []), ("DOING", []), ("DONE", [])]
 }
 
 private struct Todo: Factory {
-    let name = "New List"
+    let name = "NEW LIST"
     let lists: [(String, [String])] = [("", []), ("", [])]
 }
 
 private struct Shopping: Factory {
-    let name = "Groceries"
+    let name = "GROCERIES"
     let lists: [(String, [String])] = [("", []), ("", [])]
 }
 
 private struct Notes: Factory {
-    let name = "Note"
+    let name = "NOTE"
     let lists = [("\(Int(Date().timeIntervalSince1970))", [""])]
 }

@@ -11,7 +11,7 @@ class Stock: Modal, NSTextViewDelegate {
             emoji.string = .key("Stock.add.emoji")
             label.string = .key("Stock.add.label")
             
-            let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
+            let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!.withAlphaComponent(0.7))
             contentView!.addSubview(cancel)
             
             cancel.widthAnchor.constraint(equalToConstant: 140).isActive = true
@@ -47,7 +47,7 @@ class Stock: Modal, NSTextViewDelegate {
             emoji.string = content.0
             label.string = content.1
 
-            let _delete = Control(.key("Stock.delete"), self, #selector(delete), .clear, .init(white: 1, alpha: 0.7))
+            let _delete = Control(.key("Stock.delete"), self, #selector(delete), .clear, NSColor(named: "haze")!.withAlphaComponent(0.7))
             contentView!.addSubview(_delete)
 
             _delete.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor, constant: -40).isActive = true

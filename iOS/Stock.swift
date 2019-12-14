@@ -14,12 +14,12 @@ class Stock: Modal, UITextViewDelegate {
             emoji.text = .key("Stock.add.emoji")
             label.text = .key("Stock.add.label")
 
-            let cancel = Control(.key("Stock.cancel"), self, #selector(close), .clear, .init(white: 1, alpha: 0.6))
+            let cancel = Control(.key("Stock.cancel"), self, #selector(close), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(cancel)
 
             cancel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-            cancel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-            cancel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            cancel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            cancel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         }
 
         override func done() {
@@ -55,13 +55,13 @@ class Stock: Modal, UITextViewDelegate {
             emoji.text = content.0
             label.text = content.1
 
-            let _delete = Control(.key("Stock.delete"), self, #selector(remove), .clear, .init(white: 1, alpha: 0.7))
+            let _delete = Control(.key("Stock.delete"), self, #selector(remove), UIColor(named: "background")!, UIColor(named: "haze")!)
             view.addSubview(_delete)
             self._delete = _delete
 
             _delete.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-            _delete.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            _delete.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            _delete.widthAnchor.constraint(equalToConstant: 100).isActive = true
         }
         
         override func done() {

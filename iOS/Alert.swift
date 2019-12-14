@@ -5,7 +5,7 @@ final class Alert: UIView {
     init(_ title: String, message: String) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor(named: "background")!
+        backgroundColor = .black
         layer.cornerRadius = 8
         layer.borderWidth = 1
         layer.borderColor = UIColor(named: "haze")!.cgColor

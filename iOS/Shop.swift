@@ -71,7 +71,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
-        _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
         
         addClose()
         

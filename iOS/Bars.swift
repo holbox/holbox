@@ -27,7 +27,7 @@ final class Bars: Chart {
                 subviews[$0].removeFromSuperview()
             }
             if let last = subviews.last {
-                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 5)
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 7)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -36,10 +36,10 @@ final class Bars: Chart {
                 
                 line.topAnchor.constraint(equalTo: topAnchor).isActive = true
                 line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 5).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 7).isActive = true
                 
                 if $0 == cards.count - 1 {
-                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 5)
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 7)
                 }
             }
         }
@@ -51,7 +51,7 @@ final class Bars: Chart {
             $0.1.line.layer.cornerRadius = amount <= 0.2 ? 0 : 6
             $0.1.shape.constant = amount * 80
             $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, UIColor(named: "haze")!),
-                                   (app.session.name(app.project, list: $0.0), 11, .regular, UIColor(named: "haze")!)],
+                                   (app.session.name(app.project, list: $0.0), 9, .regular, UIColor(named: "haze")!)],
                                   align: .center)
         }
         
