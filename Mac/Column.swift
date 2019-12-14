@@ -14,12 +14,12 @@ final class Column: Text, NSTextViewDelegate {
         textContainerInset.width = 20
         textContainerInset.height = 20
         setAccessibilityLabel(.key("Column"))
-        font = NSFont(name: "Times New Roman", size: 20)
+        font = NSFont(name: "Times New Roman", size: 15)
         (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!),
-            .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
-            .bold: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: 20, weight: .heavy), NSColor(named: "haze")!)]
+            .plain: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!),
+            .emoji: (NSFont(name: "Times New Roman", size: 15)!, .white),
+            .bold: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!)]
         string = app.session.name(app.project, list: index)
         textContainer!.maximumNumberOfLines = 1
         textContainer!.widthTracksTextView = false

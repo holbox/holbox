@@ -15,12 +15,12 @@ final class Column: Text, UITextViewDelegate {
         isSelectable = false
         textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         accessibilityLabel = .key("Column")
-        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .medium)
+        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 15), weight: .medium)
         (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .regular), UIColor(named: "haze")!),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!)]
+            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 15), weight: .bold), UIColor(named: "haze")!),
+            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 15), weight: .regular), UIColor(named: "haze")!),
+            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 15), weight: .bold), UIColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 15), weight: .bold), UIColor(named: "haze")!)]
         delegate = self
         textContainer.maximumNumberOfLines = 1
         (layoutManager as! Layout).padding = 2

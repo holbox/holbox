@@ -22,6 +22,9 @@ final class Task: NSView, NSTextViewDelegate {
         setAccessibilityRole(.button)
         wantsLayer = true
         
+        let border = Border.horizontal(0.2)
+        addSubview(border)
+        
         let content = app.session.content(app.project, list: list, card: index)
         setAccessibilityLabel(content)
         
@@ -89,6 +92,10 @@ final class Task: NSView, NSTextViewDelegate {
         let height = heightAnchor.constraint(equalToConstant: 30)
         height.priority = .defaultLow
         height.isActive = true
+        
+        border.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         base.topAnchor.constraint(equalTo: topAnchor).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

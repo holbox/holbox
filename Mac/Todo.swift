@@ -5,6 +5,7 @@ final class Todo: View, NSTextViewDelegate {
     private weak var ring: Ring!
     private weak var scroll: Scroll!
     private weak var new: Text!
+    private weak var _right: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -14,10 +15,10 @@ final class Todo: View, NSTextViewDelegate {
         self.scroll = scroll
         
         let border = Border.vertical()
-        scroll.add(border)
+        addSubview(border)
         
         let tags = Tags()
-        scroll.add(tags)
+        addSubview(tags)
         self.tags = tags
         
         let new = Text(.Fix(), Active())
@@ -40,38 +41,40 @@ final class Todo: View, NSTextViewDelegate {
         scroll.add(_add)
         
         let ring = Ring()
-        scroll.add(ring)
+        addSubview(ring)
         self.ring = ring
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
-        scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        scroll.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.right.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
+        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
+        scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 40).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
-        border.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        border.bottomAnchor.constraint(equalTo: scroll.bottom).isActive = true
+        border.topAnchor.constraint(equalTo: scroll.topAnchor).isActive = true
+        border.bottomAnchor.constraint(equalTo: scroll.bottomAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.leftAnchor).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
+        tags.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor).isActive = true
         tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
+        let tagsLeft = tags.leftAnchor.constraint(equalTo: leftAnchor, constant: 10)
+        tagsLeft.priority = .defaultLow
+        tagsLeft.isActive = true
         
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
+        ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor).isActive = true
+        ring.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 10)
+        ringLeft.priority = .defaultLow
+        ringLeft.isActive = true
         
-        new.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
-        new.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
-        new.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
+        new.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -60).isActive = true
         new.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+        _right = new.rightAnchor.constraint(equalTo: scroll.left)
+        _right.isActive = true
         
-        let width = new.widthAnchor.constraint(equalToConstant: 400)
-        width.priority = .defaultLow
-        width.isActive = true
-        
-        _add.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
-        _add.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 60).isActive = true
+        _add.topAnchor.constraint(equalTo: scroll.top).isActive = true
+        _add.leftAnchor.constraint(equalTo: new.rightAnchor).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -98,6 +101,17 @@ final class Todo: View, NSTextViewDelegate {
         }
     }
     
+    func textDidEndEditing(_: Notification) {
+        if new.string.isEmpty {
+            _right.constant = 0
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.3
+                $0.allowsImplicitAnimation = true
+                scroll.documentView!.layoutSubtreeIfNeeded()
+            }
+        }
+    }
+    
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         
@@ -108,12 +122,12 @@ final class Todo: View, NSTextViewDelegate {
                 scroll.add(task)
 
                 if top == nil {
-                    task.topAnchor.constraint(equalTo: new.bottomAnchor, constant: 60).isActive = true
+                    task.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
                 } else {
                     task.topAnchor.constraint(equalTo: top!).isActive = true
                 }
-                task.leftAnchor.constraint(equalTo: tags.rightAnchor, constant: 20).isActive = true
-                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -10).isActive = true
+                task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
                 top = task.bottomAnchor
             }
         }
@@ -146,6 +160,7 @@ final class Todo: View, NSTextViewDelegate {
     
     override func add() {
         if new.string.isEmpty {
+            _right.constant = 340
             window!.makeFirstResponder(new)
         } else {
             if !new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -155,10 +170,12 @@ final class Todo: View, NSTextViewDelegate {
             }
             new.string = ""
             new.needsLayout = true
+            _right.constant = 0
         }
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
+            $0.duration = 0.6
             $0.allowsImplicitAnimation = true
+            scroll.documentView!.layoutSubtreeIfNeeded()
             scroll.contentView.scroll(to: .zero)
         }
     }
