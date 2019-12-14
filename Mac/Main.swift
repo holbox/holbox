@@ -7,7 +7,6 @@ final class Main: Window {
     
     init() {
         super.init(1200, 900, mask: [.miniaturizable, .resizable])
-        contentView!.layer!.backgroundColor = .black
         minSize = .init(width: 100, height: 100)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 600, y: NSScreen.main!.frame.midY - 450))
         

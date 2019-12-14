@@ -27,6 +27,7 @@ class Text: UITextView {
         accessory.backgroundColor = .black
         
         let border = Border()
+        border.backgroundColor = UIColor(named: "haze")!
         accessory.addSubview(border)
         
         let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .clear, UIColor(named: "haze")!)

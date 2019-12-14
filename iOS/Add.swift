@@ -113,7 +113,7 @@ final class Add: Modal {
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
             _confirm.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 200).isActive = true
+            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 240).isActive = true
             
             cancel.topAnchor.constraint(equalTo: _confirm.bottomAnchor).isActive = true
             

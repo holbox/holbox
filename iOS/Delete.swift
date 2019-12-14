@@ -103,11 +103,8 @@ class Delete: UIViewController {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.layer.cornerRadius = 10
         base.layer.borderWidth = 1
-        base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        base.layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         view.addSubview(base)
-        
-        let gradient = Gradient()
-        base.addSubview(gradient)
         
         let icon = Image("trash")
         view.addSubview(icon)
@@ -129,12 +126,7 @@ class Delete: UIViewController {
         name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
         name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
         name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
-        
-        gradient.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        gradient.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
-        
+
         icon.widthAnchor.constraint(equalToConstant: 20).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 20).isActive = true
         icon.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
@@ -149,11 +141,11 @@ class Delete: UIViewController {
         base.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -10).isActive = true
+        cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -20).isActive = true
         cancel.widthAnchor.constraint(equalToConstant: 120).isActive = true
         
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor).isActive = true
+        _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: 10).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
         
         name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true

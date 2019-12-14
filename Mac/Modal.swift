@@ -3,16 +3,8 @@ import AppKit
 class Modal: Window {
     init(_ width: CGFloat, _ height: CGFloat) {
         super.init(width, height, mask: [])
-        contentView!.layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.5).cgColor
+        contentView!.layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
         contentView!.layer!.borderWidth = 1
-        
-        let gradient = Gradient()
-        contentView!.addSubview(gradient)
-        
-        gradient.topAnchor.constraint(equalTo: contentView!.topAnchor).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: contentView!.bottomAnchor).isActive = true
-        gradient.leftAnchor.constraint(equalTo: contentView!.leftAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: contentView!.rightAnchor).isActive = true
     }
     
     override func keyDown(with: NSEvent) {

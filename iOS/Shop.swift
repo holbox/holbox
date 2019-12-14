@@ -47,9 +47,6 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.add(_restore)
         self._restore = _restore
         
-        let _cancel = Button("delete", target: self, action: #selector(close))
-        scroll.add(_cancel)
-        
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
@@ -58,7 +55,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+        title.topAnchor.constraint(equalTo: scroll.top, constant: 65).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
@@ -73,13 +70,10 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: _cancel.leftAnchor).isActive = true
+        _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 90).isActive = true
         
-        _cancel.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _cancel.rightAnchor.constraint(equalTo: scroll.right, constant: -10).isActive = true
-        _cancel.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        _cancel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        addClose()
         
         loading()
         SKPaymentQueue.default().add(self)
@@ -136,7 +130,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
             scroll.add(purchase)
             
             if top == nil {
-                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
+                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 105).isActive = true
             } else {
                 purchase.topAnchor.constraint(equalTo: top!).isActive = true
             }

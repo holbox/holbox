@@ -14,6 +14,7 @@ class Window: NSWindow {
         isMovableByWindowBackground = true
         contentView!.wantsLayer = true
         contentView!.layer!.cornerRadius = 10
+        contentView!.layer!.backgroundColor = .black
     }
     
     override func becomeKey() {

@@ -8,13 +8,17 @@ class Modal: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gradient = Gradient()
-        view.addSubview(gradient)
+        view.backgroundColor = .black
+    }
+    
+    final func addClose() {
+        let _close = Button("delete", target: self, action: #selector(close))
+        view.addSubview(_close)
         
-        gradient.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        gradient.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        _close.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        _close.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        _close.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _close.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     @objc final func close() {

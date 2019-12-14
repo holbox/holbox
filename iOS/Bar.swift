@@ -22,7 +22,7 @@ final class Bar: UIView, UITextViewDelegate {
         addSubview(border)
         self.border = border
         
-        let _home = Button("logo", target: self, action: #selector(home), padding: 15)
+        let _home = Button("logo", target: self, action: #selector(home), padding: 18)
         _home.accessibilityLabel = .key("Bar.home")
         _home.icon.contentMode = .scaleAspectFit
         _home.alpha = 0

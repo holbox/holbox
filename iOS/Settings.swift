@@ -15,9 +15,6 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
                            (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
         scroll.add(title)
         
-        let _done = Control(.key("Settings.done"), self, #selector(close), .clear, UIColor(named: "haze")!)
-        scroll.add(_done)
-        
         let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
         scroll.add(_spell)
@@ -45,11 +42,11 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.right.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        scroll.bottom.constraint(equalTo: _done.bottomAnchor, constant: 30).isActive = true
+        scroll.bottom.constraint(equalTo: top, constant: 40).isActive = true
         
         logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
         logo.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        logo.topAnchor.constraint(equalTo: scroll.top, constant: 60).isActive = true
+        logo.topAnchor.constraint(equalTo: scroll.top, constant: 80).isActive = true
         logo.rightAnchor.constraint(equalTo: scroll.centerX, constant: 5).isActive = true
         
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
@@ -58,9 +55,7 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         _spell.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        _done.topAnchor.constraint(equalTo: top, constant: 30).isActive = true
-        _done.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        _done.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
+        addClose()
     }
     
     func mailComposeController(_: MFMailComposeViewController, didFinishWith: MFMailComposeResult, error: Error?) {

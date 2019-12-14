@@ -91,10 +91,6 @@ final class Project: UIView {
         layer.cornerRadius = 8
         clipsToBounds = true
         
-        let gradient = Gradient()
-        gradient.alpha = 0.6
-        addSubview(gradient)
-        
         let label = Label(app.session.name(index), 18, .bold, UIColor(named: "haze")!)
         label.isAccessibilityElement = false
         addSubview(label)
@@ -109,11 +105,6 @@ final class Project: UIView {
         
         widthAnchor.constraint(equalToConstant: 180).isActive = true
         heightAnchor.constraint(equalToConstant: 220).isActive = true
-        
-        gradient.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        gradient.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        gradient.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        gradient.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         label.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
@@ -148,7 +139,7 @@ final class Project: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
+            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.3)
         }
         super.touchesBegan(touches, with: with)
     }
