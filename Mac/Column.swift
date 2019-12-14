@@ -41,8 +41,8 @@ final class Column: Text, NSTextViewDelegate {
         height.priority = .defaultLow
         height.isActive = true
         
-        _delete.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        _delete.leftAnchor.constraint(equalTo: leftAnchor, constant: -5).isActive = true
+        _delete.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
