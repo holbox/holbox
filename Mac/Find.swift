@@ -57,7 +57,7 @@ final class Find: NSView, NSTextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", 13, .regular, NSColor(named: "haze")!)
+        let _counter = Label("", 12, .regular, NSColor(named: "haze")!)
         addSubview(_counter)
         self._counter = _counter
         

@@ -11,7 +11,7 @@ final class Bars: Chart {
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        heightAnchor.constraint(equalToConstant: 160).isActive = true
+        heightAnchor.constraint(equalToConstant: 150).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
@@ -88,13 +88,13 @@ private final class Line: NSView {
         
         line.widthAnchor.constraint(equalToConstant: 12).isActive = true
         line.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -68).isActive = true
+        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -58).isActive = true
         shape = line.heightAnchor.constraint(equalToConstant: 0)
         shape.isActive = true
         
         rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
+        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -50).isActive = true
         label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
     }
 }
