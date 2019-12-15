@@ -14,31 +14,31 @@ final class Add: Modal {
     private var mode = Mode.off
     
     init() {
-        super.init(420, 560)
+        super.init(420, 500)
         let icon = Image("new")
         contentView!.addSubview(icon)
         
-        let title = Label([(.key("Add.title") + "\n", 25, .bold, NSColor(named: "haze")!),
-                           (.key("Add.subtitle"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))])
+        let title = Label([(.key("Add.title") + "\n", 20, .bold, NSColor(named: "haze")!),
+                           (.key("Add.subtitle"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))])
         contentView!.addSubview(title)
         
-        let available = Label([(.key("Add.available") + "\n", 20, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\(app.session.available)", 40, .medium, NSColor(named: "haze")!)], align: .center)
+        let available = Label([(.key("Add.available") + "\n", 16, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
+                              ("\(app.session.available)", 30, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(available)
         
-        let projects = Label([(.key("Add.projects"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\n\(app.session.count)", 22, .medium, NSColor(named: "haze")!)], align: .center)
+        let projects = Label([(.key("Add.projects"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
+                              ("\n\(app.session.count)", 16, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(projects)
         
-        let capacity = Label([(.key("Add.capacity"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\n\(app.session.capacity)", 22, .medium, NSColor(named: "haze")!)], align: .center)
+        let capacity = Label([(.key("Add.capacity"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
+                              ("\n\(app.session.capacity)", 16, .medium, NSColor(named: "haze")!)], align: .center)
         contentView!.addSubview(capacity)
         
         let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 90).isActive = true
+        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 100).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
@@ -71,7 +71,7 @@ final class Add: Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _notes.setAccessibilityLabel(.key("Add.notes"))
             
-            let name = Label("", 18, .bold, NSColor(named: "haze")!)
+            let name = Label("", 14, .bold, NSColor(named: "haze")!)
             contentView!.addSubview(name)
             self.name = name
             
@@ -100,16 +100,16 @@ final class Add: Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 130).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 112).isActive = true
             name.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
             _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 240).isActive = true
+            _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -10).isActive = true
             
             kanban(_kanban)
         } else {
-            let info = Label(.key("Add.info"), 16, .regular, .white)
+            let info = Label(.key("Add.info"), 14, .light, .white)
             contentView!.addSubview(info)
             
             let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), NSColor(named: "haze")!.cgColor, .black)

@@ -27,7 +27,7 @@ final class Bars: Chart {
                 subviews[$0].removeFromSuperview()
             }
             if let last = subviews.last {
-                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 3)
+                right = rightAnchor.constraint(equalTo: last.rightAnchor)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -36,10 +36,10 @@ final class Bars: Chart {
                 
                 line.topAnchor.constraint(equalTo: topAnchor).isActive = true
                 line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 3).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor).isActive = true
                 
                 if $0 == cards.count - 1 {
-                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 3)
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor)
                 }
             }
         }
@@ -47,11 +47,10 @@ final class Bars: Chart {
         layoutSubtreeIfNeeded()
 
         (subviews as! [Line]).enumerated().forEach {
-            let amount = max(cards[$0.0] / max(top, 1), 0.02)
-            $0.1.line.layer!.cornerRadius = amount <= 0.2 ? 0 : 6
-            $0.1.shape.constant = amount * 80
-            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, NSColor(named: "haze")!),
-                                   (app.session.name(app.project, list: $0.0), 9, .regular, NSColor(named: "haze")!)],
+            $0.1.line.layer!.cornerRadius = cards[$0.0] == 0 ? 0 : 6
+            $0.1.shape.constant = cards[$0.0] == 0 ? 3 : max((cards[$0.0] / max(top, 1)) * 80, 12)
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 12, .bold, NSColor(named: "haze")!),
+                                   (app.session.name(app.project, list: $0.0), 8, .regular, NSColor(named: "haze")!)],
                                   align: .center)
         }
         
@@ -83,7 +82,7 @@ private final class Line: NSView {
         
         let label = Label([])
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        label.maximumNumberOfLines = 4
+        label.maximumNumberOfLines = 3
         addSubview(label)
         self.label = label
         

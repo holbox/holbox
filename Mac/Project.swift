@@ -92,11 +92,11 @@ final class Project: NSView {
         wantsLayer = true
         layer!.cornerRadius = 8
         
-        let label = Label(app.session.name(index), 18, .bold, NSColor(named: "haze")!)
+        let label = Label(app.session.name(index), 14, .bold, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 13, .regular, NSColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 12, .regular, NSColor(named: "haze")!)
         info.setAccessibilityElement(false)
         addSubview(info)
         

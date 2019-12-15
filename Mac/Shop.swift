@@ -25,7 +25,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         contentView!.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 20, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Shop.title"), 16, .bold, NSColor(named: "haze")!)
         scroll.add(title)
         
         let logo = Logo()
@@ -37,7 +37,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.add(image)
         self.image = image
         
-        let message = Label("", 16, .regular, .init(white: 1, alpha: 0.8))
+        let message = Label("", 14, .regular, .init(white: 1, alpha: 0.8))
         message.isHidden = true
         scroll.add(message)
         self.message = message
@@ -55,7 +55,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.bottom.constraint(greaterThanOrEqualTo: contentView!.bottomAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: scroll.leftAnchor, constant: 50).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
+        title.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
         
         logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         logo.centerYAnchor.constraint(equalTo: scroll.centerY).isActive = true
@@ -149,7 +149,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
             scroll.add(purchase)
             
             if top == nil {
-                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 90).isActive = true
+                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 70).isActive = true
             } else {
                 purchase.topAnchor.constraint(equalTo: top!).isActive = true
             }

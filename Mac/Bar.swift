@@ -110,10 +110,11 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 15, weight: .medium), NSColor(named: "haze")!),
-                                                .emoji: (NSFont(name: "Times New Roman", size: 15)!, .white),
-                                                .bold: (.systemFont(ofSize: 15, weight: .bold), NSColor(named: "haze")!),
-                                                .tag: (.systemFont(ofSize: 15, weight: .medium), NSColor(named: "haze")!)]
+        name.font = NSFont(name: "Times New Roman", size: 14)!
+        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!),
+                                                .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
+                                                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
+                                                .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project)
@@ -147,12 +148,12 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(151, nil)
         
-        let title = Label(.key("Detail.title"), 18, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Detail.title"), 14, .bold, NSColor(named: "haze")!)
         title.wantsLayer = true
         title.alphaValue = 0
         addSubview(title)
         
-        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 97).isActive = true
+        title.leftAnchor.constraint(equalTo: leftAnchor, constant: 98).isActive = true
         title.bottomAnchor.constraint(equalTo: border.topAnchor, constant: -10).isActive = true
         
         button.constant = 30

@@ -29,12 +29,12 @@ private protocol Factory {
 }
 
 private struct Kanban: Factory {
-    let name = "NEW BOARD"
+    let name = "BOARD"
     let lists: [(String, [String])] = [("TODO", []), ("DOING", []), ("DONE", [])]
 }
 
 private struct Todo: Factory {
-    let name = "NEW LIST"
+    let name = "LIST"
     let lists: [(String, [String])] = [("", []), ("", []), ("", [])]
 }
 

@@ -72,11 +72,11 @@ class Delete: Modal {
     private weak var name: Label!
     
     private init() {
-        super.init(260, 260)
+        super.init(260, 230)
         let icon = Image("trash")
         contentView!.addSubview(icon)
         
-        let title = Label(.key("Delete.title"), 18, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Delete.title"), 14, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(title)
         
         let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!.withAlphaComponent(0.7))
@@ -85,12 +85,12 @@ class Delete: Modal {
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), NSColor(named: "haze")!.cgColor, .black)
         contentView!.addSubview(_confirm)
         
-        let name = Label("", 18, .regular, NSColor(named: "haze")!)
-        name.maximumNumberOfLines = 3
+        let name = Label("", 14, .regular, NSColor(named: "haze")!)
+        name.maximumNumberOfLines = 2
         contentView!.addSubview(name)
         self.name = name
         
-        name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
+        name.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
         name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
         name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
         
@@ -109,10 +109,6 @@ class Delete: Modal {
         _confirm.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: -10).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        
-        name.topAnchor.constraint(equalTo: contentView!.centerYAnchor, constant: -60).isActive = true
-        name.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 40).isActive = true
-        name.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -40).isActive = true
     }
     
     @objc private func confirm() {

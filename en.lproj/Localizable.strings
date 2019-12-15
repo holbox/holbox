@@ -88,7 +88,6 @@ Project.waiting="waiting";
 Project.products="products";
 Project.needed="needed";
 About.title="holbox";
-Settings.title="SETTINGS";
 Settings.spell="Check spelling";
 Settings.options.0="Privacy";
 Settings.options.1="Notifications";

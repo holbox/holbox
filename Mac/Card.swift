@@ -1,6 +1,6 @@
 import AppKit
 
-final class Card: Text, NSTextViewDelegate {
+final class Card: NSView, NSTextViewDelegate {
     var index: Int
     weak var top: NSLayoutConstraint! {
         didSet {
@@ -28,7 +28,10 @@ final class Card: Text, NSTextViewDelegate {
         }
     }
     
+    override var mouseDownCanMoveWindow: Bool { false }
+    
     private(set) weak var kanban: Kanban!
+    private(set) weak var text: Text!
     private weak var left: NSLayoutConstraint!
     private weak var right: NSLayoutConstraint!
     private weak var _delete: Image!
@@ -40,30 +43,42 @@ final class Card: Text, NSTextViewDelegate {
     init(_ kanban: Kanban, index: Int) {
         self.index = index
         self.kanban = kanban
-        super.init(.Expand(280, 10000), Block())
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         layer!.cornerRadius = 8
         layer!.borderColor = NSColor(named: "haze")!.cgColor
         layer!.borderWidth = 0
+        setAccessibilityElement(true)
         setAccessibilityLabel(.key("Card"))
-        textContainerInset.height = 20
-        textContainerInset.width = 20
-        font = NSFont(name: "Times New Roman", size: 16)
-        (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 16, weight: .medium), .white),
-            .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
-            .bold: (.systemFont(ofSize: 20, weight: .bold), .white),
-            .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
-        tab = true
-        intro = true
-        (layoutManager as! Layout).owns = true
-        (layoutManager as! Layout).padding = 2
-        delegate = self
+        
+        let text = Text(.Expand(280, 10000), Block())
+        text.textContainerInset.height = 20
+        text.textContainerInset.width = 20
+        text.font = NSFont(name: "Times New Roman", size: 14)
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: 14, weight: .regular), .white),
+            .emoji: (NSFont(name: "Times New Roman", size: 24)!, .white),
+            .bold: (.systemFont(ofSize: 18, weight: .bold), .white),
+            .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
+        text.tab = true
+        text.intro = true
+        (text.layoutManager as! Layout).owns = true
+        (text.layoutManager as! Layout).padding = 2
+        text.delegate = self
+        addSubview(text)
+        self.text = text
 
         let _delete = Image("delete")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
+        
+        rightAnchor.constraint(equalTo: text.rightAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
+        
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -78,25 +93,25 @@ final class Card: Text, NSTextViewDelegate {
     }
     
     func textDidBeginEditing(_: Notification) {
-        layer!.borderWidth = 2
+        layer!.borderWidth = 1
         layer!.backgroundColor = .clear
         _delete.alphaValue = 0
     }
     
     func textDidEndEditing(_: Notification) {
         guard let column = column?.index else { return }
-        if string != app.session.content(app.project, list: column, card: index) {
-            app.session.content(app.project, list: column, card: index, content: string)
-            app.alert(.key("Card"), message: string)
+        if text.string != app.session.content(app.project, list: column, card: index) {
+            app.session.content(app.project, list: column, card: index, content: text.string)
+            app.alert(.key("Card"), message: text.string)
             kanban.tags.refresh()
         }
         update(true)
     }
     
     func edit() {
-        edit.activate()
+        text.edit.activate()
         _delete.alphaValue = 0
-        window!.makeFirstResponder(self)
+        window!.makeFirstResponder(text)
     }
     
     func drag(_ x: CGFloat, _ y: CGFloat) {
@@ -130,7 +145,7 @@ final class Card: Text, NSTextViewDelegate {
                     $0.duration = 0.6
                     $0.allowsImplicitAnimation = true
                     layer!.backgroundColor = .black
-                    layer!.borderWidth = 5
+                    layer!.borderWidth = 2
                     _delete.alphaValue = 0
                     superview!.layoutSubtreeIfNeeded()
                 }
@@ -175,19 +190,19 @@ final class Card: Text, NSTextViewDelegate {
     }
     
     override func mouseEntered(with: NSEvent) {
-        if !dragging && window!.firstResponder != self {
+        if !dragging && window!.firstResponder != text {
             super.mouseEntered(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = window!.firstResponder == self ? .clear : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+                layer!.backgroundColor = window!.firstResponder == text ? .clear : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
                 _delete.alphaValue = 1
             }
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        if !dragging && window!.firstResponder != self {
+        if !dragging && window!.firstResponder != text {
             super.mouseExited(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
@@ -200,10 +215,18 @@ final class Card: Text, NSTextViewDelegate {
         }
     }
     
+    override func mouseDown(with: NSEvent) {
+        if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
+            text.click()
+        } else {
+            super.mouseDown(with: with)
+        }
+    }
+    
     override func mouseUp(with: NSEvent) {
-        if !dragging && window!.firstResponder != self && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if !dragging && window!.firstResponder != text && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
-            if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project, list: column.index, card: index)
                 kanban.refresh()
             } else {
@@ -233,8 +256,8 @@ final class Card: Text, NSTextViewDelegate {
             }
         } else {
             layer!.backgroundColor = color
-            string = app.session.content(app.project, list: column.index, card: index)
-            didChangeText()
+            text.string = app.session.content(app.project, list: column.index, card: index)
+            text.didChangeText()
         }
     }
     

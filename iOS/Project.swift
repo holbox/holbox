@@ -91,11 +91,11 @@ final class Project: UIView {
         layer.cornerRadius = 8
         clipsToBounds = true
         
-        let label = Label(app.session.name(index), 18, .bold, UIColor(named: "haze")!)
+        let label = Label(app.session.name(index), 16, .bold, UIColor(named: "haze")!)
         label.isAccessibilityElement = false
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 14, .regular, UIColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 13, .regular, UIColor(named: "haze")!)
         info.isAccessibilityElement = false
         addSubview(info)
         

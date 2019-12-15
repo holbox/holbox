@@ -107,7 +107,7 @@ final class Card: Text, UITextViewDelegate {
         isEditable = true
         isSelectable = true
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.layer.borderWidth = 2
+            self?.layer.borderWidth = 1
             self?.backgroundColor = .clear
         }) { [weak self] _ in
             self?.becomeFirstResponder()

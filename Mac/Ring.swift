@@ -5,10 +5,9 @@ final class Ring: Chart {
     var total = CGFloat()
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
-    private weak var label: Label!
     private var last = CGFloat()
     private let formatter = NumberFormatter()
-    private let middle = CGPoint(x: 60, y: 70)
+    private let middle = CGPoint(x: 50, y: 50)
     
     required init?(coder: NSCoder) { nil }
     override init() {
@@ -38,23 +37,16 @@ final class Ring: Chart {
         layer!.addSublayer(on)
         self.on = on
         
-        let percent = Label("", 18, .bold, NSColor(named: "haze")!)
+        let percent = Label([])
+        percent.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(percent)
         self.percent = percent
         
-        let label = Label([])
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        addSubview(label)
-        self.label = label
-        
-        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 5).isActive = true
-        heightAnchor.constraint(equalToConstant: 140).isActive = true
+        heightAnchor.constraint(equalToConstant: 100).isActive = true
+        widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: middle.x).isActive = true
-        
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
     }
     
     func refresh() {
@@ -70,23 +62,7 @@ final class Ring: Chart {
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
         
-        NSAnimationContext.runAnimationGroup ({
-            $0.duration = 0.25
-            $0.allowsImplicitAnimation = true
-            label.alphaValue = 0
-            percent.alphaValue = 0
-        }) { [weak self] in
-            guard let self = self else { return }
-            self.label.attributed([("\(Int(self.current))\n", 22, .bold, NSColor(named: "haze")!),
-                                    ("\(Int(self.total))", 14, .regular, NSColor(named: "haze")!)])
-            self.percent.stringValue = self.formatter.string(from: NSNumber(value: Double(amount)))!
-
-            NSAnimationContext.runAnimationGroup {
-                $0.duration = 0.3
-                $0.allowsImplicitAnimation = true
-                self.label.alphaValue = 1
-                self.percent.alphaValue = 1
-            }
-        }
+        self.percent.attributed([(self.formatter.string(from: NSNumber(value: Double(amount)))!, 14, .bold, NSColor(named: "haze")!),
+        ("\n\(Int(self.current))/\(Int(self.total))", 11, .regular, NSColor(named: "haze")!)], align: .center)
     }
 }

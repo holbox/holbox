@@ -19,29 +19,29 @@ final class Tag: NSView {
         base.layer!.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, 14, .bold, .black)
+        let label = Label("#" + name, 12, .medium, .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let _count = Label("\(count)", 14, .medium, NSColor(named: "haze")!)
+        let _count = Label("\(count)", 12, .regular, NSColor(named: "haze")!)
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         _count.setAccessibilityElement(false)
         addSubview(_count)
         
-        bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: 5).isActive = true
-        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 10).isActive = true
+        bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: 3).isActive = true
+        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 5).isActive = true
         
-        base.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        base.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 3).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 6).isActive = true
         
-        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 7).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 6).isActive = true
         label.topAnchor.constraint(equalTo: base.topAnchor, constant: 3).isActive = true
         
         _count.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
-        _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true
+        _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 3).isActive = true
     }
     
     override func resetCursorRects() {

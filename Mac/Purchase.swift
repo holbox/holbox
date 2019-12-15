@@ -19,24 +19,14 @@ final class Purchase: NSView {
         addSubview(image)
         
         let title = Label([
-            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 30, .bold, NSColor(named: "haze")!),
-            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, NSColor(named: "haze")!.withAlphaComponent(0.9))])
+            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .bold, NSColor(named: "haze")!),
+            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, NSColor(named: "haze")!)])
         addSubview(title)
         
-        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))
+        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 12, .light, .white)
         addSubview(label)
         
         shop.formatter.locale = product.priceLocale
-        let price = Label(shop.formatter.string(from: product.price) ?? "", 16, .regular, .white)
-        addSubview(price)
-        
-        let purchased = Label(.key("Shop.purchased"), 14, .regular, NSColor(named: "haze")!)
-        addSubview(purchased)
-        
-        let control = Control(.key("Shop.purchase"), self, #selector(purchase), NSColor(named: "haze")!.cgColor, .black)
-        addSubview(control)
-        
-        bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 30).isActive = true
         
         border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -47,30 +37,37 @@ final class Purchase: NSView {
         image.widthAnchor.constraint(equalToConstant: 52).isActive = true
         image.heightAnchor.constraint(equalToConstant: 52).isActive = true
         
-        title.topAnchor.constraint(equalTo: image.topAnchor, constant: 2).isActive = true
+        title.topAnchor.constraint(equalTo: image.topAnchor, constant: 10).isActive = true
         title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
-        title.widthAnchor.constraint(lessThanOrEqualToConstant: 180).isActive = true
         
-        label.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+        label.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 30).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
         label.widthAnchor.constraint(lessThanOrEqualToConstant: 600).isActive = true
         
-        price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30).isActive = true
-        price.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-        
-        purchased.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-        purchased.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 5).isActive = true
-        
-        control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
-        control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-        control.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        
         if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
-            price.isHidden = true
-            control.isHidden = true
+            let purchased = Label(.key("Shop.purchased"), 14, .regular, NSColor(named: "haze")!)
+            addSubview(purchased)
+            
+            bottomAnchor.constraint(equalTo: purchased.bottomAnchor, constant: 20).isActive = true
+            
+            purchased.leftAnchor.constraint(equalTo: label.leftAnchor).isActive = true
+            purchased.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12).isActive = true
         } else {
-            purchased.isHidden = true
+            let price = Label(shop.formatter.string(from: product.price) ?? "", 14, .regular, .white)
+            addSubview(price)
+            
+            let control = Control(.key("Shop.purchase"), self, #selector(purchase), NSColor(named: "haze")!.cgColor, .black)
+            addSubview(control)
+            
+            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 30).isActive = true
+            
+            price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30).isActive = true
+            price.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
+            
+            control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
+            control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
+            control.widthAnchor.constraint(equalToConstant: 140).isActive = true
         }
     }
     

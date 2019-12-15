@@ -26,18 +26,19 @@ final class Notes: View, NSTextViewDelegate {
         self.stats = stats
         
         let text = Text(.Fix(), Active())
-        text.textContainerInset.width = 40
-        text.textContainerInset.height = 30
+        text.textContainerInset.width = 80
+        text.textContainerInset.height = 40
         text.setAccessibilityLabel(.key("Note"))
-        text.font = NSFont(name: "Times New Roman", size: 18)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 18, weight: .regular), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 40)!, .white),
-                                               .bold: (.systemFont(ofSize: 28, weight: .bold), NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!)]
+        text.font = NSFont(name: "Times New Roman", size: 16)
+        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .regular), .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 28)!, .white),
+                                               .bold: (.systemFont(ofSize: 24, weight: .bold), NSColor(named: "haze")!),
+                                               .tag: (.systemFont(ofSize: 16, weight: .medium), NSColor(named: "haze")!)]
         text.tab = true
         text.intro = true
+        text.caret = 4
         (text.layoutManager as! Layout).owns = true
-        (text.layoutManager as! Layout).padding = 5
+        (text.layoutManager as! Layout).padding = 6
         text.delegate = self
         scroll.add(text)
         self.text = text
@@ -65,11 +66,11 @@ final class Notes: View, NSTextViewDelegate {
         text.topAnchor.constraint(equalTo: scroll.top).isActive = true
         text.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left).isActive = true
         text.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-        text.widthAnchor.constraint(lessThanOrEqualToConstant: 900).isActive = true
+        text.widthAnchor.constraint(lessThanOrEqualToConstant: 1000).isActive = true
         text.bottomAnchor.constraint(greaterThanOrEqualTo: border.topAnchor).isActive = true
         text.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        let width = text.widthAnchor.constraint(equalToConstant: 900)
+        let width = text.widthAnchor.constraint(equalToConstant: 1000)
         width.priority = .defaultLow
         width.isActive = true
 
@@ -78,6 +79,15 @@ final class Notes: View, NSTextViewDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.window!.makeFirstResponder(self.text)
+        }
+    }
+    
+    override func mouseDown(with: NSEvent) {
+        if window!.firstResponder != text && with.clickCount == 1 && frame.contains(convert(with.locationInWindow, from: nil)) {
+            text.isEditable = true
+            window!.makeFirstResponder(text)
+        } else {
+            super.mouseDown(with: with)
         }
     }
     

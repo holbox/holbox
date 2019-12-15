@@ -46,27 +46,27 @@ final class Kanban: View {
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _csv.bottomAnchor, constant: 50).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 40).isActive = true
         
-        _column.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _column.widthAnchor.constraint(equalToConstant: 100).isActive = true
         _column.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
-        _column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 60).isActive = true
+        _column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 70).isActive = true
         
-        _csv.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _csv.widthAnchor.constraint(equalToConstant: 100).isActive = true
         _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
         _csv.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 10).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 20).isActive = true
-        bars.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
+        bars.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
         
         refresh()
     }
@@ -146,15 +146,18 @@ final class Kanban: View {
         scroll.add(card)
 
         scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
-        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
         card.child = cards.first { $0.index == 0 }
         
         cards.forEach {
             $0.index += 1
         }
         
+        card.top = card.centerYAnchor.constraint(equalTo: _add.centerYAnchor)
         card.column = scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!
         card.update(false)
+        scroll.documentView!.layoutSubtreeIfNeeded()
+        
+        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
         
         NSAnimationContext.runAnimationGroup ({
             $0.duration = 0.4
@@ -171,15 +174,15 @@ final class Kanban: View {
         scroll.views.compactMap { $0 as? Card }.forEach { card in
             let ranges = ranges.filter { $0.0 == card.column.index && $0.1 == card.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
-                card.setSelectedRange(.init())
+                card.text.setSelectedRange(.init())
             } else {
-                card.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+                card.text.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
             }
         }
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column.index == list && $0.index == card }!
+        let text = scroll.views.compactMap { $0 as? Card }.first { $0.column.index == list && $0.index == card }!.text!
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
     }

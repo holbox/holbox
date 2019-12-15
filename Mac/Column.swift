@@ -1,29 +1,37 @@
 import AppKit
 
-final class Column: Text, NSTextViewDelegate {
+final class Column: NSView, NSTextViewDelegate {
     let index: Int
     private weak var kanban: Kanban!
+    private weak var text: Text!
     private weak var _delete: Image!
     private weak var width: NSLayoutConstraint!
+    
+    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int) {
         self.index = index
         self.kanban = kanban
-        super.init(.Fix(), Block())
-        textContainerInset.width = 20
-        textContainerInset.height = 20
-        setAccessibilityLabel(.key("Column"))
-        font = NSFont(name: "Times New Roman", size: 15)
-        (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!),
-            .emoji: (NSFont(name: "Times New Roman", size: 15)!, .white),
-            .bold: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: 15, weight: .heavy), NSColor(named: "haze")!)]
-        string = app.session.name(app.project, list: index)
-        textContainer!.maximumNumberOfLines = 1
-        textContainer!.widthTracksTextView = false
-        textContainer!.size.width = 300
+        super.init(frame: .init())
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        let text = Text(.Fix(), Block())
+        text.textContainerInset.width = 20
+        text.textContainerInset.height = 20
+        text.setAccessibilityLabel(.key("Column"))
+        text.font = NSFont(name: "Times New Roman", size: 14)
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
+            .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
+            .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
+            .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
+        text.string = app.session.name(app.project, list: index)
+        text.textContainer!.maximumNumberOfLines = 1
+        text.textContainer!.widthTracksTextView = false
+        text.textContainer!.size.width = 300
+        addSubview(text)
+        self.text = text
         
         let _delete = Image("delete")
         _delete.alphaValue = 0
@@ -34,20 +42,26 @@ final class Column: Text, NSTextViewDelegate {
         min.priority = .defaultLow
         min.isActive = true
         
-        width = widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+        width = text.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
         width.isActive = true
         
         let height = heightAnchor.constraint(equalToConstant: 0)
         height.priority = .defaultLow
         height.isActive = true
         
+        rightAnchor.constraint(equalTo: text.rightAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
+        
+        text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        
         _delete.leftAnchor.constraint(equalTo: leftAnchor, constant: -5).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        delegate = self
-        layoutManager!.ensureLayout(for: textContainer!)
+        text.delegate = self
+        text.layoutManager!.ensureLayout(for: text.textContainer!)
         resize()
         
         track()
@@ -75,11 +89,19 @@ final class Column: Text, NSTextViewDelegate {
         }
     }
     
+    override func mouseDown(with: NSEvent) {
+        if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
+            text.click()
+        } else {
+            super.mouseDown(with: with)
+        }
+    }
+    
     override func mouseUp(with: NSEvent) {
         if window!.firstResponder != self && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
             if app.session.lists(app.project) > 1 {
-                if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     app.session.delete(app.project, list: index)
                     kanban.refresh()
                 } else {
@@ -102,7 +124,7 @@ final class Column: Text, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.name(app.project, list: index, name: string)
+        app.session.name(app.project, list: index, name: text.string)
         kanban.charts()
     }
     
@@ -115,6 +137,6 @@ final class Column: Text, NSTextViewDelegate {
     }
     
     private func resize() {
-        width.constant = min(max(layoutManager!.usedRect(for: textContainer!).size.width + 40, 60), 340)
+        width.constant = min(max(text.layoutManager!.usedRect(for: text.textContainer!).size.width + 40, 60), 340)
     }
 }

@@ -4,6 +4,7 @@ class Text: NSTextView {
     var tab = false
     var intro = false
     var clear = false
+    var caret = CGFloat(2)
     let edit: Edit
     private let resize: Resize
     override var acceptsFirstResponder: Bool { edit.active }
@@ -32,13 +33,13 @@ class Text: NSTextView {
     
     override final func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn: Bool) {
         var rect = rect
-        rect.size.width = 3
+        rect.size.width = caret
         super.drawInsertionPoint(in: rect, color: color, turnedOn: turnedOn)
     }
     
     override func setNeedsDisplay(_ rect: NSRect, avoidAdditionalLayout: Bool) {
         var rect = rect
-        rect.size.width += 3
+        rect.size.width += caret
         super.setNeedsDisplay(rect, avoidAdditionalLayout: avoidAdditionalLayout)
     }
     
@@ -124,7 +125,7 @@ class Text: NSTextView {
         resize.layout(self)
     }
     
-    private func click() {
+    func click() {
         edit.click()
         if edit.active {
             window!.makeFirstResponder(self)

@@ -63,8 +63,9 @@ final class Todo: View, NSTextViewDelegate {
         tagsLeft.isActive = true
         
         ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor).isActive = true
-        ring.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 10)
+        ring.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        
+        let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 20)
         ringLeft.priority = .defaultLow
         ringLeft.isActive = true
         
@@ -115,22 +116,18 @@ final class Todo: View, NSTextViewDelegate {
     override func refresh() {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         
-        var top: NSLayoutYAxisAnchor?
-        (0 ..< app.session.cards(app.project, list: 0)).forEach {
-            let task = Task($0, todo: self)
-            scroll.add(task)
+        if app.session.cards(app.project, list: 0) > 0 {
+            var top = scroll.top
+            (0 ..< app.session.cards(app.project, list: 0)).forEach {
+                let task = Task($0, todo: self)
+                scroll.add(task)
 
-            if top == nil {
-                task.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
-            } else {
-                task.topAnchor.constraint(equalTo: top!).isActive = true
+                task.topAnchor.constraint(equalTo: top).isActive = true
+                task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+                top = task.bottomAnchor
             }
-            task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-            task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-            top = task.bottomAnchor
-        }
-        if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 50).isActive = true
         }
     
         ring.current = .init(app.session.cards(app.project, list: 1))
