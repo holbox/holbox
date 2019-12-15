@@ -35,7 +35,6 @@ final class Card: Text, NSTextViewDelegate {
     private var dragging = false
     private var deltaX = CGFloat(0)
     private var deltaY = CGFloat(0)
-    override var mouseDownCanMoveWindow: Bool { false }
 
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int) {

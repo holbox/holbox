@@ -116,20 +116,18 @@ final class Todo: View, NSTextViewDelegate {
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         
         var top: NSLayoutYAxisAnchor?
-        [0, 1].forEach { list in
-            (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let task = Task($0, list: list, todo: self)
-                scroll.add(task)
+        (0 ..< app.session.cards(app.project, list: 0)).forEach {
+            let task = Task($0, todo: self)
+            scroll.add(task)
 
-                if top == nil {
-                    task.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
-                } else {
-                    task.topAnchor.constraint(equalTo: top!).isActive = true
-                }
-                task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right).isActive = true
-                top = task.bottomAnchor
+            if top == nil {
+                task.topAnchor.constraint(equalTo: new.bottomAnchor).isActive = true
+            } else {
+                task.topAnchor.constraint(equalTo: top!).isActive = true
             }
+            task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+            task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+            top = task.bottomAnchor
         }
         if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 50).isActive = true
@@ -143,19 +141,21 @@ final class Todo: View, NSTextViewDelegate {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Task }.forEach { task in
-            let ranges = ranges.filter { $0.0 == task.list && $0.1 == task.index }.map { $0.2 as NSValue }
+            let ranges = ranges.filter { $0.0 == 0 && $0.1 == task.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
-                task.text.setSelectedRange(.init())
+                task.setSelectedRange(.init())
             } else {
-                task.text.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+                task.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
             }
         }
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        let text = scroll.views.compactMap { $0 as? Task }.first { $0.list == list && $0.index == card }!.text!
-        text.showFindIndicator(for: range)
-        scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+        if list == 0 {
+            let text = scroll.views.compactMap { $0 as? Task }.first { $0.index == card }!
+            text.showFindIndicator(for: range)
+            scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+        }
     }
     
     override func add() {
