@@ -46,8 +46,6 @@ final class Control: NSView {
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             _ = target.perform(action, with: nil)
-        } else {
-            super.mouseUp(with: with)
         }
         alphaValue = 1
     }

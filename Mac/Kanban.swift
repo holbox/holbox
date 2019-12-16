@@ -86,13 +86,12 @@ final class Kanban: View {
     }
     
     override func mouseUp(with: NSEvent) {
-        super.mouseUp(with: with)
         end(with)
     }
     
     override func mouseDown(with: NSEvent) {
         end(with)
-        super.mouseDown(with: with)
+        window!.makeFirstResponder(self)
     }
     
     override func refresh() {

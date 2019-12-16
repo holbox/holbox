@@ -113,8 +113,6 @@ class Option: NSView {
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             click()
-        } else {
-            super.mouseUp(with: with)
         }
         alphaValue = 1
     }

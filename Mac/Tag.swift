@@ -55,8 +55,6 @@ final class Tag: NSView {
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             app.main.bar.find.search("#"+name)
-        } else {
-            super.mouseUp(with: with)
         }
         alphaValue = 1
     }

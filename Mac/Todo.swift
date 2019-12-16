@@ -54,7 +54,7 @@ final class Todo: View, NSTextViewDelegate {
         let _clear = Button("clear", target: self, action: #selector(clear))
         base.addSubview(_clear)
         
-        let _create = Control(.key("Todo.create"), self, #selector(create), NSColor(named: "haze")!.withAlphaComponent(0.1).cgColor, NSColor(named: "haze")!)
+        let _create = Control(.key("Todo.create"), self, #selector(create), NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor, NSColor(named: "haze")!)
         base.addSubview(_create)
         
         let ring = Ring()
@@ -92,8 +92,8 @@ final class Todo: View, NSTextViewDelegate {
         _bottom.isActive = true
         
         _create.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
-        _create.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
-        _create.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
+        _create.leftAnchor.constraint(equalTo: base.leftAnchor, constant: -10).isActive = true
+        _create.rightAnchor.constraint(equalTo: base.rightAnchor, constant: 10).isActive = true
         
         new.bottomAnchor.constraint(equalTo: _create.topAnchor).isActive = true
         new.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
@@ -132,6 +132,14 @@ final class Todo: View, NSTextViewDelegate {
             clear()
         default: super.keyDown(with: with)
         }
+    }
+    
+    override func mouseDown(with: NSEvent) {
+         
+    }
+    
+    override func mouseUp(with: NSEvent) {
+        
     }
     
     override func refresh() {

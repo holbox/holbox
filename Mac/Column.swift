@@ -92,8 +92,6 @@ final class Column: NSView, NSTextViewDelegate {
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             text.click()
-        } else {
-            super.mouseDown(with: with)
         }
     }
     
@@ -111,8 +109,6 @@ final class Column: NSView, NSTextViewDelegate {
             } else {
                 app.alert(.key("Kanban.last"), message: .key("Kanban.need"))
             }
-        } else {
-            super.mouseUp(with: with)
         }
     }
     

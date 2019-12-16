@@ -174,8 +174,6 @@ final class Project: NSView {
             } else {
                 app.project = index
             }
-        } else {
-            super.mouseUp(with: with)
         }
         alphaValue = 1
     }

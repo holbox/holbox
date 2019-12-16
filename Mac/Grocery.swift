@@ -67,7 +67,6 @@ final class Grocery: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.5
-        super.mouseDown(with: with)
     }
     
     override func mouseEntered(with: NSEvent) {

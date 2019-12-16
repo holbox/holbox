@@ -218,8 +218,6 @@ final class Card: NSView, NSTextViewDelegate {
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             text.click()
-        } else {
-            super.mouseDown(with: with)
         }
     }
     
@@ -233,8 +231,6 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete!.alphaValue = 0
                 app.runModal(for: Delete.Card(index, list: column.index))
             }
-        } else {
-            super.mouseUp(with: with)
         }
     }
     
