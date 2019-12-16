@@ -114,19 +114,30 @@ final class Todo: View, NSTextViewDelegate {
     }
     
     override func refresh() {
-        scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         
         if app.session.cards(app.project, list: 0) > 0 {
             var top = scroll.top
             (0 ..< app.session.cards(app.project, list: 0)).forEach {
                 let task = Task($0, todo: self)
                 scroll.add(task)
+                
+                if $0 > 0 {
+                    let border = Border.horizontal(0.2)
+                    scroll.add(border)
+                    
+                    border.topAnchor.constraint(equalTo: top).isActive = true
+                    border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+                    border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+                    top = border.bottomAnchor
+                }
 
                 task.topAnchor.constraint(equalTo: top).isActive = true
                 task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
                 task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
                 top = task.bottomAnchor
             }
+            
             scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 50).isActive = true
         }
     
@@ -140,16 +151,16 @@ final class Todo: View, NSTextViewDelegate {
         scroll.views.compactMap { $0 as? Task }.forEach { task in
             let ranges = ranges.filter { $0.0 == 0 && $0.1 == task.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
-                task.setSelectedRange(.init())
+                task.text.setSelectedRange(.init())
             } else {
-                task.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
+                task.text.setSelectedRanges(ranges, affinity: .downstream, stillSelecting: true)
             }
         }
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
         if list == 0 {
-            let text = scroll.views.compactMap { $0 as? Task }.first { $0.index == card }!
+            let text = scroll.views.compactMap { $0 as? Task }.first { $0.index == card }!.text!
             text.showFindIndicator(for: range)
             scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
         }

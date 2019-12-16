@@ -1,44 +1,51 @@
 import AppKit
 
-final class Task: Text, NSTextViewDelegate {
+final class Task: NSView, NSTextViewDelegate {
     let index: Int
+    private(set) weak var text: Text!
     private weak var todo: Todo!
     private weak var icon: Image!
     private weak var _delete: Image!
+    
+    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, todo: Todo) {
         self.index = index
         self.todo = todo
-        super.init(.Fix(), Block())
-        textContainerInset.width = 20
-        textContainerInset.height = 60
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        setAccessibilityLabel(.key("Task"))
-        font = NSFont(name: "Times New Roman", size: 14)!
-        (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 14, weight: .medium), .white),
+        
+        let text = Text(.Fix(), Block())
+        text.textContainerInset.width = 15
+        text.textContainerInset.height = 12
+        text.setAccessibilityLabel(.key("Task"))
+        text.font = NSFont(name: "Times New Roman", size: 14)!
+        (text.textStorage as! Storage).fonts = [
+            .plain: (.systemFont(ofSize: 14, weight: .regular), .white),
             .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
             .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
             .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
-        (layoutManager as! Layout).owns = true
-        (layoutManager as! Layout).padding = 1
-        intro = true
-        tab = true
-        string = app.session.content(app.project, list: 0, card: index)
-        delegate = self
+        (text.layoutManager as! Layout).owns = true
+        (text.layoutManager as! Layout).padding = 1
+        text.intro = true
+        text.tab = true
+        text.string = app.session.content(app.project, list: 0, card: index)
+        text.delegate = self
+        addSubview(text)
+        self.text = text
         
-        let border = Border.horizontal(0.2)
-        addSubview(border)
-        
-        let _delete = Image("delete")
+        let _delete = Image("clear")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
         
-        border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
+        
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -49,7 +56,7 @@ final class Task: Text, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.content(app.project, list: 0, card: index, content: string)
+        app.session.content(app.project, list: 0, card: index, content: text.string)
         todo?.tags.refresh()
     }
     
