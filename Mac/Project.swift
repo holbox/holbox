@@ -165,7 +165,6 @@ final class Project: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.4
-        super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
@@ -175,9 +174,10 @@ final class Project: NSView {
             } else {
                 app.project = index
             }
+        } else {
+            super.mouseUp(with: with)
         }
         alphaValue = 1
-        super.mouseUp(with: with)
     }
     
     private func interval(_ date: Date) -> String {

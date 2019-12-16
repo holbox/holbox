@@ -19,7 +19,7 @@ final class Notes: View, NSTextViewDelegate {
         let _pdf = Control("PDF", self, #selector(pdf), NSColor(named: "haze")!.cgColor, .black)
         addSubview(_pdf)
         
-        let stats = Label("", 12, .regular, NSColor(named: "haze")!)
+        let stats = Label("", 11, .regular, NSColor(named: "haze")!)
         stats.maximumNumberOfLines = 2
         stats.lineBreakMode = .byTruncatingHead
         addSubview(stats)
@@ -77,15 +77,24 @@ final class Notes: View, NSTextViewDelegate {
         refresh()
         
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.window!.makeFirstResponder(self.text)
+            self?.edit()
+        }
+    }
+    
+    override func keyDown(with: NSEvent) {
+        if window!.firstResponder != text {
+            switch with.keyCode {
+            case 36, 48: edit()
+            default: super.keyDown(with: with)
+            }
+        } else {
+            super.keyDown(with: with)
         }
     }
     
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 1 && frame.contains(convert(with.locationInWindow, from: nil)) {
-            text.isEditable = true
-            window!.makeFirstResponder(text)
+            edit()
         } else {
             super.mouseDown(with: with)
         }
@@ -162,6 +171,17 @@ final class Notes: View, NSTextViewDelegate {
             DispatchQueue.main.async { [weak self] in
                 self?.stats.stringValue = string
             }
+        }
+    }
+    
+    private func edit() {
+        text.isEditable = true
+        text.setSelectedRange(.init())
+        window!.makeFirstResponder(text)
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.3
+            $0.allowsImplicitAnimation = true
+            scroll.contentView.scroll(to: .zero)
         }
     }
     

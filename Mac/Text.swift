@@ -116,8 +116,9 @@ class Text: NSTextView {
     override func rightMouseUp(with: NSEvent) {
         if !edit.active && bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             click()
+        } else {
+            super.rightMouseUp(with: with)
         }
-        super.rightMouseUp(with: with)
     }
     
     override func layout() {

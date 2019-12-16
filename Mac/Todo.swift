@@ -5,7 +5,8 @@ final class Todo: View, NSTextViewDelegate {
     private weak var ring: Ring!
     private weak var scroll: Scroll!
     private weak var new: Text!
-    private weak var _top: NSLayoutConstraint!
+    private weak var _add: Button!
+    private weak var _bottom: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -21,24 +22,40 @@ final class Todo: View, NSTextViewDelegate {
         addSubview(tags)
         self.tags = tags
         
+        let base = NSView()
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.wantsLayer = true
+        base.layer!.cornerRadius = 6
+        base.layer!.borderWidth = 1
+        base.layer!.borderColor = .black
+        base.layer!.backgroundColor = NSColor(named: "background")!.cgColor
+        addSubview(base)
+        
         let new = Text(.Fix(), Active())
-        new.textContainerInset.width = 10
-        new.textContainerInset.height = 10
+        new.textContainerInset.width = 30
+        new.textContainerInset.height = 20
         new.setAccessibilityLabel(.key("Task"))
-        new.font = NSFont(name: "Times New Roman", size: 22)
-        (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 22, weight: .medium), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 30)!, .white),
-                                               .bold: (.systemFont(ofSize: 24, weight: .bold), .white),
-                                               .tag: (.systemFont(ofSize: 20, weight: .medium), NSColor(named: "haze")!)]
+        new.font = NSFont(name: "Times New Roman", size: 14)
+        (new.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .regular), .white),
+                                               .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
+                                               .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
+                                               .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         new.intro = true
         new.tab = true
         new.delegate = self
-        addSubview(new)
+        base.addSubview(new)
         self.new = new
         
         let _add = Button("plus", target: self, action: #selector(add))
         _add.setAccessibilityLabel(.key("Todo.add"))
         addSubview(_add)
+        self._add = _add
+        
+        let _clear = Button("clear", target: self, action: #selector(clear))
+        base.addSubview(_clear)
+        
+        let _create = Control(.key("Todo.create"), self, #selector(create), NSColor(named: "haze")!.withAlphaComponent(0.1).cgColor, NSColor(named: "haze")!)
+        base.addSubview(_create)
         
         let ring = Ring()
         addSubview(ring)
@@ -68,10 +85,24 @@ final class Todo: View, NSTextViewDelegate {
         ringLeft.priority = .defaultLow
         ringLeft.isActive = true
         
-        new.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -60).isActive = true
-        new.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        _top = new.topAnchor.constraint(equalTo: bottomAnchor, constant: 10)
-        _top.isActive = true
+        base.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        base.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
+        base.topAnchor.constraint(equalTo: new.topAnchor, constant: -10).isActive = true
+        _bottom = base.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 150)
+        _bottom.isActive = true
+        
+        _create.bottomAnchor.constraint(equalTo: base.bottomAnchor).isActive = true
+        _create.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
+        _create.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
+        
+        new.bottomAnchor.constraint(equalTo: _create.topAnchor).isActive = true
+        new.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
+        new.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
+        
+        _clear.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
+        _clear.leftAnchor.constraint(equalTo: base.leftAnchor).isActive = true
+        _clear.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        _clear.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         _add.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
         _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
@@ -85,7 +116,11 @@ final class Todo: View, NSTextViewDelegate {
         switch with.keyCode {
         case 36:
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
-                add()
+                if _add.isHidden {
+                    create()
+                } else {
+                    add()
+                }
             } else {
                 window!.makeFirstResponder(new)
                 new.setSelectedRange(.init(location: new.string.count, length: 0))
@@ -93,18 +128,9 @@ final class Todo: View, NSTextViewDelegate {
         case 48:
             window!.makeFirstResponder(new)
             new.setSelectedRange(.init(location: 0, length: new.string.count))
+        case 53:
+            clear()
         default: super.keyDown(with: with)
-        }
-    }
-    
-    func textDidEndEditing(_: Notification) {
-        if new.string.isEmpty {
-            _top.constant = 10
-            NSAnimationContext.runAnimationGroup {
-                $0.duration = 0.3
-                $0.allowsImplicitAnimation = true
-                layoutSubtreeIfNeeded()
-            }
         }
     }
     
@@ -162,21 +188,44 @@ final class Todo: View, NSTextViewDelegate {
     }
     
     override func add() {
-        if new.string.isEmpty {
-            _top.constant = -200
-            window!.makeFirstResponder(new)
-        } else {
-            if !new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project, list: 0, content: new.string)
-                app.alert(.key("Task"), message: new.string)
-                refresh()
-            }
-            new.string = ""
-            new.needsLayout = true
-            _top.constant = 10
+        guard window!.firstResponder != new else { return }
+        _bottom.constant = -50
+        _add.isHidden = true
+        NSAnimationContext.runAnimationGroup({
+            $0.duration = 0.4
+            $0.allowsImplicitAnimation = true
+            layoutSubtreeIfNeeded()
+        }) { [weak self] in
+            self?.window?.makeFirstResponder(self?.new)
         }
+    }
+    
+    @objc private func create() {
+        if !new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            app.session.add(app.project, list: 0, content: new.string)
+            app.alert(.key("Task"), message: new.string)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.3
+                $0.allowsImplicitAnimation = true
+                scroll.contentView.scroll(to: .zero)
+            }
+            refresh()
+            scroll.documentView!.layoutSubtreeIfNeeded()
+            clear()
+        } else {
+            window?.makeFirstResponder(new)
+        }
+    }
+    
+    @objc private func clear() {
+        window!.makeFirstResponder(self)
+        new.string = ""
+        new.needsLayout = true
+        _bottom.constant = 150
+        _add.alphaValue = 1
+        _add.isHidden = false
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.6
+            $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             layoutSubtreeIfNeeded()
         }

@@ -17,6 +17,5 @@ final class Alert: Modal {
     
     override func mouseDown(with: NSEvent) {
         close()
-        super.mouseDown(with: with)
     }
 }

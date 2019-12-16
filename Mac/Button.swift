@@ -34,7 +34,6 @@ final class Button: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
-        super.mouseDown(with: with)
     }
     
     override func mouseExited(with: NSEvent) {
@@ -46,8 +45,9 @@ final class Button: NSView {
         window!.makeFirstResponder(nil)
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             _ = target.perform(action, with: self)
+        } else {
+            super.mouseUp(with: with)
         }
         alphaValue = 1
-        super.mouseUp(with: with)
     }
 }

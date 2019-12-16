@@ -126,9 +126,12 @@ final class Find: NSView, NSTextViewDelegate {
                 next()
             } else if _prev.frame.contains(location) {
                 prev()
+            } else {
+                super.mouseUp(with: with)
             }
+        } else {
+            super.mouseUp(with: with)
         }
-        super.mouseUp(with: with)
     }
     
     func textDidEndEditing(_: Notification) {

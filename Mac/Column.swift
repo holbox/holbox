@@ -111,8 +111,9 @@ final class Column: NSView, NSTextViewDelegate {
             } else {
                 app.alert(.key("Kanban.last"), message: .key("Kanban.need"))
             }
+        } else {
+            super.mouseUp(with: with)
         }
-        super.mouseUp(with: with)
     }
     
     func textDidChange(_: Notification) {

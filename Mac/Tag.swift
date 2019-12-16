@@ -50,14 +50,14 @@ final class Tag: NSView {
     
     override func mouseDown(with: NSEvent) {
         alphaValue = 0.3
-        super.mouseDown(with: with)
     }
     
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             app.main.bar.find.search("#"+name)
+        } else {
+            super.mouseUp(with: with)
         }
         alphaValue = 1
-        super.mouseUp(with: with)
     }
 }

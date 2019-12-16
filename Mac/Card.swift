@@ -233,8 +233,9 @@ final class Card: NSView, NSTextViewDelegate {
                 _delete!.alphaValue = 0
                 app.runModal(for: Delete.Card(index, list: column.index))
             }
+        } else {
+            super.mouseUp(with: with)
         }
-        super.mouseUp(with: with)
     }
     
     func update(_ animate: Bool) {

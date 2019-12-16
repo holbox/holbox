@@ -34,21 +34,21 @@ final class Control: NSView {
         addCursorRect(bounds, cursor: .pointingHand)
     }
     
-    override func mouseDown(with: NSEvent) {
-        alphaValue = 0.3
-        super.mouseDown(with: with)
-    }
-    
     override func mouseExited(with: NSEvent) {
         super.mouseExited(with: with)
         alphaValue = 1
     }
     
+    override func mouseDown(with: NSEvent) {
+        alphaValue = 0.3
+    }
+    
     override func mouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             _ = target.perform(action, with: nil)
+        } else {
+            super.mouseUp(with: with)
         }
         alphaValue = 1
-        super.mouseUp(with: with)
     }
 }
