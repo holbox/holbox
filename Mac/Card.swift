@@ -222,13 +222,13 @@ final class Card: NSView, NSTextViewDelegate {
     }
     
     override func mouseUp(with: NSEvent) {
-        if !dragging && window!.firstResponder != text && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+        if !dragging && window!.firstResponder != text && _delete.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             window!.makeFirstResponder(superview!)
             if text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 app.session.delete(app.project, list: column.index, card: index)
                 kanban.refresh()
             } else {
-                _delete!.alphaValue = 0
+                _delete.alphaValue = 0
                 app.runModal(for: Delete.Card(index, list: column.index))
             }
         }

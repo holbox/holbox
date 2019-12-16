@@ -75,6 +75,7 @@
 		DA75C7C2234F11A500FD61DC /* Perk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7BF234F11A500FD61DC /* Perk.swift */; };
 		DA75C7C4234F465600FD61DC /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA75C7C3234F465600FD61DC /* Detail.swift */; };
 		DA781F1A2397D51B0053374E /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA781F192397D51B0053374E /* Main.swift */; };
+		DA78222923A7DD1D00B32BB5 /* Tasker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA78222823A7DD1D00B32BB5 /* Tasker.swift */; };
 		DA7B857F239247980089EC81 /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7B857E239247980089EC81 /* Modal.swift */; };
 		DA8081B323914E6C00C3709F /* Modal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8081B223914E6C00C3709F /* Modal.swift */; };
 		DA813BAE2376B8E400A3393C /* TestProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA813BAD2376B8E400A3393C /* TestProduct.swift */; };
@@ -339,6 +340,7 @@
 		DA75C7BF234F11A500FD61DC /* Perk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Perk.swift; sourceTree = "<group>"; };
 		DA75C7C3234F465600FD61DC /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DA781F192397D51B0053374E /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		DA78222823A7DD1D00B32BB5 /* Tasker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tasker.swift; sourceTree = "<group>"; };
 		DA7B857E239247980089EC81 /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DA8081B223914E6C00C3709F /* Modal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modal.swift; sourceTree = "<group>"; };
 		DA813BAD2376B8E400A3393C /* TestProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProduct.swift; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				DA6F04EE238EA10A006996DD /* Tag.swift */,
 				DAD1835923817A3800199FE7 /* Tags.swift */,
 				DA16F18C2370020600F3A1FE /* Task.swift */,
+				DA78222823A7DD1D00B32BB5 /* Tasker.swift */,
 				DA7420D02351FB6C005A8726 /* Text.swift */,
 				DA61F30023699DB2006DD924 /* Todo.swift */,
 				DAD5E6ED2364336200EE4AD9 /* Tool.swift */,
@@ -1133,6 +1136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA78222923A7DD1D00B32BB5 /* Tasker.swift in Sources */,
 				DA813BB02376CF7400A3393C /* Grocery.swift in Sources */,
 				DA647E5323759AB90030CB5E /* Shopping.swift in Sources */,
 				DAD1835A23817A3800199FE7 /* Tags.swift in Sources */,
