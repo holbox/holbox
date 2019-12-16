@@ -80,7 +80,7 @@ class Text: NSTextView {
                 string = ""
                 delegate?.textDidChange?(.init(name: .init("")))
             }
-            window!.makeFirstResponder(nil)
+            window!.makeFirstResponder(superview!)
         case 48:
             if tab {
                 super.keyDown(with: with)

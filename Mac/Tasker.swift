@@ -37,6 +37,7 @@ final class Tasker: NSView, NSTextViewDelegate {
         text.textContainerInset.height = 20
         text.setAccessibilityLabel(.key("Task"))
         text.insertionPointColor = .black
+        text.selectedTextAttributes = [.backgroundColor: NSColor(white: 0, alpha: 0.2)]
         text.font = NSFont(name: "Times New Roman", size: 14)
         (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .regular), .black),
                                                .emoji: (NSFont(name: "Times New Roman", size: 18)!, .black),
@@ -82,7 +83,7 @@ final class Tasker: NSView, NSTextViewDelegate {
         switch with.keyCode {
         case 36:
             if with.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
-                if _clear.isHidden {
+                if !_clear.isHidden {
                     confirm()
                 } else {
                     add()
@@ -135,7 +136,20 @@ final class Tasker: NSView, NSTextViewDelegate {
     }
     
     private func confirm() {
-        
+        if !text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            app.session.add(app.project, list: 0, content: text.string)
+            app.alert(.key("Task"), message: text.string)
+            NSAnimationContext.runAnimationGroup {
+                $0.duration = 0.3
+                $0.allowsImplicitAnimation = true
+                todo.scroll.contentView.scroll(to: .zero)
+            }
+            todo.refresh()
+            todo.scroll.documentView!.layoutSubtreeIfNeeded()
+            clear()
+        } else {
+            add()
+        }
     }
     
     private func clear() {
@@ -154,23 +168,3 @@ final class Tasker: NSView, NSTextViewDelegate {
         }
     }
 }
-
-
-/*
- 
- if !new.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-     app.session.add(app.project, list: 0, content: new.string)
-     app.alert(.key("Task"), message: new.string)
-     NSAnimationContext.runAnimationGroup {
-         $0.duration = 0.3
-         $0.allowsImplicitAnimation = true
-         scroll.contentView.scroll(to: .zero)
-     }
-     refresh()
-     scroll.documentView!.layoutSubtreeIfNeeded()
-     clear()
- } else {
-     window?.makeFirstResponder(new)
- }
- 
- */
