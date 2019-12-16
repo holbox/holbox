@@ -46,6 +46,9 @@ final class Task: NSView, NSTextViewDelegate {
         text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
+        let height = text.heightAnchor.constraint(equalToConstant: 0)
+        height.priority = .defaultLow
+        height.isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
