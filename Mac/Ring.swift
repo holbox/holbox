@@ -62,7 +62,7 @@ final class Ring: Chart {
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
         
-        self.percent.attributed([(self.formatter.string(from: NSNumber(value: Double(amount)))!, 14, .bold, NSColor(named: "haze")!),
-        ("\n\(Int(self.current))/\(Int(self.total))", 11, .regular, NSColor(named: "haze")!)], align: .center)
+        percent.attributed([(formatter.string(from: NSNumber(value: Double(amount)))!, 14, .bold, NSColor(named: "haze")!),
+                            ("\n\(Int(current))/\(Int(total))", 11, .regular, NSColor(named: "haze")!)], align: .center)
     }
 }

@@ -94,6 +94,10 @@ final class Task: NSView, NSTextViewDelegate {
         height.priority = .defaultLow
         height.isActive = true
         
+        let width = widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
+        width.priority = .defaultLow
+        width.isActive = true
+        
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 60).isActive = true

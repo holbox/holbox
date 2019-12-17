@@ -52,23 +52,26 @@ final class Todo: View {
         tasker.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
         tasker.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        tags.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor).isActive = true
+        tags.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
         let tagsLeft = tags.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         tagsLeft.priority = .defaultLow
         tagsLeft.isActive = true
         
-        ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor).isActive = true
+        ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         ring.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         ringLeft.priority = .defaultLow
         ringLeft.isActive = true
         
         timeline.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
-        timeline.topAnchor.constraint(lessThanOrEqualTo: tags.bottomAnchor, constant: 50).isActive = true
+        timeline.topAnchor.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 50).isActive = true
         let timelineLeft = timeline.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         timelineLeft.priority = .defaultLow
         timelineLeft.isActive = true
+        let timelineBottom = timeline.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25)
+        timelineBottom.priority = .defaultLow
+        timelineBottom.isActive = true
         
         refresh()
     }

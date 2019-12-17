@@ -26,13 +26,13 @@ final class Timeline: Chart {
         self.time = time
         
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        heightAnchor.constraint(equalToConstant: 200).isActive = true
-        layoutSubtreeIfNeeded()
+        heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        heightAnchor.constraint(lessThanOrEqualToConstant: 300).isActive = true
     }
     
     func refresh() {
         let time = CGMutablePath()
-        time.move(to: .init(x: 2, y: 15))
+        time.move(to: .init(x: 2, y: 30))
         
         let dates = (0 ..< app.session.cards(app.project, list: 2)).map { CGFloat(Int(app.session.content(app.project, list: 2, card: $0))!) }
         if !dates.isEmpty {
@@ -44,15 +44,15 @@ final class Timeline: Chart {
             }
             let max = tasks.max()!
             tasks.enumerated().forEach {
-                time.addLine(to: .init(x: (((bounds.width - 60) / slots) * .init($0.0)) + 30, y: ((bounds.height - 25) * ($0.1 / max)) + 15))
+                time.addLine(to: .init(x: (((bounds.width - 60) / slots) * .init($0.0)) + 30, y: ((bounds.height - 60) * ($0.1 / max)) + 30))
             }
         }
         
-        time.addLine(to: .init(x: bounds.maxX - 2, y: 15))
+        time.addLine(to: .init(x: bounds.maxX - 2, y: 30))
         
         let dots = CGMutablePath()
-        dots.move(to: .init(x: 0, y: 3))
-        dots.addLine(to: .init(x: bounds.maxX, y: 3))
+        dots.move(to: .init(x: 0, y: 22))
+        dots.addLine(to: .init(x: bounds.maxX, y: 22))
         
         let timing = CABasicAnimation(keyPath: "path")
         timing.duration = 0.6
