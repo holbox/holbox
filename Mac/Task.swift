@@ -103,7 +103,7 @@ final class Task: NSView, NSTextViewDelegate {
     }
     
     func textDidEndEditing(_: Notification) {
-        app.session.content(app.project, list: 0, card: index, content: text.string)
+        app.session.content(app.project, list: list, card: index, content: text.string)
         todo?.tags.refresh()
     }
     
