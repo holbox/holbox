@@ -2,6 +2,7 @@ import AppKit
 
 final class Task: NSView, NSTextViewDelegate {
     let index: Int
+    let list: Int
     private(set) weak var text: Text!
     private weak var todo: Todo!
     private weak var icon: Image!
@@ -10,8 +11,9 @@ final class Task: NSView, NSTextViewDelegate {
     override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
-    init(_ index: Int, todo: Todo) {
+    init(_ index: Int, list: Int, todo: Todo) {
         self.index = index
+        self.list = list
         self.todo = todo
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -41,13 +43,38 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(_delete)
         self._delete = _delete
         
+        if list == 0 {
+            text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        } else {
+            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            
+            let interval: String
+                
+            if #available(OSX 10.15, *) {
+                interval = RelativeDateTimeFormatter().localizedString(for: Date(), relativeTo: .init())
+            } else {
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                formatter.dateStyle = Calendar.current.dateComponents([.day], from: Date(), to: .init()).day! == 0 ? .none : .short
+                interval = formatter.string(from: Date())
+            }
+        
+            let time = Label(interval, 12, .regular, NSColor(named: "haze")!)
+            addSubview(time)
+            
+            time.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+            time.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+            time.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -40).isActive = true
+            
+            text.topAnchor.constraint(equalTo: time.bottomAnchor, constant: -5).isActive = true
+        }
+        
         bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
         
-        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
         
-        let width = widthAnchor.constraint(equalToConstant: 400)
+        let width = widthAnchor.constraint(equalToConstant: 500)
         width.priority = .defaultLow
         width.isActive = true
         
@@ -75,7 +102,7 @@ final class Task: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            
             _delete.alphaValue = 1
         }
     }
@@ -85,7 +112,7 @@ final class Task: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = .clear
+
             _delete.alphaValue = 0
         }
     }

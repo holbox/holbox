@@ -32,7 +32,7 @@ final class Todo: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
+        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
         
@@ -61,13 +61,13 @@ final class Todo: View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
-        if app.session.cards(app.project, list: 0) > 0 {
-            var top = scroll.top
-            (0 ..< app.session.cards(app.project, list: 0)).forEach {
-                let task = Task($0, todo: self)
+        var top: NSLayoutYAxisAnchor!
+        [0, 1].forEach { list in
+            (0 ..< app.session.cards(app.project, list: list)).forEach {
+                let task = Task($0, list: list, todo: self)
                 scroll.add(task)
                 
-                if $0 > 0 {
+                if top != nil {
                     let border = Border.horizontal(0.2)
                     scroll.add(border)
                     
@@ -77,14 +77,16 @@ final class Todo: View {
                     
                     task.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
-                    task.topAnchor.constraint(equalTo: top, constant: 10).isActive = true
+                    task.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
                 }
                 
                 task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
                 task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
                 top = task.bottomAnchor
             }
-            
+        }
+        
+        if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 100).isActive = true
         }
     

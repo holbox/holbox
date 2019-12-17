@@ -123,7 +123,7 @@ final class Tasker: NSView, NSTextViewDelegate {
         height = topAnchor.constraint(equalTo: text.topAnchor)
         _clear.isHidden = false
         NSAnimationContext.runAnimationGroup({
-            $0.duration = 0.8
+            $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.cornerRadius = 6
             layoutSubtreeIfNeeded()
@@ -161,7 +161,7 @@ final class Tasker: NSView, NSTextViewDelegate {
         text.string = ""
         text.needsLayout = true
         NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.5
+            $0.duration = 0.35
             $0.allowsImplicitAnimation = true
             layer!.cornerRadius = 20
             layoutSubtreeIfNeeded()
