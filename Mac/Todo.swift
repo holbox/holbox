@@ -74,10 +74,12 @@ final class Todo: View {
                     border.topAnchor.constraint(equalTo: top).isActive = true
                     border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
                     border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-                    top = border.bottomAnchor
+                    
+                    task.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                } else {
+                    task.topAnchor.constraint(equalTo: top, constant: 10).isActive = true
                 }
-
-                task.topAnchor.constraint(equalTo: top).isActive = true
+                
                 task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
                 task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
                 top = task.bottomAnchor
