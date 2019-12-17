@@ -101,6 +101,7 @@
 		DAA464082358A29800A5E990 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA464072358A29800A5E990 /* Detail.swift */; };
 		DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA464092358A2CA00A5E990 /* Scroll.swift */; };
 		DAA4640C2358A43F00A5E990 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA4640B2358A43F00A5E990 /* Label.swift */; };
+		DAAA229523A912520030CA2B /* TestTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAA229423A912520030CA2B /* TestTask.swift */; };
 		DAB291B323606748006B2432 /* holbox.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DAF68EAE234766E60060895A /* holbox.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DAB979502359AB9F00631280 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9794F2359AB9F00631280 /* Image.swift */; };
 		DAB979522359B74100631280 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB979512359B74100631280 /* Alert.swift */; };
@@ -137,6 +138,7 @@
 		DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */; };
 		DAD368152361966A00643C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD368142361966A00643C9C /* Card.swift */; };
 		DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD5E6ED2364336200EE4AD9 /* Tool.swift */; };
+		DAD84FD423A9172500A00031 /* TestMigrate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD84FD323A9172500A00031 /* TestMigrate.swift */; };
 		DAD8ECB9236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
 		DAD8ECBA236ACCF800245778 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECB8236ACCF800245778 /* Storage.swift */; };
 		DAD8ECBC236ACDF400245778 /* TestMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8ECBB236ACDF400245778 /* TestMark.swift */; };
@@ -365,6 +367,7 @@
 		DAA464072358A29800A5E990 /* Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		DAA464092358A2CA00A5E990 /* Scroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scroll.swift; sourceTree = "<group>"; };
 		DAA4640B2358A43F00A5E990 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		DAAA229423A912520030CA2B /* TestTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTask.swift; sourceTree = "<group>"; };
 		DAB9794F2359AB9F00631280 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		DAB979512359B74100631280 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		DAB979532359CF8200631280 /* Add.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
@@ -393,6 +396,7 @@
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
 		DAD368142361966A00643C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DAD5E6ED2364336200EE4AD9 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		DAD84FD323A9172500A00031 /* TestMigrate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMigrate.swift; sourceTree = "<group>"; };
 		DAD8ECB8236ACCF800245778 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DAD8ECBB236ACDF400245778 /* TestMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMark.swift; sourceTree = "<group>"; };
 		DAD8ECBD236ACE0800245778 /* Mark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
@@ -580,6 +584,7 @@
 				DABC363D23488A38002011C8 /* StubStore.swift */,
 				DA5AC045234A0B23004D0803 /* TestCoder.swift */,
 				DAD8ECBB236ACDF400245778 /* TestMark.swift */,
+				DAD84FD323A9172500A00031 /* TestMigrate.swift */,
 				DA8B960523573E81007E82F7 /* TestPerks.swift */,
 				DA813BAD2376B8E400A3393C /* TestProduct.swift */,
 				DAF68E6D2347643A0060895A /* TestProject.swift */,
@@ -593,6 +598,7 @@
 				DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */,
 				DA0DBBD92371C074009EFC7A /* TestStoreSave.swift */,
 				DABC363F23489A0C002011C8 /* TestStoreSession.swift */,
+				DAAA229423A912520030CA2B /* TestTask.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1119,9 +1125,11 @@
 				DA0DBBDA2371C074009EFC7A /* TestStoreSave.swift in Sources */,
 				DABC363E23488A38002011C8 /* StubStore.swift in Sources */,
 				DABC36442348C06A002011C8 /* StubShared.swift in Sources */,
+				DAAA229523A912520030CA2B /* TestTask.swift in Sources */,
 				DAD8ECBC236ACDF400245778 /* TestMark.swift in Sources */,
 				DA437013234CB58000CCB34D /* TestStoreProject.swift in Sources */,
 				DA40C94E2356255B00F9E1C2 /* TestSettings.swift in Sources */,
+				DAD84FD423A9172500A00031 /* TestMigrate.swift in Sources */,
 				DAFD582023A0FF7200C1A866 /* TestProjectCsv.swift in Sources */,
 				DA437019234D147F00CCB34D /* TestStore.swift in Sources */,
 				DAD319D12362FB0800A1011C /* TestStoreRefresh.swift in Sources */,

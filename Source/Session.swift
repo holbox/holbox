@@ -180,6 +180,18 @@ public final class Session {
         save(project)
     }
     
+    public func completed(_ project: Int, index: Int) {
+        items[project]!.cards[1].1.append(items[project]!.cards[0].1.remove(at: index))
+        items[project]!.cards[2].1.append("\(Int(Date().timeIntervalSince1970))")
+        save(project)
+    }
+    
+    public func restart(_ project: Int, index: Int) {
+        items[project]!.cards[0].1.append(items[project]!.cards[1].1.remove(at: index))
+        items[project]!.cards[2].1.remove(at: index)
+        save(project)
+    }
+    
     public func add(_ mode: Mode) -> Int {
         let id = items.filter { $0.1.mode != .off }.sorted { $0.0 < $1.0 }.reduce(into: 0) {
             if $1.0 == $0 {
@@ -291,6 +303,18 @@ public final class Session {
             }
             DispatchQueue.main.async {
                 result(Data(string.utf8))
+            }
+        }
+    }
+    
+    public func migrate() {
+        (0 ..< items.count).forEach { project in
+            if items[project]!.mode == .todo && items[project]!.cards.count < 3 {
+                items[project]!.cards.append(("", []))
+                (0 ..< items[project]!.cards[1].1.count).forEach { _ in
+                    items[project]!.cards[2].1.append("\(Int(Date().timeIntervalSince1970))")
+                }
+                save(project)
             }
         }
     }
