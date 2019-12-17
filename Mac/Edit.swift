@@ -6,6 +6,7 @@ protocol Edit {
     func activate()
     func resign()
     func click()
+    func right()
 }
 
 final class Block: Edit {
@@ -22,14 +23,39 @@ final class Block: Edit {
     func click() {
         active = true
     }
+    
+    func right() {
+        active = true
+    }
 }
 
 final class Active: Edit {
-    let active = true
+    private(set) var active = true
     
     func activate() { }
     func resign() { }
     func click() { }
+    func right() { }
+}
+
+final class Editable: Edit {
+    private(set) var active = false
+    
+    func activate() {
+        active = false
+    }
+    
+    func resign() {
+        active = false
+    }
+    
+    func click() {
+        active = false
+    }
+    
+    func right() {
+        active = true
+    }
 }
 
 final class Off: Edit {
@@ -38,4 +64,5 @@ final class Off: Edit {
     func activate() { }
     func resign() { }
     func click() { }
+    func right() { }
 }

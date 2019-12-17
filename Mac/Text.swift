@@ -115,7 +115,11 @@ class Text: NSTextView {
     
     override func rightMouseUp(with: NSEvent) {
         if !edit.active && bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            click()
+            edit.right()
+            if edit.active {
+                setSelectedRange(.init(location: 0, length: string.utf16.count))
+                window!.makeFirstResponder(self)
+            }
         } else {
             super.rightMouseUp(with: with)
         }

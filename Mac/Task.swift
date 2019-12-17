@@ -6,7 +6,9 @@ final class Task: NSView, NSTextViewDelegate {
     private(set) weak var text: Text!
     private weak var todo: Todo!
     private weak var icon: Image!
+    private weak var highlight: NSView!
     private weak var _delete: Image!
+    private weak var bottom: NSLayoutConstraint!
     
     override var mouseDownCanMoveWindow: Bool { false }
     
@@ -19,7 +21,15 @@ final class Task: NSView, NSTextViewDelegate {
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         
-        let text = Text(.Fix(), Block())
+        let highlight = NSView()
+        highlight.translatesAutoresizingMaskIntoConstraints = false
+        highlight.wantsLayer = true
+        highlight.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        highlight.alphaValue = 0
+        addSubview(highlight)
+        self.highlight = highlight
+        
+        let text = Text(.Fix(), Editable())
         text.textContainerInset.width = 15
         text.textContainerInset.height = 12
         text.setAccessibilityLabel(.key("Task"))
@@ -33,7 +43,7 @@ final class Task: NSView, NSTextViewDelegate {
         (text.layoutManager as! Layout).padding = 1
         text.intro = true
         text.tab = true
-        text.string = app.session.content(app.project, list: 0, card: index)
+        text.string = app.session.content(app.project, list: list, card: index)
         text.delegate = self
         addSubview(text)
         self.text = text
@@ -69,14 +79,16 @@ final class Task: NSView, NSTextViewDelegate {
             text.topAnchor.constraint(equalTo: time.bottomAnchor, constant: -5).isActive = true
         }
         
-        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
+        bottom = bottomAnchor.constraint(equalTo: text.bottomAnchor)
+        bottom.isActive = true
+        
+        highlight.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        highlight.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        highlight.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        highlight.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
-        
-        let width = widthAnchor.constraint(equalToConstant: 500)
-        width.priority = .defaultLow
-        width.isActive = true
+        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true
         
         let height = text.heightAnchor.constraint(equalToConstant: 0)
         height.priority = .defaultLow
@@ -84,7 +96,7 @@ final class Task: NSView, NSTextViewDelegate {
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
@@ -102,7 +114,7 @@ final class Task: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            
+            highlight.alphaValue = 0.2
             _delete.alphaValue = 1
         }
     }
@@ -112,24 +124,40 @@ final class Task: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-
+            highlight.alphaValue = 0
             _delete.alphaValue = 0
         }
     }
     
+    override func rightMouseUp(with: NSEvent) {
+        if window!.firstResponder != text && bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            text.edit.right()
+            text.setSelectedRange(.init(location: 0, length: text.string.utf16.count))
+            window!.makeFirstResponder(text)
+        }
+    }
+    
     override func mouseUp(with: NSEvent) {
-        print(convert(with.locationInWindow, from: nil))
-//        if with.clickCount == 1 && frame.contains(convert(with.locationInWindow, from: nil)) {
-//            if window!.firstResponder != self {
-//                app.alert(.key("Todo.completed"), message: app.session.content(app.project, list: 0, card: index))
-//                app.session.move(app.project, list: 0, card: index, destination: 1, index: 0)
-//                app.main.refresh()
-//            } else if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
-//                window!.makeFirstResponder(superview!)
-//                _delete.alphaValue = 0
-//                app.runModal(for: Delete.Card(index, list: 0))
-//            }
-//        }
-        super.mouseUp(with: with)
+        if with.clickCount == 1 && bounds.contains(convert(with.locationInWindow, from: nil)) {
+            if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
+                window!.makeFirstResponder(self)
+                app.runModal(for: Delete.Card(index, list: list))
+            } else if window!.firstResponder != text {
+                app.alert(list == 0 ? .key("Todo.completed") : .key("Todo.restart"), message: app.session.content(app.project, list: list, card: index))
+                app.session.move(app.project, list: list, card: index, destination: list == 0 ? 1 : 0, index:
+                    app.session.cards(app.project, list: list == 0 ? 1 : 0))
+                
+                bottom?.isActive = false
+                heightAnchor.constraint(equalToConstant: 0).isActive = true
+                NSAnimationContext.runAnimationGroup({
+                    $0.duration = 0.6
+                    $0.allowsImplicitAnimation = true
+                    layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.9).cgColor
+                    superview!.layoutSubtreeIfNeeded()
+                }) { [weak self] in
+                    self?.todo?.refresh()
+                }
+            }
+        }
     }
 }

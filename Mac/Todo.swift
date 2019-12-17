@@ -36,6 +36,10 @@ final class Todo: View {
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
         
+        let width = scroll.widthAnchor.constraint(equalToConstant: 500)
+        width.priority = .defaultLow
+        width.isActive = true
+        
         border.topAnchor.constraint(equalTo: scroll.topAnchor).isActive = true
         border.bottomAnchor.constraint(equalTo: scroll.bottomAnchor).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.leftAnchor).isActive = true
@@ -77,7 +81,7 @@ final class Todo: View {
                     
                     task.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
                 } else {
-                    task.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+                    task.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
                 }
                 
                 task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
