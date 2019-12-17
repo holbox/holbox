@@ -58,15 +58,15 @@ final class Task: NSView, NSTextViewDelegate {
         } else {
             layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
             
+            let date = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!)
             let interval: String
-                
             if #available(OSX 10.15, *) {
-                interval = RelativeDateTimeFormatter().localizedString(for: Date(), relativeTo: .init())
+                interval = RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
             } else {
                 let formatter = DateFormatter()
                 formatter.timeStyle = .short
-                formatter.dateStyle = Calendar.current.dateComponents([.day], from: Date(), to: .init()).day! == 0 ? .none : .short
-                interval = formatter.string(from: Date())
+                formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
+                interval = formatter.string(from: date)
             }
         
             let time = Label(interval, 12, .regular, NSColor(named: "haze")!)
@@ -144,8 +144,11 @@ final class Task: NSView, NSTextViewDelegate {
                 app.runModal(for: Delete.Card(index, list: list))
             } else if window!.firstResponder != text {
                 app.alert(list == 0 ? .key("Todo.completed") : .key("Todo.restart"), message: app.session.content(app.project, list: list, card: index))
-                app.session.move(app.project, list: list, card: index, destination: list == 0 ? 1 : 0, index:
-                    app.session.cards(app.project, list: list == 0 ? 1 : 0))
+                if list == 0 {
+                    app.session.completed(app.project, index: index)
+                } else {
+                    app.session.restart(app.project, index: index)
+                }
                 
                 bottom?.isActive = false
                 heightAnchor.constraint(equalToConstant: 0).isActive = true

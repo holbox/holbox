@@ -5,6 +5,7 @@ final class Todo: View {
     private(set) weak var scroll: Scroll!
     private weak var tasker: Tasker!
     private weak var ring: Ring!
+    private weak var timeline: Timeline!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -23,6 +24,10 @@ final class Todo: View {
         let ring = Ring()
         addSubview(ring)
         self.ring = ring
+        
+        let timeline = Timeline()
+        addSubview(timeline)
+        self.timeline = timeline
         
         let tasker = Tasker(self)
         addSubview(tasker)
@@ -58,6 +63,12 @@ final class Todo: View {
         let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         ringLeft.priority = .defaultLow
         ringLeft.isActive = true
+        
+        timeline.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
+        timeline.topAnchor.constraint(lessThanOrEqualTo: tags.bottomAnchor, constant: 50).isActive = true
+        let timelineLeft = timeline.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
+        timelineLeft.priority = .defaultLow
+        timelineLeft.isActive = true
         
         refresh()
     }
@@ -98,6 +109,13 @@ final class Todo: View {
         ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         ring.refresh()
         tags.refresh()
+        DispatchQueue.main.async { [weak self] in
+            self?.timeline.refresh()
+        }
+    }
+    
+    override func viewDidEndLiveResize() {
+        timeline.refresh()
     }
     
     override func add() {
@@ -106,7 +124,7 @@ final class Todo: View {
     
     override func found(_ ranges: [(Int, Int, NSRange)]) {
         scroll.views.compactMap { $0 as? Task }.forEach { task in
-            let ranges = ranges.filter { $0.0 == 0 && $0.1 == task.index }.map { $0.2 as NSValue }
+            let ranges = ranges.filter { $0.0 == task.list && $0.1 == task.index }.map { $0.2 as NSValue }
             if ranges.isEmpty {
                 task.text.setSelectedRange(.init())
             } else {
@@ -116,10 +134,8 @@ final class Todo: View {
     }
     
     override func select(_ list: Int, _ card: Int, _ range: NSRange) {
-        if list == 0 {
-            let text = scroll.views.compactMap { $0 as? Task }.first { $0.index == card }!.text!
-            text.showFindIndicator(for: range)
-            scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
-        }
+        let text = scroll.views.compactMap { $0 as? Task }.first { $0.list == list && $0.index == card }!.text!
+        text.showFindIndicator(for: range)
+        scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
     }
 }

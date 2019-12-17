@@ -122,16 +122,14 @@ final class Tasker: NSView, NSTextViewDelegate {
         width = widthAnchor.constraint(equalTo: todo.scroll.width, constant: -80)
         height = topAnchor.constraint(equalTo: text.topAnchor)
         _clear.isHidden = false
-        NSAnimationContext.runAnimationGroup({
+        text.isHidden = false
+        text.setSelectedRange(.init(location: text.string.count, length: 0))
+        window!.makeFirstResponder(text)
+        NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true
             layer!.cornerRadius = 6
             layoutSubtreeIfNeeded()
-        }) { [weak self] in
-            guard let self = self else { return }
-            self.text.isHidden = false
-            self.text.setSelectedRange(.init(location: self.text.string.count, length: 0))
-            self.window?.makeFirstResponder(self.text)
         }
     }
     

@@ -46,7 +46,10 @@ public final class Session {
     public init() { }
     
     public func load(completion: @escaping () -> Void) {
-        store.load(self, completion: completion)
+        store.load(self) {
+            self.migrate()
+            completion()
+        }
     }
     
     public func refresh(done: @escaping ([Int]) -> Void) {
@@ -181,13 +184,13 @@ public final class Session {
     }
     
     public func completed(_ project: Int, index: Int) {
-        items[project]!.cards[1].1.append(items[project]!.cards[0].1.remove(at: index))
-        items[project]!.cards[2].1.append("\(Int(Date().timeIntervalSince1970))")
+        items[project]!.cards[1].1.insert(items[project]!.cards[0].1.remove(at: index), at: 0)
+        items[project]!.cards[2].1.insert("\(Int(Date().timeIntervalSince1970))", at: 0)
         save(project)
     }
     
     public func restart(_ project: Int, index: Int) {
-        items[project]!.cards[0].1.append(items[project]!.cards[1].1.remove(at: index))
+        items[project]!.cards[0].1.insert(items[project]!.cards[1].1.remove(at: index), at: 0)
         items[project]!.cards[2].1.remove(at: index)
         save(project)
     }

@@ -21,6 +21,14 @@ final class TestTask: XCTestCase {
         XCTAssertGreaterThanOrEqual(Int(session.items[0]!.cards[2].1[0])!, date)
     }
     
+    func testCompletedSecond() {
+        let date = Int(Date().timeIntervalSince1970)
+        session.items[0]!.cards = [("", ["hello"]), ("", ["world"]), ("", ["0"])]
+        session.completed(0, index: 0)
+        XCTAssertEqual("hello", session.items[0]!.cards[1].1[0])
+        XCTAssertGreaterThanOrEqual(Int(session.items[0]!.cards[2].1[0])!, date)
+    }
+    
     func testCompletedSaves() {
         let expect = expectation(description: "")
         let time = Date()
