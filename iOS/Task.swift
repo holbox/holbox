@@ -152,7 +152,12 @@ final class Task: UIView, UITextViewDelegate {
         if bounds.contains(touches.first!.location(in: self)) {
             todo.isUserInteractionEnabled = false
             app.alert(list == 1 ? .key("Todo.restart") : .key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
-            app.session.move(app.project, list: list, card: index, destination: list == 1 ? 0 : 1, index: 0)
+            if list == 0 {
+                app.session.completed(app.project, index: index)
+            } else {
+                app.session.restart(app.project, index: index)
+            }
+            
             _swipeRight.constant = app.main.bounds.width
             UIView.animate(withDuration: 0.35, animations: { [weak self] in
                 self?.layoutIfNeeded()
