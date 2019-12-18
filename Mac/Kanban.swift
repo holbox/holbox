@@ -4,8 +4,8 @@ final class Kanban: View {
     private(set) weak var tags: Tags!
     private(set) weak var _add: Button!
     private(set) weak var scroll: Scroll!
+    private weak var count: Label!
     private weak var drag: Card?
-    private weak var ring: Ring!
     private weak var bars: Bars!
     
     required init?(coder: NSCoder) { nil }
@@ -24,9 +24,9 @@ final class Kanban: View {
         scroll.add(_add)
         self._add = _add
         
-        let ring = Ring()
-        scroll.add(ring)
-        self.ring = ring
+        let count = Label([])
+        scroll.add(count)
+        self.count = count
 
         let bars = Bars()
         scroll.add(bars)
@@ -44,29 +44,29 @@ final class Kanban: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.right.constraint(greaterThanOrEqualTo: rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: bottomAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: _csv.bottomAnchor, constant: 50).isActive = true
+        scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 50).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
-        tags.widthAnchor.constraint(greaterThanOrEqualTo: ring.widthAnchor, constant: 20).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 35).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
-        tags.topAnchor.constraint(equalTo: bars.bottomAnchor, constant: 50).isActive = true
+        tags.widthAnchor.constraint(greaterThanOrEqualTo: _column.widthAnchor, constant: 20).isActive = true
+        tags.topAnchor.constraint(equalTo: _csv.bottomAnchor, constant: 40).isActive = true
         
         _column.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
-        _column.topAnchor.constraint(equalTo: tags.bottomAnchor, constant: 70).isActive = true
+        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        _column.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 20).isActive = true
         
         _csv.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
         _csv.topAnchor.constraint(equalTo: _column.bottomAnchor, constant: 10).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        ring.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        count.topAnchor.constraint(equalTo: bars.bottomAnchor).isActive = true
+        count.leftAnchor.constraint(equalTo: scroll.left, constant: 35).isActive = true
         
-        bars.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
-        bars.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        bars.topAnchor.constraint(equalTo: scroll.top, constant: 40).isActive = true
+        bars.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         
         refresh()
     }
@@ -187,9 +187,8 @@ final class Kanban: View {
     }
     
     func charts() {
-        ring.current = .init(app.session.cards(app.project, list: app.session.lists(app.project) - 1))
-        ring.total = .init((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))
-        ring.refresh()
+        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", 18, .medium, NSColor(named: "haze")!),
+                          (" " + .key("Kanban.count"), 12, .regular, NSColor(named: "haze")!)])
         bars.refresh()
     }
     

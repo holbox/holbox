@@ -19,7 +19,7 @@ final class Tag: NSView {
         base.layer!.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, 12, .medium, .black)
+        let label = Label("#" + name, 12, .regular, .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.setAccessibilityElement(false)
         addSubview(label)

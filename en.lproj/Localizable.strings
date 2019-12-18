@@ -29,6 +29,7 @@ Kanban.new="NEW";
 Kanban.added="+ COLUMN";
 Kanban.last="Can't delete";
 Kanban.need="You need at least one column in your board.";
+Kanban.count="CARDS";
 Columner.done="Done";
 Detail.title="PROJECTS";
 Delete.title="DELETE";

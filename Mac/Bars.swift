@@ -11,7 +11,7 @@ final class Bars: Chart {
     required init?(coder: NSCoder) { nil }
     override init() {
         super.init()
-        heightAnchor.constraint(equalToConstant: 190).isActive = true
+        heightAnchor.constraint(equalToConstant: 196).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
@@ -28,7 +28,7 @@ final class Bars: Chart {
                 subviews[$0].removeFromSuperview()
             }
             if let last = subviews.last {
-                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 6)
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 10)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -37,10 +37,10 @@ final class Bars: Chart {
                 
                 line.topAnchor.constraint(equalTo: topAnchor).isActive = true
                 line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 6).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 10).isActive = true
                 
                 if $0 == cards.count - 1 {
-                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 6)
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 10)
                 }
             }
         }
@@ -49,7 +49,7 @@ final class Bars: Chart {
 
         (subviews as! [Line]).enumerated().forEach {
             let animation = CABasicAnimation(keyPath: "strokeEnd")
-            animation.duration = 2
+            animation.duration = 1.5
             animation.fromValue = $0.1.shape.strokeEnd
             animation.toValue = cards[$0.0] / max(top, 1)
             animation.timingFunction = .init(name: .easeOut)
@@ -60,12 +60,6 @@ final class Bars: Chart {
                                    ("%\n", 8, .regular, NSColor(named: "haze")!),
                                    (app.session.name(app.project, list: $0.0), 10, .regular, NSColor(named: "haze")!)],
                                   align: .center)
-        }
-        
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 1.5
-            $0.allowsImplicitAnimation = true
-            layoutSubtreeIfNeeded()
         }
     }
 }
@@ -87,7 +81,7 @@ private final class Line: NSView {
         shape.lineCap = .round
         shape.path = {
             $0.move(to: .init(x: 6, y: 6))
-            $0.addLine(to: .init(x: 6, y: 100))
+            $0.addLine(to: .init(x: 6, y: 106))
             return $0
         } (CGMutablePath())
         shape.strokeEnd = 0
