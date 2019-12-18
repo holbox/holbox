@@ -99,7 +99,7 @@ final class Project: UIView {
         info.isAccessibilityElement = false
         addSubview(info)
         
-        let _delete = Image("delete")
+        let _delete = Image("clear")
         addSubview(_delete)
         self._delete = _delete
         

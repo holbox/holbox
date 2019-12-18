@@ -33,7 +33,7 @@ final class Column: NSView, NSTextViewDelegate {
         addSubview(text)
         self.text = text
         
-        let _delete = Image("delete")
+        let _delete = Image("clear")
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
