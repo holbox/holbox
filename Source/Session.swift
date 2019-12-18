@@ -314,9 +314,17 @@ public final class Session {
         (0 ..< items.count).forEach { project in
             if items[project]!.mode == .todo && items[project]!.cards.count < 3 {
                 items[project]!.cards.append(("", []))
-                (0 ..< items[project]!.cards[1].1.count).forEach { _ in
-                    items[project]!.cards[2].1.append("\(Int(Date().timeIntervalSince1970))")
+                items[project]!.cards[2].1 = (0 ..< items[project]!.cards[1].1.count).map { _ in "\(Int(Date().timeIntervalSince1970))" }
+                save(project)
+            } else if items[project]!.mode == .shopping && items[project]!.cards.count < 3 {
+                var cards = [("", []), ("", []), ("", [])] as [(String, [String])]
+                (0 ..< items[project]!.cards[0].1.count).forEach {
+                    let product = self.product(project, index: $0)
+                    cards[0].1.append(product.0)
+                    cards[1].1.append(product.1)
+                    cards[2].1.append(contains(project, reference: $0) ? "0" : "1")
                 }
+                items[project]!.cards = cards
                 save(project)
             }
         }

@@ -40,7 +40,7 @@ private struct Todo: Factory {
 
 private struct Shopping: Factory {
     let name = "GROCERIES"
-    let lists: [(String, [String])] = [("", []), ("", [])]
+    let lists: [(String, [String])] = [("", []), ("", []), ("", [])]
 }
 
 private struct Notes: Factory {
