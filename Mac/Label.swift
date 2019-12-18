@@ -9,7 +9,14 @@ final class Label: NSTextField {
 
     init(_ string: String, _ size: CGFloat, _ weight: NSFont.Weight, _ color: NSColor) {
         super.init(frame: .zero)
-        font = .systemFont(ofSize: size, weight: weight)
+        font = NSFont(name: {
+            switch $0 {
+            case .light: return "Rubik-Light"
+            case .medium: return "Rubik-Medium"
+            case .bold: return "Rubik-Bold"
+            default: return "Rubik-Regular"
+            }
+        } (weight), size: size)!
         stringValue = string
         textColor = color
         setAccessibilityLabel(string)
@@ -26,7 +33,14 @@ final class Label: NSTextField {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = align
         attributedStringValue = strings.reduce(into: NSMutableAttributedString(), {
-            $0.append(.init(string: $1.0, attributes: [.font: NSFont.systemFont(ofSize: $1.1, weight: $1.2), .foregroundColor: $1.3, .paragraphStyle: paragraph]))
+            $0.append(.init(string: $1.0, attributes: [.font: NSFont(name: {
+                switch $0 {
+                case .light: return "Rubik-Light"
+                case .medium: return "Rubik-Medium"
+                case .bold: return "Rubik-Bold"
+                default: return "Rubik-Regular"
+                }
+            } ($1.2), size: $1.1)!, .foregroundColor: $1.3, .paragraphStyle: paragraph]))
         })
         setAccessibilityLabel(attributedStringValue.string)
     }

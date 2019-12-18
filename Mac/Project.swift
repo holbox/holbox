@@ -87,7 +87,7 @@ final class Project: NSView {
         wantsLayer = true
         layer!.cornerRadius = 8
         
-        let label = Label(app.session.name(index), 14, .bold, NSColor(named: "haze")!)
+        let label = Label(app.session.name(index), 14, .medium, NSColor(named: "haze")!)
         label.setAccessibilityElement(false)
         addSubview(label)
         

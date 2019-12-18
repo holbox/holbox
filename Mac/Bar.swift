@@ -110,11 +110,10 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        name.font = NSFont(name: "Times New Roman", size: 14)!
-        (name.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!),
-                                                .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
-                                                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
-                                                .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
+        (name.textStorage as! Storage).fonts[.plain] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
+        (name.textStorage as! Storage).fonts[.emoji] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
+        (name.textStorage as! Storage).fonts[.bold] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
+        (name.textStorage as! Storage).fonts[.tag] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project)
@@ -148,7 +147,7 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(151, nil)
         
-        let title = Label(.key("Detail.title"), 14, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Detail.title"), 14, .medium, NSColor(named: "haze")!)
         title.wantsLayer = true
         title.alphaValue = 0
         addSubview(title)

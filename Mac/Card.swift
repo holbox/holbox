@@ -55,12 +55,6 @@ final class Card: NSView, NSTextViewDelegate {
         let text = Text(.Expand(280, 10000), Block())
         text.textContainerInset.height = 20
         text.textContainerInset.width = 20
-        text.font = NSFont(name: "Times New Roman", size: 14)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 14, weight: .regular), .white),
-            .emoji: (NSFont(name: "Times New Roman", size: 24)!, .white),
-            .bold: (.systemFont(ofSize: 18, weight: .bold), .white),
-            .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         text.tab = true
         text.intro = true
         (text.layoutManager as! Layout).owns = true
