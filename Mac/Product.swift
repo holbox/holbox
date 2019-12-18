@@ -117,7 +117,7 @@ final class Product: NSView {
                 app.alert(.key("Shopping.added"), message: product.0 + " " + product.1)
                 app.session.add(app.project, reference: index)
                 shopping.refresh()
-                shopping.groceryLast()
+//                shopping.groceryLast()
             }
             alphaValue = 1
         }

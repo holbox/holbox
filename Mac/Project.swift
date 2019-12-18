@@ -33,18 +33,13 @@ final class Project: NSView {
     }
     
     private var _shopping: String {
-        "\(app.session.cards(index, list: 0)) " + .key("Project.products") + "\n" +
-            "\(app.session.cards(index, list: 1)) " + .key("Project.needed") + "\n"
+        "\(app.session.cards(index, list: 2)) " + .key("Project.products") + "\n" +
+            "\( (0 ..< app.session.cards(index, list: 2)).reduce(into: 0) { $0 += app.session.content(index, list: 2, card: $1) == "0" ? 1 : 0 } ) " + .key("Project.need") + "\n" +
+            "\( (0 ..< app.session.cards(index, list: 2)).reduce(into: 0) { $0 += app.session.content(index, list: 2, card: $1) == "1" ? 1 : 0 } ) " + .key("Project.have") + "\n"
     }
     
     private var _notes: String {
         let content = app.session.content(index, list: 0, card: 0)
-        var paragraphs = 0, sentences = 0, lines = 0, words = 0
-        content.enumerateSubstrings(in: content.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .byLines) { _, _, _, _ in lines += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .byWords) { _, _, _, _ in words += 1 }
-        
         var string = ""
         if #available(OSX 10.15, *) {
             let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
@@ -72,10 +67,10 @@ final class Project: NSView {
             }
         }
         
-        string += "\(paragraphs) " + .key("Project.paragraphs") + "\n"
-        string += "\(sentences) " + .key("Project.sentences") + "\n"
-        string += "\(lines) " + .key("Project.lines") + "\n"
-        string += "\(words) " + .key("Project.words") + "\n"
+        string += "\(content.paragraphs) " + .key("Project.paragraphs") + "\n"
+        string += "\(content.sentences) " + .key("Project.sentences") + "\n"
+        string += "\(content.lines) " + .key("Project.lines") + "\n"
+        string += "\(content.words) " + .key("Project.words") + "\n"
         string += .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!))
         return string + "\n"
     }

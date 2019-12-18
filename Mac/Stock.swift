@@ -31,7 +31,7 @@ class Stock: Modal, NSTextViewDelegate {
                     $0.0 + " " + $0.1
                 } (app.session.product(app.project, index: count)))
                 app.main.refresh()
-                shopping?.stockLast()
+//                shopping?.stockLast()
             }
             close()
         }

@@ -128,12 +128,6 @@ final class Notes: View, NSTextViewDelegate {
     private func update() {
         DispatchQueue.global(qos: .background).async {
             let text = app.session.content(app.project, list: 0, card: 0)
-            var paragraphs = 0, sentences = 0, lines = 0, words = 0
-            text.enumerateSubstrings(in: text.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
-            text.enumerateSubstrings(in: text.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
-            text.enumerateSubstrings(in: text.startIndex..., options: .byLines) { _, _, _, _ in lines += 1 }
-            text.enumerateSubstrings(in: text.startIndex..., options: .byWords) { _, _, _, _ in words += 1 }
-            
             var string = ""
             if #available(OSX 10.15, *) {
                 let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
@@ -161,10 +155,10 @@ final class Notes: View, NSTextViewDelegate {
                 }
             }
             
-            string += "\(paragraphs) " + .key("Project.paragraphs") + ", "
-            string += "\(sentences) " + .key("Project.sentences") + ", "
-            string += "\(lines) " + .key("Project.lines") + ", "
-            string += "\(words) " + .key("Project.words")
+            string += "\(text.paragraphs) " + .key("Project.paragraphs") + ", "
+            string += "\(text.sentences) " + .key("Project.sentences") + ", "
+            string += "\(text.lines) " + .key("Project.lines") + ", "
+            string += "\(text.words) " + .key("Project.words")
             
             DispatchQueue.main.async { [weak self] in
                 self?.stats.stringValue = string
