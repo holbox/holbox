@@ -157,7 +157,7 @@ final class Task: NSView, NSTextViewDelegate {
                 bottom?.isActive = false
                 heightAnchor.constraint(equalToConstant: 0).isActive = true
                 NSAnimationContext.runAnimationGroup({
-                    $0.duration = 0.6
+                    $0.duration = 0.4
                     $0.allowsImplicitAnimation = true
                     layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.9).cgColor
                     superview!.layoutSubtreeIfNeeded()

@@ -31,7 +31,7 @@ final class Base: UIView {
     }
     
     private func validate<T>(_ type: T.Type) where T: View {
-        if let view = subviews.first as? T {
+        if let view = subviews.last as? T {
             view.refresh()
         } else {
             show(T())

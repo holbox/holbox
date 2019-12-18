@@ -51,7 +51,7 @@ private struct Tasks: View {
         VStack {
             ForEach(0 ..< waiting.count, id: \.self) { index in
                 Button(action: {
-                    app.session.move(self.project, list: 0, card: index, destination: 1, index: 0)
+                    app.session.completed(self.project, index: index)
                     self.refresh()
                 }) {
                     Item(string: self.waiting[index])
@@ -60,7 +60,7 @@ private struct Tasks: View {
             }
             ForEach(0 ..< done.count, id: \.self) { index in
                 Button(action: {
-                    app.session.move(self.project, list: 1, card: index, destination: 0, index: 0)
+                    app.session.restart(self.project, index: index)
                     self.refresh()
                 }) {
                     Done(task: self.done[index])
