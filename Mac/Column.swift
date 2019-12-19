@@ -18,7 +18,7 @@ final class Column: NSView, NSTextViewDelegate {
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
         text.setAccessibilityLabel(.key("Column"))
-        text.font = .init(medium: 14)
+        text.font = .medium(14)
         text.textColor = .haze()
         text.string = app.session.name(app.project, list: index)
         text.textContainer!.maximumNumberOfLines = 1

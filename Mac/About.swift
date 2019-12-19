@@ -7,8 +7,8 @@ final class About: Modal {
         logo.imageScaling = .scaleProportionallyDown
         contentView!.addSubview(logo)
         
-        let title = Label([(.key("About.title") + "\n", .init(bold: 16), .white),
-                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .init(light: 16), .white)])
+        let title = Label([(.key("About.title") + "\n", .bold(16), .white),
+                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .light(16), .white)])
         contentView!.addSubview(title)
         
         logo.widthAnchor.constraint(equalToConstant: 60).isActive = true

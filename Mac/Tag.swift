@@ -15,16 +15,16 @@ final class Tag: NSView {
         let base = NSView()
         base.translatesAutoresizingMaskIntoConstraints = false
         base.wantsLayer = true
-        base.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        base.layer!.backgroundColor = .haze()
         base.layer!.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, 12, .regular, .black)
+        let label = Label("#" + name, .regular(12), .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let _count = Label("\(count)", 12, .regular, NSColor(named: "haze")!)
+        let _count = Label("\(count)", .regular(12), .haze())
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         _count.setAccessibilityElement(false)
         addSubview(_count)

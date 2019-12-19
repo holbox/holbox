@@ -1,12 +1,14 @@
 import AppKit
 
-final class Progress: Chart {
+final class Progress: NSView {
     private let index: Int
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
         self.index = index
-        super.init()
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
     }
     
     override func draw(_: CGRect) {
@@ -22,7 +24,7 @@ final class Progress: Chart {
         
         let border = CAShapeLayer()
         border.fillColor = .clear
-        border.strokeColor = NSColor(named: "haze")!.cgColor
+        border.strokeColor = .haze()
         border.lineWidth = 2
         border.path = {
             $0.addArc(center: center, radius: radius - 1, startAngle: 0, endAngle: .pi * 2, clockwise: false)
@@ -31,7 +33,7 @@ final class Progress: Chart {
         layer!.addSublayer(border)
         
         let on = CAShapeLayer()
-        on.fillColor = NSColor(named: "haze")!.cgColor
+        on.fillColor = .haze()
         on.lineWidth = 0
         on.path = {
             $0.move(to: center)
@@ -42,7 +44,7 @@ final class Progress: Chart {
         layer!.addSublayer(on)
         
         let off = CAShapeLayer()
-        off.fillColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+        off.fillColor = .haze(0.2)
         off.lineWidth = 0
         off.path = {
             $0.move(to: center)

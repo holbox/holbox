@@ -25,7 +25,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         contentView!.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 16, .bold, NSColor(named: "haze")!)
+        let title = Label(.key("Shop.title"), .bold(16), .haze())
         scroll.add(title)
         
         let logo = Logo()
@@ -37,12 +37,12 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.add(image)
         self.image = image
         
-        let message = Label("", 14, .regular, .init(white: 1, alpha: 0.8))
+        let message = Label("", .regular(14), .init(white: 1, alpha: 0.8))
         message.isHidden = true
         scroll.add(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), NSColor(named: "haze")!.cgColor, .black)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .haze(), .black)
         _restore.isHidden = true
         scroll.add(_restore)
         self._restore = _restore

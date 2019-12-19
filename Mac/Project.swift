@@ -7,7 +7,6 @@ final class Project: NSView {
     let order: Int
     private weak var _delete: Image!
     private let index: Int
-    override var mouseDownCanMoveWindow: Bool { false }
     
     private var detail: String {
         switch app.session.mode(index) {
@@ -25,11 +24,9 @@ final class Project: NSView {
     }
     
     private var _todo: String {
-        let waiting = app.session.cards(index, list: 0)
-        let done = app.session.cards(index, list: 1)
-        return "\(waiting + done) " + .key("Project.tasks") + "\n"
-            + "\(waiting) " + .key("Project.waiting") + "\n"
-            + "\(done) " + .key("Project.done") + "\n"
+        "\(app.session.cards(index, list: 0) + app.session.cards(index, list: 1)) " + .key("Project.tasks") + "\n"
+            + "\(app.session.cards(index, list: 0)) " + .key("Project.waiting") + "\n"
+            + "\(app.session.cards(index, list: 1)) " + .key("Project.done") + "\n"
     }
     
     private var _shopping: String {
@@ -40,39 +37,12 @@ final class Project: NSView {
     
     private var _notes: String {
         let content = app.session.content(index, list: 0, card: 0)
-        var string = ""
-        if #available(OSX 10.15, *) {
-            let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
-            tagger.string = content
-            
-            switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
-            case "en":
-                string += .key("Project.english") + "\n"
-            case "de":
-                string += .key("Project.german") + "\n"
-            case "es":
-                string += .key("Project.spanish") + "\n"
-            case "fr":
-                string += .key("Project.french") + "\n"
-            default: break
-            }
-            
-            let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
-            if score == 0 {
-                string += .key("Project.neutral") + "\n"
-            } else if score > 0 {
-                string += .key("Project.positive") + "\n"
-            } else {
-                string += .key("Project.negative") + "\n"
-            }
-        }
-        
-        string += "\(content.paragraphs) " + .key("Project.paragraphs") + "\n"
-        string += "\(content.sentences) " + .key("Project.sentences") + "\n"
-        string += "\(content.lines) " + .key("Project.lines") + "\n"
-        string += "\(content.words) " + .key("Project.words") + "\n"
-        string += .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!))
-        return string + "\n"
+        return content.language + "\n" + content.sentiment + "\n" +
+            "\(content.paragraphs) " + .key("Project.paragraphs") + "\n" +
+            "\(content.sentences) " + .key("Project.sentences") + "\n" +
+            "\(content.lines) " + .key("Project.lines") + "\n" +
+            "\(content.words) " + .key("Project.words") + "\n" +
+            .key("Project.created") + " " + Date(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!).interval + "\n"
     }
     
     required init?(coder: NSCoder) { nil }
@@ -87,11 +57,11 @@ final class Project: NSView {
         wantsLayer = true
         layer!.cornerRadius = 8
         
-        let label = Label(app.session.name(index), 14, .medium, NSColor(named: "haze")!)
+        let label = Label(app.session.name(index), .medium(14), .haze())
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 12, .regular, NSColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + app.session.time(index).interval, .regular(12), .haze())
         info.setAccessibilityElement(false)
         addSubview(info)
         
@@ -116,7 +86,7 @@ final class Project: NSView {
         _delete.widthAnchor.constraint(equalToConstant: 40).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        var chart: Chart?
+        var chart: NSView?
         switch app.session.mode(index) {
         case .kanban: chart = Lines(index)
         case .todo: chart = Progress(index)
@@ -139,17 +109,15 @@ final class Project: NSView {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            layer!.backgroundColor = .haze(0.3)
             _delete.alphaValue = 1
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
@@ -171,15 +139,5 @@ final class Project: NSView {
             }
         }
         alphaValue = 1
-    }
-    
-    private func interval(_ date: Date) -> String {
-        if #available(OSX 10.15, *) {
-            return RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
-        }
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
-        return formatter.string(from: date)
     }
 }

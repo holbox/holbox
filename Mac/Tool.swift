@@ -35,12 +35,10 @@ final class Tool: NSView {
     }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
         icon.alphaValue = 1
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         icon.alphaValue = 0.3
     }
     

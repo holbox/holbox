@@ -19,11 +19,11 @@ final class Purchase: NSView {
         addSubview(image)
         
         let title = Label([
-            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), 20, .bold, NSColor(named: "haze")!),
-            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), 14, .regular, NSColor(named: "haze")!)])
+            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .bold(20), .haze()),
+            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(14), .haze())])
         addSubview(title)
         
-        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), 12, .light, .white)
+        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), .light(12), .white)
         addSubview(label)
         
         shop.formatter.locale = product.priceLocale
@@ -46,7 +46,7 @@ final class Purchase: NSView {
         label.widthAnchor.constraint(lessThanOrEqualToConstant: 600).isActive = true
         
         if app.session.purchased(shop.map.first { $0.1 == product.productIdentifier }!.key) {
-            let purchased = Label(.key("Shop.purchased"), 14, .regular, NSColor(named: "haze")!)
+            let purchased = Label(.key("Shop.purchased"), .regular(14), .haze())
             addSubview(purchased)
             
             bottomAnchor.constraint(equalTo: purchased.bottomAnchor, constant: 20).isActive = true
@@ -54,10 +54,10 @@ final class Purchase: NSView {
             purchased.leftAnchor.constraint(equalTo: label.leftAnchor).isActive = true
             purchased.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12).isActive = true
         } else {
-            let price = Label(shop.formatter.string(from: product.price) ?? "", 14, .regular, .white)
+            let price = Label(shop.formatter.string(from: product.price) ?? "", .regular(14), .white)
             addSubview(price)
             
-            let control = Control(.key("Shop.purchase"), self, #selector(purchase), NSColor(named: "haze")!.cgColor, .black)
+            let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze(), .black)
             addSubview(control)
             
             bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 30).isActive = true

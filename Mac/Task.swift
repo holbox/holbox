@@ -10,8 +10,6 @@ final class Task: NSView, NSTextViewDelegate {
     private weak var _delete: Image!
     private weak var bottom: NSLayoutConstraint!
     
-    override var mouseDownCanMoveWindow: Bool { false }
-    
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, list: Int, todo: Todo) {
         self.index = index
@@ -24,7 +22,7 @@ final class Task: NSView, NSTextViewDelegate {
         let highlight = NSView()
         highlight.translatesAutoresizingMaskIntoConstraints = false
         highlight.wantsLayer = true
-        highlight.layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        highlight.layer!.backgroundColor = .haze()
         highlight.alphaValue = 0
         addSubview(highlight)
         self.highlight = highlight
@@ -50,7 +48,7 @@ final class Task: NSView, NSTextViewDelegate {
         if list == 0 {
             text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         } else {
-            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            layer!.backgroundColor = .haze(0.3)
             
             let date = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!)
             let interval: String
@@ -63,7 +61,7 @@ final class Task: NSView, NSTextViewDelegate {
                 interval = formatter.string(from: date)
             }
         
-            let time = Label(interval, 12, .regular, NSColor(named: "haze")!)
+            let time = Label(interval, .regular(12), .haze())
             addSubview(time)
             
             time.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
@@ -108,7 +106,6 @@ final class Task: NSView, NSTextViewDelegate {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
@@ -118,7 +115,6 @@ final class Task: NSView, NSTextViewDelegate {
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
@@ -153,7 +149,7 @@ final class Task: NSView, NSTextViewDelegate {
                 NSAnimationContext.runAnimationGroup({
                     $0.duration = 0.4
                     $0.allowsImplicitAnimation = true
-                    layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.9).cgColor
+                    layer!.backgroundColor = .haze(0.9)
                     superview!.layoutSubtreeIfNeeded()
                 }) { [weak self] in
                     self?.todo?.refresh()

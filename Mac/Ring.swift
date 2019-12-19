@@ -1,6 +1,6 @@
 import AppKit
 
-final class Ring: Chart {
+final class Ring: NSView {
     var current = CGFloat()
     var total = CGFloat()
     private weak var on: CAShapeLayer!
@@ -10,14 +10,16 @@ final class Ring: Chart {
     private let middle = CGPoint(x: 50, y: 50)
     
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
         formatter.numberStyle = .percent
         
         let off = CAShapeLayer()
         off.fillColor = .clear
         off.lineWidth = 4
-        off.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+        off.strokeColor = .haze(0.2)
         off.path = {
             $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
@@ -28,7 +30,7 @@ final class Ring: Chart {
         on.fillColor = .clear
         on.lineWidth = 8
         on.lineCap = .round
-        on.strokeColor = NSColor(named: "haze")!.cgColor
+        on.strokeColor = .haze()
         on.path = {
             $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: true)
             return $0
@@ -62,7 +64,7 @@ final class Ring: Chart {
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
         
-        percent.attributed([(formatter.string(from: NSNumber(value: Double(amount)))!, 14, .bold, NSColor(named: "haze")!),
-                            ("\n\(Int(current))/\(Int(total))", 11, .regular, NSColor(named: "haze")!)], align: .center)
+        percent.attributed([(formatter.string(from: NSNumber(value: Double(amount)))!, .bold(14), .haze()),
+                            ("\n\(Int(current))/\(Int(total))", .regular(11), .haze())], align: .center)
     }
 }

@@ -1,7 +1,6 @@
 import AppKit
 
 final class Tags: NSView {
-    override var mouseDownCanMoveWindow: Bool { false }
     private var animate = false
     private var tags = [(String, Int)]()
     

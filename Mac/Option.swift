@@ -18,7 +18,7 @@ class Option: NSView {
     final class Check: Option {
         var on = false {
             didSet {
-                circle.layer!.backgroundColor = on ? NSColor(named: "haze")!.cgColor : .clear
+                circle.layer!.backgroundColor = on ? .haze() : .clear
                 check.alphaValue = on ? 1 : 0
             }
         }
@@ -35,7 +35,7 @@ class Option: NSView {
             circle.wantsLayer = true
             circle.layer!.cornerRadius = 11
             circle.layer!.borderWidth = 2
-            circle.layer!.borderColor = NSColor(named: "haze")!.cgColor
+            circle.layer!.borderColor = .haze()
             addSubview(circle)
             self.circle = circle
             
@@ -60,7 +60,6 @@ class Option: NSView {
     }
     
     private weak var settings: Settings?
-    override var mouseDownCanMoveWindow: Bool { false }
     
     required init?(coder: NSCoder) { nil }
     init(_ settings: Settings, title: String) {
@@ -73,7 +72,7 @@ class Option: NSView {
         layer!.cornerRadius = 4
         self.settings = settings
         
-        let label = Label(title, 12, .regular, NSColor(named: "haze")!)
+        let label = Label(title, .regular(12), .haze())
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -89,16 +88,14 @@ class Option: NSView {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+            layer!.backgroundColor = .haze(0.3)
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.5
             $0.allowsImplicitAnimation = true

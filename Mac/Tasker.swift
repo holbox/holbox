@@ -19,14 +19,12 @@ final class Tasker: NSView, NSTextViewDelegate {
         }
     }
     
-    override var mouseDownCanMoveWindow: Bool { false }
-    
     required init?(coder: NSCoder) { nil }
     init(_ todo: Todo) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        layer!.backgroundColor = NSColor(named: "haze")!.cgColor
+        layer!.backgroundColor = .haze()
         layer!.borderWidth = 1
         layer!.borderColor = .black
         layer!.cornerRadius = 20
@@ -38,6 +36,11 @@ final class Tasker: NSView, NSTextViewDelegate {
         text.setAccessibilityLabel(.key("Task"))
         text.insertionPointColor = .black
         text.selectedTextAttributes = [.backgroundColor: NSColor(white: 0, alpha: 0.2)]
+        text.font = .regular(14)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.black],
+                                                     .emoji: [.font: NSFont.regular(24)],
+                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.black],
+                                                     .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.black]]
         text.intro = true
         text.tab = true
         text.delegate = self

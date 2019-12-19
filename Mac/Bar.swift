@@ -110,7 +110,7 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        name.font = .init(medium: 14)
+        name.font = .medium(14)
         name.textColor = .haze()
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
@@ -145,7 +145,7 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(151, nil)
         
-        let title = Label(.key("Detail.title"), .init(medium: 14), .haze())
+        let title = Label(.key("Detail.title"), .medium(14), .haze())
         title.wantsLayer = true
         title.alphaValue = 0
         addSubview(title)

@@ -55,12 +55,11 @@ final class Card: NSView, NSTextViewDelegate {
         text.textContainerInset.width = 20
         text.tab = true
         text.intro = true
-        text.font = .init(regular: 14)
-        text.textColor = .white
-        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont(regular: 14), .foregroundColor: NSColor.white],
-                                                     .emoji: [.font: NSFont(regular: 24)],
-                                                     .bold: [.font: NSFont(bold: 22), .foregroundColor: NSColor.white],
-                                                     .tag: [.font: NSFont(medium: 14), .foregroundColor: NSColor.haze()]]
+        text.font = .regular(14)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
+                                                     .emoji: [.font: NSFont.regular(24)],
+                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.white],
+                                                     .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 2
         text.delegate = self

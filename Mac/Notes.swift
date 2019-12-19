@@ -18,7 +18,7 @@ final class Notes: View, NSTextViewDelegate {
         let _pdf = Control("PDF", self, #selector(pdf), .haze(), .black)
         addSubview(_pdf)
         
-        let stats = Label("", .init(regular: 12), .haze())
+        let stats = Label("", .regular(12), .haze())
         stats.maximumNumberOfLines = 2
         stats.lineBreakMode = .byTruncatingHead
         addSubview(stats)
@@ -28,11 +28,11 @@ final class Notes: View, NSTextViewDelegate {
         text.textContainerInset.width = 80
         text.textContainerInset.height = 40
         text.setAccessibilityLabel(.key("Note"))
-        text.font = .init(regular: 18)
-        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont(regular: 18), .foregroundColor: NSColor.white],
-                                                     .emoji: [.font: NSFont(regular: 30)],
-                                                     .bold: [.font: NSFont(bold: 28), .foregroundColor: NSColor.haze()],
-                                                     .tag: [.font: NSFont(medium: 18), .foregroundColor: NSColor.haze()]]
+        text.font = .regular(18)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(18), .foregroundColor: NSColor.white],
+                                                     .emoji: [.font: NSFont.regular(30)],
+                                                     .bold: [.font: NSFont.bold(28), .foregroundColor: NSColor.haze()],
+                                                     .tag: [.font: NSFont.medium(18), .foregroundColor: NSColor.haze()]]
         text.tab = true
         text.intro = true
         text.caret = 4
@@ -162,10 +162,10 @@ final class Notes: View, NSTextViewDelegate {
                 let string = app.session.content(app.project, list: 0, card: 0)
                 let label = Label(string.mark {
                     switch $0 {
-                    case .plain: return (.init(string[$1]), 12, .regular, .black)
-                    case .bold: return (.init(string[$1].dropFirst(2)), 20, .bold, .black)
-                    case .emoji: return (.init(string[$1]), 26, .regular, .black)
-                    case .tag: return (.init(string[$1]), 10, .medium, .black)
+                    case .plain: return (.init(string[$1]), .regular(12), .black)
+                    case .bold: return (.init(string[$1].dropFirst(2)), .bold(22), .black)
+                    case .emoji: return (.init(string[$1]), .regular(26), .black)
+                    case .tag: return (.init(string[$1]), .medium(12), .black)
                     }
                 })
                 view.addSubview(label)

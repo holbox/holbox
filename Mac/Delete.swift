@@ -76,7 +76,7 @@ class Delete: Modal {
         let icon = Image("trash")
         contentView!.addSubview(icon)
         
-        let title = Label(.key("Delete.title"), .init(bold: 14), .haze())
+        let title = Label(.key("Delete.title"), .bold(14), .haze())
         contentView!.addSubview(title)
         
         let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .haze(0.7))
@@ -85,7 +85,7 @@ class Delete: Modal {
         let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .haze(), .black)
         contentView!.addSubview(_confirm)
         
-        let name = Label("", .init(regular: 14), .haze())
+        let name = Label("", .regular(14), .haze())
         name.maximumNumberOfLines = 2
         contentView!.addSubview(name)
         self.name = name

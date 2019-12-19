@@ -19,20 +19,20 @@ final class Add: Modal {
         let icon = Image("new")
         contentView!.addSubview(icon)
         
-        let title = Label([(.key("Add.title") + "\n", .init(medium: 16), .haze()),
-                           (.key("Add.subtitle"), .init(light: 12), .haze(0.8))])
+        let title = Label([(.key("Add.title") + "\n", .medium(16), .haze()),
+                           (.key("Add.subtitle"), .light(12), .haze(0.8))])
         contentView!.addSubview(title)
         
-        let available = Label([(.key("Add.available") + "\n", .init(light: 16), .haze(0.6)),
-                               ("\(app.session.available)", .init(medium: 30), .haze())], align: .center)
+        let available = Label([(.key("Add.available") + "\n", .light(16), .haze(0.6)),
+                               ("\(app.session.available)", .medium(30), .haze())], align: .center)
         contentView!.addSubview(available)
         
-        let projects = Label([(.key("Add.projects"), .init(light: 12), .haze(0.6)),
-                              ("\n\(app.session.count)", .init(medium: 16), .haze())], align: .center)
+        let projects = Label([(.key("Add.projects"), .light(12), .haze(0.6)),
+                              ("\n\(app.session.count)", .medium(16), .haze())], align: .center)
         contentView!.addSubview(projects)
         
-        let capacity = Label([(.key("Add.capacity"), .init(light: 12), .haze(0.6)),
-                              ("\n\(app.session.capacity)", .init(medium: 16), .haze())], align: .center)
+        let capacity = Label([(.key("Add.capacity"), .light(12), .haze(0.6)),
+                              ("\n\(app.session.capacity)", .medium(16), .haze())], align: .center)
         contentView!.addSubview(capacity)
         
         let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .haze())
@@ -72,7 +72,7 @@ final class Add: Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _notes.setAccessibilityLabel(.key("Add.notes"))
             
-            let name = Label("", .init(bold: 14), .haze())
+            let name = Label("", .bold(14), .haze())
             contentView!.addSubview(name)
             self.name = name
             
@@ -110,7 +110,7 @@ final class Add: Modal {
             
             kanban(_kanban)
         } else {
-            let info = Label(.key("Add.info"), .init(light: 14), .white)
+            let info = Label(.key("Add.info"), .light(14), .white)
             contentView!.addSubview(info)
             
             let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze(), .black)

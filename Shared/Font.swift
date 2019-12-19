@@ -2,20 +2,20 @@
 import AppKit
 
 extension NSFont {
-    convenience init(light: CGFloat) {
-        self.init(name: "Rubik-Light", size: light)!
+    class func light(_ size: CGFloat) -> NSFont {
+        NSFont(name: "Rubik-Light", size: size)!
     }
     
-    convenience init(regular: CGFloat) {
-        self.init(name: "Rubik-Regular", size: regular)!
+    class func regular(_ size: CGFloat) -> NSFont {
+        NSFont(name: "Rubik-Regular", size: size)!
     }
     
-    convenience init(medium: CGFloat) {
-        self.init(name: "Rubik-Medium", size: medium)!
+    class func medium(_ size: CGFloat) -> NSFont {
+        NSFont(name: "Rubik-Medium", size: size)!
     }
     
-    convenience init(bold: CGFloat) {
-        self.init(name: "Rubik-Bold", size: bold)!
+    class func bold(_ size: CGFloat) -> NSFont {
+        NSFont(name: "Rubik-Bold", size: size)!
     }
 }
 #endif

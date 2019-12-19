@@ -1,25 +1,27 @@
 import AppKit
 
-final class Timeline: Chart {
+final class Timeline: NSView {
     private weak var dots: CAShapeLayer!
     private weak var time: CAShapeLayer!
     private weak var start: Label!
     
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
         
-        let now = Label(.key("Timeline.now"), 12, .medium, NSColor(named: "haze")!)
+        let now = Label(.key("Timeline.now"), .medium(12), .haze())
         addSubview(now)
         
-        let start = Label("", 12, .medium, NSColor(named: "haze")!)
+        let start = Label("", .medium(12), .haze())
         addSubview(start)
         self.start = start
         
         let dots = CAShapeLayer()
         dots.fillColor = .clear
         dots.lineWidth = 2
-        dots.strokeColor = NSColor(named: "haze")!.withAlphaComponent(0.3).cgColor
+        dots.strokeColor = .haze(0.3)
         dots.lineDashPattern = [NSNumber(value: 4), NSNumber(value: 4)]
         layer!.addSublayer(dots)
         self.dots = dots
@@ -29,7 +31,7 @@ final class Timeline: Chart {
         time.lineWidth = 2
         time.lineCap = .round
         time.lineJoin = .round
-        time.strokeColor = NSColor(named: "haze")!.cgColor
+        time.strokeColor = .haze()
         layer!.addSublayer(time)
         self.time = time
         

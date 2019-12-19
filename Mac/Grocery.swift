@@ -69,16 +69,14 @@ final class Grocery: NSView {
     }
     
     override func mouseEntered(with: NSEvent) {
-        super.mouseEntered(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = NSColor(named: "background")!.cgColor
+            layer!.backgroundColor = .background()
         }
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
@@ -88,7 +86,7 @@ final class Grocery: NSView {
     
     override func rightMouseUp(with: NSEvent) {
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            app.runModal(for: Stock.Edit(Int(app.session.content(app.project, list: 1, card: index))!))
+//            app.runModal(for: Stock.Edit(Int(app.session.content(app.project, list: 1, card: index))!))
         }
         super.rightMouseUp(with: with)
     }
