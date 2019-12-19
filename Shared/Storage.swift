@@ -1,6 +1,16 @@
-import Foundation
+#if os(macOS)
+    import AppKit
+#endif
+#if os(iOS)
+    import UIKit
+#endif
 
-final class Storage: Storager {
+final class Storage: NSTextStorage {
+    var fonts = [.plain: (NSFont(name: "Rubik-Regular", size: 14)!, .white),
+                 .emoji: (NSFont(name: "Rubik-Regular", size: 24)!, .white),
+                 .bold: (NSFont(name: "Rubik-Bold", size: 22)!, .white),
+                 .tag: (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)] as [String.Mode: (NSFont, NSColor)]
+    private let storage = NSTextStorage()
     override var string: String { storage.string }
     
     override func processEditing() {
