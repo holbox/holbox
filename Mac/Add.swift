@@ -39,11 +39,11 @@ final class Add: Modal {
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 100).isActive = true
+        icon.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 120).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
-        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 2).isActive = true
+        title.topAnchor.constraint(equalTo: icon.topAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 10).isActive = true
         
         available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 40).isActive = true
@@ -72,7 +72,7 @@ final class Add: Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _notes.setAccessibilityLabel(.key("Add.notes"))
             
-            let name = Label("", .bold(14), .haze())
+            let name = Label("", .medium(14), .haze())
             contentView!.addSubview(name)
             self.name = name
             
@@ -101,7 +101,7 @@ final class Add: Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 112).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 120).isActive = true
             name.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
@@ -116,7 +116,7 @@ final class Add: Modal {
             let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze(), .black)
             contentView!.addSubview(_purchases)
             
-            info.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 20).isActive = true
+            info.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 30).isActive = true
             info.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 50).isActive = true
             info.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -50).isActive = true
             
