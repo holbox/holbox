@@ -1,3 +1,4 @@
+import NaturalLanguage
 import Foundation
 
 extension String {
@@ -39,5 +40,34 @@ extension String {
             count += 1
         }
         return count
+    }
+    
+    var language: String {
+        if #available(OSX 10.15, *) {
+            let tagger = NLTagger(tagSchemes: [.language])
+            tagger.string = self
+            switch tagger.tag(at: startIndex, unit: .document, scheme: .language).0?.rawValue {
+            case "en": return .key("Language.english")
+            case "de": return .key("Language.german")
+            case "es": return .key("Language.spanish")
+            case "fr": return .key("Language.french")
+            default: break
+            }
+        }
+        return ""
+    }
+    
+    var sentiment: String {
+        if #available(OSX 10.15, *) {
+            let tagger = NLTagger(tagSchemes: [.sentimentScore])
+            tagger.string = self
+            let score = Double(tagger.tag(at: startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
+            if score > 0 {
+                return .key("Language.positive")
+            } else if score < 0 {
+                return .key("Language.negative")
+            }
+        }
+        return .key("Language.neutral")
     }
 }

@@ -92,5 +92,7 @@ final class Main: Window {
         app.runModal(for: About())
     }
     
-    @objc func full() { zoom(self) }
+    @objc func full() {
+        zoom(self)
+    }
 }

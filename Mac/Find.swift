@@ -37,7 +37,7 @@ final class Find: NSView, NSTextViewDelegate {
         base.wantsLayer = true
         base.layer!.cornerRadius = 16
         base.layer!.borderWidth = 0
-        base.layer!.borderColor = NSColor(named: "haze")!.cgColor
+        base.layer!.borderColor = .haze()
         addSubview(base)
         self.base = base
         
@@ -46,6 +46,7 @@ final class Find: NSView, NSTextViewDelegate {
         text.textContainerInset.height = 10
         text.setAccessibilityLabel(.key("Search"))
         text.font = .init(light: 14)
+        text.textColor = .white
         text.textContainer!.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
         text.clear = true
@@ -53,7 +54,7 @@ final class Find: NSView, NSTextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", 12, .regular, NSColor(named: "haze")!)
+        let _counter = Label("", .init(regular: 12), .haze())
         addSubview(_counter)
         self._counter = _counter
         

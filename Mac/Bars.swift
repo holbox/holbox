@@ -1,6 +1,6 @@
 import AppKit
 
-final class Bars: Chart {
+final class Bars: NSView {
     private weak var right: NSLayoutConstraint! {
         didSet {
             oldValue?.isActive = false
@@ -9,8 +9,9 @@ final class Bars: Chart {
     }
     
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: 196).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 0)
@@ -55,10 +56,10 @@ final class Bars: Chart {
             animation.timingFunction = .init(name: .easeOut)
             $0.1.shape.strokeEnd = cards[$0.0] / max(top, 1)
             $0.1.shape.add(animation, forKey: "strokeEnd")
-            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 16, .medium, NSColor(named: "haze")!),
-                                   ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", 12, .regular, NSColor(named: "haze")!),
-                                   ("%\n", 8, .regular, NSColor(named: "haze")!),
-                                   (app.session.name(app.project, list: $0.0), 10, .regular, NSColor(named: "haze")!)],
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .init(medium: 16), .haze()),
+                                   ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", .init(regular: 12), .haze()),
+                                   ("%\n", .init(regular: 8), .haze()),
+                                   (app.session.name(app.project, list: $0.0), .init(regular: 10), .haze())],
                                   align: .center)
         }
     }
@@ -71,12 +72,11 @@ private final class Line: NSView {
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
-        wantsLayer = true
         translatesAutoresizingMaskIntoConstraints = false
         
         let shape = CAShapeLayer()
         shape.fillColor = .clear
-        shape.strokeColor = NSColor(named: "haze")!.cgColor
+        shape.strokeColor = .haze()
         shape.lineWidth = 12
         shape.lineCap = .round
         shape.path = {
@@ -89,7 +89,7 @@ private final class Line: NSView {
         
         let base = CAShapeLayer()
         base.fillColor = .clear
-        base.strokeColor = NSColor(named: "haze")!.cgColor
+        base.strokeColor = .haze()
         base.lineWidth = 12
         base.path = {
             $0.move(to: .init(x: 6, y: 6))

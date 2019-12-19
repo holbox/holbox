@@ -145,7 +145,7 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(151, nil)
         
-        let title = Label(.key("Detail.title"), 14, .medium, NSColor(named: "haze")!)
+        let title = Label(.key("Detail.title"), .init(medium: 14), .haze())
         title.wantsLayer = true
         title.alphaValue = 0
         addSubview(title)

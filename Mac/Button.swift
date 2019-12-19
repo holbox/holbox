@@ -37,7 +37,6 @@ final class Button: NSView {
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         alphaValue = 1
     }
     

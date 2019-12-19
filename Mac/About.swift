@@ -3,13 +3,12 @@ import AppKit
 final class About: Modal {
     init() {
         super.init(240, 170)
-        
         let logo = Image("logo")
         logo.imageScaling = .scaleProportionallyDown
         contentView!.addSubview(logo)
         
-        let title = Label([(.key("About.title") + "\n", 16, .bold, .white),
-                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
+        let title = Label([(.key("About.title") + "\n", .init(bold: 16), .white),
+                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .init(light: 16), .white)])
         contentView!.addSubview(title)
         
         logo.widthAnchor.constraint(equalToConstant: 60).isActive = true

@@ -7,8 +7,6 @@ final class Column: NSView, NSTextViewDelegate {
     private weak var _delete: Image!
     private weak var width: NSLayoutConstraint!
     
-    override var mouseDownCanMoveWindow: Bool { false }
-    
     required init?(coder: NSCoder) { nil }
     init(_ kanban: Kanban, index: Int) {
         self.index = index
@@ -58,14 +56,13 @@ final class Column: NSView, NSTextViewDelegate {
         
         text.delegate = self
         text.layoutManager!.ensureLayout(for: text.textContainer!)
-        resize()
         
+        resize()
         track()
     }
     
     override func mouseEntered(with: NSEvent) {
         if window!.firstResponder != self {
-            super.mouseEntered(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
@@ -76,7 +73,6 @@ final class Column: NSView, NSTextViewDelegate {
     
     override func mouseExited(with: NSEvent) {
         if window!.firstResponder != self {
-            super.mouseExited(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true

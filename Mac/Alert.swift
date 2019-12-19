@@ -5,7 +5,7 @@ final class Alert: Modal {
         super.init(400, 80)
         setFrameOrigin(.init(x: NSScreen.main!.frame.midX - 200, y: NSScreen.main!.frame.maxY - 150))
         
-        let label = Label([(title + "\n", 16, .bold, .white), (message, 14, .regular, .white)])
+        let label = Label([(title + "\n", .init(bold: 16), .white), (message, .init(regular: 14), .white)])
         contentView!.addSubview(label)
         
         label.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 35).isActive = true

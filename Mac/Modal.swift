@@ -3,7 +3,7 @@ import AppKit
 class Modal: Window {
     init(_ width: CGFloat, _ height: CGFloat) {
         super.init(width, height, mask: [])
-        contentView!.layer!.borderColor = NSColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+        contentView!.layer!.borderColor = .haze(0.4)
         contentView!.layer!.borderWidth = 1
     }
     

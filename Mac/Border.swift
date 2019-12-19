@@ -13,13 +13,11 @@ final class Border: NSView {
         return border
     }
     
-    override var mouseDownCanMoveWindow: Bool { false }
-    
     required init?(coder: NSCoder) { nil }
     private init(_ alpha: CGFloat) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        layer!.backgroundColor = NSColor(named: "haze")!.withAlphaComponent(alpha).cgColor
+        layer!.backgroundColor = .haze(alpha)
     }
 }

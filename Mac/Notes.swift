@@ -1,4 +1,3 @@
-import NaturalLanguage
 import AppKit
 
 final class Notes: View, NSTextViewDelegate {
@@ -16,10 +15,10 @@ final class Notes: View, NSTextViewDelegate {
         let border = Border.horizontal()
         addSubview(border)
         
-        let _pdf = Control("PDF", self, #selector(pdf), NSColor(named: "haze")!.cgColor, .black)
+        let _pdf = Control("PDF", self, #selector(pdf), .haze(), .black)
         addSubview(_pdf)
         
-        let stats = Label("", 11, .regular, NSColor(named: "haze")!)
+        let stats = Label("", .init(regular: 12), .haze())
         stats.maximumNumberOfLines = 2
         stats.lineBreakMode = .byTruncatingHead
         addSubview(stats)
@@ -127,39 +126,13 @@ final class Notes: View, NSTextViewDelegate {
     
     private func update() {
         DispatchQueue.global(qos: .background).async {
+            guard app.project != nil else { return }
             let text = app.session.content(app.project, list: 0, card: 0)
-            var string = ""
-            if #available(OSX 10.15, *) {
-                let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
-                tagger.string = text
-                
-                switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
-                case "en":
-                    string += .key("Project.english") + ", "
-                case "de":
-                    string += .key("Project.german") + ", "
-                case "es":
-                    string += .key("Project.spanish") + ", "
-                case "fr":
-                    string += .key("Project.french") + ", "
-                default: break
-                }
-                
-                let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
-                if score == 0 {
-                    string += .key("Project.neutral") + ".\n"
-                } else if score > 0 {
-                    string += .key("Project.positive") + ".\n"
-                } else {
-                    string += .key("Project.negative") + ".\n"
-                }
-            }
-            
-            string += "\(text.paragraphs) " + .key("Project.paragraphs") + ", "
-            string += "\(text.sentences) " + .key("Project.sentences") + ", "
-            string += "\(text.lines) " + .key("Project.lines") + ", "
-            string += "\(text.words) " + .key("Project.words")
-            
+            let string = text.language + ", " + text.sentiment + ".\n" +
+                "\(text.paragraphs) " + .key("Project.paragraphs") + ", " +
+                "\(text.sentences) " + .key("Project.sentences") + ", " +
+                "\(text.lines) " + .key("Project.lines") + ", " +
+                "\(text.words) " + .key("Project.words")
             DispatchQueue.main.async { [weak self] in
                 self?.stats.stringValue = string
             }

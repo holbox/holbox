@@ -28,8 +28,6 @@ final class Card: NSView, NSTextViewDelegate {
         }
     }
     
-    override var mouseDownCanMoveWindow: Bool { false }
-    
     private(set) weak var kanban: Kanban!
     private(set) weak var text: Text!
     private weak var left: NSLayoutConstraint!
@@ -47,7 +45,7 @@ final class Card: NSView, NSTextViewDelegate {
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         layer!.cornerRadius = 8
-        layer!.borderColor = NSColor(named: "haze")!.cgColor
+        layer!.borderColor = .haze()
         layer!.borderWidth = 0
         setAccessibilityElement(true)
         setAccessibilityLabel(.key("Card"))
@@ -58,6 +56,7 @@ final class Card: NSView, NSTextViewDelegate {
         text.tab = true
         text.intro = true
         text.font = .init(regular: 14)
+        text.textColor = .white
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont(regular: 14), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont(regular: 24)],
                                                      .bold: [.font: NSFont(bold: 22), .foregroundColor: NSColor.white],
@@ -190,11 +189,10 @@ final class Card: NSView, NSTextViewDelegate {
     
     override func mouseEntered(with: NSEvent) {
         if !dragging && window!.firstResponder != text {
-            super.mouseEntered(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = window!.firstResponder == text ? .clear : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+                layer!.backgroundColor = window!.firstResponder == text ? .clear : .haze(0.2)
                 _delete.alphaValue = 1
             }
         }
@@ -202,7 +200,6 @@ final class Card: NSView, NSTextViewDelegate {
     
     override func mouseExited(with: NSEvent) {
         if !dragging && window!.firstResponder != text {
-            super.mouseExited(with: with)
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
@@ -238,7 +235,7 @@ final class Card: NSView, NSTextViewDelegate {
     func update(_ animate: Bool) {
         let color: CGColor
         if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            color = NSColor(named: "background")!.cgColor
+            color = .background()
             left.constant = 20
         } else {
             color = .clear

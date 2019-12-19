@@ -1,6 +1,6 @@
 import AppKit
 
-final class Cart: Chart {
+final class Cart: NSView {
     private let index: Int
     private let width = CGFloat(1)
     private let space = CGFloat(1)
@@ -8,7 +8,9 @@ final class Cart: Chart {
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
         self.index = index
-        super.init()
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        wantsLayer = true
     }
     
     override func draw(_: CGRect) {
@@ -17,7 +19,7 @@ final class Cart: Chart {
         
         let outer = CALayer()
         outer.borderWidth = 1
-        outer.borderColor = NSColor(named: "haze")!.cgColor
+        outer.borderColor = .haze()
         outer.cornerRadius = radius
         outer.frame = .init(x: 10, y: bounds.midY - radius, width: bounds.width - 20, height: radius * 2)
         outer.masksToBounds = true
@@ -31,8 +33,7 @@ final class Cart: Chart {
             (0 ..< items).forEach {
                 let x = ((width + space) * .init($0)) + 2
                 let shape = CAShapeLayer()
-                shape.strokeColor = $0 < counter ? NSColor(named: "haze")!.cgColor
-                    : NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+                shape.strokeColor = $0 < counter ? .haze() : .haze(0.2)
                 shape.lineWidth = width
                 shape.fillColor = .clear
                 shape.path = {

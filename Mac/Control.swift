@@ -18,7 +18,7 @@ final class Control: NSView {
         layer!.cornerRadius = 6
         layer!.backgroundColor = background
         
-        let label = Label(title, 12, .medium, text)
+        let label = Label(title, .init(medium: 12), text)
         label.setAccessibilityElement(false)
         addSubview(label)
         
@@ -35,7 +35,6 @@ final class Control: NSView {
     }
     
     override func mouseExited(with: NSEvent) {
-        super.mouseExited(with: with)
         alphaValue = 1
     }
     

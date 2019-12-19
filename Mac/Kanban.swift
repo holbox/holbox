@@ -32,10 +32,10 @@ final class Kanban: View {
         scroll.add(bars)
         self.bars = bars
         
-        let _column = Control(.key("Kanban.column"), self, #selector(column), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
+        let _column = Control(.key("Kanban.column"), self, #selector(column), .haze(0.2), .haze())
         scroll.add(_column)
         
-        let _csv = Control(.key("Kanban.csv"), self, #selector(csv), NSColor(named: "haze")!.withAlphaComponent(0.2).cgColor, NSColor(named: "haze")!)
+        let _csv = Control(.key("Kanban.csv"), self, #selector(csv), .haze(0.2), .haze())
         scroll.add(_csv)
         
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -187,8 +187,8 @@ final class Kanban: View {
     }
     
     func charts() {
-        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", 18, .medium, NSColor(named: "haze")!),
-                          (" " + .key("Kanban.count"), 12, .regular, NSColor(named: "haze")!)])
+        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", .init(medium: 18), .haze()),
+                          (" " + .key("Kanban.count"), .init(regular: 12), .haze())])
         bars.refresh()
     }
     

@@ -7,10 +7,11 @@ final class Add: Modal {
         didSet {
             oldValue?.icon.alphaValue = 0.4
             oldValue?.layer!.borderColor = .clear
-            selected.layer!.borderColor = NSColor(named: "haze")!.cgColor
+            selected.layer!.borderColor = .haze()
             selected.icon.alphaValue = 1
         }
     }
+    
     private var mode = Mode.off
     
     init() {
@@ -18,23 +19,23 @@ final class Add: Modal {
         let icon = Image("new")
         contentView!.addSubview(icon)
         
-        let title = Label([(.key("Add.title") + "\n", 20, .bold, NSColor(named: "haze")!),
-                           (.key("Add.subtitle"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.8))])
+        let title = Label([(.key("Add.title") + "\n", .init(medium: 16), .haze()),
+                           (.key("Add.subtitle"), .init(light: 12), .haze(0.8))])
         contentView!.addSubview(title)
         
-        let available = Label([(.key("Add.available") + "\n", 16, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
-                              ("\(app.session.available)", 30, .medium, NSColor(named: "haze")!)], align: .center)
+        let available = Label([(.key("Add.available") + "\n", .init(light: 16), .haze(0.6)),
+                               ("\(app.session.available)", .init(medium: 30), .haze())], align: .center)
         contentView!.addSubview(available)
         
-        let projects = Label([(.key("Add.projects"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
-                              ("\n\(app.session.count)", 16, .medium, NSColor(named: "haze")!)], align: .center)
+        let projects = Label([(.key("Add.projects"), .init(light: 12), .haze(0.6)),
+                              ("\n\(app.session.count)", .init(medium: 16), .haze())], align: .center)
         contentView!.addSubview(projects)
         
-        let capacity = Label([(.key("Add.capacity"), 12, .light, NSColor(named: "haze")!.withAlphaComponent(0.6)),
-                              ("\n\(app.session.capacity)", 16, .medium, NSColor(named: "haze")!)], align: .center)
+        let capacity = Label([(.key("Add.capacity"), .init(light: 12), .haze(0.6)),
+                              ("\n\(app.session.capacity)", .init(medium: 16), .haze())], align: .center)
         contentView!.addSubview(capacity)
         
-        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, NSColor(named: "haze")!)
+        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .haze())
         contentView!.addSubview(cancel)
         
         icon.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
@@ -71,11 +72,11 @@ final class Add: Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _notes.setAccessibilityLabel(.key("Add.notes"))
             
-            let name = Label("", 14, .bold, NSColor(named: "haze")!)
+            let name = Label("", .init(bold: 14), .haze())
             contentView!.addSubview(name)
             self.name = name
             
-            let _confirm = Control(.key("Add.confirm"), self, #selector(add), NSColor(named: "haze")!.cgColor, .black)
+            let _confirm = Control(.key("Add.confirm"), self, #selector(add), .haze(), .black)
             contentView!.addSubview(_confirm)
             
             var left: NSLayoutXAxisAnchor?
@@ -109,10 +110,10 @@ final class Add: Modal {
             
             kanban(_kanban)
         } else {
-            let info = Label(.key("Add.info"), 14, .light, .white)
+            let info = Label(.key("Add.info"), .init(light: 14), .white)
             contentView!.addSubview(info)
             
-            let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), NSColor(named: "haze")!.cgColor, .black)
+            let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze(), .black)
             contentView!.addSubview(_purchases)
             
             info.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 20).isActive = true
