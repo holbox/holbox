@@ -22,23 +22,23 @@ final class Product: NSView {
         let product = app.session.product(app.project, index: index)
         setAccessibilityLabel(product.1)
         
-        let text = Text(.Fix(), Off())
+        let text = Text(.Fix(), Off(), storage: .init())
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
         text.setAccessibilityElement(false)
-        if active {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: 12, weight: .medium), .white),
-                .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
-                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
-                .tag: (.systemFont(ofSize: 12, weight: .bold), NSColor(named: "haze")!)]
-        } else {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.7)),
-                .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
-                .bold: (.systemFont(ofSize: 14, weight: .bold), .init(white: 1, alpha: 0.5)),
-                .tag: (.systemFont(ofSize: 12, weight: .bold), .init(white: 1, alpha: 0.5))]
-        }
+//        if active {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: 12, weight: .medium), .white),
+//                .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
+//                .bold: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!),
+//                .tag: (.systemFont(ofSize: 12, weight: .bold), NSColor(named: "haze")!)]
+//        } else {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: 12, weight: .medium), .init(white: 1, alpha: 0.7)),
+//                .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
+//                .bold: (.systemFont(ofSize: 14, weight: .bold), .init(white: 1, alpha: 0.5)),
+//                .tag: (.systemFont(ofSize: 12, weight: .bold), .init(white: 1, alpha: 0.5))]
+//        }
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 0
         text.textContainer!.maximumNumberOfLines = 3

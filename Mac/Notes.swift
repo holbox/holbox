@@ -25,15 +25,15 @@ final class Notes: View, NSTextViewDelegate {
         addSubview(stats)
         self.stats = stats
         
-        let text = Text(.Fix(), Active())
+        let text = Text(.Fix(), Active(), storage: Storage())
         text.textContainerInset.width = 80
         text.textContainerInset.height = 40
         text.setAccessibilityLabel(.key("Note"))
-        text.font = NSFont(name: "Times New Roman", size: 16)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .regular), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 28)!, .white),
-                                               .bold: (.systemFont(ofSize: 24, weight: .bold), NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: 16, weight: .medium), NSColor(named: "haze")!)]
+        text.font = .init(regular: 18)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont(regular: 18), .foregroundColor: NSColor.white],
+                                                     .emoji: [.font: NSFont(regular: 30)],
+                                                     .bold: [.font: NSFont(bold: 28), .foregroundColor: NSColor.haze()],
+                                                     .tag: [.font: NSFont(medium: 18), .foregroundColor: NSColor.haze()]]
         text.tab = true
         text.intro = true
         text.caret = 4

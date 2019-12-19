@@ -8,7 +8,11 @@ final class Image: NSImageView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         if let tint = tint {
-            image = NSImage(named: name)!.tint(tint)
+            image = NSImage(named: name)
+            image!.lockFocus()
+            tint.set()
+            NSRect(origin: .init(), size: image!.size).fill(using: .sourceAtop)
+            image!.unlockFocus()
         } else {
             image = NSImage(named: name)
         }

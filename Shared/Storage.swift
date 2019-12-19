@@ -3,13 +3,14 @@
 #endif
 #if os(iOS)
     import UIKit
+
+extension Storage {
+    var font: UIFont? { UIFont.preferredFont(forTextStyle: .body) }
+}
 #endif
 
 final class Storage: NSTextStorage {
-    var fonts = [.plain: (NSFont(name: "Rubik-Regular", size: 14)!, .white),
-                 .emoji: (NSFont(name: "Rubik-Regular", size: 24)!, .white),
-                 .bold: (NSFont(name: "Rubik-Bold", size: 22)!, .white),
-                 .tag: (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)] as [String.Mode: (NSFont, NSColor)]
+    var attributes = [String.Mode: [NSAttributedString.Key: Any]]()
     private let storage = NSTextStorage()
     override var string: String { storage.string }
     
@@ -17,8 +18,8 @@ final class Storage: NSTextStorage {
         super.processEditing()
         storage.removeAttribute(.font, range: .init(location: 0, length: storage.length))
         storage.removeAttribute(.foregroundColor, range: .init(location: 0, length: storage.length))
-        string.mark { (fonts[$0]!, NSRange($1, in: string)) }.forEach {
-            storage.addAttributes([.font: $0.0.0, .foregroundColor: $0.0.1], range: $0.1)
+        string.mark { (attributes[$0]!, .init($1, in: string)) }.forEach {
+            storage.addAttributes($0.0, range: $0.1)
         }
         layoutManagers.first!.processEditing(for: self, edited: .editedAttributes, range: .init(), changeInLength: 0, invalidatedRange: .init(location: 0, length: storage.length))
     }

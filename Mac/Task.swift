@@ -29,16 +29,10 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(highlight)
         self.highlight = highlight
         
-        let text = Text(.Fix(), Editable())
+        let text = Text(.Fix(), Editable(), storage: Storage())
         text.textContainerInset.width = 15
         text.textContainerInset.height = 12
         text.setAccessibilityLabel(.key("Task"))
-        text.font = NSFont(name: "Times New Roman", size: 14)!
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: 14, weight: .regular), .white),
-            .emoji: (NSFont(name: "Times New Roman", size: 18)!, .white),
-            .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: 14, weight: .medium), NSColor(named: "haze")!)]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 1
         text.intro = true

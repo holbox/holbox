@@ -104,16 +104,14 @@ final class Bar: NSView, NSTextViewDelegate {
         border.alphaValue = 1
         resize(51, nil)
         
-        let name = Text(.Expand(350, 51), Block())
+        let name = Text(.Expand(350, 51), Block(), storage: .init())
         name.textContainerInset.width = 10
         name.textContainerInset.height = 10
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        (name.textStorage as! Storage).fonts[.plain] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (name.textStorage as! Storage).fonts[.emoji] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (name.textStorage as! Storage).fonts[.bold] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (name.textStorage as! Storage).fonts[.tag] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
+        name.font = .init(medium: 14)
+        name.textColor = .haze()
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 1
         name.string = app.session.name(app.project)

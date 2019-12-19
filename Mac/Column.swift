@@ -16,14 +16,12 @@ final class Column: NSView, NSTextViewDelegate {
         super.init(frame: .init())
         translatesAutoresizingMaskIntoConstraints = false
         
-        let text = Text(.Fix(), Block())
+        let text = Text(.Fix(), Block(), storage: .init())
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
         text.setAccessibilityLabel(.key("Column"))
-        (text.textStorage as! Storage).fonts[.plain] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (text.textStorage as! Storage).fonts[.emoji] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (text.textStorage as! Storage).fonts[.bold] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
-        (text.textStorage as! Storage).fonts[.tag] = (NSFont(name: "Rubik-Medium", size: 14)!, NSColor(named: "haze")!)
+        text.font = .init(medium: 14)
+        text.textColor = .haze()
         text.string = app.session.name(app.project, list: index)
         text.textContainer!.maximumNumberOfLines = 1
         text.textContainer!.widthTracksTextView = false

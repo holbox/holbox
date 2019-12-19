@@ -25,14 +25,14 @@ final class Grocery: NSView {
         addSubview(emoji)
         self.emoji = emoji
         
-        let text = Text(.Fix(), Off())
+        let text = Text(.Fix(), Off(), storage: Storage())
         text.textContainerInset.width = 10
         text.textContainerInset.height = 10
         text.setAccessibilityElement(false)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
-                                               .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
+//        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .medium), .white),
+//                                               .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
+//                                               .bold: (.systemFont(ofSize: 16, weight: .bold), NSColor(named: "haze")!),
+//                                               .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 0
         text.string = product.1

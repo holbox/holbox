@@ -32,17 +32,12 @@ final class Tasker: NSView, NSTextViewDelegate {
         layer!.cornerRadius = 20
         self.todo = todo
         
-        let text = Text(.Fix(), Active())
+        let text = Text(.Fix(), Active(), storage: Storage())
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
         text.setAccessibilityLabel(.key("Task"))
         text.insertionPointColor = .black
         text.selectedTextAttributes = [.backgroundColor: NSColor(white: 0, alpha: 0.2)]
-        text.font = NSFont(name: "Times New Roman", size: 14)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .regular), .black),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 18)!, .black),
-                                               .bold: (.systemFont(ofSize: 16, weight: .bold), .black),
-                                               .tag: (.systemFont(ofSize: 14, weight: .medium), .black)]
         text.intro = true
         text.tab = true
         text.delegate = self

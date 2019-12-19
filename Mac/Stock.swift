@@ -85,30 +85,30 @@ class Stock: Modal, NSTextViewDelegate {
         let _title = Label(title, 18, .bold, NSColor(named: "haze")!)
         contentView!.addSubview(_title)
         
-        let emoji = Text(.Expand(150, 150), Active())
+        let emoji = Text(.Expand(150, 150), Active(), storage: .init())
         emoji.textContainerInset.width = 10
         emoji.textContainerInset.height = 10
         emoji.font = NSFont(name: "Times New Roman", size: 70)
         emoji.setAccessibilityLabel(.key("Product.emoji"))
-        (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 70)!, .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 70)!, .white),
-                                               .bold: (NSFont(name: "Times New Roman", size: 70)!, .white),
-                                               .tag: (NSFont(name: "Times New Roman", size: 70)!, .white)]
+//        (emoji.textStorage as! Storage).fonts = [.plain: (NSFont(name: "Times New Roman", size: 70)!, .white),
+//                                               .emoji: (NSFont(name: "Times New Roman", size: 70)!, .white),
+//                                               .bold: (NSFont(name: "Times New Roman", size: 70)!, .white),
+//                                               .tag: (NSFont(name: "Times New Roman", size: 70)!, .white)]
         emoji.textContainer!.maximumNumberOfLines = 1
         (emoji.layoutManager as! Layout).padding = 2
         emoji.delegate = self
         contentView!.addSubview(emoji)
         self.emoji = emoji
         
-        let label = Text(.Fix(), Active())
+        let label = Text(.Fix(), Active(), storage: .init())
         label.textContainerInset.width = 10
         label.textContainerInset.height = 10
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.setAccessibilityLabel(.key("Product.description"))
-        (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
-                                                 .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
-                                                 .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
-                                                 .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
+//        (label.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 16, weight: .medium), .white),
+//                                                 .emoji: (NSFont(name: "Times New Roman", size: 22)!, .white),
+//                                                 .bold: (.systemFont(ofSize: 18, weight: .bold), NSColor(named: "haze")!),
+//                                                 .tag: (.systemFont(ofSize: 14, weight: .bold), NSColor(named: "haze")!)]
         label.textContainer!.maximumNumberOfLines = 10
         label.intro = true
         (label.layoutManager as! Layout).padding = 2

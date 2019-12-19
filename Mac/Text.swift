@@ -1,6 +1,6 @@
 import AppKit
 
-class Text: NSTextView {
+final class Text: NSTextView {
     var tab = false
     var intro = false
     var clear = false
@@ -14,10 +14,10 @@ class Text: NSTextView {
     override func accessibilityValue() -> String? { string }
     
     required init?(coder: NSCoder) { nil }
-    init(_ resize: Resize, _ edit: Edit) {
+    init(_ resize: Resize, _ edit: Edit, storage: NSTextStorage) {
         self.resize = resize
         self.edit = edit
-        super.init(frame: .zero, textContainer: Container())
+        super.init(frame: .zero, textContainer: Container(storage))
         setAccessibilityElement(true)
         setAccessibilityRole(.textField)
         translatesAutoresizingMaskIntoConstraints = false
@@ -27,9 +27,9 @@ class Text: NSTextView {
         isContinuousSpellCheckingEnabled = app.session.spell
         isAutomaticTextCompletionEnabled = app.session.spell
         insertionPointColor = NSColor(named: "haze")!
-        font = NSFont(name: "Rubik-Regular", size: 14)
+        font = .init(regular: 14)
         textColor = .white
-        selectedTextAttributes = [.backgroundColor: NSColor(named: "haze")!, .foregroundColor: NSColor.black]
+        selectedTextAttributes = [.backgroundColor: NSColor.haze(), .foregroundColor: NSColor.black]
         resize.configure(self)
     }
     

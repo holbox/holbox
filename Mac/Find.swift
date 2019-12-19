@@ -41,15 +41,11 @@ final class Find: NSView, NSTextViewDelegate {
         addSubview(base)
         self.base = base
         
-        let text = Text(.Fix(), Block())
+        let text = Text(.Fix(), Block(), storage: .init())
         text.textContainerInset.width = 10
         text.textContainerInset.height = 10
         text.setAccessibilityLabel(.key("Search"))
-        text.font = NSFont(name: "Times New Roman", size: 14)
-        (text.textStorage as! Storage).fonts = [.plain: (.systemFont(ofSize: 14, weight: .light), .white),
-                                               .emoji: (NSFont(name: "Times New Roman", size: 14)!, .white),
-                                               .bold: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!),
-                                               .tag: (.systemFont(ofSize: 14, weight: .light), NSColor(named: "haze")!)]
+        text.font = .init(light: 14)
         text.textContainer!.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
         text.clear = true
