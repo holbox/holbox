@@ -112,7 +112,7 @@ private struct Ring: View {
                 .opacity(0.2)
             Ringin(percent: percent)
                 .stroke(Color("haze"), style: .init(lineWidth: 9, lineCap: .round))
-            Text(formatter.string(from: NSNumber(value: percent))!)
+            Text(formatter.string(from: .init(value: percent))!)
                 .foregroundColor(.init("haze"))
                 .bold()
         }.frame(width: 120, height: 120)

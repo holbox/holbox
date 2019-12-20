@@ -72,6 +72,7 @@ Project.columns="columns";
 Project.cards="cards";
 Project.tasks="tasks";
 Project.words="words";
+Project.characters="characters";
 Project.lines="lines";
 Project.modified="Modified";
 Project.created="Created";

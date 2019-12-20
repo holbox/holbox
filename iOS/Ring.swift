@@ -77,7 +77,7 @@ final class Ring: Chart {
             guard let self = self else { return }
             self.label.attributed([("\(Int(self.current))\n", 22, .bold, UIColor(named: "haze")!),
                                     ("\(Int(self.total))", 14, .regular, UIColor(named: "haze")!)])
-            self.percent.text = self.formatter.string(from: NSNumber(value: Double(amount)))!
+            self.percent.text = self.formatter.string(from: .init(value: Double(amount)))!
             
             UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.label.alpha = 1

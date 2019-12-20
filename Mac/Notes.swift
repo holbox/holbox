@@ -4,10 +4,13 @@ final class Notes: View, NSTextViewDelegate {
     private weak var text: Text!
     private weak var scroll: Scroll!
     private weak var stats: Label!
+    private let formatter = NumberFormatter()
     
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()
+        formatter.numberStyle = .decimal
+        
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
@@ -125,14 +128,16 @@ final class Notes: View, NSTextViewDelegate {
     }
     
     private func update() {
-        DispatchQueue.global(qos: .background).async {
-            guard app.project != nil else { return }
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self, app.project != nil else { return }
             let text = app.session.content(app.project, list: 0, card: 0)
             let string = text.language + ", " + text.sentiment + ".\n" +
-                "\(text.paragraphs) " + .key("Project.paragraphs") + ", " +
-                "\(text.sentences) " + .key("Project.sentences") + ", " +
-                "\(text.lines) " + .key("Project.lines") + ", " +
-                "\(text.words) " + .key("Project.words")
+                self.formatter.string(from: .init(value: text.paragraphs))! + " " + .key("Project.paragraphs") + ", " +
+                self.formatter.string(from: .init(value: text.sentences))! + " " + .key("Project.sentences") + ", " +
+                self.formatter.string(from: .init(value: text.lines))! + " " + .key("Project.lines") + ", " +
+                self.formatter.string(from: .init(value: text.words))! + " " + .key("Project.words") + ", " +
+                self.formatter.string(from: .init(value: text.count))! + " " + .key("Project.characters") + "."
             DispatchQueue.main.async { [weak self] in
                 self?.stats.stringValue = string
             }

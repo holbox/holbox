@@ -88,8 +88,8 @@ final class Coder {
     
     private func compress(_ data: Data) -> Data {
         data.withUnsafeBytes {
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count * 10)
-            let result = Data(bytes: buffer, count: compression_encode_buffer(buffer, data.count * 10, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE))
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 100_000)
+            let result = Data(bytes: buffer, count: compression_encode_buffer(buffer, 100_000, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE))
             buffer.deallocate()
             return result
         }
@@ -97,8 +97,8 @@ final class Coder {
 
     private func decompress(_ data: Data) -> Data {
         data.withUnsafeBytes {
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count * 10)
-            let read = compression_decode_buffer(buffer, data.count * 10, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE)
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count * 100_000)
+            let read = compression_decode_buffer(buffer, data.count * 100_000, $0.bindMemory(to: UInt8.self).baseAddress!, data.count, nil, COMPRESSION_LZFSE)
             let result = Data(bytes: buffer, count: read)
             buffer.deallocate()
             return result
