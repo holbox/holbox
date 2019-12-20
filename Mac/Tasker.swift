@@ -43,6 +43,7 @@ final class Tasker: NSView, NSTextViewDelegate {
                                                      .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.black]]
         text.intro = true
         text.tab = true
+        (text.layoutManager as! Layout).padding = 2
         text.delegate = self
         text.isHidden = true
         addSubview(text)
@@ -110,7 +111,6 @@ final class Tasker: NSView, NSTextViewDelegate {
             } else if _add.frame.contains(convert(with.locationInWindow, from: nil)) {
                 confirm()
             } else if window!.firstResponder != text {
-                
                 window!.makeFirstResponder(text)
             }
         }

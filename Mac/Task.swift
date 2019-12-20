@@ -4,10 +4,9 @@ final class Task: NSView, NSTextViewDelegate {
     let index: Int
     let list: Int
     private(set) weak var text: Text!
-    private weak var todo: Todo!
-    private weak var icon: Image!
-    private weak var highlight: NSView!
     private weak var _delete: Image!
+    private weak var todo: Todo!
+    private weak var highlight: NSView!
     private weak var bottom: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
