@@ -49,7 +49,7 @@ final class Notes: View, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
-        scroll.right.constraint(equalTo: rightAnchor).isActive = true
+        scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: border.topAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: text.bottomAnchor, constant: 10).isActive = true
         
@@ -97,6 +97,8 @@ final class Notes: View, NSTextViewDelegate {
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 1 && frame.contains(convert(with.locationInWindow, from: nil)) {
             edit()
+        } else {
+            super.mouseDown(with: with)
         }
     }
     
