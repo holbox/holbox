@@ -11,10 +11,10 @@ final class Timeline: NSView {
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         
-        let now = Label(.key("Timeline.now"), .medium(12), .haze())
+        let now = Label(.key("Timeline.now"), .regular(12), .haze())
         addSubview(now)
         
-        let start = Label("", .medium(12), .haze())
+        let start = Label("", .regular(12), .haze())
         addSubview(start)
         self.start = start
         
@@ -28,7 +28,7 @@ final class Timeline: NSView {
         
         let time = CAShapeLayer()
         time.fillColor = .clear
-        time.lineWidth = 2
+        time.lineWidth = 3
         time.lineCap = .round
         time.lineJoin = .round
         time.strokeColor = .haze()
@@ -37,7 +37,7 @@ final class Timeline: NSView {
         
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        heightAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        heightAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
         
         start.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         start.leftAnchor.constraint(equalTo: leftAnchor, constant: 3).isActive = true

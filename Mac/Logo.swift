@@ -28,7 +28,7 @@ final class Logo: NSView {
             }
             self.rays.sublayers!.enumerated().forEach {
                 if $0.0 < self.counter {
-                    ($0.1 as! CAShapeLayer).strokeColor = .background()
+                    ($0.1 as! CAShapeLayer).strokeColor = .haze(0.4)
                 } else {
                     ($0.1 as! CAShapeLayer).strokeColor = .haze()
                 }

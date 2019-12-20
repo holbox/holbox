@@ -102,6 +102,7 @@ Product.description="Description";
 Todo.add="New task";
 Todo.restart="RESTART";
 Todo.completed="COMPLETED";
+Todo.count="TASKS";
 Shopping.add="New product";
 Shopping.added="NEED";
 Shopping.got="ADDED";

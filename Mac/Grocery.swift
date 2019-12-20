@@ -72,7 +72,7 @@ final class Grocery: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = .background()
+//            layer!.backgroundColor = .background()
         }
     }
     

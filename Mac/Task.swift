@@ -31,6 +31,11 @@ final class Task: NSView, NSTextViewDelegate {
         text.textContainerInset.width = 15
         text.textContainerInset.height = 12
         text.setAccessibilityLabel(.key("Task"))
+        text.font = .regular(14)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
+                                                     .emoji: [.font: NSFont.regular(24)],
+                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.white],
+                                                     .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 1
         text.intro = true
@@ -40,7 +45,7 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(text)
         self.text = text
         
-        let _delete = Image("clear")
+        let _delete = Image("clear", tint: .black)
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
@@ -48,7 +53,7 @@ final class Task: NSView, NSTextViewDelegate {
         if list == 0 {
             text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         } else {
-            layer!.backgroundColor = .haze(0.3)
+            layer!.backgroundColor = .haze(0.2)
             
             let date = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!)
             let interval: String
@@ -100,7 +105,6 @@ final class Task: NSView, NSTextViewDelegate {
     
     func textDidEndEditing(_: Notification) {
         app.session.content(app.project, list: list, card: index, content: text.string)
-        todo?.tags.refresh()
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }

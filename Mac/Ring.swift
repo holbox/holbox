@@ -6,7 +6,6 @@ final class Ring: NSView {
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
     private var last = CGFloat()
-    private let formatter = NumberFormatter()
     private let middle = CGPoint(x: 50, y: 50)
     
     required init?(coder: NSCoder) { nil }
@@ -14,7 +13,6 @@ final class Ring: NSView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        formatter.numberStyle = .percent
         
         let off = CAShapeLayer()
         off.fillColor = .clear
@@ -64,7 +62,6 @@ final class Ring: NSView {
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
         
-        percent.attributed([(formatter.string(from: NSNumber(value: Double(amount)))!, .bold(14), .haze()),
-                            ("\n\(Int(current))/\(Int(total))", .regular(11), .haze())], align: .center)
+        percent.attributed([("\(Int(amount * 100))", .medium(16), .haze()), ("%", .regular(10), .haze())])
     }
 }

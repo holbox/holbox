@@ -1,11 +1,11 @@
 import AppKit
 
 final class Todo: View {
-    private(set) weak var tags: Tags!
     private(set) weak var scroll: Scroll!
     private weak var tasker: Tasker!
     private weak var ring: Ring!
     private weak var timeline: Timeline!
+    private weak var count: Label!
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -17,13 +17,14 @@ final class Todo: View {
         let border = Border.vertical()
         addSubview(border)
         
-        let tags = Tags()
-        addSubview(tags)
-        self.tags = tags
-        
         let ring = Ring()
         addSubview(ring)
         self.ring = ring
+        
+        let count = Label([])
+        count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        addSubview(count)
+        self.count = count
         
         let timeline = Timeline()
         addSubview(timeline)
@@ -52,20 +53,17 @@ final class Todo: View {
         tasker.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
         tasker.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
-        tags.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
-        tags.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 50).isActive = true
-        let tagsLeft = tags.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
-        tagsLeft.priority = .defaultLow
-        tagsLeft.isActive = true
+        count.centerYAnchor.constraint(equalTo: ring.centerYAnchor).isActive = true
+        let countLeft = count.leftAnchor.constraint(equalTo: leftAnchor, constant: 35)
+        countLeft.priority = .defaultLow
+        countLeft.isActive = true
         
+        ring.leftAnchor.constraint(equalTo: count.rightAnchor, constant: 20).isActive = true
         ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
-        ring.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-        let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
-        ringLeft.priority = .defaultLow
-        ringLeft.isActive = true
+        ring.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
         
         timeline.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
-        timeline.topAnchor.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 50).isActive = true
+        timeline.topAnchor.constraint(greaterThanOrEqualTo: ring.bottomAnchor).isActive = true
         let timelineLeft = timeline.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         timelineLeft.priority = .defaultLow
         timelineLeft.isActive = true
@@ -86,7 +84,7 @@ final class Todo: View {
                 scroll.add(task)
                 
                 if top != nil {
-                    let border = Border.horizontal(0.2)
+                    let border = Border.horizontal(0.3)
                     scroll.add(border)
                     
                     border.topAnchor.constraint(equalTo: top).isActive = true
@@ -111,7 +109,7 @@ final class Todo: View {
         ring.current = .init(app.session.cards(app.project, list: 1))
         ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         ring.refresh()
-        tags.refresh()
+        count.attributed([("\(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))", .medium(18), .haze()), (" " + .key("Todo.count"), .regular(12), .haze())])
         DispatchQueue.main.async { [weak self] in
             self?.timeline.refresh()
         }

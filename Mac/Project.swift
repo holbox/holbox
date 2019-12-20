@@ -68,7 +68,7 @@ final class Project: NSView {
         info.setAccessibilityElement(false)
         addSubview(info)
         
-        let _delete = Image("clear")
+        let _delete = Image("clear", tint: .black)
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
@@ -115,7 +115,7 @@ final class Project: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = .haze(0.3)
+            layer!.backgroundColor = .haze(0.2)
             _delete.alphaValue = 1
         }
     }

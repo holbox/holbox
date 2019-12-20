@@ -66,7 +66,7 @@ final class Card: NSView, NSTextViewDelegate {
         addSubview(text)
         self.text = text
 
-        let _delete = Image("clear")
+        let _delete = Image("clear", tint: .black)
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
@@ -203,7 +203,9 @@ final class Card: NSView, NSTextViewDelegate {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
                 _delete.alphaValue = 0
-                if !app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    layer!.backgroundColor = .haze(0.3)
+                } else {
                     layer!.backgroundColor = .clear
                 }
             }
@@ -234,7 +236,7 @@ final class Card: NSView, NSTextViewDelegate {
     func update(_ animate: Bool) {
         let color: CGColor
         if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            color = .background()
+            color = .haze(0.3)
             left.constant = 20
         } else {
             color = .clear

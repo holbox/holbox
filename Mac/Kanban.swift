@@ -4,8 +4,8 @@ final class Kanban: View {
     private(set) weak var tags: Tags!
     private(set) weak var _add: Button!
     private(set) weak var scroll: Scroll!
-    private weak var count: Label!
     private weak var drag: Card?
+    private weak var count: Label!
     private weak var bars: Bars!
     
     required init?(coder: NSCoder) { nil }
