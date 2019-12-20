@@ -51,7 +51,7 @@ extension String {
             case "de": return .key("Language.german")
             case "es": return .key("Language.spanish")
             case "fr": return .key("Language.french")
-            default: break
+            default: return .key("Language.generic")
             }
         }
         return ""

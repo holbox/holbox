@@ -118,6 +118,7 @@ Note="Note";
 Search="Search";
 Find.matches="matches";
 Timeline.now="NOW";
+Language.generic="Generic";
 Language.english="English";
 Language.german="German";
 Language.spanish="Spanish";

@@ -7,6 +7,7 @@ final class Project: NSView {
     let order: Int
     private weak var _delete: Image!
     private let index: Int
+    private let formatter = NumberFormatter()
     
     private var detail: String {
         switch app.session.mode(index) {
@@ -38,10 +39,11 @@ final class Project: NSView {
     private var _notes: String {
         let content = app.session.content(index, list: 0, card: 0)
         return content.language + "\n" + content.sentiment + "\n" +
-            "\(content.paragraphs) " + .key("Project.paragraphs") + "\n" +
-            "\(content.sentences) " + .key("Project.sentences") + "\n" +
-            "\(content.lines) " + .key("Project.lines") + "\n" +
-            "\(content.words) " + .key("Project.words") + "\n" +
+            formatter.string(from: .init(value: content.paragraphs))! + " " + .key("Project.paragraphs") + "\n" +
+            formatter.string(from: .init(value: content.sentences))! + " " + .key("Project.sentences") + "\n" +
+            formatter.string(from: .init(value: content.lines))! + " " + .key("Project.lines") + "\n" +
+            formatter.string(from: .init(value: content.words))! + " " + .key("Project.words") + "\n" +
+            formatter.string(from: .init(value: content.count))! + " " + .key("Project.characters") + "\n" +
             .key("Project.created") + " " + Date(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!).interval + "\n"
     }
     
@@ -56,6 +58,7 @@ final class Project: NSView {
         setAccessibilityLabel(app.session.name(index))
         wantsLayer = true
         layer!.cornerRadius = 8
+        formatter.numberStyle = .decimal
         
         let label = Label(app.session.name(index), .medium(14), .haze())
         label.setAccessibilityElement(false)
