@@ -122,7 +122,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         if with.clickCount == 1 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
                 window!.makeFirstResponder(self)
-                app.runModal(for: Delete.Product(index))
+                app.runModal(for: Delete.Grocery(index))
             } else if window!.firstResponder != emoji {
                 if app.session.content(app.project, list: 2, card: index) == "1" {
                     app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))

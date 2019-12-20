@@ -25,11 +25,10 @@ final class Cart: NSView {
         outer.masksToBounds = true
         layer!.addSublayer(outer)
         
-        let products = app.session.cards(index, list: 0)
-        if products > 0 {
-            let needed = app.session.cards(index, list: 1)
+        let groceries = (0 ..< app.session.cards(index, list: 2)).map { app.session.content(index, list: 2, card: $0) }
+        if !groceries.isEmpty {
             let items = Int(((bounds.width - 22) + space) / (width + space)) + 1
-            let counter = items - .init((CGFloat(needed) / .init(products)) * .init(items))
+            let counter = items - .init((CGFloat(groceries.filter { $0 == "0" }.count) / .init(groceries.count)) * .init(items))
             (0 ..< items).forEach {
                 let x = ((width + space) * .init($0)) + 2
                 let shape = CAShapeLayer()

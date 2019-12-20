@@ -1,6 +1,6 @@
 import AppKit
 
-final class Shopping: View {
+final class Shopping: View, NSTextViewDelegate {
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
@@ -31,6 +31,7 @@ final class Shopping: View {
         emoji.font = .regular(30)
         emoji.textContainer!.maximumNumberOfLines = 1
         (emoji.layoutManager as! Layout).padding = 2
+        emoji.delegate = self
         addSubview(emoji)
         self.emoji = emoji
         
@@ -85,12 +86,29 @@ final class Shopping: View {
         grocery.leftAnchor.constraint(equalTo: border.rightAnchor, constant: 35).isActive = true
         grocery.widthAnchor.constraint(equalToConstant: 250).isActive = true
         
-        _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 40).isActive = true
+        _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 10).isActive = true
         _add.centerXAnchor.constraint(equalTo: grocery.centerXAnchor).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         refresh()
+    }
+    
+    func textDidBeginEditing(_: Notification) {
+        app.orderFrontCharacterPalette(nil)
+    }
+    
+    func textView(_: NSTextView, shouldChangeTextIn: NSRange, replacementString: String?) -> Bool {
+       if replacementString?.mark({ mode, _ in mode }).first(where: { $0 != .emoji }) != nil {
+           return false
+       }
+       return true
+    }
+    
+    func textDidChange(_: Notification) {
+        if emoji.string.count > 1 {
+            emoji.string = .init(emoji.string.suffix(1))
+        }
     }
     
     override func refresh() {
@@ -121,6 +139,19 @@ final class Shopping: View {
         
         if top != nil {
             scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 20).isActive = true
+        }
+    }
+    
+    override func add() {
+        if !emoji.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !grocery.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            app.alert(.key("Grocery"), message: emoji.string.trimmingCharacters(in: .whitespacesAndNewlines) + " " + grocery.string.trimmingCharacters(in: .whitespacesAndNewlines))
+            app.session.add(app.project, list: 0, content: emoji.string.trimmingCharacters(in: .whitespacesAndNewlines))
+            app.session.add(app.project, list: 1, content: grocery.string.trimmingCharacters(in: .whitespacesAndNewlines))
+            app.session.add(app.project, list: 2, content: "0")
+            emoji.string = ""
+            grocery.string = ""
+            grocery.needsLayout = true
+            refresh()
         }
     }
 }

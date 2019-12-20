@@ -35,20 +35,20 @@ class Delete: Modal {
         }
     }
     
-    final class Product: Delete {
+    final class Grocery: Delete {
         private let index: Int
         
         init(_ index: Int) {
             self.index = index
             super.init()
-            let product = app.session.product(app.project, index: index)
-            name.stringValue = product.0 + " " + product.1
+            name.stringValue = app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index)
         }
         
         override func confirm() {
-            let product = app.session.product(app.project, index: index)
-            app.alert(.key("Delete.done"), message: product.0 + " " + product.1)
-            app.session.delete(app.project, product: index)
+            app.alert(.key("Delete.done"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
+            app.session.delete(app.project, list: 0, card: index)
+            app.session.delete(app.project, list: 1, card: index)
+            app.session.delete(app.project, list: 2, card: index)
             super.confirm()
         }
     }
