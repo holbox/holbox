@@ -16,7 +16,8 @@ struct Logo: View {
                               startAngle: .init(radians: prev),
                               endAngle: .init(radians: prev + self.deg2_5),
                               clockwise: false)
-                }.stroke(index > self.counter ? Color("background") : Color("haze"), lineWidth: 4)
+                }.stroke(index > self.counter ? Color("haze")
+                    .opacity(0.4) : Color("haze"), lineWidth: 4)
             }
             Path {
                 $0.addArc(center: .init(x: geo.size.width / 2, y: geo.size.height / 2),

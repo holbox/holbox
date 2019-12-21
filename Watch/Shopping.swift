@@ -1,25 +1,13 @@
 import SwiftUI
 
 struct Shopping: View {
-    @State var products: [(String, String)]
-    @State var references: [Int]
+    @State var groceries: [(String, String, String)]
     let project: Int
     
     var body: some View {
         ScrollView {
             Back(title: app.session.name(project))
-            Button(action: {
-                app.session.add(self.project, emoji: NSLocalizedString("Stock.add.emoji", comment: ""),
-                                description: NSLocalizedString("Stock.add.label", comment: ""))
-                withAnimation {
-                    self.refresh()
-                }
-            }) {
-                Image("plus")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
-            Products(products: $products, references: $references, project: project, refresh: refresh)
+            Products(groceries: $groceries, project: project, refresh: refresh)
                 .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
@@ -31,28 +19,26 @@ struct Shopping: View {
     }
     
     private func refresh() {
-        products = (0 ..< app.session.cards(project, list: 0)).map { app.session.product(project, index: $0) }
-        references = (0 ..< app.session.cards(project, list: 1)).map { Int(app.session.content(project, list: 1, card: $0))! }
+        groceries = (0 ..< app.session.cards(project, list: 0)).map {
+            (app.session.content(project, list: 0, card: $0),
+             app.session.content(project, list: 1, card: $0),
+             app.session.content(project, list: 2, card: $0))
+        }
     }
 }
 
 private struct Products: View {
-    @Binding var products: [(String, String)]
-    @Binding var references: [Int]
+    @Binding var groceries: [(String, String, String)]
     let project: Int
     let refresh: () -> Void
     
     var body: some View {
-        ForEach(0 ..< products.count, id: \.self) { index in
+        ForEach(0 ..< groceries.count, id: \.self) { index in
             Button(action: {
-                if let reference = self.references.firstIndex(of: index) {
-                    app.session.delete(self.project, list: 1, card: reference)
-                } else {
-                    app.session.add(self.project, reference: index)
-                }
+                app.session.content(self.project, list: 2, card: index, content: self.groceries[index].2 == "0" ? "1" : "0")
                 self.refresh()
             }) {
-                Product(stock: self.references.contains(index), emoji: self.products[index].0, description: self.products[index].1)
+                Product(stock: self.groceries[index].2 == "1", emoji: self.groceries[index].0, description: self.groceries[index].1)
             }.background(Color.clear)
                 .accentColor(.clear)
         }
