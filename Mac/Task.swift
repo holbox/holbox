@@ -36,7 +36,7 @@ final class Task: NSView, NSTextViewDelegate {
                                                      .bold: [.font: NSFont.medium(18), .foregroundColor: NSColor.white],
                                                      .tag: [.font: NSFont.medium(12), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
-        (text.layoutManager as! Layout).padding = 1
+        (text.layoutManager as! Layout).padding = 2
         text.intro = true
         text.tab = true
         text.string = app.session.content(app.project, list: list, card: index)

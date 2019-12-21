@@ -82,8 +82,8 @@ private final class Line: UIView {
         shape.lineWidth = 12
         shape.lineCap = .round
         shape.path = {
-            $0.move(to: .init(x: 6, y: 6))
-            $0.addLine(to: .init(x: 6, y: 106))
+            $0.move(to: .init(x: 6, y: 107))
+            $0.addLine(to: .init(x: 6, y: 7))
             return $0
         } (CGMutablePath())
         shape.strokeEnd = 0
@@ -94,8 +94,8 @@ private final class Line: UIView {
         base.strokeColor = .haze()
         base.lineWidth = 12
         base.path = {
-            $0.move(to: .init(x: 6, y: 6))
-            $0.addLine(to: .init(x: 6, y: 10))
+            $0.move(to: .init(x: 6, y: 107))
+            $0.addLine(to: .init(x: 6, y: 103))
             return $0
         } (CGMutablePath())
         base.addSublayer(shape)

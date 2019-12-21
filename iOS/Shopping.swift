@@ -1,6 +1,6 @@
 import UIKit
 
-final class Shopping: View {
+final class Shopping: View, UITextViewDelegate {
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
@@ -29,8 +29,8 @@ final class Shopping: View {
         
         let emoji = Text(.init())
         emoji.backgroundColor = .haze(0.2)
+        emoji.layer.cornerRadius = 6
         emoji.isScrollEnabled = false
-        emoji.isUserInteractionEnabled = false
         emoji.accessibilityLabel = .key("Emoji")
         emoji.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         emoji.font = .regular(30)
@@ -42,8 +42,8 @@ final class Shopping: View {
 
         let grocery = Text(Storage())
         grocery.backgroundColor = .haze(0.2)
+        grocery.layer.cornerRadius = 6
         grocery.isScrollEnabled = false
-        grocery.isUserInteractionEnabled = false
         grocery.accessibilityLabel = .key("Grocery")
         grocery.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         grocery.font = .regular(14)
@@ -88,6 +88,19 @@ final class Shopping: View {
         refresh()
     }
     
+    func textView(_: UITextView, shouldChangeTextIn: NSRange, replacementText: String) -> Bool {
+        if replacementText.mark({ mode, _ in mode }).first(where: { $0 != .emoji }) != nil {
+            return false
+        }
+        return true
+    }
+    
+    func textViewDidChange(_: UITextView) {
+        if emoji.text.count > 1 {
+            emoji.text = .init(emoji.text.suffix(1))
+        }
+    }
+    
     override func refresh() {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
@@ -97,14 +110,16 @@ final class Shopping: View {
             let grocery = Grocery($0, shopping: self)
             scroll.add(grocery)
             
-            if top != nil {
+            if $0 < app.session.cards(app.project, list: 0) - 1 {
                 let border = Border.horizontal(0.3)
                 grocery.addSubview(border)
                 
                 border.bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
                 border.leftAnchor.constraint(equalTo: grocery.leftAnchor).isActive = true
                 border.rightAnchor.constraint(equalTo: grocery.rightAnchor).isActive = true
-                
+            }
+            
+            if top != nil {
                 grocery.topAnchor.constraint(equalTo: top).isActive = true
             } else {
                 grocery.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
@@ -116,7 +131,7 @@ final class Shopping: View {
         }
         
         if top != nil {
-            border.topAnchor.constraint(greaterThanOrEqualTo: top, constant: 20).isActive = true
+            border.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
         }
         isUserInteractionEnabled = true
     }

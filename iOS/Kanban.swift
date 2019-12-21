@@ -45,24 +45,24 @@ final class Kanban: View {
         scroll.height.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: tags.bottomAnchor, constant: 20).isActive = true
         
-        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        tags.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: bars.widthAnchor, constant: 20).isActive = true
         tags.widthAnchor.constraint(greaterThanOrEqualTo: _column.widthAnchor, constant: 20).isActive = true
         tags.topAnchor.constraint(equalTo: _csv.bottomAnchor, constant: 30).isActive = true
         
         _column.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-        _column.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 10).isActive = true
+        _column.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+        _column.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 15).isActive = true
         
         _csv.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
         _csv.topAnchor.constraint(equalTo: _column.bottomAnchor).isActive = true
         
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         count.topAnchor.constraint(equalTo: bars.bottomAnchor).isActive = true
-        count.leftAnchor.constraint(equalTo: scroll.left, constant: 25).isActive = true
+        count.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         
         bars.topAnchor.constraint(equalTo: scroll.top, constant: 30).isActive = true
         bars.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true

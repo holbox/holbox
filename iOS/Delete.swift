@@ -56,7 +56,7 @@ class Delete: UIViewController {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            name.stringValue = app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index)
+            name.text = app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index)
         }
         
         override func confirm() {

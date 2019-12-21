@@ -14,9 +14,7 @@ final class Grocery: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         isAccessibilityElement = true
         accessibilityTraits = .button
-        
-        let product = app.session.reference(app.project, index: index)
-        accessibilityLabel = product.1
+        accessibilityLabel = app.session.content(app.project, list: 1, card: index)
 
         let emoji = Text(.init())
         emoji.isScrollEnabled = false
@@ -49,7 +47,7 @@ final class Grocery: UIView {
         height.isActive = true
 
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 25).isActive = true
         emoji.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
         grocery.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -64,7 +62,7 @@ final class Grocery: UIView {
             icon.tintColor = .haze()
             addSubview(icon)
             
-            icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+            icon.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
             icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
             icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
             icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -94,12 +92,12 @@ final class Grocery: UIView {
             guard let self = self, app.project != nil else { return }
             if self.bounds.contains(touches.first!.location(in: self)) {
                 self.shopping?.isUserInteractionEnabled = false
-                if app.session.content(app.project, list: 2, card: index) == "1" {
-                    app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-                    app.session.content(app.project, list: 2, card: index, content: "0")
+                if app.session.content(app.project, list: 2, card: self.index) == "1" {
+                    app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: self.index) + " " + app.session.content(app.project, list: 1, card: self.index))
+                    app.session.content(app.project, list: 2, card: self.index, content: "0")
                 } else {
-                    app.alert(.key("Grocery.got"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-                    app.session.content(app.project, list: 2, card: index, content: "1")
+                    app.alert(.key("Grocery.got"), message: app.session.content(app.project, list: 0, card: self.index) + " " + app.session.content(app.project, list: 1, card: self.index))
+                    app.session.content(app.project, list: 2, card: self.index, content: "1")
                 }
                 self.shopping?.refresh()
             }

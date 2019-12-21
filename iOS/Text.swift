@@ -28,7 +28,7 @@ class Text: UITextView {
         let border = Border.horizontal(1)
         accessory.addSubview(border)
         
-        let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .clear, UIColor(named: "haze")!)
+        let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .clear, .haze())
         accessory.addSubview(_done)
                 
         let _bold = Button("hash", target: self, action: #selector(bold))

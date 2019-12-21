@@ -6,8 +6,6 @@ final class Task: UIView, UITextViewDelegate {
     let list: Int
     private(set) weak var text: Text!
     private weak var todo: Todo!
-    private weak var icon: Image!
-    private weak var circle: UIView!
     private weak var base: UIView!
     private weak var _swipe: UIView!
     private weak var _delete: UIView!
@@ -26,9 +24,6 @@ final class Task: UIView, UITextViewDelegate {
         isAccessibilityElement = true
         accessibilityTraits = .button
         
-        let content = app.session.content(app.project, list: list, card: index)
-        accessibilityLabel = content
-        
         let base = UIView()
         base.isUserInteractionEnabled = false
         base.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +35,7 @@ final class Task: UIView, UITextViewDelegate {
         _delete.translatesAutoresizingMaskIntoConstraints = false
         _delete.layer.cornerRadius = 8
         _delete.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        _delete.backgroundColor = UIColor(named: "background")!
+        _delete.backgroundColor = .haze(0.2)
         addSubview(_delete)
         self._delete = _delete
         
@@ -48,46 +43,27 @@ final class Task: UIView, UITextViewDelegate {
         _swipe.isUserInteractionEnabled = false
         _swipe.translatesAutoresizingMaskIntoConstraints = false
         _swipe.alpha = 0
-        _swipe.backgroundColor = list == 0 ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.4)
+        _swipe.backgroundColor = list == 0 ? .haze() : .haze(0.4)
         addSubview(_swipe)
         self._swipe = _swipe
         
         let trash = Image("trash")
         addSubview(trash)
         
-        let circle = UIView()
-        circle.isUserInteractionEnabled = false
-        circle.translatesAutoresizingMaskIntoConstraints = false
-        circle.layer.cornerRadius = 13
-        addSubview(circle)
-        self.circle = circle
-        
-        let icon = Image("check")
-        addSubview(icon)
-        self.icon = icon
-        
-        let text = Text(.init())
+        let text = Text(Storage())
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 10, left: 15, bottom: 10, right: 15)
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular)
-//        if list == 0 {
-//            (text.textStorage as! Storage).fonts = [
-//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
-//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
-//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
-//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
-//        } else {
-//            (text.textStorage as! Storage).fonts = [
-//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
-//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
-//        }
-        text.delegate = self
+        text.font = .regular(14)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
+                                                     .emoji: [.font: UIFont.regular(20)],
+                                                     .bold: [.font: UIFont.medium(18), .foregroundColor: UIColor.white],
+                                                     .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
+        (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 2
-        text.text = content
+        text.delegate = self
+        text.text = app.session.content(app.project, list: list, card: index)
         addSubview(text)
         self.text = text
         
@@ -118,21 +94,15 @@ final class Task: UIView, UITextViewDelegate {
         trash.centerYAnchor.constraint(equalTo: _delete.centerYAnchor).isActive = true
         trash.leftAnchor.constraint(equalTo: _delete.leftAnchor, constant: 20).isActive = true
         
-        circle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        circle.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 10).isActive = true
-        circle.widthAnchor.constraint(equalToConstant: 26).isActive = true
-        circle.heightAnchor.constraint(equalToConstant: 26).isActive = true
-        
-        icon.widthAnchor.constraint(equalToConstant: 14).isActive = true
-        icon.heightAnchor.constraint(equalToConstant: 14).isActive = true
-        icon.centerXAnchor.constraint(equalTo: circle.centerXAnchor).isActive = true
-        icon.centerYAnchor.constraint(equalTo: circle.centerYAnchor).isActive = true
-        
         text.topAnchor.constraint(equalTo: base.topAnchor).isActive = true
-        text.leftAnchor.constraint(equalTo: circle.rightAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 20).isActive = true
         text.rightAnchor.constraint(equalTo: base.rightAnchor).isActive = true
 
         update()
+        
+        if list == 1 {
+            backgroundColor = .haze(0.3)
+        }
         
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(gesture(_:))))
     }
@@ -201,9 +171,7 @@ final class Task: UIView, UITextViewDelegate {
     }
     
     private func update() {
-        icon.isHidden = !active
-        circle.backgroundColor = active ? UIColor(named: "haze")! : UIColor(named: "haze")!.withAlphaComponent(0.1)
-        base.backgroundColor = highlighted ? UIColor(named: "background") : .clear
+        base.backgroundColor = highlighted ? .haze(0.2) : .clear
     }
     
     @objc private func gesture(_ gesture: UILongPressGestureRecognizer) {

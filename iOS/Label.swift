@@ -5,7 +5,7 @@ final class Label: UILabel {
     
     init(_ string: String, _ font: UIFont, _ color: UIColor) {
         super.init(frame: .zero)
-        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: size), weight: weight)
+        self.font = font
         text = string
         textColor = color
         accessibilityLabel = string

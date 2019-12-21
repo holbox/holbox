@@ -40,7 +40,7 @@ final class Tags: UIView {
                 let tag = Tag($0.0, count: $0.1)
                 addSubview(tag)
                 
-                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor, constant: 10).isActive = true
+                rightAnchor.constraint(greaterThanOrEqualTo: tag.rightAnchor).isActive = true
                 tag.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
                 tag.topAnchor.constraint(equalTo: top).isActive = true
                 top = tag.bottomAnchor

@@ -15,30 +15,30 @@ final class Tag: UIView {
         let base = UIView()
         base.isUserInteractionEnabled = false
         base.translatesAutoresizingMaskIntoConstraints = false
-        base.backgroundColor = UIColor(named: "haze")!
+        base.backgroundColor = .haze()
         base.layer.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, 14, .bold, .black)
+        let label = Label("#" + name, .regular(12), .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.isAccessibilityElement = false
         addSubview(label)
         
-        let _count = Label("\(count)", 14, .medium, UIColor(named: "haze")!)
+        let _count = Label("\(count)", .regular(12), .haze())
         _count.isAccessibilityElement = false
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(_count)
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true
-        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 10).isActive = true
+        rightAnchor.constraint(equalTo: _count.rightAnchor, constant: 5).isActive = true
         
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        base.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 26).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 7).isActive = true
+        base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 6).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 7).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 6).isActive = true
         
         _count.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 5).isActive = true

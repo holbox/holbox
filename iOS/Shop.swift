@@ -61,6 +61,10 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         title.leftAnchor.constraint(equalTo: _close.rightAnchor).isActive = true
         title.centerYAnchor.constraint(equalTo: _close.centerYAnchor).isActive = true
         
+        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
+        border.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
         logo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logo.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
@@ -74,7 +78,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         message.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
+        _restore.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
         
         loading()

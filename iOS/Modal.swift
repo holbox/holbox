@@ -16,7 +16,7 @@ class Modal: UIViewController {
     final func addClose() {
         let _close = Button("clear", target: self, action: #selector(close))
         view.addSubview(_close)
-        self._close = self.close()
+        self._close = _close
         
         _close.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         _close.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true

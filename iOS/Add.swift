@@ -108,12 +108,12 @@ final class Add: Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 130).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 140).isActive = true
             name.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
             _confirm.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 260).isActive = true
+            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 220).isActive = true
             
             cancel.topAnchor.constraint(equalTo: _confirm.bottomAnchor).isActive = true
             

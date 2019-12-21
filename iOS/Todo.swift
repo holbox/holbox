@@ -14,16 +14,16 @@ final class Todo: View, UITextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let new = Text(.init())
+        let new = Text(Storage())
         new.isScrollEnabled = false
         new.textContainerInset = .init(top: 20, left: 30, bottom: 20, right: 30)
         new.accessibilityLabel = .key("Project")
         new.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
-//        (new.textStorage as! Storage).fonts = [
-//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), .white),
-//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .regular), .white),
-//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .bold), UIColor(named: "haze")!),
-//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
+        new.font = .regular(14)
+        (new.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
+                                                     .emoji: [.font: UIFont.regular(20)],
+                                                     .bold: [.font: UIFont.medium(18), .foregroundColor: UIColor.white],
+                                                     .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
         new.delegate = self
         (new.layoutManager as! Layout).padding = 2
         scroll.add(new)
@@ -45,10 +45,10 @@ final class Todo: View, UITextViewDelegate {
         scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
-        ring.topAnchor.constraint(equalTo: scroll.top).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 10).isActive = true
+        ring.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         
-        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: -20).isActive = true
+        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 10).isActive = true
         new.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         new.rightAnchor.constraint(equalTo: scroll.right).isActive = true
         
@@ -103,7 +103,7 @@ final class Todo: View, UITextViewDelegate {
         scroll.views.compactMap { $0 as? Task }.forEach {
             $0.text.textStorage.removeAttribute(.backgroundColor, range: .init(location: 0, length: $0.text.text.utf16.count))
             if $0.list == list && $0.index == card {
-                $0.text.textStorage.addAttribute(.backgroundColor, value: UIColor(named: "haze")!.withAlphaComponent(0.6), range: range)
+                $0.text.textStorage.addAttribute(.backgroundColor, value: UIColor.haze(0.6), range: range)
                 scroll.center(scroll.content.convert($0.text.layoutManager.boundingRect(forGlyphRange: range, in: $0.text.textContainer), from: $0))
             }
         }

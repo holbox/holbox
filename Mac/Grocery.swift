@@ -34,7 +34,7 @@ final class Grocery: NSView, NSTextViewDelegate {
                                                         .bold: [.font: NSFont.medium(16), .foregroundColor: NSColor.white],
                                                         .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
         (grocery.layoutManager as! Layout).owns = true
-        (grocery.layoutManager as! Layout).padding = 1
+        (grocery.layoutManager as! Layout).padding = 2
         grocery.string = app.session.content(app.project, list: 1, card: index)
         grocery.tab = true
         grocery.intro = true
