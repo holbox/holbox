@@ -38,9 +38,9 @@ final class Tasker: NSView, NSTextViewDelegate {
         text.selectedTextAttributes = [.backgroundColor: NSColor(white: 0, alpha: 0.2)]
         text.font = .regular(14)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.black],
-                                                     .emoji: [.font: NSFont.regular(24)],
-                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.black],
-                                                     .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.black]]
+                                                     .emoji: [.font: NSFont.regular(20)],
+                                                     .bold: [.font: NSFont.medium(18), .foregroundColor: NSColor.black],
+                                                     .tag: [.font: NSFont.medium(12), .foregroundColor: NSColor.black]]
         text.intro = true
         text.tab = true
         (text.layoutManager as! Layout).padding = 2

@@ -3,7 +3,7 @@ import AppKit
 final class Privacy: Modal {
     init() {
         super.init(500, 400)
-        let label = Label([(.key("Privacy.title") + "\n\n", .bold(16), .haze()),
+        let label = Label([(.key("Privacy.title") + "\n\n", .medium(16), .haze()),
                            (.key("Privacy.label"), .regular(14), .white)])
         contentView!.addSubview(label)
         

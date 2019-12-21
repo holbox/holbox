@@ -76,7 +76,7 @@ class Delete: Modal {
         let icon = Image("trash")
         contentView!.addSubview(icon)
         
-        let title = Label(.key("Delete.title"), .bold(14), .haze())
+        let title = Label(.key("Delete.title"), .medium(14), .haze())
         contentView!.addSubview(title)
         
         let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .haze(0.7))

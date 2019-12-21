@@ -58,8 +58,8 @@ final class Card: NSView, NSTextViewDelegate {
         text.font = .regular(14)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont.regular(24)],
-                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.white],
-                                                     .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
+                                                     .bold: [.font: NSFont.medium(20), .foregroundColor: NSColor.white],
+                                                     .tag: [.font: NSFont.medium(12), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 2
         text.delegate = self

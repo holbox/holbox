@@ -19,7 +19,7 @@ final class Purchase: NSView {
         addSubview(image)
         
         let title = Label([
-            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .bold(26), .haze()),
+            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .medium(26), .haze()),
             (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(16), .haze())])
         addSubview(title)
         

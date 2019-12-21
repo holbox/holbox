@@ -31,7 +31,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
                                                         .emoji: [.font: NSFont.regular(14)],
-                                                        .bold: [.font: NSFont.medium(18), .foregroundColor: NSColor.white],
+                                                        .bold: [.font: NSFont.medium(16), .foregroundColor: NSColor.white],
                                                         .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
         (grocery.layoutManager as! Layout).owns = true
         (grocery.layoutManager as! Layout).padding = 1

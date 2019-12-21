@@ -13,10 +13,6 @@ extension NSFont {
     class func medium(_ size: CGFloat) -> NSFont {
         NSFont(name: "Rubik-Medium", size: size)!
     }
-    
-    class func bold(_ size: CGFloat) -> NSFont {
-        NSFont(name: "Rubik-Bold", size: size)!
-    }
 }
 #endif
 #if os(iOS)

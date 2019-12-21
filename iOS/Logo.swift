@@ -25,7 +25,7 @@ final class Logo: UIView {
             }
             self.rays.sublayers!.enumerated().forEach {
                 if $0.0 > self.counter {
-                    ($0.1 as! CAShapeLayer).strokeColor = UIColor(named: "background")!.cgColor
+//                    ($0.1 as! CAShapeLayer).strokeColor = UIColor(named: "background")!.cgColor
                 } else {
                     ($0.1 as! CAShapeLayer).strokeColor = UIColor(named: "haze")!.cgColor
                 }

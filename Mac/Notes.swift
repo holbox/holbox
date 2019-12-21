@@ -34,8 +34,8 @@ final class Notes: View, NSTextViewDelegate {
         text.font = .regular(18)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(18), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont.regular(30)],
-                                                     .bold: [.font: NSFont.bold(28), .foregroundColor: NSColor.haze()],
-                                                     .tag: [.font: NSFont.medium(18), .foregroundColor: NSColor.haze()]]
+                                                     .bold: [.font: NSFont.medium(24), .foregroundColor: NSColor.haze()],
+                                                     .tag: [.font: NSFont.medium(16), .foregroundColor: NSColor.haze()]]
         text.tab = true
         text.intro = true
         text.caret = 4
@@ -169,9 +169,9 @@ final class Notes: View, NSTextViewDelegate {
                 let label = Label(string.mark {
                     switch $0 {
                     case .plain: return (.init(string[$1]), .regular(12), .black)
-                    case .bold: return (.init(string[$1].dropFirst(2)), .bold(22), .black)
+                    case .bold: return (.init(string[$1].dropFirst(2)), .medium(18), .black)
                     case .emoji: return (.init(string[$1]), .regular(26), .black)
-                    case .tag: return (.init(string[$1]), .medium(12), .black)
+                    case .tag: return (.init(string[$1]), .medium(10), .black)
                     }
                 })
                 view.addSubview(label)
