@@ -3,7 +3,6 @@ import AppKit
 final class Settings: Modal {
     init() {
         super.init(440, 400)
-        
         let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
         contentView!.addSubview(_spell)

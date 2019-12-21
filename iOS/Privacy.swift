@@ -6,8 +6,8 @@ final class Privacy: Modal {
         let scroll = Scroll()
         view.addSubview(scroll)
         
-        let label = Label([(.key("Privacy.title") + "\n\n", 24, .bold, UIColor(named: "haze")!),
-                           (.key("Privacy.label"), 14, .regular, .white)])
+        let label = Label([(.key("Privacy.title") + "\n\n", .medium(16), .haze()),
+                           (.key("Privacy.label"), .regular(14), .white)])
         scroll.add(label)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true

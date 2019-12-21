@@ -26,7 +26,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         let grocery = Text(.Fix(), Editable(), storage: Storage())
         grocery.textContainerInset.width = 10
         grocery.textContainerInset.height = 15
-        grocery.setAccessibilityLabel(.key("Emoji"))
+        grocery.setAccessibilityLabel(.key("Grocery"))
         grocery.textColor = .white
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
@@ -123,7 +123,7 @@ final class Grocery: NSView, NSTextViewDelegate {
             if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
                 window!.makeFirstResponder(self)
                 app.runModal(for: Delete.Grocery(index))
-            } else if window!.firstResponder != emoji {
+            } else if window!.firstResponder != grocery {
                 if app.session.content(app.project, list: 2, card: index) == "1" {
                     app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
                     app.session.content(app.project, list: 2, card: index, content: "0")

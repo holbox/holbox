@@ -1,6 +1,6 @@
 import UIKit
 
-final class Lines: Chart {
+final class Lines: UIView {
     private let index: Int
     private let width = CGFloat(10)
     private let space = CGFloat(15)
@@ -8,7 +8,9 @@ final class Lines: Chart {
     required init?(coder: NSCoder) { nil }
     init(_ index: Int) {
         self.index = index
-        super.init()
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
     }
     
     override func draw(_: CGRect) {
@@ -19,9 +21,9 @@ final class Lines: Chart {
         var x = (bounds.width - ((.init(cards.count) * (width + space)) - space)) / 2
         cards.forEach { card in
             let shape = CAShapeLayer()
-            shape.strokeColor = UIColor(named: "haze")!.cgColor
+            shape.strokeColor = .haze()
             shape.lineWidth = width
-            shape.fillColor = UIColor.clear.cgColor
+            shape.fillColor = .clear
             let y: CGFloat
             if total > 0 && card > 0 {
                 shape.lineCap = .round

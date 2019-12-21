@@ -19,61 +19,63 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addClose()
         formatter.numberStyle = .currencyISOCode
         
         let scroll = Scroll()
         view.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), 20, .bold, UIColor(named: "haze")!)
-        scroll.add(title)
+        let title = Label(.key("Shop.title"), .medium(14), .haze())
+        view.addSubview(title)
+        
+        let border = Border.horizontal()
+        view.addSubview(border)
         
         let logo = Logo()
-        scroll.add(logo)
+        view.addSubview(logo)
         self.logo = logo
         
         let image = Image("error")
         image.isHidden = true
-        scroll.add(image)
+        view.addSubview(image)
         self.image = image
         
-        let message = Label("", 16, .regular, .init(white: 1, alpha: 0.8))
+        let message = Label("", .regular(14), .init(white: 1, alpha: 0.8))
         message.isHidden = true
-        scroll.add(message)
+        view.addSubview(message)
         self.message = message
         
-        let _restore = Control(.key("Shop.restore"), self, #selector(restore), UIColor(named: "haze")!, .black)
+        let _restore = Control(.key("Shop.restore"), self, #selector(restore), .haze(), .black)
         _restore.isHidden = true
-        scroll.add(_restore)
+        view.addSubview(_restore)
         self._restore = _restore
         
-        scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
+        scroll.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.width.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: logo.bottomAnchor, constant: 100).isActive = true
         
-        title.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        title.topAnchor.constraint(equalTo: scroll.top, constant: 65).isActive = true
+        title.leftAnchor.constraint(equalTo: _close.rightAnchor).isActive = true
+        title.centerYAnchor.constraint(equalTo: _close.centerYAnchor).isActive = true
         
-        logo.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        logo.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 100).isActive = true
+        logo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logo.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
-        image.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        image.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 40).isActive = true
+        image.leftAnchor.constraint(equalTo: title.leftAnchor).isActive = true
         image.widthAnchor.constraint(equalToConstant: 30).isActive = true
         image.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         message.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20).isActive = true
-        message.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-        message.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -20).isActive = true
+        message.leftAnchor.constraint(equalTo: title.leftAnchor).isActive = true
+        message.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
-        _restore.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
+        _restore.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
-        
-        addClose()
         
         loading()
         SKPaymentQueue.default().add(self)
@@ -121,7 +123,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         message.isHidden = true
         message.text = ""
         logo.stop()
-        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         var top: NSLayoutYAxisAnchor?
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
@@ -147,7 +149,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     
     private func loading() {
         logo.start()
-        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = true
         message.isHidden = true
@@ -157,7 +159,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     private func error(_ error: String) {
         app.alert(.key("Error"), message: error)
         logo.stop()
-        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = false
         message.isHidden = false

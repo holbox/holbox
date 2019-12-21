@@ -65,15 +65,7 @@ final class Timeline: NSView {
                 time.addLine(to: .init(x: (((bounds.width - 40) / slots) * .init($0.0)) + 30, y: ((bounds.height - 60) * ($0.1 / max)) + 30))
             }
             
-            let date = Date(timeIntervalSince1970: .init(dates.last!))
-            if #available(OSX 10.15, *) {
-                start.stringValue = RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
-            } else {
-                let formatter = DateFormatter()
-                formatter.timeStyle = .short
-                formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
-                start.stringValue = formatter.string(from: date)
-            }
+            start.stringValue = Date(timeIntervalSince1970: .init(dates.last!)).interval
         }
         
         time.addLine(to: .init(x: bounds.maxX - 2, y: 30))

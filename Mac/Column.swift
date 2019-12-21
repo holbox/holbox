@@ -22,6 +22,7 @@ final class Column: NSView, NSTextViewDelegate {
         text.textColor = .haze()
         text.string = app.session.name(app.project, list: index)
         text.textContainer!.maximumNumberOfLines = 1
+        (text.layoutManager as! Layout).padding = 2
         text.textContainer!.widthTracksTextView = false
         text.textContainer!.size.width = 300
         addSubview(text)
@@ -50,7 +51,7 @@ final class Column: NSView, NSTextViewDelegate {
         text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         
         _delete.leftAnchor.constraint(equalTo: leftAnchor, constant: -5).isActive = true
-        _delete.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 1).isActive = true
+        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
         

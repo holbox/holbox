@@ -18,7 +18,7 @@ class Option: UIView {
     final class Check: Option {
         var on = false {
             didSet {
-                circle.backgroundColor = on ? UIColor(named: "haze")! : .clear
+                circle.backgroundColor = on ? .haze() : .clear
                 check.alpha = on ? 1 : 0
                 accessibilityValue = "\(on)"
             }
@@ -35,7 +35,7 @@ class Option: UIView {
             circle.isUserInteractionEnabled = false
             circle.layer.cornerRadius = 11
             circle.layer.borderWidth = 2
-            circle.layer.borderColor = UIColor(named: "haze")!.cgColor
+            circle.layer.borderColor = .haze()
             addSubview(circle)
             self.circle = circle
             
@@ -71,7 +71,7 @@ class Option: UIView {
         layer.cornerRadius = 4
         self.settings = settings
         
-        let label = Label(title, 16, .regular, UIColor(named: "haze")!)
+        let label = Label(title, .regular(13), .haze())
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -84,7 +84,7 @@ class Option: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.35) { [weak self] in
-            self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.3)
+            self?.backgroundColor = .haze(0.3)
         }
         super.touchesBegan(touches, with: with)
     }

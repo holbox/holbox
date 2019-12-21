@@ -20,7 +20,7 @@ final class Progress: NSView {
         let second = first + (.pi * 2) * (waiting / total)
         
         let center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-        let radius = min(bounds.width, bounds.height) / 2
+        let radius = min(bounds.width, bounds.height) / 2.2
         
         let border = CAShapeLayer()
         border.fillColor = .clear

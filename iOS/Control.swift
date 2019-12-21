@@ -21,7 +21,7 @@ final class Control: UIView {
         base.layer.cornerRadius = 8
         addSubview(base)
         
-        let label = Label(title, 14, .bold, text)
+        let label = Label(title, .medium(12), text)
         label.isAccessibilityElement = false
         addSubview(label)
         

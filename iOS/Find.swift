@@ -38,7 +38,7 @@ final class Find: UIView, UITextViewDelegate {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.layer.cornerRadius = 17
         base.layer.borderWidth = 0
-        base.layer.borderColor = UIColor(named: "haze")!.cgColor
+        base.layer.borderColor = .haze()
         addSubview(base)
         self.base = base
         
@@ -47,18 +47,15 @@ final class Find: UIView, UITextViewDelegate {
         text.isUserInteractionEnabled = false
         text.accessibilityLabel = .key("Search")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
-//        (text.textStorage as! Storage).fonts = [
-//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
-//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
-//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!),
-//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!)]
+        text.font = .light(14)
+        text.textColor = .white
         text.textContainer.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
         text.delegate = self
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", 12, .light, UIColor(named: "haze")!)
+        let _counter = Label("", .light(12), .haze())
         addSubview(_counter)
         self._counter = _counter
         

@@ -13,7 +13,7 @@ final class Circle: UIView {
         configure(background)
         accessibilityLabel = title
         
-        let label = Label(title, 14, .bold, text)
+        let label = Label(title, .medium(12), text)
         label.isAccessibilityElement = false
         addSubview(label)
         

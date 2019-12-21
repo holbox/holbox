@@ -122,7 +122,7 @@ final class Kanban: View {
                     top!.child = card
                 }
 
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
                 card.column = column
                 card.update(false)
                 top = card
@@ -133,7 +133,7 @@ final class Kanban: View {
             left = column.rightAnchor
         }
         
-        scroll.right.constraint(greaterThanOrEqualTo: left, constant: 40).isActive = true
+        scroll.right.constraint(greaterThanOrEqualTo: left, constant: 50).isActive = true
         tags.refresh()
         charts()
     }

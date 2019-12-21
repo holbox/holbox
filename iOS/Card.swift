@@ -36,7 +36,7 @@ final class Card: Text, UITextViewDelegate {
     init(_ kanban: Kanban, index: Int) {
         self.index = index
         self.kanban = kanban
-        super.init(.init())
+        super.init(Storage())
         isScrollEnabled = false
         textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         isEditable = false

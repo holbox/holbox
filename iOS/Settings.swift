@@ -11,8 +11,8 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         logo.contentMode = .scaleAspectFit
         scroll.add(logo)
         
-        let title = Label([(.key("About.title") + "\n", 16, .bold, .white),
-                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, 16, .light, .white)])
+        let title = Label([(.key("About.title") + "\n", .medium(16), .white),
+                           (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .light(16), .white)])
         scroll.add(title)
         
         let _spell = Option.Check(.key("Settings.spell"), settings: self)

@@ -1,5 +1,4 @@
 import AppKit
-import NaturalLanguage
 
 final class Project: NSView {
     weak var top: NSLayoutConstraint! { didSet { top.isActive = true } }

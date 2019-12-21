@@ -17,14 +17,14 @@ final class Columner: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .init(white: 0, alpha: 0.8)
         
-        let _done = Circle(.key("Columner.done"), self, #selector(close), UIColor(named: "haze")!, .black)
+        let _done = Circle(.key("Columner.done"), self, #selector(close), .haze(), .black)
         view.addSubview(_done)
         
-        let _delete = Circle(image: "trash", self, #selector(remove), UIColor(named: "haze")!, .black)
+        let _delete = Circle(image: "trash", self, #selector(remove), .haze(), .black)
         _delete.accessibilityLabel = .key("Move.delete")
         view.addSubview(_delete)
         
-        let _edit = Circle(image: "write", self, #selector(edit), UIColor(named: "haze")!, .black)
+        let _edit = Circle(image: "write", self, #selector(edit), .haze(), .black)
         _edit.accessibilityLabel = .key("Move.edit")
         view.addSubview(_edit)
         

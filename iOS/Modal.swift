@@ -1,6 +1,8 @@
 import UIKit
 
 class Modal: UIViewController {
+    private(set) weak var _close: Button!
+    
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -14,6 +16,7 @@ class Modal: UIViewController {
     final func addClose() {
         let _close = Button("clear", target: self, action: #selector(close))
         view.addSubview(_close)
+        self._close = self.close()
         
         _close.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         _close.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true

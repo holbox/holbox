@@ -123,7 +123,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     
     private func loading() {
         logo.start()
-        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = true
         message.isHidden = true
@@ -133,7 +133,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
     private func error(_ error: String) {
         app.alert(.key("Error"), message: error)
         logo.stop()
-        scroll.views.filter { $0 is Purchase }.forEach { $0.removeFromSuperview() }
+        scroll.views.forEach { $0.removeFromSuperview() }
         _restore.isHidden = true
         image.isHidden = false
         message.isHidden = false

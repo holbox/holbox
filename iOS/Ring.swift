@@ -1,24 +1,23 @@
 import UIKit
 
-final class Ring: Chart {
+final class Ring: UIView {
     var current = CGFloat()
     var total = CGFloat()
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
-    private weak var label: Label!
     private var last = CGFloat()
-    private let formatter = NumberFormatter()
-    private let middle = CGPoint(x: 60, y: 70)
+    private let middle = CGPoint(x: 50, y: 50)
     
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
-        formatter.numberStyle = .percent
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
         
         let off = CAShapeLayer()
-        off.fillColor = UIColor.clear.cgColor
+        off.fillColor = .clear
         off.lineWidth = 4
-        off.strokeColor = UIColor(named: "haze")!.withAlphaComponent(0.2).cgColor
+        off.strokeColor = .haze(0.2)
         off.path = {
             $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
@@ -26,10 +25,10 @@ final class Ring: Chart {
         layer.addSublayer(off)
         
         let on = CAShapeLayer()
-        on.fillColor = UIColor.clear.cgColor
+        on.fillColor = .clear
         on.lineWidth = 8
         on.lineCap = .round
-        on.strokeColor = UIColor(named: "haze")!.cgColor
+        on.strokeColor = .haze()
         on.path = {
             $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
@@ -38,23 +37,16 @@ final class Ring: Chart {
         layer.addSublayer(on)
         self.on = on
         
-        let percent = Label("", 18, .bold, UIColor(named: "haze")!)
+        let percent = Label([])
+        percent.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(percent)
         self.percent = percent
         
-        let label = Label([])
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        addSubview(label)
-        self.label = label
-        
-        rightAnchor.constraint(equalTo: label.rightAnchor, constant: 5).isActive = true
-        heightAnchor.constraint(equalToConstant: 140).isActive = true
+        heightAnchor.constraint(equalToConstant: 100).isActive = true
+        widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: middle.x).isActive = true
-        
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
     }
     
     func refresh() {
@@ -70,19 +62,6 @@ final class Ring: Chart {
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
         
-        UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.label.alpha = 0
-            self?.percent.alpha = 0
-        }) { [weak self] _ in
-            guard let self = self else { return }
-            self.label.attributed([("\(Int(self.current))\n", 22, .bold, UIColor(named: "haze")!),
-                                    ("\(Int(self.total))", 14, .regular, UIColor(named: "haze")!)])
-            self.percent.text = self.formatter.string(from: .init(value: Double(amount)))!
-            
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.label.alpha = 1
-                self?.percent.alpha = 1
-            }
-        }
+        percent.attributed([("\(Int(amount * 100))", .medium(16), .haze()), ("%", .regular(10), .haze())])
     }
 }

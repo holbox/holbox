@@ -45,7 +45,7 @@ class Delete: UIViewController {
         }
     }
     
-    final class Product: Delete {
+    final class Grocery: Delete {
         private let index: Int
         
         required init?(coder: NSCoder) { nil }
@@ -56,14 +56,14 @@ class Delete: UIViewController {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            let product = app.session.product(app.project, index: index)
-            name.text = product.0 + " " + product.1
+            name.stringValue = app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index)
         }
         
         override func confirm() {
-            let product = app.session.product(app.project, index: index)
-            app.alert(.key("Delete.done"), message: product.0 + " " + product.1)
-            app.session.delete(app.project, product: index)
+            app.alert(.key("Delete.done"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
+            app.session.delete(app.project, list: 0, card: index)
+            app.session.delete(app.project, list: 1, card: index)
+            app.session.delete(app.project, list: 2, card: index)
             super.confirm()
         }
     }
@@ -103,27 +103,27 @@ class Delete: UIViewController {
         base.translatesAutoresizingMaskIntoConstraints = false
         base.layer.cornerRadius = 10
         base.layer.borderWidth = 1
-        base.layer.borderColor = UIColor(named: "haze")!.withAlphaComponent(0.4).cgColor
+        base.layer.borderColor = .haze(0.4)
         view.addSubview(base)
         
         let icon = Image("trash")
         view.addSubview(icon)
         
-        let title = Label(.key("Delete.title"), 18, .bold, UIColor(named: "haze")!)
+        let title = Label(.key("Delete.title"), .medium(14), .haze())
         view.addSubview(title)
         
-        let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, UIColor(named: "haze")!.withAlphaComponent(0.7))
+        let cancel = Control(.key("Delete.cancel"), self, #selector(close), .clear, .haze(0.7))
         view.addSubview(cancel)
         
-        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), UIColor(named: "haze")!, .black)
+        let _confirm = Control(.key("Delete.confirm"), self, #selector(confirm), .haze(), .black)
         view.addSubview(_confirm)
         
-        let name = Label("", 18, .regular, UIColor(named: "haze")!)
-        name.numberOfLines = 3
+        let name = Label("", .regular(14), .haze())
+        name.numberOfLines = 2
         view.addSubview(name)
         self.name = name
         
-        name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
+        name.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
         name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
         name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
 
@@ -147,10 +147,6 @@ class Delete: UIViewController {
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: 10).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        
-        name.topAnchor.constraint(equalTo: base.centerYAnchor, constant: -70).isActive = true
-        name.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 30).isActive = true
-        name.rightAnchor.constraint(lessThanOrEqualTo: base.rightAnchor, constant: -30).isActive = true
     }
     
     @objc private func confirm() {

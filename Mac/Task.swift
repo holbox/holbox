@@ -54,18 +54,7 @@ final class Task: NSView, NSTextViewDelegate {
         } else {
             layer!.backgroundColor = .haze(0.2)
             
-            let date = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!)
-            let interval: String
-            if #available(OSX 10.15, *) {
-                interval = RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
-            } else {
-                let formatter = DateFormatter()
-                formatter.timeStyle = .short
-                formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
-                interval = formatter.string(from: date)
-            }
-        
-            let time = Label(interval, .regular(12), .haze())
+            let time = Label(Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!), .regular(12), .haze())
             addSubview(time)
             
             time.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true

@@ -113,12 +113,12 @@ final class Bar: NSView, NSTextViewDelegate {
         name.font = .medium(14)
         name.textColor = .haze()
         name.textContainer!.maximumNumberOfLines = 1
-        (name.layoutManager as! Layout).padding = 1
+        (name.layoutManager as! Layout).padding = 2
         name.string = app.session.name(app.project)
         addSubview(name)
         
         name.leftAnchor.constraint(equalTo: leftAnchor, constant: 120).isActive = true
-        name.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1).isActive = true
+        name.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         name.didChangeText()
         name.delegate = self
         

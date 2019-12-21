@@ -1,5 +1,4 @@
 import UIKit
-import NaturalLanguage
 
 final class Project: UIView {
     weak var top: NSLayoutConstraint! { didSet { top.isActive = true } }
@@ -7,6 +6,7 @@ final class Project: UIView {
     let order: Int
     private weak var _delete: Image!
     private let index: Int
+    private let formatter = NumberFormatter()
 
     private var detail: String {
         switch app.session.mode(index) {
@@ -20,63 +20,30 @@ final class Project: UIView {
     
     private var _kanban: String {
         "\(app.session.lists(index)) " + .key("Project.columns") + "\n" +
-            "\((0 ..< app.session.lists(index)).map { app.session.cards(index, list: $0) }.reduce(0, +)) " + .key("Project.cards") + "\n"
+        "\((0 ..< app.session.lists(index)).map { app.session.cards(index, list: $0) }.reduce(0, +)) " + .key("Project.cards") + "\n"
     }
     
     private var _todo: String {
-        let waiting = app.session.cards(index, list: 0)
-        let done = app.session.cards(index, list: 1)
-        return "\(waiting + done) " + .key("Project.tasks") + "\n"
-            + "\(waiting) " + .key("Project.waiting") + "\n"
-            + "\(done) " + .key("Project.done") + "\n"
+        "\(app.session.cards(index, list: 0) + app.session.cards(index, list: 1)) " + .key("Project.tasks") + "\n"
+            + "\(app.session.cards(index, list: 0)) " + .key("Project.waiting") + "\n"
+            + "\(app.session.cards(index, list: 1)) " + .key("Project.done") + "\n"
     }
     
     private var _shopping: String {
-        "\(app.session.cards(index, list: 0)) " + .key("Project.products") + "\n" +
-            "\(app.session.cards(index, list: 1)) " + .key("Project.needed") + "\n"
+        "\(app.session.cards(index, list: 2)) " + .key("Project.products") + "\n" +
+            "\( (0 ..< app.session.cards(index, list: 2)).reduce(into: 0) { $0 += app.session.content(index, list: 2, card: $1) == "0" ? 1 : 0 } ) " + .key("Project.need") + "\n" +
+            "\( (0 ..< app.session.cards(index, list: 2)).reduce(into: 0) { $0 += app.session.content(index, list: 2, card: $1) == "1" ? 1 : 0 } ) " + .key("Project.have") + "\n"
     }
     
     private var _notes: String {
         let content = app.session.content(index, list: 0, card: 0)
-        var paragraphs = 0, sentences = 0, lines = 0, words = 0
-        content.enumerateSubstrings(in: content.startIndex..., options: .byParagraphs) { _, _, _, _ in paragraphs += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .bySentences) { _, _, _, _ in sentences += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .byLines) { _, _, _, _ in lines += 1 }
-        content.enumerateSubstrings(in: content.startIndex..., options: .byWords) { _, _, _, _ in words += 1 }
-        
-        var string = ""
-        if #available(iOS 13.0, *) {
-            let tagger = NLTagger(tagSchemes: [.language, .sentimentScore])
-            tagger.string = content
-            
-            switch tagger.tag(at: string.startIndex, unit: .document, scheme: .language).0?.rawValue {
-            case "en":
-                string += .key("Project.english") + "\n"
-            case "de":
-                string += .key("Project.german") + "\n"
-            case "es":
-                string += .key("Project.spanish") + "\n"
-            case "fr":
-                string += .key("Project.french") + "\n"
-            default: break
-            }
-            
-            let score = Double(tagger.tag(at: string.startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
-            if score == 0 {
-                string += .key("Project.neutral") + "\n"
-            } else if score > 0 {
-                string += .key("Project.positive") + "\n"
-            } else {
-                string += .key("Project.negative") + "\n"
-            }
-        }
-        
-        string += "\(paragraphs) " + .key("Project.paragraphs") + "\n"
-        string += "\(sentences) " + .key("Project.sentences") + "\n"
-        string += "\(lines) " + .key("Project.lines") + "\n"
-        string += "\(words) " + .key("Project.words") + "\n"
-        string += .key("Project.created") + " " + interval(.init(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!))
-        return string + "\n"
+        return content.language + "\n" + content.sentiment + "\n" +
+            formatter.string(from: .init(value: content.paragraphs))! + " " + .key("Project.paragraphs") + "\n" +
+            formatter.string(from: .init(value: content.sentences))! + " " + .key("Project.sentences") + "\n" +
+            formatter.string(from: .init(value: content.lines))! + " " + .key("Project.lines") + "\n" +
+            formatter.string(from: .init(value: content.words))! + " " + .key("Project.words") + "\n" +
+            formatter.string(from: .init(value: content.count))! + " " + .key("Project.characters") + "\n" +
+            .key("Project.created") + " " + Date(timeIntervalSince1970: TimeInterval(app.session.name(index, list: 0))!).interval + "\n"
     }
     
     required init?(coder: NSCoder) { nil }
@@ -90,12 +57,13 @@ final class Project: UIView {
         accessibilityLabel = app.session.name(index)
         layer.cornerRadius = 8
         clipsToBounds = true
+        formatter.numberStyle = .decimal
         
-        let label = Label(app.session.name(index), 16, .bold, UIColor(named: "haze")!)
+        let label = Label(app.session.name(index), .medium(14), .haze())
         label.isAccessibilityElement = false
         addSubview(label)
         
-        let info = Label(detail + .key("Project.modified") + " " + interval(app.session.time(index)), 13, .regular, UIColor(named: "haze")!)
+        let info = Label(detail + .key("Project.modified") + " " + app.session.time(index).interval, .regular(12), .haze())
         info.isAccessibilityElement = false
         addSubview(info)
         
@@ -119,7 +87,7 @@ final class Project: UIView {
         _delete.widthAnchor.constraint(equalToConstant: 50).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        var chart: Chart?
+        var chart: UIView?
         switch app.session.mode(index) {
         case .kanban: chart = Lines(index)
         case .todo: chart = Progress(index)
@@ -170,15 +138,5 @@ final class Project: UIView {
             self?.backgroundColor = .clear
         }
         super.touchesEnded(touches, with: with)
-    }
-    
-    private func interval(_ date: Date) -> String {
-        if #available(iOS 13.0, *) {
-            return RelativeDateTimeFormatter().localizedString(for: date, relativeTo: .init())
-        }
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        formatter.dateStyle = Calendar.current.dateComponents([.day], from: date, to: .init()).day! == 0 ? .none : .short
-        return formatter.string(from: date)
     }
 }
