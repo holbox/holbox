@@ -22,17 +22,17 @@ final class Notes: View, UITextViewDelegate {
         addSubview(stats)
         self.stats = stats
         
-        let text = Text()
+        let text = Text(.init())
         text.bounces = true
         text.alwaysBounceVertical = true
         text.textContainerInset = .init(top: 20, left: 20, bottom: 30, right: 20)
         text.accessibilityLabel = .key("Note")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 40), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 28), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
+//        (text.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 40), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 28), weight: .bold), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
         text.delegate = self
         (text.layoutManager as! Layout).padding = 5
         text.caret = 4

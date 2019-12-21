@@ -23,17 +23,17 @@ final class Grocery: UIView {
         addSubview(emoji)
         self.emoji = emoji
 
-        let text = Text()
+        let text = Text(.init())
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 15, left: 10, bottom: 15, right: 20)
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+//        (text.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
         text.text = product.1
         addSubview(text)
         self.text = text

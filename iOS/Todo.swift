@@ -14,16 +14,16 @@ final class Todo: View, UITextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let new = Text()
+        let new = Text(.init())
         new.isScrollEnabled = false
         new.textContainerInset = .init(top: 20, left: 30, bottom: 20, right: 30)
         new.accessibilityLabel = .key("Project")
         new.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
-        (new.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
+//        (new.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 32), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .bold), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
         new.delegate = self
         (new.layoutManager as! Layout).padding = 2
         scroll.add(new)

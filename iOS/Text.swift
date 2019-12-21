@@ -7,8 +7,8 @@ class Text: UITextView {
     override var accessibilityValue: String? { get { text } set { } }
     
     required init?(coder: NSCoder) { nil }
-    init() {
-        super.init(frame: .zero, textContainer: Container())
+    init(_ storage: NSTextStorage) {
+        super.init(frame: .zero, textContainer: Container(storage))
         translatesAutoresizingMaskIntoConstraints = false
         textContainerInset = .zero
         isAccessibilityElement = true

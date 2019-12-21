@@ -2,7 +2,7 @@ import Foundation
 
 extension Date {
     var interval: String {
-        if #available(OSX 10.15, *) {
+        if #available(OSX 10.15, iOS 13.0, *) {
             return RelativeDateTimeFormatter().localizedString(for: self, relativeTo: .init())
         }
         let formatter = DateFormatter()

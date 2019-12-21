@@ -66,25 +66,25 @@ final class Task: UIView, UITextViewDelegate {
         addSubview(icon)
         self.icon = icon
         
-        let text = Text()
+        let text = Text(.init())
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 10, left: 15, bottom: 10, right: 15)
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular)
-        if list == 0 {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
-                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
-        } else {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
-        }
+//        if list == 0 {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
+//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
+//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!),
+//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
+//        } else {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
+//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
+//        }
         text.delegate = self
         (text.layoutManager as! Layout).padding = 2
         text.text = content

@@ -36,18 +36,18 @@ final class Card: Text, UITextViewDelegate {
     init(_ kanban: Kanban, index: Int) {
         self.index = index
         self.kanban = kanban
-        super.init()
+        super.init(.init())
         isScrollEnabled = false
         textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         isEditable = false
         isSelectable = false
         accessibilityLabel = .key("Card")
         font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
-        (textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), .white),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+//        (textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), .white),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
         delegate = self
         (layoutManager as! Layout).padding = 2
         layer.cornerRadius = 8

@@ -190,17 +190,17 @@ final class Bar: UIView, UITextViewDelegate {
     }
     
     private var text: Text {
-        let text = Text()
+        let text = Text(.init())
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         text.accessibilityLabel = .key("Project")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular), UIColor(named: "haze")!),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
+//        (text.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .regular), UIColor(named: "haze")!),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), UIColor(named: "haze")!)]
         text.delegate = self
         text.textContainer.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 2

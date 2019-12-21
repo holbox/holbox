@@ -20,25 +20,25 @@ final class Product: UIView {
         let product = app.session.product(app.project, index: index)
         accessibilityLabel = product.1
         
-        let text = Text()
+        let text = Text(.init())
         text.isScrollEnabled = false
         text.isUserInteractionEnabled = false
         text.isAccessibilityElement = false
         text.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .regular)
-        if active {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), .white),
-                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), .white),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!)]
-        } else {
-            (text.textStorage as! Storage).fonts = [
-                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
-                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
-                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
-        }
+//        if active {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), .white),
+//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), .white),
+//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!),
+//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!)]
+//        } else {
+//            (text.textStorage as! Storage).fonts = [
+//                .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+//                .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .regular), UIColor(named: "haze")!.withAlphaComponent(0.7)),
+//                .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5)),
+//                .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 12), weight: .bold), UIColor(named: "haze")!.withAlphaComponent(0.5))]
+//        }
         text.textContainer.maximumNumberOfLines = 3
         text.text = product.0 + " " + product.1
         addSubview(text)

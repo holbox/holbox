@@ -98,13 +98,13 @@ class Stock: Modal, UITextViewDelegate {
         let _title = Label(title!, 16, .bold, UIColor(named: "haze")!)
         view.addSubview(_title)
         
-        let emoji = Text()
+        let emoji = Text(.init())
         emoji.accessibilityLabel = .key("Product.emoji")
         emoji.font = .systemFont(ofSize: 60)
-        (emoji.textStorage as! Storage).fonts = [.plain: (emoji.font!, .white),
-                                               .emoji: (emoji.font!, .white),
-                                               .bold: (emoji.font!, .white),
-                                               .tag: (emoji.font!, .white)]
+//        (emoji.textStorage as! Storage).fonts = [.plain: (emoji.font!, .white),
+//                                               .emoji: (emoji.font!, .white),
+//                                               .bold: (emoji.font!, .white),
+//                                               .tag: (emoji.font!, .white)]
         emoji.textContainerInset = .init(top: 20, left: 30, bottom: 20, right: 5)
         emoji.textContainer.maximumNumberOfLines = 1
         emoji.delegate = self
@@ -115,14 +115,14 @@ class Stock: Modal, UITextViewDelegate {
         view.addSubview(emoji)
         self.emoji = emoji
         
-        let label = Text()
+        let label = Text(.init())
         label.accessibilityLabel = .key("Product.description")
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        (label.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+//        (label.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .bold), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 22), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .bold), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
         label.textContainerInset = .init(top: 30, left: 5, bottom: 10, right: 20)
         label.delegate = self
         label.isScrollEnabled = false

@@ -42,16 +42,16 @@ final class Find: UIView, UITextViewDelegate {
         addSubview(base)
         self.base = base
         
-        let text = Text()
+        let text = Text(.init())
         text.textContainerInset = .init(top: 15, left: 0, bottom: 15, right: 0)
         text.isUserInteractionEnabled = false
         text.accessibilityLabel = .key("Search")
         text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
-        (text.textStorage as! Storage).fonts = [
-            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
-            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
-            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!),
-            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!)]
+//        (text.textStorage as! Storage).fonts = [
+//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
+//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), .white),
+//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!),
+//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular), UIColor(named: "haze")!)]
         text.textContainer.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
         text.delegate = self

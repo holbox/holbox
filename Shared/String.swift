@@ -58,7 +58,7 @@ extension String {
     }
     
     var sentiment: String {
-        if #available(OSX 10.15, *) {
+        if #available(OSX 10.15, iOS 13.0, *) {
             let tagger = NLTagger(tagSchemes: [.sentimentScore])
             tagger.string = self
             let score = Double(tagger.tag(at: startIndex, unit: .paragraph, scheme: .sentimentScore).0?.rawValue ?? "0") ?? 0
