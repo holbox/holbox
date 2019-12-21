@@ -18,6 +18,6 @@ final class Border: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         isUserInteractionEnabled = false
-        backgroundColor = UIColor(named: "haze")!.withAlphaComponent(alpha)
+        backgroundColor = .haze(alpha)
     }
 }

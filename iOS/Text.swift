@@ -13,10 +13,9 @@ class Text: UITextView {
         textContainerInset = .zero
         isAccessibilityElement = true
         indicatorStyle = .white
-        textColor = .white
         backgroundColor = .clear
         bounces = false
-        tintColor = UIColor(named: "haze")!
+        tintColor = .haze()
         keyboardAppearance = .dark
         keyboardDismissMode = .interactive
         spellCheckingType = app.session.spell ? .yes : .no

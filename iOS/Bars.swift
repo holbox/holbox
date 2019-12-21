@@ -1,6 +1,6 @@
 import UIKit
 
-final class Bars: Chart {
+final class Bars: UIView {
     private weak var right: NSLayoutConstraint! {
         didSet {
             oldValue?.isActive = false
@@ -9,9 +9,11 @@ final class Bars: Chart {
     }
     
     required init?(coder: NSCoder) { nil }
-    override init() {
-        super.init()
-        heightAnchor.constraint(equalToConstant: 160).isActive = true
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
+        heightAnchor.constraint(equalToConstant: 196).isActive = true
         
         let width = widthAnchor.constraint(equalToConstant: 0)
         width.priority = .defaultLow
@@ -20,6 +22,7 @@ final class Bars: Chart {
     
     func refresh() {
         let cards = (0 ..< app.session.lists(app.project)).map { CGFloat(app.session.cards(app.project, list: $0)) }
+        let total = CGFloat(cards.reduce(0, +))
         let top = cards.max() ?? 1
         
         if subviews.count > cards.count {
@@ -27,7 +30,7 @@ final class Bars: Chart {
                 subviews[$0].removeFromSuperview()
             }
             if let last = subviews.last {
-                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 7)
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 10)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -36,10 +39,10 @@ final class Bars: Chart {
                 
                 line.topAnchor.constraint(equalTo: topAnchor).isActive = true
                 line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 7).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 10).isActive = true
                 
                 if $0 == cards.count - 1 {
-                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 7)
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 10)
                 }
             }
         }
@@ -47,35 +50,61 @@ final class Bars: Chart {
         layoutIfNeeded()
 
         (subviews as! [Line]).enumerated().forEach {
-            let amount = max(cards[$0.0] / max(top, 1), 0.02)
-            $0.1.line.layer.cornerRadius = amount <= 0.2 ? 0 : 6
-            $0.1.shape.constant = amount * 80
-            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", 18, .bold, UIColor(named: "haze")!),
-                                   (app.session.name(app.project, list: $0.0), 9, .regular, UIColor(named: "haze")!)],
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
+            animation.duration = 1.5
+            animation.fromValue = $0.1.shape.strokeEnd
+            animation.toValue = cards[$0.0] / max(top, 1)
+            animation.timingFunction = .init(name: .easeOut)
+            $0.1.shape.strokeEnd = cards[$0.0] / max(top, 1)
+            $0.1.shape.add(animation, forKey: "strokeEnd")
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .medium(16), .haze()),
+                                   ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", .regular(12), .haze()),
+                                   ("%\n", .regular(8), .haze()),
+                                   (app.session.name(app.project, list: $0.0), .regular(10), .haze())],
                                   align: .center)
-        }
-        
-        UIView.animate(withDuration: 1.5) { [weak self] in
-            self?.layoutIfNeeded()
         }
     }
 }
 
 private final class Line: UIView {
-    private(set) weak var shape: NSLayoutConstraint!
-    private(set) weak var line: UIView!
+    private(set) weak var shape: CAShapeLayer!
     private(set) weak var label: Label!
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
+        
+        let shape = CAShapeLayer()
+        shape.fillColor = .clear
+        shape.strokeColor = .haze()
+        shape.lineWidth = 12
+        shape.lineCap = .round
+        shape.path = {
+            $0.move(to: .init(x: 6, y: 6))
+            $0.addLine(to: .init(x: 6, y: 106))
+            return $0
+        } (CGMutablePath())
+        shape.strokeEnd = 0
+        self.shape = shape
+        
+        let base = CAShapeLayer()
+        base.fillColor = .clear
+        base.strokeColor = .haze()
+        base.lineWidth = 12
+        base.path = {
+            $0.move(to: .init(x: 6, y: 6))
+            $0.addLine(to: .init(x: 6, y: 10))
+            return $0
+        } (CGMutablePath())
+        base.addSublayer(shape)
         
         let line = UIView()
+        line.isUserInteractionEnabled = false
         line.translatesAutoresizingMaskIntoConstraints = false
-        line.backgroundColor = UIColor(named: "haze")!
+        line.layer.addSublayer(base)
         addSubview(line)
-        self.line = line
         
         let label = Label([])
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -85,13 +114,12 @@ private final class Line: UIView {
         
         line.widthAnchor.constraint(equalToConstant: 12).isActive = true
         line.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -68).isActive = true
-        shape = line.heightAnchor.constraint(equalToConstant: 0)
-        shape.isActive = true
+        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -78).isActive = true
+        line.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
         
         rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
+        label.topAnchor.constraint(equalTo: bottomAnchor, constant: -70).isActive = true
         label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
     }
 }

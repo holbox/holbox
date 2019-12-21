@@ -42,16 +42,15 @@ final class Card: Text, UITextViewDelegate {
         isEditable = false
         isSelectable = false
         accessibilityLabel = .key("Card")
-        font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium)
-//        (textStorage as! Storage).fonts = [
-//            .plain: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 16), weight: .medium), .white),
-//            .emoji: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 30), weight: .regular), .white),
-//            .bold: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 20), weight: .bold), .white),
-//            .tag: (.systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .bold), UIColor(named: "haze")!)]
+        font = .regular(14)
+        (textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
+                                                .emoji: [.font: UIFont.regular(24)],
+                                                .bold: [.font: UIFont.medium(20), .foregroundColor: UIColor.white],
+                                                .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
         delegate = self
         (layoutManager as! Layout).padding = 2
         layer.cornerRadius = 8
-        layer.borderColor = UIColor(named: "haze")!.cgColor
+        layer.borderColor = .haze()
         layer.borderWidth = 0
         width = widthAnchor.constraint(equalToConstant: 0)
         height = heightAnchor.constraint(equalToConstant: 0)
@@ -75,7 +74,7 @@ final class Card: Text, UITextViewDelegate {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.window!.endEditing(true)
             UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.backgroundColor = UIColor(named: "haze")!.withAlphaComponent(0.5)
+                self?.backgroundColor = .haze(0.2)
             }
             kanban.scroll.center(frame)
             app.present(Move(self), animated: true)
@@ -120,7 +119,7 @@ final class Card: Text, UITextViewDelegate {
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             width.constant = 60
             height.constant = 40
-            color = UIColor(named: "background")!
+            color = .haze(0.3)
             left.constant = 15
         } else {
             resize()
@@ -141,7 +140,7 @@ final class Card: Text, UITextViewDelegate {
     
     private func resize() {
         textContainer.size.width = 200
-        textContainer.size.height = 10_000
+        textContainer.size.height = 100_000
         layoutManager.ensureLayout(for: textContainer)
         width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30
         height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 10) + 30

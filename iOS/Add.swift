@@ -6,8 +6,8 @@ final class Add: Modal {
     private weak var selected: Button! {
         didSet {
             oldValue?.icon.alpha = 0.4
-            oldValue?.layer.borderColor = UIColor.clear.cgColor
-            selected.layer.borderColor = UIColor(named: "haze")!.cgColor
+            oldValue?.layer.borderColor = .clear
+            selected.layer.borderColor = .haze()
             selected.icon.alpha = 1
         }
     }
@@ -21,23 +21,23 @@ final class Add: Modal {
         let icon = Image("new")
         scroll.add(icon)
         
-        let title = Label([(.key("Add.title") + "\n", 25, .bold, UIColor(named: "haze")!),
-                           (.key("Add.subtitle"), 14, .light, UIColor(named: "haze")!.withAlphaComponent(0.8))])
+        let title = Label([(.key("Add.title") + "\n", .medium(16), .haze()),
+                           (.key("Add.subtitle"), .light(12), .haze(0.8))])
         scroll.add(title)
         
-        let available = Label([(.key("Add.available") + "\n", 20, .light, UIColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\(app.session.available)", 40, .medium, UIColor(named: "haze")!)], align: .center)
+        let available = Label([(.key("Add.available") + "\n", .light(16), .haze(0.6)),
+                               ("\(app.session.available)", .medium(30), .haze())], align: .center)
         scroll.add(available)
         
-        let projects = Label([(.key("Add.projects"), 14, .light, UIColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\n\(app.session.count)", 22, .medium, UIColor(named: "haze")!)], align: .center)
+        let projects = Label([(.key("Add.projects"), .light(12), .haze(0.6)),
+                              ("\n\(app.session.count)", .medium(16), .haze())], align: .center)
         scroll.add(projects)
         
-        let capacity = Label([(.key("Add.capacity"), 14, .light, UIColor(named: "haze")!.withAlphaComponent(0.5)),
-                              ("\n\(app.session.capacity)", 22, .medium, UIColor(named: "haze")!)], align: .center)
+        let capacity = Label([(.key("Add.capacity"), .light(12), .haze(0.6)),
+                              ("\n\(app.session.capacity)", .medium(16), .haze())], align: .center)
         scroll.add(capacity)
         
-        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, UIColor(named: "haze")!)
+        let cancel = Control(.key("Add.cancel"), self, #selector(close), .clear, .haze())
         scroll.add(cancel)
         
         scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -48,11 +48,11 @@ final class Add: Modal {
         scroll.bottom.constraint(equalTo: cancel.bottomAnchor, constant: 20).isActive = true
         
         icon.topAnchor.constraint(equalTo: scroll.top, constant: 50).isActive = true
-        icon.leftAnchor.constraint(equalTo: scroll.left, constant: 80).isActive = true
+        icon.leftAnchor.constraint(equalTo: scroll.left, constant: 100).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 52).isActive = true
 
-        title.topAnchor.constraint(equalTo: icon.topAnchor, constant: 2).isActive = true
+        title.topAnchor.constraint(equalTo: icon.topAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 10).isActive = true
         
         available.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 40).isActive = true
@@ -80,11 +80,11 @@ final class Add: Modal {
             let _notes = Button("notes", target: self, action: #selector(notes(_:)))
             _notes.accessibilityLabel = .key("Add.notes")
             
-            let name = Label("", 18, .bold, UIColor(named: "haze")!)
+            let name = Label("", .medium(14), .haze())
             scroll.add(name)
             self.name = name
             
-            let _confirm = Control(.key("Add.confirm"), self, #selector(add), UIColor(named: "haze")!, .black)
+            let _confirm = Control(.key("Add.confirm"), self, #selector(add), .haze(), .black)
             scroll.add(_confirm)
             
             var left: NSLayoutXAxisAnchor?
@@ -108,7 +108,7 @@ final class Add: Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 150).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 130).isActive = true
             name.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
             
             _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
@@ -119,13 +119,13 @@ final class Add: Modal {
             
             kanban(_kanban)
         } else {
-            let info = Label(.key("Add.info"), 16, .regular, .white)
+            let info = Label(.key("Add.info"), .light(14), .white)
             scroll.add(info)
             
-            let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), UIColor(named: "haze")!, .black)
+            let _purchases = Control(.key("Add.purchases"), self, #selector(purchases), .haze(), .black)
             scroll.add(_purchases)
             
-            info.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 20).isActive = true
+            info.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 30).isActive = true
             info.leftAnchor.constraint(equalTo: scroll.left, constant: 50).isActive = true
             info.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -50).isActive = true
             info.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
