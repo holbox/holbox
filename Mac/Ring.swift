@@ -5,8 +5,7 @@ final class Ring: NSView {
     var total = CGFloat()
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
-    private var last = CGFloat()
-    private let middle = CGPoint(x: 50, y: 50)
+    private let middle = CGPoint(x: 35, y: 35)
     
     required init?(coder: NSCoder) { nil }
     init() {
@@ -15,22 +14,20 @@ final class Ring: NSView {
         wantsLayer = true
         
         let off = CAShapeLayer()
-        off.fillColor = .clear
-        off.lineWidth = 4
-        off.strokeColor = .haze(0.2)
+        off.fillColor = .haze()
         off.path = {
-            $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: false)
+            $0.addArc(center: middle, radius: 26, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
         } (CGMutablePath())
         layer!.addSublayer(off)
         
         let on = CAShapeLayer()
         on.fillColor = .clear
-        on.lineWidth = 8
+        on.lineWidth = 3
         on.lineCap = .round
         on.strokeColor = .haze()
         on.path = {
-            $0.addArc(center: middle, radius: 40, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+            $0.addArc(center: middle, radius: 30, startAngle: 0, endAngle: .pi * 2, clockwise: true)
             return $0
         } (CGMutablePath())
         on.strokeEnd = 0
@@ -42,18 +39,22 @@ final class Ring: NSView {
         addSubview(percent)
         self.percent = percent
         
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
-        widthAnchor.constraint(equalToConstant: 100).isActive = true
+        heightAnchor.constraint(equalToConstant: 70).isActive = true
+        widthAnchor.constraint(equalToConstant: 70).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: middle.x).isActive = true
     }
     
     func refresh() {
-        let amount = CGFloat(current) / .init(total > 0 ? total : 1)
-        guard amount != on.strokeEnd || last != total else { return }
-
-        last = total
+        let amount: CGFloat
+        if total > 0 {
+            amount = CGFloat(current) / .init(total > 0 ? total : 1)
+            percent.attributed([("\(Int(amount * 100))", .medium(16), .black), ("%", .regular(10), .black)])
+        } else {
+            amount = 0
+            percent.attributed([])
+        }
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.duration = 2
         animation.fromValue = on.strokeEnd
@@ -61,7 +62,5 @@ final class Ring: NSView {
         animation.timingFunction = .init(name: .easeOut)
         on.strokeEnd = amount
         on.add(animation, forKey: "strokeEnd")
-        
-        percent.attributed([("\(Int(amount * 100))", .medium(16), .haze()), ("%", .regular(10), .haze())])
     }
 }

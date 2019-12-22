@@ -150,7 +150,7 @@ final class Task: UIView, UITextViewDelegate {
     func delete(_ delta: CGFloat) {
         _deleteLeft.constant = min(0, delta - self.delta)
         if _deleteLeft.constant < -120 {
-            app.present(Delete.Card(index, list: list), animated: true) { [weak self] in
+            app.present(Delete.Task(index, list: list), animated: true) { [weak self] in
                 self?.undelete()
             }
         } else {

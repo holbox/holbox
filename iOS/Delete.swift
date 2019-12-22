@@ -45,6 +45,32 @@ class Delete: UIViewController {
         }
     }
     
+    final class Task: Delete {
+        private let index: Int
+        private let list: Int
+        
+        required init?(coder: NSCoder) { nil }
+        init(_ index: Int, list: Int) {
+            self.index = index
+            self.list = list
+            super.init()
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            name.text = app.session.content(app.project, list: list, card: index)
+        }
+        
+        override func confirm() {
+            app.alert(.key("Delete.done"), message: app.session.content(app.project, list: list, card: index))
+            app.session.delete(app.project, list: list, card: index)
+            if list == 1 {
+                app.session.delete(app.project, list: 2, card: index)
+            }
+            super.confirm()
+        }
+    }
+    
     final class Grocery: Delete {
         private let index: Int
         

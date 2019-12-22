@@ -127,7 +127,7 @@ final class Task: NSView, NSTextViewDelegate {
         if with.clickCount == 1 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             if _delete.frame.contains(convert(with.locationInWindow, from: nil)) {
                 window!.makeFirstResponder(self)
-                app.runModal(for: Delete.Card(index, list: list))
+                app.runModal(for: Delete.Task(index, list: list))
             } else if window!.firstResponder != text {
                 app.alert(list == 0 ? .key("Todo.completed") : .key("Todo.restart"), message: app.session.content(app.project, list: list, card: index))
                 if list == 0 {
