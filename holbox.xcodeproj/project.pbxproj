@@ -91,10 +91,6 @@
 		DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEDE238C14CC0099F775 /* Project.swift */; };
 		DA8BCEE1238C184A0099F775 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEE0238C184A0099F775 /* View.swift */; };
 		DA94D9BC239A79FA00548C77 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA94D9BB239A79FA00548C77 /* Todo.swift */; };
-		DA9C35EC23AA6A74003EE2D8 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA9C35E723AA6A73003EE2D8 /* Rubik-Medium.ttf */; };
-		DA9C35ED23AA6A74003EE2D8 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA9C35E723AA6A73003EE2D8 /* Rubik-Medium.ttf */; };
-		DA9C35F023AA6A74003EE2D8 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA9C35E923AA6A73003EE2D8 /* Rubik-Regular.ttf */; };
-		DA9C35F123AA6A74003EE2D8 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA9C35E923AA6A73003EE2D8 /* Rubik-Regular.ttf */; };
 		DA9D473D239FB9E3003B0D23 /* Columner.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9D473C239FB9E3003B0D23 /* Columner.swift */; };
 		DAA463F423586E0400A5E990 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F323586E0400A5E990 /* Logo.swift */; };
 		DAA463F623586F3600A5E990 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F523586F3600A5E990 /* Main.swift */; };
@@ -197,8 +193,6 @@
 		DAF68EA4234766300060895A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF68EA12347662F0060895A /* App.swift */; };
 		DAF68EA72347664E0060895A /* Watch.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAF68EA62347664E0060895A /* Watch.xcassets */; };
 		DAF7E389237DCABC00C2F648 /* TestProjectTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */; };
-		DAF9F9DC23AE1AAF00F213E0 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAF9F9DB23AE1AAF00F213E0 /* Rubik-Light.ttf */; };
-		DAF9F9DD23AE1AAF00F213E0 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAF9F9DB23AE1AAF00F213E0 /* Rubik-Light.ttf */; };
 		DAFD582023A0FF7200C1A866 /* TestProjectCsv.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFD581F23A0FF7200C1A866 /* TestProjectCsv.swift */; };
 		DAFE03242383D6CE00BCC8F0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03232383D6CE00BCC8F0 /* View.swift */; };
 		DAFE03262383E22D00BCC8F0 /* Find.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE03252383E22D00BCC8F0 /* Find.swift */; };
@@ -357,8 +351,6 @@
 		DA8BCEDE238C14CC0099F775 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DA8BCEE0238C184A0099F775 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DA94D9BB239A79FA00548C77 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
-		DA9C35E723AA6A73003EE2D8 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
-		DA9C35E923AA6A73003EE2D8 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		DA9D473C239FB9E3003B0D23 /* Columner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Columner.swift; sourceTree = "<group>"; };
 		DAA463F323586E0400A5E990 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DAA463F523586F3600A5E990 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
@@ -459,7 +451,6 @@
 		DAF68EAF234769850060895A /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF68EB023476AFE0060895A /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF7E388237DCABC00C2F648 /* TestProjectTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectTags.swift; sourceTree = "<group>"; };
-		DAF9F9DB23AE1AAF00F213E0 /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		DAFD581F23A0FF7200C1A866 /* TestProjectCsv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProjectCsv.swift; sourceTree = "<group>"; };
 		DAFE03232383D6CE00BCC8F0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DAFE03252383E22D00BCC8F0 /* Find.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Find.swift; sourceTree = "<group>"; };
@@ -561,9 +552,6 @@
 				DAF68E64234764210060895A /* WatchExtension.plist */,
 				DAF68E91234765820060895A /* iOS.storyboard */,
 				DAF68E9D234766040060895A /* Watch.storyboard */,
-				DAF9F9DB23AE1AAF00F213E0 /* Rubik-Light.ttf */,
-				DA9C35E723AA6A73003EE2D8 /* Rubik-Medium.ttf */,
-				DA9C35E923AA6A73003EE2D8 /* Rubik-Regular.ttf */,
 				DAF68E75234764A60060895A /* Assets.xcassets */,
 				DAF68E92234765820060895A /* iOS.xcassets */,
 				DAF68E7B234764A60060895A /* Mac.xcassets */,
@@ -1010,11 +998,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E7E234764A70060895A /* Assets.xcassets in Resources */,
-				DAF9F9DC23AE1AAF00F213E0 /* Rubik-Light.ttf in Resources */,
-				DA9C35F023AA6A74003EE2D8 /* Rubik-Regular.ttf in Resources */,
 				DAF267C6236B29390099E40E /* Localizable.strings in Resources */,
 				DAF68E81234764A70060895A /* Mac.xcassets in Resources */,
-				DA9C35EC23AA6A74003EE2D8 /* Rubik-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1023,11 +1008,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E96234765820060895A /* iOS.storyboard in Resources */,
-				DA9C35F123AA6A74003EE2D8 /* Rubik-Regular.ttf in Resources */,
 				DAF267C7236B29390099E40E /* Localizable.strings in Resources */,
-				DA9C35ED23AA6A74003EE2D8 /* Rubik-Medium.ttf in Resources */,
 				DAF68E8F234765620060895A /* Assets.xcassets in Resources */,
-				DAF9F9DD23AE1AAF00F213E0 /* Rubik-Light.ttf in Resources */,
 				DAF68E97234765820060895A /* iOS.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
