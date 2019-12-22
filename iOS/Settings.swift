@@ -8,7 +8,6 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         view.addSubview(scroll)
         
         let logo = Image("logo")
-        logo.contentMode = .scaleAspectFit
         scroll.add(logo)
         
         let title = Label([(.key("About.title") + "\n", .medium(16), .white),

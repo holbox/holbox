@@ -4,7 +4,6 @@ final class About: Modal {
     init() {
         super.init(240, 170)
         let logo = Image("logo")
-        logo.imageScaling = .scaleProportionallyDown
         contentView!.addSubview(logo)
         
         let title = Label([(.key("About.title") + "\n", .medium(16), .white),
