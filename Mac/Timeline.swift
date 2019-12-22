@@ -37,24 +37,25 @@ final class Timeline: NSView {
         
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        heightAnchor.constraint(lessThanOrEqualToConstant: 150).isActive = true
+        heightAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
         
-        start.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        start.topAnchor.constraint(equalTo: bottomAnchor, constant: -35).isActive = true
         start.leftAnchor.constraint(equalTo: leftAnchor, constant: 3).isActive = true
+        start.rightAnchor.constraint(lessThanOrEqualTo: now.leftAnchor, constant: -10).isActive = true
         
-        now.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        now.topAnchor.constraint(equalTo: bottomAnchor, constant: -35).isActive = true
         now.rightAnchor.constraint(equalTo: rightAnchor, constant: -3).isActive = true
     }
     
     func refresh() {
         let time = CGMutablePath()
-        time.move(to: .init(x: 2, y: 30))
+        time.move(to: .init(x: 2, y: 50))
         
         let dates = (0 ..< app.session.cards(app.project, list: 2)).map { CGFloat(Int(app.session.content(app.project, list: 2, card: $0))!) }
         if dates.isEmpty {
             start.stringValue = ""
         } else {
-            let slots = (bounds.width - 60) / 3
+            let slots = (bounds.width - 60) / 10
             let interval = (.init(Date().timeIntervalSince1970) - dates.last!) / slots
             let tasks = (0 ... Int(slots)).reduce(into: [CGFloat]()) { tasks, slot in
                 let mark = dates.last! + (.init(slot) * interval)
@@ -62,17 +63,17 @@ final class Timeline: NSView {
             }
             let max = tasks.max()!
             tasks.enumerated().forEach {
-                time.addLine(to: .init(x: (((bounds.width - 40) / slots) * .init($0.0)) + 30, y: ((bounds.height - 60) * ($0.1 / max)) + 30))
+                time.addLine(to: .init(x: (((bounds.width - 60) / slots) * .init($0.0)) + 30, y: ((bounds.height - 80) * ($0.1 / max)) + 50))
             }
             
             start.stringValue = Date(timeIntervalSince1970: .init(dates.last!)).interval
         }
         
-        time.addLine(to: .init(x: bounds.maxX - 2, y: 30))
+        time.addLine(to: .init(x: bounds.maxX - 2, y: 50))
         
         let dots = CGMutablePath()
-        dots.move(to: .init(x: 0, y: 22))
-        dots.addLine(to: .init(x: bounds.maxX, y: 22))
+        dots.move(to: .init(x: 0, y: 42))
+        dots.addLine(to: .init(x: bounds.maxX, y: 42))
         
         let timing = CABasicAnimation(keyPath: "path")
         timing.duration = 0.6

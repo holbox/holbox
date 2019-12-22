@@ -38,11 +38,11 @@ final class Todo: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 600).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
         
-        let width = scroll.widthAnchor.constraint(equalToConstant: 500)
+        let width = scroll.widthAnchor.constraint(equalToConstant: 600)
         width.priority = .defaultLow
         width.isActive = true
         
@@ -54,20 +54,20 @@ final class Todo: View {
         tasker.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
         count.centerYAnchor.constraint(equalTo: ring.centerYAnchor).isActive = true
-        let countLeft = count.leftAnchor.constraint(equalTo: leftAnchor, constant: 35)
-        countLeft.priority = .defaultLow
-        countLeft.isActive = true
+        count.leftAnchor.constraint(equalTo: ring.rightAnchor, constant: 5).isActive = true
+        count.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         
-        ring.leftAnchor.constraint(equalTo: count.rightAnchor, constant: 20).isActive = true
-        ring.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         ring.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 30)
+        ringLeft.priority = .defaultLow
+        ringLeft.isActive = true
         
         timeline.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         timeline.topAnchor.constraint(greaterThanOrEqualTo: ring.bottomAnchor).isActive = true
         let timelineLeft = timeline.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         timelineLeft.priority = .defaultLow
         timelineLeft.isActive = true
-        let timelineBottom = timeline.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25)
+        let timelineBottom = timeline.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
         timelineBottom.priority = .defaultLow
         timelineBottom.isActive = true
         
@@ -97,7 +97,7 @@ final class Todo: View {
         ring.current = .init(app.session.cards(app.project, list: 1))
         ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         ring.refresh()
-        count.attributed([("\(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))", .medium(18), .haze()), (" " + .key("Todo.count"), .regular(12), .haze())])
+        count.attributed([("\(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))", .medium(18), .haze()), ("\n" + .key("Todo.count"), .regular(12), .haze())])
         DispatchQueue.main.async { [weak self] in
             self?.timeline.refresh()
         }

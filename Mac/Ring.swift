@@ -5,13 +5,12 @@ final class Ring: NSView {
     var total = CGFloat()
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
-    private let middle = CGPoint(x: 35, y: 35)
+    private let middle = CGPoint(x: 33, y: 33)
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        wantsLayer = true
         
         let off = CAShapeLayer()
         off.fillColor = .haze()
@@ -19,7 +18,8 @@ final class Ring: NSView {
             $0.addArc(center: middle, radius: 26, startAngle: 0, endAngle: .pi * 2, clockwise: false)
             return $0
         } (CGMutablePath())
-        layer!.addSublayer(off)
+        layer = off
+        wantsLayer = true
         
         let on = CAShapeLayer()
         on.fillColor = .clear
@@ -39,8 +39,8 @@ final class Ring: NSView {
         addSubview(percent)
         self.percent = percent
         
-        heightAnchor.constraint(equalToConstant: 70).isActive = true
-        widthAnchor.constraint(equalToConstant: 70).isActive = true
+        heightAnchor.constraint(equalToConstant: 66).isActive = true
+        widthAnchor.constraint(equalToConstant: 66).isActive = true
         
         percent.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         percent.centerXAnchor.constraint(equalTo: leftAnchor, constant: middle.x).isActive = true

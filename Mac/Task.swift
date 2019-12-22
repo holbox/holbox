@@ -72,7 +72,7 @@ final class Task: NSView, NSTextViewDelegate {
             time.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
             time.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
             
-            text.leftAnchor.constraint(equalTo: time.rightAnchor).isActive = true
+            text.leftAnchor.constraint(equalTo: time.rightAnchor, constant: -5).isActive = true
         }
         
         bottom = bottomAnchor.constraint(equalTo: text.bottomAnchor)
@@ -84,7 +84,7 @@ final class Task: NSView, NSTextViewDelegate {
         highlight.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         text.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true
+        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
         
         let height = text.heightAnchor.constraint(equalToConstant: 0)
         height.priority = .defaultLow
@@ -96,7 +96,7 @@ final class Task: NSView, NSTextViewDelegate {
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 50).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
