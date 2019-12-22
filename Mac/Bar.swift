@@ -75,6 +75,10 @@ final class Bar: NSView, NSTextViewDelegate {
         border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
+    override func mouseDown(with: NSEvent) {
+        window!.makeFirstResponder(self)
+    }
+    
     func textDidEndEditing(_: Notification) {
         guard let name = self.name?.string, let project = app.project else { return }
         app.session.name(project, name: name)
@@ -178,7 +182,7 @@ final class Bar: NSView, NSTextViewDelegate {
             self.border.alphaValue = 0
         }
         
-        button.constant = 50
+        button.constant = 60
         
         find.clear()
         NSAnimationContext.runAnimationGroup {

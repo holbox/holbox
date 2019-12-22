@@ -95,8 +95,12 @@ final class Notes: View, NSTextViewDelegate {
     }
     
     override func mouseDown(with: NSEvent) {
-        if window!.firstResponder != text && with.clickCount == 1 && frame.contains(convert(with.locationInWindow, from: nil)) {
-            edit()
+        if scroll.frame.contains(convert(with.locationInWindow, from: nil)) {
+            if window!.firstResponder != text && with.clickCount == 1 {
+                text.isEditable = true
+                window!.makeFirstResponder(text)
+            }
+            text.mouseDown(with: with)
         } else {
             super.mouseDown(with: with)
         }
