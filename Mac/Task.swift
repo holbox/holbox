@@ -54,7 +54,7 @@ final class Task: NSView, NSTextViewDelegate {
         } else {
             layer!.backgroundColor = .haze(0.2)
             
-            let time = Label(Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!), .regular(12), .haze())
+            let time = Label(Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval, .regular(12), .haze())
             addSubview(time)
             
             time.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
