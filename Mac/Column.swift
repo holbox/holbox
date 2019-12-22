@@ -85,12 +85,14 @@ final class Column: NSView, NSTextViewDelegate {
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             text.click()
+        } else {
+            super.mouseDown(with: with)
         }
     }
     
     override func mouseUp(with: NSEvent) {
-        if window!.firstResponder != self && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
-            window!.makeFirstResponder(superview!)
+        if window!.firstResponder != text && _delete!.frame.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
+            window!.makeFirstResponder(self)
             if app.session.lists(app.project) > 1 {
                 if text.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     app.session.delete(app.project, list: index)
@@ -102,6 +104,8 @@ final class Column: NSView, NSTextViewDelegate {
             } else {
                 app.alert(.key("Kanban.last"), message: .key("Kanban.need"))
             }
+        } else {
+            super.mouseUp(with: with)
         }
     }
     

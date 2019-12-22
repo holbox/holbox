@@ -44,6 +44,8 @@ final class Button: NSView {
         window!.makeFirstResponder(nil)
         if bounds.contains(convert(with.locationInWindow, from: nil)) && with.clickCount == 1 {
             _ = target.perform(action, with: self)
+        } else {
+            super.mouseUp(with: with)
         }
         alphaValue = 1
     }

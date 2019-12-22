@@ -215,6 +215,8 @@ final class Card: NSView, NSTextViewDelegate {
     override func mouseDown(with: NSEvent) {
         if window!.firstResponder != text && with.clickCount == 2 && bounds.contains(convert(with.locationInWindow, from: nil)) {
             text.click()
+        } else {
+            super.mouseDown(with: with)
         }
     }
     
