@@ -37,7 +37,7 @@ final class Timeline: NSView {
         
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        heightAnchor.constraint(lessThanOrEqualToConstant: 160).isActive = true
+        heightAnchor.constraint(lessThanOrEqualToConstant: 150).isActive = true
         
         start.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
         start.leftAnchor.constraint(equalTo: leftAnchor, constant: 3).isActive = true

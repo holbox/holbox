@@ -77,33 +77,21 @@ final class Todo: View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
-        var top: NSLayoutYAxisAnchor!
+        var top = scroll.top
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let task = Task($0, list: list, todo: self)
                 scroll.add(task)
                 
-                if top != nil {
-                    let border = Border.horizontal(0.3)
-                    scroll.add(border)
-                    
-                    border.topAnchor.constraint(equalTo: top).isActive = true
-                    border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                    border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-                    
-                    task.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-                } else {
-                    task.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-                }
-                
+                task.topAnchor.constraint(equalTo: top, constant: 2).isActive = true
                 task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
                 task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
                 top = task.bottomAnchor
             }
         }
         
-        if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 100).isActive = true
+        if top != scroll.top {
+            scroll.bottom.constraint(greaterThanOrEqualTo: top).isActive = true
         }
     
         ring.current = .init(app.session.cards(app.project, list: 1))

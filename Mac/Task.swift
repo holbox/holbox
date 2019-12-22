@@ -27,7 +27,7 @@ final class Task: NSView, NSTextViewDelegate {
         self.highlight = highlight
         
         let text = Text(.Fix(), Editable(), storage: Storage())
-        text.textContainerInset.width = 15
+        text.textContainerInset.width = 10
         text.textContainerInset.height = 12
         text.setAccessibilityLabel(.key("Task"))
         text.font = .regular(14)
@@ -50,18 +50,29 @@ final class Task: NSView, NSTextViewDelegate {
         self._delete = _delete
         
         if list == 0 {
-            text.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            let line = NSView()
+            line.translatesAutoresizingMaskIntoConstraints = false
+            line.wantsLayer = true
+            line.layer!.backgroundColor = .haze()
+            line.layer!.cornerRadius = 1.5
+            addSubview(line)
+        
+            text.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+            
+            line.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+            line.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+            line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+            line.widthAnchor.constraint(equalToConstant: 3).isActive = true
         } else {
-            layer!.backgroundColor = .haze(0.2)
+            layer!.backgroundColor = .haze(0.15)
             
             let time = Label(Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval, .regular(12), .haze())
             addSubview(time)
             
-            time.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-            time.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
-            time.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -40).isActive = true
+            time.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            time.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
             
-            text.topAnchor.constraint(equalTo: time.bottomAnchor, constant: -5).isActive = true
+            text.leftAnchor.constraint(equalTo: time.rightAnchor).isActive = true
         }
         
         bottom = bottomAnchor.constraint(equalTo: text.bottomAnchor)
@@ -72,7 +83,7 @@ final class Task: NSView, NSTextViewDelegate {
         highlight.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         highlight.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
-        text.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        text.topAnchor.constraint(equalTo: topAnchor).isActive = true
         text.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true
         
         let height = text.heightAnchor.constraint(equalToConstant: 0)
@@ -101,7 +112,7 @@ final class Task: NSView, NSTextViewDelegate {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
-            highlight.alphaValue = 0.2
+            highlight.alphaValue = 0.25
             _delete.alphaValue = 1
         }
     }
