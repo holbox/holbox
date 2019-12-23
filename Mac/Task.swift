@@ -1,25 +1,38 @@
 import AppKit
 
 final class Task: NSView, NSTextViewDelegate {
-    let index: Int
-    let list: Int
+    var index = 0
+    var list = 0
     private (set) weak var text: Text!
     private weak var _delete: Image!
     private weak var todo: Todo!
     private weak var time: Label!
     private weak var line: NSView!
+    private weak var top: NSLayoutConstraint!
+    
+    weak var _parent: NSView! {
+        didSet {
+            top?.isActive = false
+            if let scroll = _parent as? Scroll {
+                top = topAnchor.constraint(equalTo: scroll.top, constant: 30)
+            } else {
+                top = topAnchor.constraint(equalTo: _parent.bottomAnchor)
+            }
+            top.isActive = true
+        }
+    }
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, list: Int, todo: Todo) {
-        self.index = index
-        self.list = list
-        self.todo = todo
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
         layer!.cornerRadius = 6
         layer!.borderWidth = 1
         layer!.borderColor = .clear
+        self.index = index
+        self.list = list
+        self.todo = todo
         
         let text = Text(.Fix(), Editable(), storage: Storage())
         text.textContainerInset.width = 10
@@ -123,24 +136,100 @@ final class Task: NSView, NSTextViewDelegate {
                 window!.makeFirstResponder(self)
                 app.runModal(for: Delete.Task(index, list: list))
             } else if window!.firstResponder != text {
-                app.alert(list == 0 ? .key("Todo.completed") : .key("Todo.restart"), message: app.session.content(app.project, list: list, card: index))
                 if list == 0 {
-                    app.session.completed(app.project, index: index)
+                    completed()
                 } else {
-                    app.session.restart(app.project, index: index)
+                    restart()
                 }
-                todo.refresh()
             }
         }
     }
     
     private func update() {
-        if list == 0 {
-            line.isHidden = false
-            time.stringValue = ""
+        time.stringValue = list == 0 ? "" : Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.3
+            $0.allowsImplicitAnimation = true
+            line.alphaValue = list == 0 ? 1 : 0
+        }
+    }
+    
+    private func completed() {
+        app.alert(.key("Todo.completed"), message: app.session.content(app.project, list: list, card: index))
+        app.session.completed(app.project, index: index)
+        let tasks = superview!.subviews.map { $0 as! Task }
+        tasks.first { $0._parent === self }?._parent = _parent
+        if let child = tasks.first(where: { $0.list == 1 && $0.index == 0 }) {
+            _parent = child._parent
+            child._parent = self
         } else {
-            line.isHidden = true
-            time.stringValue = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval
+            if let _last = todo._last {
+                if _last !== self {
+                    _parent =  _last
+                }
+            }
+            todo._last = self
+        }
+        tasks.forEach {
+            if $0.list == 1 {
+                $0.index += 1
+            } else if $0.index > index {
+                $0.index -= 1
+            }
+        }
+        index = 0
+        list = 1
+        reorder()
+    }
+    
+    private func restart() {
+        app.alert(.key("Todo.restart"), message: app.session.content(app.project, list: list, card: index))
+        app.session.restart(app.project, index: index)
+        let tasks = superview!.subviews.map { $0 as! Task }
+        if let child = tasks.first(where: { $0.list == 0 && $0.index == 0 }) {
+            if let next = tasks.first(where: { $0._parent === self }) {
+                next._parent = _parent
+            } else {
+                todo._last = _parent is Task ? (_parent as! Task) : self
+            }
+            _parent = todo.scroll
+            child._parent = self
+        } else {
+            if todo._last === self {
+               todo._last = (_parent as? Task) ?? self
+            } else {
+                tasks.first { $0._parent === self }?._parent = _parent
+            }
+            _parent = todo.scroll
+            tasks.first(where: { $0.list == 1 && (($0.index == 0 && index > 0) || ($0.index == 1 && index == 0)) })?._parent = self
+        }
+        tasks.forEach {
+            if $0.list == 0 {
+                $0.index += 1
+            } else if $0.index > index {
+                $0.index -= 1
+            }
+        }
+        index = 0
+        list = 0
+        reorder()
+    }
+    
+    private func reorder() {
+        update()
+        NSAnimationContext.runAnimationGroup ({
+            $0.duration = 0.3
+            $0.allowsImplicitAnimation = true
+            layer!.backgroundColor = .haze(0.3)
+            superview!.layoutSubtreeIfNeeded()
+        }) { [weak self] in
+            NSAnimationContext.runAnimationGroup ({
+                $0.duration = 0.25
+                $0.allowsImplicitAnimation = true
+                self?.layer!.backgroundColor = .clear
+            }) { [weak self] in
+                self?.todo?.charts()
+            }
         }
     }
 }

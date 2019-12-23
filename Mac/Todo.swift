@@ -6,6 +6,17 @@ final class Todo: View {
     private weak var ring: Ring!
     private weak var timeline: Timeline!
     private weak var count: Label!
+    private weak var _bottom: NSLayoutConstraint!
+    
+    weak var _last: Task? {
+        didSet {
+            _bottom?.isActive = false
+            if _last != nil {
+                _bottom = scroll.bottom.constraint(greaterThanOrEqualTo: _last!.bottomAnchor, constant: 30)
+                _bottom.isActive = true
+            }
+        }
+    }
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -108,16 +119,15 @@ final class Todo: View {
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
-        var top = scroll.top
+        var _last: Task?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project, list: list)).forEach {
                 let task = Task($0, list: list, todo: self)
                 scroll.add(task)
                 
-                task.topAnchor.constraint(equalTo: top, constant: top == scroll.top ? 30 : 0).isActive = true
+                task._parent = _last == nil ? scroll : _last
                 task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 6).isActive = true
                 task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -6).isActive = true
-                top = task.bottomAnchor
                 
                 let left = task.leftAnchor.constraint(equalTo: scroll.left, constant: 50)
                 left.priority = .defaultLow
@@ -126,21 +136,13 @@ final class Todo: View {
                 let right = task.rightAnchor.constraint(equalTo: scroll.right, constant: -50)
                 right.priority = .defaultLow
                 right.isActive = true
+                
+                _last = task
             }
         }
         
-        if top != scroll.top {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 20).isActive = true
-        }
-    
-        let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
-        count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
-        ring.current = .init(app.session.cards(app.project, list: 1))
-        ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
-        ring.refresh()
-        DispatchQueue.main.async { [weak self] in
-            self?.timeline.refresh()
-        }
+        self._last = _last
+        charts()
     }
     
     override func viewDidEndLiveResize() {
@@ -190,5 +192,16 @@ final class Todo: View {
         let text = scroll.views.compactMap { $0 as? Task }.first { $0.list == list && $0.index == card }!.text!
         text.showFindIndicator(for: range)
         scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+    }
+    
+    func charts() {
+        let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
+        count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
+        ring.current = .init(app.session.cards(app.project, list: 1))
+        ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
+        ring.refresh()
+        DispatchQueue.main.async { [weak self] in
+            self?.timeline.refresh()
+        }
     }
 }
