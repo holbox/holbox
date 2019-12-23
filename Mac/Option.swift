@@ -72,11 +72,11 @@ class Option: NSView {
         layer!.cornerRadius = 4
         self.settings = settings
         
-        let label = Label(title, .regular(13), .haze())
+        let label = Label(title, .medium(13), .haze())
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true
-        widthAnchor.constraint(equalToConstant: 340).isActive = true
+        widthAnchor.constraint(equalToConstant: 220).isActive = true
         
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
@@ -91,7 +91,7 @@ class Option: NSView {
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.4
             $0.allowsImplicitAnimation = true
-            layer!.backgroundColor = .haze(0.3)
+            layer!.backgroundColor = .haze(0.2)
         }
     }
     

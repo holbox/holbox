@@ -3,7 +3,8 @@ import AppKit
 final class Task: NSView, NSTextViewDelegate {
     let index: Int
     let list: Int
-    private(set) weak var text: Text!
+    private (set) weak var text: Text!
+    private weak var line: NSView?
     private weak var _delete: Image!
     private weak var todo: Todo!
     private weak var highlight: NSView!
@@ -56,6 +57,7 @@ final class Task: NSView, NSTextViewDelegate {
             line.layer!.backgroundColor = .haze()
             line.layer!.cornerRadius = 1.5
             addSubview(line)
+            self.line = line
         
             text.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
             
@@ -113,6 +115,7 @@ final class Task: NSView, NSTextViewDelegate {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             highlight.alphaValue = 0.25
+            line?.layer!.backgroundColor = .black
             _delete.alphaValue = 1
         }
     }
@@ -122,6 +125,7 @@ final class Task: NSView, NSTextViewDelegate {
             $0.duration = 0.3
             $0.allowsImplicitAnimation = true
             highlight.alphaValue = 0
+            line?.layer!.backgroundColor = .haze()
             _delete.alphaValue = 0
         }
     }

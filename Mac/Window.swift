@@ -45,7 +45,6 @@ class Window: NSWindow {
         
         _minimise.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 18).isActive = true
         _minimise.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 39).isActive = true
-        
     }
     
     final func addZoom() {

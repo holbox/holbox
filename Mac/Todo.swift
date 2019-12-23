@@ -57,13 +57,13 @@ final class Todo: View {
         count.leftAnchor.constraint(equalTo: ring.rightAnchor, constant: 5).isActive = true
         count.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
         
-        ring.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        ring.topAnchor.constraint(equalTo: timeline.bottomAnchor, constant: 10).isActive = true
         let ringLeft = ring.leftAnchor.constraint(equalTo: leftAnchor, constant: 30)
         ringLeft.priority = .defaultLow
         ringLeft.isActive = true
         
         timeline.rightAnchor.constraint(lessThanOrEqualTo: border.leftAnchor, constant: -25).isActive = true
-        timeline.topAnchor.constraint(greaterThanOrEqualTo: ring.bottomAnchor).isActive = true
+        timeline.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         let timelineLeft = timeline.leftAnchor.constraint(equalTo: leftAnchor, constant: 25)
         timelineLeft.priority = .defaultLow
         timelineLeft.isActive = true
@@ -94,10 +94,11 @@ final class Todo: View {
             scroll.bottom.constraint(greaterThanOrEqualTo: top).isActive = true
         }
     
+        let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
+        count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
         ring.current = .init(app.session.cards(app.project, list: 1))
         ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         ring.refresh()
-        count.attributed([("\(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))", .medium(18), .haze()), ("\n" + .key("Todo.count"), .regular(12), .haze())])
         DispatchQueue.main.async { [weak self] in
             self?.timeline.refresh()
         }

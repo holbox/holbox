@@ -2,7 +2,7 @@ import AppKit
 
 final class Settings: Modal {
     init() {
-        super.init(440, 400)
+        super.init(260, 370)
         let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
         contentView!.addSubview(_spell)
@@ -19,7 +19,7 @@ final class Settings: Modal {
             item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
             
             border.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-            border.widthAnchor.constraint(equalToConstant: 340).isActive = true
+            border.widthAnchor.constraint(equalToConstant: 220).isActive = true
             border.topAnchor.constraint(equalTo: top, constant: 5).isActive = true
             top = item.bottomAnchor
         }
