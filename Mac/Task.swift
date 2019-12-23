@@ -33,8 +33,8 @@ final class Task: NSView, NSTextViewDelegate {
         text.setAccessibilityLabel(.key("Task"))
         text.font = .regular(14)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
-                                                     .emoji: [.font: NSFont.regular(20)],
-                                                     .bold: [.font: NSFont.medium(18), .foregroundColor: NSColor.white],
+                                                     .emoji: [.font: NSFont.regular(18)],
+                                                     .bold: [.font: NSFont.medium(16), .foregroundColor: NSColor.white],
                                                      .tag: [.font: NSFont.medium(12), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 2
