@@ -56,11 +56,11 @@ final class Todo: View {
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 600).isActive = true
+        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 900).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
         
-        let width = scroll.widthAnchor.constraint(equalToConstant: 600)
+        let width = scroll.widthAnchor.constraint(equalToConstant: 900)
         width.priority = .defaultLow
         width.isActive = true
         
@@ -114,15 +114,23 @@ final class Todo: View {
                 let task = Task($0, list: list, todo: self)
                 scroll.add(task)
                 
-                task.topAnchor.constraint(equalTo: top, constant: 2).isActive = true
-                task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+                task.topAnchor.constraint(equalTo: top, constant: top == scroll.top ? 30 : 0).isActive = true
+                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 6).isActive = true
+                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -6).isActive = true
                 top = task.bottomAnchor
+                
+                let left = task.leftAnchor.constraint(equalTo: scroll.left, constant: 50)
+                left.priority = .defaultLow
+                left.isActive = true
+                
+                let right = task.rightAnchor.constraint(equalTo: scroll.right, constant: -50)
+                right.priority = .defaultLow
+                right.isActive = true
             }
         }
         
         if top != scroll.top {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 20).isActive = true
         }
     
         let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)

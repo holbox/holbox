@@ -4,11 +4,10 @@ final class Task: NSView, NSTextViewDelegate {
     let index: Int
     let list: Int
     private (set) weak var text: Text!
-    private weak var line: NSView?
     private weak var _delete: Image!
     private weak var todo: Todo!
-    private weak var highlight: NSView!
-    private weak var bottom: NSLayoutConstraint!
+    private weak var time: Label!
+    private weak var line: NSView!
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, list: Int, todo: Todo) {
@@ -18,14 +17,9 @@ final class Task: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
-        
-        let highlight = NSView()
-        highlight.translatesAutoresizingMaskIntoConstraints = false
-        highlight.wantsLayer = true
-        highlight.layer!.backgroundColor = .haze()
-        highlight.alphaValue = 0
-        addSubview(highlight)
-        self.highlight = highlight
+        layer!.cornerRadius = 6
+        layer!.borderWidth = 1
+        layer!.borderColor = .clear
         
         let text = Text(.Fix(), Editable(), storage: Storage())
         text.textContainerInset.width = 10
@@ -45,49 +39,32 @@ final class Task: NSView, NSTextViewDelegate {
         addSubview(text)
         self.text = text
         
-        let _delete = Image("clear", tint: .black)
-        _delete.alphaValue = 0
+        let _delete = Image("clear")
+        _delete.isHidden = true
         addSubview(_delete)
         self._delete = _delete
         
-        if list == 0 {
-            let line = NSView()
-            line.translatesAutoresizingMaskIntoConstraints = false
-            line.wantsLayer = true
-            line.layer!.backgroundColor = .haze()
-            line.layer!.cornerRadius = 1.5
-            addSubview(line)
-            self.line = line
+        let line = NSView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.wantsLayer = true
+        line.layer!.backgroundColor = .haze()
+        line.layer!.cornerRadius = 1.5
+        addSubview(line)
+        self.line = line
         
-            text.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
-            
-            line.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
-            line.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-            line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
-            line.widthAnchor.constraint(equalToConstant: 3).isActive = true
-        } else {
-            layer!.backgroundColor = .haze(0.15)
-            
-            let time = Label(Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval, .regular(12), .haze())
-            addSubview(time)
-            
-            time.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            time.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-            
-            text.leftAnchor.constraint(equalTo: time.rightAnchor, constant: -5).isActive = true
-        }
+        let time = Label("", .regular(12), .haze())
+        time.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        addSubview(time)
+        self.time = time
         
-        bottom = bottomAnchor.constraint(equalTo: text.bottomAnchor)
-        bottom.isActive = true
-        
-        highlight.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        highlight.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        highlight.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        highlight.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        widthAnchor.constraint(greaterThanOrEqualToConstant: 30).isActive = true
+        bottomAnchor.constraint(equalTo: text.bottomAnchor).isActive = true
         
         text.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        text.rightAnchor.constraint(equalTo: rightAnchor, constant: -40).isActive = true
-        
+        text.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
+        text.leftAnchor.constraint(equalTo: time.rightAnchor).isActive = true
+        text.widthAnchor.constraint(greaterThanOrEqualToConstant: 90).isActive = true
+
         let height = text.heightAnchor.constraint(equalToConstant: 0)
         height.priority = .defaultLow
         height.isActive = true
@@ -98,10 +75,22 @@ final class Task: NSView, NSTextViewDelegate {
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
+        line.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        line.rightAnchor.constraint(equalTo: text.leftAnchor).isActive = true
+        line.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+        line.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        
+        time.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        let timeLeft = time.leftAnchor.constraint(equalTo: leftAnchor, constant: 15)
+        timeLeft.priority = .defaultLow
+        timeLeft.isActive = true
+        
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        
+        update()
     }
     
     func textDidEndEditing(_: Notification) {
@@ -111,23 +100,13 @@ final class Task: NSView, NSTextViewDelegate {
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
     
     override func mouseEntered(with: NSEvent) {
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.3
-            $0.allowsImplicitAnimation = true
-            highlight.alphaValue = 0.25
-            line?.layer!.backgroundColor = .black
-            _delete.alphaValue = 1
-        }
+        layer!.borderColor = .haze()
+        _delete.isHidden = false
     }
     
     override func mouseExited(with: NSEvent) {
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.3
-            $0.allowsImplicitAnimation = true
-            highlight.alphaValue = 0
-            line?.layer!.backgroundColor = .haze()
-            _delete.alphaValue = 0
-        }
+        layer!.borderColor = .clear
+        _delete.isHidden = true
     }
     
     override func rightMouseUp(with: NSEvent) {
@@ -150,18 +129,18 @@ final class Task: NSView, NSTextViewDelegate {
                 } else {
                     app.session.restart(app.project, index: index)
                 }
-                
-                bottom?.isActive = false
-                heightAnchor.constraint(equalToConstant: 0).isActive = true
-                NSAnimationContext.runAnimationGroup({
-                    $0.duration = 0.4
-                    $0.allowsImplicitAnimation = true
-                    layer!.backgroundColor = .haze(0.9)
-                    superview!.layoutSubtreeIfNeeded()
-                }) { [weak self] in
-                    self?.todo?.refresh()
-                }
+                todo.refresh()
             }
+        }
+    }
+    
+    private func update() {
+        if list == 0 {
+            line.isHidden = false
+            time.stringValue = ""
+        } else {
+            line.isHidden = true
+            time.stringValue = Date(timeIntervalSince1970: TimeInterval(app.session.content(app.project, list: 2, card: index))!).interval
         }
     }
 }

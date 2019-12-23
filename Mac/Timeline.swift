@@ -37,7 +37,7 @@ final class Timeline: NSView {
         
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-        heightAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+        heightAnchor.constraint(lessThanOrEqualToConstant: 140).isActive = true
         
         start.topAnchor.constraint(equalTo: bottomAnchor, constant: -35).isActive = true
         start.leftAnchor.constraint(equalTo: leftAnchor, constant: 3).isActive = true
@@ -55,7 +55,7 @@ final class Timeline: NSView {
         if dates.isEmpty {
             start.stringValue = ""
         } else {
-            let slots = (bounds.width - 60) / 20
+            let slots = (bounds.width - 60) / 10
             let interval = (.init(Date().timeIntervalSince1970) - dates.last!) / slots
             let tasks = (0 ... Int(slots)).reduce(into: [CGFloat]()) { tasks, slot in
                 let mark = dates.last! + (.init(slot) * interval)

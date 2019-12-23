@@ -106,6 +106,12 @@ final class Find: NSView, NSTextViewDelegate {
         _prev.leftAnchor.constraint(equalTo: _counter.rightAnchor, constant: 5).isActive = true
     }
     
+    override func mouseDown(with: NSEvent) {
+        if window!.firstResponder != text && text.frame.contains(convert(with.locationInWindow, from: nil)) {
+            show()
+        }
+    }
+    
     override func mouseUp(with: NSEvent) {
         let location = convert(with.locationInWindow, from: nil)
         if with.clickCount == 1 && bounds.contains(location) {
