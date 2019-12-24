@@ -122,22 +122,7 @@ final class Todo: View {
         var _last: Task?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let task = Task($0, list: list, todo: self)
-                scroll.add(task)
-                
-                task._parent = _last == nil ? scroll : _last
-                task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 6).isActive = true
-                task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -6).isActive = true
-                
-                let left = task.leftAnchor.constraint(equalTo: scroll.left, constant: 50)
-                left.priority = .defaultLow
-                left.isActive = true
-                
-                let right = task.rightAnchor.constraint(equalTo: scroll.right, constant: -50)
-                right.priority = .defaultLow
-                right.isActive = true
-                
-                _last = task
+                _last = task($0, list: list, parent: _last == nil ? scroll : _last!)
             }
         }
         
@@ -166,14 +151,17 @@ final class Todo: View {
         } else {
             app.session.add(app.project, list: 0, content: text.string)
             app.alert(.key("Task"), message: text.string)
-            NSAnimationContext.runAnimationGroup {
+//            task(0, list: 0, parent: <#T##NSView#>)
+            NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.3
                 $0.allowsImplicitAnimation = true
+                scroll.documentView!.layoutSubtreeIfNeeded()
                 scroll.contentView.scroll(to: .zero)
+            }) { [weak self] in
+                self?.text.string = ""
+                self?.text.needsLayout = true
+                self?.charts()
             }
-            refresh()
-            text.string = ""
-            text.needsLayout = true
         }
     }
     
@@ -203,5 +191,24 @@ final class Todo: View {
         DispatchQueue.main.async { [weak self] in
             self?.timeline.refresh()
         }
+    }
+    
+    private func task(_ index: Int, list: Int, parent: NSView) -> Task {
+        let task = Task(index, list: list, todo: self)
+        scroll.add(task)
+        
+        task._parent = parent
+        task.leftAnchor.constraint(greaterThanOrEqualTo: scroll.left, constant: 6).isActive = true
+        task.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -6).isActive = true
+        
+        let left = task.leftAnchor.constraint(equalTo: scroll.left, constant: 50)
+        left.priority = .defaultLow
+        left.isActive = true
+        
+        let right = task.rightAnchor.constraint(equalTo: scroll.right, constant: -50)
+        right.priority = .defaultLow
+        right.isActive = true
+        
+        return task
     }
 }
