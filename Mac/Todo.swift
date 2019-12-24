@@ -151,16 +151,34 @@ final class Todo: View {
         } else {
             app.session.add(app.project, list: 0, content: text.string)
             app.alert(.key("Task"), message: text.string)
-//            task(0, list: 0, parent: <#T##NSView#>)
+            let tasks = scroll.views.map { $0 as! Task }
+            let new = task(0, list: 0, parent: scroll)
+            new.layer!.backgroundColor = .haze(0.6)
+            scroll.documentView!.layoutSubtreeIfNeeded()
+            
+            if let previous = tasks.first(where: { $0.index == 0 && $0.list == 0 }) {
+                previous._parent = new
+            } else if let next = tasks.first(where: { $0.index == 0 && $0.list == 1 }) {
+                next._parent = new
+            } else {
+                _last = new
+            }
+            tasks.filter { $0.list == 0 }.forEach { $0.index += 1 }
+            text.string = ""
+            text.needsLayout = true
+            
             NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.3
                 $0.allowsImplicitAnimation = true
                 scroll.documentView!.layoutSubtreeIfNeeded()
                 scroll.contentView.scroll(to: .zero)
             }) { [weak self] in
-                self?.text.string = ""
-                self?.text.needsLayout = true
                 self?.charts()
+                NSAnimationContext.runAnimationGroup {
+                    $0.duration = 0.25
+                    $0.allowsImplicitAnimation = true
+                    new.layer!.backgroundColor = .clear
+                }
             }
         }
     }
