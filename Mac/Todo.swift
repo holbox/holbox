@@ -116,6 +116,25 @@ final class Todo: View {
         refresh()
     }
     
+    override func mouseDown(with: NSEvent) {
+        if window!.firstResponder != text {
+            window!.makeFirstResponder(text)
+        } else {
+            super.mouseDown(with: with)
+        }
+    }
+    
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 36:
+            add()
+        case 53:
+            text.string = ""
+            text.needsLayout = true
+        default: super.keyDown(with: with)
+        }
+    }
+    
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
         
@@ -132,17 +151,6 @@ final class Todo: View {
     
     override func viewDidEndLiveResize() {
         timeline.refresh()
-    }
-    
-    override func keyDown(with: NSEvent) {
-        switch with.keyCode {
-        case 36:
-            add()
-        case 53:
-            text.string = ""
-            text.needsLayout = true
-        default: super.keyDown(with: with)
-        }
     }
     
     override func add() {
