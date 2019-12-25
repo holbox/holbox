@@ -115,7 +115,6 @@ final class Shopping: View, NSTextViewDelegate {
             }
             
             grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-            grocery.rightAnchor.constraint(equalTo: scroll.right).isActive = true
             top = grocery.bottomAnchor
         }
         

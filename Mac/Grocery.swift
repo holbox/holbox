@@ -1,9 +1,12 @@
 import AppKit
 
 final class Grocery: NSView, NSTextViewDelegate {
+    weak var top: NSLayoutConstraint! { didSet { top!.isActive = true } }
+    weak var left: NSLayoutConstraint! { didSet { left!.isActive = true } }
     let index: Int
     private(set) weak var emoji: Text!
     private(set) weak var grocery: Text!
+    private weak var width: NSLayoutConstraint!
     private weak var _delete: Image!
     private weak var shopping: Shopping!
     
@@ -14,12 +17,16 @@ final class Grocery: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
+        layer!.cornerRadius = 6
+        layer!.borderWidth = 1
+        layer!.borderColor = .clear
         
         let emoji = Text(.Fix(), Block(), storage: .init())
         emoji.setAccessibilityLabel(.key("Emoji"))
         emoji.font = .regular(30)
         (emoji.layoutManager as! Layout).owns = true
         emoji.string = app.session.content(app.project, list: 0, card: index)
+        emoji.alignment = .center
         addSubview(emoji)
         self.emoji = emoji
         
@@ -39,6 +46,8 @@ final class Grocery: NSView, NSTextViewDelegate {
         grocery.tab = true
         grocery.intro = true
         grocery.delegate = self
+        grocery.textContainer!.widthTracksTextView = false
+        grocery.textContainer!.size.width = 200
         addSubview(grocery)
         self.grocery = grocery
         
@@ -46,24 +55,30 @@ final class Grocery: NSView, NSTextViewDelegate {
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
+        
+        let icon = Image("check", tint: .haze())
+        addSubview(icon)
+        
+        icon.centerXAnchor.constraint(equalTo: emoji.centerXAnchor).isActive = true
+        icon.centerYAnchor.constraint(equalTo: emoji.centerYAnchor).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
+        rightAnchor.constraint(equalTo: grocery.rightAnchor, constant: 20).isActive = true
         
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 40).isActive = true
-        emoji.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        emoji.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         grocery.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        grocery.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -15).isActive = true
-        grocery.rightAnchor.constraint(equalTo: rightAnchor, constant: -30).isActive = true
+        grocery.leftAnchor.constraint(equalTo: emoji.rightAnchor).isActive = true
+        width = grocery.widthAnchor.constraint(equalToConstant: 0)
+        width.isActive = true
         
         let height = grocery.heightAnchor.constraint(equalToConstant: 0)
         height.priority = .defaultLow
         height.isActive = true
-        
-        let width = widthAnchor.constraint(greaterThanOrEqualToConstant: 300)
-        width.priority = .defaultLow
-        width.isActive = true
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -71,19 +86,16 @@ final class Grocery: NSView, NSTextViewDelegate {
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         if app.session.content(app.project, list: 2, card: index) == "1" {
-            emoji.alphaValue = 0.2
+            emoji.alphaValue = 0.1
             grocery.alphaValue = 0.5
-            
-            let icon = Image("check", tint: .haze())
-            addSubview(icon)
-            
-            icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-            icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        } else {
+            icon.isHidden = true
         }
         
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
+        
+        grocery.layoutManager!.ensureLayout(for: grocery.textContainer!)
+        resize()
     }
     
     func textDidEndEditing(_: Notification) {
@@ -134,5 +146,9 @@ final class Grocery: NSView, NSTextViewDelegate {
                 shopping.refresh()
             }
         }
+    }
+    
+    private func resize() {
+        width.constant = grocery.layoutManager!.usedRect(for: grocery.textContainer!).size.width + 20
     }
 }
