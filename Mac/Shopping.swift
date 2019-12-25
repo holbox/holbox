@@ -12,9 +12,6 @@ final class Shopping: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let border = Border.vertical()
-        addSubview(border)
-        
         let titleEmoji = Label(.key("Emoji"), .medium(12), .haze())
         addSubview(titleEmoji)
         
@@ -60,30 +57,22 @@ final class Shopping: View, NSTextViewDelegate {
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
-        scroll.widthAnchor.constraint(lessThanOrEqualToConstant: 500).isActive = true
+        scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
-
-        let width = scroll.widthAnchor.constraint(equalToConstant: 500)
-        width.priority = .defaultLow
-        width.isActive = true
-        
-        border.leftAnchor.constraint(equalTo: scroll.rightAnchor).isActive = true
-        border.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         
         titleEmoji.topAnchor.constraint(equalTo: topAnchor, constant: 35).isActive = true
-        titleEmoji.leftAnchor.constraint(equalTo: border.rightAnchor, constant: 35).isActive = true
+        titleEmoji.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
         
         titleGrocery.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 40).isActive = true
-        titleGrocery.leftAnchor.constraint(equalTo: border.rightAnchor, constant: 35).isActive = true
+        titleGrocery.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
         
         emoji.topAnchor.constraint(equalTo: titleEmoji.bottomAnchor, constant: 5).isActive = true
-        emoji.leftAnchor.constraint(equalTo: border.rightAnchor, constant: 35).isActive = true
+        emoji.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
         emoji.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         grocery.topAnchor.constraint(equalTo: titleGrocery.bottomAnchor, constant: 5).isActive = true
-        grocery.leftAnchor.constraint(equalTo: border.rightAnchor, constant: 35).isActive = true
+        grocery.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
         grocery.widthAnchor.constraint(equalToConstant: 250).isActive = true
         
         _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 10).isActive = true
@@ -120,16 +109,9 @@ final class Shopping: View, NSTextViewDelegate {
             scroll.add(grocery)
             
             if top != nil {
-                let border = Border.horizontal(0.3)
-                scroll.add(border)
-                
-                border.topAnchor.constraint(equalTo: top).isActive = true
-                border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-                
-                grocery.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+                grocery.topAnchor.constraint(equalTo: top).isActive = true
             } else {
-                grocery.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+                grocery.topAnchor.constraint(equalTo: scroll.top).isActive = true
             }
             
             grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
@@ -138,7 +120,7 @@ final class Shopping: View, NSTextViewDelegate {
         }
         
         if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top, constant: 20).isActive = true
+            scroll.bottom.constraint(greaterThanOrEqualTo: top).isActive = true
         }
     }
     

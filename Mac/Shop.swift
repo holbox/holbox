@@ -58,7 +58,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.bottom.constraint(greaterThanOrEqualTo: contentView!.bottomAnchor).isActive = true
         
         title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 50).isActive = true
-        title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 20).isActive = true
+        title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 17).isActive = true
         
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
         border.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 1).isActive = true
