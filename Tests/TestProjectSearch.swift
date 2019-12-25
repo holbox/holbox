@@ -130,22 +130,4 @@ final class TestProjectSearch: XCTestCase {
         }
         waitForExpectations(timeout: 1)
     }
-    
-    func testProduct() {
-        let expect = expectation(description: "")
-        _ = session.add(.shopping)
-        session.add(1, emoji: "🙆🏻‍♀️", description: "hello")
-        session.add(1, reference: 0)
-        session.search(1, string: "hello") {
-            XCTAssertEqual(2, $0.count)
-            XCTAssertEqual(1, $0.first?.0)
-            XCTAssertEqual(0, $0.first?.1)
-            XCTAssertEqual(.init(location: 0, length: 5), $0.first?.2)
-            XCTAssertEqual(0, $0.last?.0)
-            XCTAssertEqual(0, $0.last?.1)
-            XCTAssertEqual(.init(location: 8, length: 5), $0.last?.2)
-            expect.fulfill()
-        }
-        waitForExpectations(timeout: 1)
-    }
 }

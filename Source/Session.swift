@@ -46,10 +46,7 @@ public final class Session {
     public init() { }
     
     public func load(completion: @escaping () -> Void) {
-        store.load(self) {
-            self.migrate()
-            completion()
-        }
+        store.load(self, completion: completion)
     }
     
     public func refresh(done: @escaping ([Int]) -> Void) {
@@ -120,10 +117,6 @@ public final class Session {
         product(project, index: Int(items[project]!.cards[1].1[index])!)
     }
     
-    public func contains(_ project: Int, reference: Int) -> Bool {
-        items[project]!.cards[1].1.contains(.init(reference))
-    }
-    
     public func name(_ project: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
         guard items[project]!.name != name else { return }
@@ -153,27 +146,9 @@ public final class Session {
         save(project)
     }
     
-    public func add(_ project: Int, emoji: String, description: String) {
-        guard let item = product(emoji, description: description) else { return }
-        items[project]!.cards[0].1.append(item)
-        save(project)
-    }
-    
-    public func add(_ project: Int, reference: Int) {
-        guard !contains(project, reference: reference) else { return }
-        items[project]!.cards[1].1.append(.init(reference))
-        save(project)
-    }
-    
     public func content(_ project: Int, list: Int, card: Int, content: String) {
         guard items[project]!.cards[list].1[card] != content else { return }
         items[project]!.cards[list].1[card] = content
-        save(project)
-    }
-    
-    public func product(_ project: Int, index: Int, emoji: String, description: String) {
-        guard let item = product(emoji, description: description), items[project]!.cards[0].1[index] != item else { return }
-        items[project]!.cards[0].1[index] = item
         save(project)
     }
     
@@ -310,38 +285,9 @@ public final class Session {
         }
     }
     
-    public func migrate() {
-        (0 ..< items.count).forEach { project in
-            if items[project]!.mode == .todo && items[project]!.cards.count < 3 {
-                items[project]!.cards.append(("", []))
-                items[project]!.cards[2].1 = (0 ..< items[project]!.cards[1].1.count).map { _ in "\(Int(Date().timeIntervalSince1970))" }
-                save(project)
-            } else if items[project]!.mode == .shopping && items[project]!.cards.count < 3 {
-                var cards = [("", []), ("", []), ("", [])] as [(String, [String])]
-                (0 ..< items[project]!.cards[0].1.count).forEach {
-                    let product = self.product(project, index: $0)
-                    cards[0].1.append(product.0)
-                    cards[1].1.append(product.1)
-                    cards[2].1.append(contains(project, reference: $0) ? "0" : "1")
-                }
-                items[project]!.cards = cards
-                save(project)
-            }
-        }
-    }
-    
     func update(_ user: String) {
         self.user = user
         store.save(self)
-    }
-    
-    private func product(_ emoji: String, description: String) -> String? {
-        let emoji = {
-            $0.unicodeScalars.first?.emoji == true ? $0 : ""
-        } (emoji.trimmingCharacters(in: .whitespacesAndNewlines))
-        let description = description.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !emoji.isEmpty || !description.isEmpty else { return nil }
-        return emoji + "\n" + description
     }
     
     private func save(_ project: Int) {

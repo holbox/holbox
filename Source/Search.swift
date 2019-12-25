@@ -9,10 +9,7 @@ final class Search {
         self.project = project
         self.string = string.trimmingCharacters(in: .whitespacesAndNewlines)
         DispatchQueue.global(qos: .background).async { [weak self] in
-            switch project.mode {
-            case .shopping: self?.product()
-            default: self?.search()
-            }
+            self?.search()
             DispatchQueue.main.async { [weak self] in
                 guard let ranges = self?.ranges else { return }
                 result(ranges)
@@ -26,17 +23,6 @@ final class Search {
                 (0 ..< project.cards[list].1.count).forEach {
                     item(list, $0, project.cards[list].1[$0])
                 }
-            }
-        }
-    }
-    
-    private func product() {
-        if !string.isEmpty {
-            (0 ..< project.cards[1].1.count).forEach {
-                item(1, $0, project.cards[0].1[Int(project.cards[1].1[$0])!].components(separatedBy: "\n").dropFirst().joined(separator: "\n"))
-            }
-            (0 ..< project.cards[0].1.count).forEach {
-                item(0, $0, project.cards[0].1[$0])
             }
         }
     }
