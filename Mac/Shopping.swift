@@ -15,20 +15,21 @@ final class Shopping: View, NSTextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let titleEmoji = Label(.key("Emoji"), .medium(12), .haze())
+        let titleEmoji = Label(.key("Grocery.emoji"), .medium(12), .haze())
         addSubview(titleEmoji)
         
-        let titleGrocery = Label(.key("Grocery"), .medium(12), .haze())
+        let titleGrocery = Label(.key("Grocery.descr"), .medium(12), .haze())
         addSubview(titleGrocery)
         
         let emoji = Text(.Fix(), Active(), storage: .init())
         emoji.wantsLayer = true
         emoji.layer!.cornerRadius = 6
         emoji.layer!.backgroundColor = .haze(0.2)
-        emoji.textContainerInset.width = 10
-        emoji.textContainerInset.height = 10
-        emoji.setAccessibilityLabel(.key("Emoji"))
-        emoji.font = .regular(30)
+        emoji.textContainerInset.width = 5
+        emoji.textContainerInset.height = 5
+        emoji.setAccessibilityLabel(.key("Grocery.emoji"))
+        emoji.font = .regular(14)
+        emoji.alignment = .center
         emoji.textContainer!.maximumNumberOfLines = 1
         (emoji.layoutManager as! Layout).padding = 2
         emoji.delegate = self
@@ -39,9 +40,10 @@ final class Shopping: View, NSTextViewDelegate {
         grocery.wantsLayer = true
         grocery.layer!.cornerRadius = 6
         grocery.layer!.backgroundColor = .haze(0.2)
-        grocery.textContainerInset.width = 10
-        grocery.textContainerInset.height = 10
-        grocery.setAccessibilityLabel(.key("Grocery"))
+        grocery.textContainerInset.width = 5
+        grocery.textContainerInset.height = 5
+        grocery.textContainer!.maximumNumberOfLines = 1
+        grocery.setAccessibilityLabel(.key("Grocery.descr"))
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
                                                         .emoji: [.font: NSFont.regular(14)],
@@ -57,32 +59,39 @@ final class Shopping: View, NSTextViewDelegate {
         _add.setAccessibilityLabel(.key("Shopping.add"))
         addSubview(_add)
         
+        let border = Border.horizontal()
+        addSubview(border)
+        
         scroll.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        scroll.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
+        scroll.bottomAnchor.constraint(equalTo: border.topAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
         _height = scroll.height.constraint(equalToConstant: 0)
         _height.isActive = true
         
-        titleEmoji.topAnchor.constraint(equalTo: topAnchor, constant: 35).isActive = true
-        titleEmoji.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
+        titleEmoji.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 25).isActive = true
+        titleEmoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 35).isActive = true
         
-        titleGrocery.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 40).isActive = true
-        titleGrocery.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
+        titleGrocery.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 25).isActive = true
+        titleGrocery.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 20).isActive = true
         
-        emoji.topAnchor.constraint(equalTo: titleEmoji.bottomAnchor, constant: 5).isActive = true
-        emoji.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
-        emoji.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        emoji.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 15).isActive = true
+        emoji.leftAnchor.constraint(equalTo: titleEmoji.rightAnchor, constant: 5).isActive = true
+        emoji.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
-        grocery.topAnchor.constraint(equalTo: titleGrocery.bottomAnchor, constant: 5).isActive = true
-        grocery.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
-        grocery.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        grocery.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 15).isActive = true
+        grocery.leftAnchor.constraint(equalTo: titleGrocery.rightAnchor, constant: 5).isActive = true
+        grocery.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
-        _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 10).isActive = true
-        _add.centerXAnchor.constraint(equalTo: grocery.centerXAnchor).isActive = true
+        _add.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
+        _add.leftAnchor.constraint(equalTo: grocery.rightAnchor, constant: 20).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        border.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
+        border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
         
         refresh()
     }
@@ -130,8 +139,14 @@ final class Shopping: View, NSTextViewDelegate {
             app.session.add(app.project, list: 2, content: "0")
             emoji.string = ""
             grocery.string = ""
-            grocery.needsLayout = true
-            refresh()
+            // make append instead of insert
+            let grocery = Grocery(app.session.cards(app.project, list: 0) - 1, shopping: self)
+            scroll.add(grocery)
+            grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
+            grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
+            scroll.documentView!.layoutSubtreeIfNeeded()
+            
+            animate()
         }
     }
     
