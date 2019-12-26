@@ -6,9 +6,11 @@ final class Grocery: NSView, NSTextViewDelegate {
     let index: Int
     private(set) weak var emoji: Text!
     private(set) weak var grocery: Text!
-    private weak var width: NSLayoutConstraint!
+    private weak var icon: Image!
     private weak var _delete: Image!
     private weak var shopping: Shopping!
+    private weak var width: NSLayoutConstraint!
+    private var stock = false
     
     required init?(coder: NSCoder) { nil }
     init(_ index: Int, shopping: Shopping) {
@@ -20,6 +22,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         layer!.cornerRadius = 6
         layer!.borderWidth = 1
         layer!.borderColor = .clear
+        stock = app.session.content(app.project, list: 2, card: index) == "1"
         
         let emoji = Text(.Fix(), Block(), storage: .init())
         emoji.setAccessibilityLabel(.key("Emoji"))
@@ -58,6 +61,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         
         let icon = Image("check", tint: .haze())
         addSubview(icon)
+        self.icon = icon
         
         icon.centerXAnchor.constraint(equalTo: emoji.centerXAnchor).isActive = true
         icon.centerYAnchor.constraint(equalTo: emoji.centerYAnchor).isActive = true
@@ -85,17 +89,11 @@ final class Grocery: NSView, NSTextViewDelegate {
         _delete.widthAnchor.constraint(equalToConstant: 30).isActive = true
         _delete.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        if app.session.content(app.project, list: 2, card: index) == "1" {
-            emoji.alphaValue = 0.1
-            grocery.alphaValue = 0.5
-        } else {
-            icon.isHidden = true
-        }
-        
         addTrackingArea(.init(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
         
         grocery.layoutManager!.ensureLayout(for: grocery.textContainer!)
         resize()
+        update()
     }
     
     func textDidEndEditing(_: Notification) {
@@ -136,19 +134,37 @@ final class Grocery: NSView, NSTextViewDelegate {
                 window!.makeFirstResponder(self)
                 app.runModal(for: Delete.Grocery(index))
             } else if window!.firstResponder != grocery {
-                if app.session.content(app.project, list: 2, card: index) == "1" {
+                if stock {
                     app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
                     app.session.content(app.project, list: 2, card: index, content: "0")
+                    stock = false
                 } else {
                     app.alert(.key("Grocery.got"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
                     app.session.content(app.project, list: 2, card: index, content: "1")
+                    stock = true
                 }
-                shopping.refresh()
+                NSAnimationContext.runAnimationGroup {
+                    $0.duration = 0.35
+                    $0.allowsImplicitAnimation = true
+                    update()
+                }
             }
         }
     }
     
     private func resize() {
         width.constant = grocery.layoutManager!.usedRect(for: grocery.textContainer!).size.width + 20
+    }
+    
+    private func update() {
+        if stock {
+            emoji.alphaValue = 0.1
+            grocery.alphaValue = 0.4
+            icon.isHidden = false
+        } else {
+            emoji.alphaValue = 1
+            grocery.alphaValue = 1
+            icon.isHidden = true
+        }
     }
 }
