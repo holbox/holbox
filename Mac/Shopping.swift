@@ -4,6 +4,9 @@ final class Shopping: View, NSTextViewDelegate {
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
+    private weak var _height: NSLayoutConstraint!
+    private let margin = CGFloat(40)
+    private let spacing = CGFloat(15)
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -59,7 +62,8 @@ final class Shopping: View, NSTextViewDelegate {
         scroll.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         scroll.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         scroll.width.constraint(equalTo: scroll.widthAnchor).isActive = true
-        scroll.bottom.constraint(greaterThanOrEqualTo: scroll.bottomAnchor).isActive = true
+        _height = scroll.height.constraint(equalToConstant: 0)
+        _height.isActive = true
         
         titleEmoji.topAnchor.constraint(equalTo: topAnchor, constant: 35).isActive = true
         titleEmoji.leftAnchor.constraint(equalTo: rightAnchor, constant: 35).isActive = true
@@ -83,6 +87,11 @@ final class Shopping: View, NSTextViewDelegate {
         refresh()
     }
     
+    override func viewDidEndLiveResize() {
+        super.viewDidEndLiveResize()
+        animate()
+    }
+    
     func textDidBeginEditing(_: Notification) {
         app.orderFrontCharacterPalette(nil)
     }
@@ -102,25 +111,15 @@ final class Shopping: View, NSTextViewDelegate {
     
     override func refresh() {
         scroll.views.forEach { $0.removeFromSuperview() }
-        
-        var top: NSLayoutYAxisAnchor!
         (0 ..< app.session.cards(app.project, list: 0)).forEach {
             let grocery = Grocery($0, shopping: self)
             scroll.add(grocery)
             
-            if top != nil {
-                grocery.topAnchor.constraint(equalTo: top).isActive = true
-            } else {
-                grocery.topAnchor.constraint(equalTo: scroll.top).isActive = true
-            }
-            
-            grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-            top = grocery.bottomAnchor
+            grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
+            grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
         }
-        
-        if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top).isActive = true
-        }
+        scroll.documentView!.layoutSubtreeIfNeeded()
+        reorder()
     }
     
     override func add() {
@@ -134,5 +133,32 @@ final class Shopping: View, NSTextViewDelegate {
             grocery.needsLayout = true
             refresh()
         }
+    }
+    
+    private func animate() {
+        reorder()
+        NSAnimationContext.runAnimationGroup {
+            $0.duration = 0.6
+            $0.allowsImplicitAnimation = true
+            scroll.documentView!.layoutSubtreeIfNeeded()
+        }
+    }
+    
+    private func reorder() {
+        var top = margin
+        var left = margin
+        var bottom = margin + spacing
+        scroll.views.map { $0 as! Grocery }.forEach {
+            if left + $0.bounds.width > app.main.frame.width - margin {
+                left = margin
+                top = bottom + spacing
+                bottom = top
+            }
+            $0.top.constant = top
+            $0.left.constant = left
+            bottom = max(top + $0.bounds.height, bottom)
+            left += $0.bounds.width + spacing
+        }
+        _height.constant = bottom + margin
     }
 }
