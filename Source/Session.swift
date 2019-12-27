@@ -7,7 +7,7 @@ public final class Session {
     var items = [Int : Project]()
     var perks = [Perk]()
     var settings = Settings()
-    var refreshed = Date().timeIntervalSince1970
+    var refreshed = Date.distantFuture.timeIntervalSince1970
     private var search: Search?
     private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     
@@ -46,7 +46,10 @@ public final class Session {
     public init() { }
     
     public func load(completion: @escaping () -> Void) {
-        store.load(self, completion: completion)
+        store.load(self) {
+            self.refreshed = Date().timeIntervalSince1970
+            completion()
+        }
     }
     
     public func refresh(done: @escaping ([Int]) -> Void) {

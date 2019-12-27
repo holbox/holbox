@@ -1,6 +1,17 @@
 import CloudKit
+import Network
 
 class Shared {
+    private var network = false
+    private let monitor = NWPathMonitor()
+    
+    func prepare() {
+        monitor.start(queue: .init(label: "", qos: .background, target: .global(qos: .background)))
+        monitor.pathUpdateHandler = {
+            self.network = $0.status == .satisfied
+        }
+    }
+    
     func load(_ ids: [String], session: Session, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         if session.user.isEmpty {
             CKContainer(identifier: "iCloud.holbox").fetchUserRecordID {
@@ -28,8 +39,8 @@ class Shared {
     private func load(_ ids: [String], user: String, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let ids = ids.map { $0 + user }
         let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-        operation.configuration.timeoutIntervalForResource = 10
-        operation.configuration.timeoutIntervalForRequest = 10
+        operation.configuration.timeoutIntervalForResource = 15
+        operation.configuration.timeoutIntervalForRequest = 15
         operation.fetchRecordsCompletionBlock = {
             guard let records = $0, $1 == nil else { return error() }
             result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
@@ -43,8 +54,8 @@ class Shared {
             record["asset"] = CKAsset(fileURL: $0.1)
             return record
         })
-        operation.configuration.timeoutIntervalForRequest = 15
-        operation.configuration.timeoutIntervalForResource = 15
+        operation.configuration.timeoutIntervalForRequest = 30
+        operation.configuration.timeoutIntervalForResource = 30
         operation.savePolicy = .allKeys
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
     }
