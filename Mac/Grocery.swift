@@ -143,6 +143,7 @@ final class Grocery: NSView, NSTextViewDelegate {
                     app.session.content(app.project, list: 2, card: index, content: "1")
                     stock = true
                 }
+                shopping.stock.refresh()
                 NSAnimationContext.runAnimationGroup {
                     $0.duration = 0.35
                     $0.allowsImplicitAnimation = true

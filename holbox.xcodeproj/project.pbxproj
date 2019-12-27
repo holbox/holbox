@@ -131,6 +131,7 @@
 		DAC73A30234773A000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A2F234773A000EF8832 /* CloudKit.framework */; };
 		DAC73A32234773E300EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A31234773E300EF8832 /* CloudKit.framework */; };
 		DAC73A352347740000EF8832 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC73A342347740000EF8832 /* CloudKit.framework */; };
+		DAC8B08E23B6A7A100B63447 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8B08D23B6A7A100B63447 /* Stock.swift */; };
 		DACB75CE2347708100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75CF2347708F00037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EAF234769850060895A /* libholbox.a */; };
 		DACB75D5234770E100037180 /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAF68EB023476AFE0060895A /* libholbox.a */; };
@@ -383,6 +384,7 @@
 		DAC73A31234773E300EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A342347740000EF8832 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAC73A362347745700EF8832 /* Watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Watch.entitlements; sourceTree = "<group>"; };
+		DAC8B08D23B6A7A100B63447 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		DACB75CC23476CCF00037180 /* libholbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libholbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD1835923817A3800199FE7 /* Tags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		DAD319D02362FB0800A1011C /* TestStoreRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStoreRefresh.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				DA3E746C237AD14F00566D3A /* Settings.swift */,
 				DA8B96032356FA60007E82F7 /* Shop.swift */,
 				DA647E5223759AB90030CB5E /* Shopping.swift */,
+				DAC8B08D23B6A7A100B63447 /* Stock.swift */,
 				DA6F04EE238EA10A006996DD /* Tag.swift */,
 				DAD1835923817A3800199FE7 /* Tags.swift */,
 				DA16F18C2370020600F3A1FE /* Task.swift */,
@@ -1132,6 +1135,7 @@
 				DA6F04F9238EA240006996DD /* Progress.swift in Sources */,
 				DA4AB0AA237C0667008725EB /* Unmove.swift in Sources */,
 				DAD5E6EE2364336200EE4AD9 /* Tool.swift in Sources */,
+				DAC8B08E23B6A7A100B63447 /* Stock.swift in Sources */,
 				DA6F04FB238EA26B006996DD /* Lines.swift in Sources */,
 				DAD8F1A2234E2E6300835E3E /* Add.swift in Sources */,
 				DA1A1421237EC06F00028352 /* Project.swift in Sources */,

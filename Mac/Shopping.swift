@@ -1,6 +1,7 @@
 import AppKit
 
 final class Shopping: View, NSTextViewDelegate {
+    private(set) weak var stock: Stock!
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
@@ -58,6 +59,10 @@ final class Shopping: View, NSTextViewDelegate {
         _add.setAccessibilityLabel(.key("Shopping.add"))
         addSubview(_add)
         
+        let stock = Stock()
+        scroll.add(stock)
+        self.stock = stock
+        
         let border = Border.horizontal()
         addSubview(border)
         
@@ -88,6 +93,10 @@ final class Shopping: View, NSTextViewDelegate {
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        stock.topAnchor.constraint(equalTo: scroll.top, constant: 35).isActive = true
+        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 35).isActive = true
+        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -35).isActive = true
+        
         border.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
         border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -70).isActive = true
@@ -111,6 +120,7 @@ final class Shopping: View, NSTextViewDelegate {
     override func viewDidEndLiveResize() {
         super.viewDidEndLiveResize()
         animate()
+        stock.resize()
     }
     
     func textDidBeginEditing(_: Notification) {
@@ -131,7 +141,7 @@ final class Shopping: View, NSTextViewDelegate {
     }
     
     override func refresh() {
-        scroll.views.forEach { $0.removeFromSuperview() }
+        scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
         (0 ..< app.session.cards(app.project, list: 0)).forEach {
             let grocery = Grocery($0, shopping: self)
             scroll.add(grocery)
@@ -141,6 +151,7 @@ final class Shopping: View, NSTextViewDelegate {
         }
         scroll.documentView!.layoutSubtreeIfNeeded()
         reorder()
+        stock.refresh()
     }
     
     override func add() {
@@ -149,9 +160,7 @@ final class Shopping: View, NSTextViewDelegate {
             app.session.add(app.project, emoji: emoji.string, grocery: grocery.string)
             emoji.string = ""
             grocery.string = ""
-            scroll.views.map { $0 as! Grocery }.forEach {
-                $0.index += 1
-            }
+            scroll.views.compactMap { $0 as? Grocery }.forEach { $0.index += 1 }
             
             let grocery = Grocery(0, shopping: self)
             scroll.add(grocery)
@@ -160,6 +169,7 @@ final class Shopping: View, NSTextViewDelegate {
             scroll.documentView!.layoutSubtreeIfNeeded()
             
             animate()
+            stock.refresh()
         } else {
             window!.makeFirstResponder(emoji)
         }
@@ -175,10 +185,10 @@ final class Shopping: View, NSTextViewDelegate {
     }
     
     private func reorder() {
-        var top = margin
+        var top = margin + 50
         var left = margin
         var bottom = margin + spacing
-        scroll.views.map { $0 as! Grocery }.sorted { $0.index < $1.index }.forEach {
+        scroll.views.compactMap { $0 as? Grocery }.sorted { $0.index < $1.index }.forEach {
             if left + $0.bounds.width > app.main.frame.width - margin {
                 left = margin
                 top = bottom + spacing
