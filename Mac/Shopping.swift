@@ -175,6 +175,34 @@ final class Shopping: View, NSTextViewDelegate {
         }
     }
     
+    override func found(_ ranges: [(Int, Int, NSRange)]) {
+        scroll.views.compactMap { $0 as? Grocery }.forEach { grocery in
+            let emojis = ranges.filter { $0.0 == 0 && $0.1 == grocery.index }.map { $0.2 as NSValue }
+            let groceries = ranges.filter { $0.0 == 1 && $0.1 == grocery.index }.map { $0.2 as NSValue }
+            if emojis.isEmpty {
+                grocery.emoji.setSelectedRange(.init())
+            } else {
+                grocery.emoji.setSelectedRanges(emojis, affinity: .downstream, stillSelecting: true)
+            }
+            if groceries.isEmpty {
+                grocery.grocery.setSelectedRange(.init())
+            } else {
+                grocery.grocery.setSelectedRanges(groceries, affinity: .downstream, stillSelecting: true)
+            }
+        }
+    }
+    
+    override func select(_ list: Int, _ card: Int, _ range: NSRange) {
+        let text: Text
+        if list == 0 {
+            text = scroll.views.compactMap { $0 as? Grocery }.first { $0.index == card }!.emoji
+        } else {
+            text = scroll.views.compactMap { $0 as? Grocery }.first { $0.index == card }!.grocery
+        }
+        text.showFindIndicator(for: range)
+        scroll.center(scroll.contentView.convert(text.layoutManager!.boundingRect(forGlyphRange: range, in: text.textContainer!), from: text))
+    }
+    
     func animate() {
         reorder()
         NSAnimationContext.runAnimationGroup {
