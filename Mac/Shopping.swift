@@ -49,7 +49,6 @@ final class Shopping: View, NSTextViewDelegate {
                                                         .emoji: [.font: NSFont.regular(14)],
                                                         .bold: [.font: NSFont.medium(16), .foregroundColor: NSColor.white],
                                                         .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
-        grocery.tab = true
         grocery.intro = true
         (grocery.layoutManager as! Layout).padding = 2
         addSubview(grocery)
@@ -85,15 +84,28 @@ final class Shopping: View, NSTextViewDelegate {
         grocery.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
         _add.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
-        _add.leftAnchor.constraint(equalTo: grocery.rightAnchor, constant: 20).isActive = true
+        _add.leftAnchor.constraint(equalTo: grocery.rightAnchor, constant: 10).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         border.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
-        border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60).isActive = true
+        border.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -70).isActive = true
         
         refresh()
+    }
+    
+    override func keyDown(with: NSEvent) {
+        switch with.keyCode {
+        case 36:
+            add()
+        case 48:
+            window!.makeFirstResponder(grocery)
+        case 53:
+            emoji.string = ""
+            grocery.string = ""
+        default: super.keyDown(with: with)
+        }
     }
     
     override func viewDidEndLiveResize() {
@@ -148,6 +160,8 @@ final class Shopping: View, NSTextViewDelegate {
             scroll.documentView!.layoutSubtreeIfNeeded()
             
             animate()
+        } else {
+            window!.makeFirstResponder(emoji)
         }
     }
     
@@ -164,7 +178,7 @@ final class Shopping: View, NSTextViewDelegate {
         var top = margin
         var left = margin
         var bottom = margin + spacing
-        scroll.views.map { $0 as! Grocery }.forEach {
+        scroll.views.map { $0 as! Grocery }.sorted { $0.index < $1.index }.forEach {
             if left + $0.bounds.width > app.main.frame.width - margin {
                 left = margin
                 top = bottom + spacing
