@@ -175,7 +175,7 @@ final class Shopping: View, NSTextViewDelegate {
         }
     }
     
-    private func animate() {
+    func animate() {
         reorder()
         NSAnimationContext.runAnimationGroup {
             $0.duration = 0.6
@@ -184,7 +184,7 @@ final class Shopping: View, NSTextViewDelegate {
         }
     }
     
-    private func reorder() {
+    func reorder() {
         var top = margin + 50
         var left = margin
         var bottom = margin + spacing

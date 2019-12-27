@@ -24,7 +24,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         layer!.borderColor = .clear
         stock = app.session.content(app.project, list: 2, card: index) == "1"
         
-        let emoji = Text(.Fix(), Block(), storage: .init())
+        let emoji = Text(.Fix(), Off(), storage: .init())
         emoji.setAccessibilityLabel(.key("Emoji"))
         emoji.font = .regular(30)
         (emoji.layoutManager as! Layout).owns = true
@@ -96,8 +96,13 @@ final class Grocery: NSView, NSTextViewDelegate {
         update()
     }
     
+    func textDidChange(_: Notification) {
+        resize()
+    }
+    
     func textDidEndEditing(_: Notification) {
         app.session.content(app.project, list: 1, card: index, content: grocery.string)
+        shopping?.animate()
     }
     
     override func resetCursorRects() { addCursorRect(bounds, cursor: .pointingHand) }
