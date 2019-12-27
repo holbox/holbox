@@ -3,7 +3,7 @@ import AppKit
 final class Grocery: NSView, NSTextViewDelegate {
     weak var top: NSLayoutConstraint! { didSet { top!.isActive = true } }
     weak var left: NSLayoutConstraint! { didSet { left!.isActive = true } }
-    let index: Int
+    var index: Int
     private(set) weak var emoji: Text!
     private(set) weak var grocery: Text!
     private weak var icon: Image!

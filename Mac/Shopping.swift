@@ -134,13 +134,14 @@ final class Shopping: View, NSTextViewDelegate {
     override func add() {
         if !emoji.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !grocery.string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.alert(.key("Grocery"), message: emoji.string.trimmingCharacters(in: .whitespacesAndNewlines) + " " + grocery.string.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 0, content: emoji.string.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 1, content: grocery.string.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 2, content: "0")
+            app.session.add(app.project, emoji: emoji.string, grocery: grocery.string)
             emoji.string = ""
             grocery.string = ""
-            // make append instead of insert
-            let grocery = Grocery(app.session.cards(app.project, list: 0) - 1, shopping: self)
+            scroll.views.map { $0 as! Grocery }.forEach {
+                $0.index += 1
+            }
+            
+            let grocery = Grocery(0, shopping: self)
             scroll.add(grocery)
             grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
             grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)

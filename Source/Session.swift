@@ -203,6 +203,13 @@ public final class Session {
         save(project)
     }
     
+    public func delete(_ project: Int, grocery: Int) {
+        items[project]!.cards[0].1.remove(at: grocery)
+        items[project]!.cards[1].1.remove(at: grocery)
+        items[project]!.cards[2].1.remove(at: grocery)
+        save(project)
+    }
+    
     public func delete(_ project: Int, product: Int) {
         items[project]!.cards[0].1.remove(at: product)
         items[project]!.cards[1].1 = items[project]!.cards[1].1.compactMap {
