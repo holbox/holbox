@@ -1,4 +1,5 @@
 import Foundation
+import Network
 
 class Store {
 #if DEBUG
@@ -10,6 +11,7 @@ class Store {
     var time = TimeInterval(1)
     private var timer: DispatchSourceTimer?
     private var balancing = [String: URL]()
+    private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
     private let coder = Coder()
     
