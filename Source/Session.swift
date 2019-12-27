@@ -146,6 +146,13 @@ public final class Session {
         save(project)
     }
     
+    public func add(_ project: Int, emoji: String, grocery: String) {
+        items[project]!.cards[0].1.insert(emoji.trimmingCharacters(in: .whitespacesAndNewlines), at: 0)
+        items[project]!.cards[1].1.insert(grocery.trimmingCharacters(in: .whitespacesAndNewlines), at: 0)
+        items[project]!.cards[2].1.insert("0", at: 0)
+        save(project)
+    }
+    
     public func content(_ project: Int, list: Int, card: Int, content: String) {
         guard items[project]!.cards[list].1[card] != content else { return }
         items[project]!.cards[list].1[card] = content
