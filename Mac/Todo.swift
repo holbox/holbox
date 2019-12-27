@@ -117,7 +117,7 @@ final class Todo: View {
     }
     
     override func mouseDown(with: NSEvent) {
-        if window!.firstResponder != text {
+        if !scroll.frame.contains(convert(with.locationInWindow, from: nil)) && window!.firstResponder != text {
             window!.makeFirstResponder(text)
         } else {
             super.mouseDown(with: with)
