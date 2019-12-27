@@ -13,6 +13,7 @@ class Shared {
     }
     
     func load(_ ids: [String], session: Session, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
+        guard network else { return error() }
         if session.user.isEmpty {
             CKContainer(identifier: "iCloud.holbox").fetchUserRecordID {
                 guard let user = $0, $1 == nil else { return error() }
@@ -25,6 +26,7 @@ class Shared {
     }
     
     func save(_ ids: [String : URL], session: Session) {
+        guard network else { return }
         if session.user.isEmpty {
             CKContainer(identifier: "iCloud.holbox").fetchUserRecordID {
                 guard let user = $0, $1 == nil else { return }
@@ -39,8 +41,8 @@ class Shared {
     private func load(_ ids: [String], user: String, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let ids = ids.map { $0 + user }
         let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-        operation.configuration.timeoutIntervalForResource = 15
-        operation.configuration.timeoutIntervalForRequest = 15
+        operation.configuration.timeoutIntervalForResource = 20
+        operation.configuration.timeoutIntervalForRequest = 20
         operation.fetchRecordsCompletionBlock = {
             guard let records = $0, $1 == nil else { return error() }
             result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
