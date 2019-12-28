@@ -211,8 +211,6 @@ final class Todo: View {
     func charts() {
         let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
         count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
-        ring.current = .init(app.session.cards(app.project, list: 1))
-        ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         ring.refresh()
         DispatchQueue.main.async { [weak self] in
             self?.timeline.refresh()

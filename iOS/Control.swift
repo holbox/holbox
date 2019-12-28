@@ -28,7 +28,7 @@ final class Control: UIView {
         heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 28).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         base.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         

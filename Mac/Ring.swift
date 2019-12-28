@@ -1,8 +1,6 @@
 import AppKit
 
 final class Ring: NSView {
-    var current = CGFloat()
-    var total = CGFloat()
     private weak var on: CAShapeLayer!
     private weak var percent: Label!
     private let middle = CGPoint(x: 33, y: 33)
@@ -47,6 +45,8 @@ final class Ring: NSView {
     }
     
     func refresh() {
+        let current = CGFloat(app.session.cards(app.project, list: 1))
+        let total = CGFloat(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
         let amount: CGFloat
         if total > 0 {
             amount = CGFloat(current) / .init(total > 0 ? total : 1)

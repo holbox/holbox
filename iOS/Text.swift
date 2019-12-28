@@ -28,7 +28,7 @@ class Text: UITextView {
         let border = Border.horizontal(1)
         accessory.addSubview(border)
         
-        let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .clear, .haze())
+        let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .haze(), .black)
         accessory.addSubview(_done)
                 
         let _bold = Button("hash", target: self, action: #selector(bold))
@@ -39,8 +39,8 @@ class Text: UITextView {
         border.rightAnchor.constraint(equalTo: accessory.rightAnchor).isActive = true
         
         _done.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
-        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor).isActive = true
-        _done.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        _done.widthAnchor.constraint(equalToConstant: 60).isActive = true
                 
         _bold.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
         _bold.leftAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.leftAnchor).isActive = true
