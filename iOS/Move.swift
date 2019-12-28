@@ -18,7 +18,7 @@ final class Move: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .init(white: 0, alpha: 0.8)
+        view.backgroundColor = .init(white: 0, alpha: 0.75)
         
         let _up = Button("arrow", target: self, action: #selector(up))
         
@@ -31,14 +31,15 @@ final class Move: UIViewController {
         let _right = Button("arrow", target: self, action: #selector(right))
         _right.icon.transform = .init(rotationAngle: .pi / 2)
         
-        let _done = Circle(.key("Move.done"), self, #selector(close), .haze(), .black)
+        let _done = Circle("check", self, #selector(close), .haze(), .black)
+        _done.accessibilityLabel = .key("Move.done")
         view.addSubview(_done)
         
-        let _delete = Circle(image: "trash", self, #selector(remove), .haze(), .black)
+        let _delete = Circle("trash", self, #selector(remove), .haze(), .black)
         _delete.accessibilityLabel = .key("Move.delete")
         view.addSubview(_delete)
         
-        let _edit = Circle(image: "write", self, #selector(edit), .haze(), .black)
+        let _edit = Circle("write", self, #selector(edit), .haze(), .black)
         _edit.accessibilityLabel = .key("Move.edit")
         view.addSubview(_edit)
         
@@ -65,10 +66,10 @@ final class Move: UIViewController {
         self._right.1.isActive = true
         
         _edit.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 50).isActive = true
-        _edit.bottomAnchor.constraint(equalTo: _done.topAnchor, constant: 15).isActive = true
+        _edit.centerYAnchor.constraint(equalTo: _done.centerYAnchor).isActive = true
         
         _delete.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -50).isActive = true
-        _delete.bottomAnchor.constraint(equalTo: _done.topAnchor, constant: 15).isActive = true
+        _delete.centerYAnchor.constraint(equalTo: _done.centerYAnchor).isActive = true
         
         _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 200)
@@ -83,15 +84,8 @@ final class Move: UIViewController {
         _down.1.constant = 70
         _left.1.constant = -70
         _right.1.constant = 70
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         _done.constant = -80
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.35) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
@@ -104,13 +98,13 @@ final class Move: UIViewController {
         _right.1.constant = 0
         _done.constant = 200
         card?.update(true)
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.25) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
     
     private func translate() {
-        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.card.superview!.layoutIfNeeded()
         }) { [weak self] _ in
             guard let self = self else { return }

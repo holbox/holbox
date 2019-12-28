@@ -87,9 +87,7 @@ class Delete: UIViewController {
         
         override func confirm() {
             app.alert(.key("Delete.done"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-            app.session.delete(app.project, list: 0, card: index)
-            app.session.delete(app.project, list: 1, card: index)
-            app.session.delete(app.project, list: 2, card: index)
+            app.session.delete(app.project, grocery: index)
             super.confirm()
         }
     }
@@ -118,18 +116,22 @@ class Delete: UIViewController {
     private weak var name: UILabel!
     
     required init?(coder: NSCoder) { nil }
-    private init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
+        modalPresentationStyle = .overCurrentContext
+        modalTransitionStyle = .coverVertical
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .init(white: 0, alpha: 0.85)
+        
         let base = UIView()
         base.backgroundColor = .black
         base.translatesAutoresizingMaskIntoConstraints = false
-        base.layer.cornerRadius = 10
+        base.layer.cornerRadius = 8
         base.layer.borderWidth = 1
-        base.layer.borderColor = .haze(0.4)
+        base.layer.borderColor = .haze()
         view.addSubview(base)
         
         let icon = Image("trash")
@@ -161,18 +163,18 @@ class Delete: UIViewController {
         title.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 2).isActive = true
         
-        base.widthAnchor.constraint(equalToConstant: 260).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 260).isActive = true
+        base.widthAnchor.constraint(equalToConstant: 220).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 220).isActive = true
         base.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         base.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
         cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -10).isActive = true
-        cancel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        cancel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: 10).isActive = true
-        _confirm.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        _confirm.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     @objc private func confirm() {

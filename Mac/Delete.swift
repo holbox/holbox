@@ -67,9 +67,7 @@ class Delete: Modal {
         
         override func confirm() {
             app.alert(.key("Delete.done"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-            app.session.delete(app.project, list: 0, card: index)
-            app.session.delete(app.project, list: 1, card: index)
-            app.session.delete(app.project, list: 2, card: index)
+            app.session.delete(app.project, grocery: index)
             super.confirm()
         }
     }

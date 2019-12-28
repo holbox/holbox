@@ -17,15 +17,16 @@ final class Columner: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .init(white: 0, alpha: 0.8)
         
-        let _done = Circle(.key("Columner.done"), self, #selector(close), .haze(), .black)
+        let _done = Circle("check", self, #selector(close), .haze(), .black)
+        _done.accessibilityLabel = .key("Columner.done")
         view.addSubview(_done)
         
-        let _delete = Circle(image: "trash", self, #selector(remove), .haze(), .black)
-        _delete.accessibilityLabel = .key("Move.delete")
+        let _delete = Circle("trash", self, #selector(remove), .haze(), .black)
+        _delete.accessibilityLabel = .key("Columner.delete")
         view.addSubview(_delete)
         
-        let _edit = Circle(image: "write", self, #selector(edit), .haze(), .black)
-        _edit.accessibilityLabel = .key("Move.edit")
+        let _edit = Circle("write", self, #selector(edit), .haze(), .black)
+        _edit.accessibilityLabel = .key("Columner.edit")
         view.addSubview(_edit)
         
         _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -45,7 +46,7 @@ final class Columner: UIViewController {
         view.layoutIfNeeded()
         _delete.1.constant = -100
         _edit.1.constant = 100
-        UIView.animate(withDuration: 0.5) { [weak self] in
+        UIView.animate(withDuration: 0.35) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }
@@ -54,7 +55,7 @@ final class Columner: UIViewController {
         super.viewWillDisappear(animated)
         _delete.1.constant = 0
         _edit.1.constant = 0
-        UIView.animate(withDuration: 0.35) { [weak self] in
+        UIView.animate(withDuration: 0.25) { [weak self] in
             self?.view.layoutIfNeeded()
         }
     }

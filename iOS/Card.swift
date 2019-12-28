@@ -38,14 +38,14 @@ final class Card: Text, UITextViewDelegate {
         self.kanban = kanban
         super.init(Storage())
         isScrollEnabled = false
-        textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
+        textContainerInset = .init(top: 20, left: 20, bottom: 20, right: 20)
         isEditable = false
         isSelectable = false
         accessibilityLabel = .key("Card")
         font = .regular(14)
         (textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
                                                 .emoji: [.font: UIFont.regular(24)],
-                                                .bold: [.font: UIFont.medium(20), .foregroundColor: UIColor.white],
+                                                .bold: [.font: UIFont.bold(20), .foregroundColor: UIColor.white],
                                                 .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
         delegate = self
         (layoutManager as! Layout).padding = 2
@@ -74,7 +74,8 @@ final class Card: Text, UITextViewDelegate {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.window!.endEditing(true)
             UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.backgroundColor = .haze(0.2)
+                self?.layer.borderWidth = 1
+                self?.backgroundColor = .haze(0.3)
             }
             kanban.scroll.center(frame)
             app.present(Move(self), animated: true)
@@ -118,9 +119,9 @@ final class Card: Text, UITextViewDelegate {
         text = app.session.content(app.project, list: column.index, card: index)
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             width.constant = 60
-            height.constant = 40
+            height.constant = 60
             color = .haze(0.3)
-            left.constant = 15
+            left.constant = 20
         } else {
             resize()
             color = .clear
@@ -142,7 +143,7 @@ final class Card: Text, UITextViewDelegate {
         textContainer.size.width = 200
         textContainer.size.height = 100_000
         layoutManager.ensureLayout(for: textContainer)
-        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 30) + 30
-        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 10) + 30
+        width.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.width), 20) + 40
+        height.constant = max(ceil(layoutManager.usedRect(for: textContainer).size.height), 20) + 40
     }
 }

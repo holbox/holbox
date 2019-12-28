@@ -15,7 +15,7 @@ final class Cart: UIView {
     
     override func draw(_: CGRect) {
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        let radius = min(10, bounds.height / 3.2)
+        let radius = min(10, bounds.height / 3.5)
         
         let outer = CALayer()
         outer.borderWidth = 1

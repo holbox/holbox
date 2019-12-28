@@ -79,7 +79,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         
         _restore.centerYAnchor.constraint(equalTo: title.centerYAnchor).isActive = true
         _restore.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
+        _restore.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         loading()
         SKPaymentQueue.default().add(self)
@@ -128,26 +128,19 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         message.text = ""
         logo.stop()
         scroll.views.forEach { $0.removeFromSuperview() }
-        var top: NSLayoutYAxisAnchor?
+        var top = scroll.top
         products.sorted { left, right in
             map.first { $0.1 == left.productIdentifier }!.key.rawValue < map.first { $0.1 == right.productIdentifier }!.key.rawValue
         }.forEach {
             let purchase = Purchase($0, shop: self)
             scroll.add(purchase)
             
-            if top == nil {
-                purchase.topAnchor.constraint(equalTo: scroll.top, constant: 105).isActive = true
-            } else {
-                purchase.topAnchor.constraint(equalTo: top!).isActive = true
-            }
-            
-            purchase.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
-            purchase.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
+            purchase.topAnchor.constraint(equalTo: top).isActive = true
+            purchase.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
+            purchase.rightAnchor.constraint(equalTo: scroll.right, constant: -15).isActive = true
             top = purchase.bottomAnchor
         }
-        if top != nil {
-            scroll.bottom.constraint(equalTo: top!, constant: 10).isActive = true
-        }
+        scroll.bottom.constraint(equalTo: top, constant: 20).isActive = true
         view.isUserInteractionEnabled = true
     }
     

@@ -64,7 +64,7 @@ final class Add: Modal {
         capacity.centerYAnchor.constraint(equalTo: available.centerYAnchor).isActive = true
         capacity.leftAnchor.constraint(equalTo: available.rightAnchor, constant: 20).isActive = true
         
-        cancel.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        cancel.widthAnchor.constraint(equalToConstant: 110).isActive = true
         cancel.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         
         if app.session.available > 0 {
@@ -108,12 +108,12 @@ final class Add: Modal {
                 left = $0.rightAnchor
             }
             
-            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 140).isActive = true
+            name.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 150).isActive = true
             name.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
             
-            _confirm.widthAnchor.constraint(equalToConstant: 160).isActive = true
+            _confirm.widthAnchor.constraint(equalToConstant: 110).isActive = true
             _confirm.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 220).isActive = true
+            _confirm.topAnchor.constraint(equalTo: available.bottomAnchor, constant: 230).isActive = true
             
             cancel.topAnchor.constraint(equalTo: _confirm.bottomAnchor).isActive = true
             
@@ -130,7 +130,7 @@ final class Add: Modal {
             info.rightAnchor.constraint(lessThanOrEqualTo: scroll.right, constant: -50).isActive = true
             info.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
             
-            _purchases.widthAnchor.constraint(equalToConstant: 160).isActive = true
+            _purchases.widthAnchor.constraint(equalToConstant: 110).isActive = true
             _purchases.topAnchor.constraint(equalTo: info.bottomAnchor, constant: 60).isActive = true
             _purchases.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
             

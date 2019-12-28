@@ -80,7 +80,7 @@ final class Kanban: View {
             scroll.add(column)
             
             if list == 0 {
-                _add.leftAnchor.constraint(equalTo: column.leftAnchor).isActive = true
+                _add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 5).isActive = true
                 _add.topAnchor.constraint(equalTo: column.bottomAnchor).isActive = true
             }
             

@@ -39,7 +39,6 @@ final class Purchase: UIView {
 
         title.topAnchor.constraint(equalTo: image.topAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
-        title.widthAnchor.constraint(lessThanOrEqualToConstant: 180).isActive = true
 
         label.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 30).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -50,7 +49,7 @@ final class Purchase: UIView {
             let purchased = Label(.key("Shop.purchased"), .medium(14), .haze())
             addSubview(purchased)
             
-            bottomAnchor.constraint(equalTo: purchased.bottomAnchor, constant: 40).isActive = true
+            bottomAnchor.constraint(equalTo: purchased.bottomAnchor, constant: 20).isActive = true
             
             purchased.leftAnchor.constraint(equalTo: label.leftAnchor).isActive = true
             purchased.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12).isActive = true
@@ -61,14 +60,14 @@ final class Purchase: UIView {
             let control = Control(.key("Shop.purchase"), self, #selector(purchase), .haze(), .black)
             addSubview(control)
             
-            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 50).isActive = true
+            bottomAnchor.constraint(equalTo: control.bottomAnchor, constant: 20).isActive = true
             
             price.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30).isActive = true
             price.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
             
-            control.topAnchor.constraint(equalTo: price.bottomAnchor, constant: 10).isActive = true
+            control.topAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
             control.centerXAnchor.constraint(equalTo: label.centerXAnchor).isActive = true
-            control.widthAnchor.constraint(equalToConstant: 140).isActive = true
+            control.widthAnchor.constraint(equalToConstant: 110).isActive = true
         }
     }
 

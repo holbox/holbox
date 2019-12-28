@@ -6,30 +6,32 @@ final class Circle: UIView {
     
     required init?(coder: NSCoder) { nil }
     
-    init(_ title: String, _ target: AnyObject, _ action: Selector, _ background: UIColor, _ text: UIColor) {
+    init(_ image: String, _ target: AnyObject, _ action: Selector, _ background: UIColor, _ tint: UIColor) {
         self.target = target
         self.action = action
         super.init(frame: .zero)
-        configure(background)
-        accessibilityLabel = title
+        translatesAutoresizingMaskIntoConstraints = false
+        isAccessibilityElement = true
+        accessibilityTraits = .button
         
-        let label = Label(title, .medium(12), text)
-        label.isAccessibilityElement = false
-        addSubview(label)
-        
-        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-    }
-    
-    init(image: String, _ target: AnyObject, _ action: Selector, _ background: UIColor, _ tint: UIColor) {
-        self.target = target
-        self.action = action
-        super.init(frame: .zero)
-        configure(background)
+        let base = UIView()
+        base.isUserInteractionEnabled = false
+        base.translatesAutoresizingMaskIntoConstraints = false
+        base.backgroundColor = background
+        base.layer.cornerRadius = 20
+        addSubview(base)
         
         let image = Image(image, template: true)
         image.tintColor = tint
         addSubview(image)
+        
+        widthAnchor.constraint(equalToConstant: 60).isActive = true
+        heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        base.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        base.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         image.topAnchor.constraint(equalTo: topAnchor).isActive = true
         image.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -53,16 +55,5 @@ final class Circle: UIView {
             _ = target.perform(action)
         }
         super.touchesEnded(touches, with: with)
-    }
-    
-    private func configure(_ background: UIColor) {
-        translatesAutoresizingMaskIntoConstraints = false
-        isAccessibilityElement = true
-        accessibilityTraits = .button
-        backgroundColor = background
-        layer.cornerRadius = 30
-        
-        widthAnchor.constraint(equalToConstant: 60).isActive = true
-        heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 }
