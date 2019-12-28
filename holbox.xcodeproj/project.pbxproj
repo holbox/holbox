@@ -58,6 +58,14 @@
 		DA5AC049234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA5AC04A234A1043004D0803 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5AC047234A1043004D0803 /* Data.swift */; };
 		DA61F30123699DB2006DD924 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA61F30023699DB2006DD924 /* Todo.swift */; };
+		DA63D9A023B6DF78000D30A1 /* SF-Pro-Rounded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99C23B6DF77000D30A1 /* SF-Pro-Rounded-Regular.otf */; };
+		DA63D9A123B6DF78000D30A1 /* SF-Pro-Rounded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99C23B6DF77000D30A1 /* SF-Pro-Rounded-Regular.otf */; };
+		DA63D9A223B6DF78000D30A1 /* SF-Pro-Rounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99D23B6DF77000D30A1 /* SF-Pro-Rounded-Light.otf */; };
+		DA63D9A323B6DF78000D30A1 /* SF-Pro-Rounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99D23B6DF77000D30A1 /* SF-Pro-Rounded-Light.otf */; };
+		DA63D9A423B6DF78000D30A1 /* SF-Pro-Rounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99E23B6DF77000D30A1 /* SF-Pro-Rounded-Medium.otf */; };
+		DA63D9A523B6DF78000D30A1 /* SF-Pro-Rounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99E23B6DF77000D30A1 /* SF-Pro-Rounded-Medium.otf */; };
+		DA63D9A623B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99F23B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf */; };
+		DA63D9A723B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DA63D99F23B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf */; };
 		DA647E5323759AB90030CB5E /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA647E5223759AB90030CB5E /* Shopping.swift */; };
 		DA6B02802378234C0084AB0A /* Shopping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B027F2378234C0084AB0A /* Shopping.swift */; };
 		DA6B0282237831830084AB0A /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6B0281237831830084AB0A /* Grocery.swift */; };
@@ -320,6 +328,10 @@
 		DA5AC045234A0B23004D0803 /* TestCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoder.swift; sourceTree = "<group>"; };
 		DA5AC047234A1043004D0803 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		DA61F30023699DB2006DD924 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		DA63D99C23B6DF77000D30A1 /* SF-Pro-Rounded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Regular.otf"; sourceTree = "<group>"; };
+		DA63D99D23B6DF77000D30A1 /* SF-Pro-Rounded-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Light.otf"; sourceTree = "<group>"; };
+		DA63D99E23B6DF77000D30A1 /* SF-Pro-Rounded-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Medium.otf"; sourceTree = "<group>"; };
+		DA63D99F23B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Bold.otf"; sourceTree = "<group>"; };
 		DA647E5223759AB90030CB5E /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		DA6B027F2378234C0084AB0A /* Shopping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shopping.swift; sourceTree = "<group>"; };
 		DA6B0281237831830084AB0A /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
@@ -543,6 +555,10 @@
 				DAF68E5F234764200060895A /* Mac.entitlements */,
 				DAC73A362347745700EF8832 /* Watch.entitlements */,
 				DAF68E6B234764210060895A /* README.md */,
+				DA63D99F23B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf */,
+				DA63D99D23B6DF77000D30A1 /* SF-Pro-Rounded-Light.otf */,
+				DA63D99E23B6DF77000D30A1 /* SF-Pro-Rounded-Medium.otf */,
+				DA63D99C23B6DF77000D30A1 /* SF-Pro-Rounded-Regular.otf */,
 				DAF68E67234764210060895A /* iOS.plist */,
 				DAF68E63234764210060895A /* Mac.plist */,
 				DAF68E61234764210060895A /* Tests.plist */,
@@ -995,7 +1011,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E7E234764A70060895A /* Assets.xcassets in Resources */,
+				DA63D9A223B6DF78000D30A1 /* SF-Pro-Rounded-Light.otf in Resources */,
+				DA63D9A023B6DF78000D30A1 /* SF-Pro-Rounded-Regular.otf in Resources */,
+				DA63D9A423B6DF78000D30A1 /* SF-Pro-Rounded-Medium.otf in Resources */,
 				DAF267C6236B29390099E40E /* Localizable.strings in Resources */,
+				DA63D9A623B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				DAF68E81234764A70060895A /* Mac.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1005,6 +1025,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAF68E96234765820060895A /* iOS.storyboard in Resources */,
+				DA63D9A723B6DF78000D30A1 /* SF-Pro-Rounded-Bold.otf in Resources */,
+				DA63D9A523B6DF78000D30A1 /* SF-Pro-Rounded-Medium.otf in Resources */,
+				DA63D9A323B6DF78000D30A1 /* SF-Pro-Rounded-Light.otf in Resources */,
+				DA63D9A123B6DF78000D30A1 /* SF-Pro-Rounded-Regular.otf in Resources */,
 				DAF267C7236B29390099E40E /* Localizable.strings in Resources */,
 				DAF68E8F234765620060895A /* Assets.xcassets in Resources */,
 				DAF68E97234765820060895A /* iOS.xcassets in Resources */,
