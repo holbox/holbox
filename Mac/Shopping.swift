@@ -142,13 +142,7 @@ final class Shopping: View, NSTextViewDelegate {
     
     override func refresh() {
         scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
-        (0 ..< app.session.cards(app.project, list: 0)).forEach {
-            let grocery = Grocery($0, shopping: self)
-            scroll.add(grocery)
-            
-            grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
-            grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
-        }
+        (0 ..< app.session.cards(app.project, list: 0)).forEach(grocery(_:))
         scroll.documentView!.layoutSubtreeIfNeeded()
         reorder()
         stock.refresh()
@@ -161,11 +155,7 @@ final class Shopping: View, NSTextViewDelegate {
             emoji.string = ""
             grocery.string = ""
             scroll.views.compactMap { $0 as? Grocery }.forEach { $0.index += 1 }
-            
-            let grocery = Grocery(0, shopping: self)
-            scroll.add(grocery)
-            grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
-            grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
+            grocery(0)
             scroll.documentView!.layoutSubtreeIfNeeded()
             
             animate()
@@ -228,5 +218,13 @@ final class Shopping: View, NSTextViewDelegate {
             left += $0.bounds.width + spacing
         }
         _height.constant = bottom + margin
+    }
+    
+    private func grocery(_ index: Int) {
+        let grocery = Grocery(index, shopping: self)
+        scroll.add(grocery)
+        
+        grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
+        grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
     }
 }

@@ -30,7 +30,7 @@ final class Bars: UIView {
                 subviews[$0].removeFromSuperview()
             }
             if let last = subviews.last {
-                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 10)
+                right = rightAnchor.constraint(equalTo: last.rightAnchor, constant: 12)
             }
         } else {
             (subviews.count ..< cards.count).forEach {
@@ -39,10 +39,10 @@ final class Bars: UIView {
                 
                 line.topAnchor.constraint(equalTo: topAnchor).isActive = true
                 line.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 10).isActive = true
+                line.leftAnchor.constraint(equalTo: $0 == 0 ? leftAnchor : subviews[$0 - 1].rightAnchor, constant: 12).isActive = true
                 
                 if $0 == cards.count - 1 {
-                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 10)
+                    right = rightAnchor.constraint(equalTo: line.rightAnchor, constant: 12)
                 }
             }
         }

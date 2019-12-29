@@ -51,6 +51,7 @@ final class Card: NSView, NSTextViewDelegate {
         setAccessibilityLabel(.key("Card"))
         
         let text = Text(.Expand(280, 10000), Block(), storage: Storage())
+        text.setAccessibilityElement(false)
         text.textContainerInset.height = 20
         text.textContainerInset.width = 20
         text.tab = true
@@ -67,6 +68,9 @@ final class Card: NSView, NSTextViewDelegate {
         self.text = text
 
         let _delete = Image("clear", tint: .black)
+        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityLabel(.key("Delete"))
+        _delete.setAccessibilityRole(.button)
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete

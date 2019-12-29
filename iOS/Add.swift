@@ -92,7 +92,7 @@ final class Add: Modal {
                 $0.icon.alpha = 0.4
                 $0.layer.cornerRadius = 4
                 $0.layer.borderWidth = 1
-                $0.layer.borderColor = UIColor.clear.cgColor
+                $0.layer.borderColor = .clear
                 scroll.add($0)
                 
                 $0.widthAnchor.constraint(equalToConstant: 60).isActive = true

@@ -1,11 +1,24 @@
 import UIKit
 
 final class Todo: View, UITextViewDelegate {
-    private weak var deleting: Task?
-    private weak var new: Text!
+    private(set) weak var border: Border!
     private weak var scroll: Scroll!
-    private weak var _add: Button!
+    private weak var text: Text!
     private weak var ring: Ring!
+    private weak var timeline: Timeline!
+    private weak var count: Label!
+    private weak var _add: Button!
+    private weak var _bottom: NSLayoutConstraint!
+    
+    weak var _last: Task? {
+        didSet {
+            _bottom?.isActive = false
+            if _last != nil {
+                _bottom = scroll.bottom.constraint(greaterThanOrEqualTo: _last!.bottomAnchor, constant: 30)
+                _bottom.isActive = true
+            }
+        }
+    }
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -14,29 +27,43 @@ final class Todo: View, UITextViewDelegate {
         addSubview(scroll)
         self.scroll = scroll
         
-        let new = Text(Storage())
-        new.isScrollEnabled = false
-        new.textContainerInset = .init(top: 20, left: 30, bottom: 20, right: 30)
-        new.accessibilityLabel = .key("Project")
-        new.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 18), weight: .medium)
-        new.font = .regular(14)
-        (new.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
-                                                     .emoji: [.font: UIFont.regular(20)],
-                                                     .bold: [.font: UIFont.medium(18), .foregroundColor: UIColor.white],
-                                                     .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
-        new.delegate = self
-        (new.layoutManager as! Layout).padding = 2
-        scroll.add(new)
-        self.new = new
+        let timeline = Timeline()
+        scroll.add(timeline)
+        self.timeline = timeline
+        
+        let ring = Ring()
+        scroll.add(ring)
+        self.ring = ring
         
         let _add = Button("plus", target: self, action: #selector(add))
         _add.accessibilityLabel = .key("Todo.add")
         scroll.add(_add)
         self._add = _add
         
-        let ring = Ring()
-        scroll.add(ring)
-        self.ring = ring
+        let count = Label([])
+        count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        scroll.add(count)
+        self.count = count
+        
+        let text = Text(Storage())
+        text.backgroundColor = .haze(0.2)
+        text.layer.cornerRadius = 6
+        text.isScrollEnabled = false
+        text.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        text.accessibilityLabel = .key("Project")
+        text.font = .regular(14)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
+                                                     .emoji: [.font: UIFont.regular(18)],
+                                                     .bold: [.font: UIFont.medium(16), .foregroundColor: UIColor.white],
+                                                     .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
+        text.delegate = self
+        (text.layoutManager as! Layout).padding = 2
+        scroll.add(text)
+        self.text = text
+        
+        let border = Border.horizontal()
+        scroll.add(border)
+        self.border = border
         
         scroll.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -45,51 +72,51 @@ final class Todo: View, UITextViewDelegate {
         scroll.width.constraint(equalTo: safeAreaLayoutGuide.widthAnchor).isActive = true
         scroll.height.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.heightAnchor).isActive = true
         
-        ring.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        timeline.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
+        timeline.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        timeline.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
         
-        new.topAnchor.constraint(equalTo: ring.bottomAnchor, constant: 10).isActive = true
-        new.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-        new.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        ring.topAnchor.constraint(equalTo: timeline.bottomAnchor, constant: 20).isActive = true
+        ring.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
         
-        _add.topAnchor.constraint(equalTo: new.bottomAnchor, constant: -20).isActive = true
-        _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        _add.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        _add.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        count.centerYAnchor.constraint(equalTo: ring.centerYAnchor).isActive = true
+        count.leftAnchor.constraint(equalTo: ring.rightAnchor, constant: 10).isActive = true
         
-        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panning(_:))))
+        _add.centerYAnchor.constraint(equalTo: ring.centerYAnchor).isActive = true
+        _add.leftAnchor.constraint(equalTo: text.rightAnchor, constant: 5).isActive = true
+        _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        refresh()
+        text.topAnchor.constraint(equalTo: ring.topAnchor, constant: 15).isActive = true
+        text.leftAnchor.constraint(equalTo: count.rightAnchor, constant: 20).isActive = true
+        text.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        
+        border.topAnchor.constraint(equalTo: text.bottomAnchor, constant: 50).isActive = true
+        border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.refresh()
+        }
+    }
+    
+    override func rotate() {
+        timeline.refresh()
     }
     
     override func refresh() {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Task }.forEach { $0.removeFromSuperview() }
         
-        var top: NSLayoutYAxisAnchor?
+        var _last: Task?
         [0, 1].forEach { list in
             (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let task = Task($0, list: list, self)
-                scroll.add(task)
-
-                if top == nil {
-                    task.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10).isActive = true
-                } else {
-                    task.topAnchor.constraint(equalTo: top!).isActive = true
-                }
-                task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-                task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-                top = task.bottomAnchor
+                _last = task($0, list: list, parent: _last == nil ? border : _last!)
             }
         }
-        if top != nil {
-            scroll.bottom.constraint(greaterThanOrEqualTo: top!, constant: 20).isActive = true
-        }
         
-        ring.current = .init(app.session.cards(app.project, list: 1))
-        ring.total = .init(app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1))
-        ring.refresh()
-        scroll.content.layoutIfNeeded()
+        self._last = _last
+        charts()
         isUserInteractionEnabled = true
     }
     
@@ -109,16 +136,36 @@ final class Todo: View, UITextViewDelegate {
         }
     }
     
-    @objc private func add() {
-        if new.text.isEmpty {
-            new.becomeFirstResponder()
+    override func add() {
+        if text.text.isEmpty {
+            text.becomeFirstResponder()
         } else {
-            if !new.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                app.session.add(app.project, list: 0, content: new.text)
-                app.alert(.key("Task"), message: new.text)
-                refresh()
+            if !text.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                app.session.add(app.project, list: 0, content: text.text)
+                app.alert(.key("Task"), message: text.text)
+                let tasks = scroll.views.compactMap { $0 as? Task }
+                let new = task(0, list: 0, parent: border)
+                new.backgroundColor = .haze(0.6)
+                scroll.content.layoutIfNeeded()
+                
+                if let previous = tasks.first(where: { $0.index == 0 && $0.list == 0 }) {
+                    previous._parent = new
+                } else if let next = tasks.first(where: { $0.index == 0 && $0.list == 1 }) {
+                    next._parent = new
+                } else {
+                    _last = new
+                }
+                tasks.filter { $0.list == 0 }.forEach { $0.index += 1 }
+                
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    self?.scroll.content.layoutIfNeeded()
+                }) { _ in
+                    UIView.animate(withDuration: 0.25) {
+                        new.backgroundColor = .clear
+                    }
+                }
             }
-            new.text = ""
+            text.text = ""
             app.window!.endEditing(true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
@@ -126,24 +173,20 @@ final class Todo: View, UITextViewDelegate {
         }
     }
     
-    @objc private func panning(_ gesture: UIPanGestureRecognizer) {
-        guard let task = scroll.content.hitTest(gesture.location(in: scroll.content), with: nil) as? Task else {
-            deleting?.undelete()
-            return
-        }
-        if deleting != nil && task != deleting {
-            task.delta = gesture.translation(in: task).x
-            deleting?.undelete()
-        }
-        deleting = task
-        switch gesture.state {
-        case .changed:
-            task.delete(gesture.translation(in: task).x)
-        case .ended, .cancelled, .failed:
-            task.undelete()
-            deleting = nil
-        case .began, .possible: break
-        @unknown default: break
-        }
+    func charts() {
+        let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
+        count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
+        ring.refresh()
+        timeline.refresh()
+    }
+    
+    private func task(_ index: Int, list: Int, parent: UIView) -> Task {
+        let task = Task(index, list: list, todo: self)
+        scroll.add(task)
+        
+        task._parent = parent
+        task.leftAnchor.constraint(equalTo: scroll.left).isActive = true
+        task.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        return task
     }
 }

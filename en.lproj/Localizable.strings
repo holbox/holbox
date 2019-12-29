@@ -107,6 +107,7 @@ Note="Note";
 Search="Search";
 Find.matches="matches";
 Timeline.now="NOW";
+Delete="Delete";
 Language.generic="Generic";
 Language.english="English";
 Language.german="German";

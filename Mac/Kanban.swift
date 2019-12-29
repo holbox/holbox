@@ -98,34 +98,18 @@ final class Kanban: View {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
-        (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(self, index: list)
+        (0 ..< app.session.lists(app.project)).forEach {
+            let column = Column(self, index: $0)
             scroll.add(column)
             
-            if list == 0 {
+            if $0 == 0 {
                 _add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 25).isActive = true
                 _add.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 40).isActive = true
             }
             
             var top: Card?
-            (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card(self, index: $0)
-                scroll.add(card)
-
-                if top == nil {
-                    if list == 0 {
-                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
-                    } else {
-                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
-                    }
-                } else {
-                    top!.child = card
-                }
-
-                scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
-                card.column = column
-                card.update(false)
-                top = card
+            (0 ..< app.session.cards(app.project, list: $0)).forEach {
+                top = card($0, column: column, top: top)
             }
             
             column.leftAnchor.constraint(equalTo: left, constant: 60).isActive = true
@@ -141,21 +125,15 @@ final class Kanban: View {
     override func add() {
         app.session.add(app.project, list: 0)
         let cards = scroll.views.compactMap { $0 as? Card }.filter { $0.column.index == 0 }
-        let card = Card(self, index: 0)
-        scroll.add(card)
-
-        scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+        let card = self.card(0, column: scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!, top: nil)
         card.child = cards.first { $0.index == 0 }
         
         cards.forEach {
             $0.index += 1
         }
         
-        card.top = card.centerYAnchor.constraint(equalTo: _add.centerYAnchor)
-        card.column = scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!
-        card.update(false)
+        card.top = card.topAnchor.constraint(equalTo: _add.topAnchor)
         scroll.documentView!.layoutSubtreeIfNeeded()
-        
         card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
         
         NSAnimationContext.runAnimationGroup ({
@@ -194,6 +172,26 @@ final class Kanban: View {
     private func end(_ event: NSEvent) {
         drag?.stop()
         drag = nil
+    }
+    
+    private func card(_ index: Int, column: Column, top: Card?) -> Card {
+        let card = Card(self, index: index)
+        scroll.add(card)
+
+        if top == nil {
+            if column.index == 0 {
+                card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 40)
+            } else {
+                card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor, constant: 20)
+            }
+        } else {
+            top!.child = card
+        }
+
+        scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 50).isActive = true
+        card.column = column
+        card.update(false)
+        return card
     }
     
     @objc private func column() {

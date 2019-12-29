@@ -55,7 +55,10 @@ class Shared {
             guard
                 let data = try? Data(contentsOf: $0.1),
                 !data.isEmpty
-            else { return nil }
+            else {
+                assertionFailure()
+                return nil
+            }
             let record = CKRecord(recordType: "Record", recordID: .init(recordName: $0.0 + user))
             record["asset"] = CKAsset(fileURL: $0.1)
             return record

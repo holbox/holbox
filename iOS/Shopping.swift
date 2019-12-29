@@ -159,7 +159,7 @@ final class Shopping: View, UITextViewDelegate {
         }
     }
     
-    @objc private func add() {
+    override func add() {
         if !emoji.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !grocery.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.alert(.key("Grocery"), message: emoji.text.trimmingCharacters(in: .whitespacesAndNewlines) + " " + grocery.text.trimmingCharacters(in: .whitespacesAndNewlines))
             app.session.add(app.project, list: 0, content: emoji.text.trimmingCharacters(in: .whitespacesAndNewlines))

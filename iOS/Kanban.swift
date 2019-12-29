@@ -75,34 +75,18 @@ final class Kanban: View {
         scroll.views.filter { $0 is Card || $0 is Column }.forEach { $0.removeFromSuperview() }
         
         var left = tags.rightAnchor
-        (0 ..< app.session.lists(app.project)).forEach { list in
-            let column = Column(self, index: list)
+        (0 ..< app.session.lists(app.project)).forEach {
+            let column = Column(self, index: $0)
             scroll.add(column)
             
-            if list == 0 {
+            if $0 == 0 {
                 _add.leftAnchor.constraint(equalTo: column.leftAnchor, constant: 5).isActive = true
                 _add.topAnchor.constraint(equalTo: column.bottomAnchor).isActive = true
             }
             
             var top: Card?
-            (0 ..< app.session.cards(app.project, list: list)).forEach {
-                let card = Card(self, index: $0)
-                scroll.add(card)
-                
-                if top == nil {
-                    if list == 0 {
-                        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 20)
-                    } else {
-                        card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor)
-                    }
-                } else {
-                    top!.child = card
-                }
-                
-                scroll.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
-                card.column = column
-                card.update(false)
-                top = card
+            (0 ..< app.session.cards(app.project, list: $0)).forEach {
+                top = card($0, column: column, top: top)
             }
             
             column.leftAnchor.constraint(equalTo: left, constant: 10).isActive = true
@@ -132,28 +116,20 @@ final class Kanban: View {
         }
     }
     
-    func charts() {
-        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", .medium(18), .haze()), (" " + .key("Kanban.count"), .regular(12), .haze())])
-        bars.refresh()
-    }
-    
-    @objc private func add() {
+    override func add() {
         app.window!.endEditing(true)
         app.session.add(app.project, list: 0)
         let cards = scroll.views.compactMap { $0 as? Card }.filter { $0.column.index == 0 }
-        let card = Card(self, index: 0)
-        scroll.add(card)
-        card.column = scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!
-        card.update(false)
-        scroll.content.layoutIfNeeded()
-        
-        scroll.bottom.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 20).isActive = true
-        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 10)
+        let card = self.card(0, column: scroll.views.compactMap { $0 as? Column }.first { $0.index == 0 }!, top: nil)
         card.child = cards.first { $0.index == 0 }
         
         cards.forEach {
             $0.index += 1
         }
+        
+        card.top = card.topAnchor.constraint(equalTo: _add.topAnchor)
+        scroll.content.layoutIfNeeded()
+        card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 20)
         
         UIView.animate(withDuration: 0.4, animations: { [weak self] in
             self?.scroll.content.layoutIfNeeded()
@@ -163,6 +139,31 @@ final class Kanban: View {
             card?.edit()
             self?.charts()
         }
+    }
+    
+    func charts() {
+        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", .medium(18), .haze()), (" " + .key("Kanban.count"), .regular(12), .haze())])
+        bars.refresh()
+    }
+    
+    private func card(_ index: Int, column: Column, top: Card?) -> Card {
+        let card = Card(self, index: index)
+        scroll.add(card)
+        
+        if top == nil {
+            if column.index == 0 {
+                card.top = card.topAnchor.constraint(equalTo: _add.bottomAnchor, constant: 20)
+            } else {
+                card.top = card.topAnchor.constraint(equalTo: column.bottomAnchor)
+            }
+        } else {
+            top!.child = card
+        }
+        
+        scroll.bottomAnchor.constraint(greaterThanOrEqualTo: card.bottomAnchor, constant: 30).isActive = true
+        card.column = column
+        card.update(false)
+        return card
     }
     
     @objc private func column() {

@@ -96,7 +96,7 @@ final class Todo: View {
         _add.heightAnchor.constraint(equalToConstant: 55).isActive = true
         
         count.centerYAnchor.constraint(equalTo: ring.centerYAnchor).isActive = true
-        count.leftAnchor.constraint(equalTo: ring.rightAnchor, constant: 5).isActive = true
+        count.leftAnchor.constraint(equalTo: ring.rightAnchor, constant: 10).isActive = true
         count.rightAnchor.constraint(lessThanOrEqualTo: vertical.leftAnchor, constant: -25).isActive = true
         
         ring.topAnchor.constraint(equalTo: timeline.bottomAnchor, constant: 10).isActive = true
@@ -113,7 +113,9 @@ final class Todo: View {
         timelineTop.priority = .defaultLow
         timelineTop.isActive = true
         
-        refresh()
+        DispatchQueue.main.async { [weak self] in
+            self?.refresh()
+        }
     }
     
     override func mouseDown(with: NSEvent) {
@@ -144,7 +146,6 @@ final class Todo: View {
                 _last = task($0, list: list, parent: _last == nil ? scroll : _last!)
             }
         }
-        
         self._last = _last
         charts()
     }
@@ -174,14 +175,14 @@ final class Todo: View {
             tasks.filter { $0.list == 0 }.forEach { $0.index += 1 }
             text.string = ""
             text.needsLayout = true
+            charts()
             
             NSAnimationContext.runAnimationGroup ({
                 $0.duration = 0.3
                 $0.allowsImplicitAnimation = true
                 scroll.documentView!.layoutSubtreeIfNeeded()
                 scroll.contentView.scroll(to: .zero)
-            }) { [weak self] in
-                self?.charts()
+            }) {
                 NSAnimationContext.runAnimationGroup {
                     $0.duration = 0.25
                     $0.allowsImplicitAnimation = true
@@ -212,9 +213,7 @@ final class Todo: View {
         let amount = app.session.cards(app.project, list: 0) + app.session.cards(app.project, list: 1)
         count.attributed([("\(amount)", .medium(18), .haze()), ("\n" + (amount == 1 ? .key("Todo.count") : .key("Todo.counts")), .regular(12), .haze())])
         ring.refresh()
-        DispatchQueue.main.async { [weak self] in
-            self?.timeline.refresh()
-        }
+        timeline.refresh()
     }
     
     private func task(_ index: Int, list: Int, parent: NSView) -> Task {

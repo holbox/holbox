@@ -22,7 +22,7 @@ final class Progress: UIView {
         let radius = min(bounds.width, bounds.height) / 2.5
         
         let border = CAShapeLayer()
-        border.fillColor = UIColor.clear.cgColor
+        border.fillColor = .clear
         border.lineWidth = 2
         border.strokeColor = .haze()
         border.path = {

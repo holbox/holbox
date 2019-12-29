@@ -27,6 +27,9 @@ final class Task: NSView, NSTextViewDelegate {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         wantsLayer = true
+        setAccessibilityLabel(.key("Task"))
+        setAccessibilityElement(true)
+        setAccessibilityRole(.button)
         layer!.cornerRadius = 6
         layer!.borderWidth = 1
         layer!.borderColor = .clear
@@ -37,7 +40,7 @@ final class Task: NSView, NSTextViewDelegate {
         let text = Text(.Fix(), Editable(), storage: Storage())
         text.textContainerInset.width = 10
         text.textContainerInset.height = 12
-        text.setAccessibilityLabel(.key("Task"))
+        text.setAccessibilityElement(false)
         text.font = .regular(14)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont.regular(18)],
@@ -54,6 +57,9 @@ final class Task: NSView, NSTextViewDelegate {
         
         let _delete = Image("clear")
         _delete.isHidden = true
+        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityLabel(.key("Delete"))
+        _delete.setAccessibilityRole(.button)
         addSubview(_delete)
         self._delete = _delete
         
@@ -67,6 +73,7 @@ final class Task: NSView, NSTextViewDelegate {
         
         let time = Label("", .regular(12), .haze())
         time.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        time.setAccessibilityElement(false)
         addSubview(time)
         self.time = time
         
@@ -180,6 +187,7 @@ final class Task: NSView, NSTextViewDelegate {
         index = 0
         list = 1
         reorder()
+        todo.charts()
     }
     
     private func restart() {
@@ -213,6 +221,7 @@ final class Task: NSView, NSTextViewDelegate {
         index = 0
         list = 0
         reorder()
+        todo.charts()
     }
     
     private func reorder() {
@@ -223,12 +232,10 @@ final class Task: NSView, NSTextViewDelegate {
             layer!.backgroundColor = .haze(0.3)
             superview!.layoutSubtreeIfNeeded()
         }) { [weak self] in
-            NSAnimationContext.runAnimationGroup ({
+            NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.25
                 $0.allowsImplicitAnimation = true
                 self?.layer!.backgroundColor = .clear
-            }) { [weak self] in
-                self?.todo?.charts()
             }
         }
     }

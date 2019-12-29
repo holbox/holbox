@@ -13,4 +13,5 @@ class View: UIView {
     func rotate() { }
     func found(_ ranges: [(Int, Int, NSRange)]) { }
     func select(_ list: Int, _ card: Int, _ range: NSRange) { }
+    @objc func add() { }
 }

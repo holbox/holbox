@@ -22,10 +22,13 @@ final class Grocery: NSView, NSTextViewDelegate {
         layer!.cornerRadius = 6
         layer!.borderWidth = 1
         layer!.borderColor = .clear
+        setAccessibilityElement(true)
+        setAccessibilityLabel(.key("Grocery"))
+        setAccessibilityRole(.button)
         stock = app.session.content(app.project, list: 2, card: index) == "1"
         
         let emoji = Text(.Fix(), Off(), storage: .init())
-        emoji.setAccessibilityLabel(.key("Emoji"))
+        emoji.setAccessibilityElement(false)
         emoji.font = .regular(30)
         (emoji.layoutManager as! Layout).owns = true
         emoji.string = app.session.content(app.project, list: 0, card: index)
@@ -36,7 +39,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         let grocery = Text(.Fix(), Editable(), storage: Storage())
         grocery.textContainerInset.width = 10
         grocery.textContainerInset.height = 15
-        grocery.setAccessibilityLabel(.key("Grocery"))
+        grocery.setAccessibilityElement(false)
         grocery.textColor = .white
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(14), .foregroundColor: NSColor.white],
@@ -56,6 +59,9 @@ final class Grocery: NSView, NSTextViewDelegate {
         
         let _delete = Image("clear", tint: .black)
         _delete.alphaValue = 0
+        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityLabel(.key("Delete"))
+        _delete.setAccessibilityRole(.button)
         addSubview(_delete)
         self._delete = _delete
         

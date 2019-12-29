@@ -63,7 +63,7 @@ final class Logo: UIView {
             } (CGMutablePath())
             prev += deg5 * 2
             ray.lineWidth = width
-            ray.fillColor = UIColor.clear.cgColor
+            ray.fillColor = .clear
             rays.addSublayer(ray)
         }
     }

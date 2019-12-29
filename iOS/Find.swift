@@ -46,7 +46,6 @@ final class Find: UIView, UITextViewDelegate {
         text.textContainerInset = .init(top: 15, left: 0, bottom: 15, right: 0)
         text.isUserInteractionEnabled = false
         text.accessibilityLabel = .key("Search")
-        text.font = .systemFont(ofSize: UIFontMetrics.default.scaledValue(for: 14), weight: .regular)
         text.font = .light(14)
         text.textColor = .white
         text.textContainer.maximumNumberOfLines = 1

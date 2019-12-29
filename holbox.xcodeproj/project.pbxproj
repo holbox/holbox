@@ -16,6 +16,7 @@
 		DA1792AE2379470A00DBA275 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1792AD2379470A00DBA275 /* Icon.swift */; };
 		DA1A1421237EC06F00028352 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A1420237EC06F00028352 /* Project.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
+		DA1D8A3923B8C3CB00108070 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D8A3823B8C3CB00108070 /* Timeline.swift */; };
 		DA1DDA352375645B00BAB515 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DDA342375645B00BAB515 /* Item.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA21BDF323609268000A46AA /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
@@ -300,6 +301,7 @@
 		DA1792AD2379470A00DBA275 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		DA1A1420237EC06F00028352 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
+		DA1D8A3823B8C3CB00108070 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		DA1DDA342375645B00BAB515 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA230A31238D38C20008834D /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
@@ -740,6 +742,7 @@
 				DA6F04EA238E9F0E006996DD /* Tags.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
 				DAF0963C235B045000BCC800 /* Text.swift */,
+				DA1D8A3823B8C3CB00108070 /* Timeline.swift */,
 				DAEAE3D323717066001F24BE /* Todo.swift */,
 				DA8BCEE0238C184A0099F775 /* View.swift */,
 			);
@@ -1239,6 +1242,7 @@
 				DAF0963D235B045000BCC800 /* Text.swift in Sources */,
 				DAD8F197234DBB5700835E3E /* String.swift in Sources */,
 				DA89FDB2239683D300A6347F /* Notes.swift in Sources */,
+				DA1D8A3923B8C3CB00108070 /* Timeline.swift in Sources */,
 				DAB979562359D63C00631280 /* Control.swift in Sources */,
 				DAEFAF15238FDB0000CBD450 /* Bars.swift in Sources */,
 				DAB979502359AB9F00631280 /* Image.swift in Sources */,

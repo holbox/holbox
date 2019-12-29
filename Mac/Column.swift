@@ -13,11 +13,13 @@ final class Column: NSView, NSTextViewDelegate {
         self.kanban = kanban
         super.init(frame: .init())
         translatesAutoresizingMaskIntoConstraints = false
+        setAccessibilityLabel(.key("Column"))
+        setAccessibilityElement(true)
         
         let text = Text(.Fix(), Block(), storage: .init())
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
-        text.setAccessibilityLabel(.key("Column"))
+        text.setAccessibilityElement(false)
         text.font = .medium(14)
         text.textColor = .haze()
         text.string = app.session.name(app.project, list: index)
@@ -29,6 +31,9 @@ final class Column: NSView, NSTextViewDelegate {
         self.text = text
         
         let _delete = Image("clear")
+        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityLabel(.key("Delete"))
+        _delete.setAccessibilityRole(.button)
         _delete.alphaValue = 0
         addSubview(_delete)
         self._delete = _delete
