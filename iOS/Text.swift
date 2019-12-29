@@ -22,14 +22,18 @@ class Text: UITextView {
         autocorrectionType = app.session.spell ? .yes : .no
         autocapitalizationType = app.session.spell ? .sentences : .none
         
-        let accessory = UIView(frame: .init(x: 0, y: 0, width: 0, height: 50))
+        let accessory = UIView(frame: .init(x: 0, y: 0, width: 0, height: 54))
         accessory.backgroundColor = .black
         
         let border = Border.horizontal(1)
         accessory.addSubview(border)
         
-        let _done = Control(.key("Done"), self, #selector(resignFirstResponder), .haze(), .black)
+        let _done = Circle("check", self, #selector(resignFirstResponder), .haze(), .black)
+        _done.accessibilityLabel = .key("Done")
         accessory.addSubview(_done)
+        
+        let _clear = Control(.key("Clear"), self, #selector(clear), .haze(), .black)
+        accessory.addSubview(_clear)
                 
         let _bold = Button("hash", target: self, action: #selector(bold))
         accessory.addSubview(_bold)
@@ -39,12 +43,15 @@ class Text: UITextView {
         border.rightAnchor.constraint(equalTo: accessory.rightAnchor).isActive = true
         
         _done.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
-        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        _done.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
+        
+        _clear.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
+        _clear.rightAnchor.constraint(equalTo: _done.leftAnchor, constant: -20).isActive = true
+        _clear.widthAnchor.constraint(equalToConstant: 60).isActive = true
                 
         _bold.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
         _bold.leftAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.leftAnchor).isActive = true
-        _bold.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        _bold.widthAnchor.constraint(equalToConstant: 80).isActive = true
         _bold.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         inputAccessoryView = accessory
@@ -58,5 +65,10 @@ class Text: UITextView {
     
     @objc private func bold() {
         insertText("#")
+    }
+    
+    @objc private func clear() {
+        text = ""
+        delegate?.textViewDidChange?(self)
     }
 }

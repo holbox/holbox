@@ -65,13 +65,13 @@ final class Move: UIViewController {
         self._right = (_right, _right.centerXAnchor.constraint(equalTo: view.centerXAnchor))
         self._right.1.isActive = true
         
-        _edit.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 50).isActive = true
+        _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _edit.centerYAnchor.constraint(equalTo: _done.centerYAnchor).isActive = true
         
-        _delete.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -50).isActive = true
+        _delete.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -60).isActive = true
         _delete.centerYAnchor.constraint(equalTo: _done.centerYAnchor).isActive = true
         
-        _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _done.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 60).isActive = true
         self._done = _done.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 200)
         self._done.isActive = true
         update()
@@ -80,10 +80,10 @@ final class Move: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
-        _up.1.constant = -70
-        _down.1.constant = 70
-        _left.1.constant = -70
-        _right.1.constant = 70
+        _up.1.constant = -40
+        _down.1.constant = 40
+        _left.1.constant = -40
+        _right.1.constant = 40
         _done.constant = -80
         UIView.animate(withDuration: 0.35) { [weak self] in
             self?.view.layoutIfNeeded()

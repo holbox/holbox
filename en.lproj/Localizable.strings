@@ -58,6 +58,7 @@ Error="ERROR";
 Error.email="Email not configured.";
 Logo="Loading";
 Done="Done";
+Clear="Clear";
 Card="CARD";
 Move.done="Done";
 Move.edit="Edit";

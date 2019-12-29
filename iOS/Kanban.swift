@@ -52,7 +52,7 @@ final class Kanban: View {
         
         _column.widthAnchor.constraint(equalToConstant: 100).isActive = true
         _column.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true
-        _column.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 15).isActive = true
+        _column.topAnchor.constraint(equalTo: count.bottomAnchor, constant: 20).isActive = true
         
         _csv.widthAnchor.constraint(equalToConstant: 100).isActive = true
         _csv.leftAnchor.constraint(equalTo: scroll.left, constant: 15).isActive = true

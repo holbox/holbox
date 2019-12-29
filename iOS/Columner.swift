@@ -2,8 +2,8 @@ import UIKit
 
 final class Columner: UIViewController {
     private weak var column: Column!
-    private var _delete: (Circle, NSLayoutConstraint)!
-    private var _edit: (Circle, NSLayoutConstraint)!
+    private var _delete: NSLayoutConstraint!
+    private var _done: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init(_ column: Column) {
@@ -29,23 +29,23 @@ final class Columner: UIViewController {
         _edit.accessibilityLabel = .key("Columner.edit")
         view.addSubview(_edit)
         
-        _done.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        _edit.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         _done.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self._done = _done.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        self._done.isActive = true
         
         _delete.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        self._delete = (_delete, _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        self._delete.1.isActive = true
-        
-        _edit.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        self._edit = (_edit, _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        self._edit.1.isActive = true
+        self._delete = _delete.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        self._delete.isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.layoutIfNeeded()
-        _delete.1.constant = -100
-        _edit.1.constant = 100
+        _delete.constant = -90
+        _done.constant = 90
         UIView.animate(withDuration: 0.35) { [weak self] in
             self?.view.layoutIfNeeded()
         }
@@ -53,8 +53,8 @@ final class Columner: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        _delete.1.constant = 0
-        _edit.1.constant = 0
+        _delete.constant = 0
+        _done.constant = 0
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.view.layoutIfNeeded()
         }
