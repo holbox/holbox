@@ -222,16 +222,13 @@ final class Move: UIViewController {
             card.kanban.refresh()
             close()
         } else {
-            presentingViewController!.dismiss(animated: true) { [weak self] in
-                guard let card = self?.card else { return }
-                app.present(Delete.Card(card.index, list: card.column.index), animated: true)
-            }
+            presentingViewController!.dismiss(animated: true)
+            app.present(Delete.Card(card.index, list: card.column.index), animated: true)
         }
     }
     
     @objc private func edit() {
-        presentingViewController!.dismiss(animated: true) { [weak self] in
-            self?.card?.edit()
-        }
+        presentingViewController!.dismiss(animated: true)
+        card.edit()
     }
 }

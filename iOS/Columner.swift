@@ -65,15 +65,12 @@ final class Columner: UIViewController {
     }
     
     @objc private func remove() {
-        presentingViewController!.dismiss(animated: true) { [weak self] in
-            guard let column = self?.column else { return }
-            app.present(Delete.List(column.index), animated: true)
-        }
+        presentingViewController!.dismiss(animated: true)
+        app.present(Delete.List(column.index), animated: true)
     }
     
     @objc private func edit() {
-        presentingViewController!.dismiss(animated: true) { [weak self] in
-            self?.column?.edit()
-        }
+        presentingViewController!.dismiss(animated: true)
+        column.edit()
     }
 }

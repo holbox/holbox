@@ -111,12 +111,13 @@ class Delete: UIViewController {
     }
     
     private weak var name: UILabel!
+    private weak var top: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
     init() {
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overCurrentContext
-        modalTransitionStyle = .coverVertical
+        modalTransitionStyle = .crossDissolve
     }
     
     override func viewDidLoad() {
@@ -163,7 +164,8 @@ class Delete: UIViewController {
         base.widthAnchor.constraint(equalToConstant: 220).isActive = true
         base.heightAnchor.constraint(equalToConstant: 220).isActive = true
         base.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        base.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        top = base.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: app.main.bounds.height)
+        top.isActive = true
         
         cancel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cancel.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -10).isActive = true
@@ -172,6 +174,16 @@ class Delete: UIViewController {
         _confirm.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         _confirm.bottomAnchor.constraint(equalTo: cancel.topAnchor, constant: 10).isActive = true
         _confirm.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        view.layoutIfNeeded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        top.constant = 0
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
     }
     
     @objc private func confirm() {
