@@ -204,7 +204,7 @@ final class TestStoreProject: XCTestCase {
             XCTAssertEqual(.init(Date(timeIntervalSince1970: 200).timeIntervalSince1970), Int(stored.time.timeIntervalSince1970))
             expectReady.fulfill()
         }
-        waitForExpectations(timeout: 1)
+        waitForExpectations(timeout: 2)
     }
     
     func testLocalNotSharedMultiple() {

@@ -110,16 +110,6 @@ public final class Session {
         items[project]!.cards[list].1[card]
     }
     
-    public func product(_ project: Int, index: Int) -> (String, String) {
-        {
-            ($0[0], $0.dropFirst().joined(separator: "\n"))
-        } (items[project]!.cards[0].1[index].components(separatedBy: "\n"))
-    }
-    
-    public func reference(_ project: Int, index: Int) -> (String, String) {
-        product(project, index: Int(items[project]!.cards[1].1[index])!)
-    }
-    
     public func name(_ project: Int, name: String) {
         let name = name.replacingOccurrences(of: "\n", with: "")
         guard items[project]!.name != name else { return }
@@ -213,14 +203,10 @@ public final class Session {
         save(project)
     }
     
-    public func delete(_ project: Int, product: Int) {
-        items[project]!.cards[0].1.remove(at: product)
-        items[project]!.cards[1].1 = items[project]!.cards[1].1.compactMap {
-            switch Int($0)! {
-            case product: return nil
-            case let index where index > product: return .init(index - 1)
-            default: return $0
-            }
+    public func delete(_ project: Int, list: Int, task: Int) {
+        items[project]!.cards[list].1.remove(at: task)
+        if list == 1 {
+            items[project]!.cards[2].1.remove(at: task)
         }
         save(project)
     }

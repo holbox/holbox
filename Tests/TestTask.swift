@@ -64,4 +64,36 @@ final class TestTask: XCTestCase {
         session.restart(0, index: 0)
         waitForExpectations(timeout: 1)
     }
+    
+    func testDeleteDone() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.items[0]!.cards = [("", []), ("", ["hello"]), ("", ["0"])]
+        session.items[0]!.time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.items[0]!.time)
+            XCTAssertTrue($2.cards[0].1.isEmpty)
+            XCTAssertTrue($2.cards[1].1.isEmpty)
+            XCTAssertTrue($2.cards[2].1.isEmpty)
+            expect.fulfill()
+        }
+        session.delete(0, list: 1, task: 0)
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testDeleteWaiting() {
+        let expect = expectation(description: "")
+        let time = Date()
+        session.items[0]!.cards = [("", ["hello"]), ("", []), ("", [])]
+        session.items[0]!.time = .init(timeIntervalSince1970: 0)
+        store.project = {
+            XCTAssertLessThanOrEqual(time, $0.items[0]!.time)
+            XCTAssertTrue($2.cards[0].1.isEmpty)
+            XCTAssertTrue($2.cards[1].1.isEmpty)
+            XCTAssertTrue($2.cards[2].1.isEmpty)
+            expect.fulfill()
+        }
+        session.delete(0, list: 0, task: 0)
+        waitForExpectations(timeout: 1)
+    }
 }
