@@ -63,10 +63,7 @@ class Delete: UIViewController {
         
         override func confirm() {
             app.alert(.key("Delete.done"), message: app.session.content(app.project, list: list, card: index))
-            app.session.delete(app.project, list: list, card: index)
-            if list == 1 {
-                app.session.delete(app.project, list: 2, card: index)
-            }
+            app.session.delete(app.project, list: list, task: index)
             super.confirm()
         }
     }
