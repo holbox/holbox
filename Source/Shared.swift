@@ -8,7 +8,7 @@ class Shared {
     func prepare() {
         monitor.start(queue: .init(label: "", qos: .background, target: .global(qos: .background)))
         monitor.pathUpdateHandler = {
-            self.network = $0.status == .satisfied
+            self.network = $0.status == .satisfied || $0.availableInterfaces.contains { $0.type == .other }
         }
     }
     
@@ -52,9 +52,9 @@ class Shared {
     
     private func save(_ ids: [String : URL], user: String) {
         let operation = CKModifyRecordsOperation(recordsToSave: ids.compactMap {
-            guard let data = try? Data(contentsOf: $0.1), !data.isEmpty else { return nil }
             let record = CKRecord(recordType: "Record", recordID: .init(recordName: $0.0 + user))
             record["asset"] = CKAsset(fileURL: $0.1)
+            guard let data = try? Data(contentsOf: $0.1), !data.isEmpty else { return nil }
             return record
         })
         operation.configuration.timeoutIntervalForRequest = 20

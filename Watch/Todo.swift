@@ -10,16 +10,6 @@ struct Todo: View {
         ScrollView {
             Back(title: app.session.name(project))
             Ring(percent: $percent)
-            Button(action: {
-                app.session.add(self.project, list: 0)
-                withAnimation {
-                    self.refresh()
-                }
-            }) {
-                Image("plus")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
             Tasks(waiting: $waiting, done: $done, project: project, refresh: refresh)
                 .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
@@ -35,7 +25,7 @@ struct Todo: View {
         waiting = (0 ..< app.session.cards(project, list: 0)).map { app.session.content(project, list: 0, card: $0) }
         done = (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) }
         let count = Double(waiting.count + done.count)
-        withAnimation(.easeOut(duration: 1.5)) {
+        withAnimation(.easeOut(duration: 0.5)) {
             percent = count > 0 ? .init(done.count) / count : 0
         }
     }
@@ -104,19 +94,18 @@ private struct Ring: View {
         ZStack {
             Path {
                 $0.addArc(center: .init(x: 60, y: 60),
-                    radius: 55,
+                    radius: 40,
                     startAngle: .init(degrees: 0),
                     endAngle: .init(degrees: 360),
                     clockwise: false)
-            }.stroke(Color("haze"), lineWidth: 4)
-                .opacity(0.2)
+            }.fill(Color("haze"))
             Ringin(percent: percent)
-                .stroke(Color("haze"), style: .init(lineWidth: 9, lineCap: .round))
+                .stroke(Color("haze"), style: .init(lineWidth: 3, lineCap: .round))
             Text(formatter.string(from: .init(value: percent))!)
-                .foregroundColor(.init("haze"))
+                .foregroundColor(.black)
                 .bold()
         }.frame(width: 120, height: 120)
-            .padding(.vertical, 10)
+            .padding(.init(top: 10, leading: 0, bottom: 30, trailing: 0))
             .onAppear {
             self.formatter.numberStyle = .percent
         }
@@ -129,7 +118,7 @@ private struct Ringin: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.addArc(center: .init(x: rect.midX, y: rect.midY),
-                    radius: 55,
+                    radius: 50,
                     startAngle: .init(degrees: -90),
                     endAngle: .init(degrees: (360 * percent) - 90),
                     clockwise: false)

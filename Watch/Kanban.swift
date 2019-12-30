@@ -9,16 +9,6 @@ struct Kanban: View {
         ScrollView {
             Back(title: app.session.name(project))
             Bars(cards: $cards, top: $top, project: project)
-            Button(action: {
-                app.session.add(self.project, list: 0)
-                withAnimation {
-                    self.refresh()
-                }
-            }) {
-                Image("plus")
-                    .renderingMode(.original)
-            }.background(Color.clear)
-                .accentColor(.clear)
             Columns(cards: $cards, project: project)
                 .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
@@ -34,7 +24,7 @@ struct Kanban: View {
         cards = (0 ..< app.session.lists(project)).map { list in
             (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
         }
-        withAnimation(.easeOut(duration: 1.5)) {
+        withAnimation(.easeOut(duration: 0.5)) {
             top = cards.map { $0.count }.max() ?? 0
         }
     }
@@ -51,7 +41,6 @@ private struct Columns: View {
                     .font(Font.caption.bold())
                     .foregroundColor(Color("haze"))
                     .padding(.bottom, 10)
-                    .opacity(0.6)
                 Column(cards: self.$cards, project: self.project, list: list)
             }
         }
@@ -65,10 +54,14 @@ private struct Column: View {
     
     var body: some View {
         ForEach(0 ..< cards[list].count, id: \.self) { card in
-            NavigationLink(destination: Card(card: card, list: self.list, project: self.project)) {
-                Item(string: self.cards[self.list][card])
-            }.background(Color.clear)
-                .accentColor(.clear)
+            HStack {
+                Text(self.cards[self.list][card])
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(500)
+                    .font(.caption)
+                    .foregroundColor(.white)
+                Spacer()
+            }.padding(.vertical, 10)
         }
     }
 }
@@ -84,17 +77,20 @@ private struct Bars: View {
                 VStack {
                     Bar(percent: self.top > 0 ? .init(self.cards[index].count) / .init(self.top) : 0)
                         .stroke(Color("haze"),
-                                style: .init(lineWidth: 6, lineCap: .round))
-                        .frame(width: 20, height: 63)
-                    Text(app.session.name(self.project, list: index))
+                                style: .init(lineWidth: 9, lineCap: .round))
+                        .frame(width: 30, height: 70)
+                    Text("\(self.cards[index].count)")
+                        .foregroundColor(.init("haze"))
+                        .font(.body)
+                    Text("\(self.top > 0 ? .init(self.cards[index].count) / .init(self.top) : 0)%")
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
-                    Text("\(self.cards[index].count)")
+                    Text(app.session.name(self.project, list: index))
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
                 }
             }
-        }.padding(.vertical, 25)
+        }.padding(.init(top: 10, leading: 0, bottom: 35, trailing: 0))
     }
 }
 

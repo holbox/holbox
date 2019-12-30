@@ -14,7 +14,7 @@ struct Content: View {
                     Projects(projects: $projects)
                 }
             }
-        }.edgesIgnoringSafeArea(.all)
+        }.edgesIgnoringSafeArea(.horizontal)
             .navigationBarHidden(true)
             .onAppear {
                 if self.first {
@@ -80,7 +80,7 @@ private struct Project: View {
         HStack {
             Rectangle()
                 .foregroundColor(.init("haze"))
-                .frame(width: 2, height: 30)
+                .frame(width: 2, height: 20)
             Text(app.session.name(project))
                 .foregroundColor(.init("haze"))
                 .bold()
