@@ -22,7 +22,7 @@ class Text: UITextView {
         autocorrectionType = app.session.spell ? .yes : .no
         autocapitalizationType = app.session.spell ? .sentences : .none
         
-        let accessory = UIView(frame: .init(x: 0, y: 0, width: 0, height: 56))
+        let accessory = UIView(frame: .init(x: 0, y: 0, width: 0, height: 50))
         accessory.backgroundColor = .black
         
         let border = Border.horizontal(1)

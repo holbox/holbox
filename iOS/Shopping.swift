@@ -6,8 +6,8 @@ final class Shopping: View, UITextViewDelegate {
     private weak var emoji: Text!
     private weak var grocery: Text!
     private weak var _border: NSLayoutConstraint!
-    private let margin = CGFloat(40)
-    private let spacing = CGFloat(15)
+    private let margin = CGFloat(20)
+    private let spacing = CGFloat(5)
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -38,7 +38,7 @@ final class Shopping: View, UITextViewDelegate {
         emoji.layer.cornerRadius = 6
         emoji.isScrollEnabled = false
         emoji.accessibilityLabel = .key("Emoji")
-        emoji.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        emoji.textContainerInset = .init(top: 15, left: 10, bottom: 15, right: 10)
         emoji.font = .regular(30)
         emoji.textContainer.maximumNumberOfLines = 1
         (emoji.layoutManager as! Layout).padding = 2
@@ -51,7 +51,7 @@ final class Shopping: View, UITextViewDelegate {
         grocery.layer.cornerRadius = 6
         grocery.isScrollEnabled = false
         grocery.accessibilityLabel = .key("Grocery")
-        grocery.textContainerInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        grocery.textContainerInset = .init(top: 20, left: 15, bottom: 20, right: 15)
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
                                                         .emoji: [.font: UIFont.regular(14)],
@@ -81,18 +81,18 @@ final class Shopping: View, UITextViewDelegate {
         titleEmoji.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 30).isActive = true
         titleEmoji.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
         
-        titleGrocery.topAnchor.constraint(equalTo: emoji.bottomAnchor, constant: 40).isActive = true
-        titleGrocery.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        titleGrocery.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 30).isActive = true
+        titleGrocery.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 20).isActive = true
         
         emoji.topAnchor.constraint(equalTo: titleEmoji.bottomAnchor, constant: 5).isActive = true
         emoji.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-        emoji.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        emoji.width = emoji.widthAnchor.constraint(equalToConstant: 60)
         
-        grocery.topAnchor.constraint(equalTo: titleGrocery.bottomAnchor, constant: 5).isActive = true
-        grocery.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-        grocery.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        grocery.topAnchor.constraint(equalTo: emoji.topAnchor).isActive = true
+        grocery.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: 20).isActive = true
+        grocery.width = grocery.widthAnchor.constraint(equalToConstant: 200)
         
-        _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 10).isActive = true
+        _add.topAnchor.constraint(equalTo: grocery.bottomAnchor, constant: 20).isActive = true
         _add.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
         _add.widthAnchor.constraint(equalToConstant: 60).isActive = true
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -152,6 +152,7 @@ final class Shopping: View, UITextViewDelegate {
     }
     
     override func add() {
+        app.window!.endEditing(true)
         if !emoji.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !grocery.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.alert(.key("Grocery"), message: emoji.text.trimmingCharacters(in: .whitespacesAndNewlines) + " " + grocery.text.trimmingCharacters(in: .whitespacesAndNewlines))
             app.session.add(app.project, emoji: emoji.text, grocery: grocery.text)
@@ -173,7 +174,7 @@ final class Shopping: View, UITextViewDelegate {
     }
     
     private func reorder() {
-        var top = margin + 20
+        var top = margin + 30
         var left = CGFloat()
         var bottom = margin + spacing
         let width = app.main.bounds.width / floor(app.main.bounds.width / 150)

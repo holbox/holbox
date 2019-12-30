@@ -89,7 +89,7 @@ final class Todo: View, UITextViewDelegate {
         
         text.topAnchor.constraint(equalTo: ring.topAnchor, constant: 15).isActive = true
         text.leftAnchor.constraint(equalTo: count.rightAnchor, constant: 20).isActive = true
-        text.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        text.width = text.widthAnchor.constraint(equalToConstant: 160)
         
         border.topAnchor.constraint(equalTo: text.bottomAnchor, constant: 50).isActive = true
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
