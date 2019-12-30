@@ -3,12 +3,13 @@ import SwiftUI
 struct Kanban: View {
     @State var cards: [[String]]
     @State private var top = 0
+    @State private var total = 0
     let project: Int
     
     var body: some View {
         ScrollView {
             Back(title: app.session.name(project))
-            Bars(cards: $cards, top: $top, project: project)
+            Bars(cards: $cards, top: $top, total: $total, project: project)
             Columns(cards: $cards, project: project)
                 .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
@@ -24,6 +25,7 @@ struct Kanban: View {
         cards = (0 ..< app.session.lists(project)).map { list in
             (0 ..< app.session.cards(project, list: list)).map { app.session.content(project, list: list, card: $0) }
         }
+        total = cards.map { $0.count }.reduce(0, +)
         withAnimation(.easeOut(duration: 0.5)) {
             top = cards.map { $0.count }.max() ?? 0
         }
@@ -69,6 +71,7 @@ private struct Column: View {
 private struct Bars: View {
     @Binding var cards: [[String]]
     @Binding var top: Int
+    @Binding var total: Int
     let project: Int
     
     var body: some View {
@@ -82,7 +85,7 @@ private struct Bars: View {
                     Text("\(self.cards[index].count)")
                         .foregroundColor(.init("haze"))
                         .font(.body)
-                    Text("\(self.top > 0 ? .init(self.cards[index].count) / .init(self.top) : 0)%")
+                    Text("\(self.total > 0 ? Int(CGFloat(self.cards[index].count) / .init(self.total) * 100) : 0)%")
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
                     Text(app.session.name(self.project, list: index))
