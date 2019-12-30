@@ -1,6 +1,7 @@
 import UIKit
 
 final class Shopping: View, UITextViewDelegate {
+    private(set) weak var stock: Stock!
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
@@ -12,6 +13,10 @@ final class Shopping: View, UITextViewDelegate {
         let scroll = Scroll()
         addSubview(scroll)
         self.scroll = scroll
+        
+        let stock = Stock()
+        scroll.add(stock)
+        self.stock = stock
         
         let border = Border.horizontal()
         scroll.add(border)
@@ -63,6 +68,10 @@ final class Shopping: View, UITextViewDelegate {
         scroll.height.constraint(greaterThanOrEqualTo: scroll.heightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
         
+        stock.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
+        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
+        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
+        
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
         
@@ -101,6 +110,10 @@ final class Shopping: View, UITextViewDelegate {
         }
     }
     
+    override func rotate() {
+        stock.resize()
+    }
+    
     override func refresh() {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
@@ -133,6 +146,7 @@ final class Shopping: View, UITextViewDelegate {
         if top != nil {
             border.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
         }
+        stock.refresh()
         isUserInteractionEnabled = true
     }
     

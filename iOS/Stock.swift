@@ -1,6 +1,6 @@
-import AppKit
+import UIKit
 
-final class Stock: NSView {
+final class Stock: UIView {
     private weak var off: CAShapeLayer!
     private weak var on: CAShapeLayer!
     
@@ -8,17 +8,18 @@ final class Stock: NSView {
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        wantsLayer = true
-        layer!.cornerRadius = 6
-        layer!.borderWidth = 1
-        layer!.borderColor = .haze()
+        isUserInteractionEnabled = false
+        layer.cornerRadius = 6
+        layer.borderWidth = 1
+        layer.borderColor = .haze()
+        layer.masksToBounds = true
         
         let off = CAShapeLayer()
         off.fillColor = .clear
         off.lineWidth = 10
         off.strokeColor = .haze(0.2)
         off.lineDashPattern = [NSNumber(value: 1), NSNumber(value: 1)]
-        layer!.addSublayer(off)
+        layer.addSublayer(off)
         self.off = off
         
         let on = CAShapeLayer()
@@ -27,7 +28,7 @@ final class Stock: NSView {
         on.strokeColor = .haze()
         on.lineDashPattern = [NSNumber(value: 1), NSNumber(value: 1)]
         on.strokeEnd = 0
-        layer!.addSublayer(on)
+        layer.addSublayer(on)
         self.on = on
         
         heightAnchor.constraint(equalToConstant: 12).isActive = true
