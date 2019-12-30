@@ -68,7 +68,7 @@ final class Card: NSView, NSTextViewDelegate {
         self.text = text
 
         let _delete = Image("clear", tint: .black)
-        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityElement(true)
         _delete.setAccessibilityLabel(.key("Delete"))
         _delete.setAccessibilityRole(.button)
         _delete.alphaValue = 0

@@ -59,7 +59,7 @@ final class Grocery: NSView, NSTextViewDelegate {
         
         let _delete = Image("clear", tint: .black)
         _delete.alphaValue = 0
-        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityElement(true)
         _delete.setAccessibilityLabel(.key("Delete"))
         _delete.setAccessibilityRole(.button)
         addSubview(_delete)
@@ -69,13 +69,13 @@ final class Grocery: NSView, NSTextViewDelegate {
         addSubview(icon)
         self.icon = icon
         
+        bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
+        rightAnchor.constraint(equalTo: grocery.rightAnchor, constant: 20).isActive = true
+        
         icon.centerXAnchor.constraint(equalTo: emoji.centerXAnchor).isActive = true
         icon.centerYAnchor.constraint(equalTo: emoji.centerYAnchor).isActive = true
         icon.widthAnchor.constraint(equalToConstant: 30).isActive = true
         icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
-        rightAnchor.constraint(equalTo: grocery.rightAnchor, constant: 20).isActive = true
         
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true

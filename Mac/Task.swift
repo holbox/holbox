@@ -57,7 +57,7 @@ final class Task: NSView, NSTextViewDelegate {
         
         let _delete = Image("clear")
         _delete.isHidden = true
-        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityElement(true)
         _delete.setAccessibilityLabel(.key("Delete"))
         _delete.setAccessibilityRole(.button)
         addSubview(_delete)

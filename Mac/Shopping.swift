@@ -202,7 +202,7 @@ final class Shopping: View, NSTextViewDelegate {
         }
     }
     
-    func reorder() {
+    private func reorder() {
         var top = margin + 50
         var left = margin
         var bottom = margin + spacing

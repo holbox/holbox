@@ -5,7 +5,9 @@ final class Shopping: View, UITextViewDelegate {
     private weak var scroll: Scroll!
     private weak var emoji: Text!
     private weak var grocery: Text!
-    private weak var border: Border!
+    private weak var _border: NSLayoutConstraint!
+    private let margin = CGFloat(40)
+    private let spacing = CGFloat(15)
     
     required init?(coder: NSCoder) { nil }
     required init() {
@@ -20,7 +22,6 @@ final class Shopping: View, UITextViewDelegate {
         
         let border = Border.horizontal()
         scroll.add(border)
-        self.border = border
         
         let titleEmoji = Label(.key("Emoji"), .medium(12), .haze())
         scroll.add(titleEmoji)
@@ -74,6 +75,8 @@ final class Shopping: View, UITextViewDelegate {
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
+        _border = border.topAnchor.constraint(equalTo: scroll.top)
+        _border.isActive = true
         
         titleEmoji.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 30).isActive = true
         titleEmoji.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
@@ -111,41 +114,16 @@ final class Shopping: View, UITextViewDelegate {
     }
     
     override func rotate() {
+        animate()
         stock.resize()
     }
     
     override func refresh() {
         isUserInteractionEnabled = false
         scroll.views.filter { $0 is Grocery }.forEach { $0.removeFromSuperview() }
-        
-        var top: NSLayoutYAxisAnchor!
-        (0 ..< app.session.cards(app.project, list: 0)).forEach {
-            let grocery = Grocery($0, shopping: self)
-            scroll.add(grocery)
-            
-            if $0 < app.session.cards(app.project, list: 0) - 1 {
-                let border = Border.horizontal(0.3)
-                grocery.addSubview(border)
-                
-                border.bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
-                border.leftAnchor.constraint(equalTo: grocery.leftAnchor).isActive = true
-                border.rightAnchor.constraint(equalTo: grocery.rightAnchor).isActive = true
-            }
-            
-            if top != nil {
-                grocery.topAnchor.constraint(equalTo: top).isActive = true
-            } else {
-                grocery.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-            }
-            
-            grocery.leftAnchor.constraint(equalTo: scroll.left).isActive = true
-            grocery.rightAnchor.constraint(equalTo: scroll.right).isActive = true
-            top = grocery.bottomAnchor
-        }
-        
-        if top != nil {
-            border.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
-        }
+        (0 ..< app.session.cards(app.project, list: 0)).forEach(grocery(_:))
+        scroll.content.layoutIfNeeded()
+        reorder()
         stock.refresh()
         isUserInteractionEnabled = true
     }
@@ -176,12 +154,54 @@ final class Shopping: View, UITextViewDelegate {
     override func add() {
         if !emoji.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !grocery.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.alert(.key("Grocery"), message: emoji.text.trimmingCharacters(in: .whitespacesAndNewlines) + " " + grocery.text.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 0, content: emoji.text.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 1, content: grocery.text.trimmingCharacters(in: .whitespacesAndNewlines))
-            app.session.add(app.project, list: 2, content: "0")
+            app.session.add(app.project, emoji: emoji.text, grocery: grocery.text)
             emoji.text = ""
             grocery.text = ""
-            refresh()
+            scroll.views.compactMap { $0 as? Grocery }.forEach { $0.index += 1 }
+            grocery(0)
+            animate()
+            stock.refresh()
         }
+    }
+    
+    func animate() {
+        reorder()
+        UIView.animate(withDuration: 0.6) { [weak self] in
+            self?.scroll.contentOffset.y = 0
+            self?.scroll.content.layoutIfNeeded()
+        }
+    }
+    
+    private func reorder() {
+        var top = margin + 20
+        var left = CGFloat()
+        var bottom = margin + spacing
+        let width = app.main.bounds.width / floor(app.main.bounds.width / 150)
+        scroll.views.compactMap { $0 as? Grocery }.sorted { $0.index < $1.index }.forEach {
+            $0.grocery.width.constant = width - 70
+            $0.grocery.textContainer.size.width = width - 90
+            $0.grocery.textContainer.size.height = 100_000
+            $0.grocery.layoutManager.ensureLayout(for: $0.grocery.textContainer)
+            $0.grocery.height.constant = max(ceil($0.grocery.layoutManager.usedRect(for: $0.grocery.textContainer).size.height), 20) + 40
+            
+            if left + width > app.main.bounds.width {
+                left = 0
+                top = bottom + spacing
+                bottom = top
+            }
+            $0.top.constant = top
+            $0.left.constant = left
+            bottom = max(top + $0.grocery.height.constant, bottom)
+            left += width
+        }
+        _border.constant = bottom + margin
+    }
+    
+    private func grocery(_ index: Int) {
+        let grocery = Grocery(index, shopping: self)
+        scroll.add(grocery)
+        
+        grocery.top = grocery.topAnchor.constraint(equalTo: scroll.top)
+        grocery.left = grocery.leftAnchor.constraint(equalTo: scroll.left)
     }
 }

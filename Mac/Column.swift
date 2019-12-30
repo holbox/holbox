@@ -31,7 +31,7 @@ final class Column: NSView, NSTextViewDelegate {
         self.text = text
         
         let _delete = Image("clear")
-        _delete.setAccessibilityElement(false)
+        _delete.setAccessibilityElement(true)
         _delete.setAccessibilityLabel(.key("Delete"))
         _delete.setAccessibilityRole(.button)
         _delete.alphaValue = 0
