@@ -18,7 +18,7 @@ final class Notes: View, UITextViewDelegate {
         addSubview(_pdf)
         
         let stats = Label("", .regular(12), .haze())
-        stats.numberOfLines = 2
+        stats.numberOfLines = 3
         stats.lineBreakMode = .byTruncatingHead
         addSubview(stats)
         self.stats = stats
@@ -30,7 +30,7 @@ final class Notes: View, UITextViewDelegate {
         text.font = .regular(18)
         (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(18), .foregroundColor: UIColor.white],
                                                      .emoji: [.font: UIFont.regular(30)],
-                                                     .bold: [.font: UIFont.medium(24), .foregroundColor: UIColor.haze()],
+                                                     .bold: [.font: UIFont.bold(24), .foregroundColor: UIColor.haze()],
                                                      .tag: [.font: UIFont.medium(16), .foregroundColor: UIColor.haze()]]
         text.delegate = self
         (text.layoutManager as! Layout).padding = 6
@@ -73,7 +73,7 @@ final class Notes: View, UITextViewDelegate {
     func textViewDidEndEditing(_: UITextView) {
         bottom.constant = -60
         update()
-        UIView.animate(withDuration: 1.5) { [weak self] in
+        UIView.animate(withDuration: 0.6) { [weak self] in
             self?.layoutIfNeeded()
         }
     }
@@ -104,8 +104,8 @@ final class Notes: View, UITextViewDelegate {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self, app.project != nil else { return }
             let text = app.session.content(app.project, list: 0, card: 0)
-            let string = text.language + ", " + text.sentiment + ".\n" +
-                self.formatter.string(from: .init(value: text.paragraphs))! + " " + .key("Project.paragraphs") + ", " +
+            let string = text.language + ", " + text.sentiment + ", " +
+                self.formatter.string(from: .init(value: text.paragraphs))! + " " + .key("Project.paragraphs") + ",\n" +
                 self.formatter.string(from: .init(value: text.sentences))! + " " + .key("Project.sentences") + ", " +
                 self.formatter.string(from: .init(value: text.lines))! + " " + .key("Project.lines") + ", " +
                 self.formatter.string(from: .init(value: text.words))! + " " + .key("Project.words") + ", " +
@@ -123,7 +123,7 @@ final class Notes: View, UITextViewDelegate {
         let formatter = UISimpleTextPrintFormatter(attributedText: string.mark {
             switch $0 {
             case .plain: return .init(string: .init(string[$1]), attributes: [.font: UIFont.regular(12)])
-            case .bold: return .init(string: .init(string[$1].dropFirst(2)), attributes: [.font: UIFont.medium(18)])
+            case .bold: return .init(string: .init(string[$1].dropFirst(2)), attributes: [.font: UIFont.bold(18)])
             case .emoji: return .init(string: .init(string[$1]), attributes: [.font: UIFont.regular(26)])
             case .tag: return .init(string: .init(string[$1]), attributes: [.font: UIFont.medium(10)])
             }

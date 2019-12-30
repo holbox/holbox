@@ -173,7 +173,7 @@ final class Notes: View, NSTextViewDelegate {
                 let label = Label(string.mark {
                     switch $0 {
                     case .plain: return (.init(string[$1]), .regular(12), .black)
-                    case .bold: return (.init(string[$1].dropFirst(2)), .medium(18), .black)
+                    case .bold: return (.init(string[$1].dropFirst(2)), .bold(18), .black)
                     case .emoji: return (.init(string[$1]), .regular(26), .black)
                     case .tag: return (.init(string[$1]), .medium(10), .black)
                     }
