@@ -4,15 +4,20 @@ import MessageUI
 final class Settings: Modal, MFMailComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
+        addClose()
+        
+        let border = Border.horizontal()
+        view.addSubview(border)
+        
         let scroll = Scroll()
         view.addSubview(scroll)
         
         let logo = Image("logo")
-        scroll.add(logo)
+        view.addSubview(logo)
         
         let title = Label([(.key("About.title") + "\n", .medium(16), .white),
                            (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .light(16), .white)])
-        scroll.add(title)
+        view.addSubview(title)
         
         let _spell = Option.Check(.key("Settings.spell"), settings: self)
         _spell.on = app.session.spell
@@ -27,33 +32,35 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
             scroll.add(border)
             
             item.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-            item.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 5).isActive = true
+            item.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
             
             border.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-            border.widthAnchor.constraint(equalToConstant: 270).isActive = true
-            border.topAnchor.constraint(equalTo: top, constant: 5).isActive = true
+            border.widthAnchor.constraint(equalToConstant: 320).isActive = true
+            border.topAnchor.constraint(equalTo: top).isActive = true
             top = item.bottomAnchor
         }
         
-        scroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 1).isActive = true
+        scroll.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
         scroll.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         scroll.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         scroll.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scroll.right.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        scroll.bottom.constraint(equalTo: top, constant: 40).isActive = true
+        scroll.bottom.constraint(equalTo: top, constant: 30).isActive = true
+        
+        border.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 50).isActive = true
+        border.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        border.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
         logo.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        logo.topAnchor.constraint(equalTo: scroll.top, constant: 80).isActive = true
-        logo.rightAnchor.constraint(equalTo: scroll.centerX, constant: 5).isActive = true
+        logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60).isActive = true
+        logo.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: 5).isActive = true
         
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: logo.rightAnchor, constant: 10).isActive = true
         
-        _spell.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40).isActive = true
+        _spell.topAnchor.constraint(equalTo: scroll.top, constant: 10).isActive = true
         _spell.centerXAnchor.constraint(equalTo: scroll.centerX).isActive = true
-        
-        addClose()
     }
     
     func mailComposeController(_: MFMailComposeViewController, didFinishWith: MFMailComposeResult, error: Error?) {
