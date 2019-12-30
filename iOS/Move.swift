@@ -97,7 +97,6 @@ final class Move: UIViewController {
         _left.1.constant = 0
         _right.1.constant = 0
         _done.constant = 200
-        card?.update(true)
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.view.layoutIfNeeded()
         }
@@ -213,6 +212,7 @@ final class Move: UIViewController {
     }
     
     @objc private func close() {
+        card.update(false)
         presentingViewController!.dismiss(animated: true)
     }
     
@@ -222,7 +222,7 @@ final class Move: UIViewController {
             card.kanban.refresh()
             close()
         } else {
-            presentingViewController!.dismiss(animated: true)
+            close()
             app.present(Delete.Card(card.index, list: card.column.index), animated: true)
         }
     }

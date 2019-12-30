@@ -50,22 +50,22 @@ final class Card: Text, UITextViewDelegate {
         delegate = self
         (layoutManager as! Layout).padding = 2
         layer.cornerRadius = 8
-        layer.borderColor = .haze()
-        layer.borderWidth = 0
+        layer.borderColor = .clear
+        layer.borderWidth = 1
         width = widthAnchor.constraint(equalToConstant: 0)
         height = heightAnchor.constraint(equalToConstant: 0)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.35) { [weak self] in
-            self?.alpha = 0.3
+            self?.backgroundColor = .haze(0.2)
         }
         super.touchesBegan(touches, with: with)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with: UIEvent?) {
         UIView.animate(withDuration: 0.35) { [weak self] in
-            self?.alpha = 1
+            self?.backgroundColor = .clear
         }
         super.touchesCancelled(touches, with: with)
     }
@@ -74,14 +74,11 @@ final class Card: Text, UITextViewDelegate {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.window!.endEditing(true)
             UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.layer.borderWidth = 1
+                self?.layer.borderColor = .haze()
                 self?.backgroundColor = .haze(0.3)
             }
             kanban.scroll.center(frame)
             app.present(Move(self), animated: true)
-        }
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.alpha = 1
         }
         super.touchesEnded(touches, with: with)
     }
@@ -103,15 +100,17 @@ final class Card: Text, UITextViewDelegate {
         update(true)
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.layer.borderColor = .haze()
+            self?.backgroundColor = .clear
+        }
+    }
+    
     func edit() {
         isEditable = true
         isSelectable = true
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.layer.borderWidth = 1
-            self?.backgroundColor = .clear
-        }) { [weak self] _ in
-            self?.becomeFirstResponder()
-        }
+        becomeFirstResponder()
     }
     
     func update(_ animate: Bool) {
@@ -131,11 +130,11 @@ final class Card: Text, UITextViewDelegate {
             UIView.animate(withDuration: 0.3) { [weak self] in
                 self?.superview?.layoutIfNeeded()
                 self?.backgroundColor = color
-                self?.layer.borderWidth = 0
+                self?.layer.borderColor = .clear
             }
         } else {
             backgroundColor = color
-            layer.borderWidth = 0
+            layer.borderColor = .clear
         }
     }
     
