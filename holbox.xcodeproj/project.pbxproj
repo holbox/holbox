@@ -99,7 +99,7 @@
 		DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEDE238C14CC0099F775 /* Project.swift */; };
 		DA8BCEE1238C184A0099F775 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8BCEE0238C184A0099F775 /* View.swift */; };
 		DA94D9BC239A79FA00548C77 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA94D9BB239A79FA00548C77 /* Todo.swift */; };
-		DA9D473D239FB9E3003B0D23 /* Columner.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9D473C239FB9E3003B0D23 /* Columner.swift */; };
+		DA9D473D239FB9E3003B0D23 /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9D473C239FB9E3003B0D23 /* Edit.swift */; };
 		DAA463F423586E0400A5E990 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F323586E0400A5E990 /* Logo.swift */; };
 		DAA463F623586F3600A5E990 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463F523586F3600A5E990 /* Main.swift */; };
 		DAA463FC2358868100A5E990 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA463FB2358868100A5E990 /* Bar.swift */; };
@@ -364,7 +364,7 @@
 		DA8BCEDE238C14CC0099F775 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DA8BCEE0238C184A0099F775 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		DA94D9BB239A79FA00548C77 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
-		DA9D473C239FB9E3003B0D23 /* Columner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Columner.swift; sourceTree = "<group>"; };
+		DA9D473C239FB9E3003B0D23 /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
 		DAA463F323586E0400A5E990 /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DAA463F523586F3600A5E990 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DAA463FB2358868100A5E990 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
@@ -715,10 +715,10 @@
 				DAEFAF12238FD1A500CBD450 /* Cart.swift */,
 				DA351C88239413FA00978966 /* Circle.swift */,
 				DAF0963A235B041900BCC800 /* Column.swift */,
-				DA9D473C239FB9E3003B0D23 /* Columner.swift */,
 				DAB979552359D63C00631280 /* Control.swift */,
 				DA230A31238D38C20008834D /* Delete.swift */,
 				DAA464072358A29800A5E990 /* Detail.swift */,
+				DA9D473C239FB9E3003B0D23 /* Edit.swift */,
 				DA8BCEDC238C05990099F775 /* Find.swift */,
 				DA6B0281237831830084AB0A /* Grocery.swift */,
 				DAB9794F2359AB9F00631280 /* Image.swift */,
@@ -740,6 +740,7 @@
 				DAE0C7AC235EE8AD00402E4B /* Settings.swift */,
 				DA1FD277235F38B4003718A5 /* Shop.swift */,
 				DA6B027F2378234C0084AB0A /* Shopping.swift */,
+				DAF1D75523B9F90B00C50831 /* Stock.swift */,
 				DA6F04EC238EA0E9006996DD /* Tag.swift */,
 				DA6F04EA238E9F0E006996DD /* Tags.swift */,
 				DAEAE3D723717755001F24BE /* Task.swift */,
@@ -747,7 +748,6 @@
 				DA1D8A3823B8C3CB00108070 /* Timeline.swift */,
 				DAEAE3D323717066001F24BE /* Todo.swift */,
 				DA8BCEE0238C184A0099F775 /* View.swift */,
-				DAF1D75523B9F90B00C50831 /* Stock.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1227,7 +1227,7 @@
 				DAA4640023588A8900A5E990 /* Border.swift in Sources */,
 				DA351C89239413FA00978966 /* Circle.swift in Sources */,
 				DAF09639235B03F400BCC800 /* Card.swift in Sources */,
-				DA9D473D239FB9E3003B0D23 /* Columner.swift in Sources */,
+				DA9D473D239FB9E3003B0D23 /* Edit.swift in Sources */,
 				DA8BCEDF238C14CC0099F775 /* Project.swift in Sources */,
 				DAA4640A2358A2CA00A5E990 /* Scroll.swift in Sources */,
 				DAB979522359B74100631280 /* Alert.swift in Sources */,

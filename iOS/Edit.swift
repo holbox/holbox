@@ -1,14 +1,14 @@
 import UIKit
 
-final class Columner: UIViewController {
-    private weak var column: Column!
+final class Edit: UIViewController {
+    private weak var item: UIView!
     private var _delete: NSLayoutConstraint!
     private var _done: NSLayoutConstraint!
     
     required init?(coder: NSCoder) { nil }
-    init(_ column: Column) {
+    init(_ item: UIView) {
         super.init(nibName: nil, bundle: nil)
-        self.column = column
+        self.item = item
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
     }
@@ -18,15 +18,15 @@ final class Columner: UIViewController {
         view.backgroundColor = .init(white: 0, alpha: 0.8)
         
         let _done = Circle("check", self, #selector(close), .haze(), .black)
-        _done.accessibilityLabel = .key("Columner.done")
+        _done.accessibilityLabel = .key("Edit.done")
         view.addSubview(_done)
         
         let _delete = Circle("trash", self, #selector(remove), .haze(), .black)
-        _delete.accessibilityLabel = .key("Columner.delete")
+        _delete.accessibilityLabel = .key("Edit.delete")
         view.addSubview(_delete)
         
         let _edit = Circle("write", self, #selector(edit), .haze(), .black)
-        _edit.accessibilityLabel = .key("Columner.edit")
+        _edit.accessibilityLabel = .key("Edit.edit")
         view.addSubview(_edit)
         
         _edit.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -66,11 +66,19 @@ final class Columner: UIViewController {
     
     @objc private func remove() {
         presentingViewController!.dismiss(animated: true)
-        app.present(Delete.List(column.index), animated: true)
+        if let column = item as? Column {
+            app.present(Delete.List(column.index), animated: true)
+        } else if let grocery = item as? Grocery {
+            app.present(Delete.Grocery(grocery.index), animated: true)
+        }
     }
     
     @objc private func edit() {
         presentingViewController!.dismiss(animated: true)
-        column.edit()
+        if let column = item as? Column {
+            column.edit()
+        } else if let grocery = item as? Grocery {
+            grocery.edit()
+        }
     }
 }

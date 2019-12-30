@@ -51,7 +51,7 @@ final class Column: Text, UITextViewDelegate {
         if app.presentedViewController == nil && bounds.contains(touches.first!.location(in: self)) {
             app.window!.endEditing(true)
             kanban.scroll.center(frame)
-            app.present(Columner(self), animated: true)
+            app.present(Edit(self), animated: true)
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.alpha = 1

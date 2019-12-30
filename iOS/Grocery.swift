@@ -7,7 +7,6 @@ final class Grocery: UIView, UITextViewDelegate {
     private(set) weak var emoji: Text!
     private(set) weak var grocery: Text!
     private weak var icon: Image!
-    private weak var _delete: Image!
     private weak var shopping: Shopping!
     private var stock = false
     
@@ -27,7 +26,7 @@ final class Grocery: UIView, UITextViewDelegate {
         emoji.isScrollEnabled = false
         emoji.isUserInteractionEnabled = false
         emoji.isAccessibilityElement = false
-        emoji.font = .regular(20)
+        emoji.font = .regular(30)
         emoji.text = app.session.content(app.project, list: 0, card: index)
         emoji.textAlignment = .center
         addSubview(emoji)
@@ -37,7 +36,7 @@ final class Grocery: UIView, UITextViewDelegate {
         grocery.isScrollEnabled = false
         grocery.isUserInteractionEnabled = false
         grocery.isAccessibilityElement = false
-        grocery.textContainerInset = .init(top: 20, left: 10, bottom: 20, right: 10)
+        grocery.textContainerInset = .init(top: 20, left: 15, bottom: 20, right: 15)
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
                                                         .emoji: [.font: UIFont.regular(14)],
@@ -49,20 +48,13 @@ final class Grocery: UIView, UITextViewDelegate {
         addSubview(grocery)
         self.grocery = grocery
         
-        let _delete = Image("clear")
-        _delete.isAccessibilityElement = true
-        _delete.accessibilityLabel = .key("Delete")
-        _delete.accessibilityTraits = .button
-        addSubview(_delete)
-        self._delete = _delete
-        
         let icon = Image("check", template: true)
         icon.tintColor = .haze()
         addSubview(icon)
         self.icon = icon
         
         bottomAnchor.constraint(equalTo: grocery.bottomAnchor).isActive = true
-        rightAnchor.constraint(equalTo: _delete.rightAnchor).isActive = true
+        rightAnchor.constraint(equalTo: grocery.rightAnchor).isActive = true
         
         icon.centerXAnchor.constraint(equalTo: emoji.centerXAnchor).isActive = true
         icon.centerYAnchor.constraint(equalTo: emoji.centerYAnchor).isActive = true
@@ -70,19 +62,13 @@ final class Grocery: UIView, UITextViewDelegate {
         icon.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         emoji.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        emoji.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        emoji.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        emoji.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        emoji.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         grocery.topAnchor.constraint(equalTo: topAnchor).isActive = true
         grocery.leftAnchor.constraint(equalTo: emoji.rightAnchor, constant: -5).isActive = true
-        grocery.rightAnchor.constraint(equalTo: _delete.leftAnchor).isActive = true
-        grocery.width = grocery.widthAnchor.constraint(equalToConstant: 80)
+        grocery.width = grocery.widthAnchor.constraint(equalToConstant: 105)
         grocery.height = grocery.heightAnchor.constraint(equalToConstant: 40)
-        
-        _delete.leftAnchor.constraint(equalTo: grocery.rightAnchor).isActive = true
-        _delete.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         update()
         
@@ -109,26 +95,28 @@ final class Grocery: UIView, UITextViewDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with: UIEvent?) {
         backgroundColor = .clear
-        if bounds.contains(touches.first!.location(in: self)) {
-            if _delete.frame.contains(touches.first!.location(in: self)) {
-                app.present(Delete.Grocery(index), animated: true)
-            } else if !grocery.isFirstResponder {
-                if stock {
-                    app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-                    app.session.content(app.project, list: 2, card: index, content: "0")
-                    stock = false
-                } else {
-                    app.alert(.key("Grocery.got"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
-                    app.session.content(app.project, list: 2, card: index, content: "1")
-                    stock = true
-                }
-                shopping.stock.refresh()
-                UIView.animate(withDuration: 0.3) { [weak self] in
-                    self?.update()
-                }
+        if bounds.contains(touches.first!.location(in: self)) && !grocery.isFirstResponder {
+            if stock {
+                app.alert(.key("Grocery.need"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
+                app.session.content(app.project, list: 2, card: index, content: "0")
+                stock = false
+            } else {
+                app.alert(.key("Grocery.got"), message: app.session.content(app.project, list: 0, card: index) + " " + app.session.content(app.project, list: 1, card: index))
+                app.session.content(app.project, list: 2, card: index, content: "1")
+                stock = true
+            }
+            shopping.stock.refresh()
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.update()
             }
         }
         super.touchesEnded(touches, with: with)
+    }
+    
+    func edit() {
+        grocery.isUserInteractionEnabled = true
+        grocery.becomeFirstResponder()
+        grocery.selectedRange = .init(location: 0, length: grocery.text.utf16.count)
     }
     
     private func update() {
@@ -145,9 +133,7 @@ final class Grocery: UIView, UITextViewDelegate {
     
     @objc private func gesture(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            grocery.isUserInteractionEnabled = true
-            grocery.becomeFirstResponder()
-            grocery.selectedRange = .init(location: 0, length: grocery.text.utf16.count)
+            app.present(Edit(self), animated: true)
         }
     }
 }

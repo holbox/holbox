@@ -178,8 +178,8 @@ final class Shopping: View, UITextViewDelegate {
         var bottom = margin + spacing
         let width = app.main.bounds.width / floor(app.main.bounds.width / 150)
         scroll.views.compactMap { $0 as? Grocery }.sorted { $0.index < $1.index }.forEach {
-            $0.grocery.width.constant = width - 70
-            $0.grocery.textContainer.size.width = width - 90
+            $0.grocery.width.constant = width - 45
+            $0.grocery.textContainer.size.width = width - 75
             $0.grocery.textContainer.size.height = 100_000
             $0.grocery.layoutManager.ensureLayout(for: $0.grocery.textContainer)
             $0.grocery.height.constant = max(ceil($0.grocery.layoutManager.usedRect(for: $0.grocery.textContainer).size.height), 20) + 40
