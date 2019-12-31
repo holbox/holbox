@@ -70,8 +70,8 @@ final class Shopping: View, UITextViewDelegate {
         scroll.bottom.constraint(greaterThanOrEqualTo: _add.bottomAnchor, constant: 20).isActive = true
         
         stock.topAnchor.constraint(equalTo: scroll.top, constant: 20).isActive = true
-        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 20).isActive = true
-        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -20).isActive = true
+        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 30).isActive = true
+        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -30).isActive = true
         
         border.leftAnchor.constraint(equalTo: scroll.left).isActive = true
         border.rightAnchor.constraint(equalTo: scroll.right).isActive = true
