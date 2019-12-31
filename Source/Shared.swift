@@ -7,9 +7,8 @@ class Shared {
     
     func prepare() {
         monitor.start(queue: .init(label: "", qos: .background, target: .global(qos: .background)))
-        monitor.pathUpdateHandler = {
-            self.network = $0.status == .satisfied || $0.availableInterfaces.contains { $0.type == .other }
-        }
+        validate(monitor.currentPath)
+        monitor.pathUpdateHandler = validate(_:)
     }
     
     func load(_ ids: [String], session: Session, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
@@ -61,5 +60,9 @@ class Shared {
         operation.configuration.timeoutIntervalForResource = 25
         operation.savePolicy = .allKeys
         CKContainer(identifier: "iCloud.holbox").publicCloudDatabase.add(operation)
+    }
+    
+    private func validate(_ path: NWPath) {
+        self.network = path.status == .satisfied || path.availableInterfaces.contains { $0.type == .other }
     }
 }
