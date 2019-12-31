@@ -56,7 +56,7 @@ private struct Tasks: View {
                         Text(self.waiting[index])
                             .fixedSize(horizontal: false, vertical: true)
                             .lineLimit(500)
-                            .font(.caption)
+                            .font(.footnote)
                             .foregroundColor(.white)
                         Spacer()
                     }
@@ -73,7 +73,7 @@ private struct Tasks: View {
                             Text(self.done[index].1)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(500)
-                                .font(.caption)
+                                .font(.footnote)
                                 .foregroundColor(.init("haze"))
                             Spacer()
                         }
@@ -81,7 +81,7 @@ private struct Tasks: View {
                             Text(self.done[index].0)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(500)
-                                .font(.caption)
+                                .font(.footnote)
                                 .foregroundColor(.white)
                                 .opacity(0.5)
                             Spacer()
@@ -109,7 +109,7 @@ private struct Done: View {
                     .frame(width: 10, height: 10)
             } else {
                 Text(task)
-                    .font(.caption)
+                    .font(.footnote)
                     .lineLimit(1)
                     .foregroundColor(.white)
                     .opacity(0.6)

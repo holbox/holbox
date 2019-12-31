@@ -66,7 +66,7 @@ private struct Product: View {
                 .foregroundColor(.white)
                 .opacity(stock ? 0.3 : 1)
             Text(description)
-                .font(.caption)
+                .font(.footnote)
                 .foregroundColor(.white)
                 .opacity(stock ? 0.5 : 1)
             Spacer()

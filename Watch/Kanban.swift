@@ -40,7 +40,7 @@ private struct Columns: View {
         ForEach(0 ..< cards.count, id: \.self) { list in
             VStack {
                 Text(app.session.name(self.project, list: list))
-                    .font(Font.caption.bold())
+                    .font(Font.body.bold())
                     .foregroundColor(Color("haze"))
                     .padding(.bottom, 10)
                 Column(cards: self.$cards, project: self.project, list: list)
@@ -60,7 +60,7 @@ private struct Column: View {
                 Text(self.cards[self.list][card])
                     .fixedSize(horizontal: false, vertical: true)
                     .lineLimit(500)
-                    .font(.caption)
+                    .font(.footnote)
                     .foregroundColor(.white)
                 Spacer()
             }.padding(.vertical, 10)

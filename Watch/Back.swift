@@ -6,7 +6,7 @@ struct Back: View {
     var body: some View {
         ZStack {
             Text(title)
-                .font(.caption)
+                .font(.footnote)
                 .foregroundColor(Color("haze"))
                 .padding(.init(top: 0, leading: 40, bottom: 0, trailing: 60))
                 .lineLimit(2)
