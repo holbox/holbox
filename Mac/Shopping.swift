@@ -94,8 +94,8 @@ final class Shopping: View, NSTextViewDelegate {
         _add.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         stock.topAnchor.constraint(equalTo: scroll.top, constant: 35).isActive = true
-        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 35).isActive = true
-        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -35).isActive = true
+        stock.leftAnchor.constraint(equalTo: scroll.left, constant: 60).isActive = true
+        stock.rightAnchor.constraint(equalTo: scroll.right, constant: -60).isActive = true
         
         border.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true

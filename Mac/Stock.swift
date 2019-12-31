@@ -49,7 +49,7 @@ final class Stock: NSView {
     func resize() {
         off.path = {
             $0.move(to: .init(x: 0, y: 6))
-            $0.addLine(to: .init(x: app.main.frame.width, y: 6))
+            $0.addLine(to: .init(x: app.main.frame.width - 120, y: 6))
             return $0
         } (CGMutablePath())
         let animation = CABasicAnimation(keyPath: "path")
