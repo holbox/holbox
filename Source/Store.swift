@@ -14,9 +14,9 @@ class Store {
     private let coder = Coder()
     
     func load(_ session: Session, completion: @escaping () -> Void) {
-        shared.prepare()
         queue.async {
             self.prepare()
+            self.shared.prepare()
             self.load(session: session) {
                 DispatchQueue.main.async {
                     completion()

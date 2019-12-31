@@ -12,7 +12,6 @@ class Shared {
     }
     
     func load(_ ids: [String], session: Session, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
-        guard network else { return error() }
         if session.user.isEmpty {
             CKContainer(identifier: "iCloud.holbox").fetchUserRecordID {
                 guard let user = $0, $1 == nil else { return error() }
@@ -20,6 +19,7 @@ class Shared {
                 self.load(ids, user: user.recordName, error: error, result: result)
             }
         } else {
+            guard network else { return error() }
             load(ids, user: session.user, error: error, result: result)
         }
     }
@@ -63,6 +63,9 @@ class Shared {
     }
     
     private func validate(_ path: NWPath) {
-        self.network = path.status == .satisfied || path.availableInterfaces.contains { $0.type == .other }
+        network = path.status == .satisfied
+        if #available(watchOS 6, *) {
+            network = true
+        }
     }
 }
