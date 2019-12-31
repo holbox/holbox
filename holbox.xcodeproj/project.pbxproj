@@ -13,11 +13,9 @@
 		DA16F18D2370020600F3A1FE /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18C2370020600F3A1FE /* Task.swift */; };
 		DA16F18F2370189100F3A1FE /* Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F18E2370189100F3A1FE /* Resize.swift */; };
 		DA16F19323704F7E00F3A1FE /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA16F19223704F7E00F3A1FE /* Edit.swift */; };
-		DA1792AE2379470A00DBA275 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1792AD2379470A00DBA275 /* Icon.swift */; };
 		DA1A1421237EC06F00028352 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A1420237EC06F00028352 /* Project.swift */; };
 		DA1A4D3A23508FD1008D110A /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1A4D3923508FD1008D110A /* Logo.swift */; };
 		DA1D8A3923B8C3CB00108070 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1D8A3823B8C3CB00108070 /* Timeline.swift */; };
-		DA1DDA352375645B00BAB515 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DDA342375645B00BAB515 /* Item.swift */; };
 		DA1FD278235F38B4003718A5 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1FD277235F38B4003718A5 /* Shop.swift */; };
 		DA21BDF323609268000A46AA /* libholbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DACB75CC23476CCF00037180 /* libholbox.a */; };
 		DA230A32238D38C20008834D /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA230A31238D38C20008834D /* Delete.swift */; };
@@ -298,11 +296,9 @@
 		DA16F18C2370020600F3A1FE /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DA16F18E2370189100F3A1FE /* Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resize.swift; sourceTree = "<group>"; };
 		DA16F19223704F7E00F3A1FE /* Edit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
-		DA1792AD2379470A00DBA275 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		DA1A1420237EC06F00028352 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		DA1A4D3923508FD1008D110A /* Logo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logo.swift; sourceTree = "<group>"; };
 		DA1D8A3823B8C3CB00108070 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
-		DA1DDA342375645B00BAB515 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DA1FD277235F38B4003718A5 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		DA230A31238D38C20008834D /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA2BBEB5234B45AC00C17268 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
@@ -756,8 +752,6 @@
 				DAF68EA12347662F0060895A /* App.swift */,
 				DA38B682236834D000C6203F /* Back.swift */,
 				DA32A734236769710018D6AE /* Content.swift */,
-				DA1792AD2379470A00DBA275 /* Icon.swift */,
-				DA1DDA342375645B00BAB515 /* Item.swift */,
 				DA561E9F23730191002B5E51 /* Kanban.swift */,
 				DA561E9D2372D33E002B5E51 /* Logo.swift */,
 				DA781F192397D51B0053374E /* Main.swift */,
@@ -1278,10 +1272,8 @@
 				DA94D9BC239A79FA00548C77 /* Todo.swift in Sources */,
 				DA781F1A2397D51B0053374E /* Main.swift in Sources */,
 				DA38B683236834D000C6203F /* Back.swift in Sources */,
-				DA1DDA352375645B00BAB515 /* Item.swift in Sources */,
 				DA561EA023730191002B5E51 /* Kanban.swift in Sources */,
 				DAF68EA4234766300060895A /* App.swift in Sources */,
-				DA1792AE2379470A00DBA275 /* Icon.swift in Sources */,
 				DA561E9E2372D33E002B5E51 /* Logo.swift in Sources */,
 				DA32A735236769710018D6AE /* Content.swift in Sources */,
 				DA357D57239AA0B500133891 /* Notes.swift in Sources */,

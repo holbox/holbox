@@ -56,7 +56,9 @@ private struct Projects: View {
         case .todo:
             return .init(Todo(
                 waiting: (0 ..< app.session.cards(project, list: 0)).map { app.session.content(project, list: 0, card: $0) },
-                done: (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) },
+                done: (0 ..< app.session.cards(project, list: 1)).map {
+                (app.session.content(project, list: 1, card: $0),
+                 (RelativeDateTimeFormatter().localizedString(for: Date(timeIntervalSince1970: TimeInterval(app.session.content(project, list: 2, card: $0))!), relativeTo: .init()))) },
                 project: project))
         case .shopping:
             return .init(Shopping(
@@ -80,7 +82,8 @@ private struct Project: View {
         HStack {
             Rectangle()
                 .foregroundColor(.init("haze"))
-                .frame(width: 2, height: 20)
+                .frame(width: 3, height: 20)
+                .cornerRadius(1.5)
             Text(app.session.name(project))
                 .foregroundColor(.init("haze"))
                 .bold()

@@ -2,14 +2,15 @@ import SwiftUI
 
 struct Todo: View {
     @State var waiting: [String]
-    @State var done: [String]
+    @State var done: [(String, String)]
     @State private var percent = Double()
+    @State private var display = ""
     let project: Int
     
     var body: some View {
         ScrollView {
             Back(title: app.session.name(project))
-            Ring(percent: $percent)
+            Ring(percent: $percent, display: $display)
             Tasks(waiting: $waiting, done: $done, project: project, refresh: refresh)
                 .padding(.bottom, 20)
         }.edgesIgnoringSafeArea(.all)
@@ -23,8 +24,11 @@ struct Todo: View {
     
     private func refresh() {
         waiting = (0 ..< app.session.cards(project, list: 0)).map { app.session.content(project, list: 0, card: $0) }
-        done = (0 ..< app.session.cards(project, list: 1)).map { app.session.content(project, list: 1, card: $0) }
+        done = (0 ..< app.session.cards(project, list: 1)).map {
+            (app.session.content(project, list: 1, card: $0),
+             (RelativeDateTimeFormatter().localizedString(for: Date(timeIntervalSince1970: TimeInterval(app.session.content(project, list: 2, card: $0))!), relativeTo: .init()))) }
         let count = Double(waiting.count + done.count)
+        display = count > 0 ? "\(Int(Double(done.count) / count * 100))" : "0"
         withAnimation(.easeOut(duration: 0.5)) {
             percent = count > 0 ? .init(done.count) / count : 0
         }
@@ -33,7 +37,7 @@ struct Todo: View {
 
 private struct Tasks: View {
     @Binding var waiting: [String]
-    @Binding var done: [String]
+    @Binding var done: [(String, String)]
     let project: Int
     let refresh: () -> Void
     
@@ -44,7 +48,18 @@ private struct Tasks: View {
                     app.session.completed(self.project, index: index)
                     self.refresh()
                 }) {
-                    Item(string: self.waiting[index])
+                    HStack {
+                        Rectangle()
+                            .foregroundColor(.init("haze"))
+                            .frame(width: 3, height: 10)
+                            .cornerRadius(1.5)
+                        Text(self.waiting[index])
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(500)
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
                 }.background(Color.clear)
                     .accentColor(.clear)
             }
@@ -53,7 +68,25 @@ private struct Tasks: View {
                     app.session.restart(self.project, index: index)
                     self.refresh()
                 }) {
-                    Done(task: self.done[index])
+                    VStack {
+                        HStack {
+                            Text(self.done[index].1)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(500)
+                                .font(.caption)
+                                .foregroundColor(.init("haze"))
+                            Spacer()
+                        }
+                        HStack {
+                            Text(self.done[index].0)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .lineLimit(500)
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                .opacity(0.5)
+                            Spacer()
+                        }
+                    }
                 }.background(Color.clear)
                     .accentColor(.clear)
             }
@@ -88,7 +121,7 @@ private struct Done: View {
 
 private struct Ring: View {
     @Binding var percent: Double
-    private let formatter = NumberFormatter()
+    @Binding var display: String
     
     var body: some View {
         ZStack {
@@ -101,14 +134,17 @@ private struct Ring: View {
             }.fill(Color("haze"))
             Ringin(percent: percent)
                 .stroke(Color("haze"), style: .init(lineWidth: 3, lineCap: .round))
-            Text(formatter.string(from: .init(value: percent))!)
+            Text("%")
+                .foregroundColor(.black)
+                .font(.footnote)
+                .opacity(0.5)
+                .padding(.leading, 25)
+            Text(display)
                 .foregroundColor(.black)
                 .bold()
+                .padding(.trailing, 10)
         }.frame(width: 120, height: 120)
             .padding(.init(top: 10, leading: 0, bottom: 30, trailing: 0))
-            .onAppear {
-            self.formatter.numberStyle = .percent
-        }
     }
 }
 

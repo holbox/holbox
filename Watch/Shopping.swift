@@ -59,14 +59,16 @@ private struct Product: View {
         HStack {
             Image("check")
                 .renderingMode(.template)
-                .foregroundColor(Color("haze"))
+                .foregroundColor(.init("haze"))
                 .opacity(stock ? 1 : 0)
             Text(emoji)
                 .font(.title)
                 .foregroundColor(.white)
+                .opacity(stock ? 0.3 : 1)
             Text(description)
                 .font(.caption)
                 .foregroundColor(.white)
+                .opacity(stock ? 0.5 : 1)
             Spacer()
         }
     }

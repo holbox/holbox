@@ -84,13 +84,15 @@ private struct Bars: View {
                         .frame(width: 30, height: 70)
                     Text("\(self.cards[index].count)")
                         .foregroundColor(.init("haze"))
-                        .font(.body)
+                        .font(Font.body.bold())
                     Text("\(self.total > 0 ? Int(CGFloat(self.cards[index].count) / .init(self.total) * 100) : 0)%")
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
+                        .opacity(0.6)
                     Text(app.session.name(self.project, list: index))
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
+                        .opacity(0.6)
                 }
             }
         }.padding(.init(top: 10, leading: 0, bottom: 35, trailing: 0))

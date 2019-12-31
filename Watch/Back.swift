@@ -14,7 +14,10 @@ struct Back: View {
                 Button(action: {
                     WKExtension.shared().rootInterfaceController!.pop()
                 }) {
-                    Icon(name: "arrow.left.circle.fill", width: 18, height: 18, color: "haze")
+                    Image(systemName: "arrow.left.circle.fill")
+                        .resizable()
+                        .foregroundColor(Color("haze"))
+                        .frame(width: 18, height: 18)
                 }.accentColor(.clear)
                     .background(Color.clear)
                     .frame(width: 50, height: 50)
