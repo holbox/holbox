@@ -220,7 +220,7 @@ final class Move: UIViewController {
         if app.session.content(app.project, list: card.column.index, card: card.index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             app.session.delete(app.project, list: card.column.index, card: card.index)
             card.kanban.refresh()
-            close()
+            presentingViewController!.dismiss(animated: true)
         } else {
             close()
             app.present(Delete.Card(card.index, list: card.column.index), animated: true)
