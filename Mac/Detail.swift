@@ -4,6 +4,12 @@ final class Detail: View {
     private weak var scroll: Scroll!
     private weak var height: NSLayoutConstraint!
     
+    override var frame: NSRect {
+        didSet {
+            order()
+        }
+    }
+    
     required init?(coder: NSCoder) { nil }
     required init() {
         super.init()
@@ -31,16 +37,6 @@ final class Detail: View {
             item.left = item.leftAnchor.constraint(equalTo: scroll.left)
         }
         order()
-    }
-    
-    override func viewDidEndLiveResize() {
-        super.viewDidEndLiveResize()
-        order()
-        NSAnimationContext.runAnimationGroup {
-            $0.duration = 0.4
-            $0.allowsImplicitAnimation = true
-            scroll.documentView!.layoutSubtreeIfNeeded()
-        }
     }
     
     override func add() {

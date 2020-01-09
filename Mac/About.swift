@@ -17,7 +17,5 @@ final class About: Modal {
         
         title.centerYAnchor.constraint(equalTo: logo.centerYAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: logo.rightAnchor, constant: 10).isActive = true
-        
-        addClose()
     }
 }

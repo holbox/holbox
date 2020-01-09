@@ -3,8 +3,6 @@ import AppKit
 class Modal: Window {
     init(_ width: CGFloat, _ height: CGFloat) {
         super.init(width, height, mask: [])
-        contentView!.layer!.borderColor = .haze(0.4)
-        contentView!.layer!.borderWidth = 1
     }
     
     override func keyDown(with: NSEvent) {

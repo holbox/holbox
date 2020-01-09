@@ -26,8 +26,6 @@ final class Settings: Modal {
         
         _spell.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 50).isActive = true
         _spell.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
-        
-        addClose()
     }
     
     func option(_ index: Int) {

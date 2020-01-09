@@ -16,7 +16,5 @@ final class Privacy: Modal {
         label.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 60).isActive = true
         label.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 25).isActive = true
         label.rightAnchor.constraint(lessThanOrEqualTo: contentView!.rightAnchor, constant: -25).isActive = true
-        
-        addClose()
     }
 }

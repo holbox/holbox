@@ -17,10 +17,6 @@ final class Main: Window {
         
         logo.centerXAnchor.constraint(equalTo: contentView!.centerXAnchor).isActive = true
         logo.centerYAnchor.constraint(equalTo: contentView!.centerYAnchor).isActive = true
-        
-        addClose()
-        addMinimise()
-        addZoom()
     }
     
     override func close() { app.terminate(nil) }

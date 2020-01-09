@@ -1,6 +1,3 @@
-Window.close="Close";
-Window.minimise="Minimise";
-Window.zoom="Zoom";
 Bar.kanban="Kanban";
 Bar.todo="To-Do";
 Bar.shopping="Shopping";

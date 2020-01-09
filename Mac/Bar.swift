@@ -71,8 +71,8 @@ final class Bar: NSView, NSTextViewDelegate {
         right.isActive = true
         
         border.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        border.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        border.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        border.leftAnchor.constraint(equalTo: leftAnchor, constant: 1).isActive = true
+        border.rightAnchor.constraint(equalTo: rightAnchor, constant: -1).isActive = true
     }
     
     override func mouseDown(with: NSEvent) {

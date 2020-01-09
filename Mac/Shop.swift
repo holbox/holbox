@@ -25,7 +25,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         contentView!.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), .medium(14), .haze())
+        let title = Label(.key("Shop.title"), .bold(14), .haze())
         contentView!.addSubview(title)
         
         let border = Border.horizontal()
@@ -57,7 +57,7 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         scroll.right.constraint(equalTo: contentView!.rightAnchor).isActive = true
         scroll.bottom.constraint(greaterThanOrEqualTo: contentView!.bottomAnchor).isActive = true
         
-        title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 50).isActive = true
+        title.leftAnchor.constraint(equalTo: contentView!.leftAnchor, constant: 80).isActive = true
         title.topAnchor.constraint(equalTo: contentView!.topAnchor, constant: 17).isActive = true
         
         border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20).isActive = true
@@ -80,7 +80,6 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         _restore.rightAnchor.constraint(equalTo: contentView!.rightAnchor, constant: -20).isActive = true
         _restore.widthAnchor.constraint(equalToConstant: 110).isActive = true
         
-        addClose()
         loading()
         
         SKPaymentQueue.default().add(self)
