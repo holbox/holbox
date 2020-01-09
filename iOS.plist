@@ -22,10 +22,10 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>SF-Pro-Rounded-Bold.otf</string>
-		<string>SF-Pro-Rounded-Light.otf</string>
-		<string>SF-Pro-Rounded-Medium.otf</string>
-		<string>SF-Pro-Rounded-Regular.otf</string>
+		<string>Rubik-Bold.ttf</string>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
