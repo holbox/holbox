@@ -18,7 +18,7 @@ final class Circle: UIView {
         base.isUserInteractionEnabled = false
         base.translatesAutoresizingMaskIntoConstraints = false
         base.backgroundColor = background
-        base.layer.cornerRadius = 14
+        base.layer.cornerRadius = 17
         addSubview(base)
         
         let image = Image(image, template: true)
@@ -28,8 +28,8 @@ final class Circle: UIView {
         widthAnchor.constraint(equalToConstant: 60).isActive = true
         heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        base.widthAnchor.constraint(equalToConstant: 28).isActive = true
-        base.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        base.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        base.heightAnchor.constraint(equalToConstant: 34).isActive = true
         base.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         base.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         

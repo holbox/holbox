@@ -42,11 +42,11 @@ final class Card: Text, UITextViewDelegate {
         isEditable = false
         isSelectable = false
         accessibilityLabel = .key("Card")
-        font = .regular(14)
-        (textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
-                                                .emoji: [.font: UIFont.regular(24)],
-                                                .bold: [.font: UIFont.bold(20), .foregroundColor: UIColor.white],
-                                                .tag: [.font: UIFont.medium(12), .foregroundColor: UIColor.haze()]]
+        font = .regular(16)
+        (textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(16), .foregroundColor: UIColor.white],
+                                                .emoji: [.font: UIFont.regular(26)],
+                                                .bold: [.font: UIFont.bold(22), .foregroundColor: UIColor.white],
+                                                .tag: [.font: UIFont.medium(14), .foregroundColor: UIColor.haze()]]
         delegate = self
         (layoutManager as! Layout).padding = 2
         layer.cornerRadius = 8

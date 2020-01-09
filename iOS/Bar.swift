@@ -195,7 +195,7 @@ final class Bar: UIView, UITextViewDelegate {
         text.isUserInteractionEnabled = false
         text.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
         text.accessibilityLabel = .key("Project")
-        text.font = .medium(14)
+        text.font = .bold(18)
         text.textColor = .haze()
         text.delegate = self
         text.textContainer.maximumNumberOfLines = 1

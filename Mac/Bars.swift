@@ -56,10 +56,10 @@ final class Bars: NSView {
             animation.timingFunction = .init(name: .easeOut)
             $0.1.shape.strokeEnd = cards[$0.0] / max(top, 1)
             $0.1.shape.add(animation, forKey: "strokeEnd")
-            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .medium(16), .haze()),
-                                   ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", .regular(12), .haze()),
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .bold(16), .haze()),
+                                   ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", .medium(14), .haze()),
                                    ("%\n", .regular(8), .haze()),
-                                   (app.session.name(app.project, list: $0.0), .regular(10), .haze())],
+                                   (app.session.name(app.project, list: $0.0), .regular(8), .haze())],
                                   align: .center)
         }
     }

@@ -20,8 +20,8 @@ final class Column: NSView, NSTextViewDelegate {
         text.textContainerInset.width = 20
         text.textContainerInset.height = 20
         text.setAccessibilityElement(false)
-        text.font = .medium(14)
-        text.textColor = .haze()
+        text.font = .bold(22)
+        text.textColor = .haze(0.6)
         text.string = app.session.name(app.project, list: index)
         text.textContainer!.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 2

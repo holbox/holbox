@@ -6,7 +6,7 @@ final class About: Modal {
         let logo = Image("logo")
         contentView!.addSubview(logo)
         
-        let title = Label([(.key("About.title") + "\n", .medium(16), .white),
+        let title = Label([(.key("About.title") + "\n", .medium(16), .haze()),
                            (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String, .light(16), .white)])
         contentView!.addSubview(title)
         

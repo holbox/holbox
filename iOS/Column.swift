@@ -15,8 +15,8 @@ final class Column: Text, UITextViewDelegate {
         isSelectable = false
         textContainerInset = .init(top: 20, left: 20, bottom: 20, right: 20)
         accessibilityLabel = .key("Column")
-        font = .medium(14)
-        textColor = .haze()
+        font = .bold(22)
+        textColor = .haze(0.6)
         delegate = self
         textContainer.maximumNumberOfLines = 1
         (layoutManager as! Layout).padding = 2

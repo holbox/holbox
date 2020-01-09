@@ -59,7 +59,7 @@ final class Project: NSView {
         layer!.cornerRadius = 8
         formatter.numberStyle = .decimal
         
-        let label = Label(app.session.name(index), .medium(14), .haze())
+        let label = Label(app.session.name(index), .bold(16), .haze())
         label.setAccessibilityElement(false)
         addSubview(label)
         

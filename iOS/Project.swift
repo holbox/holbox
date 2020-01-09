@@ -59,7 +59,7 @@ final class Project: UIView {
         clipsToBounds = true
         formatter.numberStyle = .decimal
         
-        let label = Label(app.session.name(index), .medium(14), .haze())
+        let label = Label(app.session.name(index), .bold(16), .haze())
         label.isAccessibilityElement = false
         addSubview(label)
         
