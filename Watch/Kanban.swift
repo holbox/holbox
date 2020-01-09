@@ -81,18 +81,20 @@ private struct Bars: View {
                     Bar(percent: self.top > 0 ? .init(self.cards[index].count) / .init(self.top) : 0)
                         .stroke(Color("haze"),
                                 style: .init(lineWidth: 9, lineCap: .round))
-                        .frame(width: 30, height: 70)
+                        .frame(width: 40, height: 70)
                     Text("\(self.cards[index].count)")
                         .foregroundColor(.init("haze"))
                         .font(Font.body.bold())
                     Text("\(self.total > 0 ? Int(CGFloat(self.cards[index].count) / .init(self.total) * 100) : 0)%")
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
-                        .opacity(0.6)
+                        .opacity(0.8)
                     Text(app.session.name(self.project, list: index))
+                        .lineLimit(1)
                         .foregroundColor(.init("haze"))
                         .font(.footnote)
-                        .opacity(0.6)
+                        .opacity(0.4)
+                        .frame(maxWidth: 40)
                 }
             }
         }.padding(.init(top: 10, leading: 0, bottom: 35, trailing: 0))
