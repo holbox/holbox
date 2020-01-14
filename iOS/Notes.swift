@@ -30,7 +30,7 @@ final class Notes: View, UITextViewDelegate {
         text.font = .regular(20)
         (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(20), .foregroundColor: UIColor.white],
                                                      .emoji: [.font: UIFont.regular(30)],
-                                                     .bold: [.font: UIFont.bold(24), .foregroundColor: UIColor.haze()],
+                                                     .bold: [.font: UIFont.bold(22), .foregroundColor: UIColor.haze()],
                                                      .tag: [.font: UIFont.medium(16), .foregroundColor: UIColor.haze()]]
         text.delegate = self
         (text.layoutManager as! Layout).padding = 6

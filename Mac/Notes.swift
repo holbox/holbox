@@ -34,7 +34,7 @@ final class Notes: View, NSTextViewDelegate {
         text.font = .regular(20)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(20), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont.regular(30)],
-                                                     .bold: [.font: NSFont.bold(24), .foregroundColor: NSColor.haze()],
+                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.haze()],
                                                      .tag: [.font: NSFont.medium(16), .foregroundColor: NSColor.haze()]]
         text.tab = true
         text.intro = true

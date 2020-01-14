@@ -18,7 +18,7 @@ final class Layout: NSLayoutManager, NSLayoutManagerDelegate {
     func layoutManager(_: NSLayoutManager, shouldSetLineFragmentRect: UnsafeMutablePointer<CGRect>,
                        lineFragmentUsedRect: UnsafeMutablePointer<CGRect>, baselineOffset: UnsafeMutablePointer<CGFloat>,
                        in: NSTextContainer, forGlyphRange: NSRange) -> Bool {
-        baselineOffset.pointee = baselineOffset.pointee + padding + 3
+        baselineOffset.pointee = baselineOffset.pointee + padding
         shouldSetLineFragmentRect.pointee.size.height += padding + padding
         lineFragmentUsedRect.pointee.size.height += padding + padding
         return true

@@ -59,7 +59,7 @@ final class Card: NSView, NSTextViewDelegate {
         text.font = .regular(16)
         (text.textStorage as! Storage).attributes = [.plain: [.font: NSFont.regular(16), .foregroundColor: NSColor.white],
                                                      .emoji: [.font: NSFont.regular(26)],
-                                                     .bold: [.font: NSFont.bold(22), .foregroundColor: NSColor.white],
+                                                     .bold: [.font: NSFont.bold(20), .foregroundColor: NSColor.white],
                                                      .tag: [.font: NSFont.medium(14), .foregroundColor: NSColor.haze()]]
         (text.layoutManager as! Layout).owns = true
         (text.layoutManager as! Layout).padding = 2
@@ -83,8 +83,8 @@ final class Card: NSView, NSTextViewDelegate {
         
         _delete.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         _delete.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        _delete.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        _delete.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        _delete.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        _delete.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
         track()
     }
@@ -195,7 +195,7 @@ final class Card: NSView, NSTextViewDelegate {
             NSAnimationContext.runAnimationGroup {
                 $0.duration = 0.5
                 $0.allowsImplicitAnimation = true
-                layer!.backgroundColor = window!.firstResponder == text ? .clear : .haze(0.2)
+                layer!.backgroundColor = window!.firstResponder == text ? .clear : .haze(0.4)
                 _delete.alphaValue = 1
             }
         }
@@ -208,7 +208,7 @@ final class Card: NSView, NSTextViewDelegate {
                 $0.allowsImplicitAnimation = true
                 _delete.alphaValue = 0
                 if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    layer!.backgroundColor = .haze(0.3)
+                    layer!.backgroundColor = .haze(0.5)
                 } else {
                     layer!.backgroundColor = .clear
                 }
@@ -242,7 +242,7 @@ final class Card: NSView, NSTextViewDelegate {
     func update(_ animate: Bool) {
         let color: CGColor
         if app.session.content(app.project, list: column.index, card: index).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            color = .haze(0.3)
+            color = .haze(0.5)
             left.constant = 20
         } else {
             color = .clear
