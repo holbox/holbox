@@ -6,7 +6,7 @@ final class Settings: Modal, MFMailComposeViewControllerDelegate {
         super.viewDidLoad()
         addClose()
         
-        let border = Border.horizontal()
+        let border = Border.horizontal(1)
         view.addSubview(border)
         
         let scroll = Scroll()

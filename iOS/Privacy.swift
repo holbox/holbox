@@ -8,13 +8,13 @@ final class Privacy: Modal {
         let scroll = Scroll()
         view.addSubview(scroll)
         
-        let title = Label(.key("Privacy.title"), .medium(16), .haze())
+        let title = Label(.key("Privacy.title"), .bold(16), .haze())
         view.addSubview(title)
         
-        let label = Label(.key("Privacy.label"), .regular(14), .white)
+        let label = Label(.key("Privacy.label"), .regular(16), .white)
         scroll.add(label)
         
-        let border = Border.horizontal()
+        let border = Border.horizontal(1)
         view.addSubview(border)
         
         scroll.topAnchor.constraint(equalTo: border.bottomAnchor).isActive = true
@@ -25,7 +25,7 @@ final class Privacy: Modal {
         scroll.right.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         
         title.centerYAnchor.constraint(equalTo: _close.centerYAnchor).isActive = true
-        title.leftAnchor.constraint(equalTo: _close.rightAnchor, constant: 20).isActive = true
+        title.leftAnchor.constraint(equalTo: _close.rightAnchor).isActive = true
         
         border.topAnchor.constraint(equalTo: _close.bottomAnchor).isActive = true
         border.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true

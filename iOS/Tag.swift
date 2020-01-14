@@ -19,12 +19,12 @@ final class Tag: UIView {
         base.layer.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, .regular(12), .black)
+        let label = Label("#" + name, .regular(14), .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.isAccessibilityElement = false
         addSubview(label)
         
-        let _count = Label("\(count)", .regular(12), .haze())
+        let _count = Label("\(count)", .regular(14), .haze())
         _count.isAccessibilityElement = false
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         addSubview(_count)

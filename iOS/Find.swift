@@ -46,7 +46,7 @@ final class Find: UIView, UITextViewDelegate {
         text.textContainerInset = .init(top: 15, left: 0, bottom: 15, right: 0)
         text.isUserInteractionEnabled = false
         text.accessibilityLabel = .key("Search")
-        text.font = .light(14)
+        text.font = .regular(14)
         text.textColor = .white
         text.textContainer.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
@@ -54,7 +54,7 @@ final class Find: UIView, UITextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", .light(12), .haze())
+        let _counter = Label("", .light(13), .haze())
         addSubview(_counter)
         self._counter = _counter
         

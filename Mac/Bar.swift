@@ -16,7 +16,7 @@ final class Bar: NSView, NSTextViewDelegate {
         let unmove = Unmove()
         addSubview(unmove)
         
-        let border = Border.horizontal()
+        let border = Border.horizontal(1)
         border.alphaValue = 0
         addSubview(border)
         self.border = border
@@ -114,7 +114,7 @@ final class Bar: NSView, NSTextViewDelegate {
         name.wantsLayer = true
         name.alphaValue = 0
         name.setAccessibilityLabel(.key("Project"))
-        name.font = .bold(18)
+        name.font = .medium(16)
         name.textColor = .haze()
         name.textContainer!.maximumNumberOfLines = 1
         (name.layoutManager as! Layout).padding = 2

@@ -71,7 +71,7 @@ class Option: UIView {
         layer.cornerRadius = 4
         self.settings = settings
         
-        let label = Label(title, .medium(14), .haze())
+        let label = Label(title, .medium(16), .haze())
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 60).isActive = true

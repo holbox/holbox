@@ -142,7 +142,7 @@ final class Kanban: View {
     }
     
     func charts() {
-        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", .medium(18), .haze()), (" " + .key("Kanban.count"), .regular(12), .haze())])
+        count.attributed([("\((0 ..< app.session.lists(app.project)).map { app.session.cards(app.project, list: $0) }.reduce(0, +))", .bold(20), .haze()), (" " + .key("Kanban.count"), .regular(14), .haze())])
         bars.refresh()
     }
     

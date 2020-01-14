@@ -19,11 +19,11 @@ final class Purchase: NSView {
         addSubview(image)
         
         let title = Label([
-            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .medium(26), .haze()),
-            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(16), .haze())])
+            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .medium(30), .haze()),
+            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(18), .haze())])
         addSubview(title)
         
-        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), .light(12), .white)
+        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), .light(14), .white)
         addSubview(label)
         
         shop.formatter.locale = product.priceLocale

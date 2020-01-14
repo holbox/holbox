@@ -72,7 +72,7 @@ class Option: NSView {
         layer!.cornerRadius = 4
         self.settings = settings
         
-        let label = Label(title, .medium(13), .haze())
+        let label = Label(title, .medium(14), .haze())
         addSubview(label)
         
         heightAnchor.constraint(equalToConstant: 40).isActive = true

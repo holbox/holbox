@@ -51,7 +51,7 @@ final class Shopping: View, UITextViewDelegate {
         grocery.layer.cornerRadius = 6
         grocery.isScrollEnabled = false
         grocery.accessibilityLabel = .key("Grocery")
-        grocery.textContainerInset = .init(top: 20, left: 15, bottom: 20, right: 15)
+        grocery.textContainerInset = .init(top: 24, left: 15, bottom: 24, right: 15)
         grocery.font = .regular(14)
         (grocery.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(14), .foregroundColor: UIColor.white],
                                                         .emoji: [.font: UIFont.regular(14)],

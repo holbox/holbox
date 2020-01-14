@@ -25,10 +25,10 @@ final class Shop: Modal, SKRequestDelegate, SKProductsRequestDelegate, SKPayment
         contentView!.addSubview(scroll)
         self.scroll = scroll
         
-        let title = Label(.key("Shop.title"), .bold(14), .haze())
+        let title = Label(.key("Shop.title"), .bold(16), .haze())
         contentView!.addSubview(title)
         
-        let border = Border.horizontal()
+        let border = Border.horizontal(1)
         contentView!.addSubview(border)
         
         let logo = Logo()

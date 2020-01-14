@@ -19,11 +19,11 @@ final class Purchase: UIView {
         addSubview(image)
 
         let title = Label([
-            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .medium(26), .haze()),
-            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(16), .haze())])
+            (.key("Shop.short.\(product.productIdentifier.components(separatedBy: ".").last!)"), .medium(30), .haze()),
+            (.key("Shop.title.\(product.productIdentifier.components(separatedBy: ".").last!)"), .regular(18), .haze())])
         addSubview(title)
 
-        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), .light(12), .white)
+        let label = Label(.key("Shop.descr.mac.\(product.productIdentifier.components(separatedBy: ".").last!)"), .light(14), .white)
         addSubview(label)
 
         shop.formatter.locale = product.priceLocale
@@ -39,6 +39,7 @@ final class Purchase: UIView {
 
         title.topAnchor.constraint(equalTo: image.topAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: image.rightAnchor, constant: 10).isActive = true
+        title.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor).isActive = true
 
         label.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 30).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true

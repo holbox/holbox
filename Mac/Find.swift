@@ -45,7 +45,7 @@ final class Find: NSView, NSTextViewDelegate {
         text.textContainerInset.width = 10
         text.textContainerInset.height = 10
         text.setAccessibilityLabel(.key("Search"))
-        text.font = .light(14)
+        text.font = .regular(14)
         text.textColor = .white
         text.textContainer!.maximumNumberOfLines = 1
         (text.layoutManager as! Layout).padding = 1
@@ -54,7 +54,7 @@ final class Find: NSView, NSTextViewDelegate {
         base.addSubview(text)
         self.text = text
         
-        let _counter = Label("", .regular(12), .haze())
+        let _counter = Label("", .regular(13), .haze())
         addSubview(_counter)
         self._counter = _counter
         

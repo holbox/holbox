@@ -17,7 +17,7 @@ final class Notes: View, UITextViewDelegate {
         let _pdf = Control("PDF", self, #selector(pdf(_:)), .haze(), .black)
         addSubview(_pdf)
         
-        let stats = Label("", .regular(12), .haze())
+        let stats = Label("", .regular(14), .haze())
         stats.numberOfLines = 3
         stats.lineBreakMode = .byTruncatingHead
         addSubview(stats)
@@ -27,8 +27,8 @@ final class Notes: View, UITextViewDelegate {
         text.bounces = true
         text.textContainerInset = .init(top: 20, left: 20, bottom: 30, right: 20)
         text.accessibilityLabel = .key("Note")
-        text.font = .regular(18)
-        (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(18), .foregroundColor: UIColor.white],
+        text.font = .regular(20)
+        (text.textStorage as! Storage).attributes = [.plain: [.font: UIFont.regular(20), .foregroundColor: UIColor.white],
                                                      .emoji: [.font: UIFont.regular(30)],
                                                      .bold: [.font: UIFont.bold(24), .foregroundColor: UIColor.haze()],
                                                      .tag: [.font: UIFont.medium(16), .foregroundColor: UIColor.haze()]]

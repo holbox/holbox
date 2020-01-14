@@ -19,12 +19,12 @@ final class Tag: NSView {
         base.layer!.cornerRadius = 4
         addSubview(base)
         
-        let label = Label("#" + name, .regular(12), .black)
+        let label = Label("#" + name, .regular(14), .black)
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.setAccessibilityElement(false)
         addSubview(label)
         
-        let _count = Label("\(count)", .regular(12), .haze())
+        let _count = Label("\(count)", .regular(14), .haze())
         _count.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         _count.setAccessibilityElement(false)
         addSubview(_count)
@@ -34,11 +34,11 @@ final class Tag: NSView {
         
         base.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
         base.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 2).isActive = true
-        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 4).isActive = true
+        base.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 3).isActive = true
+        base.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 5).isActive = true
         
-        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 4).isActive = true
-        label.topAnchor.constraint(equalTo: base.topAnchor, constant: 2).isActive = true
+        label.leftAnchor.constraint(equalTo: base.leftAnchor, constant: 5).isActive = true
+        label.topAnchor.constraint(equalTo: base.topAnchor, constant: 3).isActive = true
         
         _count.centerYAnchor.constraint(equalTo: base.centerYAnchor).isActive = true
         _count.leftAnchor.constraint(equalTo: base.rightAnchor, constant: 3).isActive = true

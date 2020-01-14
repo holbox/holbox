@@ -28,7 +28,7 @@ class Text: UITextView {
         let border = Border.horizontal(1)
         accessory.addSubview(border)
         
-        let _done = Circle("check", self, #selector(resignFirstResponder), .haze(), .black)
+        let _done = Button("commit", target: self, action: #selector(resignFirstResponder))
         _done.accessibilityLabel = .key("Done")
         accessory.addSubview(_done)
         
@@ -43,10 +43,12 @@ class Text: UITextView {
         border.rightAnchor.constraint(equalTo: accessory.rightAnchor).isActive = true
         
         _done.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
-        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor, constant: -10).isActive = true
+        _done.rightAnchor.constraint(equalTo: accessory.safeAreaLayoutGuide.rightAnchor).isActive = true
+        _done.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        _done.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         _clear.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true
-        _clear.rightAnchor.constraint(equalTo: _done.leftAnchor, constant: -20).isActive = true
+        _clear.rightAnchor.constraint(equalTo: _done.leftAnchor, constant: -10).isActive = true
         _clear.widthAnchor.constraint(equalToConstant: 60).isActive = true
                 
         _bold.centerYAnchor.constraint(equalTo: accessory.centerYAnchor).isActive = true

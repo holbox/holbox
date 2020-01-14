@@ -56,10 +56,10 @@ final class Bars: NSView {
             animation.timingFunction = .init(name: .easeOut)
             $0.1.shape.strokeEnd = cards[$0.0] / max(top, 1)
             $0.1.shape.add(animation, forKey: "strokeEnd")
-            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .bold(16), .haze()),
+            $0.1.label.attributed([("\(Int(cards[$0.0]))\n", .bold(18), .haze()),
                                    ("\(total > 0 ? Int(cards[$0.0] / total * 100) : 0)", .medium(14), .haze()),
-                                   ("%\n", .regular(8), .haze()),
-                                   (app.session.name(app.project, list: $0.0), .regular(8), .haze())],
+                                   ("%\n", .regular(10), .haze()),
+                                   (app.session.name(app.project, list: $0.0), .regular(10), .haze())],
                                   align: .center)
         }
     }
@@ -118,6 +118,6 @@ private final class Line: NSView {
         rightAnchor.constraint(equalTo: label.rightAnchor).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.topAnchor.constraint(equalTo: bottomAnchor, constant: -70).isActive = true
-        label.widthAnchor.constraint(lessThanOrEqualToConstant: 50).isActive = true
+        label.widthAnchor.constraint(lessThanOrEqualToConstant: 45).isActive = true
     }
 }
