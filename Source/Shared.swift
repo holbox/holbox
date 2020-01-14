@@ -64,8 +64,8 @@ class Shared {
     
     private func validate(_ path: NWPath) {
         network = path.status == .satisfied
-        if #available(watchOS 6, *) {
-            network = true
-        }
+#if os(watchOS)
+        network = true
+#endif
     }
 }
