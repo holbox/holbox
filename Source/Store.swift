@@ -128,7 +128,7 @@ class Store {
         timer?.schedule(deadline: .distantFuture)
         balancing.merge(ids) { $1 }
         if timer == nil {
-            timer = DispatchSource.makeTimerSource(queue: .global(qos: .background))
+            timer = DispatchSource.makeTimerSource(queue: .global(qos: .utility))
             timer!.activate()
             timer!.setEventHandler {
                 self.timer!.schedule(deadline: .distantFuture)

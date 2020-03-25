@@ -101,7 +101,7 @@ final class Notes: View, UITextViewDelegate {
     }
     
     private func update() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             guard let self = self, app.project != nil else { return }
             let text = app.session.content(app.project, list: 0, card: 0)
             let string = text.language + ", " + text.sentiment + ", " +

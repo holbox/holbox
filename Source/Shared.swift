@@ -6,7 +6,7 @@ class Shared {
     private let monitor = NWPathMonitor()
     
     func prepare() {
-        monitor.start(queue: .init(label: "", qos: .background, target: .global(qos: .background)))
+        monitor.start(queue: .init(label: "", qos: .utility))
         validate(monitor.currentPath)
         monitor.pathUpdateHandler = validate(_:)
     }
