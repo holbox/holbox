@@ -9,8 +9,8 @@ class Store {
     var shared = Shared()
     var time = TimeInterval(1)
     private var timer: DispatchSourceTimer?
-    private var balancing = [String: URL]()
-    private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
+    private var balancing = [String : URL]()
+    private let queue = DispatchQueue(label: "", qos: .utility)
     private let coder = Coder()
     
     func load(_ session: Session, completion: @escaping () -> Void) {
@@ -83,7 +83,7 @@ class Store {
                 let global = try! self.coder.global(.init(contentsOf: $0.first!))
                 var update = Update(session, result: result)
                 update.write = true
-                update.download = global.map { $0.0 }
+                update.download = global.map(\.0)
                 self.merge(update, session: session)
             }
         }

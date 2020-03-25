@@ -9,7 +9,7 @@ public final class Session {
     var settings = Settings()
     var refreshed = Date.distantFuture.timeIntervalSince1970
     private var search: Search?
-    private let queue = DispatchQueue(label: "", qos: .background, target: .global(qos: .background))
+    private let queue = DispatchQueue(label: "", qos: .utility)
     
     public var rate: Bool {
         Date() >= rating
@@ -75,7 +75,7 @@ public final class Session {
                 || $1.name.localizedCaseInsensitiveContains(filter.trimmingCharacters(in: .whitespacesAndNewlines)) }
             .sorted { $0.1.name.caseInsensitiveCompare($1.1.name) == .orderedAscending
                 || ($0.1.name.caseInsensitiveCompare($1.1.name) == .orderedSame && $0.1.time > $1.1.time) }
-            .map { $0.0 }
+            .map(\.0)
     }
     
     public func lists(_ project: Int) -> Int {
@@ -275,7 +275,7 @@ public final class Session {
             var string = self.items[project]!.cards.reduce(into: "") {
                 $0 += $0.isEmpty ? self.csv($1.0) : "," + self.csv($1.0)
             }
-            (0 ..< (self.items[project]!.cards.map { $0.1 }.max { $0.count < $1.count }?.count ?? 0)).forEach { index in
+            (0 ..< (self.items[project]!.cards.map(\.1).max { $0.count < $1.count }?.count ?? 0)).forEach { index in
                 string += "\n"
                 self.items[project]!.cards.enumerated().forEach {
                     string += $0.0 > 0 ? "," : ""
@@ -283,7 +283,7 @@ public final class Session {
                 }
             }
             DispatchQueue.main.async {
-                result(Data(string.utf8))
+                result(.init(string.utf8))
             }
         }
     }

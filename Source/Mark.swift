@@ -2,10 +2,11 @@ import Foundation
 
 public extension String {
     enum Mode {
-        case plain
-        case bold
-        case emoji
-        case tag
+        case
+        plain,
+        bold,
+        emoji,
+        tag
     }
     
     func mark<T>(_ transform: (Mode, Range<Index>) throws -> T) rethrows -> [T] {
@@ -16,11 +17,8 @@ public extension String {
             unicodeScalars[position].emoji {
                 mode = .emoji
             } else if self[$1] == "#" {
-                if $1 < index(before: endIndex) && String(self[index(after: $1)]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil {
-                    mode = .tag
-                } else {
-                    mode = .bold
-                }
+                mode = $1 < index(before: endIndex) && String(self[index(after: $1)]).rangeOfCharacter(from: .whitespacesAndNewlines) == nil
+                    ? .tag : .bold
             } else if let last = $0.last {
                 switch last.0 {
                 case .bold:

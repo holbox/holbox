@@ -8,7 +8,7 @@ final class Search {
     init(_ project: Project, string: String, result: @escaping ([(Int, Int, NSRange)]) -> Void) {
         self.project = project
         self.string = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.search()
             DispatchQueue.main.async { [weak self] in
                 guard let ranges = self?.ranges else { return }
