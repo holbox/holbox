@@ -18,9 +18,11 @@ struct Back: View {
                         .resizable()
                         .foregroundColor(Color("haze"))
                         .frame(width: 18, height: 18)
-                }.accentColor(.clear)
-                    .background(Color.clear)
-                    .frame(width: 50, height: 50)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accentColor(.clear)
+                .background(Color.clear)
+                .frame(width: 50, height: 50)
                 Spacer()
             }
         }
