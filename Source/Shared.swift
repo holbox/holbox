@@ -40,8 +40,8 @@ class Shared {
     private func load(_ ids: [String], user: String, error: @escaping () -> Void, result: @escaping ([URL]) -> Void) {
         let ids = ids.map { $0 + user }
         let operation = CKFetchRecordsOperation(recordIDs: ids.map(CKRecord.ID.init(recordName:)))
-        operation.configuration.timeoutIntervalForRequest = 15
-        operation.configuration.timeoutIntervalForResource = 20
+        operation.configuration.timeoutIntervalForRequest = 20
+        operation.configuration.timeoutIntervalForResource = 25
         operation.fetchRecordsCompletionBlock = {
             guard let records = $0, $1 == nil else { return error() }
             result(ids.map { id in (records.values.first { $0.recordID.recordName == id }!["asset"] as! CKAsset).fileURL! })
